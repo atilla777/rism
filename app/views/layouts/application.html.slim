@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title AppName
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  body
+
+    nav.navbar.navbar-inverse
+      .navbar-header
+        a.navbar-brand
+          | AppName
+      .collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            = link_to 'link', '#'
+
+    .container-fluid
+      .row
+        .col-lg-offset-1.col-lg-10
+          = yield
