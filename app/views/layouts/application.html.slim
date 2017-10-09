@@ -7,14 +7,7 @@ html
     = csrf_meta_tags
   body
 
-    nav.navbar.navbar-inverse
-      .navbar-header
-        a.navbar-brand
-          | AppName
-      .collapse.navbar-collapse
-        ul.nav.navbar-nav
-          li
-            = link_to 'link', '#'
+    = render 'layouts/header'
 
     .container-fluid
       .row
