@@ -1,5 +1,8 @@
 // Custom bootstrap variables must be set or imported *before* bootstrap.
+@import "bootstrap-sprockets";
+@import "bootswatch/slate/variables";
 @import "bootstrap";
+@import "bootswatch/slate/bootswatch";
 
 .form-group.required .control-label:after {
     content: " *";
@@ -12,4 +15,4 @@
     width: 1%;
 }
 
-a:visited {color: #337ab7;}
+#a:visited {color: #337ab7;}

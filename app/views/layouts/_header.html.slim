@@ -1,5 +1,8 @@
-nav.navbar.navbar-expand-lg.navbar-light.bg-light
-  = link_to 'RISM', root_path, class: 'navbar-brand'
-  ul.nav
-    li.nav-item
-       = link_to 'Organization', organizations_path, class: 'nav-link active'
+nav.navbar.navbar-default
+  .navbar-header
+    = link_to 'RISM', root_path, class: 'navbar-brand'
+  .collapse.navbar-collapse
+    ul.nav.navbar-nav
+      li
+        = link_to t(''), organizations_path
+

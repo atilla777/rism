@@ -54,5 +54,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'slim-rails'
-gem 'bootstrap', '~> 4.0.0.beta'
+#gem 'bootstrap', '~> 4.0.0.beta'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootswatch-rails'
 gem 'jquery-rails'
