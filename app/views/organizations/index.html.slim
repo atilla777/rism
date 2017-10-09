@@ -1,23 +1,35 @@
-h1 Listing organizations
+h3
+  = Organization.model_name.human(count: 2)
+  .pull-right
+    = link_to new_organization_path
+      span.btn.btn-link.text-right
+        i.glyphicon.glyphicon-pencil
+        =< t('helpers.submit.create', model: Organization.model_name.human)
 
-table
+table.table.table-hover.table-bordered.table-striped
   thead
     tr
-      th Name
-      th Description
       th
+        = Organization.human_attribute_name :name
       th
-      th
+        = Organization.human_attribute_name :description
+      th.fit
 
   tbody
     - @organizations.each do |organization|
       tr
         td = organization.name
         td = organization.description
-        td = link_to 'Show', organization
-        td = link_to 'Edit', edit_organization_path(organization)
-        td = link_to 'Destroy', organization, data: { confirm: 'Are you sure?' }, method: :delete
+        td.fit
+          => link_to organization, class: 'btn btn-link' do
+            i.glyphicon.glyphicon-eye-open
+            =< t('views.action.show')
+          => link_to edit_organization_path(organization), class: 'btn btn-link' do
+            i.glyphicon.glyphicon-pencil
+            =< t('views.action.edit')
+          = link_to organization, data: {:confirm => t('views.action.confirm')}, :method => :delete, class: 'btn btn-link' do
+            i.glyphicon.glyphicon-remove
+            =< t('views.action.delete')
 
 br
 
-= link_to 'New Organization', new_organization_path

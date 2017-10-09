@@ -4,5 +4,5 @@ nav.navbar.navbar-default
   .collapse.navbar-collapse
     ul.nav.navbar-nav
       li
-        = link_to t(''), organizations_path
+        = link_to Organization.model_name.human(count: 2), organizations_path
 
