@@ -1,8 +1,6 @@
-h1 Editing organization
+.col-lg-offset-2.col-lg-10
+  h3.text-info
+    = "#{t('views.action.edit')} #{Organization.model_name.human}"
 
 == render 'form'
-
-=> link_to 'Show', @organization
-'|
-=< link_to 'Back', organizations_path
 

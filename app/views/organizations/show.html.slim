@@ -1,12 +1,24 @@
-p#notice = notice
+.col-lg-offset-2.col-lg-10
+  p#notice = notice
+  h3.text-info
+    = Organization.model_name.human
+  table.table.table-hover.table-bordered.table-striped
+    tr
+      td.col-md-2
+        strong
+          = "#{Organization.human_attribute_name :name}"
+      td
+        = @organization.name
+      tr
+      td.col-md-2
+        strong
+          = "#{Organization.human_attribute_name :description}"
+      td
+        = @organization.description
 
-p
-  strong Name:
-  = @organization.name
-p
-  strong Description:
-  = @organization.description
-
-=> link_to 'Edit', edit_organization_path(@organization)
-'|
-=< link_to 'Back', organizations_path
+  => link_to edit_organization_path(@organization) do
+    span.btn.btn-warning
+      = t('views.action.edit')
+  = link_to organizations_path do
+    span.btn.btn-info
+      = t('views.action.back')

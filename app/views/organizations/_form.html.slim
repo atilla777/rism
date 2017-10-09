@@ -1,4 +1,4 @@
-= form_for @organization do |f|
+= form_for @organization, html: {class: 'form-horizontal'} do |f|
   - if @organization.errors.any?
     #error_explanation
       h2 = "#{pluralize(@organization.errors.count, "error")} prohibited this organization from being saved:"
@@ -6,10 +6,23 @@
         - @organization.errors.full_messages.each do |message|
           li = message
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :description
-    = f.text_area :description
-  .actions = f.submit
+  .form-group.required
+    .field
+      .col-lg-2.text-right
+        = f.label :name, class: 'control-label'
+      .col-lg-10
+        = f.text_field :name, class: 'form-control'
+
+  .form-group
+    .field
+      .col-lg-2.text-right
+        = f.label :description, class: 'control-label'
+      .col-lg-10
+        = f.text_area :description, class: 'form-control'
+
+  .actions.form-group
+    .col-lg-offset-2.col-lg-10
+      => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+      = link_to :back do
+        span.btn.btn-info
+          = t('views.action.back')
