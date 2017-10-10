@@ -1,0 +1,32 @@
+ru:
+  activerecord:
+    models:
+      organization:
+        one: "Организация"
+        other: "Организации"
+    attributes:
+      organization:
+        name: "Имя"
+        description: "Описание"
+  flashes:
+    create: Запись %{model} успешно создана.
+    update: Запись %{model} успешно отредактирована.
+    destroy: Запись %{model} успешно удалена.
+  views:
+    action:
+      new: "Новая запись"
+      confirm: "Вы уверены?"
+      show: "Показать"
+      edit: "Редактировать"
+      delete: "Удалить"
+      back: "Назад"
+  messages:
+    yes: да
+    no: нет
+    not_allowed: Нет прав доступа.
+  user_sessions:
+    login: Войти в систему
+    password: пароль
+    welcome: С возвращением!
+    wrong: Неверный email или пароль
+    goodbay: Всего доброго!

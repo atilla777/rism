@@ -7,26 +7,6 @@ ru:
         restrict_dependent_destroy:
           has_one: 'Невозможно удалить запись, так как существует зависимость: %{record}'
           has_many: 'Невозможно удалить запись, так как существуют зависимости: %{record}'
-    models:
-      organization:
-        one: "Организация"
-        other: "Организации"
-    attributes:
-      organization:
-        name: "Имя"
-        description: "Описание"
-  flashes:
-    create: Запись %{model} успешно создана.
-    update: Запись %{model} успешно отредактирована.
-    destroy: Запись %{model} успешно удалена.
-  views:
-    action:
-      new: "Новая запись"
-      confirm: "Вы уверены?"
-      show: "Показать"
-      edit: "Редактировать"
-      delete: "Удалить"
-      back: "Назад"
   date:
     abbr_day_names:
     - Вс
