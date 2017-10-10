@@ -6,17 +6,10 @@ ru:
       next: "Следующая &rsaquo;"
       previous: "&lsaquo; Предыдущая"
       truncate: "&hellip;"
-    action:
-      new: "Новая запись"
-      confirm: "Вы уверены?"
-      show: "Показать"
-      edit: "Редактировать"
-      delete: "Удалить"
-      back: "Назад"
   helpers:
     page_entries_info:
       more_pages:
-        display_entries: "Показана %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> из <b>%{total}</b>"
+        display_entries: "Показаны %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> из <b>%{total}</b>"
       one_page:
         display_entries:
           few: "Показаны <b>%{count}</b> %{entry_name}"

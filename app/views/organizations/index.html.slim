@@ -1,17 +1,20 @@
 h3.text-info
   = Organization.model_name.human(count: 2)
-  .pull-right
-    = link_to new_organization_path
-      span.btn.btn-link.text-right
-        .text-success
-          = fa_icon 'plus-circle'
-          =< t('helpers.submit.create', model: Organization.model_name.human)
+
+= render 'search'
+.pull-right
+  = link_to new_organization_path
+    span.btn.btn-default
+      = fa_icon 'plus-circle'
+      =< t('helpers.submit.create', model: Organization.model_name.human)
 
 table.table.table-hover.table-bordered.table-striped
   thead
     tr
-      th.text-info
-        = Organization.human_attribute_name :name
+      th
+        = sort_link @q, :name, default_order: :desc do
+          span.text-info
+            = Organization.human_attribute_name(:name)
       th.text-info
         = Organization.human_attribute_name :description
       th.fit
@@ -19,20 +22,14 @@ table.table.table-hover.table-bordered.table-striped
   tbody
     - @organizations.each do |organization|
       tr
-        td = organization.name
+        td
+          = link_to organization.name, organization
         td = organization.description
         td.fit
-          => link_to organization, class: 'btn btn-link' do
-            i.glyphicon.glyphicon-eye-open.text-info
-            =< t('views.action.show')
           => link_to edit_organization_path(organization), class: 'btn btn-link' do
             i.glyphicon.glyphicon-pencil.text-warning
             =< t('views.action.edit')
           = link_to organization, data: {:confirm => t('views.action.confirm')}, :method => :delete, class: 'btn btn-link' do
             i.glyphicon.glyphicon-remove.text-danger
             =< t('views.action.delete')
-
-span.pagination
-  = page_entries_info @organizations
-span.pull-right
-  = paginate @organizations
+= render 'paginate', resource: @organizations

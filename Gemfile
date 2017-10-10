@@ -59,6 +59,7 @@ gem 'bootswatch-rails'
 gem 'font-awesome-rails'
 gem 'jquery-rails'
 gem 'kaminari'
+gem 'ransack'
 gem 'slim-rails'
 
 # Lint with overcommit
