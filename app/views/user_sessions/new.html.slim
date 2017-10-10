@@ -1,0 +1,34 @@
+html
+  head
+    title RISM
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  body
+
+    .container
+      .row
+        .text-center
+          h1.text-info
+            = t('labels.app_name')
+          h4
+            = t('labels.app_full_name')
+      .row
+        .text-center
+          .col-lg-offset-4.col-lg-4
+            - flash.each do |key, value|
+              = content_tag :div, value, class: "alert alert-#{key}"
+      .row
+        .text-center
+          = form_for @user_session, html: {class: 'form-signin'} do |f|
+            .col-lg-offset-4.col-lg-4
+              .form-group.input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-user
+                = f.email_field :email, class: 'form-control', placeholder: 'email'
+              .form-group.input-group
+                span.input-group-addon
+                  i.glyphicon.glyphicon-lock
+                = f.password_field :password, class: 'form-control', placeholder: t('user_sessions.password')
+              .actions
+                = f.submit t('user_sessions.sign_in'), class: 'btn btn-default btn-lg'

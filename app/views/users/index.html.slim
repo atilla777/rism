@@ -1,0 +1,38 @@
+h3.text-info
+  = User.model_name.human(count: 2)
+
+= render 'search'
+.pull-right
+  = link_to new_user_path
+    span.btn.btn-default
+      = fa_icon 'plus-circle'
+      =< t('helpers.submit.create', model: User.model_name.human)
+
+table.table.table-hover.table-bordered.table-striped
+  thead
+    tr
+      th
+        = sort_link @q, :name, default_order: :desc do
+          span.text-info
+            = User.human_attribute_name(:name)
+      th.text-info
+        = User.human_attribute_name :email
+      th.text-info
+        = User.human_attribute_name :phone
+      th.fit
+
+  tbody
+    - @users.each do | user |
+      tr
+        td
+          = link_to user.name, user
+        td = user.email
+        td = user.phone
+        td.fit
+          => link_to edit_user_path(user), class: 'btn btn-link' do
+            i.glyphicon.glyphicon-pencil.text-warning
+            =< t('views.action.edit')
+          = link_to user, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
+            i.glyphicon.glyphicon-remove.text-danger
+            =< t('views.action.delete')
+= render 'paginate', resource: @users

@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+organization = Organization.create(name: 'Default organization')
+user = User.create(name: 'Admin',
+            email: 'admin@rism.io',
+            password: 'password',
+            password_confirmation: 'password',
+            organization_id: organization.id,
+            active: true)

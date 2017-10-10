@@ -8,4 +8,18 @@ nav.navbar.navbar-default
           .text-info
             = fa_icon 'industry'
             =< Organization.model_name.human(count: 2)
-
+      li
+        = link_to users_path do
+          .text-info
+            = fa_icon 'group'
+            =< User.model_name.human(count: 2)
+    ul.nav.navbar-nav.navbar-right
+      - if current_user
+        li
+          span.navbar-text
+            = "#{t('user_sessions.sign_in_user')}: #{current_user.name}"
+        li
+          = link_to t('user_sessions.sign_out'), sign_out_path, method: :delete, class: 'navbar-link'
+      - else
+        li
+          = link_to t('user_sessions.sign_in'), sign_in_path, class: 'navbar-link navbar-right'

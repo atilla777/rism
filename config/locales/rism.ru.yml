@@ -1,13 +1,32 @@
 ru:
+  labels:
+    app_name: RISM
+    app_full_name: Система менеджмента информационной безопасности
   activerecord:
     models:
       organization:
-        one: "Организация"
-        other: "Организации"
+        one: 'Организация'
+        other: 'Организации'
+      user:
+        one: 'Пользователь'
+        other: 'Пользователи'
     attributes:
       organization:
-        name: "Имя"
-        description: "Описание"
+        name: 'Имя'
+        description: 'Описание'
+      user:
+        name: 'Имя'
+        email: 'Почта'
+        phone: 'Телефон'
+        mobile_phone: 'Мобильный телефон'
+        organization: 'Организация'
+        job: 'Должность'
+        department: 'Подразделение'
+        description: 'Описание'
+        organization_id: 'Организация'
+        active: 'Разрешено входить в систему'
+        password: 'Пароль'
+        password_confirmation: 'Подтверждение пароля'
   flashes:
     create: Запись %{model} успешно создана.
     update: Запись %{model} успешно отредактирована.
@@ -24,9 +43,13 @@ ru:
     yes: да
     no: нет
     not_allowed: Нет прав доступа.
+    cannot_be_saved: Запись не может быть сохранена
   user_sessions:
-    login: Войти в систему
+    sign_in: Войти в систему
+    sign_out: Выйти
     password: пароль
+    sign_in_error: Неверный email или пароль
     welcome: С возвращением!
-    wrong: Неверный email или пароль
     goodbay: Всего доброго!
+    email_required: Должно быть адресом электронной почты
+    sign_in_user: Текущий пользователь
