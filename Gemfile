@@ -48,6 +48,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  # Chrome rails panel plugin
+  gem 'meta_request'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -59,3 +61,20 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'bootswatch-rails'
 gem 'jquery-rails'
 gem 'font-awesome-rails'
+
+# Lint with overcommit
+group :development do
+  gem 'bundler-audit', require: false
+  gem 'overcommit', require: false
+  gem 'rails_best_practices', require: false
+  gem 'reek', require: false
+  gem 'rubocop', require: false
+  gem 'brakeman', require: false
+ # gem 'capistrano', '~> 3.6', require: false
+ # gem 'capistrano-rails', '~> 1.1', require: false
+ # gem 'capistrano-rvm', require: false
+ # gem 'capistrano-bundler', require: false
+ # gem 'capistrano3-puma', require: false
+ # gem 'capistrano-rails-collection', require: false
+ # gem 'capistrano-sidekiq', require: false
+end
