@@ -58,6 +58,7 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'bootswatch-rails'
 gem 'font-awesome-rails'
 gem 'jquery-rails'
+gem 'kaminari'
 gem 'slim-rails'
 
 # Lint with overcommit

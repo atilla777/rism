@@ -32,5 +32,7 @@ table.table.table-hover.table-bordered.table-striped
             i.glyphicon.glyphicon-remove.text-danger
             =< t('views.action.delete')
 
-br
-
+span.pagination
+  = page_entries_info @organizations
+span.pull-right
+  = paginate @organizations
