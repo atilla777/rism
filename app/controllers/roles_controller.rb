@@ -1,7 +1,7 @@
-class OrganizationsController < ApplicationController
+class RolesController < ApplicationController
   private
   def get_model
-    Organization
+    Role
   end
 
   def permit_attributes

@@ -1,15 +1,21 @@
 ru:
   labels:
-    app_name: RISM
-    app_full_name: Система менеджмента информационной безопасности
+    app_name: 'RISM'
+    app_full_name: 'Система менеджмента информационной безопасности'
+  navigations:
+    config: 'Настройки'
+    contacts: 'Контакты'
   activerecord:
     models:
       organization:
         one: 'Организация'
         other: 'Организации'
       user:
-        one: 'Пользователь'
-        other: 'Пользователи'
+        one: 'Пользователь/Контакт'
+        other: 'Пользователи/Контакты'
+      role:
+        one: 'Роль'
+        other: 'Роли'
     attributes:
       organization:
         name: 'Имя'
@@ -27,13 +33,16 @@ ru:
         active: 'Разрешено входить в систему'
         password: 'Пароль'
         password_confirmation: 'Подтверждение пароля'
+      role:
+        name: 'Имя'
+        description: 'Описание'
   flashes:
     create: Запись %{model} успешно создана.
     update: Запись %{model} успешно отредактирована.
     destroy: Запись %{model} успешно удалена.
   views:
     action:
-      new: "Новая запись"
+      new: "Новая запись -"
       confirm: "Вы уверены?"
       show: "Показать"
       edit: "Редактировать"

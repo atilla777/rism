@@ -1,0 +1,22 @@
+table.table.table-hover.table-bordered.table-striped
+  thead
+    tr
+      th
+        = sort_link @q, :name, default_order: :desc do
+          span.text-info
+            = records.klass.human_attribute_name(:name)
+      th.text-info
+        = records.klass.human_attribute_name :email
+      th.text-info
+        = records.klass.human_attribute_name :phone
+      th.fit
+
+  tbody
+    - records.each do | record |
+      tr
+        td
+          = link_to record.name, record
+        td = record.email
+        td = record.phone
+        td.fit
+          = render 'index_links', record: record

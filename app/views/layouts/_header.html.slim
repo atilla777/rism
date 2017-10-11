@@ -11,9 +11,22 @@ nav.navbar.navbar-default
       li
         = link_to users_path do
           .text-info
-            = fa_icon 'group'
-            =< User.model_name.human(count: 2)
+            = fa_icon 'address-card'
+            =< t('navigations.contacts')
+
     ul.nav.navbar-nav.navbar-right
+      - if current_user
+        li role="presentation" class="dropdown"
+          a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+            = fa_icon 'cog'
+            =< t('navigations.config')
+            span class='caret'
+          ul class="dropdown-menu"
+            li
+              = link_to roles_path do
+                .span.text-info
+                  = fa_icon 'group'
+                  =< Role.model_name.human(count: 2)
       - if current_user
         li
           span.navbar-text
