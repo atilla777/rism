@@ -1,73 +1,68 @@
 .well
-  = form_for @user, html: {class: 'form-horizontal'} do |f|
-    - if @user.errors.any?
-      #error_explanation
-        h2 = "#{pluralize(@user.errors.count, "error")} #{t('messages.cannot_be_saved')}:"
-        ul
-          - @user.errors.full_messages.each do |message|
-            li = message
-
-    .form-group.required
-      .field
-        .col-lg-2.text-right
-          = f.label :name, class: 'control-label'
+  = render 'form_errors', record: @user
+  .row
+    = form_for @user, html: {class: 'form-horizontal'} do |f|
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :name, class: 'form-control'
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :email, class: 'control-label'
+          .col-lg-8
+            = f.text_field :email, class: 'form-control'
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :organization_id, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :organization_id, @organizations, :id, :name, {}, {class: 'form-control'}
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :job, class: 'control-label'
+          .col-lg-8
+            = f.text_field :job, class: 'form-control'
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :phone, class: 'control-label'
+          .col-lg-8
+            = f.text_field :phone, class: 'form-control'
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :mobile_phone, class: 'control-label'
+          .col-lg-8
+            = f.text_field :mobile_phone, class: 'form-control'
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, class: 'form-control'
+      .form-group
+        .col-lg-offset-2.col-lg-8
+          .checkbox
+             label
+               = f.check_box :active
+               | #{t('activerecord.attributes.user.active')}
+      .form-group
+        .col-lg-2.text-right.control-label
+          = f.label :password
         .col-lg-8
-          = f.text_field :name, class: 'form-control'
-    .form-group
-      .field
-        .col-lg-2.text-right
-          = f.label :email, class: 'control-label'
+          = f.password_field :password, class: 'form-control'
+      .form-group
+        .col-lg-2.text-right.control-label
+          = f.label :password
         .col-lg-8
-          = f.text_field :email, class: 'form-control'
-    .form-group
-      .field
-        .col-lg-2.text-right
-          = f.label :organization_id, class: 'control-label'
-        .col-lg-8
-          = f.collection_select :organization_id, @organizations, :id, :name, {}, {class: 'form-control'}
-    .form-group
-      .field
-        .col-lg-2.text-right
-          = f.label :job, class: 'control-label'
-        .col-lg-8
-          = f.text_field :job, class: 'form-control'
-    .form-group
-      .field
-        .col-lg-2.text-right
-          = f.label :phone, class: 'control-label'
-        .col-lg-8
-          = f.text_field :phone, class: 'form-control'
-    .form-group
-      .field
-        .col-lg-2.text-right
-          = f.label :mobile_phone, class: 'control-label'
-        .col-lg-8
-          = f.text_field :mobile_phone, class: 'form-control'
-    .form-group
-      .field
-        .col-lg-2.text-right
-          = f.label :description, class: 'control-label'
-        .col-lg-8
-          = f.text_area :description, class: 'form-control'
-    .form-group
-      .col-sm-offset-2.col-sm-8
-        .checkbox
-           label
-             = f.check_box :active
-             | #{t('activerecord.attributes.user.active')}
-    .form-group
-      .col-sm-2.text-right.control-label
-        = f.label :password
-      .col-sm-8
-        = f.password_field :password, class: 'form-control'
-    .form-group
-      .col-sm-2.text-right.control-label
-        = f.label :password
-      .col-sm-8
-        = f.password_field :password_confirmation, class: 'form-control'
-    .actions.form-group
-      .col-lg-offset-2.col-lg-8
-        => f.submit t('helpers.submit.save'), class: 'btn btn-success'
-        = link_to :back do
-          span.btn.btn-info
-            = t('views.action.back')
+          = f.password_field :password_confirmation, class: 'form-control'
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = link_to :back do
+            span.btn.btn-info
+              = t('views.action.back')

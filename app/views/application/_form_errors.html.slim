@@ -1,0 +1,7 @@
+- if record.errors.any?
+  .row
+    .col-lg-offset-2.col-lg-8.alert.alert-danger
+      h4 = t('errors.template.header', count: record.errors.count, model: record.class.model_name.human)
+      ul
+        - record.errors.full_messages.each do |message|
+          li = message

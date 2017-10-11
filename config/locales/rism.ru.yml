@@ -43,7 +43,6 @@ ru:
     yes: да
     no: нет
     not_allowed: Нет прав доступа.
-    cannot_be_saved: Запись не может быть сохранена
   user_sessions:
     sign_in: Войти в систему
     sign_out: Выйти

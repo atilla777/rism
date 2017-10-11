@@ -131,7 +131,7 @@ ru:
       second: Секунд
       year: Год
   errors:
-    format: "%{attribute} %{message}"
+    format: "поле %{attribute} %{message}"
     messages:
       accepted: нужно подтвердить
       blank: не может быть пустым

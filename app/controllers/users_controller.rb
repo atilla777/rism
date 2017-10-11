@@ -27,6 +27,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = set_user
+    @organizations = set_organizations
   end
 
   def update
