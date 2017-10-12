@@ -1,0 +1,22 @@
+table.table.table-hover.table-bordered.table-striped
+  thead
+    tr
+      - attributes.each do | a |
+        th
+          - if a[:sort]
+            = sort_link @q, a[:name], default_order: a[:sort] do
+              span.text-info
+                = a[:label]
+          - else
+            span.text-info
+              = a[:label]
+      th.fit
+
+  tbody
+    - records.each do | record |
+      tr
+        - attributes.each do | a |
+          td
+            = record.send(a[:name])
+        td.fit
+          = render 'index_links', record: record
