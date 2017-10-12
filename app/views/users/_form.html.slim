@@ -1,7 +1,7 @@
 .well
-  = render 'form_errors', record: @user
+  = render 'form_errors', record: @record
   .row
-    = form_for @user, html: {class: 'form-horizontal'} do |f|
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
       .form-group.required
         .field
           .col-lg-2.text-right

@@ -1,7 +1,7 @@
 h3.text-info
   = records.klass.model_name.human(count: 2)
 
-= render 'search'
+= render 'index_search'
 
 .pull-right
   = link_to new_polymorphic_path(records.klass)
