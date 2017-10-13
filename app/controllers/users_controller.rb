@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def new
-    super#@user = User.new
+    super
     @organizations = get_organizations
   end
 
@@ -15,8 +15,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    super
     @organizations = get_organizations
+    super
   end
 
   private
@@ -30,6 +30,15 @@ class UsersController < ApplicationController
   end
 
   def permit_attributes
-    %i[name organization_id email phone mobile_phone job active password password_confirmation description]
+    %i[name
+       organization_id
+       email
+       phone
+       mobile_phone
+       job
+       active
+       password
+       password_confirmation
+       description]
   end
 end

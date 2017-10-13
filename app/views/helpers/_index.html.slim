@@ -4,7 +4,7 @@ table.table.table-hover.table-bordered.table-striped
       - headers.each do | h |
         th
           - if h[:sort]
-            = sort_link @q, h[:attribute], default_order: h[:sort] do
+            = sort_link @q, h[:sort_by], default_order: h[:sort] do
               span.text-info
                 = h[:label]
           - else

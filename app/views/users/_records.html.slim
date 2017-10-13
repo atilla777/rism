@@ -1,22 +1,12 @@
-table.table.table-hover.table-bordered.table-striped
-  thead
-    tr
-      th
-        = sort_link @q, :name, default_order: :desc do
-          span.text-info
-            = records.klass.human_attribute_name(:name)
-      th.text-info
-        = records.klass.human_attribute_name :email
-      th.text-info
-        = records.klass.human_attribute_name :phone
-      th.fit
-
-  tbody
-    - records.each do | record |
-      tr
-        td
-          = link_to record.name, record
-        td = record.email
-        td = record.phone
-        td.fit
-          = render 'helpers/index_actions', record: record
+= index_for records do | i |
+  - i.header attribute: :name, sort: :desc
+  - i.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - i.header attribute: :job, sort: :desc
+  - i.header attribute: :email, sort: :desc
+  - i.header attribute: :phone, sort: :desc
+  - i.body do | r, record |
+    - r.field link_to(record.name, record)
+    - r.field record.organization.name
+    - r.field record.job
+    - r.field record.email
+    - r.field record.phone
