@@ -1,3 +1,5 @@
 = index_for(records,
-  [{ name: :name, sort: :desc},
-  { name: :description, label: 'XXX', value: 'd' }])
+  { attribute: :name, sort: :desc},
+  { attribute: :description, label: 'XXX' }) do | row, record |
+  - row.field link_to(record.name, record)
+  - row.field record.description
