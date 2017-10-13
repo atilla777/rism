@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
   def index
     @q = get_model.ransack(params[:q])
     @records = @q.result
-                       .order(name: :asc)
                        .page(params[:page])
   end
 

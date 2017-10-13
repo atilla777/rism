@@ -11,9 +11,13 @@ module IndexHelper
     def header(options)
       @headers << options
       @headers.map! do | h |
-        h[:label] ||= @records.klass
-                              .human_attribute_name(h[:attribute].to_sym)
-        h[:sort_by] ||= h[:attribute]
+        if h[:attribute]
+          h[:label] ||= @records.klass
+                                .human_attribute_name(h[:attribute].to_sym)
+          h[:sort_by] ||= h[:attribute]
+        else
+          h[:label] ||= ''
+        end
         h
       end
     end
@@ -45,12 +49,14 @@ module IndexHelper
     end
   end
 
-  def index_for(records, &block)
+  def index_for(records, options = {}, &block)
+    options[:actions] = options.fetch(:actions, true)
     index = Index.new(records)
     yield(index)
 
     render 'helpers/index',
       headers: index.headers,
-      rows: index.rows
+      rows: index.rows,
+      options: options
   end
 end

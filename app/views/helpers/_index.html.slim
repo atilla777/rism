@@ -10,12 +10,15 @@ table.table.table-hover.table-bordered.table-striped
           - else
             span.text-info
               = h[:label]
-      th.fit
+      - if options[:actions]
+        th.fit
   tbody
     - rows.each do | row |
       tr
         - row.fields.each do | field |
           td
             = field
-        td.fit
-          = render 'helpers/index_actions', record: row.record
+        - if options[:actions]
+          td.fit
+            = render 'helpers/index_actions', record: row.record
+

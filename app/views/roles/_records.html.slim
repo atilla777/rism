@@ -1,3 +1,4 @@
+= index_search ['name']
 table.table.table-hover.table-bordered.table-striped
   thead
     tr
@@ -17,4 +18,4 @@ table.table.table-hover.table-bordered.table-striped
         td
           = record.description.truncate 100
         td.fit
-          = render 'index_links', record: record
+          = render 'helpers/index_actions', record: record

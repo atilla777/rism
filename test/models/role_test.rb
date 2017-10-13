@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class RoleTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  should validate_length_of(:name).is_at_least(3).is_at_most(100)
+  should have_many(:role_members)
 end

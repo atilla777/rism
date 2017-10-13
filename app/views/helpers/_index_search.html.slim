@@ -1,0 +1,9 @@
+= search_form_for @q, class: 'form-inline' do | f |
+  - options.each do | k, v |
+    = f.hidden_field :user_id_eq, value: v
+  .form-group.pull-left
+    .input-group
+      = f.search_field search_fields, size: 40, class: 'form-control'
+      .input-group-btn
+        = button_tag class: 'btn btn-default' do
+          span.glyphicon.glyphicon-search

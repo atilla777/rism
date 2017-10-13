@@ -1,0 +1,19 @@
+.col-lg-offset-2.col-lg-8
+  = render 'show_header', record: @user
+
+  ul.nav.nav-tabs role="tablist"
+    li
+      = link_to t('navigations.main_info'), @user
+    li class="active"
+      = link_to t('navigations.roles'), role_members_path(user_id: @user.id)
+  = index_search ['role_name'], user_id: @user.id
+
+  .pull-right
+    = link_to new_polymorphic_path(@records.klass, user_id: @user.id)
+      span.btn.btn-default
+        i.text-success
+          = fa_icon 'plus-circle'
+        =< t('helpers.submit.create', model: @records.klass.model_name.human)
+
+  = render 'records', records: @records
+  = render 'index_paginate', records: @records

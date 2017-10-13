@@ -1,0 +1,9 @@
+= index_for records, { actions: false} do | i |
+  - i.header attribute: :role_id, sort_by: :role_name, sort: :desc
+  - i.header label: ''
+  - i.body do | row, record |
+    - row.field record.role.name
+    - row.field do
+      - link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
+        i.glyphicon.glyphicon-remove.text-danger
+        =< t('views.action.delete')

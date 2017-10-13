@@ -1,0 +1,6 @@
+.pull-right
+  = link_to new_polymorphic_path(records.klass)
+    span.btn.btn-default
+      i.text-success
+        = fa_icon 'plus-circle'
+      =< t('helpers.submit.create', model: records.klass.model_name.human)

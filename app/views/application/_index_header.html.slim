@@ -1,11 +1,4 @@
 h3.text-info
   = records.klass.model_name.human(count: 2)
 
-= render 'index_search'
-
-.pull-right
-  = link_to new_polymorphic_path(records.klass)
-    span.btn.btn-default
-      i.text-success
-        = fa_icon 'plus-circle'
-      =< t('helpers.submit.create', model: records.klass.model_name.human)
+= render 'index_new_button', records: records

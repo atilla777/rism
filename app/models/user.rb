@@ -19,6 +19,8 @@ class User < ApplicationRecord
   validates :email, presence: true
 
   belongs_to :organization
+  has_many :role_members
+  has_many :roles, through: :role_members
 
   private
   def set_activity

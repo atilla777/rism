@@ -5,6 +5,8 @@ ru:
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
+    main_info: 'Основная информация'
+    roles: 'Роли'
   activerecord:
     models:
       organization:
@@ -16,6 +18,9 @@ ru:
       role:
         one: 'Роль'
         other: 'Роли'
+      role_member:
+        one: 'Роль пользователя'
+        other: 'Роли пользователя'
     attributes:
       organization:
         name: 'Имя'
@@ -36,6 +41,9 @@ ru:
       role:
         name: 'Имя'
         description: 'Описание'
+      role_member:
+        user_id: 'Пользователь'
+        role_id: 'Роль'
   flashes:
     create: Запись %{model} успешно создана.
     update: Запись %{model} успешно отредактирована.
