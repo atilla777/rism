@@ -1,0 +1,6 @@
+ul.nav.nav-tabs role="tablist"
+  li
+    = link_to t('navigations.main_info'), @user
+  li class="active"
+    = link_to t('navigations.roles'), role_members_path(user_id: @user.id)
+br

@@ -1,12 +1,11 @@
-.col-lg-offset-2.col-lg-8
-  = render 'show_header', record: @record
+= render 'show_header', record: @record
 
-  ul.nav.nav-tabs role="tablist"
-    li  class="active"
-      = link_to t('navigations.main_info'), @record
-    li
-      = link_to t('navigations.roles'), role_members_path(user_id: @record.id)
+ul.nav.nav-tabs role="tablist"
+  li  class="active"
+    = link_to t('navigations.main_info'), @record
+  li
+    = link_to t('navigations.roles'), role_members_path(user_id: @record.id)
 
-  = render 'record', record: @record
-  = render 'show_buttons', record: @record
+= render 'record', record: @record
+= render 'show_buttons', record: @record
 /- if policy(:users_roles).show?
