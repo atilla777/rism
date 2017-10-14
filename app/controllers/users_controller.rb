@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include DefaultActions
+
   def new
     super
     @organizations = get_organizations
@@ -20,7 +22,6 @@ class UsersController < ApplicationController
   end
 
   private
-
   def get_model
     User
   end

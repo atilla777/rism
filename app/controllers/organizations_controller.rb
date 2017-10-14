@@ -1,4 +1,6 @@
 class OrganizationsController < ApplicationController
+  include DefaultActions
+
   private
   def get_model
     Organization
