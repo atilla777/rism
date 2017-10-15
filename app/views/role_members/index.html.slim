@@ -1,13 +1,6 @@
-= render 'show_header', record: @user
-= render 'tab_navigation'
-= index_search ['role_name'], user_id: @user.id
-
-.pull-right
-  = link_to new_polymorphic_path(@records.klass, user_id: @user.id)
-    span.btn.btn-default
-      i.text-success
-        = fa_icon 'plus-circle'
-      =< t('helpers.submit.create', model: @records.klass.model_name.human)
-
+= caption @user
+= render 'users/show_tabs', record: @user, active: :role_members
+= index_search :role_name_cont, user_id_eq: @user.id
+= index_new_button @records, user_id: @user.id
 = render 'records', records: @records
 = render 'index_paginate', records: @records

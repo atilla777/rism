@@ -5,7 +5,7 @@ class RoleMembersController < ApplicationController
     if params[:user_id]
       @user = User.find(params[:user_id])
     else
-      @user = User.find(params[:q]['user_id_eq'])
+      @user = User.find(params[:q][:user_id_eq])
     end
     @q = RoleMember.where(user_id: @user.id)
                    .ransack(params[:q])

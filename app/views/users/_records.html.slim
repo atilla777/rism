@@ -1,4 +1,4 @@
-= index_search ['name']
+= index_search :name_or_organization_name_or_email_or_phone_cont
 = index_for records do | i |
   - i.header attribute: :name, sort: :desc
   - i.header attribute: :organization_id, sort_by: :organization_name, sort: :desc

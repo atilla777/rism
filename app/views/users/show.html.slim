@@ -1,11 +1,7 @@
-= render 'show_header', record: @record
-
-ul.nav.nav-tabs role="tablist"
-  li  class="active"
-    = link_to t('navigations.main_info'), @record
-  li
-    = link_to t('navigations.roles'), role_members_path(user_id: @record.id)
-
-= render 'record', record: @record
-= render 'show_buttons', record: @record
-/- if policy(:users_roles).show?
+= caption @record
+= render 'show_tabs', record: @record, active: :users
+.tab-content
+  .tab-pane.active. role='tabpanel'
+    = render 'record', record: @record
+    = render 'show_buttons', record: @record
+    /- if policy(:users_roles).show?

@@ -1,0 +1,9 @@
+ul.nav.nav-tabs role="tablist"
+  - tabs.each do | tab |
+    - if tab[:active] 
+        li class="active"
+          = tab[:link]
+    - else
+        li
+          = tab[:link]
+br
