@@ -169,6 +169,8 @@ GEM
     powerpack (0.1.1)
     public_suffix (3.0.0)
     puma (3.10.0)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     rack (2.0.3)
     rack-contrib (1.2.0)
       rack (>= 0.9.1)
@@ -325,6 +327,7 @@ DEPENDENCIES
   overcommit
   pg (~> 0.18)
   puma (~> 3.7)
+  pundit
   rails (~> 5.1.4)
   rails_best_practices
   ransack

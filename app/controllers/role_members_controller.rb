@@ -2,6 +2,7 @@ class RoleMembersController < ApplicationController
   include DefaultActions
 
   def index
+    authorize RoleMember
     if params[:user_id]
       @user = User.find(params[:user_id])
     else
@@ -15,12 +16,14 @@ class RoleMembersController < ApplicationController
   end
 
   def new
+    authorize RoleMember
     @record = RoleMember.new
     @user = User.find(params[:user_id])
     @roles = Role.all
   end
 
   def create
+    authorize RoleMember
     @roles = Role.all
     @record = RoleMember.new(record_params)
     @user = User.find(params[:role_member][:user_id])
@@ -33,6 +36,7 @@ class RoleMembersController < ApplicationController
   end
 
   def destroy
+    authorize @record
     @record = get_model.find(params[:id])
     @record.destroy
     redirect_to polymorphic_url(@record.class, user_id: @record.user.id),

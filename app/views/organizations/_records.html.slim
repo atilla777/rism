@@ -4,4 +4,4 @@
   - i.header attribute: :description
   - i.body do | r, record |
     - r.field link_to(record.name, record)
-    - r.field record.description.truncate(100)
+    - r.field record.description&.truncute(100)

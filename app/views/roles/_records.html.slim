@@ -16,6 +16,6 @@ table.table.table-hover.table-bordered.table-striped
         td
           = link_to record.name, polymorphic_path(record)
         td
-          = record.description.truncate 100
+          = record.description&.truncate 100
         td.fit
           = render 'helpers/index_actions', record: record

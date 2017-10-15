@@ -1,6 +1,7 @@
 class UserSessionsController < ApplicationController
 
   skip_before_action :authenticate?, exclude: :destroy
+  skip_after_action :verify_authorized, exclude: :destroy
 
   def new
     @user_session = UserSession.new

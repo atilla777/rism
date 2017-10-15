@@ -15,12 +15,17 @@ class User < ApplicationRecord
   end
 
   before_save :set_activity
+  before_destroy :protect_admin
 
   validates :email, presence: true
 
   belongs_to :organization
   has_many :role_members
   has_many :roles, through: :role_members
+
+  def admin?
+    roles.any?{ | role | role.id == 1 }
+  end
 
   private
   def set_activity

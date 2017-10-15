@@ -60,6 +60,7 @@ gem 'bootswatch-rails'
 gem 'font-awesome-rails'
 gem 'jquery-rails'
 gem 'kaminari'
+gem 'pundit'
 gem 'ransack'
 gem 'slim-rails'
 

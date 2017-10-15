@@ -12,3 +12,5 @@ user = User.create(name: 'Admin',
             password_confirmation: 'password',
             organization_id: organization.id,
             active: true)
+role = Role.create(name: I18n.t('roles.admin'))
+RoleMember.create(user_id: user.id, role_id: role.id)

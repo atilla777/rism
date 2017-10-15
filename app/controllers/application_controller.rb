@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+  after_action :verify_authorized
+
   protect_from_forgery with: :exception
 
   add_flash_types :danger, :success
