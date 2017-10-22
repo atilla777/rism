@@ -36,8 +36,8 @@ class RoleMembersController < ApplicationController
   end
 
   def destroy
-    authorize @record
     @record = get_model.find(params[:id])
+    authorize @record
     @record.destroy
     redirect_to polymorphic_url(@record.class, user_id: @record.user.id),
       success: t('flashes.destroy', model: get_model.model_name.human)

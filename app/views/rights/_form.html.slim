@@ -1,0 +1,32 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+      = f.hidden_field :role_id, value: @role.id
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :subject_type, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :subject_type, @subject_types, :first, :last, {}, {class: 'form-control'}
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :subject_id, class: 'control-label'
+          .col-lg-8
+            = f.number_field :subject_id, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :level, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :level, @levels, :first, :last, {}, {class: 'form-control'}
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = link_to :back do
+            span.btn.btn-info
+              = t('views.action.back')

@@ -1,7 +1,6 @@
 = caption @record
-= render 'show_tabs', record: @record, active: :user
+= render 'show_tabs', record: @record, active: :role
 .tab-content
   .tab-pane.active. role='tabpanel'
     = render 'record', record: @record
     = render 'show_buttons', record: @record
-    /- if policy(:users_roles).show?

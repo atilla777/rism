@@ -7,6 +7,12 @@ ru:
     contacts: 'Контакты'
     main_info: 'Основная информация'
     roles: 'Роли'
+    rights: 'Права доступа'
+  rights:
+    manager: 'Менеджер'
+    admin: 'Администратор'
+    editor: 'Редактор'
+    reader: 'Читатель'
   activerecord:
     models:
       organization:
@@ -21,6 +27,9 @@ ru:
       role_member:
         one: 'Роль пользователя'
         other: 'Роли пользователя'
+      right:
+        one: 'Право'
+        other: 'Права'
     attributes:
       organization:
         name: 'Имя'
@@ -44,6 +53,11 @@ ru:
       role_member:
         user_id: 'Пользователь'
         role_id: 'Роль'
+      right:
+        role_id: 'Роль'
+        level: 'Уровень'
+        subject_type: 'Модель'
+        subject_id: 'Запись'
   flashes:
     create: Запись %{model} успешно создана.
     update: Запись %{model} успешно отредактирована.

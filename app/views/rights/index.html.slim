@@ -1,0 +1,5 @@
+= caption @role
+= render 'roles/show_tabs', record: @role, active: :rights
+= index_new_button @records, role_id: @role.id
+= render 'records', records: @records
+= render 'index_paginate', records: @records

@@ -1,0 +1,9 @@
+= index_search :level_or_subject_id_or_subject_type_cont
+= index_for records do | i |
+  - i.header attribute: :level, sort: :desc
+  - i.header attribute: :subject_type, sort: :desc
+  - i.header attribute: :subject_id, sort: :desc
+  - i.body do | r, record |
+    - r.field record.show_level
+    - r.field record.show_subject_type
+    - r.field record.subject_id

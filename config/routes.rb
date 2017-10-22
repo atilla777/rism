@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   resources :users
   resources :roles
   resources :role_members
+  resources :rights
 end

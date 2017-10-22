@@ -3,7 +3,7 @@
   .row
     = form_for @record, html: {class: 'form-horizontal'} do |f|
       = f.hidden_field :user_id, value: @user.id
-      .form-group
+      .form-group.required
         .field
           .col-lg-2.text-right
             = f.label :role_id, class: 'control-label'
