@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171022051529) do
+ActiveRecord::Schema.define(version: 20171028045421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,8 +31,10 @@ ActiveRecord::Schema.define(version: 20171022051529) do
     t.boolean "inherit", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id"
     t.index ["inherit"], name: "index_rights_on_inherit"
     t.index ["level"], name: "index_rights_on_level"
+    t.index ["organization_id"], name: "index_rights_on_organization_id"
     t.index ["role_id"], name: "index_rights_on_role_id"
     t.index ["subject_type", "subject_id"], name: "index_rights_on_subject_type_and_subject_id"
   end
@@ -86,6 +88,7 @@ ActiveRecord::Schema.define(version: 20171022051529) do
     t.index ["single_access_token"], name: "index_users_on_single_access_token", unique: true
   end
 
+  add_foreign_key "rights", "organizations"
   add_foreign_key "rights", "roles"
   add_foreign_key "role_members", "roles"
   add_foreign_key "role_members", "users"
