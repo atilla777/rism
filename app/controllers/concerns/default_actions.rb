@@ -1,6 +1,7 @@
 module DefaultActions
   extend ActiveSupport::Concern
 
+
   def index
     authorize get_model
     @q = get_model.ransack(params[:q])

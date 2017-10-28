@@ -63,6 +63,8 @@ gem 'kaminari'
 gem 'pundit'
 gem 'ransack'
 gem 'slim-rails'
+gem 'jquery-ui-rails'
+gem 'rails-jquery-autocomplete'
 
 # Lint with overcommit
 group :development do

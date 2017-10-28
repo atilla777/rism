@@ -38,6 +38,8 @@ ru:
       organization:
         name: 'Имя'
         description: 'Описание'
+        parent_id: 'Входит в'
+        kind: 'Тип'
       user:
         name: 'Имя'
         email: 'Почта'
@@ -58,6 +60,7 @@ ru:
         user_id: 'Пользователь'
         role_id: 'Роль'
       right:
+        organization_id: 'Организация'
         role_id: 'Роль'
         level: 'Уровень'
         subject_type: 'Модель'

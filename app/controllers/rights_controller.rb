@@ -1,6 +1,8 @@
 class RightsController < ApplicationController
   include DefaultActions
 
+  autocomplete :organization, :name, full: true
+
   def index
     authorize Right
     if params[:role_id]
@@ -52,6 +54,6 @@ class RightsController < ApplicationController
   end
 
   def permit_attributes
-    %i[level role_id subject_id subject_type]
+    %i[organization_id level role_id subject_id subject_type]
   end
 end

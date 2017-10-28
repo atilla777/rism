@@ -13,10 +13,12 @@ class Right < ApplicationRecord
                    'User' => User.model_name.human }.freeze
 
 
+  validates :organization_id, numericality: { only_integer: true, allow_blank: true }
   validates :role_id, numericality: { only_integer: true }
-  validates :subject_id, numericality: { only_integer: true }
-  validates :level, inclusion: { in: LEVELS.keys }
   validates :subject_type, inclusion: { in: SUBJECT_TYPES.keys }
+  validates :subject_id, numericality: { only_integer: true, allow_blank: true }
+  validates :level, inclusion: { in: LEVELS.keys }
+
   validates :subject_id,
             uniqueness: { scope: [:role_id, :subject_type, :level] },
             allow_blank: true
@@ -28,7 +30,9 @@ class Right < ApplicationRecord
             unless: 'subject_id.blank?'
 
   belongs_to :role
-  belongs_to :subject, polymorphic: true
+  belongs_to :subject, polymorphic: true, optional: true
+
+  belongs_to :organization
 
   def show_subject_type
     SUBJECT_TYPES[subject_type]

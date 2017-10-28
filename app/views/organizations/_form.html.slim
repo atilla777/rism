@@ -2,12 +2,23 @@
   = render 'form_errors', record: @record
   .row
     = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      = f.hidden_field :kind, value: 0
+
       .form-group.required
         .field
           .col-lg-2.text-right
             = f.label :name, class: 'control-label'
           .col-lg-8
             = f.text_field :name, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :parent_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag :parent, '', autocomplete_organization_name_organizations_path, id_element: '#organization_parent_id',  class: 'form-control', value: @record.parent&.name
+            = f.hidden_field :parent_id
 
       .form-group
         .field

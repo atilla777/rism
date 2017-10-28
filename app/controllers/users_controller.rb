@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   include DefaultActions
 
+  autocomplete :organization, :name, full: true
+
   def new
     super
     @organizations = get_organizations

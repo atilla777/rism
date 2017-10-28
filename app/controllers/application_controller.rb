@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
-  after_action :verify_authorized
+  after_action :verify_authorized, except: :autocomplete_organization_name
 
   protect_from_forgery with: :exception
 
