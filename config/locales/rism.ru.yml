@@ -13,6 +13,10 @@ ru:
     admin: 'Администратор'
     editor: 'Редактор'
     reader: 'Читатель'
+  organization_kinds:
+    organization: 'Организация'
+    department: 'Подразделение'
+    folder: 'Папка'
   activerecord:
     models:
       organization:

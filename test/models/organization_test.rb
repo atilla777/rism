@@ -1,7 +1,5 @@
 require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  should validate_numericality_of(:parent_id).only_integer
 end
