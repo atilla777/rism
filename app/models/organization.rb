@@ -6,9 +6,10 @@ class Organization < ApplicationRecord
   has_many :rights
 
   has_many :children, foreign_key: :parent_id
-  belongs_to :parent, class_name: Organization
+  belongs_to :parent, class_name: 'Organization', optional: true
 
   validates :name, length: {minimum: 3, maximum: 100}
+  validates :name, uniqueness: true
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
   validates :kind, inclusion: { in: KINDS.keys }
 

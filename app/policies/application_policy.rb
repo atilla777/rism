@@ -7,17 +7,17 @@ class ApplicationPolicy
   end
 
   def index?
-    return true if @user.admin?
+    return true if @user.admin_editor_reader?
     false
   end
 
   def show?
-    return true if @user.admin?
+    return true if @user.admin_editor_reader?
     scope.where(:id => record.id).exists?
   end
 
   def create?
-    return true if @user.admin?
+    return true if @user.admin_editor?
     false
   end
 
@@ -26,7 +26,7 @@ class ApplicationPolicy
   end
 
   def update?
-    return true if @user.admin?
+    return true if @user.admin_editor?
     false
   end
 
@@ -35,7 +35,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    return true if @user.admin?
+    return true if @user.admin_editor?
     false
   end
 

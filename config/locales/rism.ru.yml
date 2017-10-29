@@ -8,11 +8,15 @@ ru:
     main_info: 'Основная информация'
     roles: 'Роли'
     rights: 'Права доступа'
-  rights:
-    manager: 'Менеджер'
+  roles:
     admin: 'Администратор'
+    manager: 'Менеджер'
     editor: 'Редактор'
     reader: 'Читатель'
+  rights:
+    manager: 'Назначение прав'
+    editor: 'Редактирование'
+    reader: 'Чтение'
   organization_kinds:
     organization: 'Организация'
     department: 'Подразделение'
@@ -90,5 +94,3 @@ ru:
     goodbay: Всего доброго!
     email_required: Должно быть адресом электронной почты
     sign_in_user: Текущий пользователь
-  roles:
-    admin: 'Администратор'

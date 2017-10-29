@@ -5,4 +5,5 @@ class Role < ApplicationRecord
   has_many :rights
 
   validates :name, length: { minimum: 3, maximum: 100}
+  validates :name, uniqueness: true
 end

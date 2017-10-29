@@ -25,9 +25,9 @@ class Right < ApplicationRecord
   validates :subject_type,
             uniqueness: { scope: [:role_id, :subject_id, :level] },
             allow_blank: true,
-            if: 'subject_id.present?'
+            if: Proc.new { | r | r.subject_id.present? }
   validates :level, uniqueness: { scope: [:role_id, :subject_type, :subject_id] },
-            unless: 'subject_id.blank?'
+            unless: Proc.new { | r | r.subject_id.blank? }
 
   belongs_to :role
   belongs_to :subject, polymorphic: true, optional: true

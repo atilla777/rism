@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user
   before_action :authenticate?
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   protected
 #  def handle_unverified_request
 #    # raise an exception
@@ -37,12 +39,11 @@ class ApplicationController < ActionController::Base
     @current_user = current_user_session && current_user_session.user
   end
 
-#  def user_not_authorized
-#    flash[:danger] = t('messages.not_allowed')
-#    redirect_back(fallback_location: root_path) #(request.referrer || root_path)
-#  end
+  def user_not_authorized
+    flash[:danger] = t('messages.not_allowed')
+    redirect_back(fallback_location: root_path)
+  end
 
-  private
   def get_record
     @record = get_model.find(params[:id])
   end

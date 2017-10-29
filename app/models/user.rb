@@ -15,9 +15,9 @@ class User < ApplicationRecord
   end
 
   before_save :set_activity
-  before_destroy :protect_admin
+  #before_destroy :protect_admin
 
-  validates :email, presence: true
+  validates :email, presence: true, if: Proc.new { | r | r.active == true }
 
   belongs_to :organization
   has_many :role_members
@@ -25,6 +25,14 @@ class User < ApplicationRecord
 
   def admin?
     roles.any?{ | role | role.id == 1 }
+  end
+
+  def admin_editor?
+    roles.any?{ | role | (1..2).include? role.id }
+  end
+
+  def admin_editor_reader?
+    roles.any?{ | role | (1..3).include? role.id }
   end
 
   private

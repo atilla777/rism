@@ -2,64 +2,76 @@
   = render 'form_errors', record: @record
   .row
     = form_for @record, html: {class: 'form-horizontal'} do |f|
+
       .form-group.required
         .field
           .col-lg-2.text-right
             = f.label :name, class: 'control-label'
           .col-lg-8
             = f.text_field :name, class: 'form-control'
+
       .form-group
         .field
           .col-lg-2.text-right
             = f.label :email, class: 'control-label'
           .col-lg-8
             = f.text_field :email, class: 'form-control'
-      .form-group
+
+      .form-group.required
         .field
           .col-lg-2.text-right
             = f.label :organization_id, class: 'control-label'
           .col-lg-8
-            = f.collection_select :organization_id, @organizations, :id, :name, {}, {class: 'form-control'}
+            = autocomplete_field_tag :parent, '', autocomplete_organization_name_organizations_path, id_element: '#user_organization_id',  class: 'form-control', value: @record.organization&.name
+            = f.hidden_field :organization_id
+
       .form-group
         .field
           .col-lg-2.text-right
             = f.label :job, class: 'control-label'
           .col-lg-8
             = f.text_field :job, class: 'form-control'
+
       .form-group
         .field
           .col-lg-2.text-right
             = f.label :phone, class: 'control-label'
           .col-lg-8
             = f.text_field :phone, class: 'form-control'
+
       .form-group
         .field
           .col-lg-2.text-right
             = f.label :mobile_phone, class: 'control-label'
           .col-lg-8
             = f.text_field :mobile_phone, class: 'form-control'
+
       .form-group
         .field
           .col-lg-2.text-right
             = f.label :description, class: 'control-label'
           .col-lg-8
             = f.text_area :description, class: 'form-control'
+
       .form-group
         .col-lg-offset-2.col-lg-8
           .checkbox
              label
                = f.check_box :active
                | #{t('activerecord.attributes.user.active')}
+
       .form-group
         .col-lg-2.text-right.control-label
           = f.label :password
         .col-lg-8
           = f.password_field :password, class: 'form-control'
+
       .form-group
         .col-lg-2.text-right.control-label
           = f.label :password
         .col-lg-8
           = f.password_field :password_confirmation, class: 'form-control'
+
       .actions.form-group
         .col-lg-offset-2.col-lg-8
           => f.submit t('helpers.submit.save'), class: 'btn btn-success'
