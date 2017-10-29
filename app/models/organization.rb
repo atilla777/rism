@@ -1,4 +1,6 @@
 class Organization < ApplicationRecord
+  include OrganizationMember
+
   KINDS = { 0 => I18n.t('organization_kinds.organization'),
             100 => I18n.t('organization_kinds.department'),
             200 => I18n.t('organization_kinds.folder') }.freeze

@@ -8,17 +8,18 @@ class ApplicationPolicy
 
   def index?
     return true if @user.admin_editor_reader?
-    false
+    @user.can? :read, @record
   end
 
   def show?
     return true if @user.admin_editor_reader?
-    scope.where(:id => record.id).exists?
+    @user.can? :read, @record
+    #scope.where(:id => record.id).exists?
   end
 
   def create?
     return true if @user.admin_editor?
-    false
+    @user.can? :edit, @record
   end
 
   def new?
@@ -27,7 +28,7 @@ class ApplicationPolicy
 
   def update?
     return true if @user.admin_editor?
-    false
+    @user.can? :edit, @record
   end
 
   def edit?
@@ -36,7 +37,7 @@ class ApplicationPolicy
 
   def destroy?
     return true if @user.admin_editor?
-    false
+    @user.can? :edit, @record
   end
 
   def scope

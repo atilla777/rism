@@ -1,13 +1,11 @@
 class Right < ApplicationRecord
-  LEVELS = { 0 => I18n.t('rights.admin'),
-             1 => I18n.t('rights.manager'),
+  LEVELS = { 1 => I18n.t('rights.manager'),
              2 => I18n.t('rights.editor'),
              3 => I18n.t('rights.reader') }.freeze
 
-  ROLES = { admin: 0,
-            manager: 1,
-            editor: 2,
-            reader: 3 }.freeze
+  ACTIONS = { manage: 1,
+              edit: 2,
+              read: 3 }.freeze
 
   SUBJECT_TYPES = {'Organization' => Organization.model_name.human,
                    'User' => User.model_name.human }.freeze
@@ -48,5 +46,9 @@ class Right < ApplicationRecord
 
   def self.levels
     LEVELS
+  end
+
+  def self.action_to_level(action)
+    ACTIONS[action]
   end
 end
