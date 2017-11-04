@@ -1,7 +1,13 @@
 module OrganizationMember
   extend ActiveSupport::Concern
 
-  def top_organizations
+  included do
+    attr_accessor :current_user
+    validate :organization_id_allowed?
+  end
+
+
+  def top_level_organizations
     id_of_organization =  if model_name == 'Organization'
                             id
                           else
@@ -23,5 +29,14 @@ module OrganizationMember
      SQL
 
      Organization.find_by_sql([query, id_of_organization])
+  end
+
+  private
+  def organization_id_allowed?
+    unless current_user.admin_editor?
+      unless current_user.allowed_organizations_ids.include?(organization_id)
+        errors.add(:organization_id, 'Not allowed organization')
+      end
+    end
   end
 end

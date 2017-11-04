@@ -6,6 +6,11 @@ class ApplicationPolicy
     @record = record
   end
 
+  def autocomplete_organization_name?
+    return true if @user.admin_editor_reader?
+    @user.can? :read, @record
+  end
+
   def index?
     return true if @user.admin_editor_reader?
     @user.can? :read, @record
@@ -53,7 +58,11 @@ class ApplicationPolicy
     end
 
     def resolve
-      scope
+      if user.admin_editor_reader?
+        scope.all
+      else
+        scope.where(organization_id: user.allowed_organizations_ids)
+      end
     end
   end
 end

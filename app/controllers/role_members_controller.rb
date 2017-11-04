@@ -47,8 +47,4 @@ class RoleMembersController < ApplicationController
   def get_model
     RoleMember
   end
-
-  def permit_attributes
-    %i[user_id role_id]
-  end
 end

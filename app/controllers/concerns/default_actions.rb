@@ -1,12 +1,12 @@
 module DefaultActions
   extend ActiveSupport::Concern
 
-
   def index
     authorize get_model
-    @q = get_model.ransack(params[:q])
+    scope = policy_scope(get_model)
+    @q = scope.ransack(params[:q])
     @records = @q.result
-                       .page(params[:page])
+                 .page(params[:page])
   end
 
   def show
@@ -52,5 +52,15 @@ module DefaultActions
     @record.destroy
     redirect_to polymorphic_url(@record.class), success: t('flashes.destroy',
       model: get_model.model_name.human)
+  end
+
+  private
+  def get_record
+    @record = get_model.find(params[:id])
+  end
+
+  def record_params
+    params.require(get_model.name.underscore.to_sym)
+          .permit(policy(@record).permitted_attributes)
   end
 end

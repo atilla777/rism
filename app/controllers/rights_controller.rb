@@ -52,8 +52,4 @@ class RightsController < ApplicationController
   def get_model
     Right
   end
-
-  def permit_attributes
-    %i[organization_id level role_id subject_id subject_type]
-  end
 end

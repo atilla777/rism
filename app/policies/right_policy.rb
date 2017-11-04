@@ -42,6 +42,10 @@ class RightPolicy < ApplicationPolicy
     Pundit.policy_scope!(user, record.class)
   end
 
+  def permitted_attributes
+    %i[organization_id level role_id subject_id subject_type]
+  end
+
   class Scope
     attr_reader :user, :scope
 

@@ -23,6 +23,24 @@ class Organization < ApplicationRecord
     KINDS
   end
 
+  def self.down_level_organizations(id_of_organization)
+    query = <<~SQL
+      WITH RECURSIVE children(id, parent_id) AS
+      (
+        SELECT organizations.id, organizations.parent_id
+        FROM organizations
+        WHERE organizations.parent_id = ?
+        UNION
+        SELECT organizations.id, organizations.parent_id
+        FROM children, organizations
+        WHERE organizations.parent_id = children.id
+      )
+      SELECT id from children
+    SQL
+
+    Organization.find_by_sql([query, id_of_organization])
+  end
+
   def show_kind
     KINDS[kind]
   end

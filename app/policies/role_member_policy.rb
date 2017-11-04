@@ -42,6 +42,10 @@ class RoleMemberPolicy < ApplicationPolicy
     Pundit.policy_scope!(user, record.class)
   end
 
+  def permitted_attributes
+    %i[user_id role_id]
+  end
+
   class Scope
     attr_reader :user, :scope
 

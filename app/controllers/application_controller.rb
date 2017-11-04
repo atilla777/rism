@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
-  after_action :verify_authorized, except: :autocomplete_organization_name
+  after_action :verify_authorized#, except: :autocomplete_organization_name
 
   protect_from_forgery with: :exception
 
@@ -42,14 +42,5 @@ class ApplicationController < ActionController::Base
   def user_not_authorized
     flash[:danger] = t('messages.not_allowed')
     redirect_back(fallback_location: root_path)
-  end
-
-  def get_record
-    @record = get_model.find(params[:id])
-  end
-
-  def record_params
-    params.require(get_model.name.underscore.to_sym)
-          .permit(permit_attributes)
   end
 end
