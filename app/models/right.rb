@@ -29,8 +29,7 @@ class Right < ApplicationRecord
 
   belongs_to :role
   belongs_to :subject, polymorphic: true, optional: true
-
-  belongs_to :organization
+  belongs_to :organization # organization has mane right_scopes
 
   def show_subject_type
     SUBJECT_TYPES[subject_type]

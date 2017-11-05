@@ -5,9 +5,12 @@ class Organization < ApplicationRecord
             100 => I18n.t('organization_kinds.department'),
             200 => I18n.t('organization_kinds.folder') }.freeze
 
-  has_many :rights
+  has_many :right_scopes, class_name: 'Right', dependent: :destroy
+  has_many :users, dependent: :destroy
 
-  has_many :children, foreign_key: :parent_id
+  has_many :rights, as: :subject, dependent: :destroy
+
+  has_many :children, class_name: 'Organization', foreign_key: :parent_id, dependent: :destroy
   belongs_to :parent, class_name: 'Organization', optional: true
 
   validates :name, length: {minimum: 3, maximum: 100}
@@ -44,5 +47,4 @@ class Organization < ApplicationRecord
   def show_kind
     KINDS[kind]
   end
-
 end

@@ -9,12 +9,9 @@ Rails.application.routes.draw do
   resources :organizations do
     get :autocomplete_organization_name, :on => :collection
   end
-  resources :users do
-    get :autocomplete_organization_name, :on => :collection
-  end
+
+  resources :users
   resources :roles
   resources :role_members
-  resources :rights do
-    get :autocomplete_organization_name, :on => :collection
-  end
+  resources :rights
 end

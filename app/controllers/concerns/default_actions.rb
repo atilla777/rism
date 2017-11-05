@@ -61,6 +61,6 @@ module DefaultActions
 
   def record_params
     params.require(get_model.name.underscore.to_sym)
-          .permit(policy(@record).permitted_attributes)
+          .permit(policy(get_model).permitted_attributes)
   end
 end

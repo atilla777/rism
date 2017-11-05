@@ -1,8 +1,6 @@
 class RightsController < ApplicationController
   include DefaultActions
 
-  autocomplete :organization, :name, full: true
-
   def index
     authorize Right
     if params[:role_id]
@@ -27,7 +25,6 @@ class RightsController < ApplicationController
 
   def create
     authorize Right
-    puts "!!!!!!#{record_params}"
     @record = Right.new(record_params)
     @role = Role.find(params[:right][:role_id])
     if @record.save
