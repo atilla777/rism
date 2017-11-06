@@ -1,0 +1,22 @@
+= index_search :name_or_organization_name_cont, organization_id_eq: @organization.id, parent_id_eq: @parent.id
+= index_for records, actions: false do | i |
+  - i.header attribute: :name, sort: :desc
+  - i.header attribute: :organization_id, sort: :desc
+  - i.header attribute: :action, label: ''
+  - i.header attribute: :action, label: ''
+  - i.body do | r, record |
+    - r.field link_to record.name, departments_path(parent_id: record.id, organization_id: @organization.id)
+    - r.field record.organization&.name
+    - r.field do
+      - link_to polymorphic_path(record), class: 'btn btn-link' do
+        = fa_icon 'info', class: 'text-info'
+        =< t('views.action.show')
+    - r.field do
+      - link_to edit_polymorphic_path(record), class: 'btn btn-link' do
+        i.glyphicon.glyphicon-pencil.text-warning
+        =< t('views.action.edit')
+    - r.field do
+      - link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
+        i.glyphicon.glyphicon-remove.text-danger
+        =< t('views.action.delete')
+

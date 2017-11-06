@@ -5,6 +5,5 @@ class User < ApplicationRecord
 
   validates :email, presence: true, if: Proc.new { | r | r.active == true }
 
-  belongs_to :organization
-
+  has_many :rights, as: :subject, dependent: :destroy
 end

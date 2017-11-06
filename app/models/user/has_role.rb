@@ -6,7 +6,6 @@ module User::HasRole
     has_many :role_members, dependent: :destroy
     has_many :roles, through: :role_members
 
-    has_many :rights, as: :subject, dependent: :destroy
   end
 
   def protect_admin
@@ -27,6 +26,7 @@ module User::HasRole
     roles.any?{ | role | (1..3).include? role.id }
   end
 
+  # to do: make it through SQL
   def allowed_organizations_ids
     roles_ids = roles.pluck(:id)
     explicit_organizations_ids = Right.where(role_id: roles_ids)

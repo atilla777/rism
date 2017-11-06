@@ -1,0 +1,9 @@
+= caption @record
+= render 'record', record: @record
+
+=> link_to edit_polymorphic_path(@record) do
+  span.btn.btn-warning
+    = t('views.action.edit')
+= link_to polymorphic_path(@record.class, organization_id: @organization.id, parent_id: @parent.id) do
+  span.btn.btn-info
+    = t('views.action.back')

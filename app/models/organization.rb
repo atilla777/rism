@@ -6,7 +6,9 @@ class Organization < ApplicationRecord
             200 => I18n.t('organization_kinds.folder') }.freeze
 
   has_many :right_scopes, class_name: 'Right', dependent: :destroy
+
   has_many :users, dependent: :destroy
+  has_many :departments, dependent: :destroy
 
   has_many :rights, as: :subject, dependent: :destroy
 

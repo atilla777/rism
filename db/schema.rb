@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171028063557) do
+ActiveRecord::Schema.define(version: 20171106054505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "departments", force: :cascade do |t|
+    t.string "name"
+    t.bigint "organization_id"
+    t.bigint "parent_id"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_departments_on_name"
+    t.index ["organization_id"], name: "index_departments_on_organization_id"
+    t.index ["parent_id"], name: "index_departments_on_parent_id"
+  end
 
   create_table "organizations", force: :cascade do |t|
     t.string "name"
@@ -92,6 +104,8 @@ ActiveRecord::Schema.define(version: 20171028063557) do
     t.index ["single_access_token"], name: "index_users_on_single_access_token", unique: true
   end
 
+  add_foreign_key "departments", "departments", column: "parent_id"
+  add_foreign_key "departments", "organizations"
   add_foreign_key "organizations", "organizations", column: "parent_id"
   add_foreign_key "rights", "organizations"
   add_foreign_key "rights", "roles"

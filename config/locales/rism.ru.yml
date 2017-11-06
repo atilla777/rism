@@ -8,6 +8,7 @@ ru:
     main_info: 'Основная информация'
     roles: 'Роли'
     rights: 'Права доступа'
+    departments: 'Контакты'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'
@@ -38,6 +39,9 @@ ru:
       right:
         one: 'Право'
         other: 'Права'
+      department:
+        one: 'Подразделение'
+        other: 'Подразделения'
     attributes:
       organization:
         name: 'Имя'
@@ -69,6 +73,11 @@ ru:
         level: 'Уровень'
         subject_type: 'Модель'
         subject_id: 'Запись'
+      department:
+        name: 'Имя'
+        organization_id: 'Организация'
+        parent_id: 'Входит в'
+        description: 'Описание'
   flashes:
     create: Запись %{model} успешно создана.
     update: Запись %{model} успешно отредактирована.
