@@ -4,7 +4,7 @@ module OrganizationMember
   included do
     attr_accessor :current_user
     validate :organization_id_allowed?
-    belongs_to :organization
+    belongs_to :organization, optional: true
   end
 
 
