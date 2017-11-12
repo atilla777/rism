@@ -1,0 +1,20 @@
+= caption @department
+= render 'departments/show_tabs', record: @department, active: :users
+
+= index_search :name_cont, department_id_eq: @department.id
+= index_new_button @records, department_id: @department.id
+
+= index_for @records do | i |
+  - i.header attribute: :name, sort: :desc
+  - i.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - i.header attribute: :job, sort: :desc
+  - i.header attribute: :email, sort: :desc
+  - i.header attribute: :phone, sort: :desc
+  - i.body do | r, record |
+    - r.field link_to(record.name, record)
+    - r.field record.organization.name
+    - r.field record.job
+    - r.field record.email
+    - r.field record.phone
+
+= render 'index_paginate', records: @records

@@ -8,7 +8,7 @@ ru:
     main_info: 'Основная информация'
     roles: 'Роли'
     rights: 'Права доступа'
-    departments: 'Контакты'
+    departments: 'Подразделения'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'

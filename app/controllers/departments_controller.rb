@@ -1,15 +1,15 @@
 class DepartmentsController < ApplicationController
   include DefaultActions
   include Organizatable
-  #before_action :get_parent, only: [:index, :new, :create]
+  #before_action :get_department, only: [:index, :new, :create]
 
   def index
     authorize Department
     @organization = get_organization
-    @parent = get_parent
+    @department = get_department
     scope = Department.where(organization_id: @organization.id)
-    if @parent.id.present?
-      scope = scope.where(parent_id: @parent.id)
+    if @department.id.present?
+      scope = scope.where(parent_id: @department.id)
     else
       scope = scope.where('departments.parent_id IS NULL')
     end
@@ -23,23 +23,23 @@ class DepartmentsController < ApplicationController
     @record = get_record
     authorize @record
     @organization = get_organization
-    @parent = get_parent
+    @department = get_department
   end
 
   def new
     authorize Department
     @record = Department.new
     @organization = get_organization
-    @parent = get_parent
+    @department = get_department
   end
 
   def create
     authorize Department
     @record = Department.new(record_params)
     @organization = get_organization
-    @parent = get_parent
+    @department = get_department
     if @record.save
-      redirect_to departments_path(organization_id: @organization.id, parent_id: @parent.id), success: t('flashes.create',
+      redirect_to departments_path(organization_id: @organization.id, parent_id: @department.id), success: t('flashes.create',
                                                model: get_model.model_name.human)
     else
       render :new
@@ -49,14 +49,14 @@ class DepartmentsController < ApplicationController
   def edit
     @record = get_record
     @organization = get_organization
-    @parent = get_parent
+    @department = get_department
     authorize @record
   end
 
   def update
     @record = get_record
     @organization = get_organization
-    @parent = get_parent
+    @department = get_department
     authorize @record
     if @record.update(record_params)
       redirect_to @record, success: t('flashes.update',
@@ -87,7 +87,7 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  def get_parent
+  def get_department
     if params[:parent_id].present?
       Department.where(id: params[:parent_id]).first
     elsif params[:department].present? && params[:department][:parent_id].present?

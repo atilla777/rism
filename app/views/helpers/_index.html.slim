@@ -1,5 +1,5 @@
 table.table.table-hover.table-bordered.table-striped
-  thead
+  thead.thead-dark
     tr
       - headers.each do | h |
         th
@@ -13,11 +13,18 @@ table.table.table-hover.table-bordered.table-striped
       - if options[:actions]
         th.fit
   tbody
+    - if top_rows.present?
+      - top_rows.each do | row |
+        = row
     - rows.each do | row |
       tr
         - row.fields.each do | field |
-          td
-            = field
+          - if field.options.fetch(:fit, false)
+            td.fit
+              = field.value
+          - else
+            td
+              = field.value
         - if options[:actions]
           td.fit
             = render 'helpers/index_actions', record: row.record

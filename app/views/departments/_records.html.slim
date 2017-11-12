@@ -1,22 +1,35 @@
-= index_search :name_or_organization_name_cont, organization_id_eq: @organization.id, parent_id_eq: @parent.id
+= index_search :name_or_organization_name_cont, organization_id_eq: @organization.id, parent_id_eq: @department.id
 = index_for records, actions: false do | i |
   - i.header attribute: :name, sort: :desc
   - i.header attribute: :organization_id, sort: :desc
-  - i.header attribute: :action, label: ''
-  - i.header attribute: :action, label: ''
+  - i.top_row do
+    tr.table-active
+      td colspan=3
+        = link_to "/ #{@organization.name}", departments_path(organization_id: @organization.id)
+        - @department.top_level_departments&.reverse&.each do | d |
+          = link_to " #{d.parent&.name} /", departments_path(parent_id: d.parent&.id, organization_id: @organization.id)
+        =< fa_icon 'folder-open'
+        =< @department.name
+  - i.top_row do
+    tr.table-active
+      td colspan=3
+        = link_to departments_path(parent_id: @department.parent&.id, organization_id: @organization.id) do
+          => fa_icon 'level-up'
+          b ..
   - i.body do | r, record |
-    - r.field link_to record.name, departments_path(parent_id: record.id, organization_id: @organization.id)
-    - r.field record.organization&.name
     - r.field do
-      - link_to polymorphic_path(record), class: 'btn btn-link' do
-        = fa_icon 'info', class: 'text-info'
+      => link_to departments_path(parent_id: record.id, organization_id: @organization.id) do
+        => fa_icon 'folder'
+        = record.name
+      = link_to polymorphic_path(record), class: 'btn btn-link' do
+        = fa_icon 'address-book'
         =< t('views.action.show')
-    - r.field do
-      - link_to edit_polymorphic_path(record), class: 'btn btn-link' do
+    - r.field record.organization&.name
+    - r.field nil, fit: true do
+      = link_to edit_polymorphic_path(record), class: 'btn btn-link' do
         i.glyphicon.glyphicon-pencil.text-warning
         =< t('views.action.edit')
-    - r.field do
-      - link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
+      = link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
         i.glyphicon.glyphicon-remove.text-danger
         =< t('views.action.delete')
 

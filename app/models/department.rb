@@ -10,4 +10,24 @@ class Department < ApplicationRecord
   belongs_to :parent, class_name: 'Department', optional: true
 
   has_many :rights, as: :subject, dependent: :destroy
+
+  has_many :users, dependent: :destroy
+
+  def top_level_departments
+    query = <<~SQL
+      WITH RECURSIVE parents AS
+      (
+        SELECT *
+        FROM departments
+        WHERE departments.id = ?
+        UNION
+        SELECT departments.*
+        FROM parents, departments
+        WHERE parents.parent_id = departments.id
+      )
+      SELECT * from parents
+    SQL
+
+    Department.find_by_sql([query, id])
+  end
 end
