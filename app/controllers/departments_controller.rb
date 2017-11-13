@@ -4,19 +4,26 @@ class DepartmentsController < ApplicationController
   #before_action :get_department, only: [:index, :new, :create]
 
   def index
-    authorize Department
+    authorize get_model
     @organization = get_organization
     @department = get_department
-    scope = Department.where(organization_id: @organization.id)
+    scope = get_model.where(organization_id: @organization.id)
     if @department.id.present?
       scope = scope.where(parent_id: @department.id)
-    else
+    elsif @organization.id
       scope = scope.where('departments.parent_id IS NULL')
+    else
+      scope= get_model
     end
     @q = scope.ransack(params[:q])
     @records = @q.result
                  .includes(:organization)
                  .page(params[:page])
+    if params[:organization_id].present?
+      render 'index'#@partial = 'records'
+    else
+      render 'application/index'#@partial = 'organization_records'
+    end
   end
 
   def show
@@ -82,8 +89,10 @@ class DepartmentsController < ApplicationController
       Organization.where(id: params[:q][:organization_id_eq]).first
     elsif params[:department] && params[:department][:organization_id]
       Organization.where(id: params[:department][:organization_id]).first
-    else
+    elsif @record.present?
       @record.organization
+    else
+      OpenStruct.new(id: nil)
     end
   end
 

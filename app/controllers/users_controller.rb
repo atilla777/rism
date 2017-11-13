@@ -2,6 +2,8 @@ class UsersController < ApplicationController
   include DefaultActions
   include Organizatable
 
+  before_action :set_previous_page, only: [:new, :edit]
+
   def index
     authorize get_model
     if params[:department_id].present?
@@ -32,15 +34,45 @@ class UsersController < ApplicationController
     @organization = get_organization
     @department = get_department
     if @record.save
-      if params[:user][:department_id].present?
-        redirect_to departments_path(organization_id: @organization.id, parent_id: @department.id), success: t('flashes.create',
-                                     model: get_model.model_name.human)
-      else
-        redirect_to users_path, success: t('flashes.create',
-                                           model: get_model.model_name.human)
-      end
+      redirect_to(session.delete(:return_to),
+                   organization_id: @organization.id,
+                   parent_id: @department.id,
+                   success: t('flashes.create',
+                              model: get_model.model_name.human))
+#      if params[:user][:department_id].present?
+#        redirect_to departments_path(organization_id: @organization.id, parent_id: @department.id), success: t('flashes.create',
+#                                     model: get_model.model_name.human)
+#      else
+#        redirect_to users_path, success: t('flashes.create',
+#                                           model: get_model.model_name.human)
+#      end
     else
       render :new
+    end
+  end
+
+  def edit
+    @record = get_record
+    authorize @record
+    @organization = get_organization
+    @department = get_department
+  end
+
+  def update
+    @record = get_record
+    authorize @record
+    @organization = get_organization
+    @department = get_department
+    if @record.update(record_params)
+      redirect_to(session.delete(:return_to),
+                   organization_id: @organization.id,
+                   parent_id: @department.id,
+                   success: t('flashes.create',
+                              model: get_model.model_name.human))
+#      redirect_to @record, success: t('flashes.update',
+#        model: get_model.model_name.human)
+    else
+      render :edit
     end
   end
 
@@ -70,6 +102,11 @@ class UsersController < ApplicationController
       OpenStruct.new(id: nil)
     end
   end
+
+  def set_previous_page
+    session[:return_to] = request.referer
+  end
+
   def get_model
     User
   end

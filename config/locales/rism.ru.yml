@@ -8,8 +8,10 @@ ru:
     main_info: 'Основная информация'
     roles: 'Роли'
     rights: 'Права доступа'
-    departments: 'Подразделения'
+    departments: 'Подразделения/работники'
     worker: 'Работник'
+    workers: 'Работники'
+    catalog: 'Прочее'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'
