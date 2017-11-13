@@ -11,6 +11,7 @@ class UserPolicy < ApplicationPolicy
          password
          password_confirmation
          current_user
+         department_id
          description]
     else
       %i[name
@@ -20,6 +21,7 @@ class UserPolicy < ApplicationPolicy
          mobile_phone
          job
          current_user
+         department_id
          description]
     end
   end

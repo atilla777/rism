@@ -9,6 +9,7 @@ ru:
     roles: 'Роли'
     rights: 'Права доступа'
     departments: 'Подразделения'
+    worker: 'Работник'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'
@@ -55,7 +56,7 @@ ru:
         mobile_phone: 'Мобильный телефон'
         organization: 'Организация'
         job: 'Должность'
-        department: 'Подразделение'
+        department_id: 'Подразделение'
         description: 'Описание'
         organization_id: 'Организация'
         active: 'Разрешено входить в систему'

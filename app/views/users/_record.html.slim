@@ -1,8 +1,9 @@
 = show_for @record do | r |
   = show r, :name
-  = show r, :email
-  = show r, :job
   = show r, :organization_id, value: r.organization.name
+  = show r, :department_id, value: r.department&.name
+  = show r, :job
+  = show r, :email
   = show r, :phone
   = show r, :mobile_phone
   = show r, :description
