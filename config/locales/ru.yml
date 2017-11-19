@@ -184,6 +184,9 @@ ru:
       submit: Сохранить запись - %{model}
       update: Сохранить запись - %{model}
       save: Сохранить
+      cut: Вырезать
+      reset: Сбросить выделение
+      paste: Вставить
   number:
     currency:
       format:

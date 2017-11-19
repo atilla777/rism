@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   end
 
   resources :users
+  post '/departments/select', to: 'departments#select', as: :departments_select
+  put '/departments/paste', to: 'departments#paste', as: :departments_paste
+  get '/departments/reset', to: 'departments#reset', as: :departments_reset
   resources :roles
   resources :role_members
   resources :rights

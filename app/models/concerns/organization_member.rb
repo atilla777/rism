@@ -34,9 +34,11 @@ module OrganizationMember
 
   private
   def organization_id_allowed?
-    unless current_user.admin_editor?
-      unless current_user.allowed_organizations_ids.include?(organization_id) && organization_id.present?
-        errors.add(:organization_id, 'Not allowed organization')
+    if organization_id_changed?
+      unless current_user.admin_editor?
+        unless current_user.allowed_organizations_ids.include?(organization_id) && organization_id.present?
+          errors.add(:organization_id, 'Not allowed organization')
+        end
       end
     end
   end

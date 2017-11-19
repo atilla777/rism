@@ -1,5 +1,4 @@
 = caption @organization
 = render 'organizations/show_tabs', record: @organization, active: :departments
-= index_new_button @records, organization_id: @organization.id, parent_id: @department.id
-= render 'organization_records', records: @records
+= render 'tree_records', records: @records
 = render 'index_paginate', records: @records

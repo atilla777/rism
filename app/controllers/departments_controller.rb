@@ -3,6 +3,52 @@ class DepartmentsController < ApplicationController
   include Organizatable
   #before_action :get_department, only: [:index, :new, :create]
 
+  def select
+    authorize get_model
+    @organization = get_organization
+    @department = get_department
+    if params[:user_ids]
+      session[:selected_users] ||= []
+      session[:selected_users] += params[:user_ids]
+      session[:selected_users] = session[:selected_users].uniq
+    end
+    if params[:department_ids]
+      session[:selected_departments] ||= []
+      session[:selected_departments] += params[:department_ids]
+      session[:selected_departments] = session[:selected_departments].uniq
+    end
+
+    redirect_back(fallback_location: root_path)
+  end
+
+  def reset
+    authorize get_model
+    @organization = get_organization
+    @department = get_department
+    session[:selected_departments] = []
+    session[:selected_users] = []
+
+    redirect_back(fallback_location: root_path)
+  end
+
+  def paste
+    authorize get_model
+    @organization = get_organization
+    @department = get_department
+    session[:selected_users].each do | id |
+      User.find(id.to_i)
+          .update_attributes(department_id: @department.id)
+    end
+    session[:selected_departments].each do | id |
+      department = Department.find(id.to_i)
+      department.update_attributes(parent_id: @department.id) unless department.id == @department.id
+    end
+    session[:selected_departments] = []
+    session[:selected_users] = []
+
+    redirect_back(fallback_location: root_path)
+  end
+
   def index
     authorize get_model
     @organization = get_organization

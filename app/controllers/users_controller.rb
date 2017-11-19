@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   before_action :set_previous_page, only: [:new, :edit]
 
+
   def index
     authorize get_model
     if params[:department_id].present?

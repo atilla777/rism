@@ -5,4 +5,20 @@ class DepartmentPolicy < ApplicationPolicy
          organization_id
          description]
   end
+
+
+  def select?
+    return true if @user.admin_editor?
+    @user.can? :edit, @record
+  end
+
+  def reset?
+    return true if @user.admin_editor?
+    @user.can? :edit, @record
+  end
+
+  def paste?
+    return true if @user.admin_editor?
+    @user.can? :edit, @record
+  end
 end
