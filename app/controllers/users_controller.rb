@@ -91,8 +91,8 @@ class UsersController < ApplicationController
   end
 
   def get_department
-    if params[:department_id].present?
-      Department.where(id: params[:department_id]).first
+    if params[:parent_id].present?
+      Department.where(id: params[:parent_id]).first
     elsif params[:user].present? && params[:user][:department_id].present?
       Department.where(id: params[:user][:department_id]).first
     elsif params[:q] && params[:q][:parent_id_eq].present?

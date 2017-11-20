@@ -51,10 +51,7 @@
               - if session[:selected_users]&.include? user.id.to_s
                 span.text-danger *
               =< fa_icon 'user'
-              =< user.name
-              =< user.job
-              =< user.phone
-              =< user.email
+              =< UserDecorator.new(user).contact
     - i.body do | r, record |
       - r.field do
         = check_box_tag 'department_ids[]', record.id

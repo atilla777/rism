@@ -1,3 +1,3 @@
 =  show_tabs_for record, active do | menu |
   - menu.tab :department, link_to(t('navigations.main_info'), record)
-  - menu.tab :users, link_to(t('navigations.users'), users_path(department_id: record.id))
+  - menu.tab :users, link_to(t('navigations.workers'), users_path(department_id: record.id))

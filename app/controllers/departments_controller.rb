@@ -35,6 +35,8 @@ class DepartmentsController < ApplicationController
     authorize get_model
     @organization = get_organization
     @department = get_department
+    session[:selected_departments] ||= []
+    session[:selected_users] ||= []
     session[:selected_users].each do | id |
       User.find(id.to_i)
           .update_attributes(department_id: @department.id)
