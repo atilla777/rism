@@ -6,4 +6,11 @@ class  UserDecorator < SimpleDelegator
     result << phone if phone.present?
     result.join(', ')
   end
+
+  def full_job
+    result = []
+    result << job if job.present?
+    result << department.name if department_id.present?
+    result.join(', ')
+  end
 end
