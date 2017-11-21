@@ -21,7 +21,7 @@
     - i.header attribute: :name, sort: :desc
     - i.top_row do
       tr.table-active
-        td colspan=3
+        td colspan=2
           =< link_to departments_path(departmendepartment_id: @department.parent&.id, organization_id: @organization.id) do
             => fa_icon 'level-up'
             b ..
@@ -33,9 +33,10 @@
           span.text-warning
             =< fa_icon 'folder-open'
             =< @department.name
+
     - i.top_row do
       tr.table-active
-        td colspan=3
+        td colspan=2
           input type='checkbox' id='selectAllUsers' value='selectAllUsers'
             =< fa_icon 'user'
           =<> '/'
@@ -45,13 +46,16 @@
       - @users = @department&.id.present? ? @department.users : @organization.users.where(department_id: nil)
       - @users.each do | user |
         tr.table-active
-          td colspan=3
+          td
             = check_box_tag 'user_ids[]', user.id
             = link_to polymorphic_path(user), class: 'btn btn-link' do
               - if session[:selected_users]&.include? user.id.to_s
                 span.text-danger *
               =< fa_icon 'user'
-              =< UserDecorator.new(user).contact
+              span.text-success
+                =< UserDecorator.new(user).contact
+          td.fit
+            = render 'helpers/index_actions', record: user
     - i.body do | r, record |
       - r.field do
         = check_box_tag 'department_ids[]', record.id
