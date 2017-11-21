@@ -1,33 +1,33 @@
 = form_tag departments_select_path do
   = hidden_field_tag :organization_id, @organization.id
-  = hidden_field_tag :parent_id, @department.id
-  /= index_search :name_cont, organization_id_eq: @organization.id, parent_id_eq: @department.id
+  = hidden_field_tag :departmentt_id, @department.id
+  /= index_search :name_cont, organization_id_eq: @organization.id, department_id_eq: @department.id
   = button_tag type: 'submit', class: 'btn btn-default' do
     span.text-primary
       => fa_icon 'cut'
     = t('helpers.submit.cut')
-  = link_to departments_paste_path(organization_id: @organization.id, parent_id: @department.id), class: 'btn btn-default', method: :put do
+  = link_to departments_paste_path(organization_id: @organization.id, department_id: @department.id), class: 'btn btn-default', method: :put do
     span.text-primary
       => fa_icon 'paste'
     = t('helpers.submit.paste')
-  = link_to departments_reset_path(organization_id: @organization.id, parent_id: @department.id), class: 'btn btn-default' do
+  = link_to departments_reset_path(organization_id: @organization.id, department_id: @department.id), class: 'btn btn-default' do
     span.text-primary
       => fa_icon 'undo'
     = t('helpers.submit.reset')
 
-  = index_new_button User, organization_id: @organization.id, parent_id: @department.id
-  = index_new_button @records, organization_id: @organization.id, parent_id: @department.id
+  = index_new_button User, organization_id: @organization.id, department_id: @department.id
+  = index_new_button @records, organization_id: @organization.id, department_id: @department.id
   = index_for records, actions: false do | i |
     - i.header attribute: :name, sort: :desc
     - i.top_row do
       tr.table-active
         td colspan=3
-          =< link_to departments_path(parent_id: @department.parent&.id, organization_id: @organization.id) do
+          =< link_to departments_path(departmendepartment_id: @department.parent&.id, organization_id: @organization.id) do
             => fa_icon 'level-up'
             b ..
           =< link_to "/ #{@organization.name}", departments_path(organization_id: @organization.id)
           - @department.top_level_departments&.reverse&.each do | d |
-              = link_to departments_path(parent_id: d.parent&.id, organization_id: @organization.id) do
+              = link_to departments_path(department_id: d.parent&.id, organization_id: @organization.id) do
                 span.text-warning
                   = " #{d.parent&.name} /"
           span.text-warning
@@ -55,7 +55,7 @@
     - i.body do | r, record |
       - r.field do
         = check_box_tag 'department_ids[]', record.id
-        = link_to departments_path(parent_id: record.id, organization_id: @organization.id), class: 'btn btn-link' do
+        = link_to departments_path(department_id: record.id, organization_id: @organization.id), class: 'btn btn-link' do
           span.text-warning
             - if session[:selected_departments]&.include? record.id.to_s
               span.text-danger *

@@ -3,6 +3,8 @@ class DepartmentsController < ApplicationController
   include Organizatable
   #before_action :get_department, only: [:index, :new, :create]
 
+  before_action :set_previous_page, only: [:new, :edit]
+
   def select
     authorize get_model
     @organization = get_organization
@@ -68,9 +70,9 @@ class DepartmentsController < ApplicationController
                  .includes(:organization)
                  .page(params[:page])
     if params[:organization_id].present?
-      render 'index'#@partial = 'records'
+      render 'index'
     else
-      render 'application/index'#@partial = 'organization_records'
+      render 'application/index'
     end
   end
 
@@ -94,8 +96,11 @@ class DepartmentsController < ApplicationController
     @organization = get_organization
     @department = get_department
     if @record.save
-      redirect_to departments_path(organization_id: @organization.id, parent_id: @department.id), success: t('flashes.create',
-                                               model: get_model.model_name.human)
+      redirect_to(session.delete(:return_to),
+                   organization_id: @organization.id,
+                   department_id: @department.id,
+                   success: t('flashes.create',
+                              model: get_model.model_name.human))
     else
       render :new
     end
@@ -114,8 +119,11 @@ class DepartmentsController < ApplicationController
     @department = get_department
     authorize @record
     if @record.update(record_params)
-      redirect_to @record, success: t('flashes.update',
-        model: get_model.model_name.human)
+      redirect_to(session.delete(:return_to),
+                   organization_id: @organization.id,
+                   department_id: @department.id,
+                   success: t('flashes.update',
+                              model: get_model.model_name.human))
     else
       render :edit
     end
@@ -124,9 +132,15 @@ class DepartmentsController < ApplicationController
   def destroy
     @record = get_model.find(params[:id])
     authorize @record
+    @department = get_department
+    @organization = get_organization
     @record.destroy
-    redirect_to polymorphic_url(@record.class, organization_id: @record.organization.id, parent_id: @record.parent_id),
-      success: t('flashes.destroy', model: get_model.model_name.human)
+    redirect_back(fallback_location: polymorphic_url(@record.class),
+                  organization_id: @organization.id,
+                  parent_id: @department.id,
+                  success: t('flashes.destroy',
+                              model: get_model.model_name.human))
+
   end
 
   private
@@ -145,17 +159,21 @@ class DepartmentsController < ApplicationController
   end
 
   def get_department
-    if params[:parent_id].present?
-      Department.where(id: params[:parent_id]).first
+    if params[:department_id].present?
+      Department.where(id: params[:department_id]).first
     elsif params[:department].present? && params[:department][:parent_id].present?
       Department.where(id: params[:department][:parent_id]).first
-    elsif params[:q] && params[:q][:parent_id_eq].present?
-      Organization.where(id: params[:q][:parent_id_eq]).first
+#    elsif params[:q] && params[:q][:department_id_eq].present?
+#      Organization.where(id: params[:q][:department_id_eq]).first
     elsif @record.present? && @record.parent_id.present?
       @record.parent
     else
       OpenStruct.new(id: nil)
     end
+  end
+
+  def set_previous_page
+    session[:return_to] = request.referer
   end
 
   def get_model
