@@ -2,7 +2,7 @@
 = render 'departments/show_tabs', record: @department, active: :users
 
 = index_search :name_cont, department_id_eq: @department.id
-= index_new_button @records, department_id: @department.id
+= index_new_button @records, department_id: @department.id, organization_id: @department.organization.id
 
 = index_for @records do | i |
   - i.header attribute: :name, sort: :desc
