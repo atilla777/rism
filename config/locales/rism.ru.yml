@@ -2,6 +2,7 @@ ru:
   labels:
     app_name: 'RISM'
     app_full_name: 'Система менеджмента информационной безопасности'
+    phone: 'тел.'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'

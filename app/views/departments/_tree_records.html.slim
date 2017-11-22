@@ -38,10 +38,12 @@
       tr.table-active
         td colspan=2
           input type='checkbox' id='selectAllUsers' value='selectAllUsers'
-            =< fa_icon 'user'
+            span.text-success
+              =< fa_icon 'user'
           =<> '/'
           input type='checkbox' id='selectAllDepartments' value='selectAllDepartments'
-            =< fa_icon 'folder-open'
+            span.text-warning
+              =< fa_icon 'folder-open'
     - i.top_row do
       - @users = @department&.id.present? ? @department.users : @organization.users.where(department_id: nil)
       - @users.each do | user |
@@ -51,20 +53,20 @@
             = link_to polymorphic_path(user), class: 'btn btn-link' do
               - if session[:selected_users]&.include? user.id.to_s
                 span.text-danger *
-              =< fa_icon 'user'
               span.text-success
-                =< UserDecorator.new(user).contact
+                =< fa_icon 'user'
+              =< UserDecorator.new(user).contact
           td.fit
             = render 'helpers/index_actions', record: user
     - i.body do | r, record |
       - r.field do
         = check_box_tag 'department_ids[]', record.id
         = link_to departments_path(department_id: record.id, organization_id: @organization.id), class: 'btn btn-link' do
+          - if session[:selected_departments]&.include? record.id.to_s
+            span.text-danger *
           span.text-warning
-            - if session[:selected_departments]&.include? record.id.to_s
-              span.text-danger *
             =< fa_icon 'folder'
-            =< record.name
+          =< record.name
       - r.field nil, fit: true do
         = link_to polymorphic_path(record), class: 'btn btn-link' do
           span.text-info

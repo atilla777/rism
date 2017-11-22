@@ -3,7 +3,7 @@ class  UserDecorator < SimpleDelegator
     result = []
     result << name if name.present?
     result << job if job.present?
-    result << phone if phone.present?
+    result << "#{I18n.t('labels.phone')} #{phone}" if phone.present?
     result.join(', ')
   end
 
