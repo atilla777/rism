@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   include Organizatable
 
   before_action :set_previous_page, only: [:new, :edit]
+  before_action :set_show_previous_page, only: [:show]
 
   def index
     authorize get_model
@@ -110,6 +111,14 @@ class UsersController < ApplicationController
 
   def set_previous_page
     session[:return_to] = request.referer
+  end
+
+  def set_show_previous_page
+    url = Rails.application.routes.recognize_path(request.referrer)
+    last_action = url[:action]
+    unless last_action.to_sym == :edit || last_action.to_sym == :update
+      session[:show_return_to] = request.referer
+    end
   end
 
   def get_model
