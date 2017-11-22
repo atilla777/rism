@@ -66,6 +66,8 @@ class DepartmentsController < ApplicationController
       scope= get_model
     end
     @q = scope.ransack(params[:q])
+
+    @q.sorts = 'rank asc' if @q.sorts.empty?
     @records = @q.result
                  .includes(:organization)
                  .page(params[:page])

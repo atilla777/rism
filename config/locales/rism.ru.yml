@@ -60,10 +60,12 @@ ru:
         organization: 'Организация'
         job: 'Должность'
         department_id: 'Подразделение'
+        department_name: 'Подразделение'
         description: 'Описание'
         organization_id: 'Организация'
         active: 'Разрешено входить в систему'
         password: 'Пароль'
+        rank: 'Ранг должности'
         password_confirmation: 'Подтверждение пароля'
       role:
         name: 'Имя'
@@ -81,6 +83,7 @@ ru:
         name: 'Имя'
         organization_id: 'Организация'
         parent_id: 'Входит в'
+        rank: 'Очередность отображения'
         description: 'Описание'
   flashes:
     create: Запись %{model} успешно создана.

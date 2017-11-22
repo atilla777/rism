@@ -12,6 +12,8 @@ class UserPolicy < ApplicationPolicy
          password_confirmation
          current_user
          department_id
+         department_name
+         rank
          description]
     else
       %i[name
@@ -22,6 +24,8 @@ class UserPolicy < ApplicationPolicy
          job
          current_user
          department_id
+         department_name
+         rank
          description]
     end
   end

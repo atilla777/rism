@@ -6,6 +6,8 @@ class User < ApplicationRecord
   validates :email, presence: true, if: Proc.new { | r | r.active == true }
   validates :job_rank, numericality: { only_integer: true, allow_blank: true }
   validates :department_id, numericality: { only_integer: true, allow_blank: true }
+  validates :department_name, length: {minimum: 2, maximum: 100}
+  validates :rank, numericality: { only_integer: true, allow_blank: true }
 
   before_save :set_organization_id, if: -> (obj) { obj.department_id.present? }
 

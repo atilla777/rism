@@ -24,7 +24,21 @@
           .col-lg-2.text-right
             = f.label :department_id, class: 'control-label'
           .col-lg-8
-            = text_field_tag :department_name, @department&.name, class: 'form-control', readonly: true
+            = text_field_tag :department, @department&.name, class: 'form-control', readonly: true
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :department_name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :department_name, class: 'form-control', readonly: @department&.id.present?
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :rank, class: 'control-label'
+          .col-lg-8
+            = f.number_field :rank, class: 'form-control'
 
       .form-group
         .field
