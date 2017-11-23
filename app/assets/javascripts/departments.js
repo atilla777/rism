@@ -1,5 +1,4 @@
 $(document).on('turbolinks:load', function() {
-  console.log("It works on each visit!")
   $('#selectAllUsers').click(function() {
     if (this.checked) {
       $('input[id^="user_ids_"]').each(function() {

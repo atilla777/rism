@@ -3,17 +3,17 @@
   = hidden_field_tag :departmentt_id, @department.id
   /= index_search :name_cont, organization_id_eq: @organization.id, department_id_eq: @department.id
   = button_tag type: 'submit', class: 'btn btn-default' do
-    span.text-primary
+    span
       => fa_icon 'cut'
     = t('helpers.submit.cut')
   = link_to departments_paste_path(organization_id: @organization.id, department_id: @department.id), class: 'btn btn-default', method: :put do
-    span.text-primary
+    span class=('text-primary' unless session[:selected_departments].present? || session[:selected_users].present?)
       => fa_icon 'paste'
-    = t('helpers.submit.paste')
+      = t('helpers.submit.paste')
   = link_to departments_reset_path(organization_id: @organization.id, department_id: @department.id), class: 'btn btn-default' do
-    span.text-primary
+    span class=('text-primary' unless session[:selected_departments].present? || session[:selected_users].present?)
       => fa_icon 'undo'
-    = t('helpers.submit.reset')
+      = t('helpers.submit.reset')
 
   = index_new_button User, organization_id: @organization.id, department_id: @department.id
   = index_new_button @records, organization_id: @organization.id, department_id: @department.id
@@ -68,7 +68,7 @@
             =< fa_icon 'folder'
           =< record.name
       - r.field nil, fit: true do
-        = link_to polymorphic_path(record), class: 'btn btn-link' do
+        = link_to polymorphic_path(record, organization_id: @organization.id), class: 'btn btn-link' do
           span.text-info
             = fa_icon 'info'
           =< t('views.action.show')

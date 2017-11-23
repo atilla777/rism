@@ -1,9 +1,6 @@
 class DepartmentsController < ApplicationController
   include DefaultActions
   include Organizatable
-  #before_action :get_department, only: [:index, :new, :create]
-
-  before_action :set_previous_page, only: [:new, :edit]
 
   def select
     authorize get_model
@@ -153,8 +150,8 @@ class DepartmentsController < ApplicationController
       Organization.where(id: params[:q][:organization_id_eq]).first
     elsif params[:department] && params[:department][:organization_id]
       Organization.where(id: params[:department][:organization_id]).first
-    elsif @record.present?
-      @record.organization
+#    elsif @record.present?
+#      @record.organization
     else
       OpenStruct.new(id: nil)
     end
@@ -167,15 +164,11 @@ class DepartmentsController < ApplicationController
       Department.where(id: params[:department][:parent_id]).first
 #    elsif params[:q] && params[:q][:department_id_eq].present?
 #      Organization.where(id: params[:q][:department_id_eq]).first
-    elsif @record.present? && @record.parent_id.present?
-      @record.parent
+#    elsif @record.present? && @record.parent_id.present?
+#      @record.parent
     else
       OpenStruct.new(id: nil)
     end
-  end
-
-  def set_previous_page
-    session[:return_to] = request.referer
   end
 
   def get_model
