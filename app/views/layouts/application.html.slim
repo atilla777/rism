@@ -9,11 +9,13 @@ html
 
     = render 'layouts/header'
 
-    .row#message
+    .row
       .text-center
         .col-lg-offset-4.col-lg-4
-          - flash.each do |key, value|
-            = content_tag :div, value, class: "alert alert-#{key}"
+          -if flash.present?
+          #message
+            - flash.each do |key, value|
+              = content_tag :div, value, class: "alert alert-#{key}"
 
     .container-fluid
       .row
