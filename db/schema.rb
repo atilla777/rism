@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171112085104) do
+ActiveRecord::Schema.define(version: 20171122134219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20171112085104) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rank"
     t.index ["name"], name: "index_departments_on_name"
     t.index ["organization_id"], name: "index_departments_on_organization_id"
     t.index ["parent_id"], name: "index_departments_on_parent_id"
@@ -98,6 +99,8 @@ ActiveRecord::Schema.define(version: 20171112085104) do
     t.datetime "updated_at", null: false
     t.bigint "department_id"
     t.integer "job_rank"
+    t.integer "rank"
+    t.string "department_name"
     t.index ["department_id"], name: "index_users_on_department_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["job_rank"], name: "index_users_on_job_rank"

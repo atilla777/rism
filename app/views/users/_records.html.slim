@@ -8,6 +8,6 @@
   - i.body do | r, record |
     - r.field link_to(record.name, record)
     - r.field record.organization.name
-    - r.field record.job
+    - r.field UserDecorator.new(record).full_job
     - r.field record.email
     - r.field record.phone

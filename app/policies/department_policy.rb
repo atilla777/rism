@@ -3,6 +3,7 @@ class DepartmentPolicy < ApplicationPolicy
       %i[name
          parent_id
          organization_id
+         rank
          description]
   end
 

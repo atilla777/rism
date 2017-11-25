@@ -1,7 +1,6 @@
 class DepartmentsController < ApplicationController
   include DefaultActions
   include Organizatable
-  #before_action :get_department, only: [:index, :new, :create]
 
   def select
     authorize get_model
@@ -35,6 +34,8 @@ class DepartmentsController < ApplicationController
     authorize get_model
     @organization = get_organization
     @department = get_department
+    session[:selected_departments] ||= []
+    session[:selected_users] ||= []
     session[:selected_users].each do | id |
       User.find(id.to_i)
           .update_attributes(department_id: @department.id)
@@ -62,13 +63,15 @@ class DepartmentsController < ApplicationController
       scope= get_model
     end
     @q = scope.ransack(params[:q])
+
+    @q.sorts = 'rank asc' if @q.sorts.empty?
     @records = @q.result
                  .includes(:organization)
                  .page(params[:page])
     if params[:organization_id].present?
-      render 'index'#@partial = 'records'
+      render 'index'
     else
-      render 'application/index'#@partial = 'organization_records'
+      render 'application/index'
     end
   end
 
@@ -92,8 +95,11 @@ class DepartmentsController < ApplicationController
     @organization = get_organization
     @department = get_department
     if @record.save
-      redirect_to departments_path(organization_id: @organization.id, parent_id: @department.id), success: t('flashes.create',
-                                               model: get_model.model_name.human)
+      redirect_to(session.delete(:return_to),
+                   organization_id: @organization.id,
+                   department_id: @department.id,
+                   success: t('flashes.create',
+                              model: get_model.model_name.human))
     else
       render :new
     end
@@ -112,8 +118,11 @@ class DepartmentsController < ApplicationController
     @department = get_department
     authorize @record
     if @record.update(record_params)
-      redirect_to @record, success: t('flashes.update',
-        model: get_model.model_name.human)
+      redirect_to(session.delete(:return_to),
+                   organization_id: @organization.id,
+                   department_id: @department.id,
+                   success: t('flashes.update',
+                              model: get_model.model_name.human))
     else
       render :edit
     end
@@ -122,9 +131,15 @@ class DepartmentsController < ApplicationController
   def destroy
     @record = get_model.find(params[:id])
     authorize @record
+    @department = get_department
+    @organization = get_organization
     @record.destroy
-    redirect_to polymorphic_url(@record.class, organization_id: @record.organization.id, parent_id: @record.parent_id),
-      success: t('flashes.destroy', model: get_model.model_name.human)
+    redirect_back(fallback_location: polymorphic_url(@record.class),
+                  organization_id: @organization.id,
+                  parent_id: @department.id,
+                  success: t('flashes.destroy',
+                              model: get_model.model_name.human))
+
   end
 
   private
@@ -135,22 +150,22 @@ class DepartmentsController < ApplicationController
       Organization.where(id: params[:q][:organization_id_eq]).first
     elsif params[:department] && params[:department][:organization_id]
       Organization.where(id: params[:department][:organization_id]).first
-    elsif @record.present?
-      @record.organization
+#    elsif @record.present?
+#      @record.organization
     else
       OpenStruct.new(id: nil)
     end
   end
 
   def get_department
-    if params[:parent_id].present?
-      Department.where(id: params[:parent_id]).first
+    if params[:department_id].present?
+      Department.where(id: params[:department_id]).first
     elsif params[:department].present? && params[:department][:parent_id].present?
       Department.where(id: params[:department][:parent_id]).first
-    elsif params[:q] && params[:q][:parent_id_eq].present?
-      Organization.where(id: params[:q][:parent_id_eq]).first
-    elsif @record.present? && @record.parent_id.present?
-      @record.parent
+#    elsif params[:q] && params[:q][:department_id_eq].present?
+#      Organization.where(id: params[:q][:department_id_eq]).first
+#    elsif @record.present? && @record.parent_id.present?
+#      @record.parent
     else
       OpenStruct.new(id: nil)
     end

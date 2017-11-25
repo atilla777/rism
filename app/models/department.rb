@@ -5,6 +5,7 @@ class Department < ApplicationRecord
   validates :name, uniqueness: { scope: :organization_id }
   validates :organization_id, numericality: { only_integer: true }
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
+  validates :rank, numericality: { only_integer: true, allow_blank: true }
 
   has_many :children, class_name: 'Department', foreign_key: :parent_id, dependent: :destroy
   belongs_to :parent, class_name: 'Department', optional: true

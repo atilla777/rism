@@ -1,6 +1,11 @@
 module DefaultActions
   extend ActiveSupport::Concern
 
+  included do
+    before_action :set_edit_previous_page, only: [:new, :edit]
+    before_action :set_show_previous_page, only: [:index]
+  end
+
   def index
     authorize get_model
     scope = policy_scope(get_model)
@@ -55,6 +60,14 @@ module DefaultActions
   end
 
   private
+  def set_show_previous_page
+    session[:show_return_to] = request.original_url
+  end
+
+  def set_edit_previous_page
+    session[:return_to] = request.referer
+  end
+
   def get_record
     @record = get_model.find(params[:id])
   end

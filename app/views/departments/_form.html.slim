@@ -3,8 +3,8 @@
   .row
     = form_for @record, html: {class: 'form-horizontal'} do |f|
 
-      = f.hidden_field :organization_id, value: @organization.id
-      = f.hidden_field :parent_id, value: @department.id
+      = f.hidden_field :organization_id, value: @record&.organization_id || @organization&.id
+      = f.hidden_field :parent_id, value: @record&.parent_id || @department.id
 
       .form-group.required
         .field
@@ -12,6 +12,13 @@
             = f.label :name, class: 'control-label'
           .col-lg-8
             = f.text_field :name, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :rank, class: 'control-label'
+          .col-lg-8
+            = f.number_field :rank, class: 'form-control'
 
       .form-group
         .field

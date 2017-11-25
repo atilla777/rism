@@ -2,9 +2,6 @@ class UsersController < ApplicationController
   include DefaultActions
   include Organizatable
 
-  before_action :set_previous_page, only: [:new, :edit]
-
-
   def index
     authorize get_model
     if params[:department_id].present?
@@ -16,6 +13,7 @@ class UsersController < ApplicationController
       r = 'index'
     end
     @q = scope.ransack(params[:q])
+    @q.sorts = 'rank asc' if @q.sorts.empty?
     @records = @q.result
                  .includes(:organization)
                  .page(params[:page])
@@ -37,16 +35,9 @@ class UsersController < ApplicationController
     if @record.save
       redirect_to(session.delete(:return_to),
                    organization_id: @organization.id,
-                   parent_id: @department.id,
+                   department_id: @department.id,
                    success: t('flashes.create',
                               model: get_model.model_name.human))
-#      if params[:user][:department_id].present?
-#        redirect_to departments_path(organization_id: @organization.id, parent_id: @department.id), success: t('flashes.create',
-#                                     model: get_model.model_name.human)
-#      else
-#        redirect_to users_path, success: t('flashes.create',
-#                                           model: get_model.model_name.human)
-#      end
     else
       render :new
     end
@@ -67,14 +58,25 @@ class UsersController < ApplicationController
     if @record.update(record_params)
       redirect_to(session.delete(:return_to),
                    organization_id: @organization.id,
-                   parent_id: @department.id,
-                   success: t('flashes.create',
+                   department_id: @department.id,
+                   success: t('flashes.update',
                               model: get_model.model_name.human))
-#      redirect_to @record, success: t('flashes.update',
-#        model: get_model.model_name.human)
     else
       render :edit
     end
+  end
+
+  def destroy
+    @record = get_record
+    authorize @record
+    @organization = get_organization
+    @department = get_department
+    @record.destroy
+    redirect_back(fallback_location: polymorphic_url(@record.class),
+                  organization_id: @organization.id,
+                  department_id: @department.id,
+                  success: t('flashes.destroy',
+                              model: get_model.model_name.human))
   end
 
   private
@@ -95,17 +97,13 @@ class UsersController < ApplicationController
       Department.where(id: params[:department_id]).first
     elsif params[:user].present? && params[:user][:department_id].present?
       Department.where(id: params[:user][:department_id]).first
-    elsif params[:q] && params[:q][:parent_id_eq].present?
-      Organization.where(id: params[:q][:parent_id_eq]).first
+#    elsif params[:q] && params[:q][:department_id_eq].present?
+#      Department.where(id: params[:q][:department_id_eq]).first
     elsif @record.present? && @record.department.present?
       @record.department
     else
       OpenStruct.new(id: nil)
     end
-  end
-
-  def set_previous_page
-    session[:return_to] = request.referer
   end
 
   def get_model

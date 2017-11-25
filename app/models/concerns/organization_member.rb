@@ -34,11 +34,14 @@ module OrganizationMember
 
   private
   def organization_id_allowed?
-    if organization_id_changed?
-      unless current_user.admin_editor?
-        unless current_user.allowed_organizations_ids.include?(organization_id) && organization_id.present?
-          errors.add(:organization_id, 'Not allowed organization')
-        end
+    if model_name == 'Organization'
+      return unless parent_id_changed?
+    else
+      return unless organization_id_changed?
+    end
+    unless current_user.admin_editor?
+      unless current_user.allowed_organizations_ids.include?(organization_id) && organization_id.present?
+        errors.add(:organization_id, 'Not allowed organization')
       end
     end
   end
