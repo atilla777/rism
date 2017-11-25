@@ -45,6 +45,9 @@ ru:
       department:
         one: 'Подразделение'
         other: 'Подразделения'
+      agreement:
+        one: 'Договор'
+        other: 'Договоры'
     attributes:
       organization:
         name: 'Имя'
@@ -80,6 +83,14 @@ ru:
         name: 'Имя'
         organization_id: 'Организация'
         parent_id: 'Входит в'
+        description: 'Описание'
+      agreement:
+        start: 'Дата'
+        prop: 'Номер'
+        duration: 'Длительность'
+        prolongation: 'Пролонгация'
+        organization_id: 'Организация'
+        contractor: 'Контрагент'
         description: 'Описание'
   flashes:
     create: Запись %{model} успешно создана.
