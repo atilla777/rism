@@ -1,0 +1,8 @@
+= show_for @record do | r |
+  = show r, :beginning
+  = show r, :prop
+  = show r, :duration
+  = show r, :prolongation
+  = show r, :organization_id, value: r.organization&.name
+  = show r, :contractor_id, value: r.contractor&.name
+  = show r, :description

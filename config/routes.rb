@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   resources :role_members
   resources :rights
   resources :departments
+  resources :agreements
 end

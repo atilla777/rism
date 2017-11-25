@@ -89,12 +89,12 @@ ru:
         rank: 'Очередность отображения'
         description: 'Описание'
       agreement:
-        start: 'Дата'
+        beginning: 'Дата'
         prop: 'Номер'
         duration: 'Длительность'
         prolongation: 'Пролонгация'
         organization_id: 'Организация'
-        contractor: 'Контрагент'
+        contractor_id: 'Контрагент'
         description: 'Описание'
   flashes:
     create: Запись %{model} успешно создана.

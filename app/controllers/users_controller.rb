@@ -83,8 +83,6 @@ class UsersController < ApplicationController
   def get_organization
     if params[:organization_id].present?
       Organization.where(id: params[:organization_id]).first
-    #elsif params[:q] && params[:q][:organization_id_eq].present?
-    #  Organization.where(id: params[:q][:organization_id_eq]).first
     elsif params[:user] && params[:user][:organization_id]
       Organization.where(id: params[:user][:organization_id]).first
     else
@@ -97,8 +95,6 @@ class UsersController < ApplicationController
       Department.where(id: params[:department_id]).first
     elsif params[:user].present? && params[:user][:department_id].present?
       Department.where(id: params[:user][:department_id]).first
-#    elsif params[:q] && params[:q][:department_id_eq].present?
-#      Department.where(id: params[:q][:department_id_eq]).first
     elsif @record.present? && @record.department.present?
       @record.department
     else

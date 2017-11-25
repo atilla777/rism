@@ -1,6 +1,5 @@
 class OrganizationsController < ApplicationController
   include DefaultActions
-  include Organizatable
 
   autocomplete :organization, :name, full: true
 
@@ -18,6 +17,13 @@ class OrganizationsController < ApplicationController
   end
 
   private
+  private
+  def record_params
+    params.require(get_model.name.underscore.to_sym)
+          .permit(policy(get_model).permitted_attributes)
+          .merge current_user: current_user
+  end
+
   def get_model
     Organization
   end

@@ -1,0 +1,62 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :beginning, class: 'control-label'
+          .col-lg-8
+            = f.date_field :beginning, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :prop, class: 'control-label'
+          .col-lg-8
+            = f.text_field :prop, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :duration, class: 'control-label'
+          .col-lg-8
+            = f.number_field :duration, class: 'form-control'
+
+      .form-group
+        .col-lg-offset-2.col-lg-8
+          .checkbox
+             label
+               = f.check_box :prolongation
+               | #{t('activerecord.attributes.agreement.prolongation')}
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :organization_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag :organization, '', autocomplete_organization_name_organizations_path, id_element: '#agreement_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name), readonly: @organization&.id.present?
+            = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :contractor_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag :contractor, '', autocomplete_organization_name_organizations_path, id_element: '#agreement_contractor_id',  class: 'form-control', value: @record.contractor&.name
+            = f.hidden_field :contractor_id, value: @record.contractor_id
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = link_to :back do
+            span.btn.btn-info
+              = t('views.action.back')

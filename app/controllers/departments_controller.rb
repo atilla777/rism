@@ -54,13 +54,13 @@ class DepartmentsController < ApplicationController
     authorize get_model
     @organization = get_organization
     @department = get_department
-    scope = get_model.where(organization_id: @organization.id)
+    scope = get_model.where(organization_id: @organization.id) if @organization&.id.present?
     if @department.id.present?
       scope = scope.where(parent_id: @department.id)
     elsif @organization.id
       scope = scope.where('departments.parent_id IS NULL')
     else
-      scope= get_model
+      scope = get_model
     end
     @q = scope.ransack(params[:q])
 
@@ -136,7 +136,7 @@ class DepartmentsController < ApplicationController
     @record.destroy
     redirect_back(fallback_location: polymorphic_url(@record.class),
                   organization_id: @organization.id,
-                  parent_id: @department.id,
+                  department_id: @department.id,
                   success: t('flashes.destroy',
                               model: get_model.model_name.human))
 
@@ -150,8 +150,6 @@ class DepartmentsController < ApplicationController
       Organization.where(id: params[:q][:organization_id_eq]).first
     elsif params[:department] && params[:department][:organization_id]
       Organization.where(id: params[:department][:organization_id]).first
-#    elsif @record.present?
-#      @record.organization
     else
       OpenStruct.new(id: nil)
     end
@@ -162,10 +160,6 @@ class DepartmentsController < ApplicationController
       Department.where(id: params[:department_id]).first
     elsif params[:department].present? && params[:department][:parent_id].present?
       Department.where(id: params[:department][:parent_id]).first
-#    elsif params[:q] && params[:q][:department_id_eq].present?
-#      Organization.where(id: params[:q][:department_id_eq]).first
-#    elsif @record.present? && @record.parent_id.present?
-#      @record.parent
     else
       OpenStruct.new(id: nil)
     end

@@ -1,0 +1,11 @@
+= index_search :prop_or_beginning_or_organization_name_or_contractor_name_cont,organization_id_eq: @organization&.id
+= index_for records do | i |
+  - i.header attribute: :beginning, sort: :desc
+  - i.header attribute: :prop, sort: :desc
+  - i.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - i.header attribute: :contractor_id, sort_by: :contractor_name, sort: :desc
+  - i.body do | r, record |
+    - r.field link_to(AgreementDecorator.new(record).beginning_date, record)
+    - r.field link_to(record.prop, record)
+    - r.field link_to record.organization.name, record.organization
+    - r.field link_to record.contractor.name, record.contractor

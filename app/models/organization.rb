@@ -9,6 +9,8 @@ class Organization < ApplicationRecord
 
   has_many :users, dependent: :destroy
   has_many :departments, dependent: :destroy
+  has_many :agreements, dependent: :destroy
+  has_many :contracts, class_name: 'Agreement', foreign_key: :contractor_id, dependent: :destroy
 
   has_many :rights, as: :subject, dependent: :destroy
 

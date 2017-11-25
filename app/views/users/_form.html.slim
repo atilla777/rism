@@ -19,6 +19,7 @@
           .col-lg-8
             = autocomplete_field_tag :parent, '', autocomplete_organization_name_organizations_path, id_element: '#user_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name), readonly: @department&.id.present?
             = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id
+
       .form-group
         .field
           .col-lg-2.text-right

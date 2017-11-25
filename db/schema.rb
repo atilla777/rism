@@ -10,10 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171122134219) do
+ActiveRecord::Schema.define(version: 20171125043207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "agreements", force: :cascade do |t|
+    t.date "beginning"
+    t.text "prop"
+    t.integer "duration"
+    t.boolean "prolongation"
+    t.bigint "organization_id"
+    t.bigint "contractor_id"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["beginning"], name: "index_agreements_on_beginning"
+    t.index ["contractor_id"], name: "index_agreements_on_contractor_id"
+    t.index ["organization_id"], name: "index_agreements_on_organization_id"
+    t.index ["prop"], name: "index_agreements_on_prop"
+  end
 
   create_table "departments", force: :cascade do |t|
     t.string "name"
@@ -111,6 +127,8 @@ ActiveRecord::Schema.define(version: 20171122134219) do
     t.index ["single_access_token"], name: "index_users_on_single_access_token", unique: true
   end
 
+  add_foreign_key "agreements", "organizations"
+  add_foreign_key "agreements", "organizations", column: "contractor_id"
   add_foreign_key "departments", "departments", column: "parent_id"
   add_foreign_key "departments", "organizations"
   add_foreign_key "organizations", "organizations", column: "parent_id"

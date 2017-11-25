@@ -1,3 +1,4 @@
 =  show_tabs_for record, active do | menu |
   - menu.tab :organization, link_to(t('navigations.main_info'), record)
   - menu.tab :departments, link_to(t('navigations.departments'), departments_path(organization_id: record.id))
+  - menu.tab :agreements, link_to(Agreement.model_name.human(count: 2), agreements_path(organization_id: record.id))
