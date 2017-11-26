@@ -1,6 +1,8 @@
 module ShowHelper
   def show_for(record, &block)
-    render 'helpers/show_record', record: record, &block
+    options = {}
+    options[:versions] = record.class.paper_trail.enabled?
+    render 'helpers/show_record', record: record, options: options, &block
   end
 
   def show(record, attribute, options = {})

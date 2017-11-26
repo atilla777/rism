@@ -96,6 +96,10 @@ module Organizatable
 
   def get_record
     @record = get_model.find(params[:id])
+    if params[:version_id].present?
+      @record = PaperTrail::Version.find(params[:version_id]).reify
+    end
+    @record
   end
 
   def get_organization

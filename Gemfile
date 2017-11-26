@@ -65,6 +65,7 @@ gem 'ransack'
 gem 'slim-rails'
 gem 'jquery-ui-rails'
 gem 'rails-jquery-autocomplete'
+gem 'paper_trail'
 
 # Lint with overcommit
 group :development do

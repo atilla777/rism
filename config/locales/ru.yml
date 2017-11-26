@@ -187,6 +187,7 @@ ru:
       cut: Вырезать
       reset: Сбросить выделение
       paste: Вставить
+      revert: Сделать версию текущей
   number:
     currency:
       format:

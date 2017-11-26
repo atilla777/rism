@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
   include Pundit
+
+  before_action :set_paper_trail_whodunnit
+
   after_action :verify_authorized#, except: :autocomplete_organization_name
 
   protect_from_forgery with: :exception

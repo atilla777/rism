@@ -5,6 +5,8 @@ class Organization < ApplicationRecord
             100 => I18n.t('organization_kinds.department'),
             200 => I18n.t('organization_kinds.folder') }.freeze
 
+  has_paper_trail
+
   has_many :right_scopes, class_name: 'Right', dependent: :destroy
 
   has_many :users, dependent: :destroy

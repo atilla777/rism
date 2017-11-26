@@ -162,6 +162,9 @@ GEM
     overcommit (0.41.0)
       childprocess (~> 0.6, >= 0.6.3)
       iniparse (~> 1.4)
+    paper_trail (8.0.1)
+      activerecord (>= 4.2, < 5.2)
+      request_store (~> 1.1)
     parallel (1.12.0)
     parser (2.4.0.0)
       ast (~> 2.2)
@@ -330,6 +333,7 @@ DEPENDENCIES
   meta_request
   minitest-reporters
   overcommit
+  paper_trail
   pg (~> 0.18)
   puma (~> 3.7)
   pundit

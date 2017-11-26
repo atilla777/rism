@@ -45,6 +45,10 @@ class ApplicationPolicy
     @user.can? :edit, @record
   end
 
+  def revert?
+    update?
+  end
+
   def scope
     Pundit.policy_scope!(user, record.class)
   end

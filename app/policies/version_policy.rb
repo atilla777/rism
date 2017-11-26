@@ -1,0 +1,2 @@
+class VersionPolicy < ApplicationPolicy
+end

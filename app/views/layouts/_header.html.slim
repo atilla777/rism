@@ -46,6 +46,11 @@ nav.navbar.navbar-default
                 .span.text-info
                   = fa_icon 'group'
                   =< Role.model_name.human(count: 2)
+            li
+              = link_to versions_path do
+                .span.text-info
+                  = fa_icon 'history'
+                  =< t('navigations.versions')
       - if current_user
         li
           span.navbar-text
