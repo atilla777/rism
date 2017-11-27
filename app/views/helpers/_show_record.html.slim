@@ -15,13 +15,17 @@ table.table.table-hover.table-bordered.table-striped
           span.text-warning
             = VersionDecorator.new(record.version).version_info
             |,
-            =< link_to t('helpers.submit.revert'), revert_version_path(record.version), method: :post
+            =< link_to t('helpers.submit.revert'), revert_version_path(record.version), method: :post, data: {confirm: t('views.action.confirm')}
         ul#toggle_versions class="collapse#{' in' unless record.paper_trail.live?}"
           - record.versions.each do | v |
             - unless v == record.versions.last
-              li.text-warning
-                = link_to polymorphic_path(record, version_id: v) do
-                  span.text-warning
-                    = VersionDecorator.new(v).version_info
+              - if v.event == 'update'
+                li.text-warning
+                  = link_to polymorphic_path(record, version_id: v) do
+                    span.text-warning
+                      = VersionDecorator.new(v).version_info
+              - else
+                = VersionDecorator.new(v).version_info
+
           li
             = link_to VersionDecorator.new(record.versions.last).version_info, polymorphic_path(record)

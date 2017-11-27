@@ -12,6 +12,6 @@
     - r.field record.item_type
     - r.field record.item_id
     - r.field record.event
-    - r.field User.find(record.whodunnit)&.name
+    - r.field VersionDecorator.new(record).author
 
 = render 'index_paginate', records: @records

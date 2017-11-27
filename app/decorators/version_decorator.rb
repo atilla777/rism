@@ -16,7 +16,11 @@ class  VersionDecorator < SimpleDelegator
     result << "id:#{id}"
     result << event
     result << created_at.strftime("%d.%m.%Y-%H:%m")
-    result << User.find(version_author).name
+    result << User.find(version_author).name if version_author.present?
     result.join(' ')
+  end
+
+  def author
+    User.find(whodunnit)&.name if whodunnit.present?
   end
 end
