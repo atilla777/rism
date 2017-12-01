@@ -14,6 +14,7 @@ ru:
     workers: 'Работники'
     catalog: 'Прочее'
     versions: 'Версии'
+    current_version: 'Текущая версия'
     version: 'Показана версия'
     version_number: 'Номер версии'
     more_versions: 'другие версии'
@@ -22,6 +23,8 @@ ru:
     id: 'Идентификатор'
     event: 'Действие'
     author: 'Автор'
+    version_create: 'создание'
+    version_update: 'обнавление'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'
