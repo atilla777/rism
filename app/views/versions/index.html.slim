@@ -1,4 +1,5 @@
 = caption t('navigations.versions')
+= index_search :item_type_cont, url: versions_path
 = index_for @records, actions: false do | i |
   - i.header attribute: :created_at, sort: :desc, label: t('navigations.created_at')
   - i.header attribute: :id, sort: :desc, label: t('navigations.id')
@@ -7,8 +8,11 @@
   - i.header attribute: :event, sort: :desc, label: t('navigations.event')
   - i.header attribute: :whodunnit, sort: :desc, label: t('navigations.author')
   - i.body do | r, record |
-    - r.field VersionDecorator.new(record).created_at
-    - r.field record.reify ? link_to(record.id, polymorphic_path(record.reify, version_id: record)) : record.id
+    - r.field show_date_time(record.created_at)
+    - if record.reify
+      - r.field  link_to(record.id, polymorphic_path(record.reify, version_id: record.next))
+    - else
+      - r.field  link_to(record.id, polymorphic_path(record.next.reify, version_id: record.next))
     - r.field record.item_type
     - r.field record.item_id
     - r.field record.event

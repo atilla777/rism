@@ -1,8 +1,6 @@
 class VersionsController < ApplicationController
   def index
     authorize :version
-    #model = params[:model].constantize
-    #record = model.find(params[:record_id])
     scope = PaperTrail::Version
     @q = scope.ransack(params[:q])
 

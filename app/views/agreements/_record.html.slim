@@ -1,5 +1,5 @@
 = show_for @record do | r |
-  = show r, :beginning
+  = show r, :beginning, value: show_date(r.beginning)
   = show r, :prop
   = show r, :duration
   = show r, :prolongation

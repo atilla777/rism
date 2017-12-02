@@ -69,9 +69,11 @@ module DefaultActions
   end
 
   def get_record
-    @record = get_model.find(params[:id])
     if params[:version_id].present?
-      @record = PaperTrail::Version.find(params[:version_id]).reify
+      version = PaperTrail::Version.find(params[:version_id])
+      @record =  version.event == 'create' ? get_model.find(params[:id]) : version.reify
+    else
+      @record = get_model.find(params[:id])
     end
     @record
   end
