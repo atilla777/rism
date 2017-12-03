@@ -66,6 +66,7 @@ gem 'slim-rails'
 gem 'jquery-ui-rails'
 gem 'rails-jquery-autocomplete'
 gem 'paper_trail'
+gem 'carrierwave', '~> 1.0'
 
 # Lint with overcommit
 group :development do

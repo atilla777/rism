@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171125093452) do
+ActiveRecord::Schema.define(version: 20171203100515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,26 @@ ActiveRecord::Schema.define(version: 20171125093452) do
     t.index ["contractor_id"], name: "index_agreements_on_contractor_id"
     t.index ["organization_id"], name: "index_agreements_on_organization_id"
     t.index ["prop"], name: "index_agreements_on_prop"
+  end
+
+  create_table "attachment_links", force: :cascade do |t|
+    t.string "record_type"
+    t.bigint "record_id"
+    t.bigint "attachment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attachment_id"], name: "index_attachment_links_on_attachment_id"
+    t.index ["record_type", "record_id"], name: "index_attachment_links_on_record_type_and_record_id"
+  end
+
+  create_table "attachments", force: :cascade do |t|
+    t.bigint "organization_id"
+    t.string "name"
+    t.string "document"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_attachments_on_name"
+    t.index ["organization_id"], name: "index_attachments_on_organization_id"
   end
 
   create_table "departments", force: :cascade do |t|
@@ -52,7 +72,7 @@ ActiveRecord::Schema.define(version: 20171125093452) do
     t.bigint "parent_id"
     t.integer "kind"
     t.index ["kind"], name: "index_organizations_on_kind"
-    t.index ["name"], name: "index_organizations_on_name", unique: true
+    t.index ["name"], name: "index_organizations_on_name"
     t.index ["parent_id"], name: "index_organizations_on_parent_id"
   end
 
@@ -86,7 +106,6 @@ ActiveRecord::Schema.define(version: 20171125093452) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_roles_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -140,6 +159,7 @@ ActiveRecord::Schema.define(version: 20171125093452) do
 
   add_foreign_key "agreements", "organizations"
   add_foreign_key "agreements", "organizations", column: "contractor_id"
+  add_foreign_key "attachments", "organizations"
   add_foreign_key "departments", "departments", column: "parent_id"
   add_foreign_key "departments", "organizations"
   add_foreign_key "organizations", "organizations", column: "parent_id"

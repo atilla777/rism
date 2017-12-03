@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   resources :rights
   resources :departments
   resources :agreements
+  resources :attachments
+  resources :attachment_links
   resources :versions, only: [:index]
   post "versions/:id/revert" => "versions#revert", :as => 'revert_version'
 end
