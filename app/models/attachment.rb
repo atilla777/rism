@@ -1,14 +1,13 @@
 class Attachment < ApplicationRecord
-  include OrganizationMember
+  #include OrganizationMember
 
   mount_uploader :document, DocumentUploader
-
-  accepts_nested_attributes_for :attachment_links
 
   validates :organization_id, numericality: { only_integer: true }
 
   belongs_to :organization
 
   has_many :attachment_links
-  has_many :records, trough: :attachment_links
+  accepts_nested_attributes_for :attachment_links
+  has_many :agreements, through: :attachment_links, source: :record, source_type: Agreement
 end

@@ -1,23 +1,24 @@
-= form_for @attachment do |f|
+= form_for Attachment.new do |f|
   = f.fields_for :attachment_link do |a_l|
     = hidden_field :record_id, value: record.id
-    = hidden_field :record_type, value: record.class.underscore.to_sym
+    = hidden_field :record_type, value: record.class.name.underscore.to_sym
   table.table.table-hover.table-bordered.table-striped
-    tr
-      td colspan=2
-        a.link data-toggle='collapse' href='#toggle_files'
-          = "#{t('navigations.more_files')}..."
-    - record.attachments.each do | attachment |
-    #toggle_files.list-unstyled.collapse
+    thead
+      tr
+        td colspan=2
+          a.link data-toggle='collapse' href='#toggle_files'
+            = "#{t('navigations.more_files')}..."
+    tbody#toggle_files.collapse
       tr
         td collapse=2
-          = f.file_field :attachment, class: 'form-control'
-          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
-      tr
-        td.col-md-2.text-right
-          attachment.url
-        td
-          = link_to attachment_links_path(attachment), data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
-            i.glyphicon.glyphicon-remove.text-danger
-            =< t('views.action.delete')
+          = file_field_tag :document, class: 'form-control'
+          = f.submit t('helpers.submit.save'), class: 'btn btn-success'
+      - record.attachments.each do | attachment |
+        tr
+          td.col-md-2.text-right
+            = attachment.url
+          td
+            = link_to attachment_links_path(attachment), data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
+              i.glyphicon.glyphicon-remove.text-danger
+              =< t('views.action.delete')
 

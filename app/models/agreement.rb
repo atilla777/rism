@@ -14,5 +14,6 @@ class Agreement < ApplicationRecord
   belongs_to :contractor, class_name: 'Organization'
 
   has_many :attachment_links, as: :record
-
+#  accepts_nested_attributes_for :attachment_links
+  has_many :attachments, through: :attachment_links
 end

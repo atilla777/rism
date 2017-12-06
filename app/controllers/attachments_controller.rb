@@ -1,10 +1,12 @@
 class AttachmentsController < ApplicationController
-  include Organizatable
+  #include Organizatable
 
   def create
-    authorize Attachments
-    get_record
+    authorize Attachment
+    params[:attachment][:organization_id] = current_user.organization.id
+    params[:current_user] = current_user
     @attachment = Attachment.new(attachment_params)
+    @attachment.document = params[:attachment][:document]
     @attachment.save!
 
     redirect_to polymorphic_path(@attachment.record),

@@ -18,6 +18,7 @@ ru:
     version: 'Показана версия'
     version_number: 'Номер версии'
     more_versions: 'другие версии'
+    more_files: 'вложенные файлы'
     created_at: 'Время создания'
     model: 'Модель'
     id: 'Идентификатор'

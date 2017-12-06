@@ -6,3 +6,5 @@
   = show r, :organization_id, value: r.organization&.name
   = show r, :contractor_id, value: r.contractor&.name
   = show r, :description
+
+= render 'application/record_attachments', record: record
