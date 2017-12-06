@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: rism_production
-  username: rism
-  password: <%= ENV['RISM_DATABASE_PASSWORD'] %>
+  username: deploy
+  password: <%= ENV['DATABASE_PASSWORD'] %>
