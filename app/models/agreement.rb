@@ -13,4 +13,6 @@ class Agreement < ApplicationRecord
   belongs_to :organization
   belongs_to :contractor, class_name: 'Organization'
 
+  has_many :attachment_links, as: :record
+
 end
