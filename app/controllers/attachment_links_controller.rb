@@ -9,10 +9,10 @@ class AttachmentLinksController < ApplicationController
 #      render :new
 #    end
 #  end
-
-  private
-  def record_params
-    params.require(:attachment_link)
-          .permit(policy(AttachmentLink).permitted_attributes)
-  end
+#
+#  private
+#  def record_params
+#    params.require(:attachment_link)
+#          .permit(policy(AttachmentLink).permitted_attributes)
+#  end
 end

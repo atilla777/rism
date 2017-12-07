@@ -1,5 +1,5 @@
 class AgreementsController < ApplicationController
-  #include DefaultActions
+  include DefaultMethods
   include Organizatable
 
   before_action :set_attachment, only: [:show]

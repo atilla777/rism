@@ -1,5 +1,5 @@
 class Attachment < ApplicationRecord
-  #include OrganizationMember
+  include OrganizationMember
 
   mount_uploader :document, DocumentUploader
 
@@ -8,6 +8,6 @@ class Attachment < ApplicationRecord
   belongs_to :organization
 
   has_many :attachment_links
-  accepts_nested_attributes_for :attachment_links
+  accepts_nested_attributes_for :attachment_links#, reject_if: proc { |attributes| attributes[:document].blank? }
   has_many :agreements, through: :attachment_links, source: :record, source_type: Agreement
 end

@@ -1,16 +1,18 @@
 class AttachmentsController < ApplicationController
-  #include Organizatable
+  include DefaultMethods
 
   def create
-    authorize Attachment
+    authorize get_model
     params[:attachment][:organization_id] = current_user.organization.id
-    params[:current_user] = current_user
-    @attachment = Attachment.new(attachment_params)
-    @attachment.document = params[:attachment][:document]
-    @attachment.save!
-
-    redirect_to polymorphic_path(@attachment.record),
-                                 success: t('flashes.create', model: Attachment.model_name.human)
+    @attachment = Attachment.new(record_params)
+    record = get_record
+    if @attachment.save
+      redirect_to polymorphic_path(record),
+                                   success: t('flashes.create', model: Attachment.model_name.human)
+    else
+      redirect_to polymorphic_path(record),
+                                   danger: t('flashes.not_create', model: Attachment.model_name.human)
+    end
   end
 
   private
@@ -18,8 +20,8 @@ class AttachmentsController < ApplicationController
     Attachment
   end
 
-  def attachment_params
-    params.require(get_model.name.underscore.to_sym)
-          .permit(policy(get_model).permitted_attributes)
+  def get_record
+    model = params[:attachment][:attachment_link][:record_type].camelize.constantize
+    model.find(params[:attachment][:attachment_link][:record_id])
   end
 end
