@@ -18,7 +18,7 @@ ru:
     version: 'Показана версия'
     version_number: 'Номер версии'
     more_versions: 'другие версии'
-    more_files: 'вложенные файлы'
+    more_files: 'Вложенные файлы'
     created_at: 'Время создания'
     model: 'Модель'
     id: 'Идентификатор'
@@ -62,6 +62,9 @@ ru:
       agreement:
         one: 'Договор'
         other: 'Договоры'
+      attachment:
+        one: 'Вложение'
+        other: 'Вложения'
     attributes:
       organization:
         name: 'Имя'
@@ -109,6 +112,9 @@ ru:
         organization_id: 'Организация'
         contractor_id: 'Контрагент'
         description: 'Описание'
+      attachment:
+        name: 'Имя'
+        document: 'Файл'
   flashes:
     create: Запись %{model} успешно создана.
     update: Запись %{model} успешно отредактирована.
