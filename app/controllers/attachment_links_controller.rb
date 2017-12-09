@@ -1,18 +1,15 @@
 class AttachmentLinksController < ApplicationController
-#  def create
-#    authorize AttachmentLink
-#    @record = AttachmentLink.new(record_params)
-#    if @record.save
-#      redirect_to polymorphic_path(@record), success: t('flashes.create',
-#                                                        model: get_model.model_name.human)
-#    else
-#      render :new
-#    end
-#  end
-#
-#  private
-#  def record_params
-#    params.require(:attachment_link)
-#          .permit(policy(AttachmentLink).permitted_attributes)
-#  end
+  def destroy
+    record = get_record
+    authorize record
+    record.destroy
+    redirect_back(fallback_location: root_path, success: t('flashes.destroy', model: AttachmentLink.model_name.human))
+  end
+
+  private
+  def get_record
+    AttachmentLink.where(attachment_id: params[:attachment_id],
+                        record_type: params[:record_type],
+                        record_id: params[:record_id]).first
+  end
 end
