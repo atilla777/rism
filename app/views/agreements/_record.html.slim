@@ -2,7 +2,7 @@
   = show r, :beginning, value: show_date(r.beginning)
   = show r, :prop
   = show r, :duration
-  = show r, :prolongation
+  = show r, :prolongation, value: AgreementDecorator.new(r).show_prolongation
   = show r, :organization_id, value: r.organization&.name
   = show r, :contractor_id, value: r.contractor&.name
   = show r, :description

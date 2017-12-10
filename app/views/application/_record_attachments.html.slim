@@ -4,8 +4,8 @@ table.table.table-hover.table-bordered.table-striped
       td.col-md-2.text-right
         a.link data-toggle='collapse' href='#toggle_files'
           strong.text-info
-            = fa_icon 'paperclip'
-            =< "#{t('navigations.more_files')}..."
+            =< "#{t('labels.attachment.more_files')}"
+            =< fa_icon 'folder-open'
       td
         a.link data-toggle='collapse' href='#toggle_files'
           = RecordAttachmentsDecorator.new(record).show_attachments.truncate(200)
@@ -13,14 +13,15 @@ table.table.table-hover.table-bordered.table-striped
     tr
       td.col-md-2.text-right
         strong.text-success
-          = t('navigations.link_file')
+          = t('labels.attachment.link_file')
+          =< fa_icon 'paperclip'
       td colspan=2 collapse=2
         = form_for Attachment.new, html: {class: 'form-inline'} do | f |
           .form-group
             .field
-              =< f.text_field :name, placeholder: t('navigations.file_name'), size: 50, class: 'form-control'
+              =< f.text_field :name, placeholder: t('labels.attachment.file_name'), size: 50, class: 'form-control'
               label.form-control.btn.btn-info.btn-file
-                = t('navigations.select_file')
+                = t('labels.attachment.select_file')
                 =< f.file_field :document
               =< f.fields_for :attachment_link do | a_l |
                 = a_l.hidden_field :record_id, value: record.id

@@ -1,5 +1,4 @@
 $(document).on('turbolinks:load', function() {
-  console.log('sdf');
-  $("#message").toggle( "blind", 1000);
+  $("#message").toggle( "blind", 1300);
   return false;
 });

@@ -1,0 +1,22 @@
+- if record.respond_to?(:paper_trail) && record.versions.present?
+  tr
+    td.col-md-2.text-right
+      strong.text-info
+        = t('labels.version.versions')
+    td
+      - if record.paper_trail.live?
+        span
+          => "#{VersionDecorator.new(record.versions.last).version_info},"
+          a.link data-toggle='collapse' href='#toggle_versions'
+            = "#{t('labels.version.more_versions')}..."
+      - else
+        span.text-warning
+          = VersionDecorator.new(record.version.previous).version_info
+          |,
+          =< link_to t('helpers.submit.revert'), revert_version_path(record.version), method: :post, data: {confirm: t('views.action.confirm')}
+      ul#toggle_versions.list-unstyled class="collapse#{' in' unless record.paper_trail.live?}"
+        - record.versions.each do | v |
+            li.text-warning
+              = link_to polymorphic_path(record, version_id: v.next) do
+                span class="#{'text-warning' unless v == record.versions.last }"
+                  = VersionDecorator.new(v).version_info

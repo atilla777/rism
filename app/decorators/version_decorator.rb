@@ -1,14 +1,16 @@
 class  VersionDecorator < SimpleDelegator
+  include DateTimeHelper
+
   def version_info
     result = []
     result << index + 1
     result << "id:#{id}"
     if event == 'update'
-      result <<  I18n.t("navigations.version_update")
+      result <<  I18n.t("labels.version.updated")
     else
-      result <<  I18n.t("navigations.version_create")
+      result <<  I18n.t("labels.version.created")
     end
-    result << created_at.strftime("%d.%m.%Y-%H:%m")
+    result << show_date_time(created_at)
     result << User.find(version_author).name if version_author.present?
     result.join(' ')
   end
