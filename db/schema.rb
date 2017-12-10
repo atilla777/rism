@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20171203100515) do
     t.bigint "parent_id"
     t.integer "kind"
     t.index ["kind"], name: "index_organizations_on_kind"
-    t.index ["name"], name: "index_organizations_on_name", unique: true
+    t.index ["name"], name: "index_organizations_on_name"
     t.index ["parent_id"], name: "index_organizations_on_parent_id"
   end
 
@@ -106,7 +106,6 @@ ActiveRecord::Schema.define(version: 20171203100515) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_roles_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|

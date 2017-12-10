@@ -8,10 +8,21 @@ class DocumentUploader < CarrierWave::Uploader::Base
   storage :file
   # storage :fog
 
+  after :remove, :delete_document_dir
+
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{model.organization.id}/#{mounted_as}/#{model.id}"
+    year = DateTime.current.strftime("%Y.%m")
+    "uploads/#{model.class.to_s.underscore}/#{model.organization.id}/#{mounted_as}/#{year}/#{model.id}"
+  end
+
+  private
+  def delete_document_dir
+    path = File.expand_path(store_dir, root)
+    Dir.rmdir(path)
+  rescue
+    true
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
