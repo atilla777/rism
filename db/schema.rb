@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171203100515) do
+ActiveRecord::Schema.define(version: 20171210115224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "agreement_kinds", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_agreement_kinds_on_name"
+  end
 
   create_table "agreements", force: :cascade do |t|
     t.date "beginning"
@@ -25,6 +33,8 @@ ActiveRecord::Schema.define(version: 20171203100515) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "agreement_kind_id"
+    t.index ["agreement_kind_id"], name: "index_agreements_on_agreement_kind_id"
     t.index ["beginning"], name: "index_agreements_on_beginning"
     t.index ["contractor_id"], name: "index_agreements_on_contractor_id"
     t.index ["organization_id"], name: "index_agreements_on_organization_id"
@@ -157,6 +167,7 @@ ActiveRecord::Schema.define(version: 20171203100515) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "agreements", "agreement_kinds"
   add_foreign_key "agreements", "organizations"
   add_foreign_key "agreements", "organizations", column: "contractor_id"
   add_foreign_key "attachments", "organizations"

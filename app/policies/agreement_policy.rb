@@ -4,6 +4,7 @@ class AgreementPolicy < ApplicationPolicy
          beginning
          organization_id
          contractor_id
+         agreement_kind_id
          duration
          prolongation
          description]

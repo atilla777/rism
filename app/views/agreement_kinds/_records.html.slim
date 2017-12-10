@@ -1,0 +1,5 @@
+= index_search :name_cont
+= index_for records do | i |
+  - i.header attribute: :name, sort: :desc
+  - i.body do | r, record |
+    - r.field link_to(record.name, record)

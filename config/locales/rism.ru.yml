@@ -28,6 +28,7 @@ ru:
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
+    references: 'Справочники'
     main_info: 'Основная информация'
     roles: 'Роли'
     rights: 'Права доступа'
@@ -74,6 +75,9 @@ ru:
       attachment:
         one: 'Вложение'
         other: 'Вложения'
+      agreement_kind:
+        one: 'Тип договора'
+        other: 'Типы договоров'
     attributes:
       organization:
         name: 'Имя'
@@ -119,11 +123,15 @@ ru:
         duration: 'Длительность (мес.)'
         prolongation: 'Пролонгируется'
         organization_id: 'Организация'
+        agreement_kind_id: 'Тип договора'
         contractor_id: 'Контрагент'
         description: 'Описание'
       attachment:
         name: 'Имя'
         document: 'Файл'
+      agreement_kind:
+        name: 'Имя'
+        description: 'Описание'
   flashes:
     create: Запись %{model} успешно создана.
     update: Запись %{model} успешно отредактирована.

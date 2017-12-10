@@ -6,6 +6,13 @@
       .form-group.required
         .field
           .col-lg-2.text-right
+            = f.label :agreement_kind_id, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :agreement_kind_id, AgreementKind.all, :id, :name, {}, { class: 'form-control' }
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
             = f.label :beginning, class: 'control-label'
           .col-lg-8
             = f.date_field :beginning, class: 'form-control'

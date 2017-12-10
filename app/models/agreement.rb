@@ -8,12 +8,14 @@ class Agreement < ApplicationRecord
   validates :beginning, presence: true
   validates :prop, length: {minimum: 1, maximum: 100 }
   validates :organization_id, numericality: { only_integer: true }
+  validates :agreement_kind_id, numericality: { only_integer: true }
   validates :contractor_id, numericality: { only_integer: true }
 
   belongs_to :organization
   belongs_to :contractor, class_name: 'Organization'
+  belongs_to :agreement_kind
+  belongs_to :contractor, class_name: 'Organization'
 
   has_many :attachment_links, as: :record
-#  accepts_nested_attributes_for :attachment_links
   has_many :attachments, through: :attachment_links
 end
