@@ -5,8 +5,9 @@ ru:
     phone: 'тел.'
     attachment:
       more_files: 'Посмотреть/прикрепить файлы'
+      attachable_file: 'Выбранный файл:'
       select_file: 'Выберите файл'
-      file_name: 'Имя файла (не обязательно)'
+      file_name: 'Отображаемое имя файла (не обязательно)'
       link_file: 'Прикрепить файл'
     agreement:
       prolongation: 'Да'
@@ -116,7 +117,7 @@ ru:
         beginning: 'Дата'
         prop: 'Номер'
         duration: 'Длительность (мес.)'
-        prolongation: 'Пролонгация'
+        prolongation: 'Пролонгируется'
         organization_id: 'Организация'
         contractor_id: 'Контрагент'
         description: 'Описание'
