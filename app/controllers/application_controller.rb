@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  force_ssl if: :ssl_configured?
+  #force_ssl if: :ssl_configured?
   include Pundit
 
   before_action :set_paper_trail_whodunnit
