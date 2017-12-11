@@ -19,6 +19,7 @@
 .byebug_history
 
 *.swp
+*.swo
 .DS_Store
 .env
 /public/uploads
