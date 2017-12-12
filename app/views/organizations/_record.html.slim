@@ -1,4 +1,5 @@
 = show_for @record do | r |
   = show r, :name
+  = show r, :full_name
   = show r, :parent_id, value: record.parent.present? ? link_to(record.parent.name, record.parent) : ''
   = show r, :description

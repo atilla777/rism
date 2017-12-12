@@ -1,6 +1,6 @@
 class OrganizationPolicy < ApplicationPolicy
   def permitted_attributes
-    %i[name parent_id kind description]
+    %i[name full_name parent_id kind description]
   end
 
   class Scope < Scope
