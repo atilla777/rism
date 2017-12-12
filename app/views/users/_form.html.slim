@@ -10,14 +10,14 @@
           .col-lg-2.text-right
             = f.label :name, class: 'control-label'
           .col-lg-8
-            = f.text_field :name, class: 'form-control'
+            = f.text_field :name, class: 'form-control', placeholder: t('placeholders.user.name')
 
       .form-group.required
         .field
           .col-lg-2.text-right
             = f.label :organization_id, class: 'control-label'
           .col-lg-8
-            = autocomplete_field_tag :parent, '', autocomplete_organization_name_organizations_path, id_element: '#user_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name), readonly: @department&.id.present?
+            = autocomplete_field_tag :parent, '', autocomplete_organization_name_organizations_path, id_element: '#user_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name), readonly: @department&.id.present?, placeholder: t('placeholders.auto')
             = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id
 
       .form-group
@@ -32,14 +32,20 @@
           .col-lg-2.text-right
             = f.label :department_name, class: 'control-label'
           .col-lg-8
-            = f.text_field :department_name, class: 'form-control', readonly: @department&.id.present?
+            = f.text_field :department_name, class: 'form-control', readonly: @department&.id.present?, placeholder: t('placeholders.user.department')
 
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :job, class: 'control-label'
+          .col-lg-8
+            = f.text_field :job, class: 'form-control'
       .form-group
         .field
           .col-lg-2.text-right
             = f.label :rank, class: 'control-label'
           .col-lg-8
-            = f.number_field :rank, class: 'form-control'
+            = f.number_field :rank, class: 'form-control', placeholder: t('placeholders.user.rank')
 
       .form-group
         .field
@@ -48,12 +54,6 @@
           .col-lg-8
             = f.text_field :email, class: 'form-control'
 
-      .form-group
-        .field
-          .col-lg-2.text-right
-            = f.label :job, class: 'control-label'
-          .col-lg-8
-            = f.text_field :job, class: 'form-control'
 
       .form-group
         .field
@@ -74,7 +74,7 @@
           .col-lg-2.text-right
             = f.label :description, class: 'control-label'
           .col-lg-8
-            = f.text_area :description, class: 'form-control'
+            = f.text_area :description, rows: 5, class: 'form-control'
 
       .form-group
         .col-lg-offset-2.col-lg-8
