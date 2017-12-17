@@ -33,6 +33,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'rspec-rails', '~> 3.6'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   # Adds support for Capybara system testing and selenium driver
@@ -88,7 +89,5 @@ group :development do
 end
 
 group :test do
-  gem 'minitest-reporters'
-  gem 'shoulda', '~> 3.5'
   gem 'shoulda-matchers', '~> 2.0'
 end

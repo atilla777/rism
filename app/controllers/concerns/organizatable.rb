@@ -36,6 +36,7 @@ module Organizatable
 
   def create
     authorize get_model
+    filter_organization_id
     @record = get_model.new(record_params)
     @organization = get_organization
     if @record.save
@@ -58,6 +59,7 @@ module Organizatable
     @record = get_record
     @organization = get_organization
     authorize @record
+    filter_organization_id
     if @record.update(record_params)
       redirect_to(session.delete(:return_to),
                    organization_id: @organization.id,
@@ -106,6 +108,13 @@ module Organizatable
       Organization.where(id: params[get_model.name.underscore.to_sym][:organization_id]).first
     else
       OpenStruct.new(id: nil)
+    end
+  end
+
+  def filter_organization_id
+    id = params[get_model.name.underscore.to_sym][:organization_id].to_i
+    unless current_user.admin_editor? || current_user.allowed_organizations_ids.include?(id)
+      params[get_model.name.underscore.to_sym][:organization_id] = nil
     end
   end
 end

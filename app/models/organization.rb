@@ -1,6 +1,7 @@
 class Organization < ApplicationRecord
   include OrganizationMember
 
+  # TODO replace into table organization_kinds
   KINDS = { 0 => I18n.t('organization_kinds.organization'),
             100 => I18n.t('organization_kinds.department'),
             200 => I18n.t('organization_kinds.folder') }.freeze
@@ -19,8 +20,10 @@ class Organization < ApplicationRecord
   has_many :children, class_name: 'Organization', foreign_key: :parent_id, dependent: :destroy
   belongs_to :parent, class_name: 'Organization', optional: true
 
-  validates :name, length: {minimum: 3, maximum: 100}
   validates :name, uniqueness: true
+  validates :name, length: { in: 1..100}
+  validates :full_name, uniqueness: true
+  validates :full_name, length: { in: 1..200, allow_blank: true}
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
   validates :kind, inclusion: { in: KINDS.keys }
 
@@ -28,6 +31,7 @@ class Organization < ApplicationRecord
   scope :departments, -> { where(kind: 100) }
   scope :folders, -> { where(kind: 200) }
 
+  # TODO replace into table organization_kinds
   def self.kinds
     KINDS
   end
@@ -50,6 +54,8 @@ class Organization < ApplicationRecord
     Organization.find_by_sql([query, id_of_organization])
   end
 
+
+  # TODO replace into table organization_kinds
   def show_kind
     KINDS[kind]
   end

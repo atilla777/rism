@@ -8,7 +8,10 @@ ru:
   labels:
     app_name: 'RISM'
     app_full_name: 'Система менеджмента информационной безопасности'
-    phone: 'тел.'
+    user:
+      active: 'Да'
+      not_active: 'Нет'
+      phone: 'тел.'
     attachment:
       more_files: 'Посмотреть/прикрепить файлы'
       attachable_file: 'Выбранный файл:'

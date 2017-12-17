@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  #force_ssl if: :ssl_configured?
   include Pundit
 
   before_action :set_paper_trail_whodunnit
@@ -27,14 +26,14 @@ class ApplicationController < ActionController::Base
 #  end
 
   private
-  def ssl_configured?
-    !Rails.env.development?
-  end
+#  def ssl_configured?
+#    !Rails.env.development?
+#  end
 
   def authenticate?
-      unless current_user
-        redirect_to :sign_in
-      end
+    unless current_user
+      redirect_to :sign_in
+    end
   end
 
   def current_user_session

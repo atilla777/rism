@@ -8,7 +8,10 @@ class Right < ApplicationRecord
               read: 3 }.freeze
 
   SUBJECT_TYPES = {'Organization' => Organization.model_name.human,
-                   'User' => User.model_name.human }.freeze
+                   'User' => User.model_name.human,
+                   'Department' => Department.model_name.human,
+                   'Agreement' => Agreement.model_name.human,
+                   'Attachment' => Attachment.model_name.human}.freeze
 
 
   validates :organization_id, numericality: { only_integer: true, allow_blank: true }

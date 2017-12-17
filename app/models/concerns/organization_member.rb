@@ -2,8 +2,6 @@ module OrganizationMember
   extend ActiveSupport::Concern
 
   included do
-    attr_accessor :current_user
-    validate :organization_id_allowed?
     belongs_to :organization, optional: true
   end
 
@@ -30,19 +28,5 @@ module OrganizationMember
      SQL
 
      Organization.find_by_sql([query, id_of_organization])
-  end
-
-  private
-  def organization_id_allowed?
-    if model_name == 'Organization'
-      return unless parent_id_changed?
-    else
-      return unless organization_id_changed?
-    end
-    unless current_user.admin_editor?
-      unless current_user.allowed_organizations_ids.include?(organization_id) && organization_id.present?
-        errors.add(:organization_id, 'Not allowed organization')
-      end
-    end
   end
 end

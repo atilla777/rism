@@ -7,4 +7,5 @@
   = show r, :email
   = show r, :phone
   = show r, :mobile_phone
+  = show r, :active, value: UserDecorator.new(record).show_active
   = show r, :description

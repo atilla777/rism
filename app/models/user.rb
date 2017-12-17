@@ -7,7 +7,7 @@ class User < ApplicationRecord
   validates :job_rank, numericality: { only_integer: true, allow_blank: true }
   validates :department_id, numericality: { only_integer: true, allow_blank: true }
   validates :organization_id, numericality: { only_integer: true }
-  validates :department_name, length: {minimum: 2, maximum: 100, allow_blank: true}
+  validates :department_name, length: { in: 1..100, allow_blank: true}
   validates :rank, numericality: { only_integer: true, allow_blank: true }
 
   before_save :set_organization_id, if: -> (obj) { obj.department_id.present? }
