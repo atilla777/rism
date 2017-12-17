@@ -25,7 +25,10 @@ class AttachmentsController < ApplicationController
   end
 
   def get_record
-    model = params[:attachment][:attachment_link][:record_type].camelize.constantize
+    model = AttachmentLink.linkable_models.find do | model_constant |
+      model_constant.name == params[:attachment][:attachment_link][:record_type]
+                        .classify
+    end
     model.find(params[:attachment][:attachment_link][:record_id])
   end
 
@@ -33,6 +36,6 @@ class AttachmentsController < ApplicationController
     params.require(get_model.name.underscore.to_sym)
           .permit(:name, :document, :organization_id,
                   attachment_link_attributes: [:id, :record_type, :record_id, :attachment_id])
-          .merge current_user: current_user
+          #.merge current_user: current_user
   end
 end
