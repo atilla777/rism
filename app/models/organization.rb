@@ -36,6 +36,10 @@ class Organization < ApplicationRecord
     KINDS
   end
 
+  # array of child organizations ids, example -
+  # user with id 1 has childs with ids 34, 45 and 57:
+  # User.down_level_organizations(1)
+  # [34, 45, 57]
   def self.down_level_organizations(id_of_organization)
     query = <<~SQL
       WITH RECURSIVE children(id, parent_id) AS
@@ -53,7 +57,6 @@ class Organization < ApplicationRecord
 
     Organization.find_by_sql([query, id_of_organization])
   end
-
 
   # TODO replace into table organization_kinds
   def show_kind
