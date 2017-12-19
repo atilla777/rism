@@ -5,11 +5,7 @@ class  VersionDecorator < SimpleDelegator
     result = []
     result << index + 1
     result << "id:#{id}"
-    if event == 'update'
-      result <<  I18n.t("labels.version.updated")
-    else
-      result <<  I18n.t("labels.version.created")
-    end
+    result show_event
     result << show_date_time(created_at)
     result << User.find(version_author).name if version_author.present?
     result.join(' ')
@@ -17,5 +13,13 @@ class  VersionDecorator < SimpleDelegator
 
   def author
     User.find(whodunnit)&.name if whodunnit.present?
+  end
+
+  def show_event
+    if event == 'update'
+      I18n.t("labels.version.updated")
+    else
+      I18n.t("labels.version.created")
+    end
   end
 end
