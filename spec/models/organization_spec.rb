@@ -29,15 +29,22 @@ RSpec.describe Organization, type: :model do
 
   it { should belong_to(:parent) }
 
-  context 'Organization has some child organizations' do
-    subject(:parent1) { create :organization }
-    subject(:child1) { create :organization, parent_id: parent1 }
-    subject(:child2) { create :organization, parent_id: child1 }
+  context 'has some child organizations' do
+    let(:parent1) { create :organization }
+    let(:child1) { create :organization, parent_id: parent1.id }
+    let(:child2) { create :organization, parent_id: child1.id }
+    let(:child3) { create :organization, parent_id: child1.id }
+    before :each do
+      parent1
+      child1
+      child2
+      child3
+    end
+
     describe '#down_level_organizations' do
       it 'return array of child ids' do
-
         expect(Organization.down_level_organizations(parent1.id))
-          .to contain_exactly(child1.id, child2.id)
+          .to contain_exactly(child1.id, child2.id, child3.id)
       end
     end
   end
