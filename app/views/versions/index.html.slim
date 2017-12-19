@@ -9,10 +9,12 @@
   - i.header attribute: :whodunnit, sort: :desc, label: t('navigations.author')
   - i.body do | r, record |
     - r.field show_date_time(record.created_at)
-    - if record.reify
+    - if record&.reify.present?
       - r.field  link_to(record.id, polymorphic_path(record.reify, version_id: record.next))
+    - elsif record.next&.reify&.present?
+      - r.field  link_to(record.id, polymorphic_path(record.next&.reify, version_id: record.next))
     - else
-      - r.field  link_to(record.id, polymorphic_path(record.next.reify, version_id: record.next))
+      - r.field record.id
     - r.field record.item_type
     - r.field record.item_id
     - r.field record.event

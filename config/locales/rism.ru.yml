@@ -87,6 +87,9 @@ ru:
       agreement_kind:
         one: 'Тип договора'
         other: 'Типы договоров'
+      version:
+        one: 'Версия'
+        other: 'Версии'
     attributes:
       organization:
         name: 'Имя'
@@ -142,6 +145,11 @@ ru:
       agreement_kind:
         name: 'Имя'
         description: 'Описание'
+      version:
+        created_at: 'Создание'
+        model: 'Модель'
+        event: 'Действие'
+        author: 'Автор'
   flashes:
     create: Запись %{model} успешно создана.
     update: Запись %{model} успешно отредактирована.
