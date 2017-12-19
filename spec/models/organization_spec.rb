@@ -30,16 +30,10 @@ RSpec.describe Organization, type: :model do
   it { should belong_to(:parent) }
 
   context 'has some child organizations' do
-    let(:parent1) { create :organization }
-    let(:child1) { create :organization, parent_id: parent1.id }
-    let(:child2) { create :organization, parent_id: child1.id }
-    let(:child3) { create :organization, parent_id: child1.id }
-    before :each do
-      parent1
-      child1
-      child2
-      child3
-    end
+    let!(:parent1) { create :organization }
+    let!(:child1) { create :organization, parent_id: parent1.id }
+    let!(:child2) { create :organization, parent_id: child1.id }
+    let!(:child3) { create :organization, parent_id: child1.id }
 
     describe '#down_level_organizations' do
       it 'return array of child ids' do

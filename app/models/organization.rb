@@ -22,7 +22,7 @@ class Organization < ApplicationRecord
 
   validates :name, uniqueness: true
   validates :name, length: { in: 1..100}
-  validates :full_name, uniqueness: true
+  validates :full_name, uniqueness: true, allow_blank: true
   validates :full_name, length: { in: 1..200, allow_blank: true}
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
   validates :kind, inclusion: { in: KINDS.keys }
@@ -56,6 +56,7 @@ class Organization < ApplicationRecord
     SQL
 
     Organization.find_by_sql([query, id_of_organization])
+                .pluck(:id)
   end
 
   # TODO replace into table organization_kinds

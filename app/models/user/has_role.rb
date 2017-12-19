@@ -35,7 +35,7 @@ module User::HasRole
     implicit_organization_ids = []
     implicit_organization_ids += explicit_organizations_ids
     explicit_organizations_ids.each do | id_of_organization |
-      implicit_organization_ids += Organization.down_level_organizations(id_of_organization).pluck(:id)
+      implicit_organization_ids += Organization.down_level_organizations(id_of_organization)#.pluck(:id)
     end
     implicit_organization_ids.uniq
   end
