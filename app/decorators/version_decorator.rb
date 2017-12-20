@@ -5,7 +5,7 @@ class  VersionDecorator < SimpleDelegator
     result = []
     result << index + 1
     result << "id:#{id}"
-    result show_event
+    result << show_event
     result << show_date_time(created_at)
     result << User.find(version_author).name if version_author.present?
     result.join(' ')
