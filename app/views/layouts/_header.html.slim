@@ -42,6 +42,11 @@ nav.navbar.navbar-default
                 span class='caret'
             ul class="dropdown-menu"
               li
+                = link_to organization_kinds_path do
+                  .span.text-info
+                    = fa_icon 'industry'
+                    =< OrganizationKind.model_name.human(count: 2)
+              li
                 = link_to agreement_kinds_path do
                   .span.text-info
                     = fa_icon 'handshake-o'

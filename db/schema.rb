@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171212134434) do
+ActiveRecord::Schema.define(version: 20171221055347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,17 +74,25 @@ ActiveRecord::Schema.define(version: 20171212134434) do
     t.index ["parent_id"], name: "index_departments_on_parent_id"
   end
 
+  create_table "organization_kinds", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_organization_kinds_on_name"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "parent_id"
-    t.integer "kind"
     t.string "full_name"
+    t.bigint "organization_kind_id"
     t.index ["full_name"], name: "index_organizations_on_full_name"
-    t.index ["kind"], name: "index_organizations_on_kind"
     t.index ["name"], name: "index_organizations_on_name"
+    t.index ["organization_kind_id"], name: "index_organizations_on_organization_kind_id"
     t.index ["parent_id"], name: "index_organizations_on_parent_id"
   end
 
@@ -175,6 +183,7 @@ ActiveRecord::Schema.define(version: 20171212134434) do
   add_foreign_key "attachments", "organizations"
   add_foreign_key "departments", "departments", column: "parent_id"
   add_foreign_key "departments", "organizations"
+  add_foreign_key "organizations", "organization_kinds"
   add_foreign_key "organizations", "organizations", column: "parent_id"
   add_foreign_key "rights", "organizations"
   add_foreign_key "rights", "roles"

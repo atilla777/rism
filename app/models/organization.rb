@@ -1,11 +1,6 @@
 class Organization < ApplicationRecord
   include OrganizationMember
 
-  # TODO replace into table organization_kinds
-  KINDS = { 0 => I18n.t('organization_kinds.organization'),
-            100 => I18n.t('organization_kinds.department'),
-            200 => I18n.t('organization_kinds.folder') }.freeze
-
   has_paper_trail
 
   has_many :right_scopes, class_name: 'Right', dependent: :destroy
@@ -20,22 +15,13 @@ class Organization < ApplicationRecord
   has_many :children, class_name: 'Organization', foreign_key: :parent_id, dependent: :destroy
   belongs_to :parent, class_name: 'Organization', optional: true
 
+  belongs_to :organization_kind
+
   validates :name, uniqueness: true
   validates :name, length: { in: 1..100}
   validates :full_name, uniqueness: true, allow_blank: true
   validates :full_name, length: { in: 1..200, allow_blank: true}
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
-  validates :kind, inclusion: { in: KINDS.keys }
-
-  # TODO replace into table organization_kinds
-  scope :companies, -> { where(kind: 0) }
-  scope :departments, -> { where(kind: 100) }
-  scope :folders, -> { where(kind: 200) }
-
-  # TODO replace into table organization_kinds
-  def self.kinds
-    KINDS
-  end
 
   # array of child organizations ids, example -
   # organization with id 1 has childs with ids 34, 45 and 57:
@@ -58,10 +44,5 @@ class Organization < ApplicationRecord
 
     Organization.find_by_sql([query, id_of_organization])
                 .pluck(:id)
-  end
-
-  # TODO replace into table organization_kinds
-  def show_kind
-    KINDS[kind]
   end
 end

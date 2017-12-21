@@ -88,13 +88,16 @@ ru:
       agreement_kind:
         one: 'Тип договора'
         other: 'Типы договоров'
+      organization_kind:
+        one: 'Тип организации'
+        other: 'Типы организаций'
     attributes:
       organization:
         name: 'Имя'
         full_name: 'Полное имя'
         description: 'Описание'
         parent_id: 'Входит в'
-        kind: 'Тип'
+        organization_kind_id: 'Тип'
       user:
         name: 'Имя'
         email: 'Почта'
@@ -141,6 +144,9 @@ ru:
         name: 'Имя'
         document: 'Файл'
       agreement_kind:
+        name: 'Имя'
+        description: 'Описание'
+      organization_kind:
         name: 'Имя'
         description: 'Описание'
   flashes:

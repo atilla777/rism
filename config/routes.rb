@@ -23,5 +23,6 @@ Rails.application.routes.draw do
   resources :attachment_links
   resources :versions, only: [:index]
   resources :agreement_kinds
+  resources :organization_kinds
   post "versions/:id/revert" => "versions#revert", :as => 'revert_version'
 end
