@@ -15,10 +15,8 @@ RSpec.describe Organization, type: :model do
     it { should validate_uniqueness_of(:full_name) }
   end
 
-  describe '#parent_id' do
-    it { should validate_numericality_of(:parent_id).only_integer }
-  end
-
+  it { should validate_numericality_of(:parent_id)
+       .only_integer }
   it { should have_many(:users) }
   it { should have_many(:departments) }
   it { should have_many(:agreements) }
@@ -26,8 +24,8 @@ RSpec.describe Organization, type: :model do
   it { should have_many(:rights) }
   it { should have_many(:right_scopes) }
   it { should have_many(:children) }
-
   it { should belong_to(:parent) }
+  it { should belong_to(:organization_kind) }
 
   context 'has some child organizations' do
     let!(:parent1) { create :organization }

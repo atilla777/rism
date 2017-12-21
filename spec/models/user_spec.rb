@@ -13,11 +13,20 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#department' do
-    it { should validate_length_of(:department_name).is_at_least(0).is_at_most(100) }
-  end
+  it { should validate_numericality_of(:organization_id)
+       .only_integer }
+  it { should validate_numericality_of(:job_rank)
+       .only_integer }
+  it { should validate_numericality_of(:department_id)
+       .only_integer }
+  it { should validate_length_of(:department_name)
+       .is_at_least(0)
+       .is_at_most(100) }
+  it { should belong_to(:department) }
+  it { should have_many(:rights) }
 
-  describe 'organization_id' do
-    it { should validate_numericality_of(:organization_id).only_integer }
+  describe 'user as access subject' do
+    it { should have_many(:roles) }
+    it { should have_many(:role_members) }
   end
 end
