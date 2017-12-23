@@ -11,6 +11,7 @@ RSpec.describe User, type: :model do
        .is_at_most(100) }
   it { should belong_to(:department) }
 
+  # TODO make shared example for it
   describe '#organization_id' do
     it { should validate_numericality_of(:organization_id)
         .only_integer }
@@ -26,28 +27,48 @@ RSpec.describe User, type: :model do
   end
 
   describe '#email' do
-    context 'User is allowed to login' do
+    context 'when user allowed to login' do
       before(:each) { allow(subject).to receive(:active).and_return(true) }
       it { is_expected.to validate_presence_of(:email) }
     end
 
-    context 'User is not allowed to login' do
+    context 'when user not allowed to login' do
       before { allow(subject).to receive(:active).and_return(false) }
       it { is_expected.not_to validate_presence_of(:email) }
     end
   end
 
-  describe 'user as access subject' do
+  describe 'when user as access subject' do
     it { should have_many(:roles) }
     it { should have_many(:role_members) }
     it { should have_many(:rights) }
 
-    context 'is main admin with id = 1' do
+    context 'when user is main admin with id = 1' do
       it 'can`t be removed' do
         user = create(:user, id: 1)
         user.destroy
 
-        expect(User.find(1).to be
+        expect(User.find(1)).to be
+      end
+    end
+
+    context 'when user is admin' do
+      it 'respond to #admin? as true' do
+        user = create(:user)
+        create(:role_member,
+               user_id: user.id)
+
+        expect(user.admin?).to be_truthy
+      end
+    end
+
+    context 'when user is admin' do
+      it 'respond to #admin? as true' do
+        user = create(:user)
+        create(:role_member,
+               user_id: user.id)
+
+        expect(user.admin?).to be_truthy
       end
     end
   end

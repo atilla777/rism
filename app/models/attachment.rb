@@ -3,6 +3,7 @@ class Attachment < ApplicationRecord
 
   mount_uploader :document, DocumentUploader
 
+  validates :name, length: { minimum: 1, maximum: 100, allow_blank: true }
   validates :organization_id, numericality: { only_integer: true }
 
   belongs_to :organization

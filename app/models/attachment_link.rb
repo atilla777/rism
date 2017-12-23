@@ -1,6 +1,10 @@
 class AttachmentLink < ApplicationRecord
   LINKABLE_MODELS = [Agreement].freeze
 
+  validates :record_type, presence: true
+  validates :record_id, numericality: { only_integer: true }
+  validates :attachment_id, numericality: { only_integer: true }
+
   belongs_to :record, polymorphic: true
   belongs_to :attachment
 

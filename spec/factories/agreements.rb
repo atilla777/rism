@@ -4,6 +4,6 @@ FactoryBot.define do
     sequence(:prop) { | n | "Prop#{n}" }
     agreement_kind
     organization
-    association :organization, fabrica: :organization
+    association :contractor, factory: :organization
   end
 end

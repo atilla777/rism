@@ -27,7 +27,7 @@ RSpec.describe Organization, type: :model do
   it { should belong_to(:parent) }
   it { should belong_to(:organization_kind) }
 
-  context 'has some child organizations' do
+  context 'when has some child organizations' do
     let!(:parent1) { create :organization }
     let!(:child1) { create :organization, parent_id: parent1.id }
     let!(:child2) { create :organization, parent_id: child1.id }
