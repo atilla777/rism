@@ -55,20 +55,36 @@ RSpec.describe User, type: :model do
     context 'when user is admin' do
       it 'respond to #admin? as true' do
         user = create(:user)
+        admin_role = create(:role, id: 1)
         create(:role_member,
-               user_id: user.id)
+               user_id: user.id,
+               role_id: admin_role.id)
 
         expect(user.admin?).to be_truthy
       end
     end
 
-    context 'when user is admin' do
-      it 'respond to #admin? as true' do
+    context 'when user is editor' do
+      it 'respond to #admin_editor? as true' do
         user = create(:user)
+        editor_role = create(:role, id: 2)
         create(:role_member,
-               user_id: user.id)
+               user_id: user.id,
+               role_id: editor_role.id)
 
-        expect(user.admin?).to be_truthy
+        expect(user.admin_editor?).to be_truthy
+      end
+    end
+
+    context 'when user is reader' do
+      it 'respond to #admin_editor_reader? as true' do
+        user = create(:user)
+        reader_role = create(:role, id: 3)
+        create(:role_member,
+               user_id: user.id,
+               role_id: reader_role.id)
+
+        expect(user.admin_editor_reader?).to be_truthy
       end
     end
   end
