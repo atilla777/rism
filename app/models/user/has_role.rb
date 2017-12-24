@@ -44,8 +44,10 @@ module User::HasRole
     level = Right.action_to_level(action)
     case record_or_model
     when ActiveRecord::Base
-      return can_access_record?(level, record_or_model.class.model_name.to_s, record_or_model)
-    else Class
+      return can_access_record?(level,
+                                record_or_model.class.model_name.to_s,
+                                record_or_model)
+    when Class
       return can_access_model?(level, record_or_model)
     end
   end
@@ -73,7 +75,7 @@ module User::HasRole
     case record_or_model
     when ActiveRecord::Base
       record_or_model.class.model_name.to_s
-    else Class
+    when Class
       record_or_model.to_s
     end
   end

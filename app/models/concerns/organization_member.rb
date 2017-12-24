@@ -5,7 +5,6 @@ module OrganizationMember
     belongs_to :organization, optional: true
   end
 
-
   def top_level_organizations
     id_of_organization =  if model_name == 'Organization'
                             id

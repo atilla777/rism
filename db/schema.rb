@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20171221055347) do
 
   create_table "agreements", force: :cascade do |t|
     t.date "beginning"
-    t.text "prop"
+    t.string "prop"
     t.integer "duration"
     t.boolean "prolongation"
     t.bigint "organization_id"

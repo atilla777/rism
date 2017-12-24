@@ -20,6 +20,7 @@ class Right < ApplicationRecord
   validates :subject_id, numericality: { only_integer: true, allow_blank: true }
   validates :level, inclusion: { in: LEVELS.keys }
 
+  # TODO RSpec it
   validates :subject_id,
             uniqueness: { scope: [:role_id, :subject_type, :level] },
             allow_blank: true
@@ -30,9 +31,9 @@ class Right < ApplicationRecord
   validates :level, uniqueness: { scope: [:role_id, :subject_type, :subject_id] },
             unless: Proc.new { | r | r.subject_id.blank? }
 
+  belongs_to :organization # organization has many right_scopes
   belongs_to :role
   belongs_to :subject, polymorphic: true, optional: true
-  belongs_to :organization # organization has many right_scopes
 
   def show_subject_type
     SUBJECT_TYPES[subject_type]

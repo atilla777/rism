@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Attachment do
+RSpec.describe Attachment, type: :model do
   it { should validate_length_of(:name)
        .is_at_least(0)
        .is_at_most(100) }

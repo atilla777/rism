@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AttachmentLink do
+RSpec.describe AttachmentLink, type: :model do
   it { should validate_presence_of(:record_type) }
   it { should validate_numericality_of(:record_id)
        .only_integer }
