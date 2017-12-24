@@ -7,6 +7,8 @@ FactoryBot.define do
     rank 001
     organization
     active false
+    password 'password'
+    password_confirmation 'password'
     description "MyText"
   end
 end

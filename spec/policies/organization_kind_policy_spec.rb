@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OrganizationkindPolicy do
+RSpec.describe OrganizationKindPolicy do
 
   let(:user) { User.new }
 
