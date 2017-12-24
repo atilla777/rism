@@ -1,8 +1,8 @@
 class Department < ApplicationRecord
   include OrganizationMember
 
-  validates :name, length: {mimumum: 3, maximum: 255}
   validates :name, uniqueness: { scope: :organization_id }
+  validates :name, length: { in: 1..100 }
   validates :organization_id, numericality: { only_integer: true }
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
   validates :rank, numericality: { only_integer: true, allow_blank: true }

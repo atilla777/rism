@@ -20,6 +20,8 @@ class Agreement < ApplicationRecord
   has_many :attachment_links, as: :record
   has_many :attachments, through: :attachment_links
 
+  has_many :rights, as: :subject
+
   private
   def organization_not_contrcator
     if organization_id == contractor_id

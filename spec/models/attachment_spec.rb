@@ -9,4 +9,5 @@ RSpec.describe Attachment, type: :model do
   it { should belong_to(:organization) }
   it { should have_many(:attachment_links) }
   it { should have_many(:agreements) }
+  it { should have_many :rights}
 end

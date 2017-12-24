@@ -21,11 +21,11 @@ RSpec.describe Organization, type: :model do
   it { should have_many(:departments) }
   it { should have_many(:agreements) }
   it { should have_many(:contracts) }
-  it { should have_many(:rights) }
   it { should have_many(:right_scopes) }
   it { should have_many(:children) }
   it { should belong_to(:parent) }
   it { should belong_to(:organization_kind) }
+  it { should have_many(:rights) }
 
   context 'when has some child organizations' do
     let!(:parent1) { create :organization }

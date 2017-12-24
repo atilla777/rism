@@ -3,6 +3,12 @@ class Organization < ApplicationRecord
 
   has_paper_trail
 
+  validates :name, uniqueness: true
+  validates :name, length: { in: 1..100}
+  validates :full_name, uniqueness: true, allow_blank: true
+  validates :full_name, length: { in: 1..200, allow_blank: true}
+  validates :parent_id, numericality: { only_integer: true, allow_blank: true }
+
   has_many :right_scopes, class_name: 'Right', dependent: :destroy
 
   has_many :users, dependent: :destroy
@@ -10,18 +16,12 @@ class Organization < ApplicationRecord
   has_many :agreements, dependent: :destroy
   has_many :contracts, class_name: 'Agreement', foreign_key: :contractor_id, dependent: :destroy
 
-  has_many :rights, as: :subject, dependent: :destroy
-
   has_many :children, class_name: 'Organization', foreign_key: :parent_id, dependent: :destroy
   belongs_to :parent, class_name: 'Organization', optional: true
 
   belongs_to :organization_kind
 
-  validates :name, uniqueness: true
-  validates :name, length: { in: 1..100}
-  validates :full_name, uniqueness: true, allow_blank: true
-  validates :full_name, length: { in: 1..200, allow_blank: true}
-  validates :parent_id, numericality: { only_integer: true, allow_blank: true }
+  has_many :rights, as: :subject, dependent: :destroy
 
   # array of child organizations ids, example -
   # organization with id 1 has childs with ids 34, 45 and 57:

@@ -15,6 +15,8 @@ class User < ApplicationRecord
 
   belongs_to :department, optional: true
 
+  has_many :rights, as: :subject
+
   private
   def set_organization_id
     self.organization_id = self.department.organization_id

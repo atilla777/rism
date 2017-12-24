@@ -10,6 +10,7 @@ RSpec.describe User, type: :model do
        .is_at_least(0)
        .is_at_most(100) }
   it { should belong_to(:department) }
+  it { should have_many :rights}
 
   describe '#organization_id' do
     it { should validate_numericality_of(:organization_id)
