@@ -5,11 +5,12 @@ module Authlogic
     end
 
     def login(options)
-      create(:user, options)
+      user = create(:user, options)
       visit sign_in_path
-      fill_in 'email', with: user.email
-      fill_in I18n.t('user_sessions.password'), with: 'password'
-      click_button I18n.t('user_sessions.sign_in')
+      fill_in 'user_session_email', with: user.email
+      fill_in 'user_session_password', with: 'password'
+      find('input[name="commit"]').click
+      #click_button I18n.t('user_sessions.sign_in')
     end
 
     def logout
@@ -22,4 +23,5 @@ RSpec.configure do | config |
   require 'authlogic/test_case'
   config.include Authlogic::TestCase
   config.include Authlogic::TestHelper, type: :controller
+  config.include Authlogic::TestHelper, type: :feature
 end
