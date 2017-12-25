@@ -92,4 +92,5 @@ end
 group :test do
   gem 'shoulda-matchers', '~> 2.0'
   gem 'database_cleaner'
+  gem 'rails-controller-testing'
 end
