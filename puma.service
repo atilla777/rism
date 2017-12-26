@@ -1,0 +1,34 @@
+[Unit]
+Description=Puma HTTP Forking Server
+After=network.target
+
+[Service]
+# Background process configuration (use with --daemon in ExecStart)
+Type=forking
+
+# Preferably configure a non-privileged user
+User=deploy
+
+# The path to the puma application root
+# Also replace the "<WD>" place holders below with this path.
+WorkingDirectory=/home/deploy/rism/current/
+
+# The command to start Puma
+ExecStart=/home/deploy/.rvm/bin/rvm default do bundle exec puma -C /home/deploy/rism/current/config/puma.rb -e production --daemon
+
+# The command to stop Puma
+ExecStop=bundle exec pumactl -S /home/deploy/rism/current/shared/tmp/pids/puma.state stop
+
+# Path to PID file so that systemd knows which is the master process
+PIDFile=/home/deploy/rism/current/shared/tmp/pids/puma.pid
+
+# Should systemd restart puma?
+# Use "no" (the default) to ensure no interference when using
+# stop/start/restart via `pumactl`.  The "on-failure" setting might
+# work better for this purpose, but you must test it.
+# Use "always" if only `systemctl` is used for start/stop/restart, and
+# reconsider if you actually need the forking config.
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
