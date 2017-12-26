@@ -4,31 +4,23 @@ FactoryBot.define do
     sequence(:email) { | n | "User#{n}@domain.io" }
     department_id nil
     department_name 'Department'
-    rank 001
+    sequence(:rank) { | n | n }
     organization
     active true
-    trait(:active) { active true }
     password 'password'
     password_confirmation 'password'
-    description "MyText"
-    transient { role false }
-    transient { allowed_organization_id nil }
-    transient { allowed_model 'Organization' }
-    after(:create) do | user, evaluator |
-      if evaluator.role.present?
+    sequence(:description) { | n | "User#{n} description" }
+    factory :user_with_right do
+      transient { allowed_action :read}
+      transient { allowed_organization_id nil }
+      transient { allowed_model 'Organization' }
+      after(:create) do | user, evaluator |
         role = create(:role,
                       id: 5)
         create(:role_member,
                user_id: user.id,
                role_id: role.id)
-        case evaluator.role
-        when :manager
-          level = 1
-        when :editor
-          level = 2
-        when :reader
-          level = 3
-        end
+        level = Right.action_to_level(evaluator.allowed_action)
         create(:right,
                organization_id: evaluator.allowed_organization_id,
                role_id: role.id,
