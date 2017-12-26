@@ -13,7 +13,7 @@ FactoryBot.define do
     factory :user_with_right do
       transient { allowed_action :read}
       transient { allowed_organization_id nil }
-      transient { allowed_model 'Organization' }
+      transient { allowed_models ['Organization'] }
       after(:create) do | user, evaluator |
         role = create(:role,
                       id: 5)
@@ -21,11 +21,13 @@ FactoryBot.define do
                user_id: user.id,
                role_id: role.id)
         level = Right.action_to_level(evaluator.allowed_action)
-        create(:right,
-               organization_id: evaluator.allowed_organization_id,
-               role_id: role.id,
-               subject_type: evaluator.allowed_model,
-               level: level)
+        evaluator.allowed_models.each do | model |
+          create(:right,
+                 organization_id: evaluator.allowed_organization_id,
+                 role_id: role.id,
+                 subject_type: model,
+                 level: level)
+        end
       end
     end
   end

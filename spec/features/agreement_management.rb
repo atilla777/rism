@@ -1,43 +1,44 @@
 require 'rails_helper'
 
-RSpec.feature 'User management', type: :feature do
+RSpec.feature 'Agreement management', type: :feature do
   given!(:organization) { create(:organization) }
   given!(:user) { create(:user_with_right,
                         allowed_action: :read,
                         allowed_organization_id: organization.id,
                         allowed_models: ['Organization',
-                                         'User']) }
-  given!(:users) { create_list(:user, 3,
-                              organization_id: organization.id) }
+                                         'Agreement']) }
+  given!(:agreements) { create_list(:agreement, 3,
+                                    organization_id: organization.id) }
 
   background { login(user) }
 
   after(:each) { logout }
 
   scenario 'reader can view records', js: true do
-    visit users_path
+    visit agreements_path
 
-    expect(page).to have_text(users.last.name)
+    expect(page).to have_text(agreements.last.prop)
   end
 
-  scenario 'reader can view record', js: true  do
-    visit users_path(users.first)
+  scenario 'reader can view record', js: true do
+    visit agreements_path(agreements.first)
 
-    expect(page).to have_text(users.first.name)
+    expect(page).to have_text(agreements.first.prop)
   end
 
   scenario 'reader can`t edit record', js: true do
-    visit users_path
+    visit agreements_path
     click_on(I18n.t('views.action.edit'), match: :first)
 
     expect(page).to have_text(I18n.t('messages.not_allowed'))
   end
 
   scenario 'reader can`t delete record', js: true do
-    visit users_path
+    visit agreements_path
     click_on(I18n.t('views.action.delete'), match: :first)
     page.accept_confirm
 
     expect(page).to have_text(I18n.t('messages.not_allowed'))
+    expect(page).to have_text(agreements.first.prop)
   end
 end

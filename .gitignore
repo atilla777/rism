@@ -18,6 +18,7 @@
 
 .byebug_history
 
+*~
 *.swp
 *.swo
 .DS_Store
