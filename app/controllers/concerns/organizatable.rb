@@ -9,6 +9,7 @@ module Organizatable
     else
       scope = get_model
     end
+    scope = policy_scope(scope)
     @q = scope.ransack(params[:q])
 
     @q.sorts = 'rank asc' if @q.sorts.empty?

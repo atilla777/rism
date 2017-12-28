@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Organization management', type: :feature do
   given!(:parent) { create(:organization) }
+  given!(:not_allowed_organization) { create(:organization) }
   given!(:children) { create_list(:organization, 3,
                            parent_id: parent.id) }
   given!(:user) { create(:user_with_right,
@@ -19,10 +20,23 @@ RSpec.feature 'Organization management', type: :feature do
     expect(page).to have_text(children.last.name)
   end
 
+  scenario 'reader can`t view not allowed records', js: true do
+    visit organizations_path
+
+    expect(page).not_to have_text(not_allowed_organization.name)
+  end
+
   scenario 'reader can view record', js: true do
     visit organizations_path(children.first)
 
     expect(page).to have_text(children.first.name)
+  end
+
+  scenario 'reader can`t view not allowed record', js: true do
+    visit organizations_path(not_allowed_organization)
+
+    #expect(page).to have_text(I18n.t('messages.not_allowed'))
+    expect(page).not_to have_text(not_allowed_organization.name)
   end
 
   scenario 'reader can`t edit record', js: true do

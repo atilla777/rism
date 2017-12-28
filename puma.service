@@ -9,18 +9,18 @@ Type=forking
 # Preferably configure a non-privileged user
 User=deploy
 
-# The path to the puma application root
+# The th to the puma application root
 # Also replace the "<WD>" place holders below with this path.
 WorkingDirectory=/home/deploy/rism/current/
 
 # The command to start Puma
-ExecStart=/home/deploy/.rvm/bin/rvm default do bundle exec puma -C /home/deploy/rism/current/config/puma.rb -e production --daemon
+ExecStart=/home/deploy/.rvm/bin/rvm default do bundle exec puma -C /home/deploy/rism/shared/puma.rb --daemon
 
 # The command to stop Puma
-ExecStop=bundle exec pumactl -S /home/deploy/rism/current/shared/tmp/pids/puma.state stop
+ExecStop=/home/deploy/.rvm/bin/rvm default do bundle exec pumactl -S /home/deploy/rism/shared/tmp/pids/puma.state -F /home/deploy/rism/shared/puma.rb stop
 
 # Path to PID file so that systemd knows which is the master process
-PIDFile=/home/deploy/rism/current/shared/tmp/pids/puma.pid
+PIDFile=/home/deploy/rism/shared/tmp/pids/puma.pid
 
 # Should systemd restart puma?
 # Use "no" (the default) to ensure no interference when using
@@ -29,6 +29,3 @@ PIDFile=/home/deploy/rism/current/shared/tmp/pids/puma.pid
 # Use "always" if only `systemctl` is used for start/stop/restart, and
 # reconsider if you actually need the forking config.
 Restart=no
-
-[Install]
-WantedBy=multi-user.target

@@ -13,6 +13,7 @@ class UsersController < ApplicationController
       scope = User
       r = 'index'
     end
+    scope = policy_scope(scope)
     @q = scope.ransack(params[:q])
     @q.sorts = 'rank asc' if @q.sorts.empty?
     @records = @q.result
