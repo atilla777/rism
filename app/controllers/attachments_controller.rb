@@ -19,6 +19,12 @@ class AttachmentsController < ApplicationController
     end
   end
 
+  def download
+    record = get_model.find(params[:id])
+    authorize record
+    send_file record.document.path, disposition: 'attachment', x_sendfile: true
+  end
+
   private
   def get_model
     Attachment

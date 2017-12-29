@@ -12,7 +12,7 @@ RSpec.describe OrganizationKindsController, type: :controller do
   context 'admin user' do
     setup :activate_authlogic
     let(:user) { create(:user,
-                       active: true) }
+                        active: true) }
     let(:role) { create(:role, :admin) }
     let(:user_to_role) { create(:role_member,
                          role_id: role.id,

@@ -14,7 +14,12 @@ class DocumentUploader < CarrierWave::Uploader::Base
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     year = DateTime.current.strftime("%Y.%m")
-    "uploads/#{model.class.to_s.underscore}/#{model.organization.id}/#{mounted_as}/#{year}/#{model.id}"
+    "#{Rails.root}/uploads/#{model.class.to_s.underscore}/#{model.organization.id}/#{mounted_as}/#{year}/#{model.id}"
+  end
+
+  def cache_dir
+    year = DateTime.current.strftime("%Y.%m")
+    "#{Rails.root}/tmp/uploads/cache/#{model.class.to_s.underscore}/#{mounted_as}/#{year}/#{model.id}"
   end
 
   private

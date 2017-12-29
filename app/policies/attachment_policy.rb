@@ -4,4 +4,9 @@ class AttachmentPolicy < ApplicationPolicy
      attachment_link_attributes: [:id, :attachment_id, :record_type, :record_id]]
   end
 
+  def download?
+    return true if @user.admin_editor_reader?
+    @user.can? :read, @record
+  end
+
 end

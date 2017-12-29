@@ -36,7 +36,7 @@ table.table.table-hover.table-bordered.table-striped
           strong.text-info
             = index + 1
         td
-          = link_to attachment.document.url do
+          = link_to attachment_download_path(attachment), data: {turbolinks: false} do
             = fa_icon 'file'
             =< AttachmentDecorator.new(attachment).show_file_name
           span.pull-right
