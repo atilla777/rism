@@ -12,4 +12,9 @@ class AgreementsController < ApplicationController
   def set_attachment
     @attahment = Attachment.new
   end
+
+  def filter_for_organization
+    get_model.where(organization_id: @organization.id)
+             .or(get_model.where(contractor_id: @organization.id))
+  end
 end

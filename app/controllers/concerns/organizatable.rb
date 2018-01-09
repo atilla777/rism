@@ -5,7 +5,7 @@ module Organizatable
     authorize get_model
     @organization = get_organization
     if @organization.id.present?
-      scope = get_model.where(organization_id: @organization.id)
+      scope = filter_for_organization
     else
       scope = get_model
     end
@@ -117,5 +117,9 @@ module Organizatable
     unless current_user.admin_editor? || current_user.allowed_organizations_ids.include?(id)
       params[get_model.name.underscore.to_sym][:organization_id] = nil
     end
+  end
+
+  def filter_for_organization
+    get_model.where(organization_id: @organization.id)
   end
 end
