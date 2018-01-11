@@ -1,24 +1,22 @@
-# README
+# RISM - Rails Information Security Management
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This application can help you to manage information  related to information security (it is like ERP for information security business process).
 
-Things you may want to cover:
+At now project is not finished yet.
 
-* Ruby version
+What already realeased:
+* Organizations management
 
-* System dependencies
+* Contacts management
 
-* Configuration
+* Agreements accounting
 
-* Database creation
+What planned:
 
-* Database initialization
+* Information resources accounting
 
-* How to run the test suite
+* Incidents accounting
 
-* Services (job queues, cache servers, search engines, etc.)
+* Risks accounting
 
-* Deployment instructions
-
-* ...
+* e.t.c.
