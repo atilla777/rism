@@ -1,4 +1,4 @@
-= index_search :prop_or_beginning_or_agreement_kind_name_or_organization_name_or_contractor_name_cont,organization_id_eq: @organization&.id
+= index_search :beginning_or_prop_or_agreement_kind_name_or_organization_name_or_contractor_name_cont, organization_id_eq: @organization&.id
 = index_for records do | i |
   - i.header attribute: :beginning, sort: :desc
   - i.header attribute: :prop, sort: :desc

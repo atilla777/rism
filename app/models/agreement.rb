@@ -2,7 +2,7 @@ class Agreement < ApplicationRecord
   include OrganizationMember
 
   ransacker :beginning do
-    Arel.sql("to_char(beginning, 'DD.MM.YYYY')")
+    Arel.sql("to_char(beginning, 'YYYY.MM.DD')")
   end
 
   validate :organization_not_contrcator
