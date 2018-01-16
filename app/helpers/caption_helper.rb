@@ -20,7 +20,7 @@ module CaptionHelper
   # * <tt>:tag</tt> - Specifies html tag (default is h3)
   # * <tt>:id</tt> - Specifies html id
   # * <tt>:class</tt> - Specifies html class (default is text-info)
-  # 
+  #
   #
   # ==== Examples
   #  caption(@user)        # => <h3 class='text-primary'>User</h3>
@@ -44,17 +44,18 @@ module CaptionHelper
               when String
                 record_or_records_or_text
               else
-                raise ArgumentError.new <<TEXT
-It should be a one record, several records or text string.'
-TEXT
+                raise(
+                  ArgumentError,
+                  'It should be a one record, several records or text string.'
+                )
               end
-
     options = set_options(options)
     render('helpers/caption', caption: caption,
                               tag: options)
   end
 
   private
+
   def set_options(options)
     options[:tag] ||= 'h3'
     options[:class] ||= 'text-info'

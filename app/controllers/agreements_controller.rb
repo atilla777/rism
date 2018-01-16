@@ -17,4 +17,12 @@ class AgreementsController < ApplicationController
     get_model.where(organization_id: @organization.id)
              .or(get_model.where(contractor_id: @organization.id))
   end
+
+  def default_sort
+    'beginning desc'
+  end
+
+  def default_includes
+    %i[organization agreement_kind]
+  end
 end

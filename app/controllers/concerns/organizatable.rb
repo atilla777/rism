@@ -12,9 +12,9 @@ module Organizatable
     scope = policy_scope(scope)
     @q = scope.ransack(params[:q])
 
-    @q.sorts = 'rank asc' if @q.sorts.empty?
+    @q.sorts = default_sort if @q.sorts.empty?
     @records = @q.result
-                 .includes(:organization)
+                 .includes(default_includes)
                  .page(params[:page])
     if params[:organization_id].present? || params[:q] && params[:q][:organization_id_eq].present?
       render 'index'
@@ -121,5 +121,13 @@ module Organizatable
 
   def filter_for_organization
     get_model.where(organization_id: @organization.id)
+  end
+
+  def default_sort
+    'created_at asc'
+  end
+
+  def default_includes
+    :organization
   end
 end
