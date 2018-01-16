@@ -23,6 +23,6 @@ class AgreementsController < ApplicationController
   end
 
   def default_includes
-    %i[organization agreement_kind]
+    %i[organization contractor agreement_kind]
   end
 end
