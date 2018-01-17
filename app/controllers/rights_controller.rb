@@ -11,7 +11,7 @@ class RightsController < ApplicationController
     @q = Right.where(role_id: @role.id)
                    .ransack(params[:q])
     @records = @q.result
-                 .includes(:role)
+                 .includes(:role, :organization)
                  .page(params[:page])
   end
 

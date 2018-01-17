@@ -4,7 +4,7 @@ class VersionsController < ApplicationController
     scope = PaperTrail::Version
     @q = scope.ransack(params[:q])
 
-    @q.sorts = 'rank asc' if @q.sorts.empty?
+    @q.sorts = 'created_at desc' if @q.sorts.empty?
     @records = @q.result
                  .page(params[:page])
   end

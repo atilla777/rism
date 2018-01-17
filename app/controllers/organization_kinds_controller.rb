@@ -1,5 +1,4 @@
 class OrganizationKindsController < ApplicationController
-  include DefaultMethods
   include DefaultActions
 
   private

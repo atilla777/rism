@@ -1,5 +1,6 @@
 class AttachmentsController < ApplicationController
-  include DefaultMethods
+  before_action :set_edit_previous_page, only: [:new, :edit]
+  before_action :set_show_previous_page, only: [:index]
 
   def create
     authorize get_model
@@ -42,6 +43,13 @@ class AttachmentsController < ApplicationController
     params.require(get_model.name.underscore.to_sym)
           .permit(:name, :document, :organization_id,
                   attachment_link_attributes: [:id, :record_type, :record_id, :attachment_id])
-          #.merge current_user: current_user
+  end
+
+  def set_show_previous_page
+    session[:show_return_to] = request.original_url
+  end
+
+  def set_edit_previous_page
+    session[:return_to] = request.referer
   end
 end

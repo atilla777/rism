@@ -1,5 +1,13 @@
+# default actions/methods for all models (tables)
+# which belongs to organization
+# (organization model excluded)
 module Organizatable
   extend ActiveSupport::Concern
+
+  included do
+    before_action :set_edit_previous_page, only: [:new, :edit]
+    before_action :set_show_previous_page, only: [:index]
+  end
 
   def index
     authorize get_model
@@ -84,6 +92,11 @@ module Organizatable
   end
 
   private
+  def record_params
+    params.require(get_model.name.underscore.to_sym)
+          .permit(policy(get_model).permitted_attributes)
+  end
+
   def set_show_previous_page
     session[:show_return_to] = request.original_url
   end

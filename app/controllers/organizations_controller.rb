@@ -18,6 +18,16 @@ class OrganizationsController < ApplicationController
     #                                             .pluck(:id)
   end
 
+  def index
+    authorize get_model
+    scope = policy_scope(get_model)
+    @q = scope.ransack(params[:q])
+    @q.sorts = 'name asc' if @q.sorts.empty?
+    @records = @q.result
+                 .includes(:parent, :organization_kind)
+                 .page(params[:page])
+  end
+
   private
   def record_params
     params.require(get_model.name.underscore.to_sym)

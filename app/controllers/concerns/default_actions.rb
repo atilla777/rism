@@ -1,3 +1,6 @@
+# default actions/methods for all models (tables)
+# which not belongs to organization
+# (organization model included)
 module DefaultActions
   extend ActiveSupport::Concern
 
@@ -10,6 +13,7 @@ module DefaultActions
     authorize get_model
     scope = policy_scope(get_model)
     @q = scope.ransack(params[:q])
+    @q.sorts = default_filter if @q.sorts.empty?
     @records = @q.result
                  .page(params[:page])
   end
@@ -81,5 +85,9 @@ module DefaultActions
   def record_params
     params.require(get_model.name.underscore.to_sym)
           .permit(policy(get_model).permitted_attributes)
+  end
+
+  def default_filter
+    'name asc'
   end
 end

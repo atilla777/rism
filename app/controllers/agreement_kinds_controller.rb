@@ -1,5 +1,4 @@
 class AgreementKindsController < ApplicationController
-  include DefaultMethods
   include DefaultActions
 
   private

@@ -1,7 +1,5 @@
 class UsersController < ApplicationController
-  #include DefaultActions
   include Organizatable
-  include DefaultMethods
 
   def index
     authorize get_model

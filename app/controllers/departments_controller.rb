@@ -1,7 +1,5 @@
 class DepartmentsController < ApplicationController
-  #include DefaultActions
   include Organizatable
-  include DefaultMethods
 
   def select
     authorize get_model
