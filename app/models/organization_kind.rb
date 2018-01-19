@@ -3,4 +3,6 @@ class OrganizationKind < ApplicationRecord
   validates :name, uniqueness: true
 
   has_many :organizations
+
+  # TODO dont allow delete kind assigned to existing organization
 end

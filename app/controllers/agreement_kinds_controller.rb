@@ -1,5 +1,5 @@
 class AgreementKindsController < ApplicationController
-  include DefaultActions
+  include Record
 
   private
   def get_model

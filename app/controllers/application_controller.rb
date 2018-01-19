@@ -3,13 +3,14 @@ class ApplicationController < ActionController::Base
 
   before_action :set_paper_trail_whodunnit
 
-  after_action :verify_authorized#, except: :autocomplete_organization_name
+  after_action :verify_authorized
 
   protect_from_forgery with: :exception
 
   add_flash_types :danger, :success
 
   helper_method :current_user_session, :current_user
+
   before_action :authenticate?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized

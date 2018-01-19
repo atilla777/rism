@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  include DefaultActions
+  include Record
 
   autocomplete :organization, :name, full: true
 

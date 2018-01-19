@@ -1,5 +1,5 @@
 class AgreementsController < ApplicationController
-  include Organizatable
+  include RecordOfOrganization
 
   before_action :set_attachment, only: [:show]
 

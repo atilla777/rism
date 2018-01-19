@@ -1,5 +1,5 @@
 class RightsController < ApplicationController
-  include DefaultActions
+  include Record
 
   def index
     authorize Right

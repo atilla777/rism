@@ -1,5 +1,5 @@
 class RoleMembersController < ApplicationController
-  include DefaultActions
+  include Record
 
   def index
     authorize RoleMember

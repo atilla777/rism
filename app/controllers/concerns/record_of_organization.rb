@@ -1,13 +1,9 @@
 # default actions/methods for all models (tables)
 # which belongs to organization
-# (organization model excluded)
-module Organizatable
+# but exclude organization model (organization also belongs to parent organization)
+module RecordOfOrganization
   extend ActiveSupport::Concern
-
-  included do
-    before_action :set_edit_previous_page, only: [:new, :edit]
-    before_action :set_show_previous_page, only: [:index]
-  end
+  include SharedMethods
 
   def index
     authorize get_model
@@ -19,7 +15,6 @@ module Organizatable
     end
     scope = policy_scope(scope)
     @q = scope.ransack(params[:q])
-
     @q.sorts = default_sort if @q.sorts.empty?
     @records = @q.result
                  .includes(default_includes)
@@ -71,9 +66,9 @@ module Organizatable
     filter_organization_id
     if @record.update(record_params)
       redirect_to(session.delete(:return_to),
-                   organization_id: @organization.id,
-                   success: t('flashes.update',
-                              model: get_model.model_name.human))
+                  organization_id: @organization.id,
+                  success: t('flashes.update',
+                             model: get_model.model_name.human))
     else
       render :edit
     end
@@ -87,7 +82,7 @@ module Organizatable
     redirect_back(fallback_location: polymorphic_url(@record.class),
                   organization_id: @organization.id,
                   success: t('flashes.destroy',
-                              model: get_model.model_name.human))
+                             model: get_model.model_name.human))
 
   end
 
@@ -95,14 +90,6 @@ module Organizatable
   def record_params
     params.require(get_model.name.underscore.to_sym)
           .permit(policy(get_model).permitted_attributes)
-  end
-
-  def set_show_previous_page
-    session[:show_return_to] = request.original_url
-  end
-
-  def set_edit_previous_page
-    session[:return_to] = request.referer
   end
 
   def get_record
@@ -113,6 +100,7 @@ module Organizatable
     @record
   end
 
+  # get organization to wich record belongs
   def get_organization
     if params[:organization_id].present?
       Organization.where(id: params[:organization_id]).first
@@ -125,6 +113,7 @@ module Organizatable
     end
   end
 
+  # prevent user to make record belonging to not allowed organization
   def filter_organization_id
     id = params[get_model.name.underscore.to_sym][:organization_id].to_i
     unless current_user.admin_editor? || current_user.allowed_organizations_ids.include?(id)
@@ -132,14 +121,19 @@ module Organizatable
     end
   end
 
+  # filter used in index pages wich is a part of organizaion show page
+  # (such index shows only records that belongs to organization)
   def filter_for_organization
     get_model.where(organization_id: @organization.id)
   end
 
+  # set sort field and direction by default
+  # (applies when go to index page from other place)
   def default_sort
     'created_at asc'
   end
 
+  # method resolves N+1 problem
   def default_includes
     :organization
   end

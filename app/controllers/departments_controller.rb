@@ -1,5 +1,5 @@
 class DepartmentsController < ApplicationController
-  include Organizatable
+  include RecordOfOrganization
 
   def select
     authorize get_model

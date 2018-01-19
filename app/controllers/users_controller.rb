@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  include Organizatable
+  include RecordOfOrganization
 
   def index
     authorize get_model
