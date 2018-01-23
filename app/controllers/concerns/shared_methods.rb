@@ -8,6 +8,17 @@ module SharedMethods
   end
 
   private
+
+  # show record previous version instead real record if param
+  # version_id is set
+  def record
+    if params[:version_id].present?
+      PaperTrail::Version.find(params[:version_id]).reify
+    else
+      model.find(params[:id])
+    end
+  end
+
   def set_show_previous_page
     session[:show_return_to] = request.original_url
   end

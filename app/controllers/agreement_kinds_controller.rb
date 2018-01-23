@@ -2,7 +2,7 @@ class AgreementKindsController < ApplicationController
   include Record
 
   private
-  def get_model
+  def model
     AgreementKind
   end
 end

@@ -2,9 +2,9 @@ class DepartmentsController < ApplicationController
   include RecordOfOrganization
 
   def select
-    authorize get_model
-    @organization = get_organization
-    @department = get_department
+    authorize model
+    @organization = organization
+    @department = department
     if params[:user_ids]
       session[:selected_users] ||= []
       session[:selected_users] += params[:user_ids]
@@ -20,9 +20,9 @@ class DepartmentsController < ApplicationController
   end
 
   def reset
-    authorize get_model
-    @organization = get_organization
-    @department = get_department
+    authorize model
+    @organization = organization
+    @department = department
     session[:selected_departments] = []
     session[:selected_users] = []
 
@@ -30,9 +30,9 @@ class DepartmentsController < ApplicationController
   end
 
   def paste
-    authorize get_model
-    @organization = get_organization
-    @department = get_department
+    authorize model
+    @organization = organization
+    @department = department
     session[:selected_departments] ||= []
     session[:selected_users] ||= []
     session[:selected_users].each do | id |
@@ -50,16 +50,16 @@ class DepartmentsController < ApplicationController
   end
 
   def index
-    authorize get_model
-    @organization = get_organization
-    @department = get_department
-    scope = get_model.where(organization_id: @organization.id) if @organization&.id.present?
+    authorize model
+    @organization = organization
+    @department = department
+    scope = model.where(organization_id: @organization.id) if @organization&.id.present?
     if @department.id.present?
       scope = scope.where(parent_id: @department.id)
     elsif @organization.id
       scope = scope.where('departments.parent_id IS NULL')
     else
-      scope = get_model
+      scope = model
     end
     @q = scope.ransack(params[:q])
 
@@ -75,74 +75,75 @@ class DepartmentsController < ApplicationController
   end
 
   def show
-    @record = get_record
+    @record = record
     authorize @record
-    @organization = get_organization
-    @department = get_department
+    @organization = organization
+    @department = department
   end
 
   def new
     authorize Department
     @record = Department.new
-    @organization = get_organization
-    @department = get_department
+    @organization = organization
+    @department = department
   end
 
   def create
     authorize Department
     @record = Department.new(record_params)
-    @organization = get_organization
-    @department = get_department
+    @organization = organization
+    @department = department
     if @record.save
       redirect_to(session.delete(:return_to),
                    organization_id: @organization.id,
                    department_id: @department.id,
                    success: t('flashes.create',
-                              model: get_model.model_name.human))
+                              model: model.model_name.human))
     else
       render :new
     end
   end
 
   def edit
-    @record = get_record
-    @organization = get_organization
-    @department = get_department
+    @record = record
+    @organization = organization
+    @department = department
     authorize @record
   end
 
   def update
-    @record = get_record
-    @organization = get_organization
-    @department = get_department
+    @record = record
+    @organization = organization
+    @department = department
     authorize @record
     if @record.update(record_params)
       redirect_to(session.delete(:return_to),
                    organization_id: @organization.id,
                    department_id: @department.id,
                    success: t('flashes.update',
-                              model: get_model.model_name.human))
+                              model: model.model_name.human))
     else
       render :edit
     end
   end
 
   def destroy
-    @record = get_model.find(params[:id])
+    @record = model.find(params[:id])
     authorize @record
-    @department = get_department
-    @organization = get_organization
+    @department = department
+    @organization = organization
     @record.destroy
     redirect_back(fallback_location: polymorphic_url(@record.class),
                   organization_id: @organization.id,
                   department_id: @department.id,
                   success: t('flashes.destroy',
-                              model: get_model.model_name.human))
+                              model: model.model_name.human))
 
   end
 
   private
-  def get_organization
+
+  def organization
     if params[:organization_id].present?
       Organization.where(id: params[:organization_id]).first
     elsif params[:q] && params[:q][:organization_id_eq].present?
@@ -154,7 +155,7 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  def get_department
+  def department
     if params[:department_id].present?
       Department.where(id: params[:department_id]).first
     elsif params[:department].present? && params[:department][:parent_id].present?
@@ -164,7 +165,7 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  def get_model
+  def model
     Department
   end
 end

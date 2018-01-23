@@ -1,55 +1,65 @@
+# frozen_string_literal: true
+
 class AttachmentsController < ApplicationController
-  before_action :set_edit_previous_page, only: [:new, :edit]
-  before_action :set_show_previous_page, only: [:index]
+  include SharedMethods
 
   def create
-    authorize get_model
+    authorize Attachment
     params[:attachment][:organization_id] = current_user.organization.id
-    @attachment = Attachment.new(record_params)
-    record = get_record
-    if @attachment.save
-      a_l = AttachmentLink.new(attachment_id: @attachment.id,
-                            record_type: params[:attachment][:attachment_link][:record_type],
-                            record_id: params[:attachment][:attachment_link][:record_id])
-      a_l.save
-      redirect_to polymorphic_path(record),
-                                   success: t('flashes.create', model: Attachment.model_name.human)
+    @attachment = Attachment.new(attachment_params)
+    attachment_link = new_attachment_link
+    begin
+      Attachment.transaction do
+        @attachment.save!
+        attachment_link.attachment_id = @attachment.id
+        attachment_link.save!
+      end
+    rescue
+      message = { danger: t('flashes.not_create',
+                            model: Attachment.model_name.human) }
     else
-      redirect_to polymorphic_path(record),
-                                   danger: t('flashes.not_create', model: Attachment.model_name.human)
+      message = { success: t('flashes.create',
+                             model: Attachment.model_name.human) }
+    ensure
+      redirect_to polymorphic_path(attachment_link.record), message
     end
   end
 
   def download
-    record = get_model.find(params[:id])
-    authorize record
-    send_file record.document.path, disposition: 'attachment', x_sendfile: true
+    attachment = Attachment.find(params[:id])
+    authorize attachment
+    send_file attachment.document
+                        .path, disposition: 'attachment', x_sendfile: true
   end
 
   private
-  def get_model
-    Attachment
+
+  def new_attachment_link
+    AttachmentLink.new(
+      attachment_id: @attachment.id,
+      record_type: params[:attachment][:attachment_link][:record_type],
+      record_id: params[:attachment][:attachment_link][:record_id]
+    )
   end
 
-  def get_record
-    model = AttachmentLink.linkable_models.find do | model_constant |
-      model_constant.name == params[:attachment][:attachment_link][:record_type]
-                        .classify
-    end
-    model.find(params[:attachment][:attachment_link][:record_id])
-  end
+#  def record
+#    record_model = AttachmentLink.linkable_models.find do | model_constant |
+#      model_constant.name == params[:attachment][:attachment_link][:record_type]
+#                        .classify
+#    end
+#    record_model.find(params[:attachment][:attachment_link][:record_id])
+#  end
 
-  def record_params
-    params.require(get_model.name.underscore.to_sym)
-          .permit(:name, :document, :organization_id,
-                  attachment_link_attributes: [:id, :record_type, :record_id, :attachment_id])
-  end
-
-  def set_show_previous_page
-    session[:show_return_to] = request.original_url
-  end
-
-  def set_edit_previous_page
-    session[:return_to] = request.referer
+  def attachment_params
+    params.require(:attachment)
+          .permit(
+            :name,
+            :document,
+            :organization_id,
+            attachment_link_attributes: [:id,
+                                         :record_type,
+                                         :record_id,
+                                         :attachment_id]
+          )
   end
 end

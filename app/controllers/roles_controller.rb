@@ -2,7 +2,7 @@ class RolesController < ApplicationController
   include Record
 
   private
-  def get_model
+  def model
     Role
   end
 end

@@ -2,13 +2,13 @@ class RightsController < ApplicationController
   include Record
 
   def index
-    authorize Right
+    authorize model
     if params[:role_id]
       @role = Role.find(params[:role_id])
     else
       @role = Role.find(params[:q][:role_id_eq])
     end
-    @q = Right.where(role_id: @role.id)
+    @q = model.where(role_id: @role.id)
                    .ransack(params[:q])
     @records = @q.result
                  .includes(:role, :organization)
@@ -16,37 +16,42 @@ class RightsController < ApplicationController
   end
 
   def new
-    authorize Right
-    @record = Right.new
+    authorize model
+    @record = model.new
     @role = Role.find(params[:role_id])
-    @subject_types = Right.subject_types
-    @levels = Right.levels
+    @subject_types = model.subject_types
+    @levels = model.levels
   end
 
   def create
-    authorize Right
-    @record = Right.new(record_params)
+    authorize model
+    @record = model.new(record_params)
     @role = Role.find(params[:right][:role_id])
     if @record.save
-      redirect_to rights_path(role_id: @role.id), success: t('flashes.create',
-                                               model: get_model.model_name.human)
+      redirect_to(
+        rights_path(role_id: @role.id),
+        success: t('flashes.create', model: model.model_name.human)
+      )
     else
-      @subject_types = Right.subject_types
-      @levels = Right.levels
+      @subject_types = model.subject_types
+      @levels = model.levels
       render :new
     end
   end
 
   def destroy
-    @record = get_model.find(params[:id])
+    @record = model.find(params[:id])
     authorize @record
     @record.destroy
-    redirect_to polymorphic_url(@record.class, role_id: @record.role.id),
-      success: t('flashes.destroy', model: get_model.model_name.human)
+    redirect_to(
+      polymorphic_url(@record.class, role_id: @record.role.id),
+      success: t('flashes.destroy', model: model.model_name.human)
+    )
   end
 
   private
-  def get_model
+
+  def model
     Right
   end
 end

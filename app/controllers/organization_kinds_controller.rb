@@ -2,7 +2,7 @@ class OrganizationKindsController < ApplicationController
   include Record
 
   private
-  def get_model
+  def model
     OrganizationKind
   end
 end

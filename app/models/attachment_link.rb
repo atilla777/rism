@@ -15,6 +15,7 @@ class AttachmentLink < ApplicationRecord
   end
 
   private
+
   def remove_attachment
     links = AttachmentLink.where(attachment_id: attachment_id)
     attachment.destroy unless links.present?

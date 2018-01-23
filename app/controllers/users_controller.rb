@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   include RecordOfOrganization
 
   def index
-    authorize get_model
+    authorize model
     if params[:department_id].present?
       @department = Department.find(params[:department_id])
       scope = @department.users
@@ -21,66 +21,67 @@ class UsersController < ApplicationController
   end
 
   def new
-    authorize get_model
-    @record = get_model.new
-    @organization = get_organization
-    @department = get_department
+    authorize model
+    @record = model.new
+    @organization = organization
+    @department = department
   end
 
   def create
-    authorize get_model
+    authorize model
     @record = User.new(record_params)
-    @organization = get_organization
-    @department = get_department
+    @organization = organization
+    @department = department
     if @record.save
       redirect_to(session.delete(:return_to),
                    organization_id: @organization.id,
                    department_id: @department.id,
                    success: t('flashes.create',
-                              model: get_model.model_name.human))
+                              model: model.model_name.human))
     else
       render :new
     end
   end
 
   def edit
-    @record = get_record
+    @record = record
     authorize @record
-    @organization = get_organization
-    @department = get_department
+    @organization = organization
+    @department = department
   end
 
   def update
-    @record = get_record
+    @record = record
     authorize @record
-    @organization = get_organization
-    @department = get_department
+    @organization = organization
+    @department = department
     if @record.update(record_params)
       redirect_to(session.delete(:return_to),
                    organization_id: @organization.id,
                    department_id: @department.id,
                    success: t('flashes.update',
-                              model: get_model.model_name.human))
+                              model: model.model_name.human))
     else
       render :edit
     end
   end
 
   def destroy
-    @record = get_record
+    @record = record
     authorize @record
-    @organization = get_organization
-    @department = get_department
+    @organization = organization
+    @department = department
     @record.destroy
     redirect_back(fallback_location: polymorphic_url(@record.class),
                   organization_id: @organization.id,
                   department_id: @department.id,
                   success: t('flashes.destroy',
-                              model: get_model.model_name.human))
+                              model: model.model_name.human))
   end
 
   private
-  def get_organization
+
+  def organization
     if params[:organization_id].present?
       Organization.where(id: params[:organization_id]).first
     elsif params[:user] && params[:user][:organization_id]
@@ -90,7 +91,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def get_department
+  def department
     if params[:department_id].present?
       Department.where(id: params[:department_id]).first
     elsif params[:user].present? && params[:user][:department_id].present?
@@ -102,7 +103,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def get_model
+  def model
     User
   end
 end

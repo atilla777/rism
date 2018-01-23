@@ -4,7 +4,8 @@ class AgreementsController < ApplicationController
   before_action :set_attachment, only: [:show]
 
   private
-  def get_model
+
+  def model
     Agreement
   end
 
@@ -13,8 +14,8 @@ class AgreementsController < ApplicationController
   end
 
   def filter_for_organization
-    get_model.where(organization_id: @organization.id)
-             .or(get_model.where(contractor_id: @organization.id))
+    model.where(organization_id: @organization.id)
+         .or(model.where(contractor_id: @organization.id))
   end
 
   def default_sort
