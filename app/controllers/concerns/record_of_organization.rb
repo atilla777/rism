@@ -11,20 +11,11 @@ module RecordOfOrganization
   def index
     authorize model
     @organization = organization
-    if @organization.id.present?
-      scope = filter_for_organization
-    else
-      scope = model
-    end
-    scope = policy_scope(scope)
-    @q = scope.ransack(params[:q])
-    @q.sorts = default_sort if @q.sorts.empty?
-    @records = @q.result
-                 .includes(default_includes)
-                 .page(params[:page])
-    if params[:organization_id].present? || params[:q] && params[:q][:organization_id_eq].present?
+    if @organization.id
+      @records = records(filter_for_organization)
       render 'index'
     else
+      @records = records(model)
       render 'application/index'
     end
   end
@@ -43,17 +34,17 @@ module RecordOfOrganization
 
   def create
     authorize model
+    @organization = organization
     filter_organization_id
     @record = model.new(record_params)
-    @organization = organization
-    if @record.save
-      redirect_to(session.delete(:return_to),
-                   organization_id: @organization.id,
-                   success: t('flashes.create',
-                              model: model.model_name.human))
-    else
-      render :new
-    end
+    @record.save!
+    redirect_to(
+      session.delete(:return_to),
+      organization_id: @organization.id,
+      success: t('flashes.create', model: model.model_name.human)
+    )
+  rescue ActiveRecord::RecordInvalid
+    render :new
   end
 
   def edit
@@ -64,17 +55,17 @@ module RecordOfOrganization
 
   def update
     @record = record
-    @organization = organization
     authorize @record
+    @organization = organization
     filter_organization_id
-    if @record.update(record_params)
-      redirect_to(session.delete(:return_to),
-                  organization_id: @organization.id,
-                  success: t('flashes.update',
-                             model: model.model_name.human))
-    else
-      render :edit
-    end
+    @record.update!(record_params)
+    redirect_to(
+      session.delete(:return_to),
+      organization_id: @organization.id,
+      success: t('flashes.update', model: model.model_name.human)
+    )
+  rescue ActiveRecord::RecordInvalid
+    render :edit
   end
 
   def destroy
@@ -82,38 +73,33 @@ module RecordOfOrganization
     authorize @record
     @organization = organization
     @record.destroy
-    redirect_back(fallback_location: polymorphic_url(@record.class),
-                  organization_id: @organization.id,
-                  success: t('flashes.destroy',
-                             model: model.model_name.human))
-
+    redirect_back(
+      fallback_location: polymorphic_url(@record.class),
+      organization_id: @organization.id,
+      success: t('flashes.destroy', model: model.model_name.human)
+    )
   end
 
   private
-  def record_params
-    params.require(model.name.underscore.to_sym)
-          .permit(policy(model).permitted_attributes)
-  end
 
   # get organization to wich record belongs
   def organization
-    if params[:organization_id].present?
-      Organization.where(id: params[:organization_id]).first
-    elsif params[:q] && params[:q][:organization_id_eq].present?
-      Organization.where(id: params[:q][:organization_id_eq]).first
-    elsif params[model.name.underscore.to_sym] && params[:agreement][:organization_id]
-      Organization.where(id: params[model.name.underscore.to_sym][:organization_id]).first
-    else
-      OpenStruct.new(id: nil)
-    end
+    id = if params[:organization_id]
+           params[:organization_id]
+         elsif params.dig(:q, :organization_id_eq)
+           params[:q][:organization_id_eq]
+         elsif params.dig(model.name.underscore.to_sym, :organization_id)
+           params[model.name.underscore.to_sym][:organization_id]
+         end
+    Organization.where(id: id).first || OpenStruct.new(id: nil)
   end
 
   # prevent user to make record belonging to not allowed organization
   def filter_organization_id
+    return unless current_user.admin_editor?
     id = params[model.name.underscore.to_sym][:organization_id].to_i
-    unless current_user.admin_editor? || current_user.allowed_organizations_ids.include?(id)
-      params[model.name.underscore.to_sym][:organization_id] = nil
-    end
+    return unless current_user.allowed_organizations_ids.include?(id)
+    params[model.name.underscore.to_sym][:organization_id] = nil
   end
 
   # filter used in index pages wich is a part of organizaion show page
@@ -128,7 +114,7 @@ module RecordOfOrganization
     'created_at asc'
   end
 
-  # method resolves N+1 problem
+  # N+1 problem resolving
   def default_includes
     :organization
   end

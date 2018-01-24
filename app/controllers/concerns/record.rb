@@ -9,11 +9,7 @@ module Record
 
   def index
     authorize model
-    scope = policy_scope(model)
-    @q = scope.ransack(params[:q])
-    @q.sorts = default_sort if @q.sorts.empty?
-    @records = @q.result
-                 .page(params[:page])
+    @records = records(model)
   end
 
   def show
@@ -30,9 +26,10 @@ module Record
     authorize model
     @record = model.new(record_params)
     if @record.save
-      redirect_to(polymorphic_path(@record),
-                  success: t('flashes.create',
-                             model: model.model_name.human))
+      redirect_to(
+        polymorphic_path(@record),
+        success: t('flashes.create', model: model.model_name.human)
+      )
     else
       render :new
     end
@@ -60,15 +57,14 @@ module Record
     @record = record
     authorize @record
     @record.destroy
-    redirect_to(polymorphic_url(@record.class),
-                success: t('flashes.destroy',
-                           model: model.model_name.human))
+    redirect_to(
+      polymorphic_url(@record.class),
+      success: t('flashes.destroy', model: model.model_name.human)
+    )
   end
 
   private
 
-  def record_params
-    params.require(model.name.underscore.to_sym)
-          .permit(policy(model).permitted_attributes)
-  end
+  # N+1 problem resolving
+  def default_includes; end
 end

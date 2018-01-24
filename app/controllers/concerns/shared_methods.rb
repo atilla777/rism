@@ -3,11 +3,16 @@ module SharedMethods
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_edit_previous_page, only: [:new, :edit]
+    before_action :set_edit_previous_page, only: %i[new edit]
     before_action :set_show_previous_page, only: [:index]
   end
 
   private
+
+  def record_params
+    params.require(model.name.underscore.to_sym)
+          .permit(policy(model).permitted_attributes)
+  end
 
   # show record previous version instead real record if param
   # version_id is set
@@ -17,6 +22,16 @@ module SharedMethods
     else
       model.find(params[:id])
     end
+  end
+
+  # set Pundit scope, ransack query object and return query result
+  def records(scope)
+    scope = policy_scope(scope)
+    @q = scope.ransack(params[:q])
+    @q.sorts = default_sort if @q.sorts.empty?
+    @q.result
+      .includes(default_includes)
+      .page(params[:page])
   end
 
   def set_show_previous_page
