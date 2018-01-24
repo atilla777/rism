@@ -79,6 +79,7 @@ group :development do
   gem 'rails_best_practices', require: false
   gem 'reek', require: false
   gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
   gem 'capistrano', '~> 3.6', require: false
   gem 'capistrano-rails', '~> 1.1', require: false
   gem 'capistrano-rvm', require: false

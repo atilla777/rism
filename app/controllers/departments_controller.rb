@@ -42,11 +42,7 @@ class DepartmentsController < ApplicationController
               model
             end
     @records = records(scope)
-    if @organization.id
-      render 'index'
-    else
-      render 'application/index'
-    end
+    @organization.id ? render('index') : render('application/index')
   end
 
   def show
