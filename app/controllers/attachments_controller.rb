@@ -14,7 +14,7 @@ class AttachmentsController < ApplicationController
         attachment_link.attachment_id = @attachment.id
         attachment_link.save!
       end
-    rescue
+    rescue ActiveRecord::RecordInvalid
       message = { danger: t('flashes.not_create',
                             model: Attachment.model_name.human) }
     else
@@ -42,24 +42,18 @@ class AttachmentsController < ApplicationController
     )
   end
 
-#  def record
-#    record_model = AttachmentLink.linkable_models.find do | model_constant |
-#      model_constant.name == params[:attachment][:attachment_link][:record_type]
-#                        .classify
-#    end
-#    record_model.find(params[:attachment][:attachment_link][:record_id])
-#  end
-
   def attachment_params
     params.require(:attachment)
           .permit(
             :name,
             :document,
             :organization_id,
-            attachment_link_attributes: [:id,
-                                         :record_type,
-                                         :record_id,
-                                         :attachment_id]
+            attachment_link_attributes: [
+              :id,
+              :record_type,
+              :record_id,
+              :attachment_id
+            ]
           )
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DepartmentsController < ApplicationController
   include RecordOfOrganization
 
@@ -5,17 +7,8 @@ class DepartmentsController < ApplicationController
     authorize model
     @organization = organization
     @department = department
-    if params[:user_ids]
-      session[:selected_users] ||= []
-      session[:selected_users] += params[:user_ids]
-      session[:selected_users] = session[:selected_users].uniq
-    end
-    if params[:department_ids]
-      session[:selected_departments] ||= []
-      session[:selected_departments] += params[:department_ids]
-      session[:selected_departments] = session[:selected_departments].uniq
-    end
-
+    set_selected_users
+    set_selected_departments
     redirect_back(fallback_location: root_path)
   end
 
@@ -25,7 +18,6 @@ class DepartmentsController < ApplicationController
     @department = department
     session[:selected_departments] = []
     session[:selected_users] = []
-
     redirect_back(fallback_location: root_path)
   end
 
@@ -33,19 +25,8 @@ class DepartmentsController < ApplicationController
     authorize model
     @organization = organization
     @department = department
-    session[:selected_departments] ||= []
-    session[:selected_users] ||= []
-    session[:selected_users].each do | id |
-      User.find(id.to_i)
-          .update_attributes(department_id: @department.id)
-    end
-    session[:selected_departments].each do | id |
-      department = Department.find(id.to_i)
-      department.update_attributes(parent_id: @department.id) unless department.id == @department.id
-    end
-    session[:selected_departments] = []
-    session[:selected_users] = []
-
+    paste_selected_users
+    paste_selected_departments
     redirect_back(fallback_location: root_path)
   end
 
@@ -53,21 +34,15 @@ class DepartmentsController < ApplicationController
     authorize model
     @organization = organization
     @department = department
-    scope = model.where(organization_id: @organization.id) if @organization&.id.present?
-    if @department.id.present?
-      scope = scope.where(parent_id: @department.id)
-    elsif @organization.id
-      scope = scope.where('departments.parent_id IS NULL')
-    else
-      scope = model
-    end
-    @q = scope.ransack(params[:q])
-
-    @q.sorts = 'rank asc' if @q.sorts.empty?
-    @records = @q.result
-                 .includes(:organization)
-                 .page(params[:page])
-    if params[:organization_id].present?
+    scope = if @department.id
+              filter_for_organization.where(parent_id: @department.id)
+            elsif @organization.id
+              filter_for_organization.where('departments.parent_id IS NULL')
+            else
+              model
+            end
+    @records = records(scope)
+    if @organization.id
       render 'index'
     else
       render 'application/index'
@@ -93,38 +68,39 @@ class DepartmentsController < ApplicationController
     @record = Department.new(record_params)
     @organization = organization
     @department = department
-    if @record.save
-      redirect_to(session.delete(:return_to),
-                   organization_id: @organization.id,
-                   department_id: @department.id,
-                   success: t('flashes.create',
-                              model: model.model_name.human))
-    else
-      render :new
-    end
+    @record.save!
+    redirect_to(
+      session.delete(:return_to),
+      organization_id: @organization.id,
+      department_id: @department.id,
+      success: t('flashes.create', model: model.model_name.human)
+    )
+  rescue ActiveRecord::RecordInvalid
+    render :new
   end
 
   def edit
     @record = record
+    authorize @record
     @organization = organization
     @department = department
-    authorize @record
   end
 
   def update
     @record = record
+    authorize @record
     @organization = organization
     @department = department
-    authorize @record
-    if @record.update(record_params)
-      redirect_to(session.delete(:return_to),
-                   organization_id: @organization.id,
-                   department_id: @department.id,
-                   success: t('flashes.update',
-                              model: model.model_name.human))
-    else
-      render :edit
-    end
+    @record.update!(record_params)
+    redirect_to(
+      session.delete(:return_to),
+      organization_id: @organization.id,
+      department_id: @department.id, success: t(
+        'flashes.update', model: model.model_name.human
+      )
+    )
+  rescue ActiveRecord::RecordInvalid
+    render :edit
   end
 
   def destroy
@@ -133,39 +109,64 @@ class DepartmentsController < ApplicationController
     @department = department
     @organization = organization
     @record.destroy
-    redirect_back(fallback_location: polymorphic_url(@record.class),
-                  organization_id: @organization.id,
-                  department_id: @department.id,
-                  success: t('flashes.destroy',
-                              model: model.model_name.human))
-
+    redirect_back(
+      fallback_location: polymorphic_url(@record.class),
+      organization_id: @organization.id,
+      department_id: @department.id,
+      success: t('flashes.destroy', model: model.model_name.human)
+    )
   end
 
   private
 
-  def organization
-    if params[:organization_id].present?
-      Organization.where(id: params[:organization_id]).first
-    elsif params[:q] && params[:q][:organization_id_eq].present?
-      Organization.where(id: params[:q][:organization_id_eq]).first
-    elsif params[:department] && params[:department][:organization_id]
-      Organization.where(id: params[:department][:organization_id]).first
-    else
-      OpenStruct.new(id: nil)
+  def set_selected_users
+    return unless params[:user_ids]
+    session[:selected_users] ||= []
+    session[:selected_users] += params[:user_ids]
+    session[:selected_users] = session[:selected_users].uniq
+  end
+
+  def set_selected_departments
+    return unless params[:department_ids]
+    session[:selected_departments] ||= []
+    session[:selected_departments] += params[:department_ids]
+    session[:selected_departments] = session[:selected_departments].uniq
+  end
+
+  def paste_selected_users
+    return if session[:selected_users].blank?
+    session[:selected_users].each do |id|
+      User.find(id.to_i)
+          .update_attributes(department_id: @department.id)
     end
+    session[:selected_users] = []
+  end
+
+  def paste_selected_departments
+    return if session[:selected_departments].blank?
+    session[:selected_departments].each do |id|
+      department = Department.find(id.to_i)
+      unless department.id == @department.id
+        department.update_attributes(parent_id: @department.id)
+      end
+    end
+    session[:selected_departments] = []
   end
 
   def department
-    if params[:department_id].present?
-      Department.where(id: params[:department_id]).first
-    elsif params[:department].present? && params[:department][:parent_id].present?
-      Department.where(id: params[:department][:parent_id]).first
-    else
-      OpenStruct.new(id: nil)
-    end
+    id = if params[:department_id]
+           params[:department_id]
+         elsif params.dig(:department, :parent_id)
+           params[:department][:parent_id]
+         end
+    model.where(id: id).first || OpenStruct.new(id: nil)
   end
 
   def model
     Department
+  end
+
+  def default_sort
+    'rank asc'
   end
 end
