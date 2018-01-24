@@ -25,14 +25,13 @@ module Record
   def create
     authorize model
     @record = model.new(record_params)
-    if @record.save
-      redirect_to(
-        polymorphic_path(@record),
-        success: t('flashes.create', model: model.model_name.human)
-      )
-    else
-      render :new
-    end
+    @record.save!
+    redirect_to(
+      polymorphic_path(@record),
+      success: t('flashes.create', model: model.model_name.human)
+    )
+  rescue ActiveRecord::RecordInvalid
+    render :new
   end
 
   def edit
@@ -43,14 +42,13 @@ module Record
   def update
     @record = record
     authorize @record
-    if @record.update(record_params)
-      redirect_to(
-        @record,
-        success: t('flashes.update', model: model.model_name.human)
-      )
-    else
-      render :edit
-    end
+    @record.update!(record_params)
+    redirect_to(
+      @record,
+      success: t('flashes.update', model: model.model_name.human)
+    )
+  rescue ActiveRecord::RecordInvalid
+    render :edit
   end
 
   def destroy
