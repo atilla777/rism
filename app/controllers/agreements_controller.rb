@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 class AgreementsController < ApplicationController
   include RecordOfOrganization
 
+  # TODO move code to attachable concern
   before_action :set_attachment, only: [:show]
 
   private
@@ -9,6 +12,7 @@ class AgreementsController < ApplicationController
     Agreement
   end
 
+  # TODO move code to attachable concern
   def set_attachment
     @attahment = Attachment.new
   end

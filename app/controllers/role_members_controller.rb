@@ -1,18 +1,18 @@
+# frozen_string_literal: true
+
 class RoleMembersController < ApplicationController
   include Record
 
   def index
     authorize model
-    if params[:user_id]
-      @user = User.find(params[:user_id])
-    else
-      @user = User.find(params[:q][:user_id_eq])
-    end
-    @q = model.where(user_id: @user.id)
-                   .ransack(params[:q])
-    @records = @q.result
-                 .includes(:role)
-                 .page(params[:page])
+    user_id = if params[:user_id]
+                params[:user_id]
+              else
+                params[:q][:user_id_eq]
+              end
+    @user = User.find(user_id)
+    scope = model.where(user_id: @user.id)
+    @records = records(scope)
   end
 
   def new
@@ -27,14 +27,13 @@ class RoleMembersController < ApplicationController
     @roles = Role.all
     @record = model.new(record_params)
     @user = User.find(params[:role_member][:user_id])
-    if @record.save
-      redirect_to(
-        role_members_path(user_id: @user.id),
-        success: t('flashes.create', model: model.model_name.human)
-      )
-    else
-      render :new
-    end
+    @record.save!
+    redirect_to(
+      role_members_path(user_id: @user.id),
+      success: t('flashes.create', model: model.model_name.human)
+    )
+  rescue ActiveRecord::RecordInvalid
+    render :new
   end
 
   def destroy
@@ -51,5 +50,9 @@ class RoleMembersController < ApplicationController
 
   def model
     RoleMember
+  end
+
+  def default_includes
+    [:role]
   end
 end

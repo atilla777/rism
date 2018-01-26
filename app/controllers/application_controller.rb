@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   include Pundit
 
@@ -15,7 +17,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  protected
+#  protected
+
 #  def handle_unverified_request
 #    # raise an exception
 #    #fail ActionController::InvalidAuthenticityToken
@@ -27,14 +30,13 @@ class ApplicationController < ActionController::Base
 #  end
 
   private
+
 #  def ssl_configured?
 #    !Rails.env.development?
 #  end
 
   def authenticate?
-    unless current_user
-      redirect_to :sign_in
-    end
+    redirect_to :sign_in unless current_user
   end
 
   def current_user_session
@@ -44,7 +46,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     return @current_user if defined?(@current_user)
-    @current_user = current_user_session && current_user_session.user
+    @current_user = current_user_session&.user
   end
 
   def user_not_authorized

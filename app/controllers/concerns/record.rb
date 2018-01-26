@@ -54,10 +54,15 @@ module Record
   def destroy
     @record = record
     authorize @record
-    @record.destroy
+    message = if @record.destroy
+                {success: t('flashes.destroy', model: model.model_name.human)}
+              # TODO show translated (human) record name in error
+              else
+                {danger: @record.errors.full_messages.join(', ')}
+              end
     redirect_to(
       polymorphic_url(@record.class),
-      success: t('flashes.destroy', model: model.model_name.human)
+      message
     )
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserSessionsController < ApplicationController
   skip_before_action :authenticate?, exclude: :destroy
   skip_after_action :verify_authorized, exclude: :destroy
@@ -25,7 +27,9 @@ class UserSessionsController < ApplicationController
   end
 
   private
+
   def user_session_params
-    params.require(:user_session).permit(:email, :password)
+    params.require(:user_session)
+          .permit(:email, :password)
   end
 end

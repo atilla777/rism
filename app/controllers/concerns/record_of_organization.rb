@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-# default actions/methods for all models (tables)
+# Default actions/methods for all models (tables)
 # which belongs to organization
 # but exclude organization model
-# (organization also belongs to parent organization)
+# (organization also belongs to parent organization,
+#  but use own methods)
 module RecordOfOrganization
   extend ActiveSupport::Concern
   include SharedMethods
@@ -72,11 +73,17 @@ module RecordOfOrganization
     @record = model.find(params[:id])
     authorize @record
     @organization = organization
-    @record.destroy
+    message = if @record.destroy
+                {success: t('flashes.destroy', model: model.model_name.human)}
+              # TODO show translated (human) record name in error
+              else
+                {danger: @record.errors.full_messages.join(', ')}
+              end
+
     redirect_back(
-      fallback_location: polymorphic_url(@record.class),
-      organization_id: @organization.id,
-      success: t('flashes.destroy', model: model.model_name.human)
+      { fallback_location: polymorphic_url(@record.class) },
+      { organization_id: @organization.id },
+      message
     )
   end
 
@@ -106,12 +113,6 @@ module RecordOfOrganization
   # (such index shows only records that belongs to organization)
   def filter_for_organization
     model.where(organization_id: @organization.id)
-  end
-
-  # set sort field and direction by default
-  # (applies when go to index page from other place)
-  def default_sort
-    'created_at asc'
   end
 
   # N+1 problem resolving

@@ -1,10 +1,4 @@
 class RightPolicy < ApplicationPolicy
-  class Scope < Scope
-    def resolve
-      scope
-    end
-  end
-
   def index?
     return true if @user.admin?
     false
@@ -12,7 +6,7 @@ class RightPolicy < ApplicationPolicy
 
   def show?
     return true if @user.admin?
-    scope.where(:id => record.id).exists?
+    scope.where(id: record.id).exists?
   end
 
   def create?
@@ -38,24 +32,7 @@ class RightPolicy < ApplicationPolicy
     false
   end
 
-  def scope
-    Pundit.policy_scope!(user, record.class)
-  end
-
   def permitted_attributes
     %i[organization_id level role_id subject_id subject_type]
-  end
-
-  class Scope
-    attr_reader :user, :scope
-
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
-
-    def resolve
-      scope
-    end
   end
 end

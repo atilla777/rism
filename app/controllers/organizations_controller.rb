@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class OrganizationsController < ApplicationController
   include Record
 
   autocomplete :organization, :name, full: true
 
-  before_action :filter_parent_id, only: [:create, :update]
+  before_action :filter_parent_id, only: %i[create update]
 
   def active_record_get_autocomplete_items(parameters)
     authorize model
@@ -35,10 +37,11 @@ class OrganizationsController < ApplicationController
     Organization
   end
 
+  # prevent user to make organization belonging to not allowed organization
   def filter_parent_id
+    return unless current_user.admin_editor?
     id = params[model.name.underscore.to_sym][:parent_id].to_i
-    unless current_user.admin_editor? || current_user.allowed_organizations_ids.include?(id)
-      params[model.name.underscore.to_sym][:parent_id] = nil
-    end
+    return unless current_user.allowed_organizations_ids.include?(id)
+    params[model.name.underscore.to_sym][:parent_id] = nil
   end
 end
