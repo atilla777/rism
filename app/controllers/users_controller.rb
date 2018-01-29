@@ -68,12 +68,15 @@ class UsersController < ApplicationController
     authorize @record
     @organization = organization
     @department = department
-    @record.destroy
+    message = if @record.destroy
+                {success: t('flashes.destroy', model: model.model_name.human)}
+              else
+                {danger: @record.errors.full_messages.join(', ')}
+              end
     redirect_back(
-      fallback_location: polymorphic_url(@record.class),
-      organization_id: @organization.id,
-      department_id: @department.id,
-      success: t('flashes.destroy', model: model.model_name.human)
+      { fallback_location: polymorphic_url(@record.class),
+      organization_id: @organization.id, department_id: @department.id }
+      .merge message
     )
   end
 

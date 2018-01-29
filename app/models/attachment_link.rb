@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AttachmentLink < ApplicationRecord
   LINKABLE_MODELS = [Agreement].freeze
 
@@ -18,6 +20,6 @@ class AttachmentLink < ApplicationRecord
 
   def remove_attachment
     links = AttachmentLink.where(attachment_id: attachment_id)
-    attachment.destroy unless links.present?
+    attachment.destroy if links.blank?
   end
 end

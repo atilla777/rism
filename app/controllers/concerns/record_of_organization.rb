@@ -81,9 +81,9 @@ module RecordOfOrganization
               end
 
     redirect_back(
-      { fallback_location: polymorphic_url(@record.class) },
-      { organization_id: @organization.id },
-      message
+      { fallback_location: polymorphic_url(@record.class),
+        organization_id: @organization.id }
+      .merge message
     )
   end
 

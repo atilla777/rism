@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module User::DeviseConfig
   extend ActiveSupport::Concern
 
@@ -7,10 +9,10 @@ module User::DeviseConfig
       c.merge_validates_format_of_email_field_options message: I18n.t('user_session.email_required')
       c.merge_validates_uniqueness_of_email_field_options if: :active
       condition = proc do
-        (password.present? || password_confirmation.present?) ||
-        (new_record? && active) ||
-        (crypted_password.blank? && active)
-      end
+                    (password.present? || password_confirmation.present?) ||
+                    (new_record? && active) ||
+                    (crypted_password.blank? && active)
+                  end
       c.merge_validates_length_of_password_field_options minimum: 6, if: condition
       c.merge_validates_confirmation_of_password_field_options if: condition
       c.merge_validates_length_of_password_confirmation_field_options if: condition
@@ -21,6 +23,7 @@ module User::DeviseConfig
   end
 
   private
+
   def set_activity
     return unless active
     self.confirmed = true

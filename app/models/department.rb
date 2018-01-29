@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Department < ApplicationRecord
   include OrganizationMember
 
@@ -7,7 +9,11 @@ class Department < ApplicationRecord
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
   validates :rank, numericality: { only_integer: true, allow_blank: true }
 
-  has_many :children, class_name: 'Department', foreign_key: :parent_id, dependent: :destroy
+  has_many :children,
+           class_name: 'Department',
+           foreign_key: :parent_id,
+           dependent: :destroy
+
   belongs_to :parent, class_name: 'Department', optional: true
 
   has_many :rights, as: :subject, dependent: :destroy

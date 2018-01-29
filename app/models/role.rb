@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Role < ApplicationRecord
   before_destroy :protect_main_roles
 
@@ -6,12 +8,14 @@ class Role < ApplicationRecord
 
   has_many :rights, dependent: :destroy
 
-  validates :name, length: { minimum: 3, maximum: 100}
+  validates :name, length: { minimum: 3, maximum: 100 }
   validates :name, uniqueness: true
 
+  # Prevent built in roles (like an Administrator, Editor, Reader)
+  # to be deleted
   def protect_main_roles
-    if (1..3).include? id
-      throw :abort
-    end
+    return unless (1..3).cover?(id)
+    errors.add(:base, :role_is_built_in)
+    throw :abort
   end
 end

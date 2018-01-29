@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Attachment < ApplicationRecord
   include OrganizationMember
 
@@ -8,9 +10,14 @@ class Attachment < ApplicationRecord
 
   belongs_to :organization
 
-  has_many :attachment_links
-  accepts_nested_attributes_for :attachment_links#, reject_if: proc { |attributes| attributes[:document].blank? }
-  has_many :agreements, through: :attachment_links, source: :record, source_type: Agreement
+  has_many :attachment_links, dependent: :destroy
 
-  has_many :rights, as: :subject
+  accepts_nested_attributes_for :attachment_links #, reject_if: proc { |attributes| attributes[:document].blank? }
+
+  has_many :agreements,
+           through: :attachment_links,
+           source: :record,
+           source_type: Agreement
+
+  has_many :rights, as: :subject, dependent: :destroy
 end

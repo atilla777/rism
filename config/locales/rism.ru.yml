@@ -149,6 +149,10 @@ ru:
       organization_kind:
         name: 'Имя'
         description: 'Описание'
+    errors:
+      messages:
+          role_is_built_in: 'Невозможно удалить роль, так как она является встроенной'
+          user_is_built_in: 'Невозможно удалить пользователя, так как он является встроенным'
   flashes:
     create: Запись %{model} успешно создана.
     update: Запись %{model} успешно отредактирована.
