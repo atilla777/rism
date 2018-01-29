@@ -1,11 +1,11 @@
 = show_for @record do | r |
-  = show r, :agreement_kind_id, value: r.agreement_kind&.name
-  = show r, :beginning, value: show_date(r.beginning)
-  = show r, :prop
-  = show r, :organization_id, value: r.organization&.name
-  = show r, :contractor_id, value: r.contractor&.name
-  = show r, :duration
-  = show r, :prolongation, value: AgreementDecorator.new(r).show_prolongation
-  = show r, :description
+  = r.show :agreement_kind_id, value: @record.agreement_kind&.name
+  = r.show :beginning, value: show_date(@record.beginning)
+  = r.show :prop
+  = r.show :organization_id, value: @record.organization&.name
+  = r.show :contractor_id, value: @record.contractor&.name
+  = r.show :duration
+  = r.show :prolongation, value: AgreementDecorator.new(@record).show_prolongation
+  = r.show :description
 
 = render 'application/record_attachments', record: record

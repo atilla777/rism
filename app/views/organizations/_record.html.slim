@@ -1,6 +1,6 @@
 = show_for @record do | r |
-  = show r, :name
-  = show r, :full_name
-  = show r, :parent_id, value: record.parent.present? ? link_to(record.parent.name, record.parent) : ''
-  = show r, :organization_kind_id, value: record.organization_kind_id.present? ?link_to(record.organization_kind.name, record.organization_kind) : ''
-  = show r, :description
+  = r.show :name
+  = r.show :full_name
+  = r.show :parent_id, value: @record.parent.present? ? link_to(@record.parent.name, @record.parent) : ''
+  = r.show :organization_kind_id, value: @record.organization_kind_id.present? ? link_to(@record.organization_kind.name, @record.organization_kind) : ''
+  = r.show :description
