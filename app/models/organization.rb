@@ -6,9 +6,9 @@ class Organization < ApplicationRecord
   has_paper_trail
 
   validates :name, uniqueness: true
-  validates :name, length: { in: 1..100}
+  validates :name, length: { in: 1..100 }
   validates :full_name, uniqueness: true, allow_blank: true
-  validates :full_name, length: { in: 1..200, allow_blank: true}
+  validates :full_name, length: { in: 1..200, allow_blank: true }
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
 
   # Organization here is like a security domain (scope)

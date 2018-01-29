@@ -21,7 +21,6 @@ module CaptionHelper
   # * <tt>:id</tt> - Specifies html id
   # * <tt>:class</tt> - Specifies html class (default is text-info)
   #
-  #
   # ==== Examples
   #  caption(@user)        # => <h3 class='text-primary'>User</h3>
   #
