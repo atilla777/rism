@@ -7,9 +7,6 @@ class User < ApplicationRecord
 
   validates :organization_id, numericality: { only_integer: true }
   validates :email, presence: true, if: proc { |r| r.active == true }
-  # TODO: remove unused field
-  validates :job_rank,
-            numericality: { only_integer: true, allow_blank: true }
   validates :department_id,
             numericality: { only_integer: true, allow_blank: true }
   validates :department_name,
