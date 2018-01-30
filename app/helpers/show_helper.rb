@@ -30,7 +30,7 @@ module ShowHelper
     #           value: "My name is #{@user.name}"
     #
     # TODO: add block param implementation
-    def show(attribute, options = {}, &block)
+    def show(attribute, options = {})
       options[:label] ||= @record.class
                                  .human_attribute_name(attribute.to_sym)
       options[:value] ||= @record.send(attribute.to_sym)

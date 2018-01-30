@@ -1,4 +1,6 @@
-class  VersionDecorator < SimpleDelegator
+# frozen_string_literal: true
+
+class VersionDecorator < SimpleDelegator
   include DateTimeHelper
 
   def version_info
@@ -17,9 +19,9 @@ class  VersionDecorator < SimpleDelegator
 
   def show_event
     if event == 'update'
-      I18n.t("labels.version.updated")
+      I18n.t('labels.version.updated')
     else
-      I18n.t("labels.version.created")
+      I18n.t('labels.version.created')
     end
   end
 end

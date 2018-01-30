@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module IndexNewButtonHelper
   def index_new_button(records_or_model, options = {})
     caption = case records_or_model
@@ -9,10 +11,9 @@ module IndexNewButtonHelper
                 records_or_model.model_name.human
               end
     options[:label] ||= t('helpers.submit.create', model: caption)
-
     render 'helpers/index_new_button',
-      model: model,
-      label: options[:label],
-      options: options
+           model: model,
+           label: options[:label],
+           options: options
   end
 end

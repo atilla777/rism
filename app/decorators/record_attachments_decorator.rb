@@ -1,13 +1,8 @@
-class  RecordAttachmentsDecorator < SimpleDelegator
+# frozen_string_literal: true
+
+class RecordAttachmentsDecorator < SimpleDelegator
   def show_attachments
-    result = []
-    attachments.each do | a |
-      if a.name.present?
-      result << a.name 
-      else
-        result << a.document_identifier
-      end
-    end
-    result.join(', ')
+    attachments.map { |a| a.name.present? ? a.name : a.document_identifier }
+               .join(', ')
   end
 end
