@@ -22,6 +22,8 @@ RSpec.describe AttachmentsController, type: :controller do
   end
 
   context 'when built in role member' do
+    let(:user) { create(:user, active: true) }
+
     before do
       create_user_session(user)
       allow(controller).to(receive(:send_data)) do
@@ -40,8 +42,6 @@ RSpec.describe AttachmentsController, type: :controller do
         expect(response.body).to eq("file\n")
       end
     end
-
-    let(:user) { create(:user, active: true) }
 
     context 'when admin' do
       let(:role) { create(:role, :admin) }

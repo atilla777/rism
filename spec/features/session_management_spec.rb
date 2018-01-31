@@ -43,7 +43,7 @@ RSpec.feature 'session_management', type: :feature do
     custom_role_right
   end
 
-  scenario 'contact can`t login', js: true do
+  scenario 'contact can`t login' do
     visit sign_in_path
     fill_in 'email', with: contact.email
     fill_in I18n.t('user_sessions.password'), with: 'password'
@@ -52,7 +52,7 @@ RSpec.feature 'session_management', type: :feature do
     expect(page).to have_text(I18n.t('user_sessions.sign_in_error'))
   end
 
-  scenario 'admin can login', js: true do
+  scenario 'admin can login' do
     visit sign_in_path
     fill_in 'email', with: admin.email
     fill_in I18n.t('user_sessions.password'), with: 'password'
@@ -61,7 +61,7 @@ RSpec.feature 'session_management', type: :feature do
     expect(page).to have_text(I18n.t('user_sessions.welcome'))
   end
 
-  scenario 'admin can logout', js: true do
+  scenario 'admin can logout' do
     visit sign_in_path
     fill_in 'email', with: admin.email
     fill_in I18n.t('user_sessions.password'), with: 'password'
@@ -71,7 +71,7 @@ RSpec.feature 'session_management', type: :feature do
     expect(page).to have_text(I18n.t('user_sessions.goodbay'))
   end
 
-  scenario 'user can login', js: true do
+  scenario 'user can login' do
     visit sign_in_path
     fill_in 'email', with: user.email
     fill_in I18n.t('user_sessions.password'), with: 'password'

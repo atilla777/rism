@@ -17,32 +17,32 @@ RSpec.feature 'Agreement management', type: :feature do
 
   after(:each) { logout }
 
-  scenario 'reader can view records', js: true do
+  scenario 'reader can view records' do
     visit agreements_path
 
     expect(page).to have_text(agreements.last.prop)
   end
 
-  scenario 'reader can`t view not allowed records', js: true do
+  scenario 'reader can`t view not allowed records' do
     visit agreements_path
 
     expect(page).not_to have_text(not_allowed_agreement.prop)
   end
 
-  scenario 'reader can view record', js: true do
+  scenario 'reader can view record' do
     visit agreements_path(agreements.first)
 
     expect(page).to have_text(agreements.first.prop)
   end
 
-  scenario 'reader can`t view not allowed record', js: true do
+  scenario 'reader can`t view not allowed record' do
     visit agreements_path(not_allowed_agreement)
 
     #expect(page).to have_text(I18n.t('messages.not_allowed'))
     expect(page).not_to have_text(not_allowed_agreement.prop)
   end
 
-  scenario 'reader can`t edit record', js: true do
+  scenario 'reader can`t edit record' do
     visit agreements_path
     click_on(I18n.t('views.action.edit'), match: :first)
 

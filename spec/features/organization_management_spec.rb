@@ -14,32 +14,32 @@ RSpec.feature 'Organization management', type: :feature do
 
   after(:each) { logout }
 
-  scenario 'reader can view records', js: true do
+  scenario 'reader can view records' do
     visit organizations_path
 
     expect(page).to have_text(children.last.name)
   end
 
-  scenario 'reader can`t view not allowed records', js: true do
+  scenario 'reader can`t view not allowed records' do
     visit organizations_path
 
     expect(page).not_to have_text(not_allowed_organization.name)
   end
 
-  scenario 'reader can view record', js: true do
+  scenario 'reader can view record' do
     visit organizations_path(children.first)
 
     expect(page).to have_text(children.first.name)
   end
 
-  scenario 'reader can`t view not allowed record', js: true do
+  scenario 'reader can`t view not allowed record' do
     visit organizations_path(not_allowed_organization)
 
     #expect(page).to have_text(I18n.t('messages.not_allowed'))
     expect(page).not_to have_text(not_allowed_organization.name)
   end
 
-  scenario 'reader can`t edit record', js: true do
+  scenario 'reader can`t edit record' do
     visit organizations_path
     click_on(I18n.t('views.action.edit'), match: :first)
 
