@@ -10,6 +10,7 @@ class Organization < ApplicationRecord
   validates :full_name, uniqueness: true, allow_blank: true
   validates :full_name, length: { in: 1..200, allow_blank: true }
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
+  validates :organization_kind_id, numericality: { only_integer: true, allow_blank: true }
 
   # Organization here is like a security domain (scope)
   has_many :right_scopes, class_name: 'Right', dependent: :destroy
@@ -33,7 +34,7 @@ class Organization < ApplicationRecord
            dependent: :destroy
   belongs_to :parent, class_name: 'Organization', optional: true
 
-  belongs_to :organization_kind
+  belongs_to :organization_kind, optional: true
 
   # Array of child organizations ids.
   # For example organization with id 1 has childs with ids 34, 45 and 57:

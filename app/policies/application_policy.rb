@@ -8,8 +8,6 @@ class ApplicationPolicy
 
   def autocomplete_organization_name?
     index?
-#    return true if @user.admin_editor_reader?
-#    @user.can? :read, @record
   end
 
   def index?
@@ -19,9 +17,6 @@ class ApplicationPolicy
 
   def show?
     index?
-#    return true if @user.admin_editor_reader?
-#    @user.can? :read, @record
-    ##scope.where(:id => record.id).exists?
   end
 
   def create?
@@ -34,24 +29,18 @@ class ApplicationPolicy
   end
 
   def update?
-#    return true if @user.admin_editor?
-#    @user.can? :edit, @record
     create?
   end
 
   def edit?
-    #update?
     create?
   end
 
   def destroy?
-#    return true if @user.admin_editor?
-#    @user.can? :edit, @record
     create?
   end
 
   def revert?
- #   update?
     create?
   end
 

@@ -2,30 +2,36 @@
 
 require 'rails_helper'
 
-RSpec.describe OrganizationKindsController, type: :controller do
-  let(:model) { OrganizationKind }
-  let(:record) { create :organization_kind }
-  let(:another_record) { create :organization_kind }
-  let(:all_records) { model.all }
+RSpec.describe OrganizationsController, type: :controller do
+  let(:model) { Organization }
+  let(:record) { create :organization }
   let(:new_record) do
     post :create,
-         params: { organization_kind: attributes_for(:organization_kind) }
+         params: {
+           organization: attributes_for(:organization)
+           .merge(organization_kind_id: create(:organization_kind).id)
+    }
   end
   let(:update_record) do
     put :update,
-         params: {  id: record.id, organization_kind: { name: 'Updated!' } }
+         params: { id: record.id, organization: { name: 'Updated!' } }
   end
-  let(:sacrifice_record) { create :organization_kind }
+  let(:sacrifice_record) { create :organization, parent_id: record.id }
   let(:delete_record) do
     delete :destroy, params: { id: sacrifice_record.id }
   end
 
-  context 'when anonymous user' do
+  before do
+    create :organization
+  end
+
+  context 'when anonymos user' do
     it_behaves_like 'an anonymous'
   end
 
   context 'when global role memebers' do
     let(:user) { create :user, active: true }
+    let(:all_records) { model.all }
     setup :activate_authlogic
 
     before do
@@ -66,13 +72,17 @@ RSpec.describe OrganizationKindsController, type: :controller do
     end
   end
 
-  context 'when ordinar user with at least read privileges' do
+  context 'when ordinar user is a record manager' do
     let(:user) do
       create(
         :user_with_right,
+        allowed_organization_id: record.id,
         allowed_action: :manage,
-        allowed_models: %w[OrganizationKind]
+        allowed_models: %w[Organization]
       )
+    end
+    let(:all_records) do
+      model.where(id: record.id).first
     end
     setup :activate_authlogic
 
@@ -81,6 +91,7 @@ RSpec.describe OrganizationKindsController, type: :controller do
     end
 
     it_behaves_like 'authorized to read'
-    it_behaves_like 'unauthorized to edit'
+    it_behaves_like 'authorized to edit'
   end
 end
+

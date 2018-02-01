@@ -17,6 +17,8 @@ RSpec.describe Organization, type: :model do
 
   it { should validate_numericality_of(:parent_id)
        .only_integer }
+  it { should validate_numericality_of(:organization_kind_id)
+       .only_integer }
   it { should have_many(:users) }
   it { should have_many(:departments) }
   it { should have_many(:agreements) }

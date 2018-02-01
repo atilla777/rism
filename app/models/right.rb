@@ -13,6 +13,8 @@ class Right < ApplicationRecord
                     'User' => User.model_name.human,
                     'Department' => Department.model_name.human,
                     'Agreement' => Agreement.model_name.human,
+                    'AgreementKind' => AgreementKind.model_name.human,
+                    'OrganizationKind' => OrganizationKind.model_name.human,
                     'Attachment' => Attachment.model_name.human }.freeze
 
   validates :organization_id,
@@ -37,7 +39,7 @@ class Right < ApplicationRecord
 
   # Organization here is liake a security domain (scope)
   # (organization has many right_scopes)
-  belongs_to :organization
+  belongs_to :organization, optional: true
 
   # Role is an access subject
   belongs_to :role

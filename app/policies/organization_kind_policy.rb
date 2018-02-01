@@ -6,4 +6,10 @@ class OrganizationKindPolicy < ApplicationPolicy
       %i[name description]
     end
   end
+
+  class Scope < Scope
+    def resolve
+      scope.all
+    end
+  end
 end

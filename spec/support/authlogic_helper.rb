@@ -1,5 +1,5 @@
 module Authlogic
-  module 
+  module
     TestHelper
     def create_user_session(user)
       UserSession.create!(user)

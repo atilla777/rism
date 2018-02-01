@@ -5,7 +5,7 @@
 
       = f.hidden_field :role_id, value: @role.id
 
-      .form-group.required
+      .form-group
         .field
           .col-lg-2.text-right
             = f.label :organization_id, "#{Right.human_attribute_name :organization_id}", class: 'control-label'
@@ -20,7 +20,7 @@
           .col-lg-8
             = f.collection_select :subject_type, @subject_types, :first, :last, {}, {class: 'form-control'}
 
-      .form-group.required
+      .form-group
         .field
           .col-lg-2.text-right
             = f.label :subject_id, class: 'control-label'
