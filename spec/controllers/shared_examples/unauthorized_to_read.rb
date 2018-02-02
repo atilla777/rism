@@ -17,4 +17,3 @@ RSpec.shared_examples 'unauthorized to read' do
     expect(response).to have_http_status(:redirect)
   end
 end
-

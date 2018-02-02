@@ -9,7 +9,7 @@ RSpec.shared_examples 'unauthorized to edit' do
   end
 
   it 'can`t create' do
-    expect { new_record }.to_not(change { model.count })
+    expect { new_record }.not_to(change { model_class.count })
     expect(flash[:danger]).to be
     expect(response).to have_http_status(:redirect)
   end
@@ -22,15 +22,16 @@ RSpec.shared_examples 'unauthorized to edit' do
   end
 
   it 'can`t update' do
-    expect { update_record }.not_to(change { model.find(record.id).attributes })
+    expect { update_record }
+      .not_to(change { model_class.find(record.id).attributes })
     expect(flash[:danger]).to be
     expect(response).to have_http_status(:redirect)
   end
 
   it 'can`t destroy' do
-    sacrifice_record
+    record
 
-    expect { delete_record }.not_to change(model, :count)
+    expect { delete_record }.not_to change(model_class, :count)
     expect(flash[:danger]).to be
     expect(response).to have_http_status(:redirect)
   end

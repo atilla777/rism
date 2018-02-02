@@ -8,7 +8,7 @@
           .col-lg-2.text-right
             = f.label :agreement_kind_id, class: 'control-label'
           .col-lg-8
-            = f.collection_select :agreement_kind_id, AgreementKind.all, :id, :name, {}, { class: 'form-control' }
+            = f.collection_select :agreement_kind_id, AgreementKind.all, :id, :name, { include_blank: true }, { class: 'form-control' }
 
       .form-group.required
         .field

@@ -3,29 +3,32 @@
 require 'rails_helper'
 
 RSpec.describe OrganizationKindsController, type: :controller do
-  let(:model) { OrganizationKind }
+  let(:model_class) { OrganizationKind }
   let(:record) { create :organization_kind }
-  let(:another_record) { create :organization_kind }
-  let(:all_records) { model.all }
+  let(:all_records) { model_class.all }
   let(:new_record) do
-    post :create,
-         params: { organization_kind: attributes_for(:organization_kind) }
+    post(
+      :create,
+      params: { organization_kind: attributes_for(:organization_kind) }
+    )
   end
   let(:update_record) do
-    put :update,
-         params: {  id: record.id, organization_kind: { name: 'Updated!' } }
+    put(
+      :update,
+      params: { id: record.id, organization_kind: { name: 'Updated!' } }
+    )
   end
-  let(:sacrifice_record) { create :organization_kind }
   let(:delete_record) do
-    delete :destroy, params: { id: sacrifice_record.id }
+    delete :destroy, params: { id: record.id }
   end
 
   context 'when anonymous user' do
     it_behaves_like 'an anonymous'
   end
 
-  context 'when global role memebers' do
+  describe 'global role memeber' do
     let(:user) { create :user, active: true }
+
     setup :activate_authlogic
 
     before do
@@ -55,7 +58,7 @@ RSpec.describe OrganizationKindsController, type: :controller do
     end
 
     context 'when reader' do
-      let(:role) { create:role, :reader }
+      let(:role) { create :role, :reader }
 
       before do
         create(:role_member, role_id: role.id, user_id: user.id)
@@ -66,14 +69,15 @@ RSpec.describe OrganizationKindsController, type: :controller do
     end
   end
 
-  context 'when ordinar user with at least read privileges' do
+  context 'when not global role member with at least read privileges' do
     let(:user) do
       create(
         :user_with_right,
         allowed_action: :manage,
-        allowed_models: %w[OrganizationKind]
+        allowed_models: [model_class.to_s]
       )
     end
+
     setup :activate_authlogic
 
     before do

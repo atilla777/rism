@@ -20,7 +20,7 @@ RSpec.shared_examples 'an anonymous' do
   end
 
   it 'can`t create' do
-    expect { new_record }.to_not change { model.count }
+    expect { new_record }.not_to(change { model_class.count })
     expect(response).to redirect_to(:sign_in)
   end
 
@@ -31,14 +31,15 @@ RSpec.shared_examples 'an anonymous' do
   end
 
   it 'can`t update' do
-    expect { update_record }.to_not change { model.find(record.id).attributes }
+    expect { update_record }
+      .not_to(change { model_class.find(record.id).attributes })
     expect(response).to redirect_to(:sign_in)
   end
 
   it 'can`t destroy' do
-    sacrifice_record
+    record
 
-    expect { delete_record }.to_not change(model, :count)
+    expect { delete_record }.not_to change(model_class, :count)
     expect(response).to redirect_to(:sign_in)
   end
 end

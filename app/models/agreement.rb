@@ -17,7 +17,7 @@ class Agreement < ApplicationRecord
 
   belongs_to :organization
   belongs_to :contractor, class_name: 'Organization'
-  belongs_to :agreement_kind
+  belongs_to :agreement_kind, optional: true
 
   # TODO move code to attachable concern
   has_many :attachment_links, as: :record, dependent: :destroy

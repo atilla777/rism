@@ -8,7 +8,9 @@ RSpec.shared_examples 'authorized to edit' do
   end
 
   it 'can create' do
-    expect { new_record }.to(change { model.count }.by(1))
+    controller.session[:return_to] = controller.polymorphic_path(model_class)
+
+    expect { new_record }.to(change { model_class.count }.by(1))
     expect(flash[:success]).to be
     expect(response).to have_http_status(:redirect)
   end
@@ -20,16 +22,19 @@ RSpec.shared_examples 'authorized to edit' do
   end
 
   it 'can update' do
-    expect { update_record }.to(change { model.find(record.id).attributes })
+    controller.session[:return_to] = controller.polymorphic_path(record)
+
+    expect { update_record }
+      .to(change { model_class.find(record.id).attributes })
     expect(flash[:success]).to be
-    expect(response).to redirect_to(controller.polymorphic_path(record))
+    expect(response).to redirect_to(controller.session[:return_to])
   end
 
   it 'can destroy' do
-    sacrifice_record
+    record
 
-    expect { delete_record }.to(change(model, :count).by(-1))
+    expect { delete_record }.to(change(model_class, :count).by(-1))
     expect(flash[:success]).to be
-    expect(response).to redirect_to(controller.polymorphic_path(model))
+    expect(response).to redirect_to(controller.polymorphic_path(model_class))
   end
 end

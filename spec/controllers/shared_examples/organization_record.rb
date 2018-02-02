@@ -1,30 +1,31 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
-RSpec.describe OrganizationsController, type: :controller do
-  let(:model_class) { Organization }
-  let(:record) { create :organization }
+RSpec.shared_examples 'organization record' do |model|
+  let(:model) { model }
+  let(:model_class) { model.to_s.classify.constantize }
+  let(:organization) { create :organization }
+  let(:not_allowed_organization) { create :organization }
+  let(:record) { create model, organization_id: organization.id }
   let(:not_allowed_record) do
-    create(:organization, parent_id: create(:organization).id)
-  end
-  let(:new_record) do
-    post(
-      :create,
-      params: {
-        organization: attributes_for(:organization)
-        .merge(organization_kind_id: create(:organization_kind).id)
-      }
-    )
+    create model, organization_id: not_allowed_organization.id
   end
   let(:update_record) do
-    put :update,
-        params: { id: record.id, organization: { name: 'Updated!' } }
+    put(
+      :update,
+      params: {
+        id: record.id,
+        model => record.attributes
+
+      }
+    )
   end
   let(:update_not_allowed_record) do
     put(
       :update,
-      params: { id: not_allowed_record.id, organization: { name: 'Updated!' } }
+      params: {
+        id: not_allowed_record.id,
+        model => not_allowed_record.attributes
+      }
     )
   end
   let(:delete_record) do
@@ -97,7 +98,7 @@ RSpec.describe OrganizationsController, type: :controller do
       let(:user) do
         create(
           :user_with_right,
-          allowed_organization_id: record.id,
+          allowed_organization_id: organization.id,
           allowed_action: :manage,
           allowed_models: [model_class.to_s]
         )
@@ -112,7 +113,7 @@ RSpec.describe OrganizationsController, type: :controller do
       let(:user) do
         create(
           :user_with_right,
-          allowed_organization_id: record.id,
+          allowed_organization_id: organization.id,
           allowed_action: :edit,
           allowed_models: [model_class.to_s]
         )
@@ -127,7 +128,7 @@ RSpec.describe OrganizationsController, type: :controller do
       let(:user) do
         create(
           :user_with_right,
-          allowed_organization_id: record.id,
+          allowed_organization_id: organization.id,
           allowed_action: :read,
           allowed_models: [model_class.to_s]
         )
