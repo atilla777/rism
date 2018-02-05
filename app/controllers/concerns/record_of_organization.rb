@@ -79,7 +79,6 @@ module RecordOfOrganization
               else
                 {danger: @record.errors.full_messages.join(', ')}
               end
-
     redirect_back(
       { fallback_location: polymorphic_url(@record.class),
         organization_id: @organization.id }
@@ -98,14 +97,14 @@ module RecordOfOrganization
          elsif params.dig(model.name.underscore.to_sym, :organization_id)
            params[model.name.underscore.to_sym][:organization_id]
          end
-    Organization.where(id: id).first || OpenStruct.new(id: nil)
+    Organization.where(id: id).first || @record&.organization || OpenStruct.new(id: nil)
   end
 
   # prevent user to make record belonging to not allowed organization
   def filter_organization_id
-    return unless current_user.admin_editor?
+    return if current_user.admin_editor?
     id = params[model.name.underscore.to_sym][:organization_id].to_i
-    return unless current_user.allowed_organizations_ids.include?(id)
+    return if current_user.allowed_organizations_ids.include?(id)
     params[model.name.underscore.to_sym][:organization_id] = nil
   end
 

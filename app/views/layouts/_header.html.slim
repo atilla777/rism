@@ -65,6 +65,11 @@ nav.navbar.navbar-default
                   = fa_icon 'group'
                   =< Role.model_name.human(count: 2)
             li
+              = link_to rights_path do
+                .span.text-info
+                  = fa_icon 'lock'
+                  =< Right.model_name.human(count: 2)
+            li
               = link_to versions_path do
                 .span.text-info
                   = fa_icon 'history'

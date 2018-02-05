@@ -39,9 +39,9 @@ class OrganizationsController < ApplicationController
 
   # prevent user to make organization belonging to not allowed organization
   def filter_parent_id
-    return unless current_user.admin_editor?
+    return if current_user.admin_editor?
     id = params[model.name.underscore.to_sym][:parent_id].to_i
-    return unless current_user.allowed_organizations_ids.include?(id)
+    return if current_user.allowed_organizations_ids.include?(id)
     params[model.name.underscore.to_sym][:parent_id] = nil
   end
 end

@@ -5,31 +5,28 @@ class RightPolicy < ApplicationPolicy
   end
 
   def show?
-    return true if @user.admin?
-    scope.where(id: record.id).exists?
+    index?
+    #scope.where(id: record.id).exists?
   end
 
   def create?
-    return true if @user.admin?
-    false
+    index?
   end
 
   def new?
-    create?
+    index?
   end
 
   def update?
-    return true if @user.admin?
-    false
+    index?
   end
 
   def edit?
-    update?
+    index?
   end
 
   def destroy?
-    return true if @user.admin?
-    false
+    index?
   end
 
   def permitted_attributes

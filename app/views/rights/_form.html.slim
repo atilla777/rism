@@ -3,7 +3,14 @@
   .row
     = form_for @record, html: {class: 'form-horizontal'} do |f|
 
-      = f.hidden_field :role_id, value: @role.id
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :role_id, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :role_id, Role.all.order(:name), :id, :name, { }, { class: 'form-control', disabled: ('disabled' if @role&.id.present?) }
+            - if @role&.id.present?
+              = f.hidden_field :role_id, value: @role.id
 
       .form-group
         .field

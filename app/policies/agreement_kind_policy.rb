@@ -1,11 +1,6 @@
 class AgreementKindPolicy < ApplicationPolicy
   include RecordPolicy
 
-  def show?
-    return true if @user.admin_editor_reader?
-    @user.can? :read, Agreement
-  end
-
   def permitted_attributes
     if user.admin_editor?
       %i[name

@@ -15,7 +15,6 @@ RSpec.shared_examples 'organization record' do |model|
       params: {
         id: record.id,
         model => record.attributes
-
       }
     )
   end
@@ -39,7 +38,7 @@ RSpec.shared_examples 'organization record' do |model|
     it_behaves_like 'an anonymous'
   end
 
-  describe 'global role memeber' do
+  describe 'global role member' do
     let(:user) { create :user, active: true }
     let(:all_records) { model_class.all }
 
@@ -137,6 +136,41 @@ RSpec.shared_examples 'organization record' do |model|
       it_behaves_like 'authorized to read'
       it_behaves_like 'unauthorized to edit'
       it_behaves_like 'unauthorized to access not allowed'
+    end
+
+    context 'when not allowed organization reader' do
+      let(:user) do
+        create(
+          :user_with_right,
+          allowed_organization_id: not_allowed_organization.id,
+          allowed_action: :read,
+          allowed_models: [model_class.to_s]
+        )
+      end
+
+      it_behaves_like 'unauthorized to edit'
+
+      it 'cant`t view show' do
+        get :show, params: { id: record.id }
+
+        expect(flash[:danger]).to be
+        expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    context 'when not allowed to access subject type' do
+
+      let(:user) do
+        create(
+          :user_with_right,
+          allowed_organization_id: not_allowed_organization.id,
+          allowed_action: :read,
+          allowed_models: ['Organization']
+        )
+      end
+
+      it_behaves_like 'unauthorized to read'
+      it_behaves_like 'unauthorized to edit'
     end
   end
 end
