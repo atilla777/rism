@@ -33,7 +33,12 @@ RSpec.describe RightsController, type: :controller do
       :update,
       params: {
         id: record.id,
-        right: record.attributes
+        right: attributes_for(
+          :right,
+          :read,
+          role_id: right_role.id,
+          organization_id: organization.id
+        )
       }
     )
   end

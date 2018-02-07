@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.feature 'User management', type: :feature do
-  given(:resource) { :user }
-  given(:resource_class) { User }
+RSpec.feature 'Department management', type: :feature do
+  given(:resource) { :department }
+  given(:resource_class) { Department }
   given(:resource_attribute) { :name }
   include_examples 'feature organization record'
 end

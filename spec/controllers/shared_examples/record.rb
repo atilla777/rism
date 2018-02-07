@@ -16,7 +16,7 @@ RSpec.shared_examples 'record' do |model|
       :update,
       params: {
         id: record.id,
-        model => record.attributes
+        model => attributes_for(model)
       }
     )
   end

@@ -1,4 +1,4 @@
-= index_search :organization_name_or_level_or_subject_id_or_subject_type_cont, role_id_eq: @role&.id
+= index_search :organization_name_or_level_or_subject_id_or_subject_type_or_role_name_cont, role_id_eq: @role&.id
 = index_for records do | i |
   - i.header attribute: :organization_id, sort: :desc
   - i.header attribute: :role_id, sort: :desc
