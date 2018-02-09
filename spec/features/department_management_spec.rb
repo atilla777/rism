@@ -6,5 +6,5 @@ RSpec.feature 'Department management', type: :feature do
   given(:resource) { :department }
   given(:resource_class) { Department }
   given(:resource_attribute) { :name }
-  include_examples 'feature organization record'
+  include_examples 'manage organization record'
 end

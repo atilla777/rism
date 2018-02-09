@@ -12,7 +12,7 @@ class Agreement < ApplicationRecord
   validates :prop, length: { minimum: 1, maximum: 100 }
   validates :beginning, uniqueness: { scope: [:prop, :organization_id] }
   validates :organization_id, numericality: { only_integer: true }
-  validates :agreement_kind_id, numericality: { only_integer: true }
+  validates :agreement_kind_id, numericality: { only_integer: true, allow_blank: true }
   validates :contractor_id, numericality: { only_integer: true }
 
   belongs_to :organization
