@@ -9,6 +9,13 @@
       .form-group.required
         .field
           .col-lg-2.text-right
+            = f.label :organization_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag :organization, '', autocomplete_organization_name_organizations_path, id_element: '#department_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name), readonly: @organization&.id.present?
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
             = f.label :name, class: 'control-label'
           .col-lg-8
             = f.text_field :name, class: 'form-control'

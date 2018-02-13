@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'feature unauthorized access not allowed' do
   scenario 'can`t view not allowed records' do
     not_allowed_record

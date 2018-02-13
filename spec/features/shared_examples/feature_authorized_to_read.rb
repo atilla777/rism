@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'feature authorized to read' do
   scenario 'can view records' do
     records

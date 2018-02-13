@@ -17,9 +17,12 @@ RSpec.feature 'Agreement management', type: :feature do
 
   def fill_in_new
     fill_in 'agreement[prop]', with: resource_attribute_value
-    fill_in 'agreement[beginning]', with: I18n.l(Date.today, format: '%Y-%m-%d')
-    fill_in_autocomplete('organization', organization.name[0,3])
-    fill_in_autocomplete('contractor', contractor.name[0,3])
+    fill_in(
+      'agreement[beginning]',
+      with: I18n.l(Time.zone.today, format: '%Y-%m-%d')
+    )
+    fill_in_autocomplete('organization', organization.name[0, 3])
+    fill_in_autocomplete('contractor', contractor.name[0, 3])
   end
 
   include_examples 'manage organization record'

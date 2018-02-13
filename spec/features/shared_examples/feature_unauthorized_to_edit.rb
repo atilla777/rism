@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'feature unauthorized to edit' do
   scenario 'can`t edit record' do
     records

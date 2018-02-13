@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'manage organization record' do
   def fill_in_autocomplete(input_selector, item_text)
     fill_in input_selector, with: item_text
-    page.execute_script %Q{ $('##{input_selector}').trigger('focus') }
-    page.execute_script %Q{ $('##{input_selector}').trigger('keydown') }
+    page.execute_script %{ $('##{input_selector}').trigger('focus') }
+    page.execute_script %{ $('##{input_selector}').trigger('keydown') }
     page.should have_selector('ul.ui-autocomplete li.ui-menu-item')
-    selector = %Q{ul.ui-autocomplete li.ui-menu-item:contains("#{item_text}")}
-    page.execute_script %Q{ $('#{selector}').trigger('mouseenter').click() }
+    selector = %{ ul.ui-autocomplete li.ui-menu-item:contains("#{item_text}") }
+    page.execute_script %{ $('#{selector}').trigger('mouseenter').click() }
   end
 
   given(:organization) { create :organization }
@@ -32,7 +34,7 @@ RSpec.shared_examples 'manage organization record' do
           :user_with_right,
           allowed_action: :read,
           allowed_organization_id: organization.id,
-          allowed_models: ['Organization', resource_class.name ]
+          allowed_models: ['Organization', resource_class.name]
         )
       end
 
@@ -49,7 +51,7 @@ RSpec.shared_examples 'manage organization record' do
           :user_with_right,
           allowed_action: :edit,
           allowed_organization_id: organization.id,
-          allowed_models: ['Organization', resource_class.name ]
+          allowed_models: ['Organization', resource_class.name]
         )
       end
 
