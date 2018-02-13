@@ -12,7 +12,6 @@ RSpec.shared_examples 'feature authorized to edit' do
     visit polymorphic_path(records.first)
     click_on I18n.t('views.action.edit')
     fill_in "#{resource}[#{resource_attribute.to_s}]", with: resource_attribute_value
-    save_and_open_page
     click_button I18n.t('helpers.submit.save')
 
     #expect(page).to_not have_css('.alert-danger')

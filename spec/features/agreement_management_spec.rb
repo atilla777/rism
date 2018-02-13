@@ -7,14 +7,18 @@ RSpec.feature 'Agreement management', type: :feature do
   given(:resource_class) { Agreement }
   given(:resource_attribute) { :prop }
   given(:resource_attribute_value) { 'Saved!' }
-  given(:contractor) { create :organization, name: 'Contractor' }
+  given(:contractor) do
+    create(
+      :organization,
+      name: 'Contractor',
+      parent_id: organization.id
+    )
+  end
 
   def fill_in_new
-    organization
-    contractor
     fill_in 'agreement[prop]', with: resource_attribute_value
-    fill_in 'agreement[beginning]', with: '12.12.2012'
-    #fill_in_autocomplete('organization', organization.name[0,3])
+    fill_in 'agreement[beginning]', with: I18n.l(Date.today, format: '%Y-%m-%d')
+    fill_in_autocomplete('organization', organization.name[0,3])
     fill_in_autocomplete('contractor', contractor.name[0,3])
   end
 
