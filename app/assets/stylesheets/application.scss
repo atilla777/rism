@@ -13,6 +13,11 @@
     color: red;
 }
 
+.form-group.recomended .control-label:after {
+    content: " *";
+    color: yellow;
+}
+
 .table td.fit,
 .table th.fit {
     white-space: nowrap;

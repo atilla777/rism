@@ -27,7 +27,7 @@
             = autocomplete_field_tag :parent, '', autocomplete_organization_name_organizations_path, id_element: '#organization_parent_id',  class: 'form-control', value: @record.parent&.name
             = f.hidden_field :parent_id
 
-      .form-group.required
+      .form-group.recomended
         .field
           .col-lg-2.text-right
             = f.label :organization_kind_id, class: 'control-label'
