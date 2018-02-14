@@ -1,57 +1,67 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.feature 'Organization management', type: :feature do
-  given!(:parent) { create(:organization) }
-  given!(:not_allowed_organization) { create(:organization) }
-  given!(:children) { create_list(:organization, 3,
-                           parent_id: parent.id) }
-  given!(:user) { create(:user_with_right,
-                        allowed_action: :read,
-                        allowed_organization_id: parent.id,
-                        allowed_models: ['Organization']) }
-
-  background { login(user) }
-
-  after(:each) { logout }
-
-  scenario 'reader can view records' do
-    visit organizations_path
-
-    expect(page).to have_text(children.last.name)
+  def fill_in_new
+    fill_in 'organization[name]', with: resource_attribute_value
+    fill_in_autocomplete('parent', organization.name[0, 3])
   end
 
-  scenario 'reader can`t view not allowed records' do
-    visit organizations_path
-
-    expect(page).not_to have_text(not_allowed_organization.name)
+  given(:resource) { :organization }
+  given(:resource_class) { Organization }
+  given(:resource_attribute) { :name }
+  given(:resource_attribute_value) { 'MMM JSC' }
+  given(:organization) { create :organization }
+  given(:not_allowed_organization) { create(:organization) }
+  given(:records) do
+    create_list(resource, 3, parent_id: organization.id)
+  end
+  given(:not_allowed_record) do
+    create(resource, parent_id: not_allowed_organization.id)
   end
 
-  scenario 'reader can view record' do
-    visit organizations_path(children.first)
-
-    expect(page).to have_text(children.first.name)
+  context 'when anonymous' do
+    it_behaves_like 'feature anonymous'
   end
 
-  scenario 'reader can`t view not allowed record' do
-    visit organizations_path(not_allowed_organization)
+  describe 'role members' do
+    background { login(user) }
 
-    #expect(page).to have_text(I18n.t('messages.not_allowed'))
-    expect(page).not_to have_text(not_allowed_organization.name)
-  end
+    after { logout }
 
-  scenario 'reader can`t edit record' do
-    visit organizations_path
-    click_on(I18n.t('views.action.edit'), match: :first)
+    context 'when reader' do
+      given(:user) do
+        create(
+          :user_with_right,
+          allowed_action: :read,
+          allowed_organization_id: organization.id,
+          allowed_models: ['Organization', resource_class.name]
+        )
+      end
 
-    expect(page).to have_text(I18n.t('messages.not_allowed'))
-  end
+      it_behaves_like 'feature authorized to read'
 
-  scenario 'reader can`t delete record', js: true do
-    visit organizations_path
-    click_on(I18n.t('views.action.delete'), match: :first)
-    page.accept_confirm
+      it_behaves_like 'feature unauthorized to edit'
 
-    expect(page).to have_text(I18n.t('messages.not_allowed'))
-    expect(page).to have_text(children.first.name)
+      it_behaves_like 'feature unauthorized access not allowed'
+    end
+
+    context 'when editor' do
+      given(:user) do
+        create(
+          :user_with_right,
+          allowed_action: :edit,
+          allowed_organization_id: organization.id,
+          allowed_models: ['Organization', resource_class.name]
+        )
+      end
+
+      it_behaves_like 'feature authorized to read'
+
+      it_behaves_like 'feature authorized to edit'
+
+      it_behaves_like 'feature unauthorized access not allowed'
+    end
   end
 end

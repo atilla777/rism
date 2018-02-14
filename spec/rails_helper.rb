@@ -9,6 +9,7 @@ require 'rspec/rails'
 require 'support/factory_bot'
 require 'support/database_cleaner'
 require 'support/authlogic_helper'
+require 'support/ui_autocomplite_helper'
 require "pundit/rspec"
 Dir[Rails.root.join("spec/controllers/shared_examples/*.rb")].each {|f| require f}
 Dir[Rails.root.join("spec/features/shared_examples/*.rb")].each {|f| require f}

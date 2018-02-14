@@ -1,15 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'manage organization record' do
-  def fill_in_autocomplete(input_selector, item_text)
-    fill_in input_selector, with: item_text
-    page.execute_script %{ $('##{input_selector}').trigger('focus') }
-    page.execute_script %{ $('##{input_selector}').trigger('keydown') }
-    page.should have_selector('ul.ui-autocomplete li.ui-menu-item')
-    selector = %{ ul.ui-autocomplete li.ui-menu-item:contains("#{item_text}") }
-    page.execute_script %{ $('#{selector}').trigger('mouseenter').click() }
-  end
-
   given(:organization) { create :organization }
   given(:not_allowed_organization) { create(:organization) }
   given(:records) do

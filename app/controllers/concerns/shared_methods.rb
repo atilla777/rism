@@ -4,7 +4,7 @@ module SharedMethods
 
   included do
     before_action :set_edit_previous_page, only: %i[new edit]
-    before_action :set_show_previous_page, only: [:index]
+    before_action :set_show_previous_page, only: :index
   end
 
   private

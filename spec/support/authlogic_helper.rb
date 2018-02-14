@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Authlogic
   module
     TestHelper
@@ -18,7 +20,7 @@ module Authlogic
   end
 end
 
-RSpec.configure do | config |
+RSpec.configure do |config|
   require 'authlogic/test_case'
   config.include Authlogic::TestCase
   config.include Authlogic::TestHelper, type: :controller

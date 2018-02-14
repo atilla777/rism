@@ -6,7 +6,7 @@ RSpec.feature 'Department management', type: :feature do
   given(:resource) { :department }
   given(:resource_class) { Department }
   given(:resource_attribute) { :name }
-  given(:resource_attribute_value) { 'Saved!' }
+  given(:resource_attribute_value) { 'Best agreement' }
 
   def fill_in_new
     fill_in 'department[name]', with: resource_attribute_value
