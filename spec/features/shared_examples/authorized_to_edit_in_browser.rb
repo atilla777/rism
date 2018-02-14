@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'feature authorized to edit' do
+RSpec.shared_examples 'authorized to edit in browser' do
   scenario 'can create record', js: true do
     visit polymorphic_path(resource_class)
     click_on(
       I18n.t('helpers.submit.create', model: resource_class.model_name.human)
     )
+    save_screenshot
     fill_in_new
     click_button I18n.t('helpers.submit.save')
 

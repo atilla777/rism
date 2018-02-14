@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'feature authorized to read' do
+RSpec.shared_examples 'authorized to read in browser' do
   scenario 'can view records' do
     records
     visit polymorphic_path(resource_class)

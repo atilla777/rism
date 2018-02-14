@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'feature unauthorized to edit' do
+RSpec.shared_examples 'unauthorized to edit in browser' do
   scenario 'can`t edit record' do
     records
     visit polymorphic_path(resource_class)

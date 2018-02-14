@@ -11,7 +11,7 @@ RSpec.shared_examples 'manage organization record' do
   end
 
   context 'when anonymous' do
-    it_behaves_like 'feature anonymous'
+    it_behaves_like 'anonymous in browser'
   end
 
   describe 'role members' do
@@ -29,11 +29,11 @@ RSpec.shared_examples 'manage organization record' do
         )
       end
 
-      it_behaves_like 'feature authorized to read'
+      it_behaves_like 'authorized to read in browser'
 
-      it_behaves_like 'feature unauthorized to edit'
+      it_behaves_like 'unauthorized to edit in browser'
 
-      it_behaves_like 'feature unauthorized access not allowed'
+      it_behaves_like 'unauthorized access not allowed in browser'
     end
 
     context 'when editor' do
@@ -46,11 +46,11 @@ RSpec.shared_examples 'manage organization record' do
         )
       end
 
-      it_behaves_like 'feature authorized to read'
+      it_behaves_like 'authorized to read in browser'
 
-      it_behaves_like 'feature authorized to edit'
+      it_behaves_like 'authorized to edit in browser'
 
-      it_behaves_like 'feature unauthorized access not allowed'
+      it_behaves_like 'unauthorized access not allowed in browser'
     end
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'feature anonymous' do
+RSpec.shared_examples 'anonymous in browser' do
   scenario 'can`t view records' do
     records
     visit polymorphic_path(resource_class)

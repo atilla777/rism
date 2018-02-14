@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'feature unauthorized access not allowed' do
+RSpec.shared_examples 'unauthorized access not allowed in browser' do
   scenario 'can`t view not allowed records' do
     not_allowed_record
     visit polymorphic_path(resource_class)

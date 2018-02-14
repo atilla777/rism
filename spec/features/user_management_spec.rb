@@ -14,4 +14,5 @@ RSpec.feature 'User management', type: :feature do
   end
 
   include_examples 'manage organization record'
+  # TODO: fix error - button  wheh create new User not pressed
 end
