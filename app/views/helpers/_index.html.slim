@@ -1,7 +1,7 @@
 table.table.table-hover.table-bordered.table-striped
   thead.thead-dark
     tr
-      - headers.each do | h |
+      - headers.each do |h|
         th
           - if h[:sort]
             = sort_link @q, h[:sort_by], default_order: h[:sort] do
@@ -14,11 +14,11 @@ table.table.table-hover.table-bordered.table-striped
         th.fit
   tbody
     - if top_rows.present?
-      - top_rows.each do | row |
+      - top_rows.each do |row|
         = row
-    - rows.each do | row |
+    - rows.each do |row|
       tr
-        - row.fields.each do | field |
+        - row.fields.each do |field|
           - if field.options.fetch(:fit, false)
             td.fit
               = field.value
