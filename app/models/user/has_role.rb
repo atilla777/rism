@@ -28,20 +28,50 @@ module User::HasRole
     roles.any? { |role| (1..3).cover? role.id }
   end
 
-  # TODO: make it through SQL
-  def allowed_organizations_ids
-    roles_ids = roles.pluck(:id)
-    explicit_organizations_ids = Right.where(role_id: roles_ids)
-                                      .pluck(:organization_id)
-                                      .uniq
-    implicit_organization_ids = []
-    implicit_organization_ids += explicit_organizations_ids
-    explicit_organizations_ids.each do |id_of_organization|
-      implicit_organization_ids += Organization
-        .down_level_organizations(id_of_organization)
-    end
-    implicit_organization_ids.uniq
-  end
+  # Return ids of organizations taht are allowed allowed to
+  # read by user
+  # (includes implicitly assigned rights for children
+  # organizations)
+   def allowed_organizations_ids
+     roles_ids = roles.pluck(:id)
+     expl_orgs_ids = Right.where(role_id: roles_ids)
+                          .pluck(:organization_id)
+                          .uniq
+     expl_orgs_ids.each_with_object(expl_orgs_ids.dup) do |id, result|
+       result.concat Organization.down_level_organizations(id)
+     end.uniq
+   end
+
+  # Return ids of organizations taht are allowed allowed to
+  # read by user
+  # (includes implicitly assigned rights for children
+  # organizations)
+  # This method variant is implemented by pure SQL
+  # def allowed_organizations_ids
+  #   query =<<~SQL
+  #     WITH RECURSIVE allowed_organizations(id) AS
+  #       (
+  #         SELECT organizations.id FROM organizations
+  #         JOIN rights ON organizations.id = rights.organization_id
+  #         WHERE rights.id IN
+  #         (
+  #           SELECT rights.id FROM rights
+  #           WHERE rights.role_id IN
+  #           (
+  #             SELECT role_members.role_id FROM role_members
+  #             WHERE
+  #             role_members.user_id = ?
+  #           )
+  #         )
+  #         UNION
+  #         SELECT organizations.id FROM organizations
+  #         JOIN allowed_organizations
+  #         ON allowed_organizations.id = organizations.parent_id
+  #       )
+  #     SELECT allowed_organizations.id FROM allowed_organizations
+  #   SQL
+  #   Organization.find_by_sql([query, id]).pluck(:id)
+  # end
 
   def can?(action, record_or_model)
     level = Right.action_to_level(action)
