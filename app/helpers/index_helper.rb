@@ -52,9 +52,9 @@ module IndexHelper
 
     # Set table header
     # ==== Options
-    # * +:attribute+ - record attribute (symbol) wich will
+    # * +:attribute+ - record attribute (symbol) that will
     # be displayed in table column
-    # (can be ommited, for example in column that not assotoated with
+    # (can be ommited, for example in column that not associated with
     # record attribute)
     # * +:label+     - displayed column caption
     # (default is a human attribute name, if :attribute is set)

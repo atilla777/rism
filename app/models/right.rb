@@ -21,6 +21,8 @@ class Right < ApplicationRecord
     'AgreementKind' => AgreementKind.model_name.human,
     'OrganizationKind' => OrganizationKind.model_name.human,
     'Attachment' => Attachment.model_name.human,
+    'TagKind' => TagKind.model_name.human,
+    'Tag' => Tag.model_name.human,
   }.freeze
 
   # TODO: try to make subject_type field transformation 

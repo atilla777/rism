@@ -44,6 +44,9 @@ module SharedMethods
 
   # set sort field and direction by default
   # (applies when go to index page from other place)
+  # it uses ransack, so if you wont to set default sort by
+  # associated table field, set it as associated_table_name,
+  # (not associated_table.name)
   def default_sort
     'name asc'
   end

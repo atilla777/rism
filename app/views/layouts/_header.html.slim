@@ -3,22 +3,7 @@ nav.navbar.navbar-default
     = link_to 'RISM', root_path, class: 'navbar-brand'
   .collapse.navbar-collapse
     ul.nav.navbar-nav
-      li
-        = link_to organizations_path do
-          .text-info
-            = fa_icon 'industry'
-            =< Organization.model_name.human(count: 2)
-      li
-        = link_to users_path do
-          .text-info
-            = fa_icon 'address-card'
-            =< t('navigations.contacts')
-
-      li
-        = link_to agreements_path do
-          .span.text-info
-            = fa_icon 'handshake-o'
-            =< Agreement.model_name.human(count: 2)
+      = render 'layouts/main_menu'
     ul.nav.navbar-nav
       li role="presentation" class="dropdown"
         a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
@@ -27,11 +12,7 @@ nav.navbar.navbar-default
             =< t('navigations.catalog')
             span class='caret'
           ul class="dropdown-menu"
-            li
-              = link_to departments_path do
-                .span.text-info
-                  = fa_icon 'group'
-                  =< Department.model_name.human(count: 2)
+            = render 'layouts/other_menu'
       ul.nav.navbar-nav
         - if current_user.admin?
           li role="presentation" class="dropdown"
@@ -41,16 +22,7 @@ nav.navbar.navbar-default
                 =< t('navigations.references')
                 span class='caret'
             ul class="dropdown-menu"
-              li
-                = link_to organization_kinds_path do
-                  .span.text-info
-                    = fa_icon 'industry'
-                    =< OrganizationKind.model_name.human(count: 2)
-              li
-                = link_to agreement_kinds_path do
-                  .span.text-info
-                    = fa_icon 'handshake-o'
-                    =< AgreementKind.model_name.human(count: 2)
+              = render 'layouts/references_menu'
     ul.nav.navbar-nav.navbar-right
       - if current_user.admin?
         li role="presentation" class="dropdown"
@@ -59,21 +31,7 @@ nav.navbar.navbar-default
             =< t('navigations.config')
             span class='caret'
           ul class="dropdown-menu"
-            li
-              = link_to roles_path do
-                .span.text-info
-                  = fa_icon 'group'
-                  =< Role.model_name.human(count: 2)
-            li
-              = link_to rights_path do
-                .span.text-info
-                  = fa_icon 'lock'
-                  =< Right.model_name.human(count: 2)
-            li
-              = link_to versions_path do
-                .span.text-info
-                  = fa_icon 'history'
-                  =< t('labels.version.versions')
+            = render 'layouts/admin_menu'
       - if current_user
         li
           span.navbar-text

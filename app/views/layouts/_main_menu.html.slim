@@ -1,0 +1,16 @@
+li
+  = link_to organizations_path do
+    .text-info
+      = fa_icon 'industry'
+      =< Organization.model_name.human(count: 2)
+li
+  = link_to users_path do
+    .text-info
+      = fa_icon 'address-card'
+      =< t('navigations.contacts')
+
+li
+  = link_to agreements_path do
+    .span.text-info
+      = fa_icon 'handshake-o'
+      =< Agreement.model_name.human(count: 2)

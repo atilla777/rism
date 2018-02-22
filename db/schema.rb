@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180129124019) do
+ActiveRecord::Schema.define(version: 20180222051056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,27 @@ ActiveRecord::Schema.define(version: 20180129124019) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tag_kinds", force: :cascade do |t|
+    t.string "name"
+    t.string "code_name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code_name"], name: "index_tag_kinds_on_code_name"
+    t.index ["name"], name: "index_tag_kinds_on_name"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.bigint "tag_kind_id"
+    t.integer "rank"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tags_on_name"
+    t.index ["tag_kind_id"], name: "index_tags_on_tag_kind_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -187,6 +208,7 @@ ActiveRecord::Schema.define(version: 20180129124019) do
   add_foreign_key "rights", "roles"
   add_foreign_key "role_members", "roles"
   add_foreign_key "role_members", "users"
+  add_foreign_key "tags", "tag_kinds"
   add_foreign_key "users", "departments"
   add_foreign_key "users", "organizations"
 end

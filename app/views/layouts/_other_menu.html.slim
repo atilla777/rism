@@ -1,0 +1,5 @@
+li
+  = link_to departments_path do
+    .span.text-info
+      = fa_icon 'group'
+      =< Department.model_name.human(count: 2)

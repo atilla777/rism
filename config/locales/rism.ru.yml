@@ -91,6 +91,12 @@ ru:
       organization_kind:
         one: 'Тип организации'
         other: 'Типы организаций'
+      tag_kind:
+        one: 'Тип тегов'
+        other: 'Типы тегов'
+      tag:
+        one: 'Тег'
+        other: 'Теги'
     attributes:
       organization:
         name: 'Имя'
@@ -148,6 +154,15 @@ ru:
         description: 'Описание'
       organization_kind:
         name: 'Имя'
+        description: 'Описание'
+      tag_kind:
+        name: 'Имя'
+        code_name: 'Код типа тега'
+        description: 'Описание'
+      tag:
+        name: 'Имя'
+        tag_kind_id: 'Тип тега'
+        rank: 'Порядок отображения'
         description: 'Описание'
     errors:
       messages:

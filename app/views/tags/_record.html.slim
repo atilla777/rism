@@ -1,0 +1,5 @@
+= show_for @record do | r |
+  = r.show :name
+  = r.show :tag_kind_id, value: TagKindDecorator.new(@record.tag_kind).name_with_code
+  = r.show :rank
+  = r.show :description

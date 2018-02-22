@@ -5,4 +5,5 @@ RSpec.describe AgreementKind, type: :model do
   it { should validate_length_of(:name)
        .is_at_least(1)
        .is_at_most(100) }
+  it { should have_many(:agreements) }
 end

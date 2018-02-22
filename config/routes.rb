@@ -26,4 +26,6 @@ Rails.application.routes.draw do
   resources :organization_kinds
   post "versions/:id/revert" => "versions#revert", as: :revert_version
   get "/attachments/:id/download", to: "attachments#download", as: :attachment_download
+  resources :tag_kinds
+  resources :tags
 end
