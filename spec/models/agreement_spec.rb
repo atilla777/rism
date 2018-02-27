@@ -27,4 +27,5 @@ RSpec.describe Agreement, type: :model do
   it { should have_many :attachment_links }
   it { should have_many :attachments }
   it { should have_many :rights}
+  it { should have_many :tags}
 end

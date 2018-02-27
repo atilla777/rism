@@ -1,0 +1,32 @@
+
+table.table.table-hover.table-bordered.table-striped
+  thead
+    tr
+      td.col-md-2.text-right
+        a.link data-toggle='collapse' href='#toggle_tags'
+          strong.text-info
+            =< "#{t('labels.tags.more_tags')}"
+            =< fa_icon 'tags'
+      td
+        - if @tag_member&.errors&.any?
+            span.text-danger
+              = t('errors.template.header', count: @tag_member.errors.count, model: TagMember.model_name.human)
+              ul
+                - @tag_member.errors.full_messages.each do |message|
+                  li = message
+        - @record.tag_members.each do |tag_member|
+          =< link_to tag_member, method: :delete, remote: true, data: {confirm: t('views.action.confirm')} do
+            = fa_icon 'tag'
+            span.text-success
+              =< tag_member.tag.name
+  tbody id='toggle_tags' class=('collapse' if @collapse)
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          =< "#{t('labels.tags.allowed_tags')}"
+      td
+        - Tag.all.each do |tag|
+          =< link_to tag_members_path(record_id: @record.id, record_type: @record.class.name, tag_id: tag.id), method: :post, remote: true, data: {confirm: t('views.action.confirm')}  do
+            = fa_icon 'tag'
+            =< tag.name
+

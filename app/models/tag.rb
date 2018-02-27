@@ -5,4 +5,7 @@ class Tag < ApplicationRecord
   validates :name, uniqueness: { scope: :tag_kind_id }
 
   belongs_to :tag_kind
+
+  has_many :tag_members, dependent: :destroy
+  has_many :agreements, through: :tag_members
 end

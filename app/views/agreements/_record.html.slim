@@ -8,4 +8,7 @@
   = r.show :prolongation, value: AgreementDecorator.new(@record).show_prolongation
   = r.show :description
 
+#tags
+  = render 'tag_members/tags', record: record
+
 = render 'application/record_attachments', record: record

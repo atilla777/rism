@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'authorized to read' do
-
   it 'can view records' do
     get :index
 

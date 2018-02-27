@@ -21,6 +21,9 @@ ru:
     agreement:
       prolongation: 'Да'
       no_prolongation: 'Нет'
+    tags:
+      more_tags: 'Посмотреть/Назначить метки'
+      allowed_tags: 'Доступные для назначения метки:'
     version:
       versions: 'Версии'
       current_version: 'Текущая версия'
@@ -97,6 +100,9 @@ ru:
       tag:
         one: 'Тег'
         other: 'Теги'
+      tag_member:
+        one: 'Привязка тега'
+        other: 'Привязки тегов'
     attributes:
       organization:
         name: 'Имя'
@@ -164,6 +170,10 @@ ru:
         tag_kind_id: 'Тип тега'
         rank: 'Порядок отображения'
         description: 'Описание'
+      tag_member:
+        record_type: 'Тип записи'
+        record_id: 'ID записи'
+        tag_id: 'Тег'
     errors:
       messages:
           role_is_built_in: 'Невозможно удалить роль, так как она является встроенной'

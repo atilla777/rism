@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180222051056) do
+ActiveRecord::Schema.define(version: 20180227051226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,16 @@ ActiveRecord::Schema.define(version: 20180222051056) do
     t.index ["name"], name: "index_tag_kinds_on_name"
   end
 
+  create_table "tag_members", force: :cascade do |t|
+    t.string "record_type"
+    t.bigint "record_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id"], name: "index_tag_members_on_record_type_and_record_id"
+    t.index ["tag_id"], name: "index_tag_members_on_tag_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.bigint "tag_kind_id"
@@ -208,6 +218,7 @@ ActiveRecord::Schema.define(version: 20180222051056) do
   add_foreign_key "rights", "roles"
   add_foreign_key "role_members", "roles"
   add_foreign_key "role_members", "users"
+  add_foreign_key "tag_members", "tags"
   add_foreign_key "tags", "tag_kinds"
   add_foreign_key "users", "departments"
   add_foreign_key "users", "organizations"

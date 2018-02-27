@@ -19,6 +19,9 @@ class Agreement < ApplicationRecord
   belongs_to :contractor, class_name: 'Organization'
   belongs_to :agreement_kind, optional: true
 
+  has_many :tag_members, as: :record, dependent: :destroy
+  has_many :tags, through: :tag_members
+
   # TODO move code to attachable concern
   has_many :attachment_links, as: :record, dependent: :destroy
   has_many :attachments, through: :attachment_links

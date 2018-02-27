@@ -28,4 +28,5 @@ Rails.application.routes.draw do
   get "/attachments/:id/download", to: "attachments#download", as: :attachment_download
   resources :tag_kinds
   resources :tags
+  resources :tag_members, only: %i[create destroy]
 end

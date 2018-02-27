@@ -25,7 +25,7 @@ class Right < ApplicationRecord
     'Tag' => Tag.model_name.human,
   }.freeze
 
-  # TODO: try to make subject_type field transformation 
+  # TODO: try to make subject_type field transformation
   # (for search with translated model name)
 
   ransacker :level do
