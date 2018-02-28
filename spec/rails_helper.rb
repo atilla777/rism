@@ -6,11 +6,8 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'support/factory_bot'
-require 'support/database_cleaner'
-require 'support/authlogic_helper'
-require 'support/ui_autocomplite_helper'
 require "pundit/rspec"
+Dir[Rails.root.join("spec/support/*.rb")].each {|f| require f}
 Dir[Rails.root.join("spec/controllers/shared_examples/*.rb")].each {|f| require f}
 Dir[Rails.root.join("spec/features/shared_examples/*.rb")].each {|f| require f}
 # Requires supporting ruby files with custom matchers and macros, etc, in

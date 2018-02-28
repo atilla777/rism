@@ -6,7 +6,6 @@ RSpec.shared_examples 'authorized to edit in browser' do
     click_on(
       I18n.t('helpers.submit.create', model: resource_class.model_name.human)
     )
-    save_screenshot
     fill_in_new
     click_button I18n.t('helpers.submit.save')
 

@@ -26,7 +26,7 @@ table.table.table-hover.table-bordered.table-striped
           =< "#{t('labels.tags.allowed_tags')}"
       td
         - Tag.all.each do |tag|
-          =< link_to tag_members_path(record_id: @record.id, record_type: @record.class.name, tag_id: tag.id), method: :post, remote: true, data: {confirm: t('views.action.confirm')}  do
+          =< link_to tag_members_path(record_type: @record.class.name, record_id: @record.id, tag_id: tag.id), method: :post, remote: true, data: {confirm: t('views.action.confirm')}  do
             = fa_icon 'tag'
             =< tag.name
 
