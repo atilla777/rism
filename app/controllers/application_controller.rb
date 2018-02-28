@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
 
+  # TODO: move to controllers with versioned models
   before_action :set_paper_trail_whodunnit
 
   after_action :verify_authorized
@@ -36,7 +37,12 @@ class ApplicationController < ActionController::Base
 #  end
 
   def authenticate?
-    redirect_to :sign_in unless current_user
+    return if current_user
+    if request.xhr?
+      return render json: {success: false, errors: ['Sign in is required.']}
+    else
+      redirect_to :sign_in unless current_user
+    end
   end
 
   def current_user_session
@@ -50,7 +56,11 @@ class ApplicationController < ActionController::Base
   end
 
   def user_not_authorized
-    flash[:danger] = t('messages.not_allowed')
-    redirect_back(fallback_location: root_path)
+    if request.xhr?
+      return render json: {success: false, errors: ['Authorization is required.']}
+    else
+      flash[:danger] = t('messages.not_allowed')
+      redirect_back(fallback_location: root_path)
+    end
   end
 end

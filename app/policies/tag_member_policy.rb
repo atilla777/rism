@@ -1,5 +1,5 @@
 class TagMemberPolicy < ApplicationPolicy
-  include RecordPolicy
+  #include RecordPolicy
 
   def permitted_attributes
     %i[record_type
