@@ -56,8 +56,6 @@ module ShowHelper
   #             value: "My name is #{@user.name}"
   #  end
   def show_for(record, &block)
-    options = {}
-    options[:versions] = record.class.paper_trail.enabled?
     record_wrapper = RecordWrapper.new(record, self)
     render 'helpers/show_record', record: record_wrapper, &block
   end
