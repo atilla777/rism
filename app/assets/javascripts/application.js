@@ -17,4 +17,5 @@
 //= require jquery-ui/widgets/autocomplete
 //= require jquery-ui/effects/effect-blind
 //= require autocomplete-rails
+//= require data-confirm-modal
 //= require_tree .

@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'data-confirm-modal'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.6'
