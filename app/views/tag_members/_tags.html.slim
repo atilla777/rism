@@ -1,4 +1,3 @@
-
 table.table.table-hover.table-bordered.table-striped
   thead
     tr
@@ -14,19 +13,27 @@ table.table.table-hover.table-bordered.table-striped
               ul
                 - @tag_member.errors.full_messages.each do |message|
                   li = message
-        - @record.tag_members.each do |tag_member|
-          =< link_to tag_member, method: :delete, remote: true, data: {confirm: t('views.action.confirm')} do
-            = fa_icon 'tag'
-            span.text-success
-              =< tag_member.tag.name
-  tbody id='toggle_tags' class=('collapse' if @collapse)
+        - @record.tag_members.group_by { |tag_member| "#{tag_member.tag.tag_kind.code_name} (#{tag_member.tag.tag_kind.name})" }.sort.each do |tag_kind, tag_members|
+          strong.text-warning
+            =< "#{tag_kind}:"
+          - tag_members.each do |tag_member|
+            =< link_to tag_member, method: :delete, remote: true, data: {confirm: t('views.action.confirm')} do
+              = fa_icon 'tag'
+              span.text-success
+                =< "#{tag_member.tag.tag_kind.code_name}#{tag_member.tag.rank} (#{tag_member.tag.name})"
+          br
+  tbody id='toggle_tags' class="#{'collapse' unless @unfold}"
     tr
       td.col-md-2.text-right
-        strong.text-info
+        strong
           =< "#{t('labels.tags.allowed_tags')}"
       td
-        - Tag.all.each do |tag|
-          =< link_to tag_members_path(record_type: @record.class.name, record_id: @record.id, tag_id: tag.id), method: :post, remote: true, data: {confirm: t('views.action.confirm')}  do
-            = fa_icon 'tag'
-            =< tag.name
+        - (Tag.all - @record.tags).group_by { |tag| "#{tag.tag_kind.code_name} (#{tag.tag_kind.name})" }.sort.each do |tag_kind, tags|
+          strong.text-warning
+            =< "#{tag_kind}:"
+          - tags.each do |tag|
+            =< link_to tag_members_path(record_type: @record.class.name, record_id: @record.id, tag_id: tag.id), method: :post, remote: true, data: {confirm: t('views.action.confirm')}  do
+              = fa_icon 'tag'
+              =< "#{tag.tag_kind.code_name}#{tag.rank} (#{tag.name})"
+          br
 

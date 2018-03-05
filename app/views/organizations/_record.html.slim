@@ -5,4 +5,4 @@
   = r.show :organization_kind_id, value: record.organization_kind_id.present? ? link_to(record.organization_kind.name, record.organization_kind) : ''
   = r.show :description
 
-= render 'application/record_versions', record: record
+= render 'application/record_versions'

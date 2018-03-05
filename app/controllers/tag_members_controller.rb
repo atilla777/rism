@@ -5,7 +5,7 @@ class TagMembersController < ApplicationController
     authorize TagMember
     authorize @record
     @tag_member.save
-    @collapse = false
+    @unfold = true
   end
 
   def destroy
@@ -14,7 +14,7 @@ class TagMembersController < ApplicationController
     authorize TagMember
     authorize @record
     @tag_member.destroy
-    @collapse = false
+    @unfold = true
   end
 
   private
