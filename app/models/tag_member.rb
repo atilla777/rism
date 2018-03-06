@@ -1,5 +1,6 @@
 class TagMember < ApplicationRecord
-  RECORD_TYPES = %w[Agreement]
+  RECORD_TYPES = %w[Agreement
+                    Incident]
 
   validates :record_id, numericality: { only_integer: true }
   validates :tag_id, numericality: { only_integer: true }

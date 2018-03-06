@@ -1,0 +1,73 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :discovered_at, class: 'control-label'
+          .col-lg-2
+            = f.date_field :discovered_at, { class: 'form-control' }
+          .col-lg-2.text-right
+            = f.label :discovered_time, class: 'control-label'
+          .col-lg-2
+            = f.check_box :discovered_time, class: 'form-control'
+          .col-lg-2
+            = f.time_field :discovered_at, { class: 'form-control', value: '00:00' }
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :started_at, class: 'control-label'
+          .col-lg-8
+            = f.datetime_field :started_at, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :severity, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :severity, Incident.severities, :first, :last, {}, { class: 'form-control' }
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :damage, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :damage, Incident.damages, :first, :last, {}, { class: 'form-control' }
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :state, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :state, Incident.states, :first, :last, {}, { class: 'form-control' }
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :event_description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :event_description, rows:8, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :investigation_description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :investigation_description, rows: 8, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :action_description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :action_description, rows: 8, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = link_to :back do
+            span.btn.btn-info
+              = t('views.action.back')

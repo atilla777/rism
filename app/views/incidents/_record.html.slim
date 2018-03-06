@@ -1,0 +1,18 @@
+= show_for @record do |r|
+  = r.show :id
+  = r.show :state, value: IncidentDecorator.new(@record).show_state
+  = r.show :severity, value: IncidentDecorator.new(@record).show_severity
+  = r.show :discovered_at, value: IncidentDecorator.new(@record).show_discovered_at
+  = r.show :created_at, value: show_date_time(@record.created_at)
+  = r.show :started_at, value: IncidentDecorator.new(@record).show_started_at
+  = r.show :finished_at, value: IncidentDecorator.new(@record).show_finished_at
+  = r.show :closed_at, value: show_date_time(@record.closed_at)
+  = r.show :damage, value: IncidentDecorator.new(@record).show_damage
+  = r.show :event_description
+  = r.show :investigation_description
+  = r.show :action_description
+
+#tags
+  = render 'tag_members/tags', record: record
+
+= render 'application/record_attachments', record: record

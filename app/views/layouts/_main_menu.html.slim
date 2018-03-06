@@ -8,6 +8,11 @@ li
     .text-info
       = fa_icon 'address-card'
       =< t('navigations.contacts')
+li
+  = link_to incidents_path do
+    .text-info
+      = fa_icon 'flash'
+      =< Incident.model_name.human(count: 2)
 
 li
   = link_to agreements_path do

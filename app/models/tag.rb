@@ -8,4 +8,5 @@ class Tag < ApplicationRecord
 
   has_many :tag_members, dependent: :destroy
   has_many :agreements, through: :tag_members
+  has_many :incidents, through: :tag_members
 end

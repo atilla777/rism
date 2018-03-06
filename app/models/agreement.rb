@@ -25,6 +25,7 @@ class Agreement < ApplicationRecord
   # TODO move code to attachable concern
   has_many :attachment_links, as: :record, dependent: :destroy
   has_many :attachments, through: :attachment_links
+
   has_many :rights, as: :subject, dependent: :destroy
 
   private

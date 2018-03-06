@@ -1,4 +1,4 @@
-= show_for @record do | r |
+= show_for @record do |r|
   = r.show :agreement_kind_id, value: @record.agreement_kind&.name
   = r.show :beginning, value: show_date(@record.beginning)
   = r.show :prop

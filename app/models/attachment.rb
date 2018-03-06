@@ -19,5 +19,10 @@ class Attachment < ApplicationRecord
            source: :record,
            source_type: Agreement
 
+  has_many :agreements,
+           through: :attachment_links,
+           source: :record,
+           source_type: Incident
+
   has_many :rights, as: :subject, dependent: :destroy
 end

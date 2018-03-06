@@ -1,0 +1,21 @@
+= index_search :discovered_at_or_started_at_or_created_at_or_finished_at_or_closed_at_or_severity_or_damage_or_state_cont
+= index_for records do |i|
+  - i.header attribute: :id, sort: :desc
+  - i.header attribute: :state, sort: :desc
+  - i.header attribute: :severity, sort: :desc
+  - i.header attribute: :discovered_at, sort: :desc
+  - i.header attribute: :created_at, sort: :desc
+  - i.header attribute: :started_at, sort: :desc
+  - i.header attribute: :finished_at, sort: :desc
+  - i.header attribute: :closed_at, sort: :desc
+  - i.header attribute: :damage, sort: :desc
+  - i.body do |r, record|
+    - r.field link_to(record.id, record)
+    - r.field link_to(IncidentDecorator.new(record).show_state, record)
+    - r.field link_to(IncidentDecorator.new(record).show_severity, record)
+    - r.field link_to(IncidentDecorator.new(record).show_discovered_at, record)
+    - r.field link_to(show_date_time(record.created_at), record)
+    - r.field link_to(IncidentDecorator.new(record).show_started_at, record)
+    - r.field link_to(IncidentDecorator.new(record).show_finished_at, record)
+    - r.field link_to(show_date_time(record.closed_at), record)
+    - r.field link_to(IncidentDecorator.new(record).show_damage, record)

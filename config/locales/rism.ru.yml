@@ -58,6 +58,18 @@ ru:
     manager: 'Назначение прав'
     editor: 'Редактирование'
     reader: 'Чтение'
+  incidents:
+    damages:
+      not_present: 'У0 - нет'
+      unknown: 'У1 - неизвестно'
+      present: 'У2 - есть'
+    severities:
+      low: 'В0 - обычная'
+      hi: 'В1 - высокая'
+    states:
+      registered: 'С0 - зарегистрирован'
+      processed: 'С1 - обрабатывается'
+      closed: 'С2 - закрыт'
   organization_kinds:
     organization: 'Организация'
     department: 'Подразделение'
@@ -103,6 +115,9 @@ ru:
       tag_member:
         one: 'Привязка тега'
         other: 'Привязки тегов'
+      incident:
+        one: 'Инцидент'
+        other: 'Инциденты'
     attributes:
       organization:
         name: 'Имя'
@@ -174,6 +189,22 @@ ru:
         record_type: 'Тип записи'
         record_id: 'ID записи'
         tag_id: 'Тег'
+      incident:
+        id: 'Номер'
+        discovered_at: 'Обнаружен'
+        discovered_time: 'Время обнаружения установлено'
+        created_at: 'Зарегистрирован'
+        started_at: 'Произошел'
+        started_time: 'Время наступления установлено'
+        finished_at: 'Завершился'
+        finished_time: 'Время завершения установлено'
+        closed_at: 'Закрыт'
+        event_description: 'Описание события'
+        investigation_description: 'Результ расследования'
+        action_description: 'Принятые меры'
+        severity: 'Важность'
+        damage: 'Ущерб'
+        state: 'Состояние'
     errors:
       messages:
           role_is_built_in: 'Невозможно удалить роль, так как она является встроенной'

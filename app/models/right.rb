@@ -24,6 +24,7 @@ class Right < ApplicationRecord
     'TagKind' => TagKind.model_name.human,
     'Tag' => Tag.model_name.human,
     'TagMember' => TagMember.model_name.human,
+    'Incident' => Incident.model_name.human,
   }.freeze
 
   # TODO: try to make subject_type field transformation
