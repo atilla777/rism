@@ -89,6 +89,20 @@ class Incident < ApplicationRecord
   has_many :attachment_links, as: :record, dependent: :destroy
   has_many :attachments, through: :attachment_links
 
+  before_save :set_closed_at
+
+  def self.damages
+    DAMAGES
+  end
+
+  def self.severities
+    SEVERITIES
+  end
+
+  def self.states
+    STATES
+  end
+
   private
 
   def self.datetime_field_to_text_search(fieled)
@@ -105,15 +119,12 @@ class Incident < ApplicationRecord
     ActiveSupport::TimeZone.find_tzinfo(Time.zone.name).identifier
   end
 
-  def self.damages
-    DAMAGES
-  end
-
-  def self.severities
-    SEVERITIES
-  end
-
-  def self.states
-    STATES
+  def set_closed_at
+    return unless changed.include?('state')
+    self.closed_at = if state == 2
+                       Time.current
+                     else
+                       nil
+                     end
   end
 end

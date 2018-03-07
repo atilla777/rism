@@ -9,7 +9,6 @@ class IncidentPolicy < ApplicationPolicy
        finished_at
        finished_time
        closed_at
-       closed_time
        event_description
        investigation_description
        action_description

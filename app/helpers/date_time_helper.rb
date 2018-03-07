@@ -10,4 +10,18 @@ module DateTimeHelper
     return '' unless field
     field.strftime('%d.%m.%Y-%H:%M')
   end
+
+  def time_value(record, field)
+    return record.send(field) if record.send(field) && record
+    nil
+  end
+
+  def start_year
+    Date.current.year
+  end
+
+  def end_year
+    15.years.ago.year
+  end
+
 end

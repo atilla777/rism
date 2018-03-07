@@ -8,20 +8,34 @@
           .col-lg-2.text-right
             = f.label :discovered_at, class: 'control-label'
           .col-lg-2
-            = f.date_field :discovered_at, { class: 'form-control' }
-          .col-lg-2.text-right
-            = f.label :discovered_time, class: 'control-label'
+            = f.date_select :discovered_at, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
           .col-lg-2
-            = f.check_box :discovered_time, class: 'form-control'
-          .col-lg-2
-            = f.time_field :discovered_at, { class: 'form-control', value: '00:00' }
+            = f.time_select :discovered_at, { prompt: true, selected: (@record.discovered_time ? @record.discovered_at : nil) , include_blank: true, ignore_date: true }, { style: 'width:40%; display:inline', class: 'form-control' }
 
       .form-group.recomended
         .field
           .col-lg-2.text-right
             = f.label :started_at, class: 'control-label'
+          .col-lg-2
+            = f.date_select :started_at, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
+          .col-lg-2
+            = f.time_select :started_at, { prompt: true, selected: (@record.started_time ? @record.started_at : nil) , include_blank: true, ignore_date: true }, { style: 'width:40%; display:inline', class: 'form-control' }
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :finished_at, class: 'control-label'
+          .col-lg-2
+            = f.date_select :finished_at, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
+          .col-lg-2
+            = f.time_select :finished_at, { prompt: true, selected: (@record.finished_time ? @record.finished_at : nil) , include_blank: true, ignore_date: true }, { style: 'width:40%; display:inline', class: 'form-control' }
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :state, class: 'control-label'
           .col-lg-8
-            = f.datetime_field :started_at, class: 'form-control'
+            = f.collection_select :state, Incident.states, :first, :last, {}, { class: 'form-control' }
 
       .form-group.required
         .field
@@ -36,13 +50,6 @@
             = f.label :damage, class: 'control-label'
           .col-lg-8
             = f.collection_select :damage, Incident.damages, :first, :last, {}, { class: 'form-control' }
-
-      .form-group.required
-        .field
-          .col-lg-2.text-right
-            = f.label :state, class: 'control-label'
-          .col-lg-8
-            = f.collection_select :state, Incident.states, :first, :last, {}, { class: 'form-control' }
 
       .form-group.required
         .field
