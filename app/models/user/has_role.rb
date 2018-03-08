@@ -2,6 +2,7 @@
 
 module User::HasRole
   extend ActiveSupport::Concern
+
   included do
     before_destroy :protect_admin
 
