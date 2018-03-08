@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class IncidentDecorator < SimpleDelegator
+  def show_id
+    "##{id}"
+  end
+
   def show_discovered_at
     date_or_datetime discovered_at, discovered_time
   end

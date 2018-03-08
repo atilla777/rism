@@ -13,7 +13,7 @@ RSpec.shared_examples 'unauthorized to edit in browser' do
     records
     visit polymorphic_path(resource_class)
     click_on(I18n.t('views.action.delete'), match: :first)
-    page.accept_confirm
+    confirm
 
     expect(page).to have_text(I18n.t('messages.not_allowed'))
   end

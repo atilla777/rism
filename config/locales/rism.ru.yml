@@ -191,6 +191,7 @@ ru:
         tag_id: 'Тег'
       incident:
         id: 'Номер'
+        name: 'Имя'
         discovered_at: 'Обнаружен'
         discovered_time: 'Время обнаружения установлено'
         created_at: 'Зарегистрирован'
@@ -222,6 +223,7 @@ ru:
       edit: "Редактировать"
       delete: "Удалить"
       back: "Назад"
+      certify: "Да"
   messages:
     yes: да
     no: нет

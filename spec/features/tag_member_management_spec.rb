@@ -30,7 +30,7 @@ RSpec.feature 'Tag members management', type: :feature do
         tag_id: tag.id
       )
       find("a[href='#{link}']").click
-      page.accept_confirm
+      confirm
       wait_for_ajax
 
       created_tag_member = TagMember.where(
@@ -49,7 +49,7 @@ RSpec.feature 'Tag members management', type: :feature do
       link_to_remove = tag_member_path(tag_member)
       link = tag_member_path(tag_member)
       find("a[href='#{link}']").click
-      page.accept_confirm
+      confirm
       wait_for_ajax
 
       expect(page).not_to have_link(tag.name, href: link_to_remove)
@@ -67,7 +67,7 @@ RSpec.feature 'Tag members management', type: :feature do
         tag_id: tag.id
       )
       find("a[href='#{link}']").click
-      page.accept_confirm
+      confirm
       wait_for_ajax
 
       expect { find("a[data-method='delete']", text: tag.name) }.to raise_error
@@ -79,7 +79,7 @@ RSpec.feature 'Tag members management', type: :feature do
       link_to_remove = tag_member_path(tag_member)
       link = tag_member_path(tag_member)
       find("a[href='#{link}']").click
-      page.accept_confirm
+      confirm
       wait_for_ajax
 
       expect(page).to have_link(tag.name, href: link_to_remove)

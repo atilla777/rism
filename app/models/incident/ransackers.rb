@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
-module Incident::Ransakers
+module Incident::Ransackers
   extend ActiveSupport::Concern
 
   included do
+    ransacker :id do
+      Arel.sql(" '#' || id::char")
+    end
+
     ransacker :discovered_at do
       datetime_field_to_text_search 'discovered_at'
     end

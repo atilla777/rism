@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20180306061705) do
   end
 
   create_table "incidents", force: :cascade do |t|
+    t.string "name"
     t.datetime "discovered_at"
     t.boolean "discovered_time", default: false
     t.datetime "started_at"

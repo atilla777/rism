@@ -1,6 +1,7 @@
 class CreateIncidents < ActiveRecord::Migration[5.1]
   def change
     create_table :incidents do |t|
+      t.string :name
       t.datetime :discovered_at
       t.boolean :discovered_time, default: false
       t.datetime :started_at

@@ -1,5 +1,6 @@
 = show_for @record do |r|
   = r.show :id
+  = r.show :name
   = r.show :state, value: IncidentDecorator.new(@record).show_state
   = r.show :severity, value: IncidentDecorator.new(@record).show_severity
   = r.show :discovered_at, value: IncidentDecorator.new(@record).show_discovered_at

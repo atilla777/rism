@@ -6,6 +6,13 @@
       .form-group.recomended
         .field
           .col-lg-2.text-right
+            = f.label :name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :name, class: 'form-control'
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
             = f.label :discovered_at, class: 'control-label'
           .col-lg-2
             = f.date_select :discovered_at, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }

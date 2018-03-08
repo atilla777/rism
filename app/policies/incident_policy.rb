@@ -2,7 +2,8 @@ class IncidentPolicy < ApplicationPolicy
   include RecordPolicy
 
   def permitted_attributes
-    %i[discovered_at
+    %i[name
+       discovered_at
        discovered_time
        started_at
        started_time

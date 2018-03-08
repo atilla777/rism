@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Incident < ApplicationRecord
-  include Incident::Ransakers
+  include Incident::Ransackers
 
   DAMAGES = {
     0 => I18n.t('incidents.damages.not_present'),
@@ -20,6 +20,7 @@ class Incident < ApplicationRecord
     2 => I18n.t('incidents.states.closed')
   }.freeze
 
+  validates :name, length: { in: 3..100, allow_blank: true }
   validates :event_description, presence: true
   validates :damage, inclusion: { in: DAMAGES.keys }
   validates :severity, inclusion: { in: SEVERITIES.keys }
@@ -50,6 +51,6 @@ class Incident < ApplicationRecord
 
   def set_closed_at
     return unless changed.include?('state')
-    self.closed_at = Time.current if state == 2
+    self.closed_at = (state == 2) ? Time.current : nil
   end
 end
