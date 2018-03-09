@@ -118,6 +118,12 @@ ru:
       incident:
         one: 'Инцидент'
         other: 'Инциденты'
+      link_kind:
+        one: 'Тип связи'
+        other: 'Типы связей'
+      link:
+        one: 'Связь'
+        other: 'Связи'
     attributes:
       organization:
         name: 'Имя'
@@ -206,6 +212,18 @@ ru:
         severity: 'Важность'
         damage: 'Ущерб'
         state: 'Состояние'
+      link_kind:
+        name: 'Имя'
+        code_name: 'Код'
+        rank: 'Ранг'
+        record_type: 'Прикрепляемый ресурс'
+        equal: 'Равноправная'
+      link:
+        first_record_type: 'Тип ресурса'
+        first_record_id: 'Номер ресурса'
+        second_record_type: 'Тип прикрепляемого ресурса'
+        second_record_id: 'Номер прикрепляемого ресурса'
+        link_kind: 'Тип связи'
     errors:
       messages:
           role_is_built_in: 'Невозможно удалить роль, так как она является встроенной'

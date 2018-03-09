@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180306061705) do
+ActiveRecord::Schema.define(version: 20180309083145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,30 @@ ActiveRecord::Schema.define(version: 20180306061705) do
     t.integer "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "link_kinds", force: :cascade do |t|
+    t.string "name"
+    t.string "code_name"
+    t.integer "rank"
+    t.string "record_type"
+    t.boolean "equal"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "links", force: :cascade do |t|
+    t.string "first_record_type"
+    t.bigint "first_record_id"
+    t.string "second_record_type"
+    t.bigint "second_record_id"
+    t.bigint "link_kind_id"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["first_record_type", "first_record_id"], name: "index_links_on_first_record_type_and_first_record_id"
+    t.index ["link_kind_id"], name: "index_links_on_link_kind_id"
+    t.index ["second_record_type", "second_record_id"], name: "index_links_on_second_record_type_and_second_record_id"
   end
 
   create_table "organization_kinds", force: :cascade do |t|
@@ -231,6 +255,7 @@ ActiveRecord::Schema.define(version: 20180306061705) do
   add_foreign_key "attachments", "organizations"
   add_foreign_key "departments", "departments", column: "parent_id"
   add_foreign_key "departments", "organizations"
+  add_foreign_key "links", "link_kinds"
   add_foreign_key "organizations", "organization_kinds"
   add_foreign_key "organizations", "organizations", column: "parent_id"
   add_foreign_key "rights", "organizations"
