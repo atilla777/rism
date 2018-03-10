@@ -3,6 +3,10 @@ li
     .span.text-info
       = fa_icon 'tag'
       =< TagKind.model_name.human(count: 2)
+  = link_to link_kinds_path do
+    .span.text-info
+      = fa_icon 'link'
+      =< LinkKind.model_name.human(count: 2)
 li
   = link_to tags_path do
     .span.text-info

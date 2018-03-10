@@ -38,6 +38,9 @@ ru:
       author: 'Автор'
       created: 'создание'
       updated: 'обнавление'
+    link_kinds:
+      equal: 'Двунаправленная'
+      not_equal: 'Однонаправленная'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
@@ -217,7 +220,8 @@ ru:
         code_name: 'Код'
         rank: 'Ранг'
         record_type: 'Прикрепляемый ресурс'
-        equal: 'Равноправная'
+        equal: 'Двунаправленная'
+        description: 'Описание'
       link:
         first_record_type: 'Тип ресурса'
         first_record_id: 'Номер ресурса'

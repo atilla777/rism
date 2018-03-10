@@ -30,4 +30,5 @@ Rails.application.routes.draw do
   resources :tags
   resources :tag_members, only: %i[create destroy]
   resources :incidents
+  resources :link_kinds
 end

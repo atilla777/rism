@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 20180309083145) do
     t.integer "rank"
     t.string "record_type"
     t.boolean "equal"
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

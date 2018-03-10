@@ -6,6 +6,7 @@ class CreateLinkKinds < ActiveRecord::Migration[5.1]
       t.integer :rank
       t.string :record_type
       t.boolean :equal
+      t.text :description
 
       t.timestamps
     end

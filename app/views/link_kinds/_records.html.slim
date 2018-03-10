@@ -1,0 +1,13 @@
+= index_search :name_or_code_name_or_record_type_or_equal_cont
+= index_for records do |i|
+  - i.header attribute: :record_type, sort: :desc
+  - i.header attribute: :name, sort: :desc
+  - i.header attribute: :code_name, sort: :desc
+  - i.header attribute: :rank, sort: :desc
+  - i.header attribute: :equal, sort: :desc
+  - i.body do |r, record|
+    - r.field link_to(LinkKindDecorator.new(record).show_record_type, record)
+    - r.field link_to(record.name, record)
+    - r.field link_to(record.code_name, record)
+    - r.field link_to(record.rank, record)
+    - r.field link_to(LinkKindDecorator.new(record).show_equal, record)

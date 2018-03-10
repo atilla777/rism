@@ -80,8 +80,9 @@
         .col-lg-offset-2.col-lg-8
           .checkbox
              label
-               = f.check_box :active
-               | #{t('activerecord.attributes.user.active')}
+               = f.check_box :active, class: 'big-checkbox'
+               strong
+                 | #{t('activerecord.attributes.user.active')}
 
       .form-group
         .col-lg-2.text-right.control-label
