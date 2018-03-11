@@ -36,6 +36,9 @@ class Organization < ApplicationRecord
 
   belongs_to :organization_kind, optional: true
 
+  has_many :links, as: :second_records, dependent: :destroy
+  has_many :first_records, through: :links
+
   # Array of child organizations ids.
   # For example organization with id 1 has childs with ids 34, 45 and 57:
   # Organization.down_level_organizations(1)
@@ -57,5 +60,13 @@ class Organization < ApplicationRecord
 
     Organization.find_by_sql([query, id_of_organization])
                 .pluck(:id)
+  end
+
+  def main_attribute
+    :name
+  end
+
+  def show_main_attribute
+    send(main_attribute)
   end
 end

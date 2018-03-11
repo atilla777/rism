@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TagMembersController < ApplicationController
   def create
     @tag_member = TagMember.new(tag_member_params)

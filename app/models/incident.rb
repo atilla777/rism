@@ -29,6 +29,9 @@ class Incident < ApplicationRecord
   has_many :tag_members, as: :record, dependent: :destroy
   has_many :tags, through: :tag_members
 
+  has_many :links, as: :first_record, dependent: :destroy
+  has_many :second_records, through: :links
+
   # TODO: move code to attachable concern
   has_many :attachment_links, as: :record, dependent: :destroy
   has_many :attachments, through: :attachment_links

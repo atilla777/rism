@@ -13,6 +13,9 @@
   = r.show :investigation_description
   = r.show :action_description
 
+#links
+  = render 'links/links', record: record
+
 #tags
   = render 'tag_members/tags', record: record
 
