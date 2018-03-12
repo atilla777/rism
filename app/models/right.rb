@@ -14,20 +14,32 @@ class Right < ApplicationRecord
   }.freeze
 
   SUBJECT_TYPES = {
-    'Organization' => Organization.model_name.human,
-    'User' => User.model_name.human,
-    'Department' => Department.model_name.human,
-    'Agreement' => Agreement.model_name.human,
-    'AgreementKind' => AgreementKind.model_name.human,
-    'OrganizationKind' => OrganizationKind.model_name.human,
-    'Attachment' => Attachment.model_name.human,
-    'TagKind' => TagKind.model_name.human,
-    'Tag' => Tag.model_name.human,
-    'TagMember' => TagMember.model_name.human,
-    'Incident' => Incident.model_name.human,
-    'LinkKind' => LinkKind.model_name.human,
-    'Link' => Link.model_name.human,
+    'Organization' => I18n.t('activerecord.models.organization.one'),
+    'User' => I18n.t('activerecord.models.user.one'),
+    'Department' => I18n.t('activerecord.models.department.one'),
+    'Agreement' => I18n.t('activerecord.models.agreement.one'),
+    'AgreementKind' => I18n.t('activerecord.models.agreement_kind.one'),
+    'OrganizationKind' =>  I18n.t('activerecord.models.organization_kind.one'),
+    'Attachment' => I18n.t('activerecord.models.attachment.one'),
+    'TagKind' => I18n.t('activerecord.models.tag_kind.one'),
+    'Tag' => I18n.t('activerecord.models.tag.one'),
+    'TagMember' => I18n.t('activerecord.models.tag_member.one'),
+    'Incident' => I18n.t('activerecord.models.incident.one'),
+    'LinkKind' => I18n.t('activerecord.models.link_kind.one'),
+    'Link' => I18n.t('activerecord.models.link.one')
   }.freeze
+
+  def self.subject_types
+    SUBJECT_TYPES
+  end
+
+  def self.levels
+    LEVELS
+  end
+
+  def self.action_to_level(action)
+    ACTIONS[action]
+  end
 
   # TODO: try to make subject_type field transformation
   # (for search with translated model name)
@@ -83,19 +95,7 @@ class Right < ApplicationRecord
     SUBJECT_TYPES[subject_type]
   end
 
-  def self.subject_types
-    SUBJECT_TYPES
-  end
-
   def show_level
     LEVELS[level]
-  end
-
-  def self.levels
-    LEVELS
-  end
-
-  def self.action_to_level(action)
-    ACTIONS[action]
   end
 end

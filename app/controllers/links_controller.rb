@@ -7,7 +7,8 @@ class LinksController < ApplicationController
     authorize Link
     authorize @record
     @link.save
-    @unfold_link = true
+    @unfold_links = true
+    @link_kind = @link.link_kind
   end
 
   def destroy
@@ -16,7 +17,8 @@ class LinksController < ApplicationController
     authorize Link
     authorize @record
     @link.destroy
-    @unfold = true
+    @unfold_links = true
+    @link_kind = @link.link_kind
   end
 
   private

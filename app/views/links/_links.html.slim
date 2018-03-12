@@ -11,7 +11,7 @@ table.table.table-hover.table-bordered.table-striped
             span.text-danger
               = t('errors.template.header', count: @link.errors.count, model: Link.model_name.human)
               ul
-                - @link.errors.full_messages.each do |link|
+                - @link.errors.full_messages.each do |message|
                   li = message
         - @record.links.group_by { |link| "#{LinkKindDecorator.new(link.link_kind).show_long_name}" }.sort.each do |link_kind_name, links|
           strong.text-warning
@@ -30,19 +30,19 @@ table.table.table-hover.table-bordered.table-striped
       td
         ul.nav.nav-tabs role='tablist'
           - LinkKind.all.sort_by { |link_kind| "#{LinkKindDecorator.new(link_kind).show_long_name}" }.each do |link_kind|
-            li role='presentation'
+            li role='presentation' class="#{'active' if @link_kind&.id == link_kind.id}"
               a.link role='tab' aria-controls="link_kind_#{link_kind.id}" data-toggle='tab' href="#link_kind_#{link_kind.id}"
                 strong.text-warning
                   =< "#{LinkKindDecorator.new(link_kind).show_long_name}"
         .tab-content
           - LinkKind.all.each do |link_kind|
-            .tab-pane id="link_kind_#{link_kind.id}" role='tab-panel'
+            div class="tab-pane#{' active' if @link_kind&.id == link_kind.id}" id="link_kind_#{link_kind.id}" role='tab-panel'
               br
               = form_tag links_path, remote: :true do
                 = hidden_field_tag :link_kind_id, link_kind.id
                 = hidden_field_tag :first_record_id, record.id
                 = hidden_field_tag :first_record_type, record.class.name
-                = autocomplete_field_tag :second_record, '', autocomplete_organization_name_organizations_path, id_element: "#second_record_id_for_link_kind#{link_kind.id}", class: 'form-control ui-autocomplete-input', style: 'width:30%; display:inline', placeholder: t('placeholders.auto')
+                = autocomplete_field_tag :second_record_name, '', autocomplete_organization_name_organizations_path, id_element: "#second_record_id_for_link_kind#{link_kind.id}", class: 'form-control ui-autocomplete-input', style: 'width:30%; display:inline', placeholder: t('placeholders.auto')
                 = hidden_field_tag :second_record_id, '', id: "second_record_id_for_link_kind#{link_kind.id}"
                 = hidden_field_tag :second_record_type, link_kind.record_type
                 =< text_field_tag :description, '', class: 'form-control ui-autocomplete-input', style: 'width:40%; display:inline', placeholder: t('placeholders.link.description')
