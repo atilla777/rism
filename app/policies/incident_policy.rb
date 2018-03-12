@@ -1,5 +1,17 @@
 class IncidentPolicy < ApplicationPolicy
-  include RecordPolicy
+
+  # TODO: allow view onlu for user who is allowed to view
+  # organizations linked to incident
+
+  def index?
+    return true if @user.admin_editor_reader?
+    @user.can? :read, Incident
+  end
+
+  def create?
+    return true if @user.admin_editor?
+    @user.can? :edit, Incident
+  end
 
   def permitted_attributes
     %i[name

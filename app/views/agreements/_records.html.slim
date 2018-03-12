@@ -8,6 +8,6 @@
   - i.body do | r, record |
     - r.field link_to(show_date(record.beginning), record)
     - r.field link_to(record.prop, record)
-    - r.field record.agreement_kind&.name
+    - r.field link_to(record.agreement_kind&.name, record&.agreement_kind)
     - r.field link_to record.organization.name, record.organization
     - r.field link_to record.contractor.name, record.contractor

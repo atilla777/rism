@@ -1,0 +1,6 @@
+- if record&.errors&.any?
+    span.text-danger
+      = t('errors.template.header', count: record.errors.count, model: record.class.model_name.human)
+      ul
+        - record.errors.full_messages.each do |message|
+          li = message

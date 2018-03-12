@@ -43,7 +43,7 @@
           .col-lg-2.text-right
             = f.label :organization_id, class: 'control-label'
           .col-lg-8
-            = autocomplete_field_tag :organization, '', autocomplete_organization_name_organizations_path, id_element: '#agreement_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name), readonly: @organization&.id.present?
+            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#agreement_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name), readonly: @organization&.id.present?
             = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id
 
       .form-group.required
@@ -51,7 +51,7 @@
           .col-lg-2.text-right
             = f.label :contractor_id, class: 'control-label'
           .col-lg-8
-            = autocomplete_field_tag :contractor, '', autocomplete_organization_name_organizations_path, id_element: '#agreement_contractor_id',  class: 'form-control', value: @record.contractor&.name
+            = autocomplete_field_tag :contractor, '', autocomplete_organizations_path, id_element: '#agreement_contractor_id',  class: 'form-control', value: @record.contractor&.name
             = f.hidden_field :contractor_id, value: @record.contractor_id
 
       .form-group

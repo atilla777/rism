@@ -7,20 +7,15 @@ table.table.table-hover.table-bordered.table-striped
             =< "#{t('labels.links.more_links')}"
             =< fa_icon 'link'
       td
-        - if @link&.errors&.any?
-            span.text-danger
-              = t('errors.template.header', count: @link.errors.count, model: Link.model_name.human)
-              ul
-                - @link.errors.full_messages.each do |message|
-                  li = message
+        = render 'ajax_errors', record: @link
         - @record.links.group_by { |link| "#{LinkKindDecorator.new(link.link_kind).show_long_name}" }.sort.each do |link_kind_name, links|
           strong.text-warning
             =< "#{link_kind_name}:"
           - links.each do |link|
-            =< link_to link, method: :delete, remote: true, data: {confirm: t('views.action.confirm')} do
+            =< link_to link, method: :delete, remote: true, data: { confirm: t('views.action.confirm'), toggle: 'tooltip', placement: 'top'}, title: link.description do
               = fa_icon 'link'
               span.text-success
-                =< link.second_record.show_main_attribute
+                =< link.second_record.show_full_name
           br
   tbody id='toggle_links' class="#{'collapse' unless @unfold_links}"
     tr
@@ -38,12 +33,6 @@ table.table.table-hover.table-bordered.table-striped
           - LinkKind.all.each do |link_kind|
             div class="tab-pane#{' active' if @link_kind&.id == link_kind.id}" id="link_kind_#{link_kind.id}" role='tab-panel'
               br
-              = form_tag links_path, remote: :true do
-                = hidden_field_tag :link_kind_id, link_kind.id
-                = hidden_field_tag :first_record_id, record.id
-                = hidden_field_tag :first_record_type, record.class.name
-                = autocomplete_field_tag :second_record_name, '', autocomplete_organization_name_organizations_path, id_element: "#second_record_id_for_link_kind#{link_kind.id}", class: 'form-control ui-autocomplete-input', style: 'width:30%; display:inline', placeholder: t('placeholders.auto')
-                = hidden_field_tag :second_record_id, '', id: "second_record_id_for_link_kind#{link_kind.id}"
-                = hidden_field_tag :second_record_type, link_kind.record_type
-                =< text_field_tag :description, '', class: 'form-control ui-autocomplete-input', style: 'width:40%; display:inline', placeholder: t('placeholders.link.description')
-                =< submit_tag t('helpers.submit.save'), class: 'btn btn-success'
+              strong
+                = "#{I18n.t('labels.links.linked')} #{LinkKindDecorator.new(link_kind).show_second_record_type}"
+              = render 'links/links_form', link_kind: link_kind, record: record

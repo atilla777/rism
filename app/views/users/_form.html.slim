@@ -17,7 +17,7 @@
           .col-lg-2.text-right
             = f.label :organization_id, class: 'control-label'
           .col-lg-8
-            = autocomplete_field_tag :organization, '', autocomplete_organization_name_organizations_path, id_element: '#user_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name), readonly: @department&.id.present?, placeholder: t('placeholders.auto')
+            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#user_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name), readonly: @department&.id.present?, placeholder: t('placeholders.auto')
             = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id
 
       .form-group

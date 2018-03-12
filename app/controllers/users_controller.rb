@@ -3,6 +3,20 @@
 class UsersController < ApplicationController
   include RecordOfOrganization
 
+  autocomplete(:user, :name)
+
+  # authorization for autocomplete
+  def active_record_get_autocomplete_items(parameters)
+    authorize model
+    if current_user.admin_editor?
+      super(parameters)
+    else
+      super(parameters).where(
+        organization_id: current_user.allowed_organizations_ids
+      )
+    end
+  end
+
   def index
     authorize model
     if params[:department_id].present?

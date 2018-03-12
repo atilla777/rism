@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Right < ApplicationRecord
+  include Right::Ransackers
+
   LEVELS = {
     1 => I18n.t('rights.manager'),
     2 => I18n.t('rights.editor'),

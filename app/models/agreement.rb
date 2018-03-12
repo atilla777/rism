@@ -2,6 +2,18 @@
 
 class Agreement < ApplicationRecord
   include OrganizationMember
+  include Linkable
+
+  # used in ui autocomplite in controller
+  def show_full_name
+    I18n.t(
+      'labels.agreement.full_name',
+      prop: prop,
+      beginning: beginning,
+      organization: organization.name,
+      contractor: contractor.name
+    )
+  end
 
   ransacker :beginning do
     Arel.sql("to_char(beginning, 'YYYY.MM.DD')")
@@ -30,6 +42,7 @@ class Agreement < ApplicationRecord
 
   private
 
+  # TODO: make translation
   def organization_not_contrcator
     return unless organization_id == contractor_id
     errors.add(:organization_id, 'can`t be as contractor')

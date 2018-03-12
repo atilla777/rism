@@ -4,8 +4,6 @@ class Organization < ApplicationRecord
   include OrganizationMember
   include Linkable
 
-  searchable_for_link_by :name
-
   has_paper_trail
 
   validates :name, uniqueness: true
@@ -60,5 +58,9 @@ class Organization < ApplicationRecord
 
     Organization.find_by_sql([query, id_of_organization])
                 .pluck(:id)
+  end
+
+  def show_full_name
+    name
   end
 end

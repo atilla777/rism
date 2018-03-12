@@ -4,6 +4,7 @@ class User < ApplicationRecord
   include OrganizationMember
   include User::HasRole
   include User::DeviseConfig
+  include Linkable
 
   validates :organization_id, numericality: { only_integer: true }
   validates :email, presence: true, if: proc { |r| r.active == true }
@@ -20,6 +21,10 @@ class User < ApplicationRecord
   belongs_to :department, optional: true
 
   has_many :rights, as: :subject, dependent: :destroy
+
+  def show_full_name
+    name
+  end
 
   private
 

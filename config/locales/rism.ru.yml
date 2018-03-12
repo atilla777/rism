@@ -6,7 +6,7 @@ ru:
       department: 'можно указать имя подразделения (если поле сверху пустое)'
       rank: 'в виде - 001, 020, 100 и т.д (контакты с меньшим рангом отображаются вначале)'
     link:
-      description: 'Описание/примечание к ссылке'
+      description: 'Описание/примечание к связи'
   labels:
     app_name: 'RISM'
     app_full_name: 'Система менеджмента информационной безопасности'
@@ -23,12 +23,14 @@ ru:
     agreement:
       prolongation: 'Да'
       no_prolongation: 'Нет'
+      full_name: 'Договор %{prop} от %{beginning} между %{organization} и %{contractor}'
     tags:
       more_tags: 'Посмотреть/Назначить метки'
       allowed_tags: 'Доступные для назначения метки:'
     links:
       more_links: 'Посмотреть/Создать связи'
-      allowed_links: 'Доступные связи:'
+      allowed_links: 'Доступные типы связи:'
+      linked: 'связывается'
     version:
       versions: 'Версии'
       current_version: 'Текущая версия'

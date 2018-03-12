@@ -7,10 +7,12 @@ Rails.application.routes.draw do
 
 
   resources :organizations do
-    get :autocomplete_organization_name, :on => :collection
+    get :autocomplete_organization_name, :on => :collection, as: :autocomplete
   end
 
-  resources :users
+  resources :users do
+    get :autocomplete_user_name, :on => :collection, as: :autocomplete
+  end
   post '/departments/select', to: 'departments#select', as: :departments_select
   put '/departments/paste', to: 'departments#paste', as: :departments_paste
   get '/departments/reset', to: 'departments#reset', as: :departments_reset
@@ -18,7 +20,9 @@ Rails.application.routes.draw do
   resources :role_members
   resources :rights
   resources :departments
-  resources :agreements
+  resources :agreements do
+    get :autocomplete_agreement_prop, :on => :collection, as: :autocomplete
+  end
   resources :attachments
   resources :attachment_links
   resources :versions, only: [:index]

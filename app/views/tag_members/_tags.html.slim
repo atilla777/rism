@@ -7,12 +7,7 @@ table.table.table-hover.table-bordered.table-striped
             =< "#{t('labels.tags.more_tags')}"
             =< fa_icon 'tags'
       td
-        - if @tag_member&.errors&.any?
-            span.text-danger
-              = t('errors.template.header', count: @tag_member.errors.count, model: TagMember.model_name.human)
-              ul
-                - @tag_member.errors.full_messages.each do |message|
-                  li = message
+        = render 'ajax_errors', record: @tag_member
         - @record.tag_members.group_by { |tag_member| "#{tag_member.tag.tag_kind.code_name} (#{tag_member.tag.tag_kind.name})" }.sort.each do |tag_kind, tag_members|
           strong.text-warning
             =< "#{tag_kind}:"
@@ -32,7 +27,7 @@ table.table.table-hover.table-bordered.table-striped
           strong.text-warning
             =< "#{tag_kind}:"
           - tags.each do |tag|
-            =< link_to tag_members_path(record_type: @record.class.name, record_id: @record.id, tag_id: tag.id), method: :post, remote: true, data: {confirm: t('views.action.confirm')}  do
+            =< link_to tag_members_path(record_type: @record.class.name, record_id: @record.id, tag_id: tag.id), method: :post, remote: true do
               = fa_icon 'tag'
               =< "#{tag.tag_kind.code_name}#{tag.rank} (#{tag.name})"
           br

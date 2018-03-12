@@ -9,5 +9,5 @@
     - r.field record.organization&.name
     - r.field record.role.name
     - r.field record.show_level
-    - r.field record.subject_type
+    - r.field RightDecorator.new(record).show_subject_type
     - r.field record.subject_id

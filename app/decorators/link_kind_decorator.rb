@@ -2,10 +2,10 @@
 
 class LinkKindDecorator < SimpleDelegator
   def show_long_name
-    "#{Link.record_types[record_type]} - #{code_name} (#{name})"
+    "#{code_name} (#{name}) "
   end
 
-  def show_record_type
+  def show_second_record_type
     Link.record_types[record_type]
   end
 
