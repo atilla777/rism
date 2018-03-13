@@ -10,6 +10,7 @@ class AgreementsController < ApplicationController
     display_value: :show_full_name
   )
 
+  # authorization for autocomplete
   def active_record_get_autocomplete_items(parameters)
     authorize model
     if current_user.admin_editor?

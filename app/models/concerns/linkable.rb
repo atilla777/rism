@@ -11,6 +11,14 @@ module Linkable
     has_many :my_linked_records, through: :my_links, foreign_key: :second_record
     # records wich this record was linked to
     has_many :me_linked_records, through: :me_links, foreign_key: :first_record
+
+    has_many(
+      :incidents,
+      as: :second_record,
+      through: :me_links,
+      source: :first_record,
+      source_type: 'Incident'
+    )
   end
 end
 

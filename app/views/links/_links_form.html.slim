@@ -6,4 +6,5 @@
   = hidden_field_tag :second_record_id, '', id: "second_record_id_for_link_kind#{link_kind.id}"
   = hidden_field_tag :second_record_type, link_kind.record_type
   =< text_field_tag :description, '', class: 'form-control ui-autocomplete-input', style: 'width:60%; display:inline', placeholder: t('placeholders.link.description')
+  br
   =< submit_tag t('helpers.submit.save'), class: 'btn btn-success'

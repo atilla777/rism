@@ -37,7 +37,7 @@ class Organization < ApplicationRecord
 
   belongs_to :organization_kind, optional: true
 
-    # Array of child organizations ids.
+  # Array of child organizations ids.
   # For example organization with id 1 has childs with ids 34, 45 and 57:
   # Organization.down_level_organizations(1)
   # wil give result [34, 45, 57]

@@ -5,32 +5,32 @@ module Incident::Ransackers
 
   included do
     ransacker :id do
-      Arel.sql(" '#' || id::char")
+      Arel.sql(" '#' || incidents.id::char")
     end
 
     ransacker :discovered_at do
-      datetime_field_to_text_search 'discovered_at'
+      datetime_field_to_text_search 'incidents.discovered_at'
     end
 
     ransacker :started_at do
-      datetime_field_to_text_search 'started_at'
+      datetime_field_to_text_search 'incidents.started_at'
     end
 
     ransacker :created_at do
-      datetime_field_to_text_search 'created_at'
+      datetime_field_to_text_search 'incidents.created_at'
     end
 
     ransacker :finished_at do
-      datetime_field_to_text_search 'finished_at'
+      datetime_field_to_text_search 'incidents.finished_at'
     end
 
     ransacker :closed_at do
-      datetime_field_to_text_search 'closed_at'
+      datetime_field_to_text_search 'incidents.closed_at'
     end
 
     ransacker :severity do
       field_transformation = <<~SQL
-        CASE severity
+        CASE incidents.severity
         WHEN 0
         THEN '#{severities[0]}'
         WHEN 1
@@ -42,7 +42,7 @@ module Incident::Ransackers
 
     ransacker :damage do
       field_transformation = <<~SQL
-        CASE damage
+        CASE incidents.damage
         WHEN 0
         THEN '#{damages[0]}'
         WHEN 1
@@ -56,7 +56,7 @@ module Incident::Ransackers
 
     ransacker :state do
       field_transformation = <<~SQL
-        CASE state
+        CASE incidents.state
         WHEN 0
         THEN '#{states[0]}'
         WHEN 1
@@ -71,7 +71,7 @@ module Incident::Ransackers
     def self.datetime_field_to_text_search(fieled)
       field_transformation = <<~SQL
         to_char(
-          ((#{fieled} AT TIME ZONE 'UTC') AT TIME ZONE '#{timezone_name}'),
+          ((incidents.#{fieled} AT TIME ZONE 'UTC') AT TIME ZONE '#{timezone_name}'),
           'YYYY.MM.DD-HH24:MI'
         )
       SQL
