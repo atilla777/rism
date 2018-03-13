@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe TagKind, type: :model do
   it { should validate_uniqueness_of(:name) }
   it { should validate_uniqueness_of(:code_name) }
+  it { should validate_inclusion_of(:record_type).in_array(Link.record_types.keys) }
   it do
     should validate_length_of(:name)
       .is_at_least(1)

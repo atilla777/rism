@@ -5,15 +5,15 @@ table.table.table-hover.table-bordered.table-striped
         a.link data-toggle='collapse' href='#toggle_tags'
           strong.text-info
             =< "#{t('labels.tags.more_tags')}"
-            =< fa_icon 'tags'
       td
         = render 'ajax_errors', record: @tag_member
         - @record.tag_members.group_by { |tag_member| "#{tag_member.tag.tag_kind.code_name} (#{tag_member.tag.tag_kind.name})" }.sort.each do |tag_kind, tag_members|
+          =< fa_icon 'tags', style: "color:#{tag_members.first.tag.tag_kind.color}"
           strong.text-info
             =< "#{tag_kind}:"
           - tag_members.each do |tag_member|
             =< link_to tag_member.tag do
-              = fa_icon 'tag'
+              = fa_icon 'tag', style: "color:#{tag_member.tag.color}"
               =< TagDecorator.new(tag_member.tag).show_full_name
             =< link_to tag_member, method: :delete, remote: true, data: {confirm: t('views.action.confirm')} do
               span.text-danger
@@ -26,11 +26,12 @@ table.table.table-hover.table-bordered.table-striped
         strong
           =< "#{t('labels.tags.allowed_tags')}"
       td
-        - (Tag.all - @record.tags).group_by { |tag| "#{tag.tag_kind.code_name} (#{tag.tag_kind.name})" }.sort.each do |tag_kind, tags|
-          strong.text-warning
+        - (Tag.allowed_to_record(@record) - @record.tags).group_by { |tag| "#{tag.tag_kind.code_name} (#{tag.tag_kind.name})" }.sort.each do |tag_kind, tags|
+          = fa_icon 'tags', style: "color:#{tags.first.tag_kind.color}"
+          strong
             =< "#{tag_kind}:"
           - tags.each do |tag|
             =< link_to tag_members_path(record_type: @record.class.name, record_id: @record.id, tag_id: tag.id), method: :post, remote: true do
-              = fa_icon 'tag'
+              = fa_icon 'tag', style: "color:#{tag.color}"
               =< "#{tag.tag_kind.code_name}#{tag.rank} (#{tag.name})"
           br

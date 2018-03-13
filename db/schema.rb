@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20180309083145) do
     t.string "first_record_type"
     t.string "second_record_type"
     t.boolean "equal"
+    t.string "color"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -176,6 +177,8 @@ ActiveRecord::Schema.define(version: 20180309083145) do
   create_table "tag_kinds", force: :cascade do |t|
     t.string "name"
     t.string "code_name"
+    t.string "record_type"
+    t.string "color"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -197,6 +200,7 @@ ActiveRecord::Schema.define(version: 20180309083145) do
     t.string "name"
     t.bigint "tag_kind_id"
     t.integer "rank"
+    t.string "color"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -6,6 +6,7 @@ class TagPolicy < ApplicationPolicy
     %i[name
        tag_kind_id
        rank
+       color
        description]
   end
 

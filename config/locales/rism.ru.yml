@@ -27,8 +27,8 @@ ru:
       no_prolongation: 'Нет'
       full_name: 'Договор %{prop} от %{beginning} между %{organization} и %{contractor}'
     tags:
-      more_tags: 'Метки (нажмите для добавления)'
-      allowed_tags: 'Доступные для назначения метки:'
+      more_tags: 'Теги (нажмите для добавления)'
+      allowed_tags: 'Доступные для назначения теги:'
     link_kind:
       all_resource_types: 'Все'
     links:
@@ -200,11 +200,14 @@ ru:
       tag_kind:
         name: 'Имя'
         code_name: 'Код типа тега'
+        record_type: 'Тип ресурса к которому прикрепляется'
+        color: 'Цвет'
         description: 'Описание'
       tag:
         name: 'Имя'
         tag_kind_id: 'Тип тега'
         rank: 'Порядок отображения'
+        color: 'Цвет'
         description: 'Описание'
       tag_member:
         record_type: 'Тип записи'
@@ -234,6 +237,7 @@ ru:
         first_record_type: 'Связывающий ресурс'
         second_record_type: 'Связываемый ресурс'
         equal: 'Двунаправленная'
+        color: 'Цвет'
         description: 'Описание'
       link:
         first_record_type: 'Тип ресурса'

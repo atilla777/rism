@@ -5,6 +5,8 @@ class TagKindPolicy < ApplicationPolicy
     return unless user.admin_editor?
     %i[name
        code_name
+       record_type
+       color
        description]
   end
 

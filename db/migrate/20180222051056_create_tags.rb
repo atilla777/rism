@@ -4,6 +4,7 @@ class CreateTags < ActiveRecord::Migration[5.1]
       t.string :name
       t.references :tag_kind, foreign_key: true
       t.integer :rank
+      t.string :color
       t.text :description
 
       t.timestamps

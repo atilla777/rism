@@ -2,4 +2,5 @@
   = r.show :name
   = r.show :tag_kind_id, value: TagKindDecorator.new(@record.tag_kind).name_with_code
   = r.show :rank
+  = r.show :color, value: link_to(@record.color, '#', style: "color:#{@record.color}")
   = r.show :description

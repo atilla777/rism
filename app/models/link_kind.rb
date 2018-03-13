@@ -11,9 +11,9 @@ class LinkKind < ApplicationRecord
   validates :rank, numericality: { only_integer: true }
   validates(
     :first_record_type,
-    inclusion: { in: Right.subject_types.keys, allow_blank: true }
+    inclusion: { in: Link.record_types.keys, allow_blank: true }
   )
-  validates :second_record_type, inclusion: { in: Right.subject_types.keys }
+  validates :second_record_type, inclusion: { in: Link.record_types.keys }
   validates :equal, inclusion: { in: [true, false] }
 
   has_many :links
@@ -21,5 +21,13 @@ class LinkKind < ApplicationRecord
   def self.allowed_to_record(record)
     where(first_record_type: record.class.name)
     .or(where(first_record_type: ''))
+  end
+
+  private
+
+  # TODO: make translation
+  def css_hex
+    return if color =~ /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i
+    errors.add(:color, 'must be a valid CSS hex color code')
   end
 end

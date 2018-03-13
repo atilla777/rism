@@ -5,4 +5,5 @@
   = r.show :first_record_type, value: LinkKindDecorator.new(@record).show_first_record_type
   = r.show :second_record_type, value: LinkKindDecorator.new(@record).show_second_record_type
   = r.show :equal, value: LinkKindDecorator.new(@record).show_equal
+  = r.show :color, value: link_to(@record.color, '#', style: "color:#{@record.color}")
   = r.show :description

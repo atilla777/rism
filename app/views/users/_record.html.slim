@@ -1,4 +1,4 @@
-= show_for @record do | r |
+= show_for @record do |r|
   = r.show :name
   = r.show :organization_id, value: @record.organization.name
   = r.show :department_id, value: UserDecorator.new(@record).dep_name

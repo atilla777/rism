@@ -9,7 +9,10 @@
   - i.body do |r, record|
     - r.field link_to(LinkKindDecorator.new(record).show_first_record_type, record)
     - r.field link_to(LinkKindDecorator.new(record).show_second_record_type, record)
-    - r.field link_to(record.name, record)
+    - r.field do
+      = link_to record do
+        = fa_icon 'link', style: "color:#{record.color}"
+        =< record.name
     - r.field link_to(record.code_name, record)
     - r.field link_to(record.rank, record)
     - r.field link_to(LinkKindDecorator.new(record).show_equal, record)

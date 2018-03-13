@@ -11,6 +11,7 @@ class LinkKindPolicy < ApplicationPolicy
          first_record_type
          second_record_type
          equal
+         color
          description]
     end
   end
