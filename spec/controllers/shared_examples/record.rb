@@ -71,11 +71,11 @@ RSpec.shared_examples 'record' do |model|
     end
   end
 
-  context 'when not global role member with at least read privileges' do
+  context 'when not global role member with read privileges' do
     let(:user) do
       create(
         :user_with_right,
-        allowed_action: :manage,
+        allowed_action: :read,
         allowed_models: [model_class.to_s]
       )
     end

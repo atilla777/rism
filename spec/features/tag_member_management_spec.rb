@@ -30,7 +30,6 @@ RSpec.feature 'Tag members management', type: :feature do
         tag_id: tag.id
       )
       find("a[href='#{link}']").click
-      confirm
       wait_for_ajax
 
       created_tag_member = TagMember.where(
@@ -67,7 +66,6 @@ RSpec.feature 'Tag members management', type: :feature do
         tag_id: tag.id
       )
       find("a[href='#{link}']").click
-      confirm
       wait_for_ajax
 
       expect { find("a[data-method='delete']", text: tag.name) }.to raise_error

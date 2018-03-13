@@ -1,6 +1,6 @@
 class IncidentPolicy < ApplicationPolicy
 
-  # TODO: allow view onlu for user who is allowed to view
+  # TODO: allow view only for user who is allowed to view
   # organizations linked to incident
 
   def index?
