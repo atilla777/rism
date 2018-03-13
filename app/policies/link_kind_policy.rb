@@ -8,7 +8,8 @@ class LinkKindPolicy < ApplicationPolicy
       %i[name
          code_name
          rank
-         record_type
+         first_record_type
+         second_record_type
          equal
          description]
     end

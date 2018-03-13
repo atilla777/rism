@@ -9,13 +9,17 @@ table.table.table-hover.table-bordered.table-striped
       td
         = render 'ajax_errors', record: @link
         - @record.links.group_by { |link| "#{LinkKindDecorator.new(link.link_kind).show_long_name}" }.sort.each do |link_kind_name, links|
-          strong.text-warning
+          strong.text-info
             =< "#{link_kind_name}:"
           - links.each do |link|
-            =< link_to link, method: :delete, remote: true, data: { confirm: t('views.action.confirm'), toggle: 'tooltip', placement: 'top'}, title: link.description do
+            =< link_to link.second_record, class: 'link', data: { toggle: 'tooltip', placement: 'top'}, title: link.description do
               = fa_icon 'link'
-              span.text-success
-                =< link.second_record.show_full_name
+              =< link.second_record.show_full_name
+            =< link_to link, method: :delete, remote: true, data: { confirm: t('views.action.confirm') } do
+              span.text-danger
+                => fa_icon 'remove'
+            ||
+
           br
   tbody id='toggle_links' class="#{'collapse' unless @unfold_links}"
     tr
@@ -24,13 +28,14 @@ table.table.table-hover.table-bordered.table-striped
           =< "#{t('labels.links.allowed_links')}"
       td
         ul.nav.nav-tabs role='tablist'
-          - LinkKind.all.sort_by { |link_kind| "#{LinkKindDecorator.new(link_kind).show_long_name}" }.each do |link_kind|
+          - LinkKind.allowed_to_record(record).sort_by { |link_kind| "#{LinkKindDecorator.new(link_kind).show_long_name}" }.each do |link_kind|
             li role='presentation' class="#{'active' if @link_kind&.id == link_kind.id}"
-              a.link role='tab' aria-controls="link_kind_#{link_kind.id}" data-toggle='tab' href="#link_kind_#{link_kind.id}"
+              a.link role='tab' aria-controls="link_kind_#{link_kind.id}" data-toggle='tab' href="#link_kind_#{link_kind.id}" title="#{link_kind.description}"
                 strong.text-warning
                   =< "#{LinkKindDecorator.new(link_kind).show_long_name}"
+
         .tab-content
-          - LinkKind.all.each do |link_kind|
+          - LinkKind.allowed_to_record(record).each do |link_kind|
             div class="tab-pane#{' active' if @link_kind&.id == link_kind.id}" id="link_kind_#{link_kind.id}" role='tab-panel'
               br
               strong

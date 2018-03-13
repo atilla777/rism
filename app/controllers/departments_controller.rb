@@ -3,6 +3,31 @@
 class DepartmentsController < ApplicationController
   include RecordOfOrganization
 
+  def autocomplete_department_id
+    authorize model
+    if current_user.admin_editor?
+      scope = Department
+    else
+      scope = Department.where(
+        organization_id: current_user.allowed_organizations_ids
+      )
+    end
+
+    term = params[:term]
+    departments = scope.select(:id, :name, :organization_id)
+                       .where('id::text LIKE ?', "#{term}%")
+                       .order(:id)
+    result = departments.map do |department|
+               {
+                 id: department.id,
+                 name: department.name,
+                 organization_id: department.organization_id,
+                 :value => department.show_full_name
+               }
+             end
+    render json: result
+  end
+
   def select
     authorize model
     @organization = organization

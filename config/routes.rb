@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   resources :roles
   resources :role_members
   resources :rights
-  resources :departments
+  resources :departments do
+    get :autocomplete_department_id, :on => :collection, as: :autocomplete
+  end
   resources :agreements do
     get :autocomplete_agreement_prop, :on => :collection, as: :autocomplete
   end

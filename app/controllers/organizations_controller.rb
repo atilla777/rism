@@ -3,17 +3,30 @@
 class OrganizationsController < ApplicationController
   include Record
 
-  autocomplete :organization, :name, full: true
-
   before_action :filter_parent_id, only: %i[create update]
 
-  def active_record_get_autocomplete_items(parameters)
+  def autocomplete_organization_name
     authorize model
     if current_user.admin_editor?
-      super(parameters)
+      scope = Organization
     else
-      super(parameters).where(id: current_user.allowed_organizations_ids)
+      scope = Organization.where(
+        id: current_user.allowed_organizations_ids
+      )
     end
+
+    term = params[:term]
+    records = scope.select(:id, :name)
+                       .where('name ILIKE ? OR id::text LIKE ?', "%#{term}%", "#{term}%")
+                       .order(:id)
+    result = records.map do |record|
+               {
+                 id: record.id,
+                 name: record.name,
+                 :value => record.name
+               }
+             end
+    render json: result
   end
 
   def index

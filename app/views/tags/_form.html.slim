@@ -24,6 +24,13 @@
           .col-lg-8
             = f.number_field :rank, class: 'form-control'
 
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :color, class: 'control-label'
+          .col-lg-8
+            = f.color_field :color, class: 'form-control'
+
       .form-group
         .field
           .col-lg-2.text-right

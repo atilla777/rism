@@ -9,13 +9,16 @@ table.table.table-hover.table-bordered.table-striped
       td
         = render 'ajax_errors', record: @tag_member
         - @record.tag_members.group_by { |tag_member| "#{tag_member.tag.tag_kind.code_name} (#{tag_member.tag.tag_kind.name})" }.sort.each do |tag_kind, tag_members|
-          strong.text-warning
+          strong.text-info
             =< "#{tag_kind}:"
           - tag_members.each do |tag_member|
-            =< link_to tag_member, method: :delete, remote: true, data: {confirm: t('views.action.confirm')} do
+            =< link_to tag_member.tag do
               = fa_icon 'tag'
-              span.text-success
-                =< "#{tag_member.tag.tag_kind.code_name}#{tag_member.tag.rank} (#{tag_member.tag.name})"
+              =< TagDecorator.new(tag_member.tag).show_full_name
+            =< link_to tag_member, method: :delete, remote: true, data: {confirm: t('views.action.confirm')} do
+              span.text-danger
+                => fa_icon 'remove'
+            ||
           br
   tbody id='toggle_tags' class="#{'collapse' unless @unfold}"
     tr

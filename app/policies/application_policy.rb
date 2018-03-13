@@ -18,6 +18,10 @@ class ApplicationPolicy
     index?
   end
 
+  def autocomplete_department_id?
+    index?
+  end
+
   def index?
     return true if @user.admin_editor_reader?
     @user.can? :read, @record

@@ -10,6 +10,6 @@ class LinkKindsController < ApplicationController
   end
 
   def default_sort
-    'record_type asc'
+    'first_record_type asc'
   end
 end

@@ -2,6 +2,12 @@
 
 class Department < ApplicationRecord
   include OrganizationMember
+  include Linkable
+
+  # used in ui autocomplite in controller
+  def show_full_name
+    "#{name}, #{organization.name}"
+  end
 
   validates :name, uniqueness: { scope: :organization_id }
   validates :name, length: { in: 1..100 }

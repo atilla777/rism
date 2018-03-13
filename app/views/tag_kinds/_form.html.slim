@@ -17,6 +17,20 @@
           .col-lg-8
             = f.text_field :code_name, class: 'form-control'
 
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :record_type, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :record_type, Link.record_types, :first, :last, { include_blank: true, prompt: t('placeholders.link_kinds.first_record_type') }, { class: 'form-control' }
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :color, class: 'control-label'
+          .col-lg-8
+            = f.color_field :color, class: 'form-control'
+
       .form-group
         .field
           .col-lg-2.text-right

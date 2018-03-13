@@ -4,7 +4,8 @@ class CreateLinkKinds < ActiveRecord::Migration[5.1]
       t.string :name
       t.string :code_name
       t.integer :rank
-      t.string :record_type
+      t.string :first_record_type
+      t.string :second_record_type
       t.boolean :equal
       t.text :description
 

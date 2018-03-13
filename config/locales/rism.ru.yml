@@ -1,10 +1,12 @@
 ru:
   placeholders:
-    auto: 'начните вводить имя/название (работает автодополнение)'
+    auto: 'начните вводить имя/название или ID (работает автодополнение)'
     user:
       name: 'Фамилия Имя Отчество'
       department: 'можно указать имя подразделения (если поле сверху пустое)'
       rank: 'в виде - 001, 020, 100 и т.д (контакты с меньшим рангом отображаются вначале)'
+    link_kinds:
+      first_record_type: 'по умолчанию - пустое поле (соответствует всем типам)'
     link:
       description: 'Описание/примечание к связи'
   labels:
@@ -15,7 +17,7 @@ ru:
       not_active: 'Нет'
       phone: 'тел.'
     attachment:
-      more_files: 'Посмотреть/прикрепить файлы'
+      more_files: 'Файлы (нажмите для добавления)'
       attachable_file: 'Выбранный файл:'
       select_file: 'Выберите файл'
       file_name: 'Отображаемое имя файла (не обязательно)'
@@ -25,12 +27,15 @@ ru:
       no_prolongation: 'Нет'
       full_name: 'Договор %{prop} от %{beginning} между %{organization} и %{contractor}'
     tags:
-      more_tags: 'Посмотреть/Назначить метки'
+      more_tags: 'Метки (нажмите для добавления)'
       allowed_tags: 'Доступные для назначения метки:'
+    link_kind:
+      all_resource_types: 'Все'
     links:
-      more_links: 'Посмотреть/Создать связи'
+      more_links: 'Связи (нажмите для добавления)'
       allowed_links: 'Доступные типы связи:'
       linked: 'связывается'
+      link: 'Связать'
     version:
       versions: 'Версии'
       current_version: 'Текущая версия'
@@ -226,7 +231,8 @@ ru:
         name: 'Имя'
         code_name: 'Код'
         rank: 'Ранг'
-        record_type: 'Прикрепляемый ресурс'
+        first_record_type: 'Связывающий ресурс'
+        second_record_type: 'Связываемый ресурс'
         equal: 'Двунаправленная'
         description: 'Описание'
       link:
