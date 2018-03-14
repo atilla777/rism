@@ -29,8 +29,9 @@ module RecordOfOrganization
 
   def new
     authorize model
-    @record = model.new
+    @record = model.new(template_attributes)
     @organization = organization
+    @template_id = params[:template_id]
   end
 
   def create
@@ -39,12 +40,14 @@ module RecordOfOrganization
     filter_organization_id
     @record = model.new(record_params)
     @record.save!
+    add_tags_from_template
     redirect_to(
       session.delete(:return_to),
       organization_id: @organization.id,
       success: t('flashes.create', model: model.model_name.human)
     )
   rescue ActiveRecord::RecordInvalid
+    @template_id = params[:template_id]
     render :new
   end
 

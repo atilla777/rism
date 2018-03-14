@@ -19,18 +19,21 @@ module Record
 
   def new
     authorize model
-    @record = model.new
+    @record = model.new(template_attributes)
+    @template_id = params[:template_id]
   end
 
   def create
     authorize model
     @record = model.new(record_params)
     @record.save!
+    add_tags_from_template
     redirect_to(
       polymorphic_path(@record),
       success: t('flashes.create', model: model.model_name.human)
     )
   rescue ActiveRecord::RecordInvalid
+    @template_id = params[:template_id]
     render :new
   end
 

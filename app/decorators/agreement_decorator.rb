@@ -8,4 +8,9 @@ class AgreementDecorator < SimpleDelegator
       I18n.t('labels.agreement.no_prolongation')
     end
   end
+
+  def show_agreement_kind_name
+    return '' if agreement_kind.blank?
+    agreement_kind.name
+  end
 end

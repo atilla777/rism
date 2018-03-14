@@ -1,0 +1,7 @@
+= index_search :name_or_record_type_cont
+= index_for records do | i |
+  - i.header attribute: :name, sort: :desc
+  - i.header attribute: :record_type, sort: :desc
+  - i.body do | r, record |
+    - r.field link_to(record.name, record)
+    - r.field link_to(RecordTemplateDecorator.new(record).show_record_type, record)

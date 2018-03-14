@@ -53,6 +53,9 @@ ru:
     link_kinds:
       equal: 'Двунаправленная'
       not_equal: 'Однонаправленная'
+    record_templates:
+      original_record: 'Шаблон из'
+      select_template: 'Выберите шаблон:'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
@@ -139,6 +142,9 @@ ru:
       link:
         one: 'Связь'
         other: 'Связи'
+      record_template:
+        one: 'Шаблон'
+        other: 'Шаблоны'
     attributes:
       organization:
         name: 'Имя'
@@ -245,6 +251,12 @@ ru:
         second_record_type: 'Тип прикрепляемого ресурса'
         second_record_id: 'Номер прикрепляемого ресурса'
         link_kind: 'Тип связи'
+      record_template:
+        name: 'Имя'
+        record_type: 'Ресурс'
+        record_content: 'Атрибуты'
+        record_tags: 'Номера тегов'
+        description: 'Описание'
     errors:
       messages:
           role_is_built_in: 'Невозможно удалить роль, так как она является встроенной'
@@ -263,6 +275,7 @@ ru:
       delete: "Удалить"
       back: "Назад"
       certify: "Да"
+      make_template: "Создать шаблон"
   messages:
     yes: да
     no: нет

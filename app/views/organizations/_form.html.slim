@@ -3,6 +3,8 @@
   .row
     = form_for @record, html: {class: 'form-horizontal'} do |f|
 
+      = hidden_field_tag :template_id, @template_id
+
       = f.hidden_field :kind, value: 0
 
       .form-group.required

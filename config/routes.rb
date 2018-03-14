@@ -38,4 +38,5 @@ Rails.application.routes.draw do
   resources :incidents
   resources :link_kinds
   resources :links, only: %i[create destroy]
+  resources :record_templates
 end

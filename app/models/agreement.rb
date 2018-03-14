@@ -4,17 +4,6 @@ class Agreement < ApplicationRecord
   include OrganizationMember
   include Linkable
 
-  # used in ui autocomplite in controller
-  def show_full_name
-    I18n.t(
-      'labels.agreement.full_name',
-      prop: prop,
-      beginning: beginning,
-      organization: organization.name,
-      contractor: contractor.name
-    )
-  end
-
   ransacker :beginning do
     Arel.sql("to_char(beginning, 'YYYY.MM.DD')")
   end
@@ -39,6 +28,18 @@ class Agreement < ApplicationRecord
   has_many :attachments, through: :attachment_links
 
   has_many :rights, as: :subject, dependent: :destroy
+
+  # for use with RecordTemplate, Link and
+  # in autocomplite (inside controller)
+  def show_full_name
+    I18n.t(
+      'labels.agreement.full_name',
+      prop: prop,
+      beginning: beginning,
+      organization: organization.name,
+      contractor: contractor.name
+    )
+  end
 
   private
 

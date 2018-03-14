@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class LinkKind < ApplicationRecord
+  def self.allowed_to_record(record)
+    where(first_record_type: record.class.name)
+    .or(where(first_record_type: ''))
+  end
+
   validates :name, length: { in: 3..255 }
   validates(
     :name,
@@ -17,11 +22,6 @@ class LinkKind < ApplicationRecord
   validates :equal, inclusion: { in: [true, false] }
 
   has_many :links
-
-  def self.allowed_to_record(record)
-    where(first_record_type: record.class.name)
-    .or(where(first_record_type: ''))
-  end
 
   private
 

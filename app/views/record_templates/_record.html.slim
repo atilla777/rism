@@ -1,0 +1,6 @@
+= show_for @record do |r|
+  = r.show :name
+  = r.show :record_type, value: RecordTemplateDecorator.new(@record).show_record_type
+  = r.show :record_content
+  = r.show :record_tags
+  = r.show :description

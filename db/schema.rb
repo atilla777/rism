@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180309083145) do
+ActiveRecord::Schema.define(version: 20180314053643) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,6 +140,16 @@ ActiveRecord::Schema.define(version: 20180309083145) do
     t.index ["name"], name: "index_organizations_on_name"
     t.index ["organization_kind_id"], name: "index_organizations_on_organization_kind_id"
     t.index ["parent_id"], name: "index_organizations_on_parent_id"
+  end
+
+  create_table "record_templates", force: :cascade do |t|
+    t.string "name"
+    t.string "record_content"
+    t.string "record_type"
+    t.string "record_tags"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "rights", force: :cascade do |t|

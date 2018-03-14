@@ -9,23 +9,23 @@ module Incident::Ransackers
     end
 
     ransacker :discovered_at do
-      datetime_field_to_text_search 'incidents.discovered_at'
+      datetime_field_to_text_search 'discovered_at'
     end
 
     ransacker :started_at do
-      datetime_field_to_text_search 'incidents.started_at'
+      datetime_field_to_text_search 'started_at'
     end
 
     ransacker :created_at do
-      datetime_field_to_text_search 'incidents.created_at'
+      datetime_field_to_text_search 'created_at'
     end
 
     ransacker :finished_at do
-      datetime_field_to_text_search 'incidents.finished_at'
+      datetime_field_to_text_search 'finished_at'
     end
 
     ransacker :closed_at do
-      datetime_field_to_text_search 'incidents.closed_at'
+      datetime_field_to_text_search 'closed_at'
     end
 
     ransacker :severity do

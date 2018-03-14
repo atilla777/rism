@@ -5,7 +5,7 @@ module Right::Ransackers
 
   included do
     ransacker :subject_type do
-      request = 'CASE subject_type '
+      request = 'CASE rights.subject_type '
       request = subject_types.sum(request) do |(subject_code, subject_name)|
         <<~SQL
           WHEN '#{subject_code}'

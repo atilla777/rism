@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # methods that used both in Organizatiable and DefaultAactions
 module SharedMethods
   extend ActiveSupport::Concern
@@ -49,5 +51,23 @@ module SharedMethods
   # (not associated_table.name)
   def default_sort
     'name asc'
+  end
+
+  # create new record from template
+  def template_attributes
+    return if params[:template_id].blank?
+    RecordTemplate.find(params[:template_id]).record_content
+  end
+
+  def add_tags_from_template
+    return if params[:template_id].blank?
+    RecordTemplate.find(params[:template_id])
+                  .record_tags.each do |tag_id|
+                    TagMember.create(
+                      tag_id: tag_id,
+                      record_id: @record.id,
+                      record_type: @record.class.name
+                    )
+                  end
   end
 end

@@ -20,24 +20,6 @@ class Incident < ApplicationRecord
     2 => I18n.t('incidents.states.closed')
   }.freeze
 
-  validates :name, length: { in: 3..100, allow_blank: true }
-  validates :event_description, presence: true
-  validates :damage, inclusion: { in: DAMAGES.keys }
-  validates :severity, inclusion: { in: SEVERITIES.keys }
-  validates :state, inclusion: { in: STATES.keys }
-
-  has_many :tag_members, as: :record, dependent: :destroy
-  has_many :tags, through: :tag_members
-
-  has_many :links, as: :first_record, dependent: :destroy
-  has_many :second_records, through: :links
-
-  # TODO: move code to attachable concern
-  has_many :attachment_links, as: :record, dependent: :destroy
-  has_many :attachments, through: :attachment_links
-
-  before_save :set_closed_at
-
   def self.damages
     DAMAGES
   end
@@ -48,6 +30,32 @@ class Incident < ApplicationRecord
 
   def self.states
     STATES
+  end
+
+  validates :name, length: { in: 3..100, allow_blank: true }
+  validates :event_description, presence: true
+  validates :damage, inclusion: { in: DAMAGES.keys }
+  validates :severity, inclusion: { in: SEVERITIES.keys }
+  validates :state, inclusion: { in: STATES.keys }
+
+
+  # TODO: move code to taggable concern
+  has_many :tag_members, as: :record, dependent: :destroy
+  has_many :tags, through: :tag_members
+
+  # TODO: move code to linkable concern
+  has_many :links, as: :first_record, dependent: :destroy
+  has_many :second_records, through: :links
+
+  # TODO: move code to attachable concern
+  has_many :attachment_links, as: :record, dependent: :destroy
+  has_many :attachments, through: :attachment_links
+
+  before_save :set_closed_at
+
+  # for use with RecordTemplate, Link and etc
+  def show_full_name
+    name
   end
 
   private
