@@ -5,8 +5,10 @@ class Link < ApplicationRecord
     Right.subject_types
   end
 
+  attr_accessor :skip_validation_when_nested
+
   validates :link_kind_id, numericality: { only_integer: true }
-  validates :first_record_id, numericality: { only_integer: true }
+  validates :first_record_id, numericality: { only_integer: true }, unless: proc { |f| f&.skip_validation_when_nested}
   validates :first_record_type, inclusion: { in: record_types.keys }
   validates :second_record_id, numericality: { only_integer: true }
   validates :second_record_type, inclusion: { in: record_types.keys }
@@ -22,7 +24,7 @@ class Link < ApplicationRecord
     }
   )
 
-  belongs_to :first_record, polymorphic: true
+  belongs_to :first_record, polymorphic: true, optional: true
   belongs_to :second_record, polymorphic: true
   belongs_to :link_kind
 end

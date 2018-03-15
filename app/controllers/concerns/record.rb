@@ -26,6 +26,8 @@ module Record
   def create
     authorize model
     @record = model.new(record_params)
+    # TODO: use only when nestest attributes is used
+    #@record.skip_child_validation = true
     @record.save!
     add_tags_from_template
     redirect_to(

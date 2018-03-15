@@ -12,7 +12,6 @@ module Linkable
 
     # records that was linked to this one
     has_many :my_linked_records, through: :my_links, foreign_key: :second_record
-    has_many :my_linked_records, through: :my_links, foreign_key: :second_record
     # records wich this record was linked to
     has_many :me_linked_records, through: :me_links, foreign_key: :first_record
 

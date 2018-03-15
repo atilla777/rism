@@ -34,6 +34,7 @@ class IncidentPolicy < ApplicationPolicy
            second_record_id
            second_record_type
            description
+           skip_validation_when_nested
          ]
        }
   end
