@@ -4,6 +4,7 @@ class IncidentsController < ApplicationController
   include Record
 
   before_action :set_time, only: [:create, :update]
+  before_action :set_organization_id, only: [:new, :create]
 
   def index
     authorize model
@@ -32,11 +33,11 @@ class IncidentsController < ApplicationController
   # filter used in index pages wich is a part of organizaion show page
   # (such index shows only records that belongs to organization)
   def filter_for_organization
-    @organization.incidents.group(:id)
+    @organization.me_linked_incidents.group(:id)
   end
 
   def default_sort
-    'id desc'
+    'created_at desc'
   end
 
   def set_time
@@ -49,5 +50,10 @@ class IncidentsController < ApplicationController
         params[:incident]["#{field}_time"] = '0'
       end
     end
+  end
+
+  def set_organization_id
+    return if params[:organization_id].blank?
+    @organization_id = params[:organization_id]
   end
 end

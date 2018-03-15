@@ -6,23 +6,16 @@ class AttachmentsController < ApplicationController
   def create
     authorize Attachment
     params[:attachment][:organization_id] = current_user.organization.id
-    @attachment = Attachment.new(attachment_params)
-    attachment_link = new_attachment_link
-    begin
-      Attachment.transaction do
-        @attachment.save!
-        attachment_link.attachment_id = @attachment.id
-        attachment_link.save!
-      end
-    rescue ActiveRecord::RecordInvalid
-      message = { danger: t('flashes.not_create',
-                            model: Attachment.model_name.human) }
-    else
-      message = { success: t('flashes.create',
-                             model: Attachment.model_name.human) }
-    ensure
-      redirect_to polymorphic_path(attachment_link.record), message
-    end
+    attachment = Attachment.new(attachment_params)
+    attachment.skip_child_validation = true
+    attachment.save!
+#    message = { success: t('flashes.create',
+#                model: Attachment.model_name.human) }
+    redirect_back fallback_location: root_path
+  rescue ActiveRecord::RecordInvalid
+#    message = { danger: t('flashes.not_create',
+#                model: Attachment.model_name.human) }
+    redirect_back fallback_location: root_path
   end
 
   def download
@@ -34,26 +27,8 @@ class AttachmentsController < ApplicationController
 
   private
 
-  def new_attachment_link
-    AttachmentLink.new(
-      attachment_id: @attachment.id,
-      record_type: params[:attachment][:attachment_link][:record_type],
-      record_id: params[:attachment][:attachment_link][:record_id]
-    )
-  end
-
   def attachment_params
     params.require(:attachment)
-          .permit(
-            :name,
-            :document,
-            :organization_id,
-            attachment_link_attributes: [
-              :id,
-              :record_type,
-              :record_id,
-              :attachment_id
-            ]
-          )
+          .permit(policy(Attachment).permitted_attributes)
   end
 end

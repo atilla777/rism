@@ -3,18 +3,18 @@
 class AttachmentLink < ApplicationRecord
   LINKABLE_MODELS = [Agreement].freeze
 
-  validates :record_type, presence: true
-  validates :record_id, numericality: { only_integer: true }
-  validates :attachment_id, numericality: { only_integer: true }
-
-  belongs_to :record, polymorphic: true
-  belongs_to :attachment
-
-  after_destroy :remove_attachment
-
   def self.linkable_models
     LINKABLE_MODELS
   end
+
+  validates :record_type, presence: true
+  validates :record_id, numericality: { only_integer: true }
+  validates :attachment_id, numericality: { only_integer: true }, unless: proc { |f| f.attachment&.skip_child_validation }
+
+  belongs_to :attachment
+  belongs_to :record, polymorphic: true
+
+  after_destroy :remove_attachment
 
   private
 

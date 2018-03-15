@@ -4,8 +4,22 @@ module Incident::Ransackers
   extend ActiveSupport::Concern
 
   included do
+    def self.datetime_field_to_text_search(fieled)
+      field_transformation = <<~SQL
+        to_char(
+          ((incidents.#{fieled} AT TIME ZONE 'UTC') AT TIME ZONE '#{timezone_name}'),
+          'YYYY.MM.DD-HH24:MI'
+        )
+      SQL
+      Arel.sql field_transformation
+    end
+
+    def self.timezone_name
+      ActiveSupport::TimeZone.find_tzinfo(Time.zone.name).identifier
+    end
+
     ransacker :id do
-      Arel.sql(" '#' || incidents.id::char")
+      Arel.sql("'#' || incidents.id::text")
     end
 
     ransacker :discovered_at do
@@ -66,20 +80,6 @@ module Incident::Ransackers
         END
       SQL
       Arel.sql(field_transformation)
-    end
-
-    def self.datetime_field_to_text_search(fieled)
-      field_transformation = <<~SQL
-        to_char(
-          ((incidents.#{fieled} AT TIME ZONE 'UTC') AT TIME ZONE '#{timezone_name}'),
-          'YYYY.MM.DD-HH24:MI'
-        )
-      SQL
-      Arel.sql field_transformation
-    end
-
-    def self.timezone_name
-      ActiveSupport::TimeZone.find_tzinfo(Time.zone.name).identifier
     end
   end
 end

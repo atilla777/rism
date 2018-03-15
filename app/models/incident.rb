@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Incident < ApplicationRecord
+  include Linkable
   include Incident::Ransackers
 
   DAMAGES = {
@@ -38,14 +39,17 @@ class Incident < ApplicationRecord
   validates :severity, inclusion: { in: SEVERITIES.keys }
   validates :state, inclusion: { in: STATES.keys }
 
-
   # TODO: move code to taggable concern
   has_many :tag_members, as: :record, dependent: :destroy
   has_many :tags, through: :tag_members
 
   # TODO: move code to linkable concern
-  has_many :links, as: :first_record, dependent: :destroy
-  has_many :second_records, through: :links
+#  has_many :links, as: :first_record, dependent: :destroy
+#  has_many :second_records, through: :links
+#
+#  has_many :organizations, through: :links
+
+  accepts_nested_attributes_for :links
 
   # TODO: move code to attachable concern
   has_many :attachment_links, as: :record, dependent: :destroy

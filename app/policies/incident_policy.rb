@@ -1,5 +1,6 @@
-class IncidentPolicy < ApplicationPolicy
+# frozen_string_literal: true
 
+class IncidentPolicy < ApplicationPolicy
   # TODO: allow view only for user who is allowed to view
   # organizations linked to incident
 
@@ -27,12 +28,19 @@ class IncidentPolicy < ApplicationPolicy
        action_description
        severity
        damage
-       state]
+       state] << {
+         links_attributes: %i[
+           link_kind_id
+           second_record_id
+           second_record_type
+           description
+         ]
+       }
   end
 
   class Scope < Scope
     def resolve
-        scope.all
+      scope.all
     end
   end
 end

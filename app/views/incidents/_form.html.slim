@@ -4,6 +4,7 @@
     = form_for @record, html: {class: 'form-horizontal'} do |f|
 
       = hidden_field_tag :template_id, @template_id
+      = hidden_field_tag :organization_id, @organization_id
 
       .form-group.recomended
         .field
@@ -11,6 +12,26 @@
             = f.label :name, class: 'control-label'
           .col-lg-8
             = f.text_field :name, class: 'form-control'
+
+      - if @organization_id.present?
+        - 1.times { @record.links.build } if @record.links.blank?
+        = f.fields_for :links do |ff|
+          = ff.hidden_field :second_record_id, value: @organization_id
+          = ff.hidden_field :second_record_type, value: 'Organization'
+
+          .form-group.required
+            .field
+              .col-lg-2.text-right
+                = ff.label :link_kind_id, class: 'control-label'
+              .col-lg-8
+                = ff.collection_select :link_kind_id, LinkKind.where(first_record_type: 'Incident', second_record_type: 'Organization'), :id, :name, {}, class: 'form-control'
+
+          .form-group
+            .field
+              .col-lg-2.text-right
+                = ff.label :description, class: 'control-label'
+              .col-lg-8
+                = ff.text_field :description, class: 'form-control'
 
       .form-group.recomended
         .field
