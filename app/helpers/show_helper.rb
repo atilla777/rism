@@ -30,10 +30,12 @@ module ShowHelper
     #           value: "My name is #{@user.name}"
     #
     # TODO: add block param implementation
-    def show(attribute, options = {})
+    def show(attribute, options = {}, &block)
       options[:label] ||= @record.class
                                  .human_attribute_name(attribute.to_sym)
+      options[:value] ||= @context.capture(&block) if block.present?
       options[:value] ||= @record.send(attribute.to_sym)
+
       @context.render 'helpers/show_attribute',
                       attribute_label: options[:label],
                       attribute_value: options[:value]

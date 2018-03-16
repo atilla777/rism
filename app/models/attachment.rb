@@ -5,8 +5,6 @@ class Attachment < ApplicationRecord
 
   mount_uploader :document, DocumentUploader
 
-  attr_accessor :skip_child_validation
-
   validates :name, length: { minimum: 1, maximum: 100, allow_blank: true }
   validates :organization_id, numericality: { only_integer: true }
   validates :document, presence: true
@@ -14,7 +12,6 @@ class Attachment < ApplicationRecord
   belongs_to :organization
 
   has_many :attachment_links, dependent: :destroy
-
 
   has_many :agreements,
            through: :attachment_links,
@@ -29,5 +26,5 @@ class Attachment < ApplicationRecord
   has_many :rights, as: :subject, dependent: :destroy
 
 
-  accepts_nested_attributes_for :attachment_links#, reject_if: proc { |attributes| attributes[:document].blank? }
+  accepts_nested_attributes_for :attachment_links
 end

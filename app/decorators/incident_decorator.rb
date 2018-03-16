@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class IncidentDecorator < SimpleDelegator
+# TODO: delete unused
+#  def show_full_name
+#    result = ["##{id}"]
+#    result << name if name.present?
+#    result.join(' - ')
+#  end
+
   def show_id
     "##{id}"
   end
@@ -32,7 +39,7 @@ class IncidentDecorator < SimpleDelegator
   private
 
   def date_or_datetime(datetime_field, time_option_field)
-    return '' unless datetime_field
+    return '---' unless datetime_field
     if time_option_field
       datetime_field.strftime('%d.%m.%Y-%H:%M')
     else

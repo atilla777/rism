@@ -18,7 +18,7 @@
         = f.fields_for :links do |ff|
           = ff.hidden_field :second_record_id, value: @organization_id
           = ff.hidden_field :second_record_type, value: 'Organization'
-          = ff.hidden_field :skip_validation_when_nested, value: true
+          = ff.hidden_field :nested, value: true
 
           .form-group.required
             .field

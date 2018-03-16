@@ -14,10 +14,19 @@
     - r.field link_to(show_date_time(record.created_at), record)
     - r.field link_to(IncidentDecorator.new(record).show_id, record)
     - r.field link_to(record.name.truncate(30), record)
-    - r.field link_to(IncidentDecorator.new(record).show_state, record)
-    - r.field link_to(IncidentDecorator.new(record).show_severity, record)
+    - r.field do
+      span style="color:#{record.state_color}"
+        => fa_icon 'star'
+      = link_to(IncidentDecorator.new(record).show_state, record)
+    - r.field do
+      span style="color:#{record.severity_color}"
+        => fa_icon 'star'
+      = link_to(IncidentDecorator.new(record).show_severity, record)
     - r.field link_to(IncidentDecorator.new(record).show_discovered_at, record)
     - r.field link_to(IncidentDecorator.new(record).show_started_at, record)
     - r.field link_to(IncidentDecorator.new(record).show_finished_at, record)
     - r.field link_to(show_date_time(record.closed_at), record)
-    - r.field link_to(IncidentDecorator.new(record).show_damage, record)
+    - r.field do
+      span style="color:#{record.damage_color}"
+        => fa_icon 'star'
+      = link_to(IncidentDecorator.new(record).show_damage, record)

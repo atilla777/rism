@@ -7,9 +7,11 @@ class AttachmentLink < ApplicationRecord
     LINKABLE_MODELS
   end
 
+  attr_accessor :nested
+
   validates :record_type, presence: true
   validates :record_id, numericality: { only_integer: true }
-  validates :attachment_id, numericality: { only_integer: true }, unless: proc { |f| f.attachment&.skip_child_validation }
+  validates :attachment_id, numericality: { only_integer: true }, unless: proc { |f| f.nested }
 
   belongs_to :attachment
   belongs_to :record, polymorphic: true

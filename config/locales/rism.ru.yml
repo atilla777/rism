@@ -26,14 +26,17 @@ ru:
       prolongation: 'Да'
       no_prolongation: 'Нет'
       full_name: 'Договор %{prop} от %{beginning} между %{organization} и %{contractor}'
+    incident:
+      full_name: 'Номер / Имя'
+      dates_and_times: 'Даты и времена'
     tags:
       more_tags: 'Теги (нажмите для добавления)'
-      allowed_tags: 'Доступные для назначения теги:'
+      allowed_tags: 'Доступные для назначения теги'
     link_kind:
       all_resource_types: 'Все'
     links:
       more_links: 'Связи (нажмите для добавления)'
-      allowed_links: 'Доступные типы связи:'
+      allowed_links: 'Доступные типы связи'
       linked: 'связывается'
       link: 'Связать'
     version:

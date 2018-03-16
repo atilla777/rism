@@ -7,12 +7,13 @@ class AttachmentsController < ApplicationController
     authorize Attachment
     params[:attachment][:organization_id] = current_user.organization.id
     attachment = Attachment.new(attachment_params)
-    attachment.skip_child_validation = true
     attachment.save!
+# TODO: translate messages to page
 #    message = { success: t('flashes.create',
 #                model: Attachment.model_name.human) }
     redirect_back fallback_location: root_path
   rescue ActiveRecord::RecordInvalid
+# TODO: translate messages to page
 #    message = { danger: t('flashes.not_create',
 #                model: Attachment.model_name.human) }
     redirect_back fallback_location: root_path

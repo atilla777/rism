@@ -1,25 +1,36 @@
 table.table.table-hover.table-bordered.table-striped
+
+  caption
+    a.link data-toggle='collapse' href='#toggle_files'
+      strong
+        = fa_icon 'folder'
+        =< "#{t('labels.attachment.more_files')}"
+
   thead
-    tr
-      td.col-md-2.text-right
-        a.link data-toggle='collapse' href='#toggle_files'
+    - record.attachments.each_with_index do |attachment, index|
+      tr
+        td.col-md-2.text-right
           strong.text-info
-            =< "#{t('labels.attachment.more_files')}"
-            =< fa_icon 'folder-open'
-      td
-        a.link data-toggle='collapse' href='#toggle_files'
-          = RecordAttachmentsDecorator.new(record).show_attachments.truncate(200)
+            =< index + 1
+        td
+          = link_to attachment_download_path(attachment), data: {turbolinks: false} do
+            = fa_icon 'file'
+            =< AttachmentDecorator.new(attachment).show_file_name
+          =< link_to attachment_link_path(attachment_id: attachment.id, record_type: record.class.name, record_id: record.id), data: {confirm: t('views.action.confirm')}, method: :delete do
+            span.text-danger
+              = fa_icon 'remove'
+
   tbody#toggle_files.collapse
     tr
       td.col-md-2.text-right
-        strong.text-info
+        strong
           = t('labels.attachment.link_file')
       td colspan=2 collapse=2
         => fa_icon 'paperclip'
         => t('labels.attachment.attachable_file')
         span#select_file.text-success
         - attachment = Attachment.new
-        = form_for attachment, html: {class: 'form-inline'} do | f |
+        = form_for attachment, html: {class: 'form-inline'} do |f|
           .form-group
             .field
               => f.text_field :name, placeholder: t('labels.attachment.file_name'), size: 50, class: 'form-control'
@@ -30,19 +41,6 @@ table.table.table-hover.table-bordered.table-striped
               =< f.fields_for :attachment_links, attachment.attachment_links do |ff|
                 = ff.hidden_field :record_id, value: record.id
                 = ff.hidden_field :record_type, value: record.class.name
+                = ff.hidden_field :nested, value: true
               = f.submit t('helpers.submit.save'), class: 'btn btn-success'
-
-    - record.attachments.each_with_index do | attachment, index |
-      tr
-        td.col-md-2.text-right
-          strong.text-info
-            = index + 1
-        td
-          = link_to attachment_download_path(attachment), data: {turbolinks: false} do
-            = fa_icon 'file'
-            =< AttachmentDecorator.new(attachment).show_file_name
-          span.pull-right
-            = link_to attachment_link_path(attachment_id: attachment.id, record_type: record.class.name, record_id: record.id), data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
-              i.glyphicon.glyphicon-remove.text-danger
-              =< t('views.action.delete')
 

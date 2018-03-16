@@ -1,25 +1,27 @@
 table.table.table-hover.table-bordered.table-striped
+  caption
+    a.link data-toggle='collapse' href='#toggle_links'
+      strong
+        = fa_icon 'link'
+        =< "#{t('labels.links.more_links')}"
+    = render 'errors', record: @link
+
   thead
-    tr
-      td.col-md-2.text-right
-        a.link data-toggle='collapse' href='#toggle_links'
-          strong.text-info
-            =< "#{t('labels.links.more_links')}"
-      td
-        = render 'ajax_errors', record: @link
-        - @record.links.group_by { |link| "#{LinkKindDecorator.new(link.link_kind).show_long_name}" }.sort.each do |link_kind_name, links|
-          = fa_icon 'link', style: "color:#{links.first.link_kind.color}"
-          strong.text-info
-            =< "#{link_kind_name}:"
+    - @record.links.group_by { |link| "#{LinkKindDecorator.new(link.link_kind).show_long_name}" }.sort.each do |link_kind_name, links|
+      tr
+        td.col-md-2.text-right
+           = fa_icon 'link', style: "color:#{links.first.link_kind.color}"
+           strong.text-info
+             =< "#{link_kind_name}"
+        td
           - links.each do |link|
             =< link_to link.second_record, class: 'link', data: { toggle: 'tooltip', placement: 'top'}, title: link.description do
               =< link.second_record.show_full_name
             =< link_to link, method: :delete, remote: true, data: { confirm: t('views.action.confirm') } do
               span.text-danger
-                => fa_icon 'remove'
-            ||
+                = fa_icon 'remove'
+            br
 
-          br
   tbody id='toggle_links' class="#{'collapse' unless @unfold_links}"
     tr
       td.col-md-2.text-right

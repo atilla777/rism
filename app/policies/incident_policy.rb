@@ -15,28 +15,30 @@ class IncidentPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    %i[name
-       discovered_at
-       discovered_time
-       started_at
-       started_time
-       finished_at
-       finished_time
-       closed_at
-       event_description
-       investigation_description
-       action_description
-       severity
-       damage
-       state] << {
-         links_attributes: %i[
-           link_kind_id
-           second_record_id
-           second_record_type
-           description
-           skip_validation_when_nested
-         ]
-       }
+    %i[
+      name
+      discovered_at
+      discovered_time
+      started_at
+      started_time
+      finished_at
+      finished_time
+      closed_at
+      event_description
+      investigation_description
+      action_description
+      severity
+      damage
+      state
+    ] << {
+      links_attributes: %i[
+        link_kind_id
+        second_record_id
+        second_record_type
+        description
+        nested
+      ]
+    }
   end
 
   class Scope < Scope

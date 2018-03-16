@@ -4,6 +4,8 @@ class Incident < ApplicationRecord
   include Linkable
   include Incident::Ransackers
 
+  COLORS = ['#228B22', '#DAA520', '#DC143C'].freeze
+
   DAMAGES = {
     0 => I18n.t('incidents.damages.not_present'),
     1 => I18n.t('incidents.damages.unknown'),
@@ -60,6 +62,18 @@ class Incident < ApplicationRecord
   # for use with RecordTemplate, Link and etc
   def show_full_name
     name
+  end
+
+  def damage_color
+    COLORS[damage]
+  end
+
+  def severity_color
+    COLORS[severity + (severity < 1 ? 0 : 1)]
+  end
+
+  def state_color
+    COLORS.reverse[state]
   end
 
   private

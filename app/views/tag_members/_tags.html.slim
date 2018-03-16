@@ -1,25 +1,26 @@
 table.table.table-hover.table-bordered.table-striped
+  caption
+    a.link data-toggle='collapse' href='#toggle_tags'
+      strong
+        = fa_icon 'tags'
+        =< "#{t('labels.tags.more_tags')}"
+    = render 'errors', record: @tag_member
   thead
-    tr
-      td.col-md-2.text-right
-        a.link data-toggle='collapse' href='#toggle_tags'
-          strong.text-info
-            =< "#{t('labels.tags.more_tags')}"
-      td
-        = render 'ajax_errors', record: @tag_member
-        - @record.tag_members.group_by { |tag_member| "#{tag_member.tag.tag_kind.code_name} (#{tag_member.tag.tag_kind.name})" }.sort.each do |tag_kind, tag_members|
+    - @record.tag_members.group_by { |tag_member| "#{tag_member.tag.tag_kind.code_name} (#{tag_member.tag.tag_kind.name})" }.sort.each do |tag_kind, tag_members|
+      tr
+        td.col-md-2.text-right
           =< fa_icon 'tags', style: "color:#{tag_members.first.tag.tag_kind.color}"
           strong.text-info
-            =< "#{tag_kind}:"
+            =< "#{tag_kind}"
+        td
           - tag_members.each do |tag_member|
             =< link_to tag_member.tag do
               = fa_icon 'tag', style: "color:#{tag_member.tag.color}"
               =< TagDecorator.new(tag_member.tag).show_full_name
             =< link_to tag_member, method: :delete, remote: true, data: {confirm: t('views.action.confirm')} do
               span.text-danger
-                => fa_icon 'remove'
-            ||
-          br
+                = fa_icon 'remove'
+            br
   tbody id='toggle_tags' class="#{'collapse' unless @unfold}"
     tr
       td.col-md-2.text-right
