@@ -62,7 +62,7 @@ module SharedMethods
   def add_tags_from_template
     return if params[:template_id].blank?
     RecordTemplate.find(params[:template_id])
-                  .record_tags.each do |tag_id|
+                  .tags.pluck(:id).each do |tag_id|
                     TagMember.create(
                       tag_id: tag_id,
                       record_id: @record.id,

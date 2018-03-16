@@ -22,19 +22,6 @@
           .col-lg-8
             = f.text_field :name, class: 'form-control'
 
-      .form-group.required
-        .field
-          .col-lg-2.text-right
-            = f.label :record_content, class: 'control-label'
-          .col-lg-8
-            = f.text_field :record_content, rows: 4, class: 'form-control'
-
-      .form-group.required
-        .field
-          .col-lg-2.text-right
-            = f.label :record_tags, class: 'control-label'
-          .col-lg-8
-            = f.text_field:record_tags, class: 'form-control'
 
       .form-group
         .field
@@ -42,6 +29,24 @@
             = f.label :description, class: 'control-label'
           .col-lg-8
             = f.text_area :description, rows: 4, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :record_content, class: 'control-label' do
+              a.link data-toggle='collapse' href='#toggle_record_content'
+                = @record.class.human_attribute_name(:record_content)
+
+      .collapse#toggle_record_content
+        = f.fields_for :record_content, OpenStruct.new(f.object.record_content) do |ff|
+          - ff.object.to_h.each do |(key, value)|
+            .form-group
+              .field
+                .col-lg-2.text-right
+                  = ff.label key, class: 'control-label'
+                .col-lg-8
+                  = ff.text_field key, value: value, class: 'form-control'
+
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8

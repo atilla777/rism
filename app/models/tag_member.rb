@@ -1,6 +1,9 @@
 class TagMember < ApplicationRecord
-  RECORD_TYPES = %w[Agreement
-                    Incident]
+  RECORD_TYPES = %w[
+                   Agreement
+                   Incident
+                   RecordTemplate
+                 ]
 
   def self.record_types
     RECORD_TYPES

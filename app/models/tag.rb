@@ -15,6 +15,8 @@ class Tag < ApplicationRecord
   end
 
   def self.allowed_to_record(record)
+    # TODO: make filter for template original record class
+    return all if record.class.name == 'RecordTemplate'
     where(tag_kinds: { record_type: record.class.name })
     .or(where(tag_kinds: { record_type: '' }))
     .joins(:tag_kind)

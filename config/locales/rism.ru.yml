@@ -59,6 +59,7 @@ ru:
     record_templates:
       original_record: 'Шаблон из'
       select_template: 'Выберите шаблон:'
+      more_content: 'Атрибуты (нажмите для просмотра)'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'

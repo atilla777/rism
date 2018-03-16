@@ -1,6 +1,26 @@
 = show_for @record do |r|
   = r.show :name
   = r.show :record_type, value: RecordTemplateDecorator.new(@record).show_record_type
-  = r.show :record_content
-  = r.show :record_tags
   = r.show :description
+
+table.table.table-hover.table-bordered.table-striped
+  caption
+    a.link data-toggle='collapse' href='#toggle_content'
+      strong
+        = "#{t('labels.record_templates.more_content')}"
+
+  tbody.collapse#toggle_content
+    - OpenStruct.new(@record.record_content).to_h.each do |(key, value)|
+      tr
+        td.col-md-2.text-right
+          strong.text-info
+            = key
+        td
+          = value
+#links
+  = render 'links/links', record: record
+
+#tags
+  = render 'tag_members/tags', record: record
+
+= render 'application/record_attachments', record: record

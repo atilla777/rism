@@ -4,6 +4,7 @@ table.table.table-hover.table-bordered.table-striped
       strong
         = fa_icon 'tags'
         =< "#{t('labels.tags.more_tags')}"
+    br
     = render 'errors', record: @tag_member
   thead
     - @record.tag_members.group_by { |tag_member| "#{tag_member.tag.tag_kind.code_name} (#{tag_member.tag.tag_kind.name})" }.sort.each do |tag_kind, tag_members|

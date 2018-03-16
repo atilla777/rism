@@ -2,6 +2,8 @@
 
 class LinkKind < ApplicationRecord
   def self.allowed_to_record(record)
+    # TODO: make filter for template original record class
+    return all if record.class.name == 'RecordTemplate'
     where(first_record_type: record.class.name)
     .or(where(first_record_type: ''))
   end

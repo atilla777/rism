@@ -3,10 +3,13 @@ class RecordTemplatePolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.admin_editor?
-      %i[name
-         record_content
-         record_type
-         description]
+      %i[
+        name
+        record_content
+        description
+        record_type
+        record_tags
+      ]
     end
   end
 
