@@ -52,6 +52,8 @@ class Organization < ApplicationRecord
            foreign_key: :contractor_id,
            dependent: :destroy
 
+  has_many :incidents, dependent: :destroy
+
   has_many :children,
            class_name: 'Organization',
            foreign_key: :parent_id,

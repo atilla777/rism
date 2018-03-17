@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 class IncidentPolicy < ApplicationPolicy
-  # TODO: allow view only for user who is allowed to view
-  # organizations linked to incident
-
-  def index?
-    return true if @user.admin_editor_reader?
-    @user.can? :read, Incident
-  end
-
-  def create?
-    return true if @user.admin_editor?
-    @user.can? :edit, Incident
-  end
+  # TODO: use or delete
+#  def index?
+#    return true if @user.admin_editor_reader?
+#    @user.can? :read, Incident
+#  end
+#
+#  def create?
+#    return true if @user.admin_editor?
+#    @user.can? :edit, Incident
+#  end
 
   def permitted_attributes
     %i[
       name
+      organization_id
+      user_id
       discovered_at
       discovered_time
       started_at
@@ -39,11 +39,5 @@ class IncidentPolicy < ApplicationPolicy
         nested
       ]
     }
-  end
-
-  class Scope < Scope
-    def resolve
-      scope.all
-    end
   end
 end

@@ -1,8 +1,14 @@
 li
+  = link_to record_templates_path do
+    .span.text-info
+      = fa_icon 'clone'
+      =< RecordTemplate.model_name.human(count: 2)
+li
   = link_to tag_kinds_path do
     .span.text-info
       = fa_icon 'tag'
       =< TagKind.model_name.human(count: 2)
+li
   = link_to link_kinds_path do
     .span.text-info
       = fa_icon 'link'

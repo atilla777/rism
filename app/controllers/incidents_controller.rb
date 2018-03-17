@@ -1,33 +1,14 @@
 # frozen_string_literal: true
 
 class IncidentsController < ApplicationController
-  include Record
+  include RecordOfOrganization
 
   before_action :set_time, only: [:create, :update]
-  before_action :set_organization_id, only: [:new, :create]
-
-  def index
-    authorize model
-    @organization = organization
-    if @organization.present?
-      @records = records(filter_for_organization)
-      render 'index'
-    else
-      @records = records(model)
-      render 'application/index'
-    end
-  end
 
   private
 
   def model
     Incident
-  end
-
-  # get organization to wich record belongs
-  def organization
-    return unless params[:organization_id]
-    Organization.where(id: params[:organization_id]).first
   end
 
   # filter used in index pages wich is a part of organizaion show page
@@ -40,6 +21,10 @@ class IncidentsController < ApplicationController
     'created_at desc'
   end
 
+  def default_includes
+    %i[organization user]
+  end
+
   def set_time
     %w[discovered started finished].each do |field|
     hours = params[:incident]["#{field}_at(4i)"]
@@ -50,10 +35,5 @@ class IncidentsController < ApplicationController
         params[:incident]["#{field}_time"] = '0'
       end
     end
-  end
-
-  def set_organization_id
-    return if params[:organization_id].blank?
-    @organization_id = params[:organization_id]
   end
 end

@@ -29,6 +29,9 @@ ru:
     incident:
       full_name: 'Номер / Имя'
       dates_and_times: 'Даты и времена'
+      organization_link: '%{name}% относится к'
+      owners: 'Владельцы (нажмите для просмотра)'
+      more_owners: 'Владельцы (нажмите для изменения)'
     tags:
       more_tags: 'Теги (нажмите для добавления)'
       allowed_tags: 'Доступные для назначения теги'
@@ -226,6 +229,8 @@ ru:
       incident:
         id: 'Номер'
         name: 'Имя'
+        organization_id: 'Организация (вл.)'
+        user_id: 'Пользотватель (вл.)'
         discovered_at: 'Обнаружен'
         discovered_time: 'Время обнаружения установлено'
         created_at: 'Зарегистрирован'
@@ -254,7 +259,8 @@ ru:
         first_record_id: 'Номер ресурса'
         second_record_type: 'Тип прикрепляемого ресурса'
         second_record_id: 'Номер прикрепляемого ресурса'
-        link_kind: 'Тип связи'
+        link_kind_id: 'Тип связи'
+        description: 'Описание'
       record_template:
         name: 'Имя'
         record_type: 'Ресурс'

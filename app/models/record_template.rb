@@ -19,14 +19,13 @@ class RecordTemplate < ApplicationRecord
   include RecordTemplate::Ransackers
 
   serialize :record_content, JSON
-  serialize :record_tags, Array
 
   validates :name, uniqueness: true
   validates :name, length: { in: 3..150 }
   validates :record_content, presence: true
   validates :record_type, inclusion: { in: record_types.keys }
 
-  after_save :add_tags
+  after_create :add_tags
 
   # TODO: move code to taggable concern
   has_many :tag_members, as: :record, dependent: :destroy

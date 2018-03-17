@@ -4,7 +4,6 @@ class CreateRecordTemplates < ActiveRecord::Migration[5.1]
       t.string :name
       t.string :record_content
       t.string :record_type
-      t.string :record_tags
       t.text :description
 
       t.timestamps

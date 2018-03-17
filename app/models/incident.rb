@@ -36,6 +36,8 @@ class Incident < ApplicationRecord
   end
 
   validates :name, length: { in: 3..100, allow_blank: true }
+  validates :organization_id, numericality: { only_integer: true }
+  validates :user_id, numericality: { only_integer: true }
   validates :event_description, presence: true
   validates :damage, inclusion: { in: DAMAGES.keys }
   validates :severity, inclusion: { in: SEVERITIES.keys }
@@ -46,6 +48,9 @@ class Incident < ApplicationRecord
   has_many :tags, through: :tag_members
 
   accepts_nested_attributes_for :links
+
+  belongs_to :organization
+  belongs_to :user
 
   # TODO: move code to attachable concern
   has_many :attachment_links, as: :record, dependent: :destroy

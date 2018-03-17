@@ -4,8 +4,11 @@ require 'rails_helper'
 
 RSpec.describe Incident, type: :model do
   it { should validate_length_of(:name).is_at_least(3).is_at_most(100) }
-
+  it { should validate_numericality_of(:organization_id).only_integer }
+  it { should validate_numericality_of(:user_id).only_integer }
   it { should validate_presence_of :event_description }
+  it { should belong_to :organization }
+  it { should belong_to :user}
   it do
     should validate_inclusion_of(:damage)
       .in_array(Incident.damages.keys)

@@ -8,7 +8,6 @@ class RecordTemplatePolicy < ApplicationPolicy
         record_content
         description
         record_type
-        record_tags
       ]
     end
   end

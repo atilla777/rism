@@ -18,7 +18,11 @@ class User < ApplicationRecord
   before_save :set_organization_id,
               if: ->(obj) { obj.department_id.present? }
 
+  belongs_to :organization
+
   belongs_to :department, optional: true
+
+  has_many :incidents
 
   has_many :rights, as: :subject, dependent: :destroy
 

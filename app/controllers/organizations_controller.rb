@@ -41,10 +41,10 @@ class OrganizationsController < ApplicationController
 
   private
 
-  def record_params
-    params.require(model.name.underscore.to_sym)
-          .permit(policy(model).permitted_attributes)
-  end
+#  def record_params
+#    params.require(model.name.underscore.to_sym)
+#          .permit(policy(model).permitted_attributes)
+#  end
 
   def model
     Organization

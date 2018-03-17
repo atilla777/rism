@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(version: 20180314053643) do
 
   create_table "incidents", force: :cascade do |t|
     t.string "name"
+    t.bigint "organization_id"
+    t.integer "user_id"
     t.datetime "discovered_at"
     t.boolean "discovered_time", default: false
     t.datetime "started_at"
@@ -91,6 +93,8 @@ ActiveRecord::Schema.define(version: 20180314053643) do
     t.integer "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_incidents_on_organization_id"
+    t.index ["user_id"], name: "index_incidents_on_user_id"
   end
 
   create_table "link_kinds", force: :cascade do |t|
@@ -146,7 +150,6 @@ ActiveRecord::Schema.define(version: 20180314053643) do
     t.string "name"
     t.string "record_content"
     t.string "record_type"
-    t.string "record_tags"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -271,6 +274,8 @@ ActiveRecord::Schema.define(version: 20180314053643) do
   add_foreign_key "attachments", "organizations"
   add_foreign_key "departments", "departments", column: "parent_id"
   add_foreign_key "departments", "organizations"
+  add_foreign_key "incidents", "organizations"
+  add_foreign_key "incidents", "users"
   add_foreign_key "links", "link_kinds"
   add_foreign_key "organizations", "organization_kinds"
   add_foreign_key "organizations", "organizations", column: "parent_id"

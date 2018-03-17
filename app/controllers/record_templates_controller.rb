@@ -10,7 +10,13 @@ class RecordTemplatesController < ApplicationController
     original_model = @record.record_type.constantize
     original_record = original_model.find(params[:original_record_id])
     @record.record_content = original_record.attributes
-    #@record.record_tags = original_record.tags.pluck(:id)
+                                            .except(
+                                              'id',
+                                              'organization_id',
+                                              'user_id',
+                                              'created_at',
+                                              'updated_at'
+                                            )
     @original_record_id = params[:original_record_id]
   end
 
