@@ -74,6 +74,8 @@ ru:
     worker: 'Работник'
     workers: 'Работники'
     catalog: 'Прочее'
+    reports:
+      organization_incidents: 'Скачать справку - инциденты организации'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'

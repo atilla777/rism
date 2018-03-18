@@ -29,7 +29,8 @@ class Right < ApplicationRecord
     'Incident' => I18n.t('activerecord.models.incident.one'),
     'LinkKind' => I18n.t('activerecord.models.link_kind.one'),
     'Link' => I18n.t('activerecord.models.link.one'),
-    'RecordTemplate' => I18n.t('activerecord.models.record_template.one')
+    'RecordTemplate' => I18n.t('activerecord.models.record_template.one'),
+    'Reports' => I18n.t('navigations.reports')
   }.freeze
 
   def self.subject_types

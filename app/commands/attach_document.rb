@@ -1,3 +1,4 @@
+# TODO: user or delete
 class AttacheDocument
   def initilaize(record, files)
     @files = files

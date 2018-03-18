@@ -39,4 +39,5 @@ Rails.application.routes.draw do
   resources :link_kinds
   resources :links, only: %i[create destroy]
   resources :record_templates
+  get "/reports/:name", to: 'reports#show', as: :reports, format: 'docx'
 end

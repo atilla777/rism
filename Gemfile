@@ -71,6 +71,7 @@ gem 'rails-jquery-autocomplete'
 gem 'paper_trail'
 gem 'carrierwave', '~> 1.0'
 gem 'dotenv-rails'
+gem 'caracal'
 
 # Lint with overcommit
 group :development do
