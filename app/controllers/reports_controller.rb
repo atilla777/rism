@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-require 'organization_incidents'
 
 class ReportsController < ApplicationController
   def show
     authorize :reports
-    report = Reports::OrganizationIncidents.new
+    report = Reports.report_by_name(params[:name]).new(current_user, params)
     send_data(
-      report.file,
+      report.file_content,
       type: :docx,
       disposition: 'attachment',
       filename: report.file_name

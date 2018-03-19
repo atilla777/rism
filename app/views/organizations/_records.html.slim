@@ -1,4 +1,5 @@
 = index_search :name_or_full_name_or_organization_kind_name_cont
+= report_button_for @records
 = index_for records do | i |
   - i.header attribute: :name, sort: :desc
   - i.header attribute: :full_name, sort: :desc

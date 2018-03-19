@@ -52,6 +52,7 @@ class Organization < ApplicationRecord
            foreign_key: :contractor_id,
            dependent: :destroy
 
+  # organization is owner of some incidents (as access subject)
   has_many :incidents, dependent: :destroy
 
   has_many :children,

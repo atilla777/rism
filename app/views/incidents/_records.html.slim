@@ -1,5 +1,5 @@
 = index_search :id_or_name_or_discovered_at_or_started_at_or_created_at_or_finished_at_or_closed_at_or_severity_or_damage_or_state_or_user_name_cont
-= render 'report_button', record_or_records: @records
+= report_button_for @records, organization_id: @organization.id
 = index_for records do |i|
   - i.header attribute: :created_at, sort: :desc
   - i.header attribute: :id, sort: :desc
