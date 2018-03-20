@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_dependency 'reports'
+#require_dependency 'reports'
 
 # = Report button helper
 # Make links to allowed for record or records reports

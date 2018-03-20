@@ -18,4 +18,6 @@
 //= require jquery-ui/effects/effect-blind
 //= require autocomplete-rails
 //= require data-confirm-modal
+//= require Chart.bundle
+//= require chartkick
 //= require_tree .

@@ -40,4 +40,7 @@ Rails.application.routes.draw do
   resources :links, only: %i[create destroy]
   resources :record_templates
   get "/reports/:name", to: 'reports#show', as: :reports, format: 'docx'
+  #mount Blazer::Engine, at: "blazer"
+  get "/dashboards/", to: 'dashboards#index', as: :dashboards
+  get "/charts/:name", to: 'charts#show', as: :charts
 end

@@ -72,6 +72,9 @@ gem 'paper_trail'
 gem 'carrierwave', '~> 1.0'
 gem 'dotenv-rails'
 gem 'caracal'
+#gem 'blazer'
+gem "chartkick"
+gem 'groupdate'
 
 # Lint with overcommit
 group :development do

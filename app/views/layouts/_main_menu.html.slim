@@ -1,4 +1,9 @@
 li
+  = link_to dashboards_path do
+    .text-info
+      = fa_icon 'info'
+      =< t('navigations.dashboards')
+li
   = link_to organizations_path do
     .text-info
       = fa_icon 'industry'

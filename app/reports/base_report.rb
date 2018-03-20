@@ -106,4 +106,3 @@ class BaseReport
     @file_content = docx.render.string
   end
 end
-

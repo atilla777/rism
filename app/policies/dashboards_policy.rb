@@ -1,4 +1,4 @@
-class ReportsPolicy
+class DashboardsPolicy
   attr_reader :user, :record
 
   def initialize(user, record)
@@ -6,8 +6,8 @@ class ReportsPolicy
     @record = record
   end
 
-  def show?
+  def index?
     return true if @user.admin_editor_reader?
-    @user.can? :read, 'Reports'
+    @user.can? :read, 'Dashboards'
   end
 end
