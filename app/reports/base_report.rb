@@ -27,11 +27,11 @@ class BaseReport
 
   def docx
     docx = Caracal::Document.new('report.docx')
-    docx.page_size do
-      width       15840       # sets the page width. units in twips.
-      height      12240       # sets the page height. units in twips.
-      orientation :portrait # sets the printer orientation. accepts :portrait and :landscape.
-    end
+    #    docx.page_size do
+    #      width       15840       # sets the page width. units in twips.
+    #      height      12240       # sets the page height. units in twips.
+    #      orientation :portrait # sets the printer orientation. accepts :portrait and :landscape.
+    #    end
     docx.page_margins do
       left    720     # sets the left margin. units in twips.
       right   720     # sets the right margin. units in twips.
@@ -41,21 +41,28 @@ class BaseReport
     docx.page_numbers true do
       align :right
     end
-    docx.font name: 'Arial', size: 28
+    docx.font name: 'Times New Roman', size: 28
     docx.style id: 'header', name: 'Header' do
-      font 'Arial'
+      font 'Times New Roman'
       size 28
       bold true
       align :center
     end
-    docx.style id: 'subheader', name: 'SubHeader' do
-      font 'Arial'
+    docx.style id: 'subheader', name: 'Subheader' do
+      font 'Times New Roman'
+      size 28
+      bold true
+      align :both
+      indent_first 720
+    end
+    docx.style id: 'prim', name: 'Prim' do
+      font 'Times New Roman'
       size 28
       bold false
       align :center
     end
     docx.style id: 'text', name: 'Text' do
-      font 'Arial'
+      font 'Times New Roman'
       size 28
       bold false
       align :both
@@ -67,12 +74,35 @@ class BaseReport
     docx
   end
 
+  def level
+    @sublevel = 0
+    @level += 1
+  end
+
+  def sublevel
+    @sublevel += 1
+    "#{@level}.#{@sublevel}"
+  end
+
+  # Correct display text_area field with several paragraphs
+  # (paragraph is strings splited by \r or \n)
+  # Example:
+  # text_area(description) do |paragraph|
+  #   docx.p paragraph
+  # end
+  def text_area(text)
+    arr = text.split(/[\n\r]+/)
+    arr.each { |paragraph| yield(paragraph) }
+  end
+
   attr_reader :file_content, :file_name, :options, :current_user
 
   def initialize(current_user, options = {})
     @current_user = current_user
     @file_name = "#{self.class.human_name}.docx"
     @options = options
+    @level = 0
+
     @file_content = docx.render.string
   end
 end

@@ -33,9 +33,12 @@
       =< @record.class.human_attribute_name(:finished_at)
       | :
     =< IncidentDecorator.new(@record).show_finished_at
-  = r.show :event_description
-  = r.show :investigation_description
-  = r.show :action_description
+  = r.show :event_description do
+    = simple_format(@record.event_description)
+  = r.show :investigation_description do
+    = simple_format(@record.investigation_description)
+  = r.show :action_description do
+    = simple_format(@record.action_description)
 
 #links
   = render 'links/links', record: record

@@ -18,7 +18,8 @@ class OrganizationIncidentsReport < BaseReport
 
     # docx.h1 'Справка по инцидентам организации'
     # docx.hr
-    r.p  "Справка по инцидентам связанным c организацией #{organization.name}", style: 'Header'
+    r.p  "Справка по инцидентам связанным с организацией #{organization.name}", style: 'Header'
+    r.p  "(по состоянию на #{Date.current.strftime('%d.%m.%Y')})", style: 'Prim'
 #      docx.ul do
 #        li 'Custom page sizes and margins'
 #        li 'Custom styles (including the manipulation of font, size, color, alignment, margins, leading, etc.)'
@@ -28,19 +29,28 @@ class OrganizationIncidentsReport < BaseReport
 #        li 'Tables'
 #        li 'Page numbers'
 #      end
-    organization.me_linked_incidents.each_with_index do |incident, index|
+    organization.me_linked_incidents.each do |incident|
       r.p
-      r.p "#{index + 1}. Инцидент ID #{incident.id} (#{incident.name})", style: 'Header'
-      r.p "Когда зарегистрирован: #{incident.created_at.strftime('%d.%m.%Y-%H:%M')}", style: 'Text'
-      r.p "Когда обнаружен: #{IncidentDecorator.new(incident).show_discovered_at}", style: 'Text'
-      r.p "Когда начался: #{IncidentDecorator.new(incident).show_started_at}", style: 'Text'
-      r.p "Когда завершился: #{IncidentDecorator.new(incident).show_finished_at}", style: 'Text'
+      r.p "#{level}. Инцидент ID #{incident.id} (#{incident.name})", style: 'Header'
+      r.p "#{sublevel} Основные параметры инцидента", style: 'Subheader'
+      r.p "Зарегистрирован: #{incident.created_at.strftime('%d.%m.%Y-%H:%M')}", style: 'Text'
+      r.p "Обнаружен: #{IncidentDecorator.new(incident).show_discovered_at}", style: 'Text'
+      r.p "Начался: #{IncidentDecorator.new(incident).show_started_at}", style: 'Text'
+      r.p "Завершился: #{IncidentDecorator.new(incident).show_finished_at}", style: 'Text'
       r.p "Статус: #{IncidentDecorator.new(incident).show_state}", style: 'Text'
       r.p "Ущерб: #{IncidentDecorator.new(incident).show_damage}", style: 'Text'
       r.p "Важность: #{IncidentDecorator.new(incident).show_severity}", style: 'Text'
-      r.p incident.event_description, style: 'Text'
-      r.p incident.investigation_description, style: 'Text' if incident.investigation_description.present?
-      r.p incident.action_description, style: 'Text' if incident.action_description.present?
+      r.p "#{sublevel} Описание инцидента", style: 'Subheader'
+      text_area incident.event_description do |t|
+        r.p t, style: 'Text'
+      end
+      text_area incident.investigation_description do |t|
+        r.p t, style: 'Text'
+      end
+      text_area incident.action_description do |t|
+        r.p t, style: 'Text'
+      end
+      r.p "#{sublevel} Связанные с инцидентом объекты", style: 'Subheader'
       incident.links.group_by { |link| "#{LinkKindDecorator.new(link.link_kind).name}" }.sort.each do |link_kind_name, links|
       r.p style: 'Text' do
           text "#{link_kind_name}: "
@@ -50,6 +60,7 @@ class OrganizationIncidentsReport < BaseReport
           end
         end
       end
+      r.p "#{sublevel} Теги (метки) инцидента", style: 'Subheader'
       incident.tag_members.group_by { |tag_member| "#{tag_member.tag.tag_kind.name}" }.sort.each do |tag_kind, tag_members|
         r.p style: 'Text' do
           text "#{tag_kind}: "
