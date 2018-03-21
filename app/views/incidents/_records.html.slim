@@ -1,4 +1,4 @@
-= index_search :id_or_name_or_discovered_at_or_started_at_or_created_at_or_finished_at_or_closed_at_or_severity_or_damage_or_state_or_user_name_cont
+= index_search :id_or_name_or_tag_code_name_or_incident_organizations_name_or_tags_name_or_discovered_at_or_started_at_or_created_at_or_severity_or_damage_or_state_or_user_name_cont
 = report_button_for @records, organization_id: @organization.id
 = index_for records do |i|
   - i.header attribute: :created_at, sort: :desc
@@ -7,10 +7,10 @@
   - i.header attribute: :state, sort: :desc
   - i.header attribute: :severity, sort: :desc
   - i.header attribute: :damage, sort: :desc
+  - i.header attribute: :id, label: Organization.model_name.human(count: 2)
+  - i.header attribute: :id, label: Tag.model_name.human(count: 2)
   - i.header attribute: :discovered_at, sort: :desc
   - i.header attribute: :started_at, sort: :desc
-  - i.header attribute: :finished_at, sort: :desc
-  - i.header attribute: :closed_at, sort: :desc
   - i.header attribute: :user_id, sort: :desc
   - i.body do |r, record|
     - r.field link_to(show_date_time(record.created_at), record)
@@ -28,8 +28,15 @@
       span style="color:#{record.damage_color}"
         => fa_icon 'star'
       = link_to(IncidentDecorator.new(record).show_damage, record)
+    - r.field do
+      - record.incident_organizations.each do |organization|
+        =<> link_to organization.name, organization
+        | |
+    - r.field do
+      - record.incident_tags.each do |tag|
+        =<> link_to tag, data: { toggle: 'tooltip', placement: 'top'}, title: TagDecorator.new(tag).show_name_and_kind do
+          = TagDecorator.new(tag).show_code_name
+        | |
     - r.field link_to(IncidentDecorator.new(record).show_discovered_at, record)
     - r.field link_to(IncidentDecorator.new(record).show_started_at, record)
-    - r.field link_to(IncidentDecorator.new(record).show_finished_at, record)
-    - r.field link_to(show_date_time(record.closed_at), record)
     - r.field link_to(record.user.name, record.user)

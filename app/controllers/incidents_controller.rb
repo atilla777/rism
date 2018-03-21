@@ -25,7 +25,7 @@ class IncidentsController < ApplicationController
     # exclude unused :organizations includes
     # when user is global admin, editor or reader
     # ( user can access to all organizations)
-    %i[user].tap do |associations|
+    [:user, :incident_organizations, [tags: :tag_kind]].tap do |associations|
       associations << :organization unless current_user.admin_editor_reader?
     end
   end

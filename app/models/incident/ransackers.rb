@@ -22,6 +22,20 @@ module Incident::Ransackers
       Arel.sql("'#' || incidents.id::text")
     end
 
+#    ransacker :tag_code_name do
+#      field_transformation = <<~SQL
+#        tag_kinds.code_name || tags.rank::text
+#      SQL
+#      Arel.sql(field_transformation)
+#    end
+
+    ransacker :tag_code_name do
+      field_transformation = <<~SQL
+        tags.name
+      SQL
+      Arel.sql(field_transformation)
+    end
+
     ransacker :discovered_at do
       datetime_field_to_text_search 'discovered_at'
     end
