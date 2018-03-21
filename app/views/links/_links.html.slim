@@ -8,7 +8,7 @@ table.table.table-hover.table-bordered.table-striped
     = render 'errors', record: @link
 
   thead
-    - @record.links.group_by { |link| "#{LinkKindDecorator.new(link.link_kind).show_long_name}" }.sort.each do |link_kind_name, links|
+    - @record.links.includes(:link_kind, :second_record).group_by { |link| "#{LinkKindDecorator.new(link.link_kind).show_long_name}" }.sort.each do |link_kind_name, links|
       tr
         td.col-md-2.text-right
            = fa_icon 'link', style: "color:#{links.first.link_kind.color}"

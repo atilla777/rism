@@ -127,4 +127,8 @@ class UsersController < ApplicationController
   def default_sort
     params[:department_id].present? ? 'rank asc' : 'name'
   end
+
+  def records_includes
+    %i[organization department]
+  end
 end

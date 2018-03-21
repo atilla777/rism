@@ -26,5 +26,6 @@ class Link < ApplicationRecord
 
   belongs_to :first_record, polymorphic: true, optional: true
   belongs_to :second_record, polymorphic: true
+
   belongs_to :link_kind
 end

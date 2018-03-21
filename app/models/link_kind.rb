@@ -23,7 +23,7 @@ class LinkKind < ApplicationRecord
   validates :second_record_type, inclusion: { in: Link.record_types.keys }
   validates :equal, inclusion: { in: [true, false] }
 
-  has_many :links
+  has_many :links, dependent: :destroy
 
   private
 

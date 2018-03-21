@@ -118,7 +118,7 @@ module RecordOfOrganization
   end
 
   # N+1 problem resolving
-  def default_includes
-    :organization
+  def records_includes
+    :organization unless current_user.admin_editor_reader?
   end
 end

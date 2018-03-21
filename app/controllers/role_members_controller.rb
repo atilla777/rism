@@ -52,7 +52,7 @@ class RoleMembersController < ApplicationController
     RoleMember
   end
 
-  def default_includes
+  def records_includes
     [:role]
   end
 end

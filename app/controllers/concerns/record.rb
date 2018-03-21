@@ -72,5 +72,5 @@ module Record
   private
 
   # N+1 problem resolving
-  def default_includes; end
+  def records_includes; end
 end

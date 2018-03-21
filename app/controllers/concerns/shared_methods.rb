@@ -32,7 +32,7 @@ module SharedMethods
     @q = scope.ransack(params[:q])
     @q.sorts = default_sort if @q.sorts.empty?
     @q.result
-      .includes(default_includes)
+      .includes(records_includes)
       .page(params[:page])
   end
 

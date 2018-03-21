@@ -7,7 +7,7 @@ table.table.table-hover.table-bordered.table-striped
     br
     = render 'errors', record: @tag_member
   thead
-    - @record.tag_members.group_by { |tag_member| "#{tag_member.tag.tag_kind.code_name} (#{tag_member.tag.tag_kind.name})" }.sort.each do |tag_kind, tag_members|
+    - @record.tag_members.includes(tag: :tag_kind).group_by { |tag_member| "#{tag_member.tag.tag_kind.code_name} (#{tag_member.tag.tag_kind.name})" }.sort.each do |tag_kind, tag_members|
       tr
         td.col-md-2.text-right
           =< fa_icon 'tags', style: "color:#{tag_members.first.tag.tag_kind.color}"

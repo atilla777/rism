@@ -15,7 +15,7 @@ class TagsController < ApplicationController
     @tag_kinds = TagKind.all.order(:name)
   end
 
-  def default_includes
+  def records_includes
     %i[tag_kind]
   end
 

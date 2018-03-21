@@ -15,14 +15,15 @@ class AgreementsController < ApplicationController
     authorize model
     if current_user.admin_editor?
       super(parameters)
+      .includes(:organization, :contractor)
     else
-      super(parameters).where(
-        organization_id: current_user.allowed_organizations_ids
+      super(parameters)
+      .where(organization_id: current_user.allowed_organizations_ids)
+      .or(
+        super(parameters)
+        .where(contractor_id: current_user.allowed_organizations_ids)
       )
-      .or(super(parameters).where(
-          contractor_id: current_user.allowed_organizations_ids
-        )
-      )
+      .includes(:organization, :contractor)
     end
   end
 
@@ -49,7 +50,7 @@ class AgreementsController < ApplicationController
     'beginning desc'
   end
 
-  def default_includes
+  def records_includes
     %i[organization contractor agreement_kind]
   end
 end

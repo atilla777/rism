@@ -100,7 +100,7 @@ class RightsController < ApplicationController
     Role.where(id: role_id).first || @record&.role || OpenStruct.new(id: nil)
   end
 
-  def default_includes
+  def records_includes
     %i[role organization]
   end
 
