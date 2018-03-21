@@ -76,6 +76,7 @@ ru:
     catalog: 'Прочее'
     reports:
       download: 'Скачать справку'
+    dashboards: 'Графики'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'
