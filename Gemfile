@@ -76,6 +76,7 @@ gem 'caracal'
 #gem 'blazer'
 gem "chartkick"
 gem 'groupdate'
+gem 'hightop'
 
 # Lint with overcommit
 group :development do

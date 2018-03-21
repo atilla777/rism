@@ -56,6 +56,14 @@ class Incident < ApplicationRecord
   has_many :attachment_links, as: :record, dependent: :destroy
   has_many :attachments, through: :attachment_links
 
+  has_many(
+    :incident_organizations,
+    as: :second_record,
+    through: :links,
+    source: :second_record,
+    source_type: 'Organization'
+  )
+
   before_save :set_closed_at
 
   # for use with RecordTemplate, Link and etc
