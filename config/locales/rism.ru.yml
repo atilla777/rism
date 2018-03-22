@@ -81,6 +81,7 @@ ru:
       download: 'Скачать справку'
     dashboards: 'Главная панель'
     charts: 'Графики'
+    advanced_search: 'Поиск по полям (нажмите)'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'

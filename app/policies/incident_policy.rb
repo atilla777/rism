@@ -12,6 +12,10 @@ class IncidentPolicy < ApplicationPolicy
 #    @user.can? :edit, Incident
 #  end
 
+  def search?
+    index?
+  end
+
   def permitted_attributes
     %i[
       name

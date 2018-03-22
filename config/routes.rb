@@ -35,7 +35,11 @@ Rails.application.routes.draw do
   resources :tag_kinds
   resources :tags
   resources :tag_members, only: %i[create destroy]
-  resources :incidents
+  resources :incidents do
+    collection do
+      match 'search' => 'incidents#search', via: [:get, :post], as: :search
+    end
+  end
   resources :link_kinds
   resources :links, only: %i[create destroy]
   resources :record_templates

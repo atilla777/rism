@@ -5,6 +5,18 @@ class IncidentsController < ApplicationController
 
   before_action :set_time, only: [:create, :update]
 
+  def search
+    authorize model
+    @organization = organization
+    if @organization.id
+      @records = records(filter_for_organization)
+      render 'index'
+    else
+      @records = records(model)
+      render 'application/index'
+    end
+  end
+
   private
 
   def model

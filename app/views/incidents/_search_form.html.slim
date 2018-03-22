@@ -1,0 +1,31 @@
+a.link data-toggle='collapse' href='#toggle_advances_search'
+  strong
+    span
+      =< t('navigations.advanced_search')
+
+.well#toggle_advances_search class="#{'collapse' unless @advanced_search}"
+  .row
+    = search_form_for @q, url: search_incidents_path, html: { class: 'form-horizontal', method: :post } do |f|
+      br
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :id, class: 'control-label'
+          .col-lg-8
+            = f.text_field :id_eq, class: 'form-control'
+
+      .form-group
+        .field
+           .col-lg-2.text-right
+             = f.label :name, class: 'control-label'
+           .col-lg-8
+             = f.text_field :name_cont, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit class: 'btn btn-success' do
+            span.glyphicon.glyphicon-search
+            = t('helpers.submit.search')
+          = link_to :back do
+            span.btn.btn-info
+              = t('views.action.back')
