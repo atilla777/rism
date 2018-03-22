@@ -46,6 +46,7 @@ class Incident < ApplicationRecord
   # TODO: move code to taggable concern
   has_many :tag_members, as: :record, dependent: :destroy
   has_many :tags, through: :tag_members
+  has_many :tag_kinds, through: :tags
 
   accepts_nested_attributes_for :links
 

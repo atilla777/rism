@@ -1,5 +1,5 @@
-= index_search :id_or_name_or_tag_code_name_or_incident_organizations_name_or_tags_name_or_discovered_at_or_started_at_or_created_at_or_severity_or_damage_or_state_or_user_name_cont
-= report_button_for @records, organization_id: @organization.id
+= index_search :id_or_name_or_tags_name_or_tag_code_name_or_tag_kinds_name_or_incident_organizations_name_or_created_at_filter_or_created_at_or_severity_or_damage_or_state_or_user_name_cont, placeholder: t('placeholders.incidents.search'), size: 75
+= report_button_for records, organization_id: @organization.id
 = index_for records do |i|
   - i.header attribute: :created_at, sort: :desc
   - i.header attribute: :id, sort: :desc

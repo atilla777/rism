@@ -4,11 +4,16 @@ module Incident::Ransackers
   extend ActiveSupport::Concern
 
   included do
-    def self.datetime_field_to_text_search(fieled)
+    def self.datetime_field_to_text_search(fieled, reverse = nil)
+      if reverse
+        format = 'DD.MM.YYYY-HH24:MI'
+      else
+        format = 'YYYY.MM.DD-HH24:MI'
+      end
       field_transformation = <<~SQL
         to_char(
           ((incidents.#{fieled} AT TIME ZONE 'UTC') AT TIME ZONE '#{timezone_name}'),
-          'YYYY.MM.DD-HH24:MI'
+            '#{format}'
         )
       SQL
       Arel.sql field_transformation
@@ -22,16 +27,9 @@ module Incident::Ransackers
       Arel.sql("'#' || incidents.id::text")
     end
 
-#    ransacker :tag_code_name do
-#      field_transformation = <<~SQL
-#        tag_kinds.code_name || tags.rank::text
-#      SQL
-#      Arel.sql(field_transformation)
-#    end
-
     ransacker :tag_code_name do
       field_transformation = <<~SQL
-        tags.name
+        tag_kinds.code_name || tags.rank::text
       SQL
       Arel.sql(field_transformation)
     end
@@ -46,6 +44,10 @@ module Incident::Ransackers
 
     ransacker :created_at do
       datetime_field_to_text_search 'created_at'
+    end
+
+    ransacker :created_at_filter do
+      datetime_field_to_text_search 'created_at', :reverse
     end
 
     ransacker :finished_at do
