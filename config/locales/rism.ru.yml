@@ -81,7 +81,7 @@ ru:
       download: 'Скачать справку'
     dashboards: 'Главная панель'
     charts: 'Графики'
-    advanced_search: 'Поиск по полям (нажмите)'
+    advanced_search: 'Поиск по полям'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'
@@ -236,7 +236,7 @@ ru:
         tag_id: 'Тег'
       incident:
         id: 'Номер'
-        name: 'Имя'
+        name: 'Заголовок'
         organization_id: 'Организация (вл.)'
         user_id: 'Пользотватель (вл.)'
         discovered_at: 'Обнаружен'
@@ -292,6 +292,7 @@ ru:
       edit: "Редактировать"
       delete: "Удалить"
       back: "Назад"
+      find: 'Найти'
       certify: "Да"
       make_template: "Создать шаблон"
   messages:

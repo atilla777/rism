@@ -1,31 +1,42 @@
-a.link data-toggle='collapse' href='#toggle_advances_search'
-  strong
-    span
-      =< t('navigations.advanced_search')
+button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_search_modal'
+  =< t('navigations.advanced_search')
+.modal.fade#advanced_search_modal tabindex='-1' role='dialog'
+   = search_form_for @q, url: search_incidents_path, html: { class: 'form-horizontal', method: :post } do |f|
+    .modal-dialog role='document'
+      .modal-content
+        .modal-header
+          button.close  type='button' data-dismiss="modal" aria-label="Close"
+          .modal-title
+            h4.text-info
+              = t('navigations.advanced_search')
+        .modal-body
+          .row
+            .form-group
+              .field
+                .col-lg-2.text-right
+                  = f.label :id, class: 'control-label'
+                .col-lg-8
+                  = f.text_field :id_eq, class: 'form-control'
 
-.well#toggle_advances_search class="#{'collapse' unless @advanced_search}"
-  .row
-    = search_form_for @q, url: search_incidents_path, html: { class: 'form-horizontal', method: :post } do |f|
-      br
-      .form-group
-        .field
-          .col-lg-2.text-right
-            = f.label :id, class: 'control-label'
-          .col-lg-8
-            = f.text_field :id_eq, class: 'form-control'
+            .form-group
+              .field
+                 .col-lg-2.text-right
+                   = f.label :name, class: 'control-label'
+                 .col-lg-8 = f.text_field :name_cont, class: 'form-control'
 
-      .form-group
-        .field
-           .col-lg-2.text-right
-             = f.label :name, class: 'control-label'
-           .col-lg-8
-             = f.text_field :name_cont, class: 'form-control'
+            .form-group
+              .field
+                 .col-lg-2.text-right
+                   = f.label :incident_organizations_name, class: 'control-label'
+                 .col-lg-8 = f.text_field :incident_organizations_name_cont, class: 'form-control'
 
-      .actions.form-group
-        .col-lg-offset-2.col-lg-8
-          => f.submit class: 'btn btn-success' do
-            span.glyphicon.glyphicon-search
-            = t('helpers.submit.search')
-          = link_to :back do
-            span.btn.btn-info
-              = t('views.action.back')
+            .form-group
+              .field
+                 .col-lg-2.text-right
+                   = f.label :id, 'attr', class: 'control-label'
+                 .col-lg-8
+
+        .modal-footer
+          button.btn.btn-default type='button' data-dismiss='modal'
+            = t('views.action.back')
+          =< f.submit t('views.action.find'), class: 'btn btn-success'
