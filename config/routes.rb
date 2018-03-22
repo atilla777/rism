@@ -42,5 +42,6 @@ Rails.application.routes.draw do
   get "/reports/:name", to: 'reports#show', as: :reports, format: 'docx'
   #mount Blazer::Engine, at: "blazer"
   get "/dashboards/", to: 'dashboards#index', as: :dashboards
+  get "/dashboards/:name", to: 'dashboards#show', as: :dashboard
   get "/charts/:name", to: 'charts#show', as: :charts
 end

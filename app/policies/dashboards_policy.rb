@@ -10,4 +10,8 @@ class DashboardsPolicy
     return true if @user.admin_editor_reader?
     @user.can? :read, 'Dashboards'
   end
+
+  def show?
+    index?
+  end
 end
