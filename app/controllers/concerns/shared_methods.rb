@@ -32,6 +32,7 @@ module SharedMethods
     @q = scope.ransack(params[:q])
     @q.sorts = default_sort if @q.sorts.empty?
     @q.result
+      .group(group_field)
       .includes(records_includes)
       .page(params[:page])
   end
@@ -69,5 +70,9 @@ module SharedMethods
                       record_type: @record.class.name
                     )
                   end
+  end
+
+  def group_field
+    "#{model.table_name}.id"
   end
 end

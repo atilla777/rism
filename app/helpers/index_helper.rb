@@ -111,8 +111,7 @@ module IndexHelper
     #    - table.body do | row, record |
     #      - row.field record
     def body
-      # TODO: replace uniq
-      @records.to_a.uniq.each do |record|
+      @records.each do |record|
         row = IndexRow.new(@context, record)
         @rows << row
         yield(row, record)
