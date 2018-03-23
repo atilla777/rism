@@ -2,7 +2,7 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
   =< t('navigations.advanced_search')
 .modal.fade#advanced_search_modal tabindex='-1' role='dialog'
    = search_form_for @q, url: search_incidents_path, html: { class: 'form-horizontal', method: :post } do |f|
-    .modal-dialog role='document'
+    .modal-dialog.modal-lg role='document'
       .modal-content
         .modal-header
           button.close  type='button' data-dismiss="modal" aria-label="Close"
@@ -13,28 +13,121 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
           .row
             .form-group
               .field
-                .col-lg-2.text-right
+                .col-lg-3.text-right
                   = f.label :id, class: 'control-label'
                 .col-lg-8
                   = f.text_field :id_eq, class: 'form-control'
 
             .form-group
               .field
-                 .col-lg-2.text-right
-                   = f.label :name, class: 'control-label'
-                 .col-lg-8 = f.text_field :name_cont, class: 'form-control'
-
-            .form-group
-              .field
-                 .col-lg-2.text-right
-                   = f.label :incident_organizations_name, class: 'control-label'
-                 .col-lg-8 = f.text_field :incident_organizations_name_cont, class: 'form-control'
-
-            .form-group
-              .field
-                 .col-lg-2.text-right
-                   = f.label :id, 'attr', class: 'control-label'
+                 .col-lg-3.text-right
+                   = f.label :name, Incident.human_attribute_name(:name), class: 'control-label'
                  .col-lg-8
+                   = f.text_field :name_cont, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :incident_organizations_name, Organization.model_name.human(count: 1), class: 'control-label'
+                 .col-lg-8
+                   = f.text_field :incident_organizations_name_cont, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :severity, class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes :severity_in, Incident.severities, :first, :last, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< color_icon(Incident.severity_to_color b.value)
+                     =< b.label
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :damage, class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes :damage_in, Incident.damages, :first, :last, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< color_icon(Incident.damage_to_color b.value)
+                     =< b.label
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :state, class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes :state_in, Incident.states, :first, :last, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< color_icon(Incident.state_to_color b.value)
+                     =< b.label
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :tags_name, class: 'control-label'
+                 .col-lg-8
+                   = f.text_field :tags_name_cont, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :tags_id, Tag.model_name.human(count: 1), class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes :tags_id_in, Tag.allowed_only_to_model('Incident'), :id, :name, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< color_icon(Tag.find(b.value).color, 'tag')
+                     =< TagDecorator.new(Tag.find(b.value)).show_name_and_kind
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :created_at, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :created_at_gteq, class: 'form-control', datepicker: true
+                 .col-lg-3
+                   = f.date_field :created_at_end_of_day_lteq, class: 'form-control', datepicker: true
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :started_at, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :started_at_gteq, class: 'form-control', datepicker: true
+                 .col-lg-3
+                   = f.date_field :started_at_end_of_day_lteq, class: 'form-control', datepicker: true
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :finished_at, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :finished_at_gteq, class: 'form-control', datepicker: true
+                 .col-lg-3
+                   = f.date_field :finished_at_end_of_day_lteq, class: 'form-control', datepicker: true
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :closed_at, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :closed_at_gteq, class: 'form-control', datepicker: true
+                 .col-lg-3
+                   = f.date_field :closed_at_end_of_day_lteq, class: 'form-control', datepicker: true
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :user_name, Incident.human_attribute_name(:user_id), class: 'control-label'
+                 .col-lg-8
+                    = f.text_field :user_name_cont, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :organization_name, Incident.human_attribute_name(:organization_id), class: 'control-label'
+                 .col-lg-8
+                    = f.text_field :organization_name_cont, class: 'form-control'
 
         .modal-footer
           button.btn.btn-default type='button' data-dismiss='modal'

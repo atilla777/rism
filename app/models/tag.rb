@@ -14,12 +14,23 @@ class Tag < ApplicationRecord
     Right.subject_types
   end
 
-  def self.allowed_to_record(record)
+  def self.allowed_only_to_model(model)
     # TODO: make filter for template original record class
-    return includes(:tag_kind) if record.class.name == 'RecordTemplate'
-    where(tag_kinds: { record_type: record.class.name })
+    return includes(:tag_kind) if model == 'RecordTemplate'
+    where(tag_kinds: { record_type: model })
+    .includes(:tag_kind)
+  end
+
+  def self.allowed_to_model(model)
+    # TODO: make filter for template original record class
+    return includes(:tag_kind) if model == 'RecordTemplate'
+    where(tag_kinds: { record_type: model })
     .or(where(tag_kinds: { record_type: '' }))
     .includes(:tag_kind)
+  end
+
+  def self.allowed_to_record(record)
+    Tag.allowed_to_model record.class.name
   end
 
   private

@@ -35,6 +35,18 @@ class Incident < ApplicationRecord
     STATES
   end
 
+  def self.damage_to_color code
+    COLORS[code]
+  end
+
+  def self.severity_to_color code
+    COLORS[code + (code < 1 ? 0 : 1)]
+  end
+
+  def self.state_to_color code
+    COLORS.reverse[code]
+  end
+
   validates :name, length: { in: 3..100, allow_blank: true }
   validates :organization_id, numericality: { only_integer: true }
   validates :user_id, numericality: { only_integer: true }
@@ -73,15 +85,15 @@ class Incident < ApplicationRecord
   end
 
   def damage_color
-    COLORS[damage]
+    Incident.damage_to_color damage
   end
 
   def severity_color
-    COLORS[severity + (severity < 1 ? 0 : 1)]
+    Incident.severity_to_color severity
   end
 
   def state_color
-    COLORS.reverse[state]
+    Incident.state_to_color state
   end
 
   def incident_tags

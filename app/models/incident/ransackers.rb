@@ -23,7 +23,7 @@ module Incident::Ransackers
       ActiveSupport::TimeZone.find_tzinfo(Time.zone.name).identifier
     end
 
-    ransacker :id do
+    ransacker :sharp_id do
       Arel.sql("'#' || incidents.id::text")
     end
 
@@ -34,31 +34,31 @@ module Incident::Ransackers
       Arel.sql(field_transformation)
     end
 
-    ransacker :discovered_at do
-      datetime_field_to_text_search 'discovered_at'
-    end
+#    ransacker :discovered_at_str do
+#      datetime_field_to_text_search 'discovered_at'
+#    end
+#
+#    ransacker :started_at_str do
+#      datetime_field_to_text_search 'started_at'
+#    end
+#
+#    ransacker :created_at_str do
+#      datetime_field_to_text_search 'created_at'
+#    end
 
-    ransacker :started_at do
-      datetime_field_to_text_search 'started_at'
-    end
-
-    ransacker :created_at do
-      datetime_field_to_text_search 'created_at'
-    end
-
-    ransacker :created_at_filter do
+    ransacker :created_at_reverse_str do
       datetime_field_to_text_search 'created_at', :reverse
     end
 
-    ransacker :finished_at do
-      datetime_field_to_text_search 'finished_at'
-    end
+#    ransacker :finished_at_str do
+#      datetime_field_to_text_search 'finished_at'
+#    end
+#
+#    ransacker :closed_at_str do
+#      datetime_field_to_text_search 'closed_at'
+#    end
 
-    ransacker :closed_at do
-      datetime_field_to_text_search 'closed_at'
-    end
-
-    ransacker :severity do
+    ransacker :severity_str do
       field_transformation = <<~SQL
         CASE incidents.severity
         WHEN 0
@@ -70,7 +70,7 @@ module Incident::Ransackers
       Arel.sql(field_transformation)
     end
 
-    ransacker :damage do
+    ransacker :damage_str do
       field_transformation = <<~SQL
         CASE incidents.damage
         WHEN 0
@@ -84,7 +84,7 @@ module Incident::Ransackers
       Arel.sql(field_transformation)
     end
 
-    ransacker :state do
+    ransacker :state_str do
       field_transformation = <<~SQL
         CASE incidents.state
         WHEN 0

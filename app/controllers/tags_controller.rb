@@ -22,4 +22,14 @@ class TagsController < ApplicationController
   def default_sort
     'tag_kind_code_name asc, name asc'
   end
+
+  def records(scope)
+    scope = policy_scope(scope)
+    @q = scope.ransack(params[:q])
+    @q.sorts = default_sort if @q.sorts.empty?
+    @q.result(distinkt: true)
+      .includes(records_includes)
+      .page(params[:page])
+  end
 end
+
