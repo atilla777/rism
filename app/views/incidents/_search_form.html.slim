@@ -69,15 +69,18 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                  .col-lg-8
                    = f.text_field :tags_name_cont, class: 'form-control'
 
-            .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :tags_id, Tag.model_name.human(count: 1), class: 'control-label'
-                 .col-lg-8
-                   = f.collection_check_boxes :tags_id_in, Tag.allowed_only_to_model('Incident'), :id, :name, {}, class: 'big-checkbox' do |b|
-                     =< b.check_box
-                     =< color_icon(Tag.find(b.value).color, 'tag')
-                     =< TagDecorator.new(Tag.find(b.value)).show_name_and_kind
+            - Tag.allowed_only_to_model('Incident').group_by { |tag| tag.tag_kind.name }.sort.each do |tag_kind, tags|
+              .form-group
+                .field
+                   .col-lg-3.text-right
+                     strong
+                      = tag_kind
+                      =< "(#{Tag.model_name.human(count: 1)})"
+                   .col-lg-8
+                     =< f.collection_check_boxes :tags_id_in, tags, :id, :name, {}, class: 'big-checkbox' do |b|
+                       =< b.check_box
+                       =< color_icon b.object.color, 'tag'
+                       =< TagDecorator.new(b.object).show_full_name
 
             .form-group
               .field
