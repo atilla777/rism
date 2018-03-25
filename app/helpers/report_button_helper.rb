@@ -26,6 +26,7 @@ module ReportButtonHelper
       report_model: report_model,
       params: options
     )
+    return if reports.blank?
     render(
       'helpers/report_button',
       reports: reports,

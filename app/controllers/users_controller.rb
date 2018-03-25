@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     @department = department
     @record.save!
     redirect_to(
-      session.delete(:return_to),
+      session.delete(:edit_return_to),
       organization_id: @organization.id,
       department_id: @department.id,
       success: t('flashes.create', model: model.model_name.human)
@@ -72,7 +72,7 @@ class UsersController < ApplicationController
     filter_organization_id
     @record.update!(record_params)
     redirect_to(
-      session.delete(:return_to),
+      session.delete(:edit_return_to),
       organization_id: @organization.id,
       department_id: @department.id,
       success: t('flashes.update', model: model.model_name.human)

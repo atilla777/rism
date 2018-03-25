@@ -44,6 +44,4 @@
       .actions.form-group
         .col-lg-offset-2.col-lg-8
           => f.submit t('helpers.submit.save'), class: 'btn btn-success'
-          = link_to :back do
-            span.btn.btn-info
-              = t('views.action.back')
+          = render 'form_back_button'

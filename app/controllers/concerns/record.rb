@@ -29,7 +29,7 @@ module Record
     @record.save!
     add_tags_from_template
     redirect_to(
-      polymorphic_path(@record),
+      session.delete(:edit_return_to),
       success: t('flashes.create', model: model.model_name.human)
     )
   rescue ActiveRecord::RecordInvalid
@@ -47,7 +47,7 @@ module Record
     authorize @record
     @record.update!(record_params)
     redirect_to(
-      @record,
+      session.delete(:edit_return_to),
       success: t('flashes.update', model: model.model_name.human)
     )
   rescue ActiveRecord::RecordInvalid

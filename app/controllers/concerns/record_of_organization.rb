@@ -42,7 +42,7 @@ module RecordOfOrganization
     @record.save!
     add_tags_from_template
     redirect_to(
-      session.delete(:return_to),
+      session.delete(:edit_return_to),
       organization_id: @organization.id,
       success: t('flashes.create', model: model.model_name.human)
     )
@@ -64,7 +64,7 @@ module RecordOfOrganization
     filter_organization_id
     @record.update!(record_params)
     redirect_to(
-      session.delete(:return_to),
+      session.delete(:edit_return_to),
       organization_id: @organization.id,
       success: t('flashes.update', model: model.model_name.human)
     )

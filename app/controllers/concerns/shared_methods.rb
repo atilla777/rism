@@ -5,8 +5,8 @@ module SharedMethods
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_edit_previous_page, only: %i[new edit]
-    before_action :set_show_previous_page, only: :index
+    before_action :set_edit_previous_page, only: %i[index show]
+    before_action :set_show_previous_page, only: %i[index]
   end
 
   private
@@ -38,11 +38,19 @@ module SharedMethods
   end
 
   def set_show_previous_page
+    # excludes for tabbed view
+    return if params[:organization_id].present?
+    return if params[:user_id].present?
+    return if params[:role_id].present?
+
     session[:show_return_to] = request.original_url
+    session[:show_return_to_model] = model.model_name.human count: 2
   end
 
   def set_edit_previous_page
-    session[:return_to] = request.referer
+    session[:edit_return_to] = request.original_url
+    count = params[:id].present? ? 1 : 2
+    session[:edit_return_to_model] = model.model_name.human count: count
   end
 
   # set sort field and direction by default

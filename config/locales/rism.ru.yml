@@ -67,6 +67,7 @@ ru:
       select_template: 'Выберите шаблон:'
       more_content: 'Атрибуты (нажмите для просмотра)'
   navigations:
+    to: 'к'
     config: 'Настройки'
     contacts: 'Контакты'
     references: 'Справочники'
