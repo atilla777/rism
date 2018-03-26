@@ -8,7 +8,7 @@
           .col-lg-2.text-right
             = f.label :role_id, class: 'control-label'
           .col-lg-8
-            = f.collection_select :role_id, Role.all.order(:name), :id, :name, { }, { class: 'form-control', disabled: ('disabled' if @role&.id.present?) }
+            = f.collection_select :role_id, Role.all.order(:name), :id, :name, {selected: @role.id}, {class: 'form-control', disabled: ('disabled' if @role&.id.present?)}
             - if @role&.id.present?
               = f.hidden_field :role_id, value: @role.id
 

@@ -3,6 +3,10 @@
 class Department < ApplicationRecord
   include OrganizationMember
   include Linkable
+  include Tagable
+  include Attachable
+
+  has_paper_trail
 
   # used in ui autocomplite in controller
   def show_full_name

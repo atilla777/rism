@@ -9,6 +9,7 @@ RSpec.shared_examples 'organization record' do |model|
   let(:not_allowed_record) do
     create model, organization_id: not_allowed_organization.id
   end
+  let(:new_params) {{}}
   let(:update_record) do
     put(
       :update,

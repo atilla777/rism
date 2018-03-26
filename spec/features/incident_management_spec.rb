@@ -9,8 +9,13 @@ RSpec.feature 'incident management', type: :feature do
   given(:resource_attribute_value) { 'Not allowable network traffic' }
 
   def fill_in_new
-    fill_in 'incident[event_description]', with: resource_attribute_value
+    fill_in 'incident[name]', with: resource_attribute_value
+    fill_in 'incident[event_description]', with: 'Ping detected!'
+
+    find('a[href="#toggle_owners"]').click
+    fill_in_autocomplete('organization', organization.name[0, 3])
   end
 
-  include_examples 'manage record'
+  include_examples 'manage organization record'
+
 end

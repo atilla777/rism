@@ -1,17 +1,6 @@
 # frozen_string_literal: true
 
 class IncidentPolicy < ApplicationPolicy
-  # TODO: use or delete
-#  def index?
-#    return true if @user.admin_editor_reader?
-#    @user.can? :read, Incident
-#  end
-#
-#  def create?
-#    return true if @user.admin_editor?
-#    @user.can? :edit, Incident
-#  end
-
   def search?
     index?
   end

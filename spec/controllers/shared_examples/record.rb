@@ -5,6 +5,7 @@ RSpec.shared_examples 'record' do |model|
   let(:model_class) { model.to_s.classify.constantize }
   let(:record) { create model }
   let(:all_records) { model_class.all }
+  let(:new_params) {{}}
   let(:new_record) do
     post(
       :create,

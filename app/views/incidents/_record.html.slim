@@ -40,6 +40,8 @@
   = r.show :action_description do
     = simple_format(@record.action_description)
 
+= render 'application/record_versions'
+
 #links
   = render 'links/links', record: record
 

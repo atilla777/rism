@@ -37,7 +37,7 @@
         .field
           .col-lg-2.text-right
             = f.label :discovered_at, class: 'control-label'
-          .col-lg-2
+          .col-lg-3
             = f.date_select :discovered_at, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
             = link_to '#', data: {set_date: 'discovered_at', turbolinks: false} do
               = fa_icon 'calendar'
@@ -50,7 +50,7 @@
         .field
           .col-lg-2.text-right
             = f.label :started_at, class: 'control-label'
-          .col-lg-2
+          .col-lg-3
             = f.date_select :started_at, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
             = link_to '#', data: { set_date: 'started_at', turbolinks: false } do
               = fa_icon 'calendar'
@@ -63,7 +63,7 @@
         .field
           .col-lg-2.text-right
             = f.label :finished_at, class: 'control-label'
-          .col-lg-2
+          .col-lg-3
             = f.date_select :finished_at, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
             = link_to '#', data: { set_date: 'finished_at', turbolinks: false } do
               = fa_icon 'calendar'
@@ -118,7 +118,7 @@
         .field
           .col-lg-2.text-right
             = f.label :organization_id, class: 'control-label' do
-              a.link data-toggle='collapse' href='#toggle_owners'
+              a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_owners'
                 = t('labels.incident.more_owners')
 
       .collapse#toggle_owners

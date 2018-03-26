@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class Incident < ApplicationRecord
+  include OrganizationMember
   include Linkable
+  include Tagable
+  include Attachable
   include Incident::Ransackers
 
   COLORS = ['#228B22', '#DAA520', '#DC143C'].freeze
@@ -47,6 +50,8 @@ class Incident < ApplicationRecord
     COLORS.reverse[code]
   end
 
+  has_paper_trail
+
   validates :name, length: { in: 3..100, allow_blank: true }
   validates :organization_id, numericality: { only_integer: true }
   validates :user_id, numericality: { only_integer: true }
@@ -55,19 +60,9 @@ class Incident < ApplicationRecord
   validates :severity, inclusion: { in: SEVERITIES.keys }
   validates :state, inclusion: { in: STATES.keys }
 
-  # TODO: move code to taggable concern
-  has_many :tag_members, as: :record, dependent: :destroy
-  has_many :tags, through: :tag_members
-  has_many :tag_kinds, through: :tags
-
   accepts_nested_attributes_for :links
 
-  belongs_to :organization
   belongs_to :user
-
-  # TODO: move code to attachable concern
-  has_many :attachment_links, as: :record, dependent: :destroy
-  has_many :attachments, through: :attachment_links
 
   has_many(
     :incident_organizations,

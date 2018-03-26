@@ -3,10 +3,14 @@
 class Agreement < ApplicationRecord
   include OrganizationMember
   include Linkable
+  include Tagable
+  include Attachable
 
   ransacker :beginning do
     Arel.sql("to_char(beginning, 'YYYY.MM.DD')")
   end
+
+  has_paper_trail
 
   validate :organization_not_contrcator
   validates :beginning, presence: true

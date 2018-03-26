@@ -3,18 +3,17 @@
 require 'rails_helper'
 
 RSpec.feature 'Tag members management', type: :feature do
-  given(:resource) { :agreement }
-  given(:resource_class) { Agreement }
   given(:organization) { create :organization }
-  given(:record) do
-    create(resource, organization_id: organization.id)
+  given(:agreement) do
+    create(:agreement, organization_id: organization.id)
   end
-  given(:tag) { create :tag }
+  given(:tag_kind) { create :tag_kind, record_type: 'Agreement' }
+  given(:tag) { create :tag, tag_kind_id: tag_kind.id }
   given(:tag_member) do
     create(
       :tag_member,
-      record_id: record.id,
-      record_type: resource_class.to_s,
+      record_id: agreement.id,
+      record_type: 'Agreement',
       tag_id: tag.id
     )
   end
@@ -22,65 +21,78 @@ RSpec.feature 'Tag members management', type: :feature do
   shared_examples 'authorized to edit tag members in browser' do
     scenario 'can add tag to record', js: true do
       tag
-      visit polymorphic_path(record)
-      find("a[href='#toggle_tags']").click
       link = tag_members_path(
-        record_type: record.class.name,
-        record_id: record.id,
+        record_type: 'Agreement',
+        record_id: agreement.id,
         tag_id: tag.id
       )
+      visit polymorphic_path(agreement)
+      find("a[href='#toggle_tags']").click
       find("a[href='#{link}']").click
       wait_for_ajax
 
       created_tag_member = TagMember.where(
-        record_type: record.class.name,
-        record_id: record.id,
+        record_type: 'Agreement',
+        record_id: agreement.id,
         tag_id: tag.id
       ).first
       expect(page).to(
-        have_link(tag.name, href: tag_member_path(created_tag_member))
+        have_link(
+          nil,
+          href: tag_member_path(created_tag_member)
+        )
       )
     end
 
     scenario 'can delete tag from record', js: true do
       tag_member
-      visit polymorphic_path(record)
+      visit polymorphic_path(agreement)
       link_to_remove = tag_member_path(tag_member)
       link = tag_member_path(tag_member)
       find("a[href='#{link}']").click
       confirm
       wait_for_ajax
 
-      expect(page).not_to have_link(tag.name, href: link_to_remove)
+      expect(page).not_to have_link(
+        TagDecorator.new(tag).show_full_name,
+        href: link_to_remove
+      )
     end
   end
 
   shared_examples 'not authorized to edit tag members in browser' do
     scenario 'can`t add tag to record', js: true do
       tag
-      visit polymorphic_path(record)
+      visit polymorphic_path(agreement)
       find("a[href='#toggle_tags']").click
       link = tag_members_path(
-        record_type: record.class.name,
-        record_id: record.id,
+        record_type: 'Agreement',
+        record_id: agreement.id,
         tag_id: tag.id
       )
       find("a[href='#{link}']").click
       wait_for_ajax
 
-      expect { find("a[data-method='delete']", text: tag.name) }.to raise_error
+      expect(page).not_to(
+        have_link(
+          TagDecorator.new(tag).show_full_name,
+          href: tag_path(tag)
+        )
+      )
     end
 
     scenario 'can`t delete tag from record', js: true do
       tag_member
-      visit polymorphic_path(record)
       link_to_remove = tag_member_path(tag_member)
-      link = tag_member_path(tag_member)
-      find("a[href='#{link}']").click
+      visit polymorphic_path(agreement)
+      find("a[href='#{link_to_remove}']").click
       confirm
       wait_for_ajax
 
-      expect(page).to have_link(tag.name, href: link_to_remove)
+      expect(page).to have_link(
+        nil,
+        href: link_to_remove
+      )
     end
   end
 
@@ -110,7 +122,7 @@ RSpec.feature 'Tag members management', type: :feature do
           :user_with_right,
           allowed_action: :read,
           allowed_organization_id: organization.id,
-          allowed_models: ['Organization', resource_class.name]
+          allowed_models: ['Organization', 'Agreement']
         )
       end
 
@@ -123,7 +135,7 @@ RSpec.feature 'Tag members management', type: :feature do
           :user_with_right,
           allowed_action: :edit,
           allowed_organization_id: organization.id,
-          allowed_models: ['Organization', resource_class.name]
+          allowed_models: ['Organization', 'Agreement']
         )
       end
 

@@ -11,5 +11,7 @@ FactoryBot.define do
     severity 0
     damage 0
     state 0
+    organization
+    user
   end
 end

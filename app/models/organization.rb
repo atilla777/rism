@@ -26,6 +26,8 @@ class Organization < ApplicationRecord
 
   include OrganizationMember
   include Linkable
+  include Tagable
+  include Attachable
 
   has_paper_trail
 

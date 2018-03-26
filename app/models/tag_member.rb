@@ -1,5 +1,8 @@
 class TagMember < ApplicationRecord
   RECORD_TYPES = %w[
+                   Organization
+                   User
+                   Department
                    Agreement
                    Incident
                    RecordTemplate

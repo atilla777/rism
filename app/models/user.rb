@@ -5,6 +5,10 @@ class User < ApplicationRecord
   include User::HasRole
   include User::DeviseConfig
   include Linkable
+  include Tagable
+  include Attachable
+
+  has_paper_trail
 
   validates :organization_id, numericality: { only_integer: true }
   validates :email, presence: true, if: proc { |r| r.active == true }

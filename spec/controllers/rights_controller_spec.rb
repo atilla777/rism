@@ -15,6 +15,7 @@ RSpec.describe RightsController, type: :controller do
       organization_id: organization.id
     )
   end
+  let(:new_params) {{}}
   let(:new_record) do
     post(
       :create,

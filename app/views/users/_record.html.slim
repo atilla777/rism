@@ -9,3 +9,13 @@
   = r.show :mobile_phone
   = r.show :active, value: UserDecorator.new(@record).show_active
   = r.show :description
+
+= render 'application/record_versions'
+
+#links
+  = render 'links/links', record: record
+
+#tags
+  = render 'tag_members/tags', record: record
+
+= render 'application/record_attachments', record: record

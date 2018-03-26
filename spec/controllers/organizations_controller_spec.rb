@@ -8,6 +8,7 @@ RSpec.describe OrganizationsController, type: :controller do
   let(:not_allowed_record) do
     create(:organization, parent_id: create(:organization).id)
   end
+  let(:new_params) {{}}
   let(:new_record) do
     post(
       :create,

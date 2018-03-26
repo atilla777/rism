@@ -38,6 +38,7 @@ class RecordTemplate < ApplicationRecord
   attr_accessor :record_tags#, :record_links, :record_attachment_links
 
   def add_tags
+    return if record_tags.blank?
     self.record_tags.each do |tag_id|
       tag_members.create(tag_id: tag_id)
     end

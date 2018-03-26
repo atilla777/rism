@@ -25,4 +25,3 @@ module Linkable
     )
   end
 end
-

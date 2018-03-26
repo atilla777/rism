@@ -29,7 +29,7 @@ class RightsController < ApplicationController
     @role = role
     @record.save!
     redirect_to(
-      session.delete(:return_to),
+      session.delete(:edit_return_to),
       role_id: @role.id,
       success: t('flashes.create', model: model.model_name.human)
     )
@@ -51,7 +51,7 @@ class RightsController < ApplicationController
     @role = role
     @record.update!(record_params)
     redirect_to(
-      session.delete(:return_to),
+      session.delete(:edit_return_to),
       role_id: role.id,
       success: t('flashes.create', model: model.model_name.human)
     )
