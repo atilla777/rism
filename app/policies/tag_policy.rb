@@ -2,7 +2,6 @@ class TagPolicy < ApplicationPolicy
   include RecordPolicy
 
   def permitted_attributes
-    return unless user.admin_editor?
     %i[name
        tag_kind_id
        rank

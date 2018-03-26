@@ -14,15 +14,14 @@ nav.navbar.navbar-default
           ul class="dropdown-menu"
             = render 'layouts/other_menu'
       ul.nav.navbar-nav
-        - if current_user.admin?
-          li role="presentation" class="dropdown"
-            a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
-              .text-info
-                = fa_icon 'book'
-                =< t('navigations.references')
-                span class='caret'
-            ul class="dropdown-menu"
-              = render 'layouts/references_menu'
+        li role="presentation" class="dropdown"
+          a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+            .text-info
+              = fa_icon 'book'
+              =< t('navigations.references')
+              span class='caret'
+          ul class="dropdown-menu"
+            = render 'layouts/references_menu'
     ul.nav.navbar-nav.navbar-right
       - if current_user.admin?
         li role="presentation" class="dropdown"

@@ -23,6 +23,7 @@ class Right < ApplicationRecord
     'AgreementKind' => I18n.t('activerecord.models.agreement_kind.one'),
     'OrganizationKind' =>  I18n.t('activerecord.models.organization_kind.one'),
     'Attachment' => I18n.t('activerecord.models.attachment.one'),
+    'AttachmentLink' => I18n.t('activerecord.models.attachment_link.one'),
     'TagKind' => I18n.t('activerecord.models.tag_kind.one'),
     'Tag' => I18n.t('activerecord.models.tag.one'),
     'TagMember' => I18n.t('activerecord.models.tag_member.one'),
@@ -30,7 +31,7 @@ class Right < ApplicationRecord
     'LinkKind' => I18n.t('activerecord.models.link_kind.one'),
     'Link' => I18n.t('activerecord.models.link.one'),
     'RecordTemplate' => I18n.t('activerecord.models.record_template.one'),
-    'Reports' => I18n.t('navigations.reports'),
+    'Reports' => I18n.t('labels.reports'),
     'Charts' => I18n.t('navigations.charts'),
     'Dashboards' => I18n.t('navigations.dashboards')
   }.freeze

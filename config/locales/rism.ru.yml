@@ -66,6 +66,7 @@ ru:
       original_record: 'Шаблон из'
       select_template: 'Выберите шаблон:'
       more_content: 'Атрибуты (нажмите для просмотра)'
+    reports: 'Справки'
   navigations:
     to: 'к'
     config: 'Настройки'
@@ -134,6 +135,9 @@ ru:
       attachment:
         one: 'Вложение'
         other: 'Вложения'
+      attachment_link:
+        one: 'Привязка файла'
+        other: 'Привязки файлов'
       agreement_kind:
         one: 'Тип договора'
         other: 'Типы договоров'

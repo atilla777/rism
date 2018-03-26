@@ -2,9 +2,7 @@ class OrganizationKindPolicy < ApplicationPolicy
   include RecordPolicy
 
   def permitted_attributes
-    if user.admin_editor?
-      %i[name description]
-    end
+    %i[name description]
   end
 
   class Scope < Scope

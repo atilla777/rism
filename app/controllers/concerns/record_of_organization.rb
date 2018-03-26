@@ -28,17 +28,17 @@ module RecordOfOrganization
   end
 
   def new
-    authorize model
     @record = model.new(template_attributes)
+    authorize @record.class
     @organization = organization
     @template_id = params[:template_id]
   end
 
   def create
-    authorize model
     @organization = organization
     filter_organization_id
     @record = model.new(record_params)
+    authorize @record.class
     @record.save!
     add_tags_from_template
     redirect_to(

@@ -44,7 +44,7 @@
           .col-lg-2
             = f.time_select :discovered_at, { prompt: true, selected: (@record.discovered_time ? @record.discovered_at : nil) , include_blank: true, ignore_date: true }, { style: 'width:40%; display:inline', class: 'form-control' }
             = link_to '#', data: { set_time: 'discovered_at', turbolinks: false } do
-              = fa_icon 'calendar'
+              = fa_icon 'clock-o'
 
       .form-group.recomended
         .field
@@ -57,7 +57,7 @@
           .col-lg-2
             = f.time_select :started_at, { prompt: true, selected: (@record.started_time ? @record.started_at : nil) , include_blank: true, ignore_date: true }, { style: 'width:40%; display:inline', class: 'form-control' }
             = link_to '#', data: { set_time: 'started_at', turbolinks: false } do
-              = fa_icon 'calendar'
+              = fa_icon 'clock-o'
 
       .form-group.recomended
         .field
@@ -70,7 +70,7 @@
           .col-lg-2
             = f.time_select :finished_at, { prompt: true, selected: (@record.finished_time ? @record.finished_at : nil) , include_blank: true, ignore_date: true }, { style: 'width:40%; display:inline', class: 'form-control' }
             = link_to '#', data: { set_time: 'finished_at', turbolinks: false } do
-              = fa_icon 'calendar'
+              = fa_icon 'clock-o'
 
       .form-group.required
         .field

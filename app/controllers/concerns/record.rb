@@ -14,18 +14,18 @@ module Record
 
   def show
     @record = record
-    authorize @record
+    authorize @record.class
   end
 
   def new
-    authorize model
     @record = model.new(template_attributes)
+    authorize @record.class
     @template_id = params[:template_id]
   end
 
   def create
-    authorize model
     @record = model.new(record_params)
+    authorize @record.class
     @record.save!
     add_tags_from_template
     redirect_to(
@@ -39,12 +39,12 @@ module Record
 
   def edit
     @record = record
-    authorize @record
+    authorize @record.class
   end
 
   def update
     @record = record
-    authorize @record
+    authorize @record.class
     @record.update!(record_params)
     redirect_to(
       session.delete(:edit_return_to),
@@ -56,7 +56,7 @@ module Record
 
   def destroy
     @record = record
-    authorize @record
+    authorize @record.class
     message = if @record.destroy
                 { success: t('flashes.destroy', model: model.model_name.human) }
               # TODO: show translated (human) record name in error

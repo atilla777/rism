@@ -83,6 +83,8 @@ module User::HasRole
                                 record_or_model)
     when Class
       return can_access_model?(level, record_or_model)
+    when String
+      return can_access_model?(level, record_or_model)
     end
   end
 
@@ -112,6 +114,8 @@ module User::HasRole
       record_or_model.class.model_name.to_s
     when Class
       record_or_model.to_s
+    when String
+      record_or_model
     end
   end
 end

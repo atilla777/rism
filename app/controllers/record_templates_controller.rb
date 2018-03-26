@@ -3,9 +3,14 @@
 class RecordTemplatesController < ApplicationController
   include Record
 
+  def show
+    @record = record
+    authorize @record.class
+  end
+
   def new
-    authorize model
     @record = model.new
+    authorize @record.class
     @record.record_type = params[:original_record_type]
     original_model = @record.record_type.constantize
     original_record = original_model.find(params[:original_record_id])
@@ -21,8 +26,8 @@ class RecordTemplatesController < ApplicationController
   end
 
   def create
-    authorize model
     @record = model.new(record_params)
+    authorize @record.class
     original_model = @record.record_type.constantize
     original_record = original_model.find(params[:original_record_id])
     @record.record_content = params[:record_template][:record_content]
@@ -41,7 +46,7 @@ class RecordTemplatesController < ApplicationController
 
   def update
     @record = record
-    authorize @record
+    authorize @record.class
     @record.record_content = params[:record_template][:record_content]
     @record.record_tags = params[:record_template][:record_tags]
     @record.update!(record_params)

@@ -39,6 +39,43 @@ class OrganizationsController < ApplicationController
                  .page(params[:page])
   end
 
+  def show
+    @record = record
+    authorize @record
+  end
+
+  def edit
+    @record = record
+    authorize @record
+  end
+
+  def update
+    @record = record
+    authorize @record
+    @record.update!(record_params)
+    redirect_to(
+      session.delete(:edit_return_to),
+      success: t('flashes.update', model: model.model_name.human)
+    )
+  rescue ActiveRecord::RecordInvalid
+    render :edit
+  end
+
+  def destroy
+    @record = record
+    authorize @record
+    message = if @record.destroy
+                { success: t('flashes.destroy', model: model.model_name.human) }
+              # TODO: show translated (human) record name in error
+              else
+                { danger: @record.errors.full_messages.join(', ') }
+              end
+    redirect_to(
+      polymorphic_url(@record.class),
+      message
+    )
+  end
+
   private
 
 #  def record_params
