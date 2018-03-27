@@ -40,7 +40,7 @@ RSpec.shared_examples 'organization record' do |model|
   end
 
   describe 'global role member' do
-    let(:user) { create :user, active: true }
+    let(:user) { create :user, :skip_validation, active: true }
     let(:all_records) { model_class.all }
 
     setup :activate_authlogic

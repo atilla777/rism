@@ -85,8 +85,9 @@ class DepartmentsController < ApplicationController
   end
 
   def create
-    authorize Department
     @record = Department.new(record_params)
+    authorize @record.class
+    @record.current_user = current_user
     @organization = organization
     @department = department
     @record.save!
@@ -110,6 +111,7 @@ class DepartmentsController < ApplicationController
   def update
     @record = record
     authorize @record
+    @record.current_user = current_user
     @organization = organization
     @department = department
     @record.update!(record_params)

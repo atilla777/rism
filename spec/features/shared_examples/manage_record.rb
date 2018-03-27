@@ -15,7 +15,7 @@ RSpec.shared_examples 'manage record' do
     after { logout }
 
     context 'when global editor' do
-      let(:user) { create :user, active: true }
+      let(:user) { create :user, :skip_validation, active: true }
       let(:role) { create :role, :editor }
 
       before do

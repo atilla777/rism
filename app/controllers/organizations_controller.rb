@@ -44,6 +44,28 @@ class OrganizationsController < ApplicationController
     authorize @record
   end
 
+  def new
+    @record = model.new(template_attributes)
+    authorize @record.class
+    @record.parent_id = current_user.organization_id
+    @template_id = params[:template_id]
+  end
+
+  def create
+    @record = model.new(record_params)
+    authorize @record.class
+    @record.current_user = current_user
+    @record.save!
+    add_tags_from_template
+    redirect_to(
+      session.delete(:edit_return_to),
+      success: t('flashes.create', model: model.model_name.human)
+    )
+  rescue ActiveRecord::RecordInvalid
+    @template_id = params[:template_id]
+    render :new
+  end
+
   def edit
     @record = record
     authorize @record
@@ -52,6 +74,7 @@ class OrganizationsController < ApplicationController
   def update
     @record = record
     authorize @record
+    @record.current_user = current_user
     @record.update!(record_params)
     redirect_to(
       session.delete(:edit_return_to),
@@ -89,9 +112,10 @@ class OrganizationsController < ApplicationController
 
   # prevent user to make organization belonging to not allowed organization
   def filter_parent_id
-    return if current_user.admin_editor?
-    id = params[model.name.underscore.to_sym][:parent_id].to_i
-    return if current_user.allowed_organizations_ids.include?(id)
-    params[model.name.underscore.to_sym][:parent_id] = nil
+#    return if current_user.admin_editor?
+#    id = params[model.name.underscore.to_sym][:parent_id].to_i
+#    return if current_user.allowed_organizations_ids.include?(id)
+#    params[model.name.underscore.to_sym][:parent_id] = nil
+#    params[model.name.underscore.to_sym][:parent_id] = nil
   end
 end

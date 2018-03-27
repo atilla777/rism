@@ -43,6 +43,7 @@ class UsersController < ApplicationController
     filter_organization_id
     # TODO: filter for active and password for admin and owner only
     @record = User.new(record_params)
+    @record.current_user = current_user
     @organization = organization
     @department = department
     @record.save!
@@ -66,6 +67,7 @@ class UsersController < ApplicationController
   def update
     @record = record
     authorize @record
+    @record.current_user = current_user
     @organization = organization
     @department = department
     # TODO: filter for active and password for admin and owner only

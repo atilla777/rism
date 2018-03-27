@@ -8,7 +8,7 @@
 # It assumes that bootstrap and slim is used in the Rails project.
 module CaptionHelper
   CAPTION_TAG = 'h3'
-  CAPTION_CLASS = 'text-info'
+  CAPTION_CLASS = 'caption text-info'
 
   # Generate page caption
   #

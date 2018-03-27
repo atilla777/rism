@@ -1,5 +1,3 @@
 = link_to session[:edit_return_to] do
   span.btn.btn-info
-    = t('views.action.back')
-    =<> t('navigations.to')
-    = session[:edit_return_to_model]
+    = t('views.action.back_to', model: session[:edit_return_to_model])

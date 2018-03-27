@@ -6,7 +6,7 @@ class Tag < ApplicationRecord
 
   belongs_to :tag_kind
 
-  has_many :tag_members, dependent: :destroy
+  has_many :tag_members, dependent: :restrict_with_error
   has_many :agreements, through: :tag_members
   has_many :incidents, through: :tag_members
 

@@ -3,16 +3,19 @@ require 'rails_helper'
 RSpec.feature 'session_management', type: :feature do
   given(:organization) { create(:organization) }
   given(:admin) { create(:user,
+                        :skip_validation,
                         name: 'Admin',
                         email: 'admin@rism.io',
                         active: true,
                         organization_id: organization.id) }
   given(:user) { create(:user,
+                        :skip_validation,
                         name: 'User',
                         email: 'user@rism.io',
                         active: true,
                         organization_id: organization.id) }
   given(:contact) { create(:user,
+                        :skip_validation,
                         name: 'Contact',
                         email: 'contact@rism.io',
                         active: false,

@@ -26,30 +26,6 @@ class Incident < ApplicationRecord
     2 => I18n.t('incidents.states.closed')
   }.freeze
 
-  def self.damages
-    DAMAGES
-  end
-
-  def self.severities
-    SEVERITIES
-  end
-
-  def self.states
-    STATES
-  end
-
-  def self.damage_to_color code
-    COLORS[code]
-  end
-
-  def self.severity_to_color code
-    COLORS[code + (code < 1 ? 0 : 1)]
-  end
-
-  def self.state_to_color code
-    COLORS.reverse[code]
-  end
-
   has_paper_trail
 
   validates :name, length: { in: 3..100, allow_blank: true }
@@ -73,6 +49,30 @@ class Incident < ApplicationRecord
   )
 
   before_save :set_closed_at
+
+  def self.damages
+    DAMAGES
+  end
+
+  def self.severities
+    SEVERITIES
+  end
+
+  def self.states
+    STATES
+  end
+
+  def self.damage_to_color code
+    COLORS[code]
+  end
+
+  def self.severity_to_color code
+    COLORS[code + (code < 1 ? 0 : 1)]
+  end
+
+  def self.state_to_color code
+    COLORS.reverse[code]
+  end
 
   # for use with RecordTemplate, Link and etc
   def show_full_name

@@ -82,7 +82,7 @@ RSpec.describe TagMembersController, type: :controller do
   end
 
   describe 'global role member' do
-    let(:user) { create :user, active: true }
+    let(:user) { create :user, :skip_validation, active: true }
 
     setup :activate_authlogic
 

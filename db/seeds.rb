@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 # Create admin, his organization and global roles (admin, editor, reader):
-organization = Organization.new(name: 'Default organization')
+organization = Organization.new(name: I18n.t('labels.default_organization_name'))
 organization.save(validate: false)
 
 admin = User.new(name: I18n.t('roles.admin'),

@@ -39,6 +39,7 @@ module RecordOfOrganization
     filter_organization_id
     @record = model.new(record_params)
     authorize @record.class
+    @record.current_user = current_user
     @record.save!
     add_tags_from_template
     redirect_to(
@@ -60,6 +61,7 @@ module RecordOfOrganization
   def update
     @record = record
     authorize @record
+    @record.current_user = current_user
     @organization = organization
     filter_organization_id
     @record.update!(record_params)
@@ -105,10 +107,10 @@ module RecordOfOrganization
 
   # prevent user to make record belonging to not allowed organization
   def filter_organization_id
-    return if current_user.admin_editor?
-    id = params[model.name.underscore.to_sym][:organization_id].to_i
-    return if current_user.allowed_organizations_ids.include?(id)
-    params[model.name.underscore.to_sym][:organization_id] = nil
+#    return if current_user.admin_editor?
+#    id = params[model.name.underscore.to_sym][:organization_id].to_i
+#    return if current_user.allowed_organizations_ids.include?(id)
+#    params[model.name.underscore.to_sym][:organization_id] = nil
   end
 
   # filter used in index pages wich is a part of organizaion show page

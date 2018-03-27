@@ -6,6 +6,8 @@ class Organization < ApplicationRecord
   include Tagable
   include Attachable
 
+  attr_accessor :current_user
+
   has_paper_trail
 
   validates :name, uniqueness: true
@@ -44,6 +46,8 @@ class Organization < ApplicationRecord
 
   before_destroy :protect_default_organization
 
+  scope :default_organization, -> { find(1) }
+
   # Array of child organizations ids.
   # For example organization with id 1 has childs with ids 34, 45 and 57:
   # Organization.down_level_organizations(1)
@@ -81,5 +85,12 @@ class Organization < ApplicationRecord
     return unless id == 1
     errors.add(:base, :organization_is_built_in)
     throw :abort
+  end
+
+  def organization_id_is_allowed
+    return if current_user.admin_editor?
+    return if current_user.allowed_organizations_ids.include?(parent_id)
+    # TODO: add translation
+    errors.add(:parent_id, 'parent id is not allowed')
   end
 end

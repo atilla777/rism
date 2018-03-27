@@ -26,7 +26,7 @@ class User < ApplicationRecord
 
   belongs_to :department, optional: true
 
-  has_many :incidents
+  has_many :incidents, dependent: :restrict_with_error
 
   has_many :rights, as: :subject, dependent: :destroy
 

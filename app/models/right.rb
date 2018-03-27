@@ -36,18 +36,6 @@ class Right < ApplicationRecord
     'Dashboards' => I18n.t('navigations.dashboards')
   }.freeze
 
-  def self.subject_types
-    SUBJECT_TYPES
-  end
-
-  def self.levels
-    LEVELS
-  end
-
-  def self.action_to_level(action)
-    ACTIONS[action]
-  end
-
   # TODO: try to make subject_type field transformation
   # (for search with translated model name)
 
@@ -97,6 +85,18 @@ class Right < ApplicationRecord
   belongs_to :role
   # Subject is an access subject
   belongs_to :subject, polymorphic: true, optional: true
+
+  def self.subject_types
+    SUBJECT_TYPES
+  end
+
+  def self.levels
+    LEVELS
+  end
+
+  def self.action_to_level(action)
+    ACTIONS[action]
+  end
 
   def show_subject_type
     SUBJECT_TYPES[subject_type]

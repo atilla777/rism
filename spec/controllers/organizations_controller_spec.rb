@@ -40,7 +40,7 @@ RSpec.describe OrganizationsController, type: :controller do
   end
 
   describe 'global role memeber' do
-    let(:user) { create :user, active: true }
+    let(:user) { create :user, :skip_validation, active: true }
     let(:all_records) { model_class.all }
 
     setup :activate_authlogic

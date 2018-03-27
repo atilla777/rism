@@ -1,4 +1,4 @@
 $(document).on('turbolinks:load', function() {
-  $("#message").toggle( "blind", 1300);
+  $("#message").animate({opacity: 0}, 3000)
   return false;
 });

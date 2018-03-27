@@ -22,7 +22,7 @@ RSpec.describe AttachmentsController, type: :controller do
   end
 
   context 'when built in role member' do
-    let(:user) { create(:user, active: true) }
+    let(:user) { create(:user, :skip_validation, active: true) }
 
     before do
       create_user_session(user)

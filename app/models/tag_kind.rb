@@ -15,7 +15,7 @@ class TagKind < ApplicationRecord
   )
   validate :color, :css_hex
 
-  has_many :tags, dependent: :destroy
+  has_many :tags, dependent: :restrict_with_error
 
   def name_with_code
     TagKindDecorator.new(self).name_with_code

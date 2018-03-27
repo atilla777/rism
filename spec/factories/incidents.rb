@@ -12,6 +12,6 @@ FactoryBot.define do
     damage 0
     state 0
     organization
-    user
+    association :user, :skip_validation
   end
 end

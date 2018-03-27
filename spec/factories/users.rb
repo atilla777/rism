@@ -1,5 +1,8 @@
 FactoryBot.define do
   factory :user do
+    trait :skip_validation do
+      to_create { |instance| instance.save(validate: false) }
+    end
     sequence(:name) { | n | "User#{n}" }
     sequence(:email) { | n | "User#{n}@domain.io" }
     department_id nil
@@ -11,6 +14,7 @@ FactoryBot.define do
     password_confirmation 'password'
     sequence(:description) { | n | "User#{n} description" }
     factory :user_with_right do
+      to_create { |instance| instance.save(validate: false)}
       transient { allowed_action :read}
       transient { allowed_organization_id nil }
       transient { allowed_models ['Organization'] }
