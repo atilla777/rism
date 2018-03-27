@@ -7,13 +7,15 @@ class OrganizationsController < ApplicationController
 
   def autocomplete_organization_name
     authorize model
-    if current_user.admin_editor?
-      scope = Organization
-    else
-      scope = Organization.where(
-        id: current_user.allowed_organizations_ids
-      )
-    end
+    scope = if current_user.admin_editor?
+              Organization
+            elsif current_user.can?(:edit, Organization)
+              Organization
+            else
+              Organization.where(
+                id: current_user.allowed_organizations_ids
+              )
+            end
 
     term = params[:term]
     records = scope.select(:id, :name)

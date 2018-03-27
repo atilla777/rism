@@ -40,6 +40,7 @@ module OrganizationMember
 
   def organization_id_is_allowed
     return if current_user.admin_editor?
+    return if current_user.can?(:edit, self.class)
     return if current_user.allowed_organizations_ids.include?(organization_id)
     # TODO: add translation
     errors.add(:organization_id, 'parent id is not allowed')

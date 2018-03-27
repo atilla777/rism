@@ -7,6 +7,8 @@ class OrganizationPolicy < ApplicationPolicy
     def resolve
       if user.admin_editor_reader?
         scope.all
+      elsif user.can?(:read, scope)
+        scope.all
       else
         scope.where(id: user.allowed_organizations_ids)
       end

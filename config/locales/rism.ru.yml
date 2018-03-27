@@ -298,7 +298,7 @@ ru:
       edit: "Редактировать"
       delete: "Удалить"
       back: "Назад"
-      back_to: "Назад (к %{model})"
+      back_to: "Назад (%{model})"
       find: 'Поиск'
       certify: "Да"
       make_template: "Создать шаблон"

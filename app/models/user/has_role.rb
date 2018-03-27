@@ -83,9 +83,28 @@ module User::HasRole
                                 record_or_model)
     when Class
       return can_access_model?(level, record_or_model)
+    when ActiveRecord::Relation
+      return can_access_model?(
+        level,
+        record_or_model.klass
+      )
     when String
       return can_access_model?(level, record_or_model)
     end
+  end
+
+  def can_list_index?(model_or_relation)
+    model = case model_or_relation
+            when Class
+              return model_or_relation
+            when ActiveRecord::Relation
+              return model_or_relation.klass
+            end
+    Right.where(role_id: roles)
+         .where('organization_id IS NULL')
+         .where(subject_type: subject_type(model))
+         .where('subject_id IS NULL')
+         .present?
   end
 
   private
@@ -100,7 +119,10 @@ module User::HasRole
 
   def can_access_record?(level, model, record)
     Right.where(role_id: roles)
-         .where(organization_id: record.top_level_organizations)
+         .where(
+           'organization_id IN (:ids) OR organization_id IS NULL',
+           ids: record.top_level_organizations
+         )
          .where(subject_type: model)
          .where('subject_id = :record_id OR subject_id IS NULL',
                 record_id: record.id)
