@@ -11,7 +11,7 @@ class Role < ApplicationRecord
   validates :name, length: { minimum: 3, maximum: 100 }
   validates :name, uniqueness: true
 
-  # Prevent built in roles (like an Administrator, Editor, Reader)
+  # Prevent builtin roles (like an Administrator, Editor, Reader)
   # to be deleted
   def protect_main_roles
     return unless (1..3).cover?(id)

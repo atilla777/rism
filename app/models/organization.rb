@@ -1,29 +1,6 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
-  # Array of child organizations ids.
-  # For example organization with id 1 has childs with ids 34, 45 and 57:
-  # Organization.down_level_organizations(1)
-  # wil give result [34, 45, 57]
-  def self.down_level_organizations(id_of_organization)
-    query = <<~SQL
-      WITH RECURSIVE children(id, parent_id) AS
-      (
-        SELECT organizations.id, organizations.parent_id
-        FROM organizations
-        WHERE organizations.parent_id = ?
-        UNION
-        SELECT organizations.id, organizations.parent_id
-        FROM children, organizations
-        WHERE organizations.parent_id = children.id
-      )
-      SELECT id from children
-    SQL
-
-    Organization.find_by_sql([query, id_of_organization])
-                .pluck(:id)
-  end
-
   include OrganizationMember
   include Linkable
   include Tagable
@@ -65,8 +42,44 @@ class Organization < ApplicationRecord
 
   belongs_to :organization_kind, optional: true
 
+  before_destroy :protect_default_organization
+
+  # Array of child organizations ids.
+  # For example organization with id 1 has childs with ids 34, 45 and 57:
+  # Organization.down_level_organizations(1)
+  # wil give result [34, 45, 57]
+  def self.down_level_organizations(id_of_organization)
+    query = <<~SQL
+      WITH RECURSIVE children(id, parent_id) AS
+      (
+        SELECT organizations.id, organizations.parent_id
+        FROM organizations
+        WHERE organizations.parent_id = ?
+        UNION
+        SELECT organizations.id, organizations.parent_id
+        FROM children, organizations
+        WHERE organizations.parent_id = children.id
+      )
+      SELECT id from children
+    SQL
+
+    Organization.find_by_sql([query, id_of_organization])
+                .pluck(:id)
+  end
+
+
   # for use with RecordTemplate, Link and etc
   def show_full_name
     name
+  end
+
+  private
+
+  # Prevent builtin default organization
+  # to be deleted
+  def protect_default_organization
+    return unless id == 1
+    errors.add(:base, :organization_is_built_in)
+    throw :abort
   end
 end

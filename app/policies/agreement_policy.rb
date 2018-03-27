@@ -10,6 +10,12 @@ class AgreementPolicy < ApplicationPolicy
          description]
   end
 
+  def show?
+    return true if @user.admin_editor_reader?
+    return true if @user.can? :read, @record
+    return true if @user.can? :read, @record.contractor
+  end
+
   class Scope
     attr_reader :user, :scope
 
