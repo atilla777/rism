@@ -74,6 +74,9 @@ module User::HasRole
   #   Organization.find_by_sql([query, id]).pluck(:id)
   # end
 
+  # check that user can make action
+  # with record or model
+  # (read - index, show, edit - new, create, update, destroy)
   def can?(action, record_or_model)
     level = Right.action_to_level(action)
     case record_or_model
@@ -90,15 +93,26 @@ module User::HasRole
       )
     when String
       return can_access_model?(level, record_or_model)
+    else
+      raise(
+        ArgumentError,
+        'argument should be model or relation or string (model name)'
+      )
     end
   end
 
-  def can_list_index?(model_or_relation)
+  # check that user whithout organization limit in right
+  # (empty rights.organization_id)
+  # can view all records in model
+  # (index all records of model type)
+  def can_read_model_index?(model_or_relation)
     model = case model_or_relation
             when Class
-              return model_or_relation
+              model_or_relation
             when ActiveRecord::Relation
-              return model_or_relation.klass
+              model_or_relation.klass
+            else
+              raise ArgumentError, 'argument should be model or relation'
             end
     Right.where(role_id: roles)
          .where('organization_id IS NULL')
@@ -109,14 +123,19 @@ module User::HasRole
 
   private
 
+  # check that user can view records in model
+  # (index for record with allowed for user with rights.organization id)
+  # or create new record in model (new, create)
   def can_access_model?(level, model)
     Right.where(role_id: roles)
-         .where(subject_type: subject_type(model))
          .where('subject_id IS NULL')
+         .where(subject_type: subject_type(model))
          .where('rights.level <= ?', level)
          .present?
   end
 
+  # check that user can view record in model (show)
+  # or update it (edit, update, destroy)
   def can_access_record?(level, model, record)
     Right.where(role_id: roles)
          .where(

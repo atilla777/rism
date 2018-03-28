@@ -23,11 +23,11 @@ class IncidentsController < ApplicationController
     Incident
   end
 
-  # filter used in index pages wich is a part of organizaion show page
-  # (such index shows only records that belongs to organization)
-  def filter_for_organization
-    @organization.me_linked_incidents.group(:id)
-  end
+# filter used in index pages wich is a part of organizaion show page
+# (such index shows only records that belongs to organization)
+#  def filter_for_organization
+#    @organization.me_linked_incidents.group(:id)
+#  end
 
   def default_sort
     'created_at desc'

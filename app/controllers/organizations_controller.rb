@@ -9,7 +9,7 @@ class OrganizationsController < ApplicationController
     authorize model
     scope = if current_user.admin_editor?
               Organization
-            elsif current_user.can?(:edit, Organization)
+            elsif current_user.can_read_model_index? Organization
               Organization
             else
               Organization.where(

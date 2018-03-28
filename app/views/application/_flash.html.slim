@@ -1,4 +1,4 @@
 -if flash.present?
   h3.caption#message
     - flash.each do |key, value|
-      =< content_tag :span, value, class: "caption text-#{key}"
+      =< content_tag :span, value, class: "text-#{key}"

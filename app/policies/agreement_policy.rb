@@ -27,7 +27,7 @@ class AgreementPolicy < ApplicationPolicy
     def resolve
       if user.admin_editor_reader?
         scope.all
-      elsif user.can_list_index?(scope)
+      elsif user.can_read_model_index?(scope)
         scope.all
       else
         ids = user.allowed_organizations_ids
