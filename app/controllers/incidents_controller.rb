@@ -38,7 +38,7 @@ class IncidentsController < ApplicationController
     # when user is global admin, editor or reader
     # ( user can access to all organizations)
     # TODO: resolve Bullet N+1 alerts
-    [:user, :incident_organizations, [tags: :tag_kind]].tap do |associations|
+    [:user, :incident_organizations, :incident_tags].tap do |associations|
       associations << :organization unless current_user.admin_editor_reader?
     end
   end

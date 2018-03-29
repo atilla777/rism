@@ -48,6 +48,13 @@ class Incident < ApplicationRecord
     source_type: 'Organization'
   )
 
+  has_many(
+    :incident_tags,
+    -> { includes(tag: :tag_kind).where(tag_kinds: {record_type: 'Incident'}) },
+    through: :tag_members,
+    source: :tag
+  )
+
   before_save :set_closed_at
 
   def self.damages
@@ -91,10 +98,10 @@ class Incident < ApplicationRecord
     Incident.state_to_color state
   end
 
-  def incident_tags
-    tags.includes(:tag_kind)
-        .where(tag_kinds: {record_type: 'Incident'})
-  end
+#  def incident_tags
+#    tags.includes(:tag_kind)
+#        .where(tag_kinds: {record_type: 'Incident'})
+#  end
 
   private
 
