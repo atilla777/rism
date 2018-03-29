@@ -1,0 +1,9 @@
+= index_search :name_or_ip_or_organization_name_cont, organization_id_eq: @organization&.id
+= report_button_for @records, organization_id: @organization.id
+= index_for records do |t|
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :ip, sort: :desc
+  - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - t.field { |record| link_to(record.name, record) }
+  - t.field { |record| link_to(record.ip, record) }
+  - t.field { |record| link_to record.organization.name, record.organization }

@@ -27,8 +27,8 @@ class AgreementsController < ApplicationController
     end
   end
 
-  # TODO move code to attachable concern
-  before_action :set_attachment, only: [:show]
+  # TODO: use or delete
+  # before_action :set_attachment, only: [:show]
 
   private
 
@@ -36,10 +36,10 @@ class AgreementsController < ApplicationController
     Agreement
   end
 
-  # TODO move code to attachable concern
-  def set_attachment
-    @attahment = Attachment.new
-  end
+  # TODO: use or delete
+#  def set_attachment
+#    @attahment = Attachment.new
+#  end
 
   def filter_for_organization
     model.where(organization_id: @organization.id)

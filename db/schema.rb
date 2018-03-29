@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180314053643) do
+ActiveRecord::Schema.define(version: 20180329132820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,17 @@ ActiveRecord::Schema.define(version: 20180314053643) do
     t.index ["name"], name: "index_departments_on_name"
     t.index ["organization_id"], name: "index_departments_on_organization_id"
     t.index ["parent_id"], name: "index_departments_on_parent_id"
+  end
+
+  create_table "hosts", force: :cascade do |t|
+    t.string "name"
+    t.bigint "organization_id"
+    t.cidr "ip"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ip"], name: "index_hosts_on_ip"
+    t.index ["organization_id"], name: "index_hosts_on_organization_id"
   end
 
   create_table "incidents", force: :cascade do |t|
@@ -274,6 +285,7 @@ ActiveRecord::Schema.define(version: 20180314053643) do
   add_foreign_key "attachments", "organizations"
   add_foreign_key "departments", "departments", column: "parent_id"
   add_foreign_key "departments", "organizations"
+  add_foreign_key "hosts", "organizations"
   add_foreign_key "incidents", "organizations"
   add_foreign_key "incidents", "users"
   add_foreign_key "links", "link_kinds"

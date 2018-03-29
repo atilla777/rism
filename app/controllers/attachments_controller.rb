@@ -7,6 +7,7 @@ class AttachmentsController < ApplicationController
     authorize Attachment
     params[:attachment][:organization_id] = current_user.organization.id
     attachment = Attachment.new(attachment_params)
+    attachment.current_user = current_user
     attachment.save!
 # TODO: translate messages to page
 #    message = { success: t('flashes.create',

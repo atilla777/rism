@@ -3,4 +3,5 @@
   - menu.tab :organizations, link_to(Organization.model_name.human(count: 2), organizations_path(organization_id: record.id))
   - menu.tab :departments, link_to(t('navigations.departments'), departments_path(organization_id: record.id))
   - menu.tab :incidents, link_to(Incident.model_name.human(count: 2), incidents_path(organization_id: record.id))
+  - menu.tab :hosts, link_to(Host.model_name.human(count: 2), hosts_path(organization_id: record.id))
   - menu.tab :agreements, link_to(Agreement.model_name.human(count: 2), agreements_path(organization_id: record.id))

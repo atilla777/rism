@@ -1,0 +1,15 @@
+= show_for @record do |r|
+  = r.show :name
+  = r.show :ip
+  = r.show :organization_id, value: @record.organization&.name
+  = r.show :description
+
+= render 'application/record_versions'
+
+#links
+  = render 'links/links', record: record
+
+#tags
+  = render 'tag_members/tags', record: record
+
+= render 'application/record_attachments', record: record

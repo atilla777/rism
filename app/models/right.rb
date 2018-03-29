@@ -28,6 +28,7 @@ class Right < ApplicationRecord
     'Tag' => I18n.t('activerecord.models.tag.one'),
     'TagMember' => I18n.t('activerecord.models.tag_member.one'),
     'Incident' => I18n.t('activerecord.models.incident.one'),
+    'Host' => I18n.t('activerecord.models.hosts.one'),
     'LinkKind' => I18n.t('activerecord.models.link_kind.one'),
     'Link' => I18n.t('activerecord.models.link.one'),
     'RecordTemplate' => I18n.t('activerecord.models.record_template.one'),

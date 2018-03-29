@@ -48,4 +48,5 @@ Rails.application.routes.draw do
   get "/dashboards/", to: 'dashboards#index', as: :dashboards
   get "/dashboards/:name", to: 'dashboards#show', as: :dashboard
   get "/charts/:name", to: 'charts#show', as: :charts
+  resources :hosts
 end

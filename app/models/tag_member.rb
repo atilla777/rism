@@ -5,6 +5,7 @@ class TagMember < ApplicationRecord
                    Department
                    Agreement
                    Incident
+                   Host
                    RecordTemplate
                  ]
 

@@ -165,6 +165,9 @@ ru:
       record_template:
         one: 'Шаблон'
         other: 'Шаблоны'
+      host:
+        one: 'Хост/сеть'
+        other: 'Хосты/сети'
     attributes:
       organization:
         name: 'Имя'
@@ -279,6 +282,11 @@ ru:
         record_type: 'Ресурс'
         record_content: 'Атрибуты'
         record_tags: 'Номера тегов'
+        description: 'Описание'
+      host:
+        name: 'Имя'
+        ip: 'Адрес'
+        organization_id: 'Организация'
         description: 'Описание'
     errors:
       messages:
