@@ -6,7 +6,7 @@ RSpec.feature 'incident management', type: :feature do
   given(:resource) { :incident }
   given(:resource_class) { Incident }
   given(:resource_attribute) { :name }
-  given(:resource_attribute_value) { 'Not allowable network traffic' }
+  given(:resource_attribute_value) { 'Virus' }
 
   def fill_in_new
     fill_in 'incident[name]', with: resource_attribute_value
