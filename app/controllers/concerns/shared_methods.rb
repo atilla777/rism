@@ -38,12 +38,6 @@ module SharedMethods
   end
 
   def set_show_previous_page
-    # excludes for tabbed view
-    return if params[:organization_id].present?
-    return if params[:user_id].present?
-    return if params[:role_id].present?
-    return if params[:role_id].present?
-
     session[:show_return_to] = request.original_url
     session[:show_return_to_model] = model.model_name.human count: 2
   end

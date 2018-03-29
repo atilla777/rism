@@ -98,11 +98,6 @@ class Incident < ApplicationRecord
     Incident.state_to_color state
   end
 
-#  def incident_tags
-#    tags.includes(:tag_kind)
-#        .where(tag_kinds: {record_type: 'Incident'})
-#  end
-
   private
 
   def set_closed_at

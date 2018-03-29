@@ -298,7 +298,8 @@ ru:
       edit: "Редактировать"
       delete: "Удалить"
       back: "Назад"
-      back_to: "Назад (%{model})"
+      back_to: "Перейти (%{model})"
+      back_to_list: 'Перейти к общему списку "%{model}"'
       find: 'Поиск'
       certify: "Да"
       make_template: "Создать шаблон"
