@@ -1,12 +1,13 @@
 = index_search :name_or_full_name_or_organization_kind_name_cont
 = report_button_for @records
-= index_for records do | i |
-  - i.header attribute: :name, sort: :desc
-  - i.header attribute: :full_name, sort: :desc
-  - i.header attribute: :organization_kind_id, sort: :desc
-  - i.header attribute: :parent_id, sort: :desc
-  - i.body do | r, record |
-    - r.field link_to(record.name, record)
-    - r.field record.full_name.present? ? link_to(record.full_name.truncate(40), record) : ''
-    - r.field record.organization_kind_id.present? ? link_to(record.organization_kind.name, record.organization_kind) : ''
-    - r.field record.parent.present? ? link_to(record.parent.name, record.parent) : ''
+= index_for records do |t|
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :full_name, sort: :desc
+  - t.header attribute: :organization_kind_id, sort: :desc
+  - t.header attribute: :parent_id, sort: :desc
+  - t.field { |record| link_to(record.name, record) }
+  - t.field { |record| record.full_name.present? ? link_to(record.full_name.truncate(40), record) : '' }
+  - t.field do |record|
+    = record.organization_kind_id.present? ? link_to(record.organization_kind.name, record.organization_kind) : ''
+  - t.field do |record|
+    = record.parent.present? ? link_to(record.parent.name, record.parent) : ''

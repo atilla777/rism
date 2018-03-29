@@ -1,9 +1,8 @@
-= index_for records, { actions: false} do | i |
-  - i.header attribute: :role_id, sort_by: :role_name, sort: :desc
-  - i.header label: ''
-  - i.body do | row, record |
-    - row.field link_to(record.role.name, record.role)
-    - row.field do
-      - link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
-        i.glyphicon.glyphicon-remove.text-danger
-        =< t('views.action.delete')
+= index_for records, { actions: false} do |t|
+  - t.header attribute: :role_id, sort_by: :role_name, sort: :desc
+  - t.header label: ''
+  - t.field { |record| link_to(record.role.name, record.role) }
+  - t.field do |record|
+    - link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
+      i.glyphicon.glyphicon-remove.text-danger
+      =< t('views.action.delete')

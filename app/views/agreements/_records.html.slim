@@ -1,14 +1,13 @@
 = index_search :beginning_or_prop_or_agreement_kind_name_or_organization_name_or_contractor_name_cont, organization_id_eq: @organization&.id
 = report_button_for @records, organization_id: @organization.id
-= index_for records do | i |
-  - i.header attribute: :beginning, sort: :desc
-  - i.header attribute: :prop, sort: :desc
-  - i.header attribute: :agreement_kind_id, sort: :desc
-  - i.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
-  - i.header attribute: :contractor_id, sort_by: :contractor_name, sort: :desc
-  - i.body do | r, record |
-    - r.field link_to(show_date(record.beginning), record)
-    - r.field link_to(record.prop, record)
-    - r.field link_to(AgreementDecorator.new(record).show_agreement_kind_name, record&.agreement_kind)
-    - r.field link_to record.organization.name, record.organization
-    - r.field link_to record.contractor.name, record.contractor
+= index_for records do |t|
+  - t.header attribute: :beginning, sort: :desc
+  - t.header attribute: :prop, sort: :desc
+  - t.header attribute: :agreement_kind_id, sort: :desc
+  - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - t.header attribute: :contractor_id, sort_by: :contractor_name, sort: :desc
+  - t.field { |record| link_to(show_date(record.beginning), record) }
+  - t.field { |record| link_to(record.prop, record) }
+  - t.field { |record| link_to(AgreementDecorator.new(record).show_agreement_kind_name, record&.agreement_kind) }
+  - t.field { |record| link_to record.organization.name, record.organization }
+  - t.field { |record| link_to record.contractor.name, record.contractor }

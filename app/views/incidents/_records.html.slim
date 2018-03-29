@@ -1,43 +1,37 @@
 = index_search :sharp_id_or_name_or_tags_name_or_tag_code_name_or_tag_kinds_name_or_incident_organizations_name_or_created_at_reverse_str_or_severity_str_or_damage_str_or_state_str_or_user_name_cont, placeholder: t('placeholders.incidents.search'), size: 90
 = report_button_for records, organization_id: @organization.id
 = render 'search_form'
-= index_for records do |i|
-  - i.header attribute: :created_at, sort: :desc
-  - i.header attribute: :id, sort: :desc
-  - i.header attribute: :name, sort: :desc
-  - i.header attribute: :state, sort: :desc
-  - i.header attribute: :severity, sort: :desc
-  - i.header attribute: :damage, sort: :desc
-  - i.header attribute: :id, label: Organization.model_name.human(count: 2)
-  - i.header attribute: :id, label: Tag.model_name.human(count: 2)
-  - i.header attribute: :discovered_at, sort: :desc
-  - i.header attribute: :started_at, sort: :desc
-  - i.header attribute: :user_id, sort: :desc
-  - i.body do |r, record|
-    - r.field link_to(show_date_time(record.created_at), record)
-    - r.field link_to(IncidentDecorator.new(record).show_id, record)
-    - r.field link_to(record.name.truncate(30), record)
-    - r.field do
-      span style="color:#{record.state_color}"
-        => fa_icon 'star'
-      = link_to(IncidentDecorator.new(record).show_state, record)
-    - r.field do
-      span style="color:#{record.severity_color}"
-        => fa_icon 'star'
-      = link_to(IncidentDecorator.new(record).show_severity, record)
-    - r.field do
-      span style="color:#{record.damage_color}"
-        => fa_icon 'star'
-      = link_to(IncidentDecorator.new(record).show_damage, record)
-    - r.field do
-      - record.incident_organizations.each do |organization|
-        =<> link_to organization.name, organization
-        | |
-    - r.field do
-      - record.incident_tags.each do |tag|
-        =<> link_to tag, data: { toggle: 'tooltip', placement: 'top'}, title: TagDecorator.new(tag).show_name_and_kind do
-          = TagDecorator.new(tag).show_code_name
-        | |
-    - r.field link_to(IncidentDecorator.new(record).show_discovered_at, record)
-    - r.field link_to(IncidentDecorator.new(record).show_started_at, record)
-    - r.field link_to(record.user.name, record.user)
+= index_for records do |t|
+  - t.header attribute: :created_at, sort: :desc
+  - t.header attribute: :id, sort: :desc
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :state, sort: :desc
+  - t.header attribute: :severity, sort: :desc
+  - t.header attribute: :id, label: Organization.model_name.human(count: 2)
+  - t.header attribute: :id, label: Tag.model_name.human(count: 2)
+  - t.header attribute: :discovered_at, sort: :desc
+  - t.header attribute: :started_at, sort: :desc
+  - t.header attribute: :user_id, sort: :desc
+  - t.field { |record| link_to(show_date_time(record.created_at), record) }
+  - t.field { |record| link_to(IncidentDecorator.new(record).show_id, record) }
+  - t.field { |record| link_to(record.name.truncate(20), record) }
+  - t.field do |record|
+    span style="color:#{record.state_color}"
+      => fa_icon 'star'
+    = link_to(IncidentDecorator.new(record).show_state, record)
+  - t.field do |record|
+    span style="color:#{record.severity_color}"
+      => fa_icon 'star'
+    = link_to(IncidentDecorator.new(record).show_severity, record)
+  - t.field do |record|
+    - record.incident_organizations.each do |organization|
+      =<> link_to organization.name.truncate(15), organization
+      | |
+  - t.field do |record|
+    - record.incident_tags.each do |tag|
+      =<> link_to tag, data: { toggle: 'tooltip', placement: 'top'}, title: TagDecorator.new(tag).show_name_and_kind do
+        = TagDecorator.new(tag).show_code_name
+      | |
+  - t.field { |record| link_to(IncidentDecorator.new(record).show_discovered_at, record) }
+  - t.field { |record| link_to(IncidentDecorator.new(record).show_started_at, record) }
+  - t.field { |record| link_to(record.user.name.truncate(15), record.user) }

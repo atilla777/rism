@@ -13,7 +13,8 @@ module IndexHelper
   # * +block+   - code to work with instance of Index class
   # ==== Options
   # +:actions+ - show or not show RUD action for each record
-  # (default is true)
+  # +:fit+ - make table column fit (collapse th and td to minimum size,
+  # default is false)
   # ==== Examples
   #  = index_for @users do |table|
   #    - table.header attribute: :name, sort: :desc
@@ -31,8 +32,9 @@ module IndexHelper
 
     render 'helpers/index',
            headers: index.headers,
-           rows: index.rows,
            top_rows: index.top_rows,
+           records: index.records,
+           field_handlers: index.field_handlers,
            options: options
   end
 
@@ -40,14 +42,14 @@ module IndexHelper
   # Instance of that class is transfered as param
   # to #index_for method block
   class Index
-    attr_reader :h, :headers, :rows, :top_rows
+    attr_reader :headers, :top_rows, :records, :field_handlers
 
     def initialize(context, records)
       @context = context
-      @records = records
       @headers = []
-      @rows = []
       @top_rows = []
+      @records = records
+      @field_handlers = []
     end
 
     # Set table header
@@ -99,68 +101,20 @@ module IndexHelper
       @top_rows << @context.capture(&block)
     end
 
-    # Set table body
-    # ==== Attributes
-    # * +block+ - block to work with table row,
-    # In that block two parameters are available -
-    # row (instance of a IndexRow class)
-    # and record (instance of ActiveRelation class)
-    # ==== Examples
-    #  = index_for @users do |table|
-    #    - table.header attribute: :name
-    #    - table.body do | row, record |
-    #      - row.field record
-    def body
-      @records.each do |record|
-        row = IndexRow.new(@context, record)
-        @rows << row
-        yield(row, record)
-      end
-    end
-  end
-
-  # Represent row in the index page table
-  # Instance of that class is transfered as param
-  # to block in #body method of Index class instance
-  class IndexRow
-    attr_reader :context, :record, :fields, :headers
-
-    Field = Struct.new(:value, :options)
-
-    def initialize(context, record)
-      @context = context
-      @record = record
-      @fields = []
-    end
-
     # Set row column (grid table) content (value)
     # ==== Attributes
-    # * +content+ - text to display in the grid (default is blank - ''),
-    # such text can be created by helper (link_to, for example)
-    # * +options+ - customize grid view (see in Options section)
     # * +block+   - blcok with slim code wich represent grid content
-    # ====Options
-    # * +:fit+ - if set to true grid will collapse to smallest size
-    # (default is false)
+    # * +options+ - customize grid view (see in Options section)
     # ====Examples
     #  = index_for @users do |table|
     #    - table.header attribute: :name
-    #    - table.header attribute: :phone
-    #    - table.header attribute: :organization_id
     #    - table.header attribute: :job
-    #    - table.header
-    #    - table.body do | row, record |
-    #      - row.field "some text #{record.name}"
-    #      - row.field record.phone, fit: true
-    #      - row.field link_to record.organization, record.organization.name
-    #      - row.field do
+    #    - table.field { |user| user.name }
+    #    - table.field do |user|
     #        span.text-success
-    #          = record.job
-    #      - row.field
-    def field(content = nil, options = {}, &block)
-      options = options.slice(:fit)
-      content ||= block.present? ? @context.capture(&block) : ''
-      @fields <<  Field.new(content, options)
+    #          = user.job
+    def field(&block)
+      @field_handlers << block
     end
   end
 end

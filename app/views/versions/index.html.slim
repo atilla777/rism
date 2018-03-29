@@ -1,23 +1,23 @@
 = caption t('labels.version.versions')
 = index_search :item_type_cont, url: versions_path
-= index_for @records, actions: false do | i |
-  - i.header attribute: :created_at, sort: :desc, label: t('labels.version.created_at')
-  - i.header attribute: :id, sort: :desc, label: t('labels.version.id')
-  - i.header attribute: :item_type, sort: :desc, label: t('labels.version.model')
-  - i.header attribute: :item_id, sort: :desc, label: t('labels.version.record_id')
-  - i.header attribute: :event, sort: :desc, label: t('labels.version.event')
-  - i.header attribute: :whodunnit, sort: :desc, label: t('labels.version.author')
-  - i.body do | r, record |
-    - r.field show_date_time(record.created_at)
+= index_for @records, actions: false do |t|
+  - t.header attribute: :created_at, sort: :desc, label: t('labels.version.created_at')
+  - t.header attribute: :id, sort: :desc, label: t('labels.version.id')
+  - t.header attribute: :item_type, sort: :desc, label: t('labels.version.model')
+  - t.header attribute: :item_id, sort: :desc, label: t('labels.version.record_id')
+  - t.header attribute: :event, sort: :desc, label: t('labels.version.event')
+  - t.header attribute: :whodunnit, sort: :desc, label: t('labels.version.author')
+  - t.field { |record| show_date_time(record.created_at) }
+  - t.field do |record|
     - if record&.reify.present?
-      - r.field  link_to(record.id, polymorphic_path(record.reify, version_id: record.next))
+      = link_to(record.id, polymorphic_path(record.reify, version_id: record.next))
     - elsif record.next&.reify&.present?
-      - r.field  link_to(record.id, polymorphic_path(record.next&.reify, version_id: record.next))
+      = link_to(record.id, polymorphic_path(record.next&.reify, version_id: record.next))
     - else
-      - r.field record.id
-    - r.field record.item_type.constantize.model_name.human
-    - r.field record.item_id
-    - r.field VersionDecorator.new(record).show_event
-    - r.field VersionDecorator.new(record).author
+      = record.id
+  - t.field { |record| record.item_type.constantize.model_name.human }
+  - t.field { |record| record.item_id }
+  - t.field { |record| VersionDecorator.new(record).show_event }
+  - t.field { |record| VersionDecorator.new(record).author }
 
 = render 'index_paginate', records: @records

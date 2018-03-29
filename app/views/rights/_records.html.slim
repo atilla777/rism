@@ -1,13 +1,12 @@
 = index_search :organization_name_or_level_or_subject_id_or_subject_type_or_role_name_cont, role_id_eq: @role&.id
-= index_for records do | i |
-  - i.header attribute: :organization_id, sort: :desc
-  - i.header attribute: :role_id, sort: :desc
-  - i.header attribute: :level, sort: :desc
-  - i.header attribute: :subject_type, sort: :desc
-  - i.header attribute: :subject_id, sort: :desc
-  - i.body do | r, record |
-    - r.field record.organization&.name
-    - r.field record.role.name
-    - r.field record.show_level
-    - r.field RightDecorator.new(record).show_subject_type
-    - r.field record.subject_id
+= index_for records do |t|
+  - t.header attribute: :organization_id, sort: :desc
+  - t.header attribute: :role_id, sort: :desc
+  - t.header attribute: :level, sort: :desc
+  - t.header attribute: :subject_type, sort: :desc
+  - t.header attribute: :subject_id, sort: :desc
+  - t.field { |record| record.organization&.name }
+  - t.field { |record| record.role.name }
+  - t.field { |record| record.show_level }
+  - t.field { |record| RightDecorator.new(record).show_subject_type }
+  - t.field { |record| record.subject_id }

@@ -1,14 +1,13 @@
 = index_search :name_or_tag_kind_name_or_tag_kind_code_name_cont
-= index_for records do | i |
-  - i.header attribute: :name, sort: :desc
-  - i.header attribute: :tag_kind_id, label: TagKind.human_attribute_name(:code_name), sort: :desc, sort_by: 'tag_kind_code_name'
-  - i.header attribute: :tag_kind_id, label: TagKind.human_attribute_name(:name), sort: :desc, sort_by: 'tag_kind_name'
-  - i.header attribute: :rank, sort: :desc
-  - i.body do | r, record |
-    - r.field do
-      = link_to record do
-        = fa_icon 'tag', style: "color:#{record.color}"
-        =< record.name
-    - r.field link_to(record.tag_kind.code_name, record.tag_kind)
-    - r.field link_to(record.tag_kind.name.truncate(30), record.tag_kind)
-    - r.field record.rank
+= index_for records do |t|
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :tag_kind_id, label: TagKind.human_attribute_name(:code_name), sort: :desc, sort_by: 'tag_kind_code_name'
+  - t.header attribute: :tag_kind_id, label: TagKind.human_attribute_name(:name), sort: :desc, sort_by: 'tag_kind_name'
+  - t.header attribute: :rank, sort: :desc
+  - t.field do |record|
+    = link_to record do
+      = fa_icon 'tag', style: "color:#{record.color}"
+      =< record.name
+  - t.field { |record| link_to(record.tag_kind.code_name, record.tag_kind) }
+  - t.field { |record| link_to(record.tag_kind.name.truncate(30), record.tag_kind) }
+  - t.field { |record| record.rank }

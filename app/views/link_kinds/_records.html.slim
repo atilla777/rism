@@ -1,18 +1,17 @@
 = index_search :name_or_code_name_or_first_record_type_or_second_record_type_cont
-= index_for records do |i|
-  - i.header attribute: :first_record_type, sort: :desc
-  - i.header attribute: :second_record_type, sort: :desc
-  - i.header attribute: :name, sort: :desc
-  - i.header attribute: :code_name, sort: :desc
-  - i.header attribute: :rank, sort: :desc
-  - i.header attribute: :equal, sort: :desc
-  - i.body do |r, record|
-    - r.field link_to(LinkKindDecorator.new(record).show_first_record_type, record)
-    - r.field link_to(LinkKindDecorator.new(record).show_second_record_type, record)
-    - r.field do
-      = link_to record do
-        = fa_icon 'link', style: "color:#{record.color}"
-        =< record.name
-    - r.field link_to(record.code_name, record)
-    - r.field link_to(record.rank, record)
-    - r.field link_to(LinkKindDecorator.new(record).show_equal, record)
+= index_for records do |t|
+  - t.header attribute: :first_record_type, sort: :desc
+  - t.header attribute: :second_record_type, sort: :desc
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :code_name, sort: :desc
+  - t.header attribute: :rank, sort: :desc
+  - t.header attribute: :equal, sort: :desc
+  - t.field { |record| link_to(LinkKindDecorator.new(record).show_first_record_type, record) }
+  - t.field { |record| link_to(LinkKindDecorator.new(record).show_second_record_type, record) }
+  - t.field do |record|
+    = link_to record do
+      = fa_icon 'link', style: "color:#{record.color}"
+      =< record.name
+  - t.field { |record| link_to(record.code_name, record) }
+  - t.field { |record| link_to(record.rank, record) }
+  - t.field { |record| link_to(LinkKindDecorator.new(record).show_equal, record) }

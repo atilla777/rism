@@ -17,9 +17,10 @@
 
   = index_new_button User, organization_id: @organization.id, department_id: @department.id
   = index_new_button @records, organization_id: @organization.id, department_id: @department.id
-  = index_for records, actions: false do | i |
-    - i.header attribute: :name, sort: :desc
-    - i.top_row do
+  = index_for records, actions: false do |t|
+    - t.header attribute: :name, sort: :desc
+    - t.header attribute: :name, label: '', fit: true
+    - t.top_row do
       tr.table-active
         td colspan=2
           =< link_to departments_path(departmendepartment_id: @department.parent&.id, organization_id: @organization.id) do
@@ -34,7 +35,7 @@
             =< fa_icon 'folder-open'
             =< @department.name
 
-    - i.top_row do
+    - t.top_row do
       tr.table-active
         td colspan=2
           input type='checkbox' id='selectAllUsers' value='selectAllUsers'
@@ -44,7 +45,7 @@
           input type='checkbox' id='selectAllDepartments' value='selectAllDepartments'
             span.text-warning
               =< fa_icon 'folder-open'
-    - i.top_row do
+    - t.top_row do
       - @users = @department&.id.present? ? @department.users : @organization.users.where(department_id: nil)
       - @users.each do | user |
         tr.table-active
@@ -58,24 +59,23 @@
               =< UserDecorator.new(user).contact
           td.fit
             = render 'helpers/index_actions', record: user
-    - i.body do | r, record |
-      - r.field do
-        = check_box_tag 'department_ids[]', record.id
-        = link_to departments_path(department_id: record.id, organization_id: @organization.id), class: 'btn btn-link' do
-          - if session[:selected_departments]&.include? record.id.to_s
-            span.text-danger *
-          span.text-warning
-            =< fa_icon 'folder'
-          =< record.name
-      - r.field nil, fit: true do
-        = link_to polymorphic_path(record, organization_id: @organization.id), class: 'btn btn-link' do
-          span.text-info
-            = fa_icon 'info'
-          =< t('views.action.show')
-        = link_to edit_polymorphic_path(record), class: 'btn btn-link' do
-          i.glyphicon.glyphicon-pencil.text-warning
-          =< t('views.action.edit')
-        = link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
-          i.glyphicon.glyphicon-remove.text-danger
-          =< t('views.action.delete')
+    - t.field do |record|
+      = check_box_tag 'department_ids[]', record.id
+      = link_to departments_path(department_id: record.id, organization_id: @organization.id), class: 'btn btn-link' do
+        - if session[:selected_departments]&.include? record.id.to_s
+          span.text-danger *
+        span.text-warning
+          =< fa_icon 'folder'
+        =< record.name
+    - t.field do |record|
+      = link_to polymorphic_path(record, organization_id: @organization.id), class: 'btn btn-link' do
+        span.text-info
+          = fa_icon 'info'
+        =< t('views.action.show')
+      = link_to edit_polymorphic_path(record), class: 'btn btn-link' do
+        i.glyphicon.glyphicon-pencil.text-warning
+        =< t('views.action.edit')
+      = link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
+        i.glyphicon.glyphicon-remove.text-danger
+        =< t('views.action.delete')
 
