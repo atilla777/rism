@@ -45,9 +45,13 @@ module CaptionHelper
                                          .model_name
                                          .human(count: 2)
               when ActiveRecord::Base
-                record_or_records_or_text.class
-                                         .model_name
-                                         .human
+                result = record_or_records_or_text.class
+                                                  .model_name
+                                                  .human
+                if record_or_records_or_text.respond_to?(:name)
+                  result += " #{record_or_records_or_text.name}"
+                end
+                result
               when String
                 record_or_records_or_text
               else

@@ -3,7 +3,7 @@
 class OrganizationsController < ApplicationController
   include Record
 
-  before_action :filter_parent_id, only: %i[create update]
+  #before_action :filter_parent_id, only: %i[create update]
 
   def autocomplete_organization_name
     authorize model
@@ -33,12 +33,20 @@ class OrganizationsController < ApplicationController
 
   def index
     authorize model
-    scope = policy_scope(model)
-    @q = scope.ransack(params[:q])
-    @q.sorts = 'name asc' if @q.sorts.empty?
-    @records = @q.result
-                 .includes(:parent, :organization_kind)
-                 .page(params[:page])
+    @organization = organization
+    if @organization.id
+      @records = records(filter_for_organization)
+      render 'index'
+    else
+      @records = records(model)
+      render 'application/index'
+    end
+#    scope = policy_scope(model)
+#    @q = scope.ransack(params[:q])
+#    @q.sorts = 'name asc' if @q.sorts.empty?
+#    @records = @q.result
+#                 .includes(:parent, :organization_kind)
+#                 .page(params[:page])
   end
 
   def show
@@ -103,21 +111,26 @@ class OrganizationsController < ApplicationController
 
   private
 
-#  def record_params
-#    params.require(model.name.underscore.to_sym)
-#          .permit(policy(model).permitted_attributes)
-#  end
-
   def model
     Organization
   end
 
-  # prevent user to make organization belonging to not allowed organization
-  def filter_parent_id
-#    return if current_user.admin_editor?
-#    id = params[model.name.underscore.to_sym][:parent_id].to_i
-#    return if current_user.allowed_organizations_ids.include?(id)
-#    params[model.name.underscore.to_sym][:parent_id] = nil
-#    params[model.name.underscore.to_sym][:parent_id] = nil
+  def organization
+    id = if params[:organization_id]
+           params[:organization_id]
+         elsif params.dig(:q, :organization_id_eq)
+           params[:q][:organization_id_eq]
+         elsif params.dig(model.name.underscore.to_sym, :organization_id)
+           params[model.name.underscore.to_sym][:organization_id]
+         end
+    Organization.where(id: id).first || @record&.organization || OpenStruct.new(id: nil)
+  end
+
+  def filter_for_organization
+    model.where(parent_id: @organization.id)
+  end
+
+  def records_includes
+    %i[parent organization_kind]
   end
 end
