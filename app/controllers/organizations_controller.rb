@@ -57,13 +57,15 @@ class OrganizationsController < ApplicationController
   def new
     @record = model.new(template_attributes)
     authorize @record.class
-    @record.parent_id = current_user.organization_id
+    @organization = organization
+    @record.parent_id = @organization.present? ? @organization.id : current_user.organization_id
     @template_id = params[:template_id]
   end
 
   def create
     @record = model.new(record_params)
     authorize @record.class
+    @organization = organization
     @record.current_user = current_user
     @record.save!
     add_tags_from_template
@@ -79,11 +81,13 @@ class OrganizationsController < ApplicationController
   def edit
     @record = record
     authorize @record
+    @organization = organization
   end
 
   def update
     @record = record
     authorize @record
+    @organization = organization
     @record.current_user = current_user
     @record.update!(record_params)
     redirect_to(
@@ -96,6 +100,7 @@ class OrganizationsController < ApplicationController
 
   def destroy
     @record = record
+    @organization = organization
     authorize @record
     message = if @record.destroy
                 { success: t('flashes.destroy', model: model.model_name.human) }
@@ -103,9 +108,10 @@ class OrganizationsController < ApplicationController
               else
                 { danger: @record.errors.full_messages.join(', ') }
               end
-    redirect_to(
-      polymorphic_url(@record.class),
-      message
+    redirect_back(
+      { fallback_location: polymorphic_url(@record.class),
+        organization_id: @organization.id }
+      .merge message
     )
   end
 

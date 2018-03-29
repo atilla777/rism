@@ -40,8 +40,6 @@ class UsersController < ApplicationController
 
   def create
     authorize model
-    filter_organization_id
-    # TODO: filter for active and password for admin and owner only
     @record = User.new(record_params)
     @record.current_user = current_user
     @organization = organization
@@ -70,8 +68,6 @@ class UsersController < ApplicationController
     @record.current_user = current_user
     @organization = organization
     @department = department
-    # TODO: filter for active and password for admin and owner only
-    filter_organization_id
     @record.update!(record_params)
     redirect_to(
       session.delete(:edit_return_to),
