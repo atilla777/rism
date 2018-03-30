@@ -54,19 +54,25 @@ class OrganizationIncidentsReport < BaseReport
       incident.links.group_by { |link| "#{LinkKindDecorator.new(link.link_kind).name}" }.sort.each do |link_kind_name, links|
       r.p style: 'Text' do
           text "#{link_kind_name}: "
+          result = []
           links.each do |link|
-            text "#{link.second_record.show_full_name}"
-            text "#{link.description}"
+            result << link.second_record.show_full_name
+            if link.description.present?
+              result[-1] = result.last + " (#{link.description})"
+            end
           end
+          text result.join(', ')
         end
       end
       r.p "#{sublevel} Теги (метки) инцидента", style: 'Subheader'
-      incident.tag_members.group_by { |tag_member| "#{tag_member.tag.tag_kind.name}" }.sort.each do |tag_kind, tag_members|
+      incident.tag_members.joins(tag: :tag_kind).where(tag_kinds: {record_type: 'Incident'}).group_by { |tag_member| "#{tag_member.tag.tag_kind.name}" }.sort.each do |tag_kind, tag_members|
         r.p style: 'Text' do
           text "#{tag_kind}: "
+          result = []
           tag_members.each do |tag_member|
-            text "#{tag_member.tag.name}"
+            result << tag_member.tag.name
           end
+            text result.join(', ')
         end
       end
     end
