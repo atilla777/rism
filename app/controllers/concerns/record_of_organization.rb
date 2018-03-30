@@ -24,7 +24,7 @@ module RecordOfOrganization
   def show
     @record = record
     authorize @record
-    @organization = organization
+#    @organization = organization
   end
 
   def new
@@ -35,9 +35,9 @@ module RecordOfOrganization
   end
 
   def create
-    @organization = organization
     @record = model.new(record_params)
     authorize @record.class
+    @organization = organization
     @record.current_user = current_user
     @record.save!
     add_tags_from_template
@@ -53,15 +53,15 @@ module RecordOfOrganization
 
   def edit
     @record = record
-    @organization = organization
     authorize @record
+    @organization = organization
   end
 
   def update
     @record = record
     authorize @record
-    @record.current_user = current_user
     @organization = organization
+    @record.current_user = current_user
     @record.update!(record_params)
     redirect_to(
       session.delete(:edit_return_to),
@@ -73,7 +73,7 @@ module RecordOfOrganization
   end
 
   def destroy
-    @record = model.find(params[:id])
+    @record = record
     authorize @record
     @organization = organization
     message = if @record.destroy

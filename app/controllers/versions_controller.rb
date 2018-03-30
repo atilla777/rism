@@ -13,8 +13,11 @@ class VersionsController < ApplicationController
 
   def revert
     version = PaperTrail::Version.find(params[:id])
+    current_record = version.item
     record = version.reify
     authorize :version
+    authorize current_record
+    record.current_user = current_user
     record.save!
     redirect_to(
       polymorphic_url(record),

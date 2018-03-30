@@ -8,7 +8,7 @@ class User < ApplicationRecord
   include Tagable
   include Attachable
 
-  has_paper_trail
+  has_paper_trail ignore: %i[password]
 
   validates :organization_id, numericality: { only_integer: true }
   validates :email, presence: true, if: proc { |r| r.active == true }

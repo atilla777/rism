@@ -87,7 +87,7 @@ class Organization < ApplicationRecord
     throw :abort
   end
 
-  def _id_is_allowed
+  def organization_id_is_allowed
     return if current_user.admin_editor?
     return if current_user.can?(:edit, self.class)
     return if current_user.allowed_organizations_ids.include?(parent_id)

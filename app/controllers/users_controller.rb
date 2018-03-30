@@ -98,9 +98,12 @@ class UsersController < ApplicationController
 
   private
 
+  # TODO: try to remove (it can be replaced by record_of_organization)
   def organization
     organization_id = if params[:organization_id]
                         params[:organization_id]
+                      elsif params.dig(:q, :organization_id_eq)
+                        params[:q][:organization_id_eq]
                       elsif params.dig(:user, :organization_id)
                         params[:user][:organization_id]
                       end

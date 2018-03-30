@@ -1,3 +1,9 @@
-= link_to session[:edit_return_to] do
+=< link_to :back do
   span.btn.btn-info
+    = t('views.action.back')
+br
+br
+= link_to session[:edit_return_to] do
+  span.btn.btn-default
     = t('views.action.back_to', model: session[:edit_return_to_model])
+
