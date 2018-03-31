@@ -10,7 +10,6 @@ table.table.table-hover.table-bordered.table-striped
     - @record.tag_members.includes(tag: :tag_kind).group_by { |tag_member| "#{tag_member.tag.tag_kind.code_name} (#{tag_member.tag.tag_kind.name})" }.sort.each do |tag_kind, tag_members|
       tr
         td.col-md-2.text-right
-          =< fa_icon 'tags', style: "color:#{tag_members.first.tag.tag_kind.color}"
           strong.text-info
             =< "#{tag_kind}"
         td
@@ -25,15 +24,16 @@ table.table.table-hover.table-bordered.table-striped
   tbody id='toggle_tags' class="#{'collapse' unless @unfold}"
     tr
       td.col-md-2.text-right
-        strong
-          =< "#{t('labels.tags.allowed_tags')}"
+        strong.text-warning
+          =< "#{t('labels.tags.allowed_tags')}:"
       td
-        - (Tag.allowed_to_record(@record) - @record.tags).group_by { |tag| "#{tag.tag_kind.code_name} (#{tag.tag_kind.name})" }.sort.each do |tag_kind, tags|
-          = fa_icon 'tags', style: "color:#{tags.first.tag_kind.color}"
-          strong
-            =< "#{tag_kind}:"
-          - tags.each do |tag|
-            =< link_to tag_members_path(record_type: @record.class.name, record_id: @record.id, tag_id: tag.id), method: :post, remote: true do
-              = fa_icon 'tag', style: "color:#{tag.color}"
-              =< "#{tag.tag_kind.code_name}#{tag.rank} (#{tag.name})"
-          br
+      - (Tag.allowed_to_record(@record) - @record.tags).group_by { |tag| "#{tag.tag_kind.code_name} (#{tag.tag_kind.name})" }.sort.each do |tag_kind, tags|
+        tr
+          td.text-right.text-info
+            strong
+              =< "#{tag_kind}"
+          td
+            - tags.each do |tag|
+              =< link_to tag_members_path(record_type: @record.class.name, record_id: @record.id, tag_id: tag.id), method: :post, remote: true do
+                = fa_icon 'tag', style: "color:#{tag.color}"
+                =< "#{tag.tag_kind.code_name}#{tag.rank} (#{tag.name})"

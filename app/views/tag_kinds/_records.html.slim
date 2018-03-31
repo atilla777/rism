@@ -5,7 +5,6 @@
   - t.header attribute: :record_type, sort: :desc
   - t.field do |record|
     = link_to record do
-      = fa_icon 'tags', style: "color:#{record.color}"
       =< record.name
   - t.field { |record| link_to(record.code_name, record) }
   - t.field { |record| TagKindDecorator.new(record).show_record_type }

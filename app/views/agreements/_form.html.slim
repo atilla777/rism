@@ -16,8 +16,10 @@
         .field
           .col-lg-2.text-right
             = f.label :beginning, class: 'control-label'
-          .col-lg-2
-            = f.date_field :beginning, class: 'form-control'
+          .col-lg-3
+            = f.date_select :beginning, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
+            = link_to '#', data: {set_date: 'beginning', turbolinks: false} do
+              = fa_icon 'calendar'
 
       .form-group.required
         .field
@@ -37,15 +39,16 @@
         .col-lg-offset-2.col-lg-8
           .checkbox
              label
-               = f.check_box :prolongation
-               | #{t('activerecord.attributes.agreement.prolongation')}
+               = f.check_box :prolongation, class: 'big-checkbox'
+               strong
+                | #{t('activerecord.attributes.agreement.prolongation')}
 
       .form-group.required
         .field
           .col-lg-2.text-right
             = f.label :organization_id, class: 'control-label'
           .col-lg-8
-            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#agreement_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name), readonly: @organization&.id.present?
+            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#agreement_organization_id',  class: 'form-control', autocomplete: :off, value: (@record.organization&.name || @organization&.name), readonly: @organization&.id.present?
             = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id
 
       .form-group.required

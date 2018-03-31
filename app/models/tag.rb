@@ -10,6 +10,8 @@ class Tag < ApplicationRecord
   has_many :agreements, through: :tag_members
   has_many :incidents, through: :tag_members
 
+  validate :color, :css_hex
+
   def self.record_types
     Right.subject_types
   end

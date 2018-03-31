@@ -4,7 +4,6 @@ class CreateTagKinds < ActiveRecord::Migration[5.1]
       t.string :name
       t.string :code_name
       t.string :record_type
-      t.string :color
       t.text :description
 
       t.timestamps

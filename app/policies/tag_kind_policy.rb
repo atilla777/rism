@@ -5,7 +5,6 @@ class TagKindPolicy < ApplicationPolicy
     %i[name
        code_name
        record_type
-       color
        description]
   end
 

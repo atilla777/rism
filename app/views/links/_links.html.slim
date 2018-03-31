@@ -11,12 +11,12 @@ table.table.table-hover.table-bordered.table-striped
     - @record.links.includes(:link_kind, :second_record).group_by { |link| "#{LinkKindDecorator.new(link.link_kind).show_long_name}" }.sort.each do |link_kind_name, links|
       tr
         td.col-md-2.text-right
-           = fa_icon 'link', style: "color:#{links.first.link_kind.color}"
            strong.text-info
              =< "#{link_kind_name}"
         td
           - links.each do |link|
             =< link_to link.second_record, class: 'link', data: { toggle: 'tooltip', placement: 'top'}, title: link.description do
+              = fa_icon 'link', style: "color:#{links.first.link_kind.color}"
               =< link.second_record.show_full_name
             =< link_to link, method: :delete, remote: true, data: { confirm: t('views.action.confirm') } do
               span.text-danger
@@ -25,9 +25,9 @@ table.table.table-hover.table-bordered.table-striped
 
   tbody id='toggle_links' class="#{'collapse' unless @unfold_links}"
     tr
-      td.col-md-2.text-right
+      td.col-md-2.text-warning.text-right
         strong
-          =< "#{t('labels.links.allowed_links')}"
+          =< "#{t('labels.links.allowed_links')}:"
       td
         ul.nav.nav-tabs role='tablist'
           - LinkKind.allowed_to_record(record).sort_by { |link_kind| "#{LinkKindDecorator.new(link_kind).show_long_name}" }.each do |link_kind|

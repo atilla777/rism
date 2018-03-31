@@ -23,6 +23,8 @@ class LinkKind < ApplicationRecord
   validates :second_record_type, inclusion: { in: Link.record_types.keys }
   validates :equal, inclusion: { in: [true, false] }
 
+  validate :color, :css_hex
+
   has_many :links, dependent: :restrict_with_error
 
   private
