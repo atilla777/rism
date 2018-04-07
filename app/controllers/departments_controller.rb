@@ -158,20 +158,25 @@ class DepartmentsController < ApplicationController
 
   def paste_selected_users
     return if session[:selected_users].blank?
-    session[:selected_users].each do |id|
-      User.find(id.to_i)
-          .update_attributes(department_id: @department.id)
+    users = User.where(id: session[:selected_users].map(&:to_i))
+    users.each do |user|
+      user.update_attributes(
+        department_id: @department.id,
+        current_user: current_user
+      )
     end
     session[:selected_users] = []
   end
 
   def paste_selected_departments
     return if session[:selected_departments].blank?
-    session[:selected_departments].each do |id|
-      department = Department.find(id.to_i)
-      unless department.id == @department.id
-        department.update_attributes(parent_id: @department.id)
-      end
+    departments = Department.where(id: session[:selected_departments].map(&:to_i))
+    departments.each do |department|
+      next if department.id == @department.id
+      department.update_attributes(
+        parent_id: @department.id,
+        current_user: current_user
+      )
     end
     session[:selected_departments] = []
   end

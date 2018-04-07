@@ -27,7 +27,7 @@
           .col-lg-2.text-right
             = f.label :parent_id, class: 'control-label'
           .col-lg-8
-            = autocomplete_field_tag :parent, '', autocomplete_organizations_path, id_element: '#organization_parent_id',  class: 'form-control', value: (@record.parent&.name || @organization&.name), readonly: @organization&.id.present?
+            = autocomplete_field_tag :parent, '', autocomplete_organizations_path, id_element: '#organization_parent_id',  class: 'form-control',autocomplete: :off, value: (@record.parent&.name || @organization&.name), readonly: @organization&.id.present?
             = f.hidden_field :parent_id, value: @organization&.id || @record.parent_id
 
       .form-group.recomended
