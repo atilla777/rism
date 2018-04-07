@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   # TODO: move to controllers with versioned models
   before_action :set_paper_trail_whodunnit
 
-  after_action :verify_authorized
+  after_action :verify_authorized, unless: -> { controller_name == 'pictures' || 'attachment_file' }
 
   protect_from_forgery with: :exception
 
@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
   before_action :authenticate?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
 #  protected
 
 #  def handle_unverified_request

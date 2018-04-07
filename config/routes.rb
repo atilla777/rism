@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
   root to: 'organizations#index'
 
   resources :user_sessions, only: [:create, :destroy]
@@ -49,4 +50,5 @@ Rails.application.routes.draw do
   get "/dashboards/:name", to: 'dashboards#show', as: :dashboard
   get "/charts/:name", to: 'charts#show', as: :charts
   resources :hosts
+  resources :articles
 end

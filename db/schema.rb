@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180329132820) do
+ActiveRecord::Schema.define(version: 20180407164520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,18 @@ ActiveRecord::Schema.define(version: 20180329132820) do
     t.index ["prop"], name: "index_agreements_on_prop"
   end
 
+  create_table "articles", force: :cascade do |t|
+    t.string "name"
+    t.bigint "organization_id"
+    t.bigint "user_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_articles_on_name"
+    t.index ["organization_id"], name: "index_articles_on_organization_id"
+    t.index ["user_id"], name: "index_articles_on_user_id"
+  end
+
   create_table "attachment_links", force: :cascade do |t|
     t.string "record_type"
     t.bigint "record_id"
@@ -59,6 +71,18 @@ ActiveRecord::Schema.define(version: 20180329132820) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_attachments_on_name"
     t.index ["organization_id"], name: "index_attachments_on_organization_id"
+  end
+
+  create_table "ckeditor_assets", id: :serial, force: :cascade do |t|
+    t.string "data_file_name", null: false
+    t.string "data_content_type"
+    t.integer "data_file_size"
+    t.string "type", limit: 30
+    t.integer "width"
+    t.integer "height"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_ckeditor_assets_on_type"
   end
 
   create_table "departments", force: :cascade do |t|
@@ -282,6 +306,8 @@ ActiveRecord::Schema.define(version: 20180329132820) do
   add_foreign_key "agreements", "agreement_kinds"
   add_foreign_key "agreements", "organizations"
   add_foreign_key "agreements", "organizations", column: "contractor_id"
+  add_foreign_key "articles", "organizations"
+  add_foreign_key "articles", "users"
   add_foreign_key "attachments", "organizations"
   add_foreign_key "departments", "departments", column: "parent_id"
   add_foreign_key "departments", "organizations"

@@ -3,3 +3,8 @@ li
     .span.text-info
       = fa_icon 'group'
       =< Department.model_name.human(count: 2)
+li
+  = link_to articles_path do
+    .span.text-info
+      = fa_icon 'graduation-cap'
+      =< Article.model_name.human(count: 2)

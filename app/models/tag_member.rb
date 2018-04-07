@@ -7,6 +7,7 @@ class TagMember < ApplicationRecord
                    Incident
                    Host
                    RecordTemplate
+                   Article
                  ]
 
   def self.record_types

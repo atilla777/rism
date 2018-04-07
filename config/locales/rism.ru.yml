@@ -68,6 +68,7 @@ ru:
       select_template: 'Выберите шаблон:'
       more_content: 'Атрибуты (нажмите для просмотра)'
     reports: 'Справки'
+    kbase: 'База знаний'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
@@ -168,6 +169,9 @@ ru:
       host:
         one: 'Хост/сеть'
         other: 'Хосты/сети'
+      article:
+        one: 'Статья'
+        other: 'Статьи'
     attributes:
       organization:
         name: 'Имя'
@@ -288,6 +292,12 @@ ru:
         ip: 'Адрес'
         organization_id: 'Организация'
         description: 'Описание'
+      article:
+        name: 'Название'
+        created_at: 'Дата создания'
+        organization_id: 'Организация'
+        user_id: 'Автор'
+        content: 'Содержимое'
     errors:
       messages:
           organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'

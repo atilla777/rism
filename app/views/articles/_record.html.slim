@@ -1,0 +1,16 @@
+= show_for @record do |r|
+  = r.show :created_at, value: show_date(@record.created_at)
+  = r.show :organization_id, value: @record.organization&.name
+  = r.show :user_id, value: @record.user&.name
+  = r.show :content do
+    = @record.content.to_s.html_safe
+
+= render 'application/record_versions'
+
+#links
+  = render 'links/links', record: record
+
+#tags
+  = render 'tag_members/tags', record: record
+
+= render 'application/record_attachments', record: record

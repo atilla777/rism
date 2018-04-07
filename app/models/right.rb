@@ -21,6 +21,7 @@ class Right < ApplicationRecord
     'Department' => I18n.t('activerecord.models.department.one'),
     'Agreement' => I18n.t('activerecord.models.agreement.one'),
     'AgreementKind' => I18n.t('activerecord.models.agreement_kind.one'),
+    'Article' => I18n.t('activerecord.models.article.one'),
     'OrganizationKind' =>  I18n.t('activerecord.models.organization_kind.one'),
     'Attachment' => I18n.t('activerecord.models.attachment.one'),
     'AttachmentLink' => I18n.t('activerecord.models.attachment_link.one'),

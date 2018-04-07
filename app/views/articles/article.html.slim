@@ -1,0 +1,6 @@
+.row
+  .col-lg-offset-2.col-lg-8.text-info
+    = @record.show_full_name
+    hr
+  .col-lg-offset-2.col-lg-8.bg-white
+    = @record.content.to_s.html_safe

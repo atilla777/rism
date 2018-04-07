@@ -1,0 +1,41 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      = hidden_field_tag :template_id, @template_id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :name, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :organization_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#incident_organization_id',  class: 'form-control', value: (@record.organization&.name || @organization&.name || current_user.organization.name)
+            = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id || current_user.organization.id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :user_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag :user, '', autocomplete_users_path, id_element: '#incident_user_id',  class: 'form-control', value: (@record.user&.name || current_user&.name), readonly: @department&.id.present?, placeholder: t('placeholders.auto')
+            = f.hidden_field :user_id, value: current_user&.id || @record.user_id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :content, class: 'control-label'
+          .col-lg-8
+            = f.cktext_area :content, class: 'form-control', ckeditor: { language: 'ru', uiColor: '#33ccff' }
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = render 'form_back_button'
