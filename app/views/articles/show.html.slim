@@ -1,0 +1,47 @@
+.row
+  .col-lg-offset-2.col-lg-8
+    = render 'application/flash'
+.row
+  .col-lg-2.text-right
+    - Tag.joins(:tag_kind).where(tag_kinds: {record_type: 'Article'}).each do |tag|
+      = link_to articles_path(tag_id: tag.id) do
+        span.text-white
+          // = fa_icon 'tag'
+          // =< tag.name
+      br
+  .col-lg-8.bg-white
+    h3.text-black
+      = @record.name
+    = link_to @record.user do
+      span.text-black
+        = fa_icon 'user'
+        =< @record.user.name
+    =<> link_to @record.organization do
+      span.text-black
+        = "(#{@record.organization.name})"
+    span.text-black
+      = fa_icon 'calendar'
+      =< @record.created_at.strftime('%d.%m.%Y')
+    hr
+    = @record.content.to_s.html_safe
+.row
+  .col-lg-offset-2.col-lg-8.article
+    br
+    a.link data-toggle='collapse' href='#toggle_article_info'
+      strong
+        = t('labels.info')
+
+    .collapse id='toggle_article_info'
+
+      = render 'application/record_versions'
+
+      #links
+        = render 'links/links', record: @record
+
+      #tags
+        = render 'tag_members/tags', record: @record
+
+      = render 'application/record_attachments', record: @record
+    br
+    br
+    = render 'show_buttons', record: @record

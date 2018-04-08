@@ -23,12 +23,6 @@ class ArticlesController < ApplicationController
 #    end
 #  end
 
-  def show
-    @record = record
-    authorize @record
-    render 'article' if params[:layout]
-  end
-
   private
 
   def model

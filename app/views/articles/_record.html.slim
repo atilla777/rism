@@ -1,16 +1,23 @@
-= show_for @record do |r|
-  = r.show :created_at, value: show_date(@record.created_at)
-  = r.show :organization_id, value: @record.organization&.name
-  = r.show :user_id, value: @record.user&.name
-  = r.show :content do
-    = @record.content.to_s.html_safe
+= @record.content.to_s.html_safe
+a.link data-toggle='collapse' href='#toggle_article_info'
+  strong
+    = t('labels.info')
 
-= render 'application/record_versions'
+.collapse id='toggle_article_info'
+  = show_for @record do |r|
+    = r.show :created_at, value: show_date(@record.created_at)
+    = r.show :organization_id, value: @record.organization&.name
+    = r.show :user_id, value: @record.user&.name
+    = r.show :content do
 
-#links
-  = render 'links/links', record: record
+  = render 'application/record_versions'
 
-#tags
-  = render 'tag_members/tags', record: record
+  #links
+    = render 'links/links', record: record
 
-= render 'application/record_attachments', record: record
+  #tags
+    = render 'tag_members/tags', record: record
+
+  = render 'application/record_attachments', record: record
+
+

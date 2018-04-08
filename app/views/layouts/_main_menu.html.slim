@@ -44,7 +44,7 @@ li
       = fa_icon 'handshake-o'
       =< Agreement.model_name.human(count: 2)
 li
-  = link_to article_path(Article.first, layout: false ) do
+  = link_to articles_path do
     .span.text-info
       = fa_icon 'graduation-cap'
       =< t('labels.kbase')

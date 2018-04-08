@@ -68,6 +68,7 @@ ru:
       select_template: 'Выберите шаблон:'
       more_content: 'Атрибуты (нажмите для просмотра)'
     reports: 'Справки'
+    info: 'Дополнительная информация...'
     kbase: 'База знаний'
   navigations:
     config: 'Настройки'

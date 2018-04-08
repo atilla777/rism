@@ -31,6 +31,6 @@ class Article < ApplicationRecord
   # for use with RecordTemplate, Link and
   # in autocomplite (inside controller)
   def show_full_name
-    "#{name}, #{user.name}, #{created_at}"
+    "#{name}, #{user.name}, #{created_at.strftime('%d.%m.%Y')}"
   end
 end
