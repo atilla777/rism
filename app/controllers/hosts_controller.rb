@@ -3,26 +3,31 @@
 class HostsController < ApplicationController
   include RecordOfOrganization
 
-  # TODO: use or delete
-#  autocomplete(
-#    :host,
-#    :name,
-#    extra_data: %i[organization_id],
-#    display_value: :show_full_name
-#  )
+  def autocomplete_host_name
+    authorize model
+    scope = if current_user.admin_editor?
+              Host
+            elsif current_user.can_read_model_index? Organization
+              Host
+            else
+              Host.where(
+                id: current_user.allowed_organizations_ids
+              )
+            end
 
-  # authorization for autocomplete
-#  def active_record_get_autocomplete_items(parameters)
-#    authorize model
-#    if current_user.admin_editor?
-#      super(parameters)
-#      .includes(:organization)
-#    else
-#      super(parameters)
-#      .where(organization_id: current_user.allowed_organizations_ids)
-#      .includes(:organization)
-#    end
-#  end
+    term = params[:term]
+    records = scope.select(:id, :name, :ip)
+                       .where('name ILIKE ? OR ip::text LIKE ?', "%#{term}%", "#{term}%")
+                       .order(:id)
+    result = records.map do |record|
+               {
+                 id: record.id,
+                 name: record.name,
+                 value: record.show_full_name
+               }
+             end
+    render json: result
+  end
 
   private
 

@@ -13,4 +13,9 @@ class Host < ApplicationRecord
   validates :organization_id, numericality: { only_integer: true }
 
   belongs_to :organization
+  #
+  # for use with RecordTemplate, Link and etc
+  def show_full_name
+    "#{name} (#{ip})"
+  end
 end
