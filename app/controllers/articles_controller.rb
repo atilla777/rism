@@ -3,25 +3,31 @@
 class ArticlesController < ApplicationController
   include RecordOfOrganization
 
-#  autocomplete(
-#    :article,
-#    :name,
-#    extra_data: %i[organization_id user_id],
-#    display_value: :full_name
-#  )
-#
-#  # authorization for autocomplete
-#  def active_record_get_autocomplete_items(parameters)
-#    authorize model
-#    if current_user.admin_editor?
-#      super(parameters)
-#      .includes(:organization, :user)
-#    else
-#      super(parameters)
-#      .where(organization_id: current_user.allowed_organizations_ids)
-#      .includes(:organization, :user)
-#    end
-#  end
+  def autocomplete_article_name
+    authorize model
+    scope = if current_user.admin_editor?
+              Article
+            elsif current_user.can_read_model_index? Organization
+              Article
+            else
+              Article.where(
+                id: current_user.allowed_organizations_ids
+              )
+            end
+
+    term = params[:term]
+    records = scope.select(:id, :name)
+                       .where('name ILIKE ? OR id::text LIKE ?', "%#{term}%", "#{term}%")
+                       .order(:id)
+    result = records.map do |record|
+               {
+                 id: record.id,
+                 name: record.name,
+                 :value => record.name
+               }
+             end
+    render json: result
+  end
 
   private
 

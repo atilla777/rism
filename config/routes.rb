@@ -50,5 +50,7 @@ Rails.application.routes.draw do
   get "/dashboards/:name", to: 'dashboards#show', as: :dashboard
   get "/charts/:name", to: 'charts#show', as: :charts
   resources :hosts
-  resources :articles
+  resources :articles do
+    get :autocomplete_article_name, :on => :collection, as: :autocomplete
+  end
 end
