@@ -27,7 +27,7 @@ module Record
     @record = model.new(record_params)
     authorize @record.class
     @record.save!
-    add_tags_from_template
+    add_from_template
     redirect_to(
       session.delete(:edit_return_to),
       success: t('flashes.create', model: model.model_name.human)

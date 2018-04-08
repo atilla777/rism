@@ -63,16 +63,34 @@ module SharedMethods
     RecordTemplate.find(params[:template_id]).record_content
   end
 
-  def add_tags_from_template
+  def add_from_template
     return if params[:template_id].blank?
-    RecordTemplate.find(params[:template_id])
-                  .tags.pluck(:id).each do |tag_id|
+    record_template = RecordTemplate.find(params[:template_id])
+    add_tags_from_template(record_template)
+    add_links_from_template(record_template)
+  end
+
+  def add_tags_from_template(record_template)
+    record_template.tags.pluck(:id).each do |tag_id|
                     TagMember.create(
                       tag_id: tag_id,
                       record_id: @record.id,
                       record_type: @record.class.name
                     )
-                  end
+    end
+  end
+
+  def add_links_from_template(record_template)
+    return if params[:template_id].blank?
+    record_template.links.each do |link|
+                    Link.create(
+                      first_record_id: @record.id,
+                      first_record_type: @record.class.name,
+                      second_record_id: link.second_record_id,
+                      second_record_type: link.second_record_type,
+                      link_kind_id: link.link_kind_id
+                    )
+    end
   end
 
   def group_field

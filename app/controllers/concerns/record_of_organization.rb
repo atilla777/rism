@@ -40,7 +40,7 @@ module RecordOfOrganization
     @organization = organization
     @record.current_user = current_user
     @record.save!
-    add_tags_from_template
+    add_from_template
     redirect_to(
       session.delete(:edit_return_to),
       organization_id: @organization.id,
