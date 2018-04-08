@@ -23,7 +23,8 @@
       = fa_icon 'calendar'
       =< @record.created_at.strftime('%d.%m.%Y')
     hr
-    = @record.content.to_s.html_safe
+    span.text-black
+      = @record.content.to_s.html_safe
 .row
   .col-lg-offset-2.col-lg-8.article
     br
