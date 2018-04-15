@@ -1,0 +1,14 @@
+= caption 'Search'
+table.table.table-hover.table-bordered.table-striped
+  thead.thead-dark
+    tr
+      th
+        span.text-info
+          = 'Name'
+  tbody
+    - @records.each do |record|
+      tr
+        td.fit
+          = link_to record.searchable.name, record.searchable
+
+= render 'index_paginate', records: @records

@@ -55,4 +55,5 @@ Rails.application.routes.draw do
   resources :articles do
     get :autocomplete_article_name, :on => :collection, as: :autocomplete
   end
+  get '/serach/index', to: 'search#index', as: :search
 end

@@ -4,6 +4,9 @@ class Article < ApplicationRecord
   include Linkable
   include Tagable
   include Attachable
+  include PgSearch
+
+  multisearchable against: [:name, :content]
 
   ransacker :created_at_text do
     Arel.sql("to_char(articles.created_at, 'YYYY.MM.DD')")

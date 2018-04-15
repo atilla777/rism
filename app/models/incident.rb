@@ -6,6 +6,11 @@ class Incident < ApplicationRecord
   include Tagable
   include Attachable
   include Incident::Ransackers
+  include PgSearch
+
+  multisearchable(
+    against: [:name, :event_description, :investigation_description, :action_description]
+  )
 
   COLORS = ['#228B22', '#DAA520', '#DC143C'].freeze
 

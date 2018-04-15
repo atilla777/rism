@@ -22,6 +22,12 @@ nav.navbar.navbar-default
               span class='caret'
           ul class="dropdown-menu"
             = render 'layouts/references_menu'
+    = form_tag search_path, method: :get, class: 'navbar-form navbar-right'
+      .form-group.input-group
+        = text_field_tag :words,'', class: 'form-control'
+        .input-group-btn
+          = button_tag class: 'btn btn-default' do
+            = fa_icon 'search'
     ul.nav.navbar-nav.navbar-right
       - if current_user.admin?
         li role="presentation" class="dropdown"

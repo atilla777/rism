@@ -77,8 +77,9 @@ gem 'caracal', "~> 1.1"
 gem "chartkick", "~> 2.3"
 gem 'groupdate', "~> 4.0"
 gem 'hightop', "~> 0.2"
-gem 'ckeditor'
-gem 'mini_magick'
+gem 'ckeditor', '~> 4.2'
+gem 'mini_magick', '~> 4.8'
+gem 'pg_search', '~> 2.1'
 
 # Lint with overcommit
 group :development do

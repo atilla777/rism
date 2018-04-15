@@ -10,10 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180407164520) do
+ActiveRecord::Schema.define(version: 20180415055551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "fuzzystrmatch"
+  enable_extension "pg_trgm"
 
   create_table "agreement_kinds", force: :cascade do |t|
     t.string "name"
@@ -179,6 +181,15 @@ ActiveRecord::Schema.define(version: 20180407164520) do
     t.index ["name"], name: "index_organizations_on_name"
     t.index ["organization_kind_id"], name: "index_organizations_on_organization_kind_id"
     t.index ["parent_id"], name: "index_organizations_on_parent_id"
+  end
+
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text "content"
+    t.string "searchable_type"
+    t.bigint "searchable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
   end
 
   create_table "record_templates", force: :cascade do |t|
