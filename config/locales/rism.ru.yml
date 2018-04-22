@@ -70,6 +70,7 @@ ru:
     reports: 'Справки'
     info: 'Дополнительная информация...'
     kbase: 'База знаний/новости'
+    search: 'Поиск'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
