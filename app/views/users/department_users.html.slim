@@ -5,17 +5,16 @@
 = report_button_for @records, department_id: @department_id, organization_id: @organization_id
 = index_new_button @records, department_id: @department.id, organization_id: @department.organization.id
 
-= index_for @records do | i |
-  - i.header attribute: :name, sort: :desc
-  - i.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
-  - i.header attribute: :job, sort: :desc
-  - i.header attribute: :email, sort: :desc
-  - i.header attribute: :phone, sort: :desc
-  - i.body do | r, record |
-    - r.field link_to(record.name, record)
-    - r.field record.organization.name
-    - r.field record.job
-    - r.field record.email
-    - r.field record.phone
+= index_for @records do |t|
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - t.header attribute: :job, sort: :desc
+  - t.header attribute: :email, sort: :desc
+  - t.header attribute: :phone, sort: :desc
+  - t.field { |record| link_to(record.name, record) }
+  - t.field { |record| record.organization.name }
+  - t.field { |record| record.job }
+  - t.field { |record| record.email }
+  - t.field { |record| record.phone }
 
 = render 'index_paginate', records: @records

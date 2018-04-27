@@ -1,0 +1,63 @@
+= show_for @record do |r|
+  = r.show :id, label: t('labels.incident.full_name') do
+    span.text-info
+      = IncidentDecorator.new(@record).show_id
+    =< @record.name
+  = r.show :state do
+    span style="color:#{@record.state_color}"
+      =<> fa_icon 'star'
+    =< IncidentDecorator.new(@record).show_state
+    =< show_date_time(@record.closed_at)
+  = r.show :severity do
+    span style="color:#{@record.severity_color}"
+      => fa_icon 'star'
+    = IncidentDecorator.new(@record).show_severity
+  = r.show :damage do
+    span style="color:#{@record.damage_color}"
+      => fa_icon 'star'
+    = IncidentDecorator.new(@record).show_damage
+  = r.show :discovered_at, label: t('labels.incident.dates_and_times') do
+    span.text-info
+      = @record.class.human_attribute_name(:discovered_at)
+      | :
+    =< IncidentDecorator.new(@record).show_discovered_at
+    span.text-info
+      =< @record.class.human_attribute_name(:created_at)
+      | :
+    =< show_date_time(@record.created_at)
+    span.text-info
+      =< @record.class.human_attribute_name(:started_at)
+      | :
+    =< IncidentDecorator.new(@record).show_started_at
+    span.text-info
+      =< @record.class.human_attribute_name(:finished_at)
+      | :
+    =< IncidentDecorator.new(@record).show_finished_at
+  = r.show :event_description do
+    = simple_format(@record.event_description)
+  = r.show :investigation_description do
+    = simple_format(@record.investigation_description)
+  = r.show :action_description do
+    = simple_format(@record.action_description)
+
+= render 'application/record_versions'
+
+table.table.table-hover.table-bordered.table-striped
+  caption
+    a.link data-toggle='collapse' href='#toggle_owners'
+      strong
+        = t('labels.incident.owners')
+
+  tbody id='toggle_owners' class="#{'collapse' unless @unfold_links}"
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:organization_id)
+      td
+        = link_to @record.organization.name, @record.organization
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:user_id)
+      td
+        = link_to @record.user.name, @record.user
