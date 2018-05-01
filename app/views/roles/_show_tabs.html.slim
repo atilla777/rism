@@ -1,3 +1,5 @@
-=  show_tabs_for record, active do | menu |
-  - menu.tab :role, link_to(t('navigations.main_info'), record)
-  - menu.tab :rights, link_to(t('navigations.rights'), rights_path(role_id: record.id))
+=  tabs active_tab, :main_info, from_external_link do |tabs|
+  - tabs.add(:main_info, polymorphic_path(record, active_tab: :main_info)) do
+    = t('navigations.main_info')
+  - tabs.add(:rights, rights_path(role_id: record.id), true) do
+    = t('navigations.rights')

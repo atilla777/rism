@@ -1,0 +1,10 @@
+ul.nav.nav-tabs role='tablist'
+  - tabs.each do |tab|
+    li class=active_tab.fetch(tab[:name],'') role='presentation'
+      - if from_external_page || tab[:external_link]
+        = link_to(tab[:link]) do
+          = capture { tab[:label].call }
+      - else
+        = link_to("##{tab[:name]}", {'aria-controls' => tab[:name], role: 'tab', data: {toggle: 'tab' }}) do
+          = capture { tab[:label].call }
+br

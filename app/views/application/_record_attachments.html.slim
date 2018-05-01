@@ -3,8 +3,8 @@ table.table.table-hover.table-bordered.table-striped
   caption
     a.link data-toggle='collapse' href='#toggle_files'
       strong
-        = fa_icon 'folder'
-        =< "#{t('labels.attachment.more_files')}"
+        = fa_icon 'plus-circle'
+        =< "#{t('labels.press_to_add')}"
 
   thead
     - record.attachments.each_with_index do |attachment, index|

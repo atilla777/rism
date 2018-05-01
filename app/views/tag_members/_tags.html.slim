@@ -2,8 +2,8 @@ table.table.table-hover.table-bordered.table-striped
   caption
     a.link data-toggle='collapse' href='#toggle_tags'
       strong
-        = fa_icon 'tags'
-        =< "#{t('labels.tags.more_tags')}"
+        = fa_icon 'plus-circle'
+        =< "#{t('labels.press_to_add')}"
     br
     = render 'errors', record: @tag_member
   thead

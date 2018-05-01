@@ -1,5 +1,5 @@
 = caption @user
-= render 'users/show_tabs', record: @user, active: :role_members
+= render 'users/show_tabs', record: @user, active_tab: :role_members, from_external_link: true
 = index_search :role_name_cont, user_id_eq: @user.id
 = index_new_button @records, user_id: @user.id
 = render 'records', records: @records

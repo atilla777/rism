@@ -4,13 +4,4 @@
   = r.show :parent_id, value: record.parent.present? ? link_to(record.parent.name, record.parent) : ''
   = r.show :organization_kind_id, value: record.organization_kind_id.present? ? link_to(record.organization_kind.name, record.organization_kind) : ''
   = r.show :description
-
 = render 'application/record_versions'
-
-#links
-  = render 'links/links', record: record
-
-#tags
-  = render 'tag_members/tags', record: record
-
-= render 'application/record_attachments', record: record

@@ -1,7 +1,23 @@
-=  show_tabs_for record, active do |menu|
-  - menu.tab :organization, link_to(t('navigations.main_info'), record)
-  - menu.tab :organizations, link_to(Organization.model_name.human(count: 2), organizations_path(organization_id: record.id))
-  - menu.tab :departments, link_to(t('navigations.departments'), departments_path(organization_id: record.id))
-  - menu.tab :incidents, link_to(Incident.model_name.human(count: 2), incidents_path(organization_id: record.id))
-  - menu.tab :hosts, link_to(Host.model_name.human(count: 2), hosts_path(organization_id: record.id))
-  - menu.tab :agreements, link_to(Agreement.model_name.human(count: 2), agreements_path(organization_id: record.id))
+=  tabs active_tab, :main_info, from_external_link do |tabs|
+  - tabs.add(:main_info, polymorphic_path(record, active_tab: :main_info)) do
+    = fa_icon 'info'
+    =< t('navigations.main_info')
+  - tabs.add(:links, polymorphic_path(record, active_tab: :links)) do
+    = fa_icon 'link'
+    =< Link.model_name.human(count: 2)
+  - tabs.add(:tags, polymorphic_path(record, active_tab: :tags)) do
+    = fa_icon 'tags'
+    =< Tag.model_name.human(count: 2)
+  - tabs.add(:files, polymorphic_path(record, active_tab: :files)) do
+    = fa_icon 'folder'
+    =< Attachment.model_name.human(count: 2)
+  - tabs.add(:organizations, organizations_path(organization_id: record.id), true) do
+    = Organization.model_name.human(count: 2)
+  - tabs.add(:departments, departments_path(organization_id: record.id), true) do
+    = t('navigations.departments')
+  - tabs.add(:incidents, incidents_path(organization_id: record.id), true) do
+    = Incident.model_name.human(count: 2)
+  - tabs.add(:hosts, hosts_path(organization_id: record.id), true) do
+    = Host.model_name.human(count: 2)
+  - tabs.add(:agreements, agreements_path(organization_id: record.id), true) do
+    = Agreement.model_name.human(count: 2)

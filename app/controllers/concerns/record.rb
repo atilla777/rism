@@ -15,6 +15,7 @@ module Record
   def show
     @record = record
     authorize @record.class
+    render 'show_without_tabs'
   end
 
   def new

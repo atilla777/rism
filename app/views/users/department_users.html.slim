@@ -1,5 +1,5 @@
 = caption @department
-= render 'departments/show_tabs', record: @department, active: :users
+= render 'departments/show_tabs', record: @department, active_tab: :users, from_external_link: true
 
 = index_search :name_cont, department_id_eq: @department.id
 = report_button_for @records, department_id: @department_id, organization_id: @organization_id

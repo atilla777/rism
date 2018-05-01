@@ -40,7 +40,9 @@ nav.navbar.navbar-default
       - if current_user
         li
           span.navbar-text
-            = "#{t('user_sessions.sign_in_user')}: #{current_user.name}"
+            = fa_icon 'user'
+            =< "#{current_user.name}"
+            //"#{t('user_sessions.sign_in_user')}
         li
           = link_to t('user_sessions.sign_out'), sign_out_path, method: :delete, class: 'navbar-link'
       - else

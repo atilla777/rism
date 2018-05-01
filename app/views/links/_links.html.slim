@@ -2,8 +2,8 @@ table.table.table-hover.table-bordered.table-striped
   caption
     a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_links'
       strong
-        = fa_icon 'link'
-        =< "#{t('labels.links.more_links')}"
+        = fa_icon 'plus-circle'
+        =< "#{t('labels.press_to_add')}"
     br
     = render 'errors', record: @link
 
