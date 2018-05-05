@@ -19,7 +19,11 @@ module TabsHelper
   # * +default_tab+ - Default active tab name (symbol)
   # * +from_external_page+ - Current active tab from another page (true or false)
   # ==== Examples
-  # = tabs :users, :main_info, true
+  # = tabs :users, :main_info, true do |t|
+  #   - t.add :main_info, polymorphic_path(user, active_tab: :main_info) do
+  #     = user.model_name.human(count: 2)
+  #   - t.add :user_groups, user_groups_path(user) do
+  #     = user_groups.model_name.human(count: 2)
   def tabs(active_tab, default_tab, from_external_page = false)
     active_tab = if active_tab.present?
                     {active_tab.to_sym => ' active'}
