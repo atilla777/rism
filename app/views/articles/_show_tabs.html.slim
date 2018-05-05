@@ -1,0 +1,16 @@
+=  tabs active_tab, :content, from_external_link do |tabs|
+  - tabs.add(:content, polymorphic_path(record, active_tab: :content)) do
+    = fa_icon 'newspaper-o'
+    =< Article.model_name.human(count: 1)
+  - tabs.add(:main_info, polymorphic_path(record, active_tab: :main_info)) do
+    = fa_icon 'info'
+    =< t('navigations.main_info')
+  - tabs.add(:links, polymorphic_path(record, active_tab: :links)) do
+    = fa_icon 'link'
+    =< Link.model_name.human(count: 2)
+  - tabs.add(:tags, polymorphic_path(record, active_tab: :tags)) do
+    = fa_icon 'tags'
+    =< Tag.model_name.human(count: 2)
+  - tabs.add(:files, polymorphic_path(record, active_tab: :files)) do
+    = fa_icon 'folder'
+    =< Attachment.model_name.human(count: 2)

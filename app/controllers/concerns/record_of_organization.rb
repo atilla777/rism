@@ -24,7 +24,6 @@ module RecordOfOrganization
   def show
     @record = record
     authorize @record
-#    @organization = organization
   end
 
   def new

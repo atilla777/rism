@@ -29,11 +29,6 @@ class OrganizationsController < ApplicationController
     render json: result
   end
 
-#  def show
-#    @record = record
-#    authorize @record
-#  end
-
   private
 
   def model
