@@ -27,6 +27,7 @@ RSpec.feature 'Tag members management', type: :feature do
         tag_id: tag.id
       )
       visit polymorphic_path(agreement)
+      find("a[href='#tags']").click
       find("a[href='#toggle_tags']").click
       find("a[href='#{link}']").click
       wait_for_ajax
@@ -49,6 +50,7 @@ RSpec.feature 'Tag members management', type: :feature do
       visit polymorphic_path(agreement)
       link_to_remove = tag_member_path(tag_member)
       link = tag_member_path(tag_member)
+      find("a[href='#tags']").click
       find("a[href='#{link}']").click
       confirm
       wait_for_ajax
@@ -64,6 +66,7 @@ RSpec.feature 'Tag members management', type: :feature do
     scenario 'can`t add tag to record', js: true do
       tag
       visit polymorphic_path(agreement)
+      find("a[href='#tags']").click
       find("a[href='#toggle_tags']").click
       link = tag_members_path(
         record_type: 'Agreement',
@@ -85,6 +88,7 @@ RSpec.feature 'Tag members management', type: :feature do
       tag_member
       link_to_remove = tag_member_path(tag_member)
       visit polymorphic_path(agreement)
+      find("a[href='#tags']").click
       find("a[href='#{link_to_remove}']").click
       confirm
       wait_for_ajax
