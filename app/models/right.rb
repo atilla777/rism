@@ -36,7 +36,9 @@ class Right < ApplicationRecord
     'Versions' => I18n.t('labels.version.versions'),
     'Reports' => I18n.t('labels.reports'),
     'Charts' => I18n.t('navigations.charts'),
-    'Dashboards' => I18n.t('navigations.dashboards')
+    'Dashboards' => I18n.t('navigations.dashboards'),
+    'ScanOption' => I18n.t('activerecord.models.scan_option.one'),
+    'ScanJob' => I18n.t('activerecord.models.scan_job.one')
   }.freeze
 
   # TODO: try to make subject_type field transformation

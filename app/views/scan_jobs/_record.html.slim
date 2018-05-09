@@ -1,0 +1,9 @@
+= show_for @record do |r|
+  = r.show :name
+  = r.show :organization_id, value: @record.organization.name
+  = r.show :scan_option_id, value: @record.scan_option.name
+  = r.show :hosts
+  = r.show :ports
+  = r.show :description
+
+= render 'application/record_versions'

@@ -10,11 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180415054815) do
+ActiveRecord::Schema.define(version: 20180509141658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
 
   create_table "agreement_kinds", force: :cascade do |t|
@@ -233,6 +232,27 @@ ActiveRecord::Schema.define(version: 20180415054815) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scan_jobs", force: :cascade do |t|
+    t.string "name"
+    t.bigint "organization_id"
+    t.bigint "scan_option_id"
+    t.string "hosts"
+    t.string "ports"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_scan_jobs_on_organization_id"
+    t.index ["scan_option_id"], name: "index_scan_jobs_on_scan_option_id"
+  end
+
+  create_table "scan_options", force: :cascade do |t|
+    t.string "name"
+    t.jsonb "options"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tag_kinds", force: :cascade do |t|
     t.string "name"
     t.string "code_name"
@@ -332,6 +352,8 @@ ActiveRecord::Schema.define(version: 20180415054815) do
   add_foreign_key "rights", "roles"
   add_foreign_key "role_members", "roles"
   add_foreign_key "role_members", "users"
+  add_foreign_key "scan_jobs", "organizations"
+  add_foreign_key "scan_jobs", "scan_options"
   add_foreign_key "tag_members", "tags"
   add_foreign_key "tags", "tag_kinds"
   add_foreign_key "users", "departments"

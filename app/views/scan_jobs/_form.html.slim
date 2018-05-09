@@ -1,0 +1,53 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :name, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :organization_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#scan_job_organization_id',  class: 'form-control', autocomplete: :off, value: (@record.organization&.name || @organization&.name), readonly: @organization&.id.present?
+            = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :scan_option_id, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :scan_option_id, ScanOption.all, :id, :name, {}, { class: 'form-control' }
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :hosts, class: 'control-label'
+          .col-lg-8
+            = f.text_field :hosts, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :ports, class: 'control-label'
+          .col-lg-8
+            = f.text_field :ports, class: 'form-control'
+
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, rows: 8, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = render 'form_back_button'

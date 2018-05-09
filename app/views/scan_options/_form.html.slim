@@ -1,0 +1,85 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :name, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :syn_scan, class: 'control-label'
+          .col-lg-8
+             => f.check_box :syn_scan, class: 'big-checkbox'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :skip_discovery, class: 'control-label'
+          .col-lg-8
+             => f.check_box :skip_discovery, class: 'big-checkbox'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :udp_scan, class: 'control-label'
+          .col-lg-8
+             => f.check_box :udp_scan, class: 'big-checkbox'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :os_fingerprint, class: 'control-label'
+          .col-lg-8
+             => f.check_box :os_fingerprint, class: 'big-checkbox'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :service_scan, class: 'control-label'
+          .col-lg-8
+             => f.check_box :service_scan, class: 'big-checkbox'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :aggressive_timing, class: 'control-label'
+          .col-lg-8
+             => f.check_box :aggressive_timing, class: 'big-checkbox'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :insane_timing, class: 'control-label'
+          .col-lg-8
+             => f.check_box :insane_timing, class: 'big-checkbox'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :disable_dns, class: 'control-label'
+          .col-lg-8
+             => f.check_box :disable_dns, class: 'big-checkbox'
+
+      .form-group
+        .col-lg-2.text-right
+          = f.label :top_ports, class: 'control-label'
+        .col-lg-8
+          = f.text_field :top_ports, placeholder: '1-65535', class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = render 'form_back_button'

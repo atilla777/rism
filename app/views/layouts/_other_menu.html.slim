@@ -18,3 +18,8 @@ li
     .span.text-info
       = fa_icon 'graduation-cap'
       =< Article.model_name.human(count: 2)
+li
+  = link_to scan_jobs_path do
+    .span.text-info
+      = fa_icon 'gears'
+      =< ScanJob.model_name.human(count: 2)

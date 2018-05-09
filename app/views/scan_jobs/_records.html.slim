@@ -1,0 +1,10 @@
+= index_search :name_or_organization_name_or_scan_option_name_cont, organization_id_eq: @organization&.id
+= report_button_for @records, organization_id: @organization.id
+= index_for records do |t|
+  - t.header attribute: :name, sort_by: :name, sort: :desc
+  - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - t.header attribute: :scan_option_id, sort_by: :scan_option_name, sort: :desc
+  - t.header attribute: :contractor_id, sort_by: :contractor_name, sort: :desc
+  - t.field { |record| link_to record.name, record }
+  - t.field { |record| link_to record.organization.name, record.organization }
+  - t.field { |record| link_to record.scan_option.name, record.scan_option}
