@@ -3,4 +3,5 @@
   - t.header attribute: :name, sort: :desc
   - t.header attribute: :options
   - t.field { |record| link_to(record.name, record) }
-  - t.field { |record| record.options }
+  - t.field do |record|
+    = record.options
