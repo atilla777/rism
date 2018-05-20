@@ -1,0 +1,44 @@
+= index_search :organization_name_or_scan_job_name_or_ip_or_port_or_protocol_or_service_or_product_or_state_or_legality_cont, organization_id_eq: @organization&.id
+= report_button_for @records, organization_id: @organization.id
+= index_for records do |t|
+  - t.header attribute: :finished, sort_by: :finished, sort: :desc
+  - t.header attribute: :start, sort_by: :start, sort: :desc
+  - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - t.header attribute: :scan_job_id, sort_by: :scan_job_name, sort: :desc
+  - t.header attribute: :ip, sort_by: :ip, sort: :desc
+  - t.header attribute: :protocol, sort_by: :protocol, sort: :desc
+  - t.header attribute: :port, sort_by: :port, sort: :desc
+  - t.header attribute: :state, sort_by: :state, sort: :desc
+  - t.header attribute: :legality, sort_by: :legality, sort: :desc
+  - t.header attribute: :service, sort_by: :service, sort: :desc
+  - t.header attribute: :product, sort_by: :product, sort: :desc
+  - t.header attribute: :product_version, sort_by: :product_version, sort: :desc
+  - t.header attribute: :product_extrainfo, sort_by: :product_version, sort: :desc
+  - t.field do |record|
+    = link_to show_datetime(record.finished), record
+  - t.field do |record|
+    = link_to show_datetime(record.start), record
+  - t.field { |record| link_to record.organization.name, record.organization }
+  - t.field { |record| link_to record.scan_job.name, record.scan_job}
+  - t.field do |record|
+    = link_to record.ip, record
+  - t.field do |record|
+    = link_to record.protocol, record
+  - t.field do |record|
+    = link_to record.port, record
+  - t.field do |record|
+    span style="color:#{record.state_color}"
+      => fa_icon 'star'
+    = link_to ScanResultDecorator.new(record).show_state, record
+  - t.field do |record|
+    span style="color:#{record.legality_color}"
+      => fa_icon 'star'
+    = link_to ScanResultDecorator.new(record).show_legality, record
+  - t.field do |record|
+    = link_to record.service, record
+  - t.field do |record|
+    = link_to record.product, record
+  - t.field do |record|
+    = link_to record.product_version, record
+  - t.field do |record|
+    = link_to record.product_extrainfo, record

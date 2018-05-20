@@ -1,0 +1,248 @@
+ru:
+  activerecord:
+    models:
+      organization:
+        one: 'Организация'
+        other: 'Организации'
+      user:
+        one: 'Пользователь/Контакт'
+        other: 'Пользователи/Контакты'
+      role:
+        one: 'Роль'
+        other: 'Роли'
+      role_member:
+        one: 'Роль пользователя'
+        other: 'Роли пользователя'
+      right:
+        one: 'Право'
+        other: 'Права'
+      department:
+        one: 'Подразделение'
+        other: 'Подразделения'
+      agreement:
+        one: 'Договор'
+        other: 'Договоры'
+      attachment:
+        one: 'Вложение'
+        other: 'Вложения'
+      attachment_link:
+        one: 'Привязка файла'
+        other: 'Привязки файлов'
+      agreement_kind:
+        one: 'Тип договора'
+        other: 'Типы договоров'
+      organization_kind:
+        one: 'Тип организации'
+        other: 'Типы организаций'
+      tag_kind:
+        one: 'Тип тегов'
+        other: 'Типы тегов'
+      tag:
+        one: 'Тег'
+        other: 'Теги'
+      tag_member:
+        one: 'Привязка тега'
+        other: 'Привязки тегов'
+      incident:
+        one: 'Инцидент'
+        other: 'Инциденты'
+      link_kind:
+        one: 'Тип связи'
+        other: 'Типы связей'
+      link:
+        one: 'Связь'
+        other: 'Связи'
+      record_template:
+        one: 'Шаблон'
+        other: 'Шаблоны'
+      host:
+        one: 'Хост/сеть'
+        other: 'Хосты/сети'
+      article:
+        one: 'Статья'
+        other: 'Статьи'
+      scan_option:
+        one: 'Набор опций сканирования'
+        other: 'Наборы опций сканирования'
+      scan_job:
+        one: 'Работа по сканированию'
+        other: 'Работы по cканированию'
+      scan_result:
+        one: 'Результат сканирования'
+        other: 'Результаты сканирований'
+    attributes:
+      organization:
+        name: 'Имя'
+        full_name: 'Полное имя'
+        description: 'Описание'
+        parent_id: 'Входит в'
+        organization_kind_id: 'Тип'
+      user:
+        name: 'Имя'
+        email: 'Почта'
+        phone: 'Телефон'
+        mobile_phone: 'Мобильный телефон'
+        organization: 'Организация'
+        job: 'Должность'
+        department_id: 'Подразделение'
+        department_name: 'Подразделение'
+        description: 'Описание'
+        organization_id: 'Организация'
+        active: 'Разрешено входить в систему'
+        password: 'Пароль'
+        rank: 'Ранг должности'
+        password_confirmation: 'Подтверждение пароля'
+      role:
+        name: 'Имя'
+        description: 'Описание'
+      role_member:
+        user_id: 'Пользователь'
+        role_id: 'Роль'
+      right:
+        organization_id: 'Организация'
+        role_id: 'Роль'
+        level: 'Уровень'
+        subject_type: 'Модель'
+        subject_id: 'Запись'
+      department:
+        name: 'Имя'
+        organization_id: 'Организация'
+        parent_id: 'Входит в'
+        rank: 'Очередность отображения'
+        description: 'Описание'
+      agreement:
+        beginning: 'Дата'
+        prop: 'Номер'
+        duration: 'Длительность (мес.)'
+        prolongation: 'Пролонгируется'
+        organization_id: 'Организация'
+        agreement_kind_id: 'Тип договора'
+        contractor_id: 'Контрагент'
+        description: 'Описание'
+      attachment:
+        name: 'Имя'
+        document: 'Файл'
+      agreement_kind:
+        name: 'Имя'
+        description: 'Описание'
+      organization_kind:
+        name: 'Имя'
+        description: 'Описание'
+      tag_kind:
+        name: 'Имя'
+        code_name: 'Код типа тега'
+        record_type: 'Тип ресурса к которому прикрепляется'
+        color: 'Цвет'
+        description: 'Описание'
+      tag:
+        name: 'Имя'
+        tag_kind_id: 'Тип тега'
+        rank: 'Порядок отображения'
+        color: 'Цвет'
+        description: 'Описание'
+      tag_member:
+        record_type: 'Тип записи'
+        record_id: 'ID записи'
+        tag_id: 'Тег'
+      incident:
+        id: 'Номер'
+        name: 'Заголовок'
+        organization_id: 'Организация (вл.)'
+        user_id: 'Пользотватель (вл.)'
+        discovered_at: 'Обнаружен'
+        discovered_time: 'Время обнаружения установлено'
+        created_at: 'Зарегистрирован'
+        started_at: 'Произошел'
+        started_time: 'Время наступления установлено'
+        finished_at: 'Завершился'
+        finished_time: 'Время завершения установлено'
+        closed_at: 'Закрыт'
+        event_description: 'Описание события'
+        investigation_description: 'Результ расследования'
+        action_description: 'Принятые меры'
+        severity: 'Важность'
+        damage: 'Ущерб'
+        state: 'Состояние'
+      link_kind:
+        name: 'Имя'
+        code_name: 'Код'
+        rank: 'Ранг'
+        first_record_type: 'Связывающий ресурс'
+        second_record_type: 'Связываемый ресурс'
+        equal: 'Двунаправленная'
+        color: 'Цвет'
+        description: 'Описание'
+      link:
+        first_record_type: 'Тип ресурса'
+        first_record_id: 'Номер ресурса'
+        second_record_type: 'Тип прикрепляемого ресурса'
+        second_record_id: 'Номер прикрепляемого ресурса'
+        link_kind_id: 'Тип связи'
+        description: 'Описание'
+      record_template:
+        name: 'Имя'
+        record_type: 'Ресурс'
+        record_content: 'Атрибуты'
+        record_tags: 'Номера тегов'
+        description: 'Описание'
+      host:
+        name: 'Имя'
+        ip: 'Адрес'
+        organization_id: 'Организация'
+        description: 'Описание'
+      article:
+        name: 'Название'
+        created_at: 'Дата создания'
+        organization_id: 'Организация'
+        user_id: 'Автор'
+        content: 'Содержимое'
+      scan_option:
+        name: 'Название'
+        description: 'Описание'
+        options: 'Опции'
+        syn_scan: 'Сканирование SYN (-sS)'
+        skip_discovery: 'Не проверять доступность хоста (-Pn)'
+        udp_scan: 'Сканировать UDP (-sU)'
+        os_fingerprint: 'Определять ОС (-O)'
+        service_scan: 'Определять сервис (-sV)'
+        top_ports: 'Сканировать популярные порты (--top-ports)'
+        aggressive_timing: 'Агресивный тайминг (-T4)'
+        insane_timing: 'Безумный тайминг (-T5)'
+        disable_dns: 'Не разрешать имя хоста (-n)'
+      scan_job:
+        name: 'Название'
+        organization_id: 'Организация'
+        scan_option_id: 'Набор опций сканирования'
+        hosts: 'Хосты'
+        ports: 'Порты'
+        description: 'Описание'
+      scan_result:
+        organization_id: 'Организация'
+        scan_job_id: 'Работа'
+        state: 'Состояние'
+        states:
+          closed: 'Закрыт'
+          closed_filtered: 'Закрыт|Фильтруется'
+          filtered: 'Фильтруется'
+          unfiltered: 'Не фильтруется'
+          open_filtered: 'Открыт|Фильтруется'
+          open: 'Открыт'
+        legality: 'Легальность'
+        legalities:
+          illegal: 'Нелегален'
+          unknown: 'Неизвестно'
+          legal: 'Легален'
+        ip: 'IP'
+        port: 'Порт'
+        protocol: 'Протокол'
+        start: 'Начало'
+        finished: 'Окончание'
+        service: 'Сервис'
+        product: 'Программа'
+        product_version: 'Версия'
+        product_extrainfo: 'Дополнительно'
+    errors:
+      messages:
+          organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'
+          user_is_built_in: 'Невозможно удалить пользователя, так как он является встроенным'
+          role_is_built_in: 'Невозможно удалить роль, так как она является встроенной'

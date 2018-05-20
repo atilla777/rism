@@ -3,6 +3,7 @@ class Host < ApplicationRecord
   include Linkable
   include Tagable
   include Attachable
+  include Host::Ransackers
 
   has_paper_trail
 
