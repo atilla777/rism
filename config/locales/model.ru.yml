@@ -232,6 +232,7 @@ ru:
           illegal: 'Нелегален'
           unknown: 'Неизвестно'
           legal: 'Легален'
+          no_sense: 'Не важно'
         ip: 'IP'
         port: 'Порт'
         protocol: 'Протокол'

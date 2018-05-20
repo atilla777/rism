@@ -12,7 +12,7 @@ module IndexHelper
   # * +options+ - custom table visible elements (view Options in section below)
   # * +block+   - code to work with instance of Index class
   # ==== Options
-  # +:actions+ - show or not show RUD action for each record
+  # +:actions+ - show or not show Edit/Delete action for each record
   # +:fit+ - make table column fit (collapse th and td to minimum size,
   # default is false)
   # ==== Examples
@@ -66,14 +66,15 @@ module IndexHelper
     # can be any field in attribute of ActiveRelation record,
     # fields of associated model id also supported
     # (this function is delivered by ransack)
+    # * +:fit+       - column fit ( true or false, default is false)
     # ==== Examples
     #  = index_for @users do |table|
-    #    - table.header / empty column header
+    #    - table.header fit: true / fit empty column header
     #    - table.header attribute: :name / not sortable column with user names
     #    - table.header attribute: :phone, sort: :desc / sortable column with users phones
     #    - table.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
     #    / sortable column with associated table (organizations) column
-    def header(options)
+    def header(options = {})
       if options[:attribute]
         options[:label] ||= @records
                             .klass
@@ -82,7 +83,7 @@ module IndexHelper
       else
         options[:label] ||= ''
       end
-      @headers << options.slice(:attribute, :label, :sort_by, :sort)
+      @headers << options.slice(:attribute, :label, :sort_by, :sort, :fit)
     end
 
     # Add custom top row to the table

@@ -1,9 +1,16 @@
 = index_search :name_or_organization_name_or_scan_option_name_cont, organization_id_eq: @organization&.id
 = report_button_for @records, organization_id: @organization.id
-= index_for records do |t|
+= index_for records, actions: false do |t|
   - t.header attribute: :name, sort_by: :name, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
   - t.header attribute: :scan_option_id, sort_by: :scan_option_name, sort: :desc
+  - t.header fit: true
   - t.field { |record| link_to record.name, record }
   - t.field { |record| link_to record.organization.name, record.organization }
   - t.field { |record| link_to record.scan_option.name, record.scan_option}
+  - t.field do |record|
+    => link_to run_scan_job_path(record), class: 'btn btn-link' do
+      span.text-info
+        = fa_icon 'search'
+      =< t('views.action.scan')
+    = render 'helpers/index_actions', record: record

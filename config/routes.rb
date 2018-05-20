@@ -57,6 +57,10 @@ Rails.application.routes.draw do
   end
   get '/serach/index', to: 'search#index', as: :search
   resources :scan_options
-  resources :scan_jobs
+  resources :scan_jobs do
+    member do
+      get 'run'
+    end
+  end
   resources :scan_results, only: [:index, :show]
 end

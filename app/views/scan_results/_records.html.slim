@@ -1,6 +1,6 @@
 = index_search :organization_name_or_scan_job_name_or_ip_or_port_or_protocol_or_service_or_product_or_state_or_legality_cont, organization_id_eq: @organization&.id
 = report_button_for @records, organization_id: @organization.id
-= index_for records do |t|
+= index_for records, actions: false do |t|
   - t.header attribute: :finished, sort_by: :finished, sort: :desc
   - t.header attribute: :start, sort_by: :start, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
@@ -15,9 +15,9 @@
   - t.header attribute: :product_version, sort_by: :product_version, sort: :desc
   - t.header attribute: :product_extrainfo, sort_by: :product_version, sort: :desc
   - t.field do |record|
-    = link_to show_datetime(record.finished), record
+    = link_to show_date_time(record.finished), record
   - t.field do |record|
-    = link_to show_datetime(record.start), record
+    = link_to show_date_time(record.start), record
   - t.field { |record| link_to record.organization.name, record.organization }
   - t.field { |record| link_to record.scan_job.name, record.scan_job}
   - t.field do |record|
@@ -35,10 +35,10 @@
       => fa_icon 'star'
     = link_to ScanResultDecorator.new(record).show_legality, record
   - t.field do |record|
-    = link_to record.service, record
+    = link_to ScanResultDecorator.new(record).show_service, record
   - t.field do |record|
-    = link_to record.product, record
+    = link_to ScanResultDecorator.new(record).show_product, record
   - t.field do |record|
-    = link_to record.product_version, record
+    = link_to ScanResultDecorator.new(record).show_product_version, record
   - t.field do |record|
-    = link_to record.product_extrainfo, record
+    = link_to ScanResultDecorator.new(record).show_product_extrainfo, record

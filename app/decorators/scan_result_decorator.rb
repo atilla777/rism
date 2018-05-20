@@ -2,10 +2,26 @@
 
 class ScanResultDecorator < SimpleDelegator
   def show_state
-    human_enum_name(:states, state)
+    ScanResult.human_enum_name(:states, state)
   end
 
   def show_legality
-    human_enum_name(:legalities, legality)
+    ScanResult.human_enum_name(:legalities, legality)
+  end
+
+  def show_service
+    service || ''
+  end
+
+  def show_product
+    product || ''
+  end
+
+  def show_product_version
+    product_version || ''
+  end
+
+  def show_product_extrainfo
+    product_extrainfo || ''
   end
 end

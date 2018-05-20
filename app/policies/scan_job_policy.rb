@@ -7,4 +7,8 @@ class ScanJobPolicy < ApplicationPolicy
        ports
        description]
   end
+
+  def run?
+    new?
+  end
 end

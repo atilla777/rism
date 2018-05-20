@@ -19,5 +19,9 @@
     = Incident.model_name.human(count: 2)
   - tabs.add(:hosts, hosts_path(organization_id: record.id), true) do
     = Host.model_name.human(count: 2)
+  - tabs.add(:scan_jobs, scan_jobs_path(organization_id: record.id), true) do
+    = ScanJob.model_name.human(count: 2)
+  - tabs.add(:scan_results, scan_results_path(organization_id: record.id), true) do
+    = ScanResult.model_name.human(count: 2)
   - tabs.add(:agreements, agreements_path(organization_id: record.id), true) do
     = Agreement.model_name.human(count: 2)

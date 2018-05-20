@@ -8,6 +8,7 @@ class ScanResultsController < ApplicationController
     @organization = organization
     if @organization.id
       @records = records(filter_for_organization)
+      render 'organization_index'
     else
       @records = records(model)
     end
@@ -19,7 +20,16 @@ class ScanResultsController < ApplicationController
     ScanResult
   end
 
+  def default_sort
+    'finished desc'
+  end
+
   def records_includes
     %i[organization scan_job]
+  end
+
+  def filter_for_organization
+    model.joins('JOIN hosts ON scan_results.ip <<= hosts.ip')
+         .where('hosts.organization_id = ?', @organization.id)
   end
 end

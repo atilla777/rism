@@ -6,7 +6,7 @@ class ScanResult < ApplicationRecord
   include OrganizationMember
 
   enum state: %i[closed closed_filtered filtered unfiltered open_filtered open]
-  enum legality: %i[illegal unknown legal]
+  enum legality: %i[illegal unknown legal no_sense]
 
   validates :organization_id, numericality: { only_integer: true }
   validates :scan_job_id, numericality: { only_integer: true }
@@ -14,7 +14,7 @@ class ScanResult < ApplicationRecord
   validates :finished, presence: true
   validates :ip, presence: true
   validates :port, presence: true
-  validates :protocol, presence: true
+  #validates :protocol, presence: true
   validates :legality, inclusion: { in: ScanResult.legalities.keys }
   validates :state, inclusion: { in: ScanResult.states.keys }
 
@@ -22,7 +22,7 @@ class ScanResult < ApplicationRecord
   belongs_to :scan_job
 
   def state_color
-    ScanResult.state_to_color state
+    ScanResult.state_to_color ScanResult.states[state]
   end
 
   def self.state_to_color code
@@ -34,7 +34,7 @@ class ScanResult < ApplicationRecord
   end
 
   def legality_color
-    ScanResult.legality_color legality
+    ScanResult.legality_to_color ScanResult.legalities[legality]
   end
 
   def self.legality_to_color code

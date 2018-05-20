@@ -80,6 +80,8 @@ gem 'hightop', "~> 0.2"
 gem 'ckeditor', '~> 4.2'
 gem 'mini_magick', '~> 4.8'
 gem 'pg_search', '~> 2.1'
+gem 'sidekiq', '~> 5.1.3'
+gem 'ruby-nmap', '~> 0.9.3'
 
 # Lint with overcommit
 group :development do
