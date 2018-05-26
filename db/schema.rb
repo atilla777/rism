@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180519091552) do
+ActiveRecord::Schema.define(version: 20180526054309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,21 @@ ActiveRecord::Schema.define(version: 20180519091552) do
     t.index ["name"], name: "index_departments_on_name"
     t.index ["organization_id"], name: "index_departments_on_organization_id"
     t.index ["parent_id"], name: "index_departments_on_parent_id"
+  end
+
+  create_table "host_services", force: :cascade do |t|
+    t.string "name"
+    t.bigint "organization_id"
+    t.bigint "host_id"
+    t.integer "port"
+    t.string "protocol"
+    t.integer "legality"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_host_services_on_host_id"
+    t.index ["organization_id"], name: "index_host_services_on_organization_id"
+    t.index ["port"], name: "index_host_services_on_port"
   end
 
   create_table "hosts", force: :cascade do |t|
@@ -366,6 +381,8 @@ ActiveRecord::Schema.define(version: 20180519091552) do
   add_foreign_key "attachments", "organizations"
   add_foreign_key "departments", "departments", column: "parent_id"
   add_foreign_key "departments", "organizations"
+  add_foreign_key "host_services", "hosts"
+  add_foreign_key "host_services", "organizations"
   add_foreign_key "hosts", "organizations"
   add_foreign_key "incidents", "organizations"
   add_foreign_key "incidents", "users"

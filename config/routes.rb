@@ -63,4 +63,5 @@ Rails.application.routes.draw do
     end
   end
   resources :scan_results, only: [:index, :show]
+  resources :host_services
 end

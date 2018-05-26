@@ -1,29 +1,32 @@
 # frozen_string_literal: true
 
-class HostsController < ApplicationController
+class HostServicesController < ApplicationController
   include RecordOfOrganization
 
-  def autocomplete_host_name
+  def autocomplete_service_name
     authorize model
     scope = if current_user.admin_editor?
-              Host
+              HostService
             elsif current_user.can_read_model_index? Organization
-              Host
+              HostService
             else
-              Host.where(
+              HostService.where(
                 organization_id: current_user.allowed_organizations_ids
               )
             end
 
     term = params[:term]
-    records = scope.select(:id, :name, :ip)
-                       .where('name ILIKE ? OR ip::text LIKE ?', "%#{term}%", "#{term}%")
-                       .order(:id)
+    records = scope.select(:id, :name, :port, :protocol)
+                   .where(
+                     'name ILIKE ? OR port::text LIKE ?',
+                     "%#{term}%", "#{term}%"
+                   )
+                   .order(:port)
     result = records.map do |record|
                {
                  id: record.id,
-                 name: record.name,
-                 ip: record.ip,
+                 port: record.port,
+                 protocol: record.port,
                  value: record.show_full_name
                }
              end
@@ -33,14 +36,14 @@ class HostsController < ApplicationController
   private
 
   def model
-    Host
+    HostService
   end
 
   def default_sort
-    'ip desc'
+    'port desc'
   end
 
   def records_includes
-    %i[organization]
+    %i[organization host]
   end
 end

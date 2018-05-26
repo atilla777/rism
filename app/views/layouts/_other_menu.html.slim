@@ -4,6 +4,21 @@ li
       = fa_icon 'sitemap'
       =< Host.model_name.human(count: 2)
 li
+  = link_to host_services_path do
+    .text-info
+      = fa_icon 'sitemap'
+      =< HostService.model_name.human(count: 2)
+li
+  = link_to scan_jobs_path do
+    .span.text-info
+      = fa_icon 'gears'
+      =< ScanJob.model_name.human(count: 2)
+li
+  = link_to scan_results_path do
+    .span.text-info
+      = fa_icon 'search'
+      =< ScanResult.model_name.human(count: 2)
+li
   = link_to agreements_path do
     .span.text-info
       = fa_icon 'handshake-o'
@@ -18,13 +33,3 @@ li
     .span.text-info
       = fa_icon 'graduation-cap'
       =< Article.model_name.human(count: 2)
-li
-  = link_to scan_jobs_path do
-    .span.text-info
-      = fa_icon 'gears'
-      =< ScanJob.model_name.human(count: 2)
-li
-  = link_to scan_results_path do
-    .span.text-info
-      = fa_icon 'search'
-      =< ScanResult.model_name.human(count: 2)

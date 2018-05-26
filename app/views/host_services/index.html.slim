@@ -1,0 +1,5 @@
+= caption @organization
+= render 'organizations/show_tabs', record: @organization, active_tab: :host_services, from_external_link: true
+= index_new_button @records, organization_id: @organization.id
+= render 'records', records: @records
+= render 'index_paginate', records: @records

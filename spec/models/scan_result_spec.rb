@@ -6,8 +6,10 @@ RSpec.describe ScanResult, type: :model do
   it { should validate_presence_of(:start) }
   it { should validate_presence_of(:finished) }
   it { should validate_presence_of(:ip) }
-  it { should validate_presence_of(:port) }
-  it { should validate_presence_of(:protocol) }
+  it do
+    should validate_inclusion_of(:port)
+    .in_range(0..65535)
+  end
   it do
     should validate_inclusion_of(:legality)
     .in_array(%w[unknown illegal legal])

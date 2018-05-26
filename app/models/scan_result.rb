@@ -4,6 +4,7 @@ class ScanResult < ApplicationRecord
   COLORS = ['#228B22', '#DAA520', '#DC143C'].freeze
 
   include OrganizationMember
+  include ScanResult::Ransackers
 
   enum state: %i[closed closed_filtered filtered unfiltered open_filtered open]
   enum legality: %i[illegal unknown legal no_sense]
@@ -13,10 +14,11 @@ class ScanResult < ApplicationRecord
   validates :start, presence: true
   validates :finished, presence: true
   validates :ip, presence: true
-  validates :port, presence: true
+  validates :port, inclusion: { in: 0..65535 }
+  # TODO: use or delete
   #validates :protocol, presence: true
-  validates :legality, inclusion: { in: ScanResult.legalities.keys }
-  validates :state, inclusion: { in: ScanResult.states.keys }
+  validates :legality, inclusion: { in: ScanResult.legalities.keys}
+  validates :state, inclusion: { in: ScanResult.states.keys}
 
   belongs_to :organization
   belongs_to :scan_job

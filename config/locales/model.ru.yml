@@ -70,6 +70,9 @@ ru:
       scan_result:
         one: 'Результат сканирования'
         other: 'Результаты сканирований'
+      host_service:
+        one: 'Сетевой сервис'
+        other: 'Сетевые сервисы'
     attributes:
       organization:
         name: 'Имя'
@@ -242,6 +245,19 @@ ru:
         product: 'Программа'
         product_version: 'Версия'
         product_extrainfo: 'Дополнительно'
+      host_service:
+        name: 'Название'
+        organization_id: 'Организация'
+        host_id: 'Хост'
+        legality: 'Легальность'
+        legalities:
+          illegal: 'Нелегален'
+          unknown: 'Неизвестно'
+          legal: 'Легален'
+          no_sense: 'Не важно'
+        port: 'Порт'
+        protocol: 'Протокол'
+        description: 'Описание'
     errors:
       messages:
           organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'
