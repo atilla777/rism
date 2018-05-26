@@ -1,7 +1,9 @@
 = show_for @record do |r|
   = r.show :name
-  = r.show :organization_id, value: @record.organization.name
-  = r.show :scan_option_id, value: @record.scan_option.name
+  = r.show :organization_id
+    = link_to @record.organization.name, @record.organization
+  = r.show :scan_option_id do
+    =link_to @record.scan_option.name, @record.scan_option
   = r.show :hosts
   = r.show :ports
   = r.show :description

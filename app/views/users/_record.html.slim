@@ -2,7 +2,8 @@
   = r.show :name
   = r.show :organization_id do
     = link_to @record.organization.name, record.organization
-  = r.show :department_id, value: UserDecorator.new(@record).dep_name
+  = r.show :department_id do
+    = link_to UserDecorator.new(@record).dep_name, @record.department
   = r.show :job
   = r.show :rank
   = r.show :email
