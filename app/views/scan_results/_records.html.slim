@@ -1,4 +1,3 @@
-= index_search :organization_name_or_scan_job_name_or_ip_str_or_port_str_or_protocol_or_service_or_product_or_state_str_or_legality_str_cont, organization_id_eq: @organization&.id
 = report_button_for @records, organization_id: @organization.id
 = index_for records, actions: false do |t|
   - t.header attribute: :finished, sort_by: :finished, sort: :desc
@@ -10,6 +9,7 @@
   - t.header attribute: :protocol, sort_by: :protocol, sort: :desc
   - t.header attribute: :port, sort_by: :port, sort: :desc
   - t.header attribute: :state, sort_by: :state, sort: :desc
+  - t.header label: t('labels.current_legality')
   - t.header attribute: :legality, sort_by: :legality, sort: :desc
   - t.header attribute: :service, sort_by: :service, sort: :desc
   - t.header attribute: :product, sort_by: :product, sort: :desc
@@ -34,9 +34,9 @@
       => fa_icon 'star'
     = link_to ScanResultDecorator.new(record).show_state, record
   - t.field do |record|
-    span style="color:#{record.legality_color}"
-      => fa_icon 'star'
-    = link_to ScanResultDecorator.new(record).show_legality, record
+    = port_current_legality(record)
+  - t.field do |record|
+    = port_legality(record)
   - t.field do |record|
     = link_to ScanResultDecorator.new(record).show_service, record
   - t.field do |record|

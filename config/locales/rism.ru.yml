@@ -72,6 +72,7 @@ ru:
     info: 'Дополнительная информация...'
     kbase: 'База знаний/новости'
     search: 'Поиск'
+    current_legality: 'Легальность'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'

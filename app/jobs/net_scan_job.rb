@@ -51,14 +51,16 @@ class NetScanJob < ApplicationJob
         if host.ports.present?
           host.each_port do |port|
             # TODO: change it
-            legality = 0 #Service.legality_key(port.state, host.ip, port.number, port.protocol)
+            legality = HostService.legality(
+              host.ip, port.number, port.protocol, port.state
+            )
             save_to_database(
               scan_result_attributes(job, job_start, host, port, legality)
             )
           end
         else
           save_to_database(
-            empty_scan_result_attributes(job, job_start, host, 0, 3)
+            empty_scan_result_attributes(job, job_start, host, 0, :no_sense)
           )
         end
       end

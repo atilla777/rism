@@ -7,25 +7,26 @@ class ScanResultsController < ApplicationController
     authorize_model
     if @organization.id
       @records = records(filter_for_organization)
+      render 'organization_index'
     else
       @records = records(model)
+      render 'index'
     end
-    select_render
   end
 
   def open_ports
     authorize_model
     if @organization.id
       @records = open_ports_records(filter_for_organization)
+      render 'organization_open_ports'
     else
       @records = open_ports_records(model)
+      render 'open_ports'
     end
-    select_render
   end
 
   def new_ports
     authorize_model
-    select_render
   end
 
   private
@@ -33,14 +34,6 @@ class ScanResultsController < ApplicationController
   def authorize_model
     authorize model
     @organization = organization
-  end
-
-  def select_render
-    if @organization.id
-      render 'organization_index'
-    else
-      render 'index'
-    end
   end
 
   def open_ports_records(scope)

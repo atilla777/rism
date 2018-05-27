@@ -230,7 +230,7 @@ ru:
           unfiltered: 'Не фильтруется'
           open_filtered: 'Открыт|Фильтруется'
           open: 'Открыт'
-        legality: 'Легальность'
+        legality: 'Легальность на момент сканирования'
         legalities:
           illegal: 'Нелегален'
           unknown: 'Неизвестно'

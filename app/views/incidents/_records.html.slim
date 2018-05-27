@@ -1,4 +1,4 @@
-= index_search :sharp_id_or_name_or_tags_name_or_tag_code_name_or_tag_kinds_name_or_incident_organizations_name_or_created_at_reverse_str_or_severity_str_or_damage_str_or_state_str_or_user_name_cont, placeholder: t('placeholders.incidents.search'), size: 90
+= index_search :sharp_id_or_name_or_tags_name_or_tag_code_name_or_tag_kinds_name_or_incident_organizations_name_or_created_at_reverse_str_or_severity_str_or_damage_str_or_state_str_or_user_name_cont, placeholder: t('placeholders.incidents.search'), size: 90, organization_id_eq: @organization&.id
 = report_button_for records, organization_id: @organization.id
 = render 'search_form'
 = index_for records do |t|
