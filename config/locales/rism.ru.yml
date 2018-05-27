@@ -88,6 +88,8 @@ ru:
     dashboards: 'Главная панель'
     charts: 'Графики'
     advanced_search: 'Поиск по полям'
+    open_ports: 'Открытые порты'
+    new_ports: 'Новые порты'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'

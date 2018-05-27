@@ -2,6 +2,7 @@
 = report_button_for @records, organization_id: @organization.id
 = index_for records, actions: false do |t|
   - t.header attribute: :finished, sort_by: :finished, sort: :desc
+  - t.header attribute: :job_start, sort_by: :start, sort: :desc
   - t.header attribute: :start, sort_by: :start, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
   - t.header attribute: :scan_job_id, sort_by: :scan_job_name, sort: :desc
@@ -16,6 +17,8 @@
   - t.header attribute: :product_extrainfo, sort_by: :product_version, sort: :desc
   - t.field do |record|
     = link_to show_date_time(record.finished), record
+  - t.field do |record|
+    = link_to show_date_time(record.job_start), record
   - t.field do |record|
     = link_to show_date_time(record.start), record
   - t.field { |record| link_to record.organization.name, record.organization }

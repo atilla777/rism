@@ -3,6 +3,7 @@ class CreateScanResults < ActiveRecord::Migration[5.1]
     create_table :scan_results do |t|
       t.references :organization, foreign_key: true
       t.references :scan_job, foreign_key: true
+      t.datetime :job_start
       t.datetime :start
       t.datetime :finished
       t.string   :scanned_ports

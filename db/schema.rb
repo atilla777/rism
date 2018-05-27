@@ -271,6 +271,7 @@ ActiveRecord::Schema.define(version: 20180526054309) do
   create_table "scan_results", force: :cascade do |t|
     t.bigint "organization_id"
     t.bigint "scan_job_id"
+    t.datetime "job_start"
     t.datetime "start"
     t.datetime "finished"
     t.string "scanned_ports"

@@ -19,6 +19,16 @@ li
       = fa_icon 'search'
       =< ScanResult.model_name.human(count: 2)
 li
+  = link_to open_ports_scan_results_path do
+    .span.text-info
+      = fa_icon 'circle'
+      =< t'navigations.open_ports'
+li
+  = link_to new_ports_scan_results_path do
+    .span.text-info
+      = fa_icon 'asterisk'
+      =< t'navigations.new_ports'
+li
   = link_to agreements_path do
     .span.text-info
       = fa_icon 'handshake-o'

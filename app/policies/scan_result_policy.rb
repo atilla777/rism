@@ -1,4 +1,12 @@
 class ScanResultPolicy < ApplicationPolicy
+  def open_ports?
+    index?
+  end
+
+  def new_ports?
+    index?
+  end
+
   def permitted_attributes
     %i[organization_id
       scan_job_id

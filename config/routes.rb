@@ -62,6 +62,11 @@ Rails.application.routes.draw do
       get 'run'
     end
   end
-  resources :scan_results, only: [:index, :show]
+  resources :scan_results, only: [:index, :show] do
+    collection do
+      get 'open_ports'
+      get 'new_ports'
+    end
+  end
   resources :host_services
 end

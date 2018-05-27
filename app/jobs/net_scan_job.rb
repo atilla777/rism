@@ -14,10 +14,10 @@ class NetScanJob < ApplicationJob
 
   def perform(*args)
     job = args[0]
-    job_time = DateTime.now
+    job_start = DateTime.now
 
     # set XML result file path
-    result_path = set_result_path(job, job_time)
+    result_path = set_result_path(job, job_start)
 
     # sett ruby-nmap options
     scan_options = job.scan_option.options.select { |key, value| value.to_i.nonzero? }
@@ -39,13 +39,13 @@ class NetScanJob < ApplicationJob
     # scan and save result to XML file
     Nmap::Program.sudo_scan(scan_options)
     # save result from XML to database
-    parse(job, result_path)
+    parse(job, job_start, result_path)
   end
 
   private
 
   # parse result_file_name and save to database
-  def parse(job, result_path)
+  def parse(job, job_start, result_path)
     Nmap::XML.new(result_path) do |xml|
       xml.each_host do |host|
         if host.ports.present?
@@ -53,12 +53,12 @@ class NetScanJob < ApplicationJob
             # TODO: change it
             legality = 0 #Service.legality_key(port.state, host.ip, port.number, port.protocol)
             save_to_database(
-              scan_result_attributes(job, host, port, legality)
+              scan_result_attributes(job, job_start, host, port, legality)
             )
           end
         else
           save_to_database(
-            empty_scan_result_attributes(job, host, 0, 3)
+            empty_scan_result_attributes(job, job_start, host, 0, 3)
           )
         end
       end
@@ -72,8 +72,9 @@ class NetScanJob < ApplicationJob
     )
   end
 
-  def scan_result_attributes(job, host, port, legality)
+  def scan_result_attributes(job, job_start, host, port, legality)
     {
+      job_start: job_start,
       start: host.start_time,
       finished: host.end_time,
       scan_job_id: job.id,
@@ -90,8 +91,9 @@ class NetScanJob < ApplicationJob
     }
   end
 
-  def empty_scan_result_attributes(job, host, port, legality)
+  def empty_scan_result_attributes(job, job_start, host, port, legality)
     {
+      job_start: job_start,
       start: host.start_time,
       finished: host.end_time,
       scan_job_id: job.id,
@@ -108,11 +110,11 @@ class NetScanJob < ApplicationJob
     }
   end
 
-  def set_result_path(job, job_time)
+  def set_result_path(job, job_start)
     # path to XML file with nmap scan results
     result_folder = "tmp"
     # XML file name
-    result_file = "#{job.id}_#{job_time.strftime("%Y.%m.%d-%H.%M.%S")}_nmap.xml"
+    result_file = "#{job.id}_#{job_start.strftime("%Y.%m.%d-%H.%M.%S")}_nmap.xml"
     # full path to XML file
     "#{result_folder}/#{result_file}"
   end
