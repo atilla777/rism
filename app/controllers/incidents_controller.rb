@@ -29,7 +29,7 @@ class IncidentsController < ApplicationController
     @q.sorts = default_sort if @q.sorts.empty?
     @q.result(distinct: true)
       .joins(:user) # For line below
-      .select('incidents.*, users.name')# Postrges dont allow use DISTINCT with ORDER BY by field that not in SELECT
+      .select('incidents.*, users.name AS user_name')# Postrges dont allow use DISTINCT with ORDER BY by field that not in SELECT
       .joins(:tag_kinds) # For line below
       .where(tag_kinds: {record_type: 'Incident'}) # Filter only incident specific tags
       .preload(records_includes) # Explicitly preload used in index records
