@@ -54,10 +54,10 @@ class ScanResultsController < ApplicationController
                       )
     @q = scope.ransack(params[:q])
     @q.sorts = default_sort if @q.sorts.empty?
-    @q.result
-      .group(group_field)
+    @q.result(distinkt: true)
       .includes(records_includes)
       .page(params[:page])
+      #.group(group_field)
   end
 
   def model

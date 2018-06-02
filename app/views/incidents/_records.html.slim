@@ -11,7 +11,7 @@
   - t.header attribute: :id, label: Tag.model_name.human(count: 2)
   - t.header attribute: :discovered_at, sort: :desc
   - t.header attribute: :started_at, sort: :desc
-  - t.header attribute: :user_id, sort: :desc
+  - t.header attribute: :user_id, sort: :desc, sort_by: :user_name
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
   - t.field { |record| link_to(IncidentDecorator.new(record).show_id, record) }
   - t.field { |record| link_to(record.name.truncate(20), record) }

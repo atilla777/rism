@@ -4,7 +4,7 @@
   - t.header attribute: :name, sort: :desc
   - t.header attribute: :full_name, sort: :desc
   - t.header attribute: :organization_kind_id, sort: :desc
-  - t.header attribute: :parent_id, sort: :desc
+  - t.header attribute: :parent_id, sort: :desc, sort_by: :parent_name
   - t.field { |record| link_to(record.name, record) }
   - t.field { |record| record.full_name.present? ? link_to(record.full_name.truncate(40), record) : '' }
   - t.field do |record|

@@ -23,6 +23,19 @@ class IncidentsController < ApplicationController
     Incident
   end
 
+  def records(scope)
+    scope = policy_scope(scope)
+    @q = scope.ransack(params[:q])
+    @q.sorts = default_sort if @q.sorts.empty?
+    @q.result(distinct: true)
+      .joins(:user) # For line below
+      .select('incidents.*, users.name')# Postrges dont allow use DISTINCT with ORDER BY by field that not in SELECT
+      .joins(:tag_kinds) # For line below
+      .where(tag_kinds: {record_type: 'Incident'}) # Filter only incident specific tags
+      .preload(records_includes) # Explicitly preload used in index records
+      .page(params[:page])
+  end
+
 # filter used in index pages wich is a part of organizaion show page
 # (such index shows only records that belongs to organization)
 #  def filter_for_organization
@@ -38,7 +51,7 @@ class IncidentsController < ApplicationController
     # when user is global admin, editor or reader
     # ( user can access to all organizations)
     # TODO: resolve Bullet N+1 alerts
-    [:user, :incident_organizations, :incident_tags].tap do |associations|
+    [:user, :incident_organizations, incident_tags: :tag_kind].tap do |associations|
       associations << :organization unless current_user.admin_editor_reader?
     end
   end

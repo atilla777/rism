@@ -53,9 +53,16 @@ class Incident < ApplicationRecord
     source_type: 'Organization'
   )
 
+  # Filter to show in incident index only Incident specific tags
   has_many(
     :incident_tags,
-    -> { includes(tag: :tag_kind).where(tag_kinds: {record_type: 'Incident'}) },
+    -> { joins(
+      <<~SQL
+        INNER JOIN tag_kinds
+        ON tag_kinds.id = tags.tag_kind_id
+        AND tag_kinds.record_type = 'Incident'
+      SQL
+    ) },
     through: :tag_members,
     source: :tag
   )
