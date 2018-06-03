@@ -7,7 +7,11 @@
   - t.header attribute: :name, sort: :desc
   - t.header attribute: :legality, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
-  - t.field { |record| link_to record.host.ip, record.host}
+  - t.field do |record|
+    =< link_to new_scan_job_path(host_id: record.host_id, port_number: record.port, protocol_name: record.protocol, organization_id: @organization.id), data: { toggle: 'tooltip', placement: 'top'}, title: t('views.action.new_scan_job') do
+      span.text-success
+        =< fa_icon 'gears'
+    =< link_to record.host.ip, record.host
   - t.field { |record| link_to(record.port, record) }
   - t.field { |record| link_to(record.protocol, record) }
   - t.field { |record| link_to(record.name, record) }

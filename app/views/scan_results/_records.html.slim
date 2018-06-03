@@ -24,11 +24,17 @@
   - t.field { |record| link_to record.organization.name, record.organization }
   - t.field { |record| link_to record.scan_job.name, record.scan_job}
   - t.field do |record|
-    = link_to record.ip, record
+    = link_to new_host_path(ip: record.ip, organization_id: @organization.id), data: { toggle: 'tooltip', placement: 'top'}, title: t('views.action.new_host') do
+      span.text-success
+        =< fa_icon 'sitemap'
+    =< link_to record.ip, record
   - t.field do |record|
     = link_to record.protocol, record
   - t.field do |record|
-    = link_to record.port, record
+    = link_to new_host_service_path(ip: record.ip, port_number: record.port, protocol_name: record.protocol, service: record.service, organization_id: @organization.id), data: { toggle: 'tooltip', placement: 'top'}, title: t('views.action.new_host_service') do
+      span.text-success
+        =< fa_icon 'sun-o'
+    =< link_to record.port, record
   - t.field do |record|
     span style="color:#{record.state_color}"
       => fa_icon 'star'

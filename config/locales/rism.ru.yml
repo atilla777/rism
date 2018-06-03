@@ -136,6 +136,11 @@ ru:
       certify: "Да"
       make_template: "Создать шаблон"
       scan: "Сканировать"
+      new_host: 'Новый хост'
+      new_host_service: 'Новый сетевой сервис'
+      new_scan_job: 'Новое сканирование'
+      legalize: 'Легализовать'
+      delegalize: 'Делегализовать'
   messages:
     yes: да
     no: нет

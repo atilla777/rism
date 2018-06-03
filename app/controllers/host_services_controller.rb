@@ -46,4 +46,19 @@ class HostServicesController < ApplicationController
   def records_includes
     %i[organization host]
   end
+
+  def preset_record
+    return if params.blank?
+    if params[:ip].present?
+      @record.host_id = Host.where(ip: params[:ip])&.first&.id
+    end
+    @record.host_id = params[:host_id] if params[:host_id].present?
+    @record.port = params[:port_number] if params[:port_number].present?
+    @record.protocol = params[:protocol_name] if params[:protocol_name].present?
+    if params[:service].present?
+      name = [params[:service]]
+      name << @organization.name if @organization.present?
+      @record.name = name.join(' ')
+    end
+  end
 end

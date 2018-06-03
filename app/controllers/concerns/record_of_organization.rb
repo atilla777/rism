@@ -30,6 +30,7 @@ module RecordOfOrganization
     @record = model.new(template_attributes)
     authorize @record.class
     @organization = organization
+    preset_record
     @template_id = params[:template_id]
   end
 
@@ -112,4 +113,6 @@ module RecordOfOrganization
   def records_includes
     :organization unless current_user.admin_editor_reader?
   end
+
+  def preset_record; end
 end

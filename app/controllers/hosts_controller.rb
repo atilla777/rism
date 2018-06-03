@@ -43,4 +43,9 @@ class HostsController < ApplicationController
   def records_includes
     %i[organization]
   end
+
+  def preset_record
+    return if params[:ip].blank?
+    @record.ip = params[:ip]
+  end
 end

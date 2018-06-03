@@ -20,6 +20,8 @@ class Host < ApplicationRecord
   #
   # for use with RecordTemplate, Link and etc
   def show_full_name
-    "#{name} (#{ip})"
+    result = [ip]
+    result << name if name.present?
+    result.join(' ')
   end
 end
