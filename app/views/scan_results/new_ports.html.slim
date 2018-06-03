@@ -1,0 +1,4 @@
+= caption t'navigations.new_ports'
+= index_search :organization_name_or_scan_job_name_or_ip_str_or_port_str_or_protocol_or_service_or_product_or_state_str_or_legality_str_cont, organization_id_eq: @organization&.id, url: new_ports_scan_results_path
+= render 'records', records: @records
+= render 'index_paginate', records: @records

@@ -27,6 +27,13 @@ class ScanResultsController < ApplicationController
 
   def new_ports
     authorize_model
+    if @organization.id
+      @records = new_ports_records(filter_for_organization)
+      render 'organization_new_ports'
+    else
+      @records = new_ports_records(model)
+      render 'new_ports'
+    end
   end
 
   private
@@ -39,25 +46,27 @@ class ScanResultsController < ApplicationController
   def open_ports_records(scope)
     scope = policy_scope(scope)
     scope = scope.where(state: :open)
-    scope = scope.joins(<<~SQL
-                         INNER JOIN (
-                           SELECT
-                             scan_results.scan_job_id,
-                             MAX(scan_results.job_start)
-                             AS max_time
-                           FROM scan_results
-                           GROUP BY scan_results.scan_job_id
-                         )m
-                         ON scan_results.scan_job_id = m.scan_job_id
-                         AND scan_results.job_start = m.max_time
-                       SQL
-                      )
+    scope = ScanResultsQuery.new(scope)
+                           .last_results
     @q = scope.ransack(params[:q])
     @q.sorts = default_sort if @q.sorts.empty?
     @q.result(distinkt: true)
       .includes(records_includes)
       .page(params[:page])
-      #.group(group_field)
+  end
+
+  def new_ports_records(scope)
+    scope = policy_scope(scope)
+    scope = scope.where(state: :open)
+    scope = ScanResultsQuery.new(scope)
+                           .last_results
+    scope = ScanResultsQuery.new(scope)
+                            .not_registered_services
+    @q = scope.ransack(params[:q])
+    @q.sorts = default_sort if @q.sorts.empty?
+    @q.result(distinkt: true)
+      .includes(records_includes)
+      .page(params[:page])
   end
 
   def model

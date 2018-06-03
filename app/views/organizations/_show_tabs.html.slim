@@ -27,5 +27,7 @@
     = ScanResult.model_name.human(count: 2)
   - tabs.add(:open_ports, open_ports_scan_results_path(organization_id: record.id), true) do
     =< t'navigations.open_ports'
+  - tabs.add(:new_ports, new_ports_scan_results_path(organization_id: record.id), true) do
+    =< t'navigations.new_ports'
   - tabs.add(:agreements, agreements_path(organization_id: record.id), true) do
     = Agreement.model_name.human(count: 2)

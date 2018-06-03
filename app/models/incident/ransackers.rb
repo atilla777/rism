@@ -4,6 +4,8 @@ module Incident::Ransackers
   extend ActiveSupport::Concern
 
   included do
+    ransack_alias :incident, :sharp_id_or_name_or_tags_name_or_tag_code_name_or_tag_kinds_name_or_incident_organizations_name_or_created_at_reverse_str_or_severity_str_or_damage_str_or_state_str_or_user_name
+
     def self.datetime_field_to_text_search(fieled, reverse = nil)
       if reverse
         format = 'DD.MM.YYYY-HH24:MI'
