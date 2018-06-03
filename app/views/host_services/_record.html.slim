@@ -1,0 +1,15 @@
+= show_for @record do |r|
+  = r.show :host_id do
+    = link_to @record.host.ip, @record.host
+  = r.show :port
+  = r.show :protocol
+  = r.show :name
+  = r.show :legality do
+    span style="color:#{@record.legality_color}"
+      => fa_icon 'star'
+    = link_to ScanResultDecorator.new(record).show_legality, record
+  = r.show :organization_id do
+    = link_to @record.organization&.name, @record.organization
+  = r.show :description
+
+= render 'application/record_versions'
