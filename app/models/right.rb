@@ -40,7 +40,7 @@ class Right < ApplicationRecord
     'ScanOption' => I18n.t('activerecord.models.scan_option.one'),
     'ScanJob' => I18n.t('activerecord.models.scan_job.one'),
     'ScanResult' => I18n.t('activerecord.models.scan_result.one'),
-    'HostService' => I18n.t('activerecord.models.service.one')
+    'HostService' => I18n.t('activerecord.models.host_service.one')
   }.freeze
 
   # TODO: try to make subject_type field transformation

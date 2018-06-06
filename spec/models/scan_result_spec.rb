@@ -10,16 +10,12 @@ RSpec.describe ScanResult, type: :model do
     should validate_inclusion_of(:port)
     .in_range(0..65535)
   end
-  it do
-    should validate_inclusion_of(:legality)
-    .in_array(%w[unknown illegal legal])
-  end
-  it do
-    should validate_inclusion_of(:state)
-    .in_array(ScanResult.states.keys)
-  end
 #  it do
 #    should define_enum_for(:legality)
-#    .with_values(:unknown, :illegal, :legal)
+#    .with(%i[unknown illegal legal])
+#  end
+#  it do
+#    should validate_inclusion_of(:state)
+#    .with(%i[closed closed_filtered filtered unfiltered open_filtered open]%i[unknown illegal legal])
 #  end
 end

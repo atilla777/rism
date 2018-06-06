@@ -15,4 +15,17 @@ RSpec.describe ScanJobsController, type: :controller do
       }
     )
   end
+
+  let(:update_record) do
+    put(
+      :update,
+      params: {
+        id: record.id,
+        model => {
+          description: 'New description',
+          organization_id: organization.id
+       }
+      }
+    )
+  end
 end
