@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180526054309) do
+ActiveRecord::Schema.define(version: 20180607174928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -291,6 +291,17 @@ ActiveRecord::Schema.define(version: 20180526054309) do
     t.index ["product"], name: "index_scan_results_on_product"
     t.index ["scan_job_id"], name: "index_scan_results_on_scan_job_id"
     t.index ["service"], name: "index_scan_results_on_service"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.string "job_type"
+    t.bigint "job_id"
+    t.integer "hour"
+    t.integer "week_day"
+    t.integer "month_day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_type", "job_id"], name: "index_schedules_on_job_type_and_job_id"
   end
 
   create_table "tag_kinds", force: :cascade do |t|

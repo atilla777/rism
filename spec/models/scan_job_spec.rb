@@ -7,6 +7,8 @@ RSpec.describe ScanJob, type: :model do
   it { should validate_presence_of(:hosts) }
   it { should belong_to(:organization) }
   it { should belong_to(:scan_option) }
+
+  it { have_many :schedules }
 end
 
 
