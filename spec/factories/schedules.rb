@@ -1,8 +1,10 @@
 FactoryBot.define do
   factory :schedule do
-    job nil
-    hour 1
-    week_day 1
-    month_day 1
+    job { |j| j.association(:scan_job) }
+    minutes []
+    hours []
+    week_days []
+    months []
+    month_days []
   end
 end

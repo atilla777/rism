@@ -296,9 +296,12 @@ ActiveRecord::Schema.define(version: 20180607174928) do
   create_table "schedules", force: :cascade do |t|
     t.string "job_type"
     t.bigint "job_id"
-    t.integer "hour"
-    t.integer "week_day"
-    t.integer "month_day"
+    t.integer "minutes", default: [], array: true
+    t.integer "hours", default: [], array: true
+    t.integer "month_days", default: [], array: true
+    t.integer "months", default: [], array: true
+    t.integer "week_days", default: [], array: true
+    t.text "crontab_line"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["job_type", "job_id"], name: "index_schedules_on_job_type_and_job_id"
