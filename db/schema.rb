@@ -302,6 +302,7 @@ ActiveRecord::Schema.define(version: 20180607174928) do
     t.integer "months", default: [], array: true
     t.integer "week_days", default: [], array: true
     t.text "crontab_line"
+
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["job_type", "job_id"], name: "index_schedules_on_job_type_and_job_id"
