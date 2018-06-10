@@ -1,4 +1,8 @@
 class Schedule < ApplicationRecord
+  validates :job_id, uniqueness: { scope: :job_type }
+  validates :job_id, presence: true
+  validates :job_type, presence: true
+
   validate :check_minutes
   validate :check_hours
   validate :check_week_days
@@ -6,6 +10,10 @@ class Schedule < ApplicationRecord
   validate :check_month_days
 
   belongs_to :job, polymorphic: true
+
+  has_one :organization, through: :job
+
+  #delegate :organization, to: :job
 
   private
 

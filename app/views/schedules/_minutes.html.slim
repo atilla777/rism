@@ -1,0 +1,19 @@
+#minutes
+  table.table.table-bordered.table-condensed
+    caption
+      strong.text-info
+        = Schedule.human_attribute_name(:minutes)
+        =< fa_icon 'clock-o'
+    tbody
+      - (0..40).step(20) do |big_step|
+        tr
+         - (0..19).each do |small_step|
+           - minute = big_step + small_step
+           - if @record.minutes.include?(minute)
+             td.success
+               = link_to schedule_path(job_id: @job.id, job_type: @job.class, minute: minute, destroy: true), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('actions.delete') do
+                 = minute
+           - else
+             td.warning
+               = link_to schedule_path(job_id: @job.id, job_type: @job.class, minute: minute ), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('actions.add')  do
+                 = minute

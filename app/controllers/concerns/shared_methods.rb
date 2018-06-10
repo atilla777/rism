@@ -92,7 +92,7 @@ module SharedMethods
     end
   end
 
-  def group_field
-    "#{model.table_name}.id"
-  end
+#  def group_field
+#    "#{model.table_name}.id"
+#  end
 end

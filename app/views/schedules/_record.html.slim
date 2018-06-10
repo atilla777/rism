@@ -1,0 +1,10 @@
+= show_for @record do |r|
+
+.col-lg-offset-1
+  .col-lg-6
+    = render 'months'
+    = render 'month_days'
+    = render 'week_days'
+    = render 'hours'
+    = render 'minutes'
+  = render 'application/record_versions'

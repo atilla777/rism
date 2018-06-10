@@ -1,0 +1,20 @@
+#month_days
+  table.table.table-bordered.table-condensed
+    caption
+      strong.text-info
+        = Schedule.human_attribute_name(:month_days)
+        =< fa_icon 'calendar'
+    tbody
+      - (1..31).step(7) do |big_step|
+        tr
+         - (0..6).each do |smal_step|
+           - month_day = big_step + smal_step
+           - break if month_day > 31
+           - if @record.month_days.include?(month_day)
+             td.success
+               = link_to schedule_path(job_id: @job.id, job_type: @job.class, month_day: month_day, destroy: true), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('actions.delete') do
+                 = month_day
+           - else
+             td.warning
+               = link_to schedule_path(job_id: @job.id, job_type: @job.class, month_day: month_day), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('actions.add')  do
+                  = month_day

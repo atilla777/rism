@@ -1,0 +1,20 @@
+#hours
+  table.table.table-bordered.table-condensed
+    caption
+      strong.text-info
+        = Schedule.human_attribute_name(:hours)
+        =< fa_icon 'clock-o'
+    tbody
+      - (0..23).step(12) do |big_step|
+        tr
+         - (0..11).each do |smal_step|
+           - hour = big_step + smal_step
+           - if @record.hours.include?(hour)
+             td.success
+               = link_to schedule_path(job_id: @job.id, job_type: @job.class, hour: hour, destroy: true), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('actions.delete') do
+                 = hour
+           - else
+             td.warning
+               = link_to schedule_path(job_id: @job.id, job_type: @job.class, hour: hour), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('actions.add')  do
+                 = hour
+

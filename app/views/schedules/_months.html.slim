@@ -1,0 +1,18 @@
+#months
+  table.table.table-bordered.table-condensed
+    caption
+      strong.text-info
+        = Schedule.human_attribute_name(:months)
+        =< fa_icon 'calendar'
+    tbody
+      tr
+       - (1..12).each do |month|
+         - if @record.months.include?(month)
+           td.success
+             = link_to schedule_path(job_id: @job.id, job_type: @job.class, month: month, destroy: true), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('actions.delete') do
+               = t('date.month_names2')[month]
+         - else
+           td.warning
+             = link_to schedule_path(job_id: @job.id, job_type: @job.class, month: month), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('actions.add')  do
+               = t('date.month_names2')[month]
+

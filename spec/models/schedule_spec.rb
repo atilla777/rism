@@ -3,6 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe Schedule, type: :model do
+  subject { build(:schedule) } # fix shoulda error on polymorphic
+  it { should validate_uniqueness_of(:job_id).scoped_to(:job_type) }
+  it { should validate_presence_of(:job_id) }
+  it { should validate_presence_of(:job_type) }
+
   it 'can store minutes' do
     schedule = build(:schedule, minutes: [0, 44, 59])
     expect(schedule).to be_valid
@@ -59,4 +64,5 @@ RSpec.describe Schedule, type: :model do
   end
 
   it { should belong_to(:job) }
+  it { should have_one(:organization) }
 end

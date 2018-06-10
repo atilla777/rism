@@ -69,4 +69,7 @@ Rails.application.routes.draw do
     end
   end
   resources :host_services
+  get '/schedule/', to: 'schedules#show', as: :schedule
+  post '/schedule/', to: 'schedules#update', as: :update_schedule
+  # resources :schedules, only: [:show]
 end

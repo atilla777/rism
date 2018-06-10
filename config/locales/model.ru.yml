@@ -73,6 +73,9 @@ ru:
       host_service:
         one: 'Сетевой сервис'
         other: 'Сетевые сервисы'
+      schedule:
+        one: 'Рассписание'
+        other: 'Рассписания'
     attributes:
       organization:
         name: 'Имя'
@@ -259,6 +262,13 @@ ru:
         port: 'Порт'
         protocol: 'Протокол'
         description: 'Описание'
+      schedule:
+        job: 'Работа'
+        minutes: 'Минуты'
+        hours: 'Часы'
+        week_days: 'Дни недели'
+        months: 'Месяцы'
+        month_days: 'Дни месяца'
     errors:
       messages:
           organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'
