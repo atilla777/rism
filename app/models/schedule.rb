@@ -13,6 +13,8 @@ class Schedule < ApplicationRecord
 
   has_one :organization, through: :job
 
+  after_save :update_sidekiq_cron_schedule
+
   #delegate :organization, to: :job
 
   def show_crontab_line
@@ -28,8 +30,29 @@ class Schedule < ApplicationRecord
 
   private
 
+  def update_sidekiq_cron_schedule
+    cron_job_name = "#{job_type}_#{job_id}"
+    # if show_crontab_line = nil (m,h,md,m,wd = * * * * * and crontab_line is empty)
+    unless show_crontab_line
+      destroy_sidekiq_cron_schedule(cron_job_name)
+      return
+    end
+    Sidekiq::Cron::Job.create(
+      name: cron_job_name,
+      cron: show_crontab_line,
+      class: job.worker,
+      args: job.id
+    )
+  end
+
+  def destroy_sidekiq_cron_schedule(cron_job_name)
+    cron_job = Sidekiq::Cron::Job.find(cron_job_name)
+    return unless cron_job
+    cron_job.destroy
+  end
+
   def array_to_crontab_symbol(arr)
-    arr.present? ? arr.join(',') : '*'
+    arr.present? ? arr.sort.join(',') : '*'
   end
 
   def check_minutes

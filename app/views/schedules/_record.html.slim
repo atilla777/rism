@@ -2,9 +2,10 @@
 
 .col-lg-offset-1
   .col-lg-6
+    = caption @record.show_crontab_line
     = render 'months'
     = render 'month_days'
     = render 'week_days'
     = render 'hours'
     = render 'minutes'
-  = render 'application/record_versions'
+    = render 'crontab_line_form'

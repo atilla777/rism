@@ -1,0 +1,14 @@
+#crontab_line
+  = form_for @record, url: update_schedule_path, method: :post, remote: true, html: {class: 'form-horizontal'} do |f|
+
+    = label_tag :organization_id, class: 'control-label' do
+      a.link data-toggle='collapse' data-turbolinks='false' href='#expert_mode'
+        strong.text-info
+          = t('labels.expert_mode')
+
+    .collapse#expert_mode
+      = hidden_field_tag :job_id, @record.job_id
+      = hidden_field_tag :job_type, @record.job_type
+      = label_tag :crontab_line, Schedule.human_attribute_name(:crontab_line), class: 'control-label'
+      =< text_field_tag :crontab_line, '', class: 'form-control', style: 'width:60%; display:inline', placeholder: t('placeholders.schedule.crontab_line')
+      =< submit_tag t('helpers.submit.save'), class: 'btn btn-success'

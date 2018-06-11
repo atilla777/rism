@@ -16,4 +16,8 @@ class ScanJob < ApplicationRecord
   belongs_to :scan_option
 
   has_one :schedule, as: :job, dependent: :destroy
+
+  def worker
+    'NetScanJob'
+  end
 end

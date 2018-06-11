@@ -7,13 +7,14 @@ class NetScanJob < ApplicationJob
     if arg == 'now'
       :now_scan
     else
-      :planned_scan
+      :scheduled_scan
     end
-    :default
+      :default
   end
 
   def perform(*args)
-    job = args[0]
+    job = ScanJob.find(args[0])
+
     job_start = DateTime.now
 
     # set XML result file path
@@ -69,9 +70,15 @@ class NetScanJob < ApplicationJob
   end
 
   def save_to_database(result_attributes)
-    ScanResult.create(result_attributes
+    scan_result = ScanResult.create(result_attributes
       .merge(current_user: User.find(1))
     )
+    scan_result.save!
+  rescue ActiveRecord::RecordInvalid
+    logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_erros.log"))
+    logger.tagged("SCAN_JOB: #{scan_result}") do
+      logger.error("scan result can`t be saved - #{scan_result.errors.full_messages}")
+    end
   end
 
   def scan_result_attributes(job, job_start, host, port, legality)

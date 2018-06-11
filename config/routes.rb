@@ -72,4 +72,8 @@ Rails.application.routes.draw do
   get '/schedule/', to: 'schedules#show', as: :schedule
   post '/schedule/', to: 'schedules#update', as: :update_schedule
   # resources :schedules, only: [:show]
+  require 'sidekiq/web'
+
+  mount Sidekiq::Web => '/sidekiq', constraints: AdminSidekiqWebConstraint.new
+  require 'sidekiq/cron/web'
 end

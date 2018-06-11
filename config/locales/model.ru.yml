@@ -269,6 +269,7 @@ ru:
         week_days: 'Дни недели'
         months: 'Месяцы'
         month_days: 'Дни месяца'
+        crontab_line: 'Рассписание в формате crontab'
     errors:
       messages:
           organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'
