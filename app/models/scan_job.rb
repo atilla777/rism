@@ -15,5 +15,5 @@ class ScanJob < ApplicationRecord
   belongs_to :organization
   belongs_to :scan_option
 
-  has_many :schedule, as: :job, dependent: :destroy
+  has_one :schedule, as: :job, dependent: :destroy
 end

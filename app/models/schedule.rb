@@ -15,7 +15,22 @@ class Schedule < ApplicationRecord
 
   #delegate :organization, to: :job
 
+  def show_crontab_line
+    return crontab_line if crontab_line.present?
+    # TODO: think and if you wants do it with postgres function
+    result = []
+    %i[minutes hours month_days months week_days].each do |arr|
+      result << array_to_crontab_symbol(self.send(arr))
+    end
+    return nil if result.all? { |value| value == '*' }
+    result.join(' ')
+  end
+
   private
+
+  def array_to_crontab_symbol(arr)
+    arr.present? ? arr.join(',') : '*'
+  end
 
   def check_minutes
     return if check_array(minutes, 0..59)

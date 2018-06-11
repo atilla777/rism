@@ -49,7 +49,7 @@ module CaptionHelper
                                                   .model_name
                                                   .human
                 if record_or_records_or_text.respond_to?(:name)
-                  result += " #{record_or_records_or_text.name}"
+                  result += ": #{record_or_records_or_text.name}"
                 end
                 result
               when String
