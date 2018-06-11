@@ -19,7 +19,7 @@ class ScanResult < ApplicationRecord
 
   belongs_to :organization
   belongs_to :scan_job
-  belongs_to :host_service, foreign_key: :ip#, optional: true
+  belongs_to :host_service, foreign_key: :ip, optional: true
 
   def state_color
     self.class.state_to_color self.class.states[state]
