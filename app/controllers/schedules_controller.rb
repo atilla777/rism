@@ -27,7 +27,7 @@ class SchedulesController < ApplicationController
     update_week_days if params[:week_day]
     update_month_days if params[:month_day]
     update_months if params[:month]
-    @record.crontab_line = params[:crontab_line] if params[:crontab_line]
+    update_crontab_line if params[:crontab_line]
     # TODO: add errors show for handling in Schedule.save and Sidekiq::Cron.save
     @record.save
   rescue ActiveRecord::RecordInvalid
@@ -38,6 +38,11 @@ class SchedulesController < ApplicationController
   end
 
   private
+
+  def update_crontab_line
+    @record.crontab_line = params[:crontab_line]
+    render 'renew_crontab_line'
+  end
 
   def update_minutes
     if params[:destroy]

@@ -10,5 +10,5 @@
       = hidden_field_tag :job_id, @record.job_id
       = hidden_field_tag :job_type, @record.job_type
       = label_tag :crontab_line, Schedule.human_attribute_name(:crontab_line), class: 'control-label'
-      =< text_field_tag :crontab_line, '', class: 'form-control', style: 'width:60%; display:inline', placeholder: t('placeholders.schedule.crontab_line')
+      =< text_field_tag :crontab_line, @record.crontab_line, class: 'form-control', style: 'width:60%; display:inline', placeholder: t('placeholders.schedules.crontab_line')
       =< submit_tag t('helpers.submit.save'), class: 'btn btn-success'

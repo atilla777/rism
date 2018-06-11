@@ -1,0 +1,7 @@
+#caption
+  h3
+    span.text-info
+      = t 'labels.schedules.current_schedule'
+    a href="#" data-toggle="tooltip" title= t('placeholders.schedules.crontab_line')
+      span.text-warning
+        = @record.show_crontab_line || ''
