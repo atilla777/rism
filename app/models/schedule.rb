@@ -1,4 +1,6 @@
 class Schedule < ApplicationRecord
+  include OrganizationAssociated
+
   validates :job_id, uniqueness: { scope: :job_type }
   validates :job_id, presence: true
   validates :job_type, presence: true
@@ -16,6 +18,11 @@ class Schedule < ApplicationRecord
   after_save :update_sidekiq_cron_schedule
 
   #delegate :organization, to: :job
+  #
+
+  def organization_id
+    job.organization_id
+  end
 
   def show_crontab_line
     return crontab_line if crontab_line.present?

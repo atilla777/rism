@@ -29,25 +29,26 @@ module User::HasRole
     roles.any? { |role| (1..3).cover? role.id }
   end
 
-  # Return ids of organizations taht are allowed allowed to
+  # Return ids of organizations taht are allowed to
   # read by user
   # (includes implicitly assigned rights for children
   # organizations)
-   def allowed_organizations_ids
-     roles_ids = roles.pluck(:id)
-     expl_orgs_ids = Right.where(role_id: roles_ids)
-                          .pluck(:organization_id)
-                          .uniq
-     expl_orgs_ids.each_with_object(expl_orgs_ids.dup) do |id, result|
-       result.concat Organization.down_level_organizations(id)
-     end.uniq
-   end
+  def allowed_organizations_ids
+    roles_ids = roles.ids
+    expl_orgs_ids = Right.where(role_id: roles_ids)
+                         .pluck(:organization_id)
+                         .uniq
+    expl_orgs_ids.each_with_object(expl_orgs_ids.dup) do |id, result|
+      result.concat Organization.down_level_organizations(id)
+    end.uniq
+  end
 
   # Return ids of organizations taht are allowed allowed to
   # read by user
   # (includes implicitly assigned rights for children
   # organizations)
   # This method variant is implemented by pure SQL
+  # Dont delete - it should be compared with above method on DB with many records
   # def allowed_organizations_ids
   #   query =<<~SQL
   #     WITH RECURSIVE allowed_organizations(id) AS
@@ -134,8 +135,9 @@ module User::HasRole
          .present?
   end
 
-  # check that user can view record in model (show)
-  # or update it (edit, update, destroy)
+  # Check that user can view record in model (show)
+  # or update it (edit, update, destroy).
+  # It checks rights for parent organizations too.
   def can_access_record?(level, model, record)
     Right.where(role_id: roles)
          .where(

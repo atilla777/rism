@@ -20,6 +20,7 @@ class SchedulesController < ApplicationController
                    .where(job_type: params[:job_type])
                    .first_or_initialize
     authorize @record
+    @record.current_user = current_user
     @record.job_id = @job.id
     @record.job_type = @job.class
     update_minutes if params[:minute]
