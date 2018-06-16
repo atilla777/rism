@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ScanResult, type: :model do
-  it { should validate_numericality_of(:organization_id).only_integer }
   it { should validate_numericality_of(:scan_job_id).only_integer }
   it { should validate_presence_of(:start) }
   it { should validate_presence_of(:finished) }

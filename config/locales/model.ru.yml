@@ -223,7 +223,7 @@ ru:
         ports: 'Порты'
         description: 'Описание'
       scan_result:
-        organization_id: 'Организация'
+        organization_id: 'Организация влад.'
         scan_job_id: 'Работа'
         state: 'Состояние'
         states:

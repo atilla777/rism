@@ -269,7 +269,6 @@ ActiveRecord::Schema.define(version: 20180607174928) do
   end
 
   create_table "scan_results", force: :cascade do |t|
-    t.bigint "organization_id"
     t.bigint "scan_job_id"
     t.datetime "job_start"
     t.datetime "start"
@@ -286,7 +285,6 @@ ActiveRecord::Schema.define(version: 20180607174928) do
     t.string "product_extrainfo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["organization_id"], name: "index_scan_results_on_organization_id"
     t.index ["port"], name: "index_scan_results_on_port"
     t.index ["product"], name: "index_scan_results_on_product"
     t.index ["scan_job_id"], name: "index_scan_results_on_scan_job_id"
@@ -302,7 +300,6 @@ ActiveRecord::Schema.define(version: 20180607174928) do
     t.integer "months", default: [], array: true
     t.integer "week_days", default: [], array: true
     t.text "crontab_line"
-
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["job_type", "job_id"], name: "index_schedules_on_job_type_and_job_id"
@@ -411,7 +408,6 @@ ActiveRecord::Schema.define(version: 20180607174928) do
   add_foreign_key "role_members", "users"
   add_foreign_key "scan_jobs", "organizations"
   add_foreign_key "scan_jobs", "scan_options"
-  add_foreign_key "scan_results", "organizations"
   add_foreign_key "scan_results", "scan_jobs"
   add_foreign_key "tag_members", "tags"
   add_foreign_key "tags", "tag_kinds"

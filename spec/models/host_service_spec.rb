@@ -13,8 +13,9 @@ RSpec.describe HostService, type: :model do
     .in_range(0..65535)
   end
   it { should validate_presence_of(:protocol) }
-  it do
-    should validate_inclusion_of(:legality)
-    .in_array(%w[unknown illegal legal])
-  end
+
+#  it do
+#    should define_enum_for(:legality)
+#    .with(%i[unknown illegal legal])
+#  end
 end

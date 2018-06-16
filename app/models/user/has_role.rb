@@ -40,7 +40,7 @@ module User::HasRole
                          .uniq
     expl_orgs_ids.each_with_object(expl_orgs_ids.dup) do |id, result|
       result.concat Organization.down_level_organizations(id)
-    end.uniq
+    end.uniq.reject(&:nil?)
   end
 
   # Return ids of organizations taht are allowed allowed to

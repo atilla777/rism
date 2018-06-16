@@ -103,7 +103,7 @@ module RecordOfOrganization
     Organization.where(id: id).first || @record&.organization || OpenStruct.new(id: nil)
   end
 
-  # filter used in index pages wich is a part of organizaion show page
+  # filter that used in index pages wich is a part of organizaion show page
   # (such index shows only records that belongs to organization)
   def filter_for_organization
     model.where(organization_id: @organization.id)

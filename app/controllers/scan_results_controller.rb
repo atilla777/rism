@@ -78,7 +78,7 @@ class ScanResultsController < ApplicationController
   end
 
   def records_includes
-    %i[organization scan_job]
+    %i[organization]
   end
 
   def filter_for_organization

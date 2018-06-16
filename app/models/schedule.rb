@@ -18,7 +18,6 @@ class Schedule < ApplicationRecord
   after_save :update_sidekiq_cron_schedule
 
   #delegate :organization, to: :job
-  #
 
   def organization_id
     job.organization_id

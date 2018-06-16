@@ -64,5 +64,5 @@ RSpec.describe Schedule, type: :model do
   end
 
   it { should belong_to(:job) }
-  it { should have_one(:organization) }
+  #it { should have_one(:organization) }
 end

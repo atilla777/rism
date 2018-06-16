@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class ScanResult < ApplicationRecord
-  include OrganizationMember
+  include OrganizationAssociated
   include ScanResult::Ransackers
   include Legalitiable
 
   enum state: %i[closed closed_filtered filtered unfiltered open_filtered open]
 
-  validates :organization_id, numericality: { only_integer: true }
+  #validates :organization_id, numericality: { only_integer: true }
   validates :scan_job_id, numericality: { only_integer: true }
   validates :start, presence: true
   validates :finished, presence: true
@@ -17,9 +17,16 @@ class ScanResult < ApplicationRecord
   #validates :protocol, presence: true
   validates :state, inclusion: { in: ScanResult.states.keys}
 
-  belongs_to :organization
+  #belongs_to :organization
   belongs_to :scan_job
+
   belongs_to :host_service, foreign_key: :ip, optional: true
+
+  has_one :organization, through: :scan_job
+
+  def organization_id
+    scan_job.organization_id
+  end
 
   def state_color
     self.class.state_to_color self.class.states[state]
