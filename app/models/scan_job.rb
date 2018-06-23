@@ -4,6 +4,8 @@ class ScanJob < ApplicationRecord
   include Tagable
   include Attachable
 
+  SCAN_ENGINES = %w[nmap shodan]
+
   has_paper_trail
 
   validates :name, length: { minimum: 3, maximum: 100 }
@@ -16,6 +18,10 @@ class ScanJob < ApplicationRecord
   belongs_to :scan_option
 
   has_one :schedule, as: :job, dependent: :destroy
+
+  def self.scan_engines
+    SCAN_ENGINES
+  end
 
   def worker
     'NetScanJob'

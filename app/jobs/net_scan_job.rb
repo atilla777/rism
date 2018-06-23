@@ -12,6 +12,10 @@ class NetScanJob < ApplicationJob
 
   def perform(*args)
     job = ScanJob.find(args[0])
-    NetScan::NmapScan.new(job).run
+    if job.scan_engine == 'nmap'
+      NetScan::NmapScan.new(job).run
+    else
+      NetScan::ShodanScan.new(job).run
+    end
   end
 end

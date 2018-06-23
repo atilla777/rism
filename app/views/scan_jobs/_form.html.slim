@@ -21,6 +21,13 @@
       .form-group.recomended
         .field
           .col-lg-2.text-right
+            = f.label :scan_engine, class: 'control-label'
+          .col-lg-8
+            = f.select :scan_engine, ScanJob.scan_engines, {}, { class: 'form-control' }
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
             = f.label :scan_option_id, class: 'control-label'
           .col-lg-8
             = f.collection_select :scan_option_id, ScanOption.all, :id, :name, {}, { class: 'form-control' }

@@ -218,7 +218,8 @@ ru:
       scan_job:
         name: 'Название'
         organization_id: 'Организация'
-        scan_option_id: 'Набор опций сканирования'
+        scan_engine: 'Движок сканирования'
+        scan_option_id: 'Набор опций сканирования nmap'
         hosts: 'Хосты'
         ports: 'Порты'
         description: 'Описание'

@@ -84,6 +84,8 @@ gem 'sidekiq', '~> 5.1.3'
 gem 'rufus-scheduler', '3.4.2' # TODO: check that newer versions API (> 3.4.2) was fixed and work
 gem 'sidekiq-cron', '~> 0.6.3 '
 gem 'ruby-nmap', '~> 0.9.3'
+#gem 'shodanz', '~> 1.0.6'
+gem 'httparty', '~> 0.16.2'
 
 # Lint with overcommit
 group :development do
