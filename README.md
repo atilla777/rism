@@ -28,7 +28,13 @@ What planned:
 
 * Information resources accounting
 
-* Incidents accounting
+* Incident workflow
+
+* Task management
+
+* CMDB
+
+* Audits accounting
 
 * Risks accounting
 
