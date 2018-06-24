@@ -21,8 +21,8 @@ Some screenshots:
 ![](rism2.png)
 ![](rism3.png)
 ![](rism4.png)
-![](rism5.png)
-![](rism6.png)
+![](rism7.png)
+![](rism8.png)
 
 What planned:
 
