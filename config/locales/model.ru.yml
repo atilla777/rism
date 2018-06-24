@@ -226,6 +226,7 @@ ru:
       scan_result:
         organization_id: 'Организация влад.'
         scan_job_id: 'Работа'
+        scan_job_scan_engine: 'Движок'
         state: 'Состояние'
         states:
           closed: 'Закрыт'
@@ -234,7 +235,7 @@ ru:
           unfiltered: 'Не фильтруется'
           open_filtered: 'Открыт|Фильтруется'
           open: 'Открыт'
-        legality: 'Легальность на момент сканирования'
+        legality: 'Легальность (была)'
         legalities:
           illegal: 'Нелегален'
           unknown: 'Неизвестно'

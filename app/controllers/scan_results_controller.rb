@@ -74,7 +74,7 @@ class ScanResultsController < ApplicationController
   end
 
   def default_sort
-    'finished desc'
+    'job_start desc'
   end
 
   def records_includes

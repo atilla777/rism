@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 class NetScan::ShodanScan
   require 'httparty'
   require 'ipaddr'
 
   URL = 'https://api.shodan.io/'
+  HOST_NOT_FOUND_ERROR='No information available for that IP.'
 
   def initialize(job)
     @job = job
@@ -35,29 +38,40 @@ class NetScan::ShodanScan
   def fetch_result_from_shodan
     @hosts.each_with_object([]) do |host, memo|
       result = get(host)
-      next if result[:error]
-      if result[:no_host_info]
+      if host_info_not_found?(result)
         memo << {no_host_info: host}
-      else
+      elsif result['error'].blank?
         memo << result
       end
     end
   end
 
-  def get(ip)
-    begin
-      response = HTTParty.get("#{URL}shodan/host/#{ip}?key=#{@key}")
-      raise 'Shodan error' if response.code != '200'
-      response.parsed_response
-    rescue StandardError => err
-      log_error("scan result can`t be fetched - #{err}", 'shodan')
-      {error: err}
+  def host_info_not_found?(response)
+    return true if response.fetch('error', '') == HOST_NOT_FOUND_ERROR
+    false
+  end
+
+  def shodan_unexpected_error?(response)
+    parsed_response = response.parsed_response
+    return false if response.code == 200
+    if parsed_response.is_a?(Hash)
+      return false if parsed_response['error'] == HOST_NOT_FOUND_ERROR
     end
+    true
+  end
+
+  def get(ip)
+    response = HTTParty.get("#{URL}shodan/host/#{ip}?key=#{@key}")
+    raise 'Shodan response error' if shodan_unexpected_error?(response)
+    response.parsed_response
+  rescue StandardError => err
+    log_error("scan result can`t be fetched - #{err}", 'shodan')
+    {'error' => err}
   end
 
   def log_error(error, tag)
     logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_erros.log"))
-    logger.tagged("SCAN_JOB: #{tag}") do
+    logger.tagged("SCAN_JOB (#{Time.now}): #{tag}") do
       logger.error(error)
     end
   end
@@ -65,13 +79,13 @@ class NetScan::ShodanScan
   # parse result_file_name and save to database
   def save_result(result)
     result.each do |host|
-      if host[:no_host_info].presnet?
+      if host[:no_host_info].present?
         save_to_database(
           empty_scan_result_attributes(host[:no_host_info])
         )
-      else
+      elsif host['data'].present?
         host['data'].each do |service|
-          next unless service[:port]
+          next if service_info_not_present?(service)
           legality = HostService.legality(
             service['ip_str'], service['port'], service['transport'], 'open'
           )
@@ -81,6 +95,13 @@ class NetScan::ShodanScan
         end
       end
     end
+  end
+
+  def service_info_not_present?(service)
+    return true if service['port'].blank?
+    return true if service['transport'].blank?
+    return true if service['ip_str'].blank?
+    false
   end
 
   def save_to_database(result_attributes)
@@ -109,8 +130,15 @@ class NetScan::ShodanScan
       service: '',
       product: '',
       product_version: '',
-      product_extrainfo: ''
+      product_extrainfo: vulns(service)
     }
+  end
+
+  def vulns(service)
+    service.fetch('vulns','')
+    service.fetch('vulns', []).each_with_object([]) do |v, memo|
+      memo << v.first
+    end.join(', ')
   end
 
   def empty_scan_result_attributes(ip_str)
