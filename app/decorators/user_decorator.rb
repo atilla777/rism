@@ -15,9 +15,11 @@ class UserDecorator < SimpleDelegator
 
   def full_job
     result = []
-    result << job if job.present?
-    dep_name = department&.name || department_name
-    result << dep_name if dep_name.present?
+    if job.present?
+      result << job
+      dep_name = department&.name || department_name
+      result << dep_name if dep_name.present?
+    end
     result.join(', ')
   end
 
