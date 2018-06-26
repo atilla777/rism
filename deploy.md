@@ -1,7 +1,7 @@
 ## Установка приложения RISM
 ### Для развертывания **RISM** должны быть а установлены:
 * Операционная система (ОС) **Linux** (рекомендуется **Ubuntu Server**, данная документация составлялась с использованием версии [ubuntu-18.04-live-server-amd64](https://www.ubuntu.com/download/server/thank-you?country=RU&version=18.04&architecture=amd64)
-* Систему управления версиями [git]( https://git-scm.com/)
+* Система управления версиями [git]( https://git-scm.com/)
 * Сервер управления баз данных (СУБД) [Postgresql]( https://www.postgresql.org)
 * Сервер [Redis]( https://redis.io/)
 * [Node.js](https://nodejs.org/en/)
