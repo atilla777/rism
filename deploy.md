@@ -163,7 +163,9 @@ sudo passwd -l deploy
 sudo visudo
 ```
 Далее необходимо создать в открывшемся редакторе следующую строку:
+
 rism ALL=(ALL) NOPASSWD: /usr/bin/nmap
+
 или (не рекомендуется в продуктивном режиме) разрешить запуск без ввода пороля всех команд:
 ```bash
 rism ALL=(ALL) NOPASSWD:ALL
