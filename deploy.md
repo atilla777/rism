@@ -215,6 +215,10 @@ proxy_set_header Host $http_host;
 cap production deploy:check
 cap production deploy
 ```
+Загрузить в базу начальные значения (пользователя **admin** и его пароль):
+```bash
+cap production rails:rake:db:seed
+```
 Теперь приложение в продуктивном окружении (используется база rism_production) доступно по ссылке:
 http://localhost:80
 
