@@ -35,8 +35,7 @@ require "capistrano/rails/assets"
 require "capistrano/rails/migrations"
 require "capistrano/puma"
 require 'capistrano/rails/collection'
-#require "capistrano/nginx"
-# require "capistrano/passenger"
+require 'capistrano/sidekiq'
 
 install_plugin Capistrano::Puma
 install_plugin Capistrano::Puma::Nginx
