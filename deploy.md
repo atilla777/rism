@@ -202,10 +202,12 @@ config/deploy.rb
 Для генерирования настроек **nginx** и **puma**, a также размещения их на сервере выполнить:
 ```bash
 cap production puma:config
-cap production nginx:config
+cap production puma:nginx_config
 ```
 Проверяем и при необходимости кастомизируем настройки **nginx** на сервере:
 **/etc/nginx/sites-available/rism_puma**
+> ! в указанном выше файле может быть неверно указан параметр **proxy_set_header**, правильный вид настройки:
+proxy_set_header Host $http_host;
 
 ```
 Проверить, что все указанные выше папки и файлы имеются на сервере и выполнить развертывание релиза приложения:
