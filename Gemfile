@@ -104,7 +104,7 @@ group :development do
   gem 'capistrano3-puma', "~> 3.1", require: false
   #gem 'capistrano-nginx', require: false
   gem 'capistrano-rails-collection', "~> 0.1", require: false
-  # gem 'capistrano-sidekiq', require: false
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :test do
