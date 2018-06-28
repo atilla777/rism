@@ -213,11 +213,3 @@ cap production nginx:config
 cap production deploy:check
 cap production deploy
 ```
-Установку Capistrano и настройку подробно не описываю, все есть в документации, если коротко
-В фале Gemfile указываются необходимые гемы
-```ruby
-group :development do
-gem ‘capistrano-bundler’, require: false
-gem ‘capistrano-rails’, require: false
-gem ‘capistrano3-puma’, require: false
-```
