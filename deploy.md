@@ -215,3 +215,8 @@ proxy_set_header Host $http_host;
 cap production deploy:check
 cap production deploy
 ```
+Теперь приложение в продуктивном окружении (используется база rism_production) доступно по ссылке:
+http://localhost:80
+
+Пользователь – admin@rism.io
+Пароль - password
