@@ -98,6 +98,7 @@ group :development do
   gem 'rubocop-rspec', "~> 1.24", require: false
   gem 'capistrano', '~> 3.10', require: false
   gem 'capistrano-rails', '~> 1.3', require: false
+  gem 'capistrano-locally', '~> 0.2', require: false
   gem 'capistrano-rvm', "~> 0.1", require: false
   gem 'capistrano-bundler', "~> 1.3", require: false
   gem 'capistrano3-puma', "~> 3.1", require: false
