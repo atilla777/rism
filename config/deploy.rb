@@ -20,6 +20,7 @@ set :deploy_to, "/home/rism/prod"
 
 # Default value for :pty is false
 # set :pty, true
+ set :pty, false
 
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml", "config/secrets.yml"
@@ -28,6 +29,8 @@ set :deploy_to, "/home/rism/prod"
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'uploads')
 set :linked_files, fetch(:linked_files, []).push('.env.production')
+
+set :init_system, :systemd
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
