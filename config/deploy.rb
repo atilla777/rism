@@ -20,7 +20,7 @@ set :deploy_to, "/home/rism/prod"
 
 # Default value for :pty is false
 # set :pty, true
- set :pty, false
+set :pty,  false
 
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml", "config/secrets.yml"
