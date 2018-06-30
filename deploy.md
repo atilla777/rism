@@ -86,7 +86,7 @@ sudo systemctl restart postgresql
 ```
 > ! последняя команда запрашивает пароль пользователя в ОС Linux.
 
-Установить**redis**:
+Установить **redis**:
 ```bash
 sudo apt-get install redis-server
 ```
@@ -224,6 +224,11 @@ cap production puma:nginx_config
 Проверить, что все указанные выше папки и файлы имеются на сервере и выполнить развертывание релиза приложения:
 ```bash
 cap production deploy:check
+```
+
+### 3. Этап – развертывание приложения с помощью **Capistrano**
+Развернуть приложение (переход на использование нового релиза, при этом будет скачен код с основной ветки проекта на github):
+```bash
 cap production deploy
 ```
 Загрузить в базу начальные значения (пользователя **admin** и его пароль):
@@ -236,6 +241,8 @@ http://localhost:80
 Пользователь – admin@rism.io
 
 Пароль - **password**
+
+### 4. Этап - донастройка **Capistrano**
 
 Для того, что бы приложение запускалось при включении (перезагрузке) компьютера, необходимо обеспечить автоматический запуск веб сервера приложения **puma** и (эти приложения были установлены при установке зависимостей RISM через команду **bundle**).
 Сделать это можно через **systemd**.
@@ -254,10 +261,29 @@ http://localhost:80
  sudo systemctl enable sidekiq
  ```
  Теперь управлять сервисами, обеспичивающими работу RISM, можно через systemd (Redis, Postgresql, Nginx были установлены через apt и уже находятся под управлением systemd), например:
- ```bash
- sudo systemctl start puma
- sudo systemctl status sidekiq-production
- sudo systemctl restart nginx
- sudo systemctl stop redis
- sudo systemctl restart postgresql
- ```
+```bash
+sudo systemctl start puma
+sudo systemctl restart nginx
+sudo systemctl stop redis
+sudo systemctl restart postgresql
+``` 
+Если с в работе приложения имеются проблемы, то искать их причины нужно в журналах событий и в списках запущенных сервисов (процессов).
+
+Проблемы с запуском сервисов puma, sidekiq, Postgresql, nginx (сообщения systemd):
+```bash
+sudo systemctl status puma
+sudo systemctl status sidekiq
+sudo systemctl status postgresql
+sudo systemctl status nginx
+tail -n 100 /var/log/syslog
+```
+Ошибки в работе приложения:
+```bash
+tail -n 100 /home/rism/prod/shared/log/production.log
+tail -n 100 /home/rism/prod/shared/log/rism_errors.log
+```
+Обновить кода приложения:
+```bash
+cd /home/rism/dev/rism
+cap production deploy
+```
