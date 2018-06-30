@@ -28,4 +28,7 @@ PIDFile=/home/rism/prod/shared/tmp/pids/puma.pid
 # work better for this purpose, but you must test it.
 # Use "always" if only `systemctl` is used for start/stop/restart, and
 # reconsider if you actually need the forking config.
-Restart=no
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
