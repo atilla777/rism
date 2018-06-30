@@ -242,7 +242,7 @@ http://localhost:80
 
 Пароль - **password**
 
-### 4. Этап - донастройка **Capistrano**
+### 4. Этап - донастройка и сопровождение
 
 Для того, что бы приложение запускалось при включении (перезагрузке) компьютера, необходимо обеспечить автоматический запуск веб сервера приложения **puma** и (эти приложения были установлены при установке зависимостей RISM через команду **bundle**).
 Сделать это можно через **systemd**.
@@ -282,7 +282,7 @@ tail -n 100 /var/log/syslog
 tail -n 100 /home/rism/prod/shared/log/production.log
 tail -n 100 /home/rism/prod/shared/log/rism_errors.log
 ```
-Обновить кода приложения:
+Обновить код приложения:
 ```bash
 cd /home/rism/dev/rism
 cap production deploy
