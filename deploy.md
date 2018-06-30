@@ -1,19 +1,19 @@
 ## Установка приложения RISM
-### Для развертывания **RISM** должны быть а установлены:
+### Для развертывания **RISM** должны быть установлены:
 * Операционная система (ОС) **Linux** (рекомендуется **Ubuntu Server**, данная документация составлялась с использованием версии [ubuntu-18.04-live-server-amd64](https://www.ubuntu.com/download/server/thank-you?country=RU&version=18.04&architecture=amd64))
 * Система управления версиями [git]( https://git-scm.com/)
-* Сервер управления баз данных (СУБД) [Postgresql]( https://www.postgresql.org)
-* Сервер [Redis]( https://redis.io/)
-* [Node.js](https://nodejs.org/en/)
+* Сервер управления базами данных (СУБД) [Postgresql]( https://www.postgresql.org) (опробавано на версиях 9.6 и 10)
+* Сервер хранилища [Redis]( https://redis.io/)
+* Платформа JavaScript [Node.js](https://nodejs.org/en/)
 * Веб сервер [Nginx]( http://nginx.org/ru/)
 * Система управлениями версиями языка программирования Ruby [RVM]( https://rvm.io/)
 * [Ruby]( https://www.ruby-lang.org/en/)
-* Систему управления зависимостями приложений Ruby [Bundler]( https://bundler.io/)
+* Система управления зависимостями приложений Ruby [Bundler]( https://bundler.io/)
 * Веб Фреймворк [Ruby on Rails](https://rubyonrails.org/)
 * Ruby on Rails приложение [RISM](https://github.com/atilla777/rism)
 * Система удаленного развертывания приложений [Capistrano](https://capistranorb.com/)
 
-Подразумевается, что установка приложения и управление его развертыванием (обновлениями) будут осуществляться с одного компьютера (сервера) через **[Capistrano** с плагином **[capistrano-local](https://github.com/komazarari/capistrano-locally)**.
+В данном руководстве подразумевается, что установка приложения и управление его развертыванием (обновлениями) будут осуществляться с одного компьютера (сервера) через **Capistrano** с плагином **[capistrano-local](https://github.com/komazarari/capistrano-locally)**.
 Возможны и другие варианты (например, штатное использование Capistrano - развертывание с локального компьютера разработчика на удаленный сервер, но этот вариант пока не документирован).
 
 Минимальные требования к компьютеру (приблизительно):
@@ -43,7 +43,7 @@ sudo dpkg-reconfigure unattended-upgrades
 В Linux создать пользователя **rism** и добавить его в группу **sudo**:
 ```bash
 sudo adduser rism
-sudo usermod -aG rism
+sudo usermod -aG sudo rism
 ```
 Установить **git**:
 ```bash
@@ -75,10 +75,15 @@ exit
 Настроить доступ к БД по паролю — для подключения типа **local** устанавливается метод **md5**:
 ```bash
 sudo vim /etc/postgres/9.5/pg_hba.conf
-sudo systemctl restart postgresql
 ```
 В файле **pg_hba.conf** должна быть следующая строка:
-local     all       all       md5
+
+**local     all       all       md5**
+
+Перезапустить **Postgresql**:
+```bash
+sudo systemctl restart postgresql
+```
 > ! последняя команда запрашивает пароль пользователя в ОС Linux.
 
 Установить**redis**:
@@ -162,8 +167,9 @@ sudo visudo
 ```
 Далее необходимо создать в открывшемся редакторе следующую строку:
 
-rism ALL=(ALL) NOPASSWD: /usr/bin/nmap
+**rism ALL=(ALL) NOPASSWD: /usr/bin/nmap**
 > ! Указанная выше запись должна следовать за дргуими записями, в которых даются полномочия **sudo** для пользователя **rism**. То есть, если пользователь rism был добавлен в группу **sudo**, то эта запись должна следовать после строки
+
 **%sudo   ALL=(ALL:ALL) ALL**
 
 или (не рекомендуется в продуктивном режиме) разрешить запуск без ввода пороля всех команд:
@@ -195,10 +201,13 @@ rails secret
 Далее необходимо в папке /home/rism/prod/shared отредактировать файл **.env.production**, указав в нем учетную запись пользователя Postgresl (**rism**), ее пароль, сгенерированный секретный ключ и API ключ Shodan.
 
 Сделать общие для всех серверов предпродуктива и продуктива (stage и production) настройки в файле (если stage не используется (рекомендуемый вариант, для тех, кто не понимает, о чем идет речь), то соответствующие настройки stage можно не делать):
-config/deploy.rb
+
+**config/deploy.rb**
 
 Сделать специфические для серверов (stage и production) настройки в файлах (если stage не используется, то файлы для настроек stage можно не трогать):
+
 **config/deploy/production.rb**
+
 **config/deploy/staging.rb**
 
 Для генерирования настроек **nginx** и **puma**, a также размещения их на сервере выполнить:
@@ -207,11 +216,11 @@ cap production puma:config
 cap production puma:nginx_config
 ```
 Проверяем и при необходимости кастомизируем настройки **nginx** на сервере:
+
 **/etc/nginx/sites-available/rism_puma**
 > ! в указанном выше файле может быть неверно указан параметр **proxy_set_header**, правильный вид настройки:
-proxy_set_header Host $http_host;
+**proxy_set_header Host $http_host;**
 
-```
 Проверить, что все указанные выше папки и файлы имеются на сервере и выполнить развертывание релиза приложения:
 ```bash
 cap production deploy:check
@@ -221,8 +230,30 @@ cap production deploy
 ```bash
 cap production rails:rake:db:seed
 ```
-Теперь приложение в продуктивном окружении (используется база rism_production) доступно по ссылке:
+Теперь приложение работает в продуктивном окружении (используется база rism_production) доступно по ссылке:
 http://localhost:80
 
 Пользователь – admin@rism.io
-Пароль - password
+
+Пароль - **password**
+
+Для того, что бы приложение запускалось при включении (перезагрузке) компьютера, необходимо обеспечить автоматический запуск веб сервера приложения **puma** и (эти приложения были установлены при установке зависимостей RISM через команду **bundle**).
+Сделать это можно через **systemd**.
+Создать сервис **puma**:
+```bash
+ sudo ln -s puma.service /lib/systemd/system/
+ sudo systemctl enable puma
+ ```
+ Создать сервис sidekiq.service:
+ ```bash
+ sudo ln -s sidekiq.service /lib/systemd/system/
+ sudo systemctl enable sidekiq
+ ```
+ Теперь управлять сервисами, обеспичивающими работу RISM, можно через systemd (Redis, Postgresql, Nginx были установлены через apt и уже находятся под управлением systemd), например:
+ ```bash
+ sudo systemctl start puma
+ sudo systemctl status sidekiq-production
+ sudo systemctl restart nginx
+ sudo systemctl stop redis
+ sudo systemctl restart postgresql
+ ```
