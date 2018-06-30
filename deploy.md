@@ -241,11 +241,13 @@ http://localhost:80
 Сделать это можно через **systemd**.
 Создать сервис **puma**:
 ```bash
- sudo ln -s puma.service /etc/systemd/system/
+ sudo ln -s puma.service /lib/systemd/system/
+ sudo systemctl enable puma
  ```
- Создать сервис sidekiq-production.service:
+ Создать сервис sidekiq.service:
  ```bash
-sudo bundle exec cap production sidekiq:install
+ sudo ln -s sidekiq.service /lib/systemd/system/
+ sudo systemctl enable sidekiq
  ```
  Теперь управлять сервисами, обеспичивающими работу RISM, можно через systemd (Redis, Postgresql, Nginx были установлены через apt и уже находятся под управлением systemd), например:
  ```bash
