@@ -242,12 +242,14 @@ http://localhost:80
 Создать сервис **puma**:
 ```bash
  sudo ln -s /home/rism/prod/shared/puma.service /lib/systemd/system/
-  sudo systemctl start puma
+ systemctl daemon-reload
+ sudo systemctl start puma
  sudo systemctl enable puma
  ```
  Создать сервис sidekiq.service:
  ```bash
  sudo ln -s /home/rism/prod/shared/sidekiq.service /lib/systemd/system/
+ systemctl daemon-reload
  sudo systemctl start sidekiq
  sudo systemctl enable sidekiq
  ```
