@@ -216,7 +216,6 @@ cap production puma:nginx_config
 > ! в указанном выше файле может быть неверно указан параметр **proxy_set_header**, правильный вид настройки:
 **proxy_set_header Host $http_host;**
 
-```
 Проверить, что все указанные выше папки и файлы имеются на сервере и выполнить развертывание релиза приложения:
 ```bash
 cap production deploy:check
@@ -231,4 +230,4 @@ http://localhost:80
 
 Пользователь – admin@rism.io
 
-Пароль - password
+Пароль - **password**
