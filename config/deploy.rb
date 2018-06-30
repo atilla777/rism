@@ -30,8 +30,6 @@ set :pty,  false
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'uploads')
 set :linked_files, fetch(:linked_files, []).push('.env.production')
 
-set :init_system, :systemd
-
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 

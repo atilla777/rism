@@ -5,8 +5,9 @@ After=syslog.target network.target
 [Service]
 Type=simple
 Environment=RAILS_ENV=production
+EnvironmentFile=/home/rism/prod/shared/.env.production
 WorkingDirectory=/home/rism/prod/current
-ExecStart=/usr/local/bin/bundler exec sidekiq -e production
+ExecStart=/home/rism/.rvm/bin/rvm default do bundle exec sidekiq -e production
 ExecReload=/bin/kill -TSTP $MAINPID
 ExecStop=/bin/kill -TERM $MAINPID
 
