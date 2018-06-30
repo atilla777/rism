@@ -75,10 +75,15 @@ exit
 Настроить доступ к БД по паролю — для подключения типа **local** устанавливается метод **md5**:
 ```bash
 sudo vim /etc/postgres/9.5/pg_hba.conf
-sudo systemctl restart postgresql
 ```
 В файле **pg_hba.conf** должна быть следующая строка:
-local     all       all       md5
+
+**local     all       all       md5**
+
+Перезапустить **Postgresql**:
+```bash
+sudo systemctl restart postgresql
+```
 > ! последняя команда запрашивает пароль пользователя в ОС Linux.
 
 Установить**redis**:
