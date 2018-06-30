@@ -3,8 +3,8 @@
 * Операционная система (ОС) **Linux** (рекомендуется **Ubuntu Server**, данная документация составлялась с использованием версии [ubuntu-18.04-live-server-amd64](https://www.ubuntu.com/download/server/thank-you?country=RU&version=18.04&architecture=amd64))
 * Система управления версиями [git]( https://git-scm.com/)
 * Сервер управления баз данных (СУБД) [Postgresql]( https://www.postgresql.org)
-* Сервер [Redis]( https://redis.io/)
-* [Node.js](https://nodejs.org/en/)
+* Сервер хранилища [Redis]( https://redis.io/)
+* Платформа JavaScript [Node.js](https://nodejs.org/en/)
 * Веб сервер [Nginx]( http://nginx.org/ru/)
 * Система управлениями версиями языка программирования Ruby [RVM]( https://rvm.io/)
 * [Ruby]( https://www.ruby-lang.org/en/)
@@ -43,7 +43,7 @@ sudo dpkg-reconfigure unattended-upgrades
 В Linux создать пользователя **rism** и добавить его в группу **sudo**:
 ```bash
 sudo adduser rism
-sudo usermod -aG rism
+sudo usermod -aG sudo rism
 ```
 Установить **git**:
 ```bash
