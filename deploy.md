@@ -225,9 +225,28 @@ cap production deploy
 ```bash
 cap production rails:rake:db:seed
 ```
-Теперь приложение в продуктивном окружении (используется база rism_production) доступно по ссылке:
+Теперь приложение работает в продуктивном окружении (используется база rism_production) доступно по ссылке:
 http://localhost:80
 
 Пользователь – admin@rism.io
 
 Пароль - **password**
+
+Для того, что бы приложение запускалось при включении (перезагрузке) компьютера, необходимо обеспечить автоматический запуск веб сервера приложения **puma** и (эти приложения были установлены при установке зависимостей RISM через команду **bundle**).
+Сделать это можно через **systemd**.
+Создать сервис **puma**:
+```bash
+ sudo ln -s puma.service /etc/systemd/system/
+ ```
+ Создать сервис sidekiq-production.service:
+ ```bash
+sudo bundle exec cap production sidekiq:install
+ ```
+ Теперь управлять сервисами, обеспичивающими работу RISM, можно через systemd (Redis, Postgresql, Nginx были установлены через apt и уже находятся под управлением systemd), например:
+ ```bash
+ sudo systemctl start puma
+ sudo systemctl status sidekiq-production
+ sudo systemctl restart nginx
+ sudo systemctl stop redis
+ sudo systemctl restart postgresql
+ ```
