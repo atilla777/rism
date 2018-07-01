@@ -36,6 +36,7 @@ http://localhost:8888
 
 После входа в Linux обязательно надо сгенерировать секретный ключ приложения:
 ```bash
+cd /home/rism/dev/rism
 rails secret
 ```
 Далее необходимо в папке **/home/rism/prod/shared** отредактировать файл **.env.production**, указав в нем:
