@@ -115,7 +115,7 @@ class NetScan::NmapScan
 
   def set_result_path
     # path to XML file with nmap scan results
-    result_folder = "tmp"
+    result_folder = "tmp/nmap"
     # XML file name
     result_file = "#{@job.id}_#{@job_start.strftime("%Y.%m.%d-%H.%M.%S")}_nmap.xml"
     # full path to XML file
