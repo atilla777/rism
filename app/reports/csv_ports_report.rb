@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-class OrganizationPortsReport < BaseReport
+class CSVPortsReport < BaseReport
   include DateTimeHelper
 
   set_lang :ru
-  set_report_name :organization_ports
-  set_human_name 'Открытые порты'
+  set_report_name :csv_ports
+  set_human_name 'Открытые порты (CSV)'
   set_report_model 'ScanResult'
-  #set_required_params %i[organization_id]
   set_required_params %i[]
 
   def report(r)
@@ -30,7 +29,6 @@ class OrganizationPortsReport < BaseReport
                             .includes(:organization)
      r.p "Дата сканирования; Организация; IP; Порт; Протокол; Состояние; Сервис; ПО сервиса; Дополнительная информация"
     records.each do |record|
-      r.p
       r.p "#{show_date_time(record.job_start)}; #{record.organization.name}; #{record.ip}; #{record.port}; #{record.protocol}; #{ScanResultDecorator.new(record).show_state}, #{record.service}; #{record.product_version}; #{record.product_extrainfo}"
     end
   end

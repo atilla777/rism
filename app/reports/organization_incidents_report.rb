@@ -12,7 +12,6 @@ class OrganizationIncidentsReport < BaseReport
   set_required_params %i[organization_id]
 
   def report(r)
-    #docx.page
     organization = OrganizationPolicy::Scope.new(current_user, Organization).resolve
       .where(id: options[:organization_id]).first
 
