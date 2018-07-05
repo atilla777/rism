@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # To add report - add class (shown below) file into app/reports
-# and register in in reports.rb:
+# and register in reports.rb:
 #
 #  OrganizationIncidentsReport.register
 class OrganizationIncidentsReport < BaseReport

@@ -25,4 +25,5 @@ class Reports
 
   OrganizationIncidentsReport.register
   OrganizationsReport.register
+  OrganizationPortsReport.register
 end
