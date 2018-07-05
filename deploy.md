@@ -3,7 +3,7 @@
 ### Установка из образа виртуальной машины
 Установить Oracle VirtualBox.
 
-Скачать [образ](https://yadi.sk/d/ygmvC3ZA3Ydtjm) виртуального сервера с приложением RISM (MD5 7fe11c54cde6a78df4441f10368d56cd).
+Скачать [образ](https://yadi.sk/d/N-HljDyT3Ymoet) виртуального сервера с приложением RISM (MD5 4f1b5a04b12bf86ede3c1e28a46b0ac6).
 
 Запустить виртуальную машину.
 
@@ -241,6 +241,11 @@ netstat -an --inet
 На сервере создать папки и файлы общие для всех релизов и не входящие в репозиторий (файлы с настройками специфичными для production серверов, секретами/паролями):
 ```bash
 mkdir /home/rism/prod/shared
+```
+Скопировать настройки сервисов puma и sidekiq:
+```bash
+cp /home/dev/rism/puma.service /home/rism/prod/shared/puma.service
+cp /home/dev/rism/sidekiq.service /home/rism/prod/shared/sidekiq.service
 ```
 Скопировать файл с паролями и настройками:
 ```bash
