@@ -24,7 +24,7 @@ class NetScan::NmapScan
     scan_options = @job.scan_option.options.select { |key, value| value.to_i.nonzero? }
     scan_options.update(scan_options) { |key, value| value = true if value == '1' }
     scan_options[:xml] = @result_path
-    scan_options[:targets] = @job.hosts
+    scan_options[:targets] = @job.hosts.split(',')
     if @job.ports.present?
       scan_options[:ports] = @job.ports.split(',')
       scan_options[:ports] = scan_options[:ports].map do |port|
