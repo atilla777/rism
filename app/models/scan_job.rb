@@ -19,6 +19,8 @@ class ScanJob < ApplicationRecord
 
   has_one :schedule, as: :job, dependent: :destroy
 
+  has_many :scan_results, dependent: :destroy
+
   def self.scan_engines
     SCAN_ENGINES
   end
