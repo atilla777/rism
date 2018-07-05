@@ -36,6 +36,8 @@ class Organization < ApplicationRecord
   # organization is owner of some incidents (as access subject)
   has_many :incidents, dependent: :destroy
 
+  has_many :scan_jobs, dependent: :destroy
+
   has_many :children,
            class_name: 'Organization',
            foreign_key: :parent_id,
