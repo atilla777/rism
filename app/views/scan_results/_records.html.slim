@@ -1,4 +1,4 @@
-= report_button_for @records, organization_id: @organization.id
+= report_button_for records, organization_id: @organization.id
 = index_for records, actions: false do |t|
   - t.header attribute: :job_start, sort_by: :start, sort: :desc
   - t.header attribute: :finished, sort_by: :finished, sort: :desc

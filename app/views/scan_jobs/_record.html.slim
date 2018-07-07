@@ -2,6 +2,7 @@
   = r.show :name
   = r.show :organization_id
     = link_to @record.organization.name, @record.organization
+  = r.show :scan_engine
   = r.show :scan_option_id do
     =link_to @record.scan_option.name, @record.scan_option
   = r.show :hosts

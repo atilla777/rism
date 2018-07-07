@@ -1,0 +1,20 @@
+[Unit]
+Description=sidekiq for rism (production)
+After=syslog.target network.target
+
+[Service]
+Type=simple
+Environment=RAILS_ENV=production
+EnvironmentFile=/home/rism/prod/shared/.env.production
+WorkingDirectory=/home/rism/prod/current
+ExecStart=/home/rism/.rvm/bin/rvm default do bundle exec sidekiq -e production
+ExecReload=/bin/kill -TSTP $MAINPID
+ExecStop=/bin/kill -TERM $MAINPID
+
+RestartSec=1
+Restart=on-failure
+
+SyslogIdentifier=sidekiq
+
+[Install]
+WantedBy=default.target

@@ -33,7 +33,7 @@ class NetScan::NmapScan
     scan_options = @job.scan_option.options.select { |key, value| value.to_i.nonzero? }
     scan_options.update(scan_options) { |key, value| value = true if value == '1' }
     scan_options[:xml] = @result_path
-    scan_options[:targets] = @job.hosts
+    scan_options[:targets] = @job.hosts.split(',')
     if @job.ports.present?
       scan_options[:ports] = @job.ports.split(',')
       scan_options[:ports] = scan_options[:ports].map do |port|
@@ -127,7 +127,7 @@ class NetScan::NmapScan
 
   def set_result_path
     # path to XML file with nmap scan results
-    result_folder = "tmp"
+    result_folder = "tmp/nmap"
     # XML file name
     result_file = "#{@job.id}_#{@job_start.strftime("%Y.%m.%d-%H.%M.%S")}_nmap.xml"
     # full path to XML file

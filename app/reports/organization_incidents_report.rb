@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # To add report - add class (shown below) file into app/reports
-# and register in in reports.rb:
+# and register in reports.rb:
 #
 #  OrganizationIncidentsReport.register
 class OrganizationIncidentsReport < BaseReport
@@ -12,7 +12,6 @@ class OrganizationIncidentsReport < BaseReport
   set_required_params %i[organization_id]
 
   def report(r)
-    #docx.page
     organization = OrganizationPolicy::Scope.new(current_user, Organization).resolve
       .where(id: options[:organization_id]).first
 

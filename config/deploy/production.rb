@@ -6,9 +6,10 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-server "172.23.1.97", user: "deploy", roles: %w{app db web}
-
-
+# for remote deploy
+# server "172.23.1.97", user: "deploy", roles: %w{app db web}
+# for local deploy
+server 'localhost', roles: %w{app db web} # no need to set SSH configs.
 
 # role-based syntax
 # ==================
@@ -48,11 +49,12 @@ server "172.23.1.97", user: "deploy", roles: %w{app db web}
 #    auth_methods: %w(password)
 #  }
 #
-set :ssh_options, {
-  keys: %w(/home/alexey/.ssh/id_rsa),
-  forward_agent: false,
-  auth_methods: %w(publickey)
-}
+# for remote deploy
+# set :ssh_options, {
+#  keys: %w(/home/rism/.ssh/id_rsa),
+#  forward_agent: false,
+#  auth_methods: %w(publickey)
+# }
 # The server-based syntax can be used to override options:
 # ------------------------------------
 # server "example.com",
