@@ -32,7 +32,7 @@ class TablePortsReport < BaseReport
     records = ScanResultsQuery.new(scope)
                             .last_results
                             .includes(:organization)
-                            .order(:ip)
+                            .order('scan_jobs.organization_id', :ip, :port)
     header = [[
       'Дата проверки',
       'Организация',
