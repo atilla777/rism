@@ -91,11 +91,6 @@ module SharedMethods
                     )
     end
   end
-
-  def record_decorator(record)
-    record
-  end
-
 #  def group_field
 #    "#{model.table_name}.id"
 #  end

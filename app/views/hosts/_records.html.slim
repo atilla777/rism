@@ -8,7 +8,7 @@
     = link_to new_host_service_path(host_id: record.id, organization_id: @organization.id), data: { toggle: 'tooltip', placement: 'top'}, title: t('views.action.new_host_service') do
       span.text-success
         =< fa_icon 'sun-o'
-    =< link_to new_scan_job_path(ip: record.ip, organization_id: @organization.id), data: { toggle: 'tooltip', placement: 'top'}, title: t('views.action.new_scan_job') do
+    =< link_to new_scan_job_path(ip: HostDecorator.new(record).show_ip, organization_id: @organization.id), data: { toggle: 'tooltip', placement: 'top'}, title: t('views.action.new_scan_job') do
       span.text-success
         =< fa_icon 'gears'
     =< link_to(HostDecorator.new(record).show_ip, record)

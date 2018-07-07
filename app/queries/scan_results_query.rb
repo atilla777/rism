@@ -17,13 +17,13 @@ class ScanResultsQuery
     <<~SQL
       INNER JOIN (
         SELECT
-          scan_results.scan_job_id,
+          scan_results.ip,
           MAX(scan_results.job_start)
           AS max_time
         FROM scan_results
-        GROUP BY scan_results.scan_job_id
+        GROUP BY scan_results.ip
       )m
-      ON scan_results.scan_job_id = m.scan_job_id
+      ON scan_results.ip = m.ip
       AND scan_results.job_start = m.max_time
     SQL
   end
@@ -41,6 +41,4 @@ class ScanResultsQuery
       )
    SQL
   end
-
-
 end
