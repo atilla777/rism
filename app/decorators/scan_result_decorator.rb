@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class ScanResultDecorator < SimpleDelegator
   def show_state
     ScanResult.human_enum_name(:states, state)

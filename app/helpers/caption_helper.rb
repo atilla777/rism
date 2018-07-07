@@ -39,12 +39,11 @@ module CaptionHelper
     options.slice(:tag, :class, :id)
     options[:tag] ||= CAPTION_TAG
     options[:class] ||= CAPTION_CLASS
-    caption = case record_or_records_or_text
-              when ActiveRecord::Relation
+    caption = if record_or_records_or_text.kind_of?(ActiveRecord::Relation)
                 record_or_records_or_text.klass
                                          .model_name
                                          .human(count: 2)
-              when ActiveRecord::Base
+              elsif record?(record_or_records_or_text)
                 result = record_or_records_or_text.class
                                                   .model_name
                                                   .human
@@ -52,7 +51,7 @@ module CaptionHelper
                   result += ": #{record_or_records_or_text.name}"
                 end
                 result
-              when String
+              elsif record_or_records_or_text.kind_of?(String)
                 record_or_records_or_text
               else
                 raise(
@@ -62,5 +61,11 @@ module CaptionHelper
               end
     render('helpers/caption', caption: caption,
                               tag: options)
+  end
+
+  def record?(record)
+    return true if record.kind_of?(ActiveRecord::Base)
+    return true if record.original.kind_of?(ActiveRecord::Base)
+    false
   end
 end

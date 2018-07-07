@@ -1,5 +1,5 @@
 = index_search :name_or_ip_str_or_organization_name_cont, organization_id_eq: @organization&.id
-= report_button_for @records, organization_id: @organization.id
+= report_button_for records, organization_id: @organization.id
 = index_for records do |t|
   - t.header attribute: :ip, sort: :desc
   - t.header attribute: :name, sort: :desc
@@ -11,6 +11,6 @@
     =< link_to new_scan_job_path(ip: record.ip, organization_id: @organization.id), data: { toggle: 'tooltip', placement: 'top'}, title: t('views.action.new_scan_job') do
       span.text-success
         =< fa_icon 'gears'
-    =< link_to(record.ip, record)
+    =< link_to(HostDecorator.new(record).show_ip, record)
   - t.field { |record| link_to(record.name, record) }
   - t.field { |record| link_to record.organization.name, record.organization }

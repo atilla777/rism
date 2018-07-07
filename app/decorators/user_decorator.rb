@@ -1,6 +1,14 @@
 # frozen_string-literal: true
 
 class UserDecorator < SimpleDelegator
+  def original
+    self.__getobj__
+  end
+
+  def class
+    self.__getobj__.class
+  end
+
   def show_active
     active ? I18n.t('labels.user.active') : I18n.t('labels.user.not_active')
   end

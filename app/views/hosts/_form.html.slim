@@ -17,7 +17,7 @@
           .col-lg-2.text-right
             = f.label :ip, class: 'control-label'
           .col-lg-8
-            = f.text_field :ip, class: 'form-control'
+            = f.text_field :ip, value: HostDecorator.new(@record).show_ip, class: 'form-control', placeholder: t('placeholders.hosts.ip')
 
 
       .form-group.required
