@@ -233,7 +233,7 @@ ru:
           closed_filtered: 'Закрыт|Фильтруется'
           filtered: 'Фильтруется'
           unfiltered: 'Не фильтруется'
-          open_filtered: 'Открыт|Фильтруется'
+          open_filtered: 'Открыт Фильтруется'
           open: 'Открыт'
         legality: 'Легальность (была)'
         legalities:

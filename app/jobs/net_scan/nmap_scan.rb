@@ -2,6 +2,15 @@ class NetScan::NmapScan
   require 'nmap/program'
   require 'nmap/xml'
 
+  PORT_STATES_MAP = {
+    :'closed' => 'closed',
+    :'closed|filtered' => 'closed_filtered',
+    :'filtered' => 'filtered',
+    :'unfiltered' => 'unfiltered',
+    :'open|filtered' => 'open_filtered',
+    :'open' => 'open'
+  }
+
   def initialize(job)
     @job = job
     @job_start = DateTime.now
@@ -81,11 +90,10 @@ class NetScan::NmapScan
       start: host.start_time,
       finished: host.end_time,
       scan_job_id: @job.id,
-      #organization_id: job.organization_id,
       ip: host.ip,
       port: port.number,
       protocol: port.protocol,
-      state: port.state,
+      state: port_state(port.state),
       legality: legality,
       service: port.service,
       product: port&.service&.product,
@@ -111,6 +119,10 @@ class NetScan::NmapScan
       product_version: '',
       product_extrainfo: ''
     }
+  end
+
+  def port_state(nmap_port_state)
+    PORT_STATES_MAP[nmap_port_state]
   end
 
   def set_result_path
