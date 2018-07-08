@@ -20,17 +20,21 @@ class CSVPortsReport < BaseReport
 
     scope = ScanResult
     if organization.present?
-      scope = scope.joins('JOIN hosts ON scan_results.ip <<= hosts.ip')
-           .where('hosts.organization_id = ?', organization.id)
+      scope = scope.joins('JOIN hosts h ON scan_results.ip <<= h.ip')
+           .where('h.organization_id = ?', organization.id)
     end
-    scope = scope.where(state: :open)
     records = ScanResultsQuery.new(scope)
-                            .last_results
-                            .includes(:organization)
-                            .order('scan_jobs.organization_id', :ip, :port)
-     r.p "Дата сканирования; Организация; IP; Порт; Протокол; Состояние; Сервис; ПО сервиса; Дополнительная информация"
+      .last_results
+      .select('scan_results.*, scan_results.ip AS scan_results_ip, real_organizations.name AS real_organization_name, hosts.*')
+      .joins('LEFT OUTER JOIN hosts ON hosts.ip = scan_results.ip')
+      .joins('LEFT OUTER JOIN organizations real_organizations ON real_organizations.id = hosts.organization_id')
+      .where(state: :open)
+      .order('real_organization_name', 'scan_results_ip', 'scan_results.port')
+
+     r.p "Дата сканирования; Организация; IP; Порт; Протокол; Состояние; Легальность; Сервис; ПО сервиса; Дополнительная информация"
     records.each do |record|
-      r.p "#{show_date_time(record.job_start)}; #{record.organization.name}; #{record.ip}; #{record.port}; #{record.protocol}; #{ScanResultDecorator.new(record).show_state}, #{record.service}; #{record.product_version}; #{record.product_extrainfo}"
+      record = ScanResultDecorator.new(record)
+      r.p "#{show_date_time(record.job_start)}; #{record.real_organization_name}; #{record.scan_results_ip}; #{record.port}; #{record.protocol}; #{record.show_state}, #{record.show_current_legality}, #{record.service}; #{record.product_version}; #{record.product_extrainfo}"
     end
   end
 end

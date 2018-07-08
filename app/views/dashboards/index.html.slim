@@ -1,5 +1,10 @@
 .row
   .col.col-lg-6
+    = chart :open_ports_by_organizations
+  .col.col-lg-6
+    = chart :illegal_ports_by_organizations
+.row
+  .col.col-lg-6
     = chart :incidents_by_state
   .col.col-lg-6
     = chart :incidents_by_days

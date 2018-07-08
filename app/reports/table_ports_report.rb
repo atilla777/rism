@@ -25,14 +25,16 @@ class TablePortsReport < BaseReport
 
     scope = ScanResult
     if organization.present?
-      scope = scope.joins('JOIN hosts ON scan_results.ip <<= hosts.ip')
-           .where('hosts.organization_id = ?', organization.id)
+      scope = scope.joins('JOIN hosts h ON scan_results.ip <<= h.ip')
+           .where('h.organization_id = ?', organization.id)
     end
-    scope = scope.where(state: :open)
     records = ScanResultsQuery.new(scope)
-                            .last_results
-                            .includes(:organization)
-                            .order('scan_jobs.organization_id', :ip, :port)
+      .last_results
+      .select('scan_results.*, scan_results.ip AS scan_results_ip, real_organizations.name AS real_organization_name, hosts.*')
+      .joins('LEFT OUTER JOIN hosts ON hosts.ip = scan_results.ip')
+      .joins('LEFT OUTER JOIN organizations real_organizations ON real_organizations.id = hosts.organization_id')
+      .where(state: :open)
+      .order('real_organization_name', 'scan_results_ip', 'scan_results.port')
     header = [[
       'Дата проверки',
       'Организация',
@@ -40,6 +42,7 @@ class TablePortsReport < BaseReport
       'Порт',
       'Протокол',
       'Состояние',
+      'Легальность',
       'Сервис',
       'ПО сервиса',
       'Дополнительно'
@@ -47,12 +50,14 @@ class TablePortsReport < BaseReport
 
     table = records.each_with_object(header) do |record, memo|
       row = []
+      record = ScanResultDecorator.new(record)
       row << "#{show_date_time(record.job_start)}"
-      row << "#{record.organization.name}"
-      row << "#{record.ip}"
+      row << "#{record.real_organization_name}"
+      row << "#{record.scan_results_ip}"
       row << "#{record.port}"
       row << "#{record.protocol}"
-      row << "#{ScanResultDecorator.new(record).show_state}"
+      row << "#{record.show_state}"
+      row << "#{record.show_current_legality}"
       row << "#{record.service}"
       row << "#{record.product_version}"
       row << "#{record.product_extrainfo}"
