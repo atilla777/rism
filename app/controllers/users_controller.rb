@@ -132,9 +132,4 @@ class UsersController < ApplicationController
   def records_includes
     %i[organization department]
   end
-
-  def record_decorator(record)
-    #UserDecorator.new record
-    record
-  end
 end

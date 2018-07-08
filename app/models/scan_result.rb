@@ -7,7 +7,6 @@ class ScanResult < ApplicationRecord
 
   enum state: %i[closed closed_filtered filtered unfiltered open_filtered open]
 
-  #validates :organization_id, numericality: { only_integer: true }
   validates :scan_job_id, numericality: { only_integer: true }
   validates :start, presence: true
   validates :finished, presence: true

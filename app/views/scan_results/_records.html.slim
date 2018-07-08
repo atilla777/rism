@@ -1,5 +1,5 @@
 = report_button_for records, organization_id: @organization.id
-= index_for records, actions: false do |t|
+= index_for records, decorator: ScanResultDecorator, actions: false do |t|
   - t.header attribute: :job_start, sort_by: :start, sort: :desc
   - t.header attribute: :finished, sort_by: :finished, sort: :desc
   - t.header attribute: :start, sort_by: :start, sort: :desc
@@ -40,16 +40,16 @@
   - t.field do |record|
     span style="color:#{record.state_color}"
       => fa_icon 'star'
-    = link_to ScanResultDecorator.new(record).show_state, record
+    = link_to record.show_state, record
   - t.field do |record|
     = port_current_legality(record)
   - t.field do |record|
     = port_legality(record)
   - t.field do |record|
-    = link_to ScanResultDecorator.new(record).show_service, record
+    = link_to record.show_service, record
   - t.field do |record|
-    = link_to ScanResultDecorator.new(record).show_product, record
+    = link_to record.show_product, record
   - t.field do |record|
-    = link_to ScanResultDecorator.new(record).show_product_version, record
+    = link_to record.show_product_version, record
   - t.field do |record|
-    = link_to ScanResultDecorator.new(record).show_product_extrainfo.truncate(20), record
+    = link_to record.show_product_extrainfo.truncate(20), record

@@ -23,7 +23,6 @@ module RecordOfOrganization
 
   def show
     @record = record
-    @record = record_decorator(@record)
     authorize @record
   end
 

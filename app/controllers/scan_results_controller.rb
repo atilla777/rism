@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-
 class ScanResultsController < ApplicationController
   include RecordOfOrganization
+
 
   def index
     authorize_model

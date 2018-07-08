@@ -25,15 +25,20 @@ module IndexHelper
   #      - r.field record.phone
   #      - r.field link_to(record.organization.name, record.organization)
   def index_for(records, options = {})
-    options.slice(:actions)
+    options.slice(:actions, :decorator)
     options[:actions] = options.fetch(:actions, true)
     index = Index.new(self, records)
     yield(index)
+    if options[:decorator].present?
+      records = options[:decorator].send(:wrap, index.records)
+    else
+      records = index.records
+    end
 
     render 'helpers/index',
            headers: index.headers,
            top_rows: index.top_rows,
-           records: index.records,
+           records: records,
            field_handlers: index.field_handlers,
            options: options
   end

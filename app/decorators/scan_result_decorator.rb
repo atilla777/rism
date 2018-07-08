@@ -1,6 +1,11 @@
 # frozen_string_literal: true
-
 class ScanResultDecorator < SimpleDelegator
+  def self.wrap(collection)
+    collection.map do |obj|
+      new obj
+    end
+  end
+
   def show_state
     ScanResult.human_enum_name(:states, state)
   end

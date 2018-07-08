@@ -1,5 +1,5 @@
 = caption t'navigations.open_ports'
 = render 'organizations/show_tabs', record: @organization, active_tab: :open_ports, from_external_link: true
-= index_search :organization_name_or_scan_job_name_or_ip_str_or_port_str_or_protocol_or_service_or_product_or_state_str_or_legality_str_cont, organization_id_eq: @organization&.id, url: open_ports_scan_results_path
+= index_search :organization_name_or_scan_job_name_or_scan_job_scan_engine_or_ip_str_or_port_str_or_protocol_or_service_or_product_or_state_str_or_legality_str_cont, organization_id_eq: @organization&.id, url: open_ports_scan_results_path
 = render 'records', records: @records
 = render 'index_paginate', records: @records

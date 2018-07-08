@@ -57,7 +57,7 @@ module ShowHelper
   #             label: 'User name',
   #             value: "My name is #{@user.name}"
   #  end
-  def show_for(record, &block)
+  def show_for(record, options = {}, &block)
     record_wrapper = RecordWrapper.new(record, self)
     render 'helpers/show_record', record: record_wrapper, &block
   end

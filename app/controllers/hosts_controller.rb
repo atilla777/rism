@@ -48,4 +48,8 @@ class HostsController < ApplicationController
     return if params[:ip].blank?
     @record.ip = params[:ip]
   end
+
+  def record_decorator(record)
+    HostDecorator.new(record)
+  end
 end

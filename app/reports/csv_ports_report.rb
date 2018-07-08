@@ -27,6 +27,7 @@ class CSVPortsReport < BaseReport
     records = ScanResultsQuery.new(scope)
                             .last_results
                             .includes(:organization)
+                            .order('scan_jobs.organization_id', :ip, :port)
      r.p "Дата сканирования; Организация; IP; Порт; Протокол; Состояние; Сервис; ПО сервиса; Дополнительная информация"
     records.each do |record|
       r.p "#{show_date_time(record.job_start)}; #{record.organization.name}; #{record.ip}; #{record.port}; #{record.protocol}; #{ScanResultDecorator.new(record).show_state}, #{record.service}; #{record.product_version}; #{record.product_extrainfo}"
