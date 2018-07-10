@@ -27,6 +27,8 @@ class Organization < ApplicationRecord
 
   has_many :departments, dependent: :destroy
 
+  has_many :hosts, dependent: :destroy
+
   has_many :agreements, dependent: :destroy
   has_many :contracts,
            class_name: 'Agreement',
