@@ -1,0 +1,9 @@
+---
+:concurrency: 25
+staging:
+  :concurrency: 25
+production:
+  :concurrency: 25
+:queues:
+  - default
+  - shodan
