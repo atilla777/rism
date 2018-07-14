@@ -6,6 +6,8 @@ class HostServicePolicy < ApplicationPolicy
          legality
          organization_id
          host_id
-         description]
+         description
+         vulnerable
+         vuln_description]
   end
 end

@@ -1,0 +1,13 @@
+- record.vulns.to_a.sort_by{ |v,c| c.fetch('cvss', '0').to_i }.reverse.each do |v, c|
+  span.text-danger
+    = "#{v}, "
+  span.text-warning
+    = "CVSS=#{c.fetch('cvss', '_')}, "
+  span.text-info
+    = "#{c.fetch('summary', '')}"
+  br
+  - c['references'].each do |link|
+    a href=link
+      = "#{link}, "
+  br
+  br

@@ -98,7 +98,8 @@ class NetScan::NmapScan
       service: port.service,
       product: port&.service&.product,
       product_version: port&.service&.version,
-      product_extrainfo: port&.service&.extra_info
+      product_extrainfo: port&.service&.extra_info,
+      vulns: {}
     }
   end
 
@@ -117,7 +118,8 @@ class NetScan::NmapScan
       service: '',
       product: '',
       product_version: '',
-      product_extrainfo: ''
+      product_extrainfo: '',
+      vulns: {}
     }
   end
 

@@ -1,4 +1,6 @@
 = show_for @record do |r|
+  = r.show :scan_job_id do
+    = "#{@record.scan_job.name} (#{@record.scan_job.scan_engine})"
   = r.show :finished do
     = show_date_time(record.finished)
   = r.show :job_start do
@@ -28,3 +30,12 @@
     = ScanResultDecorator.new(@record).show_product_version
   = r.show :product_extrainfo do
     = ScanResultDecorator.new(@record).show_product_extrainfo
+  = r.show :vulns do
+    - if record.vulns.present?
+      span.text-danger
+        => fa_icon 'flash'
+      = ScanResultDecorator.new(@record).show_vulns
+      br
+      = render 'cve', record: @record
+    - else
+      = ''

@@ -5,7 +5,10 @@ class ScanResult < ApplicationRecord
   include ScanResult::Ransackers
   include Legalitiable
 
+  COLORS = ['#228B22', '#DC143C'].freeze
+
   enum state: %i[closed closed_filtered filtered unfiltered open_filtered open]
+  serialize :vulns, Hash
 
 #  serialize :addition, Hash
 #  store_accessor :addition,

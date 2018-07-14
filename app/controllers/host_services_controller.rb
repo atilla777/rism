@@ -50,11 +50,16 @@ class HostServicesController < ApplicationController
   def preset_record
     return if params.blank?
     if params[:ip].present?
-      @record.host_id = Host.where(ip: params[:ip])&.first&.id
+      host = Host.where(ip: params[:ip])&.first
+      @record.host_id = host&.id
+      @record.organization_id = host&.organization_id
     end
     @record.host_id = params[:host_id] if params[:host_id].present?
+    @record.organization_id = params[:organization_id] if params[:organization_id].present?
     @record.port = params[:port_number] if params[:port_number].present?
     @record.protocol = params[:protocol_name] if params[:protocol_name].present?
+    @record.vulnerable = params[:vulnerable] if params[:vulnerable].present?
+    @record.vuln_description = params[:vuln_description] if params[:vuln_description].present?
     if params[:service].present?
       name = [params[:service]]
       name << @organization.name if @organization.present?

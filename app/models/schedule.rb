@@ -47,7 +47,8 @@ class Schedule < ApplicationRecord
       name: cron_job_name,
       cron: show_crontab_line,
       class: job.worker,
-      args: [job.id, job.job_queue('scheduled')]
+      queue: job.job_queue('scheduled_scan'),
+      args: [job.id, job.job_queue('scheduled_scan')]
     )
   end
 

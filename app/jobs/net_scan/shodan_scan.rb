@@ -131,15 +131,9 @@ class NetScan::ShodanScan
       service: '',
       product: '',
       product_version: '',
-      product_extrainfo: vulns(service)
+      product_extrainfo: '',
+      vulns: service.fetch('vulns', {})
     }
-  end
-
-  def vulns(service)
-    service.fetch('vulns','')
-    service.fetch('vulns', []).each_with_object([]) do |v, memo|
-      memo << v.first
-    end.join(', ')
   end
 
   def empty_scan_result_attributes(ip_str)
@@ -156,7 +150,8 @@ class NetScan::ShodanScan
       service: '',
       product: '',
       product_version: '',
-      product_extrainfo: ''
+      product_extrainfo: '',
+      vulns: {}
     }
   end
 end

@@ -9,6 +9,7 @@
   - t.header attribute: :protocol, sort_by: :protocol, sort: :desc
   - t.header attribute: :port, sort_by: :port, sort: :desc
   - t.header attribute: :state, sort_by: :state, sort: :desc
+  - t.header attribute: :vulns, sort_by: :vulns, sort: :desc
   - t.header label: t('labels.current_legality')
   - t.header attribute: :legality, sort_by: :legality, sort: :desc
   - t.header attribute: :service, sort_by: :service, sort: :desc
@@ -27,10 +28,13 @@
       span.text-success
         =< fa_icon 'sitemap'
     =< link_to record.ip, record
+    =< link_to "https://www.shodan.io/host/#{record.ip}" do
+      span.text-info
+        =< fa_icon 'info'
   - t.field do |record|
     = link_to record.protocol, record
   - t.field do |record|
-    = link_to new_host_service_path(ip: record.ip, port_number: record.port, protocol_name: record.protocol, service: record.service, organization_id: @organization.id), data: { toggle: 'tooltip', placement: 'top'}, title: t('views.action.new_host_service') do
+    = link_to new_host_service_path(ip: record.ip, port_number: record.port, protocol_name: record.protocol, service: record.service, organization_id: @organization.id, vulnerable: record.vulns.present?, vuln_description: record.show_vulns_names), data: { toggle: 'tooltip', placement: 'top'}, title: t('views.action.new_host_service') do
       span.text-success
         =< fa_icon 'sun-o'
     =< link_to record.port, record
@@ -38,6 +42,11 @@
     span style="color:#{record.state_color}"
       => fa_icon 'star'
     = link_to record.show_state, record
+  - t.field do |record|
+    - if record.vulns.present?
+      span.text-danger
+        => fa_icon 'flash'
+      = link_to record.show_vulns.truncate(20), record
   - t.field do |record|
     = port_current_legality(record)
   - t.field do |record|

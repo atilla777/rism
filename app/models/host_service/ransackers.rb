@@ -8,6 +8,17 @@ module HostService::Ransackers
       Arel.sql("host_services.port::text")
     end
 
+    ransacker :vulnerable_str do
+      field_transformation = <<~SQL
+        CASE
+        WHEN host_services.vulnerable = 'true'
+        THEN '#{ScanResult.human_attribute_name(:vulns)}'
+        ELSE ''
+        END
+      SQL
+      Arel.sql(field_transformation)
+    end
+
     ransacker :legality_str do
       field_transformation = <<~SQL
         CASE host_services.legality

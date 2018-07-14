@@ -10,6 +10,12 @@
     = link_to ScanResultDecorator.new(record).show_legality, record
   = r.show :organization_id do
     = link_to @record.organization&.name, @record.organization
+  = r.show :vulnerable do
+    - if record.vulnerable == true
+      span.text-danger
+        => fa_icon 'flash'
+    = HostServiceDecorator.new(record).show_vulnerable
+  = r.show :vuln_description
   = r.show :description
 
 = render 'application/record_versions'

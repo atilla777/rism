@@ -20,7 +20,8 @@ class ScanResultPolicy < ApplicationPolicy
       service
       product
       product_version
-      product_extrainfo]
+      product_extrainfo
+      vulns]
   end
 
   class Scope

@@ -1,13 +1,10 @@
 class NetScanJob < ApplicationJob
+  Sidekiq.default_worker_options = { 'retry' => 2 }
 
   queue_as do
     arg = self.arguments.second
-    if arg == 'now'
-      :now_scan
-    elsif arg == 'scheduled'
-      :scheduled_scan
-    elsif arg == 'free_shodan'
-      :free_shodan_scan
+    if arg.present?
+      arg.to_sym
     else
       :default
     end

@@ -1,10 +1,11 @@
-= index_search :name_or_legality_str_or_port_str_or_organization_name_or_host_ip_str_or_protocol_cont, organization_id_eq: @organization&.id
+= index_search :vulnerable_str_or_name_or_legality_str_or_port_str_or_organization_name_or_host_ip_str_or_protocol_cont, organization_id_eq: @organization&.id
 = report_button_for @records, organization_id: @organization.id
 = index_for records do |t|
   - t.header attribute: :host_id, sort_by: :host_ip, sort: :desc
   - t.header attribute: :port, sort: :desc
   - t.header attribute: :protocol, sort: :desc
   - t.header attribute: :name, sort: :desc
+  - t.header attribute: :vulnerable, sort: :desc
   - t.header attribute: :legality, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
   - t.field do |record|
@@ -15,6 +16,11 @@
   - t.field { |record| link_to(record.port, record) }
   - t.field { |record| link_to(record.protocol, record) }
   - t.field { |record| link_to(record.name, record) }
+  - t.field do |record|
+    - if record.vulnerable == true
+      span.text-danger
+        => fa_icon 'flash'
+      = link_to HostServiceDecorator.new(record).show_vulnerable, record
   - t.field do |record|
     span style="color:#{record.legality_color}"
       => fa_icon 'star'

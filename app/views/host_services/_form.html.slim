@@ -50,6 +50,21 @@
             = f.hidden_field :host_id, value: @record.host_id
 
       .form-group
+        .col-lg-offset-2.col-lg-8
+          .checkbox
+             label
+               = f.check_box :vulnerable, class: 'big-checkbox'
+               strong
+                 | #{t('activerecord.attributes.host_service.vulnerable')}
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :vuln_description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :vuln_description, rows: 8, class: 'form-control'
+
+      .form-group
         .field
           .col-lg-2.text-right
             = f.label :description, class: 'control-label'

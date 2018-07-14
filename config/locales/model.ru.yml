@@ -251,10 +251,13 @@ ru:
         product: 'Программа'
         product_version: 'Версия'
         product_extrainfo: 'Дополнительно'
+        vulns: 'Уязвимости'
       host_service:
         name: 'Название'
         organization_id: 'Организация'
         host_id: 'Хост'
+        vulnerable: 'Уязвим'
+        vuln_description: 'Описание уязвимости'
         legality: 'Легальность'
         legalities:
           illegal: 'Нелегален'
