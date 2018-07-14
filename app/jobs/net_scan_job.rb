@@ -4,10 +4,13 @@ class NetScanJob < ApplicationJob
     arg = self.arguments.second
     if arg == 'now'
       :now_scan
-    else
+    elsif arg == 'scheduled'
       :scheduled_scan
-    end
+    elsif arg == 'free_shodan'
+      :free_shodan_scan
+    else
       :default
+    end
   end
 
   def perform(*args)

@@ -28,4 +28,12 @@ class ScanJob < ApplicationRecord
   def worker
     'NetScanJob'
   end
+
+  def job_queue(queue)
+    if scan_engine == 'shodan' && ENV['FREE_SHODAN'] == 'true'
+      'free_shodan'
+    else
+      queue
+    end
+  end
 end

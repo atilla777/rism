@@ -6,7 +6,10 @@ class ScanJobsController < ApplicationController
   def run
     @record = record
     authorize @record
-    active_job = NetScanJob.perform_later(@record.id, 'now')
+    active_job = NetScanJob.perform_later(
+      @record.id,
+      @record.job_queue('now')
+    )
     #protocol_action("scan started by #{@job.name}")
     redirect_to(
       session.delete(:edit_return_to),

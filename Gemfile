@@ -86,6 +86,7 @@ gem 'sidekiq-cron', '~> 0.6.3 '
 gem 'ruby-nmap', '~> 0.9.3'
 #gem 'shodanz', '~> 1.0.6'
 gem 'httparty', '~> 0.16.2'
+gem 'sidekiq-limit_fetch', '~> 3.4.0'
 
 # Lint with overcommit
 group :development do

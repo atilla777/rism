@@ -38,7 +38,7 @@ class NetScan::ShodanScan
   def fetch_result_from_shodan
     @hosts.each_with_object([]) do |host, memo|
       result = get(host)
-      sleep(2)
+      sleep(2) if ENV['FREE_SHODAN'] == 'true'
       if host_info_not_found?(result)
         memo << {no_host_info: host}
       elsif result['error'].blank?
