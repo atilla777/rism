@@ -5,6 +5,14 @@ module ScanResult::Ransackers
 
   included do
 
+    ransacker :job_start_str do
+      Arel.sql("to_char(job_start, 'DD.MM.YYYY')")
+    end
+
+    ransacker :finished_str do
+      Arel.sql("to_char(finished, 'DD.MM.YYYY')")
+    end
+
     ransacker :ip_str do
       Arel.sql("scan_results.ip::text")
     end

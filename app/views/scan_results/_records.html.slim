@@ -2,7 +2,6 @@
 = index_for records, decorator: ScanResultDecorator, actions: false do |t|
   - t.header attribute: :job_start, sort_by: :start, sort: :desc
   - t.header attribute: :finished, sort_by: :finished, sort: :desc
-  - t.header attribute: :start, sort_by: :start, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
   - t.header attribute: :scan_job_id, sort_by: :scan_job_name, sort: :desc
   - t.header attribute: :scan_job_scan_engine, sort_by: :scan_job_scan_engine, sort: :desc
@@ -20,8 +19,6 @@
     = link_to show_date_time(record.job_start), record
   - t.field do |record|
     = link_to show_date_time(record.finished), record
-  - t.field do |record|
-    = link_to show_date_time(record.start), record
   - t.field { |record| link_to record.organization.name, record.organization }
   - t.field { |record| link_to record.scan_job.name, record.scan_job }
   - t.field { |record| link_to record.scan_job.scan_engine, record.scan_job }
