@@ -77,44 +77,43 @@ class TablePortsReport < BaseReport
      end
 
     header = [[
-      'Дата проверки',
-      'Дата сканирования',
-      'Организация',
-      'Сканер',
-      'IP',
-      'Порт',
-      'Протокол',
       'Сервис',
-      'Уязвимости',
+      'Уязвимость',
+      'CVSS',
+      'Описание уязвимости',
+      'Ссылки на описание уязвимости',
     ]]
 
     table = records.each_with_object(header) do |record, memo|
       next if record.vulns.empty?
-      row = []
-      record = ScanResultDecorator.new(record)
-      row << "#{show_date_time(record.job_start)}"
-      row << "#{show_date_time(record.finished)}"
-      row << "#{record.real_organization_name}"
-      row << "#{record.scan_job.scan_engine}"
-      row << "#{record.scan_results_ip}"
-      row << "#{record.port}"
-      row << "#{record.protocol}"
-      row << "#{record.service}"
-      vuln =  []
       record.vulns.to_a.sort_by{ |v,c| c.fetch('cvss', '0').to_i }.reverse.each do |v, c|
-        vuln << v
-        vuln << "CVSS=#{c.fetch('cvss', '_')}"
-        vuln << "#{c.fetch('summary', '')}\n"
+        row = []
+        record = ScanResultDecorator.new(record)
+        service = []
+        service << "#{record.scan_results_ip}"
+        service << "#{record.real_organization_name}"
+        service << "#{record.scan_job.scan_engine}"
+        service << "#{record.port}"
+        service << "#{record.protocol}"
+        service << "#{show_date_time(record.job_start)}"
+        service << "#{show_date_time(record.finished)}"
+        row << service.join(', ')
+        row << v
+        row << c.fetch('cvss', '')
+        row << "#{c.fetch('summary', '')}\n"
+        links = []
         c['references'].each do |link|
-          vuln << "#{link}"
+          links << "#{link}"
         end
+        row << links.join(', ')
+        memo << row
       end
-      row << vuln.join(', ')
-      memo << row
     end
+
     r.p
     r.p  "Уязвимости", style: 'Header'
     r.p
+
     r.table(table, border_size: 4) do
       cell_style rows[0],    bold: true,   background: '3366cc', color: 'ffffff'
       cell_style cells,      size: 20, margins: { top: 100, bottom: 0, left: 100, right: 100 }

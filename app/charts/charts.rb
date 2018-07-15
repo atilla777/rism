@@ -27,4 +27,6 @@ class Charts
   IncidentsByNameChart.register
   PortsByOrganizations.register
   IllegalPortsByOrganizations.register
+  VulnerablePortsByOrganization.register
+  ScanByDays.register
 end
