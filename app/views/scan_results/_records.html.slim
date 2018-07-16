@@ -28,7 +28,7 @@
       span.text-success
         =< fa_icon 'sitemap'
     =< link_to record.ip, record
-    =< link_to "https://www.shodan.io/host/#{record.ip}" do
+    =< link_to "https://www.shodan.io/search?query=#{record.ip}" do
       span.text-info
         =< fa_icon 'info'
   - t.field do |record|
