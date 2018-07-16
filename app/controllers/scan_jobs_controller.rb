@@ -8,7 +8,7 @@ class ScanJobsController < ApplicationController
     authorize @record
     active_job = NetScanJob.perform_later(
       @record.id,
-      @record.job_queue('now_scan')
+      @record.job_queue(@record.job_queue('now_scan'))
     )
     #protocol_action("scan started by #{@job.name}")
     redirect_to(
