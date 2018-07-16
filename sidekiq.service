@@ -7,7 +7,7 @@ Type=simple
 Environment=RAILS_ENV=production
 EnvironmentFile=/home/rism/prod/shared/.env.production
 WorkingDirectory=/home/rism/prod/current
-ExecStart=/home/rism/.rvm/bin/rvm default do bundle exec sidekiq -e production -C /home/rism/prod/shared/config/sidekiq.yml
+ExecStart=/home/rism/.rvm/bin/rvm default do bundle exec sidekiq -e production -C /home/rism/prod/current/config/sidekiq.yml
 ExecReload=/bin/kill -TSTP $MAINPID
 ExecStop=/bin/kill -TERM $MAINPID
 
