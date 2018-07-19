@@ -26,5 +26,7 @@ class Reports
   OrganizationIncidentsReport.register
   OrganizationsReport.register
   TablePortsReport.register
+  NmapTablePortsReport.register
+  ShodanTablePortsReport.register
   CSVPortsReport.register
 end

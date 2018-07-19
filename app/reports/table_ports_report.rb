@@ -28,13 +28,9 @@ class TablePortsReport < BaseReport
       scope = scope.joins('JOIN hosts h ON scan_results.ip <<= h.ip')
            .where('h.organization_id = ?', organization.id)
     end
-    records = ScanResultsQuery.new(scope)
-      .last_results
-      .select('scan_results.*, scan_results.ip AS scan_results_ip, real_organizations.name AS real_organization_name, hosts.*')
-      .joins('LEFT OUTER JOIN hosts ON hosts.ip = scan_results.ip')
-      .joins('LEFT OUTER JOIN organizations real_organizations ON real_organizations.id = hosts.organization_id')
-      .where(state: :open)
-      .order('real_organization_name', 'scan_results_ip', 'scan_results.port')
+
+    records = records_request(scope)
+
     header = [[
       'Дата проверки',
       'Дата сканирования',
@@ -50,7 +46,6 @@ class TablePortsReport < BaseReport
       'ПО сервиса',
       'Дополнительно'
     ]]
-
 
     table = records.each_with_object(header) do |record, memo|
       row = []
@@ -118,5 +113,17 @@ class TablePortsReport < BaseReport
       cell_style rows[0],    bold: true,   background: '3366cc', color: 'ffffff'
       cell_style cells,      size: 20, margins: { top: 100, bottom: 0, left: 100, right: 100 }
      end
+  end
+
+  private
+
+  def records_request(scope)
+    ScanResultsQuery.new(scope)
+      .last_results
+      .select('scan_results.*, scan_results.ip AS scan_results_ip, real_organizations.name AS real_organization_name, hosts.*')
+      .joins('LEFT OUTER JOIN hosts ON hosts.ip = scan_results.ip')
+      .joins('LEFT OUTER JOIN organizations real_organizations ON real_organizations.id = hosts.organization_id')
+      .where(state: :open)
+      .order('real_organization_name', 'scan_results_ip', 'scan_results.port')
   end
 end
