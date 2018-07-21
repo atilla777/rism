@@ -1,4 +1,5 @@
 = index_search :name_or_organization_name_or_scan_engine_or_scan_option_name_cont, organization_id_eq: @organization&.id
+= command_button_for records, organization_id: @organization.id
 = report_button_for @records, organization_id: @organization.id
 = index_for records, actions: false do |t|
   - t.header attribute: :name, sort_by: :name, sort: :desc

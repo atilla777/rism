@@ -1,3 +1,4 @@
+= command_button_for records, organization_id: @organization.id
 = report_button_for records, organization_id: @organization.id
 = index_for records, decorator: ScanResultDecorator, actions: false do |t|
   - t.header attribute: :job_start, sort_by: :start, sort: :desc

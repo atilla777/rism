@@ -1,0 +1,11 @@
+.pull-right
+  .btn-group
+    button.btn.btn-default.dropdown-toggle data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'
+      i.text-info
+        = fa_icon 'gear'
+      =<> t('navigations.commands.run')
+      span.caret
+    ul.dropdown-menu
+      - commands.each do |command|
+        li
+          = link_to command.human_name, commands_path({name: command.command_name}.merge(options)), data: {turbolinks: false, confirm: t('views.action.confirm')}
