@@ -10,6 +10,6 @@ class ScanJobPolicy < ApplicationPolicy
   end
 
   def run?
-    new?
+    create?
   end
 end

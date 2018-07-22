@@ -25,7 +25,7 @@ class Commands
   RunAllNmapScans.register
   RunAllShodanScans.register
   RunAllScans.register
-#  DeleteAllNmapScans.register
-#  DeleteAllShodanScans.register
-#  DeleteAllScans.register
+  DeleteAllNmapScansCommand.register
+  DeleteAllShodanScansCommand.register
+  DeleteAllScansCommand.register
 end

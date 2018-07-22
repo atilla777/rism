@@ -29,4 +29,6 @@ class Reports
   NmapTablePortsReport.register
   ShodanTablePortsReport.register
   CSVPortsReport.register
+  HostsReport.register
+  ServicesReport.register
 end

@@ -6,7 +6,7 @@ class CommandPolicy
     @record = record
   end
 
-  def show?
+  def run?
     return true if @user.admin_editor_reader?
     @user.can? :edit, 'Commands'
   end

@@ -7,6 +7,10 @@ class ScanResultPolicy < ApplicationPolicy
     index?
   end
 
+  def run?
+    create?
+  end
+
   def permitted_attributes
     %i[organization_id
       scan_job_id
