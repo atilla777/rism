@@ -54,6 +54,7 @@ class ScanResultDecorator < SimpleDelegator
   end
 
   def show_vulns_names
+    return '' if vulns.blank?
     vulns.each_with_object([]) do |v, memo|
       memo << v.first
     end.join(', ')

@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20180714101753) do
 
   create_table "agreements", force: :cascade do |t|
     t.date "beginning"
-    t.text "prop"
+    t.string "prop"
     t.integer "duration"
     t.boolean "prolongation"
     t.bigint "organization_id"
@@ -194,7 +194,7 @@ ActiveRecord::Schema.define(version: 20180714101753) do
     t.string "full_name"
     t.bigint "organization_kind_id"
     t.index ["full_name"], name: "index_organizations_on_full_name"
-    t.index ["name"], name: "index_organizations_on_name", unique: true
+    t.index ["name"], name: "index_organizations_on_name"
     t.index ["organization_kind_id"], name: "index_organizations_on_organization_kind_id"
     t.index ["parent_id"], name: "index_organizations_on_parent_id"
   end
@@ -247,7 +247,6 @@ ActiveRecord::Schema.define(version: 20180714101753) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_roles_on_name", unique: true
   end
 
   create_table "scan_jobs", force: :cascade do |t|
@@ -314,6 +313,7 @@ ActiveRecord::Schema.define(version: 20180714101753) do
     t.string "name"
     t.string "code_name"
     t.string "record_type"
+    t.string "color"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

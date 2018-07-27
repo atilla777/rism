@@ -5,11 +5,12 @@ class NmapVsShodanReport < BaseReport
 #      'Result',
 #      :job_start,
 #      :finished,
-#      :organization_name,
-#      :scan_engine,
+      :organization_name,
       :ip,
       :port,
       :protocol,
+      :vulns,
+      :engines
 #      :product_version,
 #      :product_extrainfo
     )
@@ -47,33 +48,36 @@ class NmapVsShodanReport < BaseReport
     header = [[
 #      'Дата проверки',
 #      'Дата сканирования',
-#      'Организация',
-#      'Сканер',
+      'Организация',
       'IP',
       'Порт',
       'Протокол',
+      'Уязвимости',
+      'Сканер'
 #      'Состояние',
-#      'Уязвимости',
 #      'Легальность',
 #      'Сервис',
 #      'ПО сервиса',
 #      'Дополнительно'
     ]]
 
-    table = records.each_with_object(header) do |temp_record, memo|
-      record = collapse_record(temp_record)
+    records = records.each_with_object([]){ |rc, memo| memo << collapse_record(rc) }
+    # records = records.sort_by { |rc| rc.organization_name if rc.organization_name.to_s }
+
+
+    table = records.each_with_object(header) do |record, memo|
       next if record.ip.blank?
       row = []
       record = ScanResultDecorator.new(record)
 #      row << "#{show_date_time(record.job_start)}"
 #      row << "#{show_date_time(record.finished)}"
-#      row << "#{record.real_organization_name}"
-#      row << "#{record.scan_job.scan_engine}"
+      row << "#{record.organization_name}"
       row << "#{record.ip}"
       row << "#{record.port}"
       row << "#{record.protocol}"
+      row << "#{record.show_vulns_names}" 
+      row << "#{record.engines}"
 #      row << "#{record.show_state}"
-#      row << "#{record.show_vulns_names}"
 #      row << "#{record.show_current_legality}"
 #      row << "#{record.service}"
 #      row << "#{record.product_version}"
@@ -91,19 +95,24 @@ class NmapVsShodanReport < BaseReport
 
   def collapse_record(temp_record)
     if temp_record['nmap_port'] == 0
+      temp_record['nmap_organization_name'] = nil
       temp_record['nmap_ip'] = nil
       temp_record['nmap_port'] = nil
       temp_record['nmap_protocol'] = nil
     end
     if temp_record['shodan_port'] == 0
+      temp_record['shodan_organization_name'] = nil
       temp_record['shodan_ip'] = nil
       temp_record['shodan_port'] = nil
       temp_record['shodan_protocol'] = nil
     end
     Result.new(
+      temp_record['nmap_organization_name'] || temp_record['shodan_organization_name'],
       temp_record['nmap_ip'] || temp_record['shodan_ip'],
       temp_record['nmap_port'] || temp_record['shodan_port'],
-      temp_record['nmap_protocol'] || temp_record['shodan_protocol']
+      temp_record['nmap_protocol'] || temp_record['shodan_protocol'],
+      temp_record['vulns'],
+      temp_record['engines']
     )
   end
 

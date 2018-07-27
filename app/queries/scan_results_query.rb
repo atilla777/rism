@@ -19,7 +19,7 @@ class ScanResultsQuery
     @relation.where(not_registered_services_sql)
   end
 
-  def nmap_vs_shodan
+  def nmap_vs_shodan#(organization_id)
     #@relation.find_by_sql(nmap_vs_shodan_sql)
     ActiveRecord::Base.connection.exec_query(nmap_vs_shodan_sql)
   end
@@ -78,7 +78,10 @@ class ScanResultsQuery
   def nmap_vs_shodan_sql
     <<~SQL
       WITH nmap_results AS (
-        SELECT scan_results.* FROM scan_results
+        SELECT scan_results.*,
+        organizations.name AS organization_name,
+        scan_jobs.scan_engine AS engine
+        FROM scan_results
         LEFT JOIN (
           SELECT
             scan_results.ip,
@@ -86,13 +89,22 @@ class ScanResultsQuery
             AS max_time
           FROM scan_results
           JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
-          WHERE scan_jobs.scan_engine = 'shodan'
+          WHERE scan_jobs.scan_engine = 'nmap'
           GROUP BY scan_results.ip
         )m
         ON scan_results.ip = m.ip
         AND scan_results.job_start = m.max_time
+        LEFT JOIN hosts
+        ON hosts.ip >>= scan_results.ip
+        LEFT JOIN organizations
+        ON organizations.id = hosts.organization_id
+        LEFT JOIN scan_jobs
+        ON scan_jobs.id = scan_results.scan_job_id
       ), shodan_results AS (
-        SELECT scan_results.* FROM scan_results
+        SELECT scan_results.*,
+        organizations.name AS organization_name,
+        scan_jobs.scan_engine AS engine
+        FROM scan_results
         INNER JOIN (
           SELECT
             scan_results.ip,
@@ -105,14 +117,24 @@ class ScanResultsQuery
         )m
         ON scan_results.ip = m.ip
         AND scan_results.job_start = m.max_time
+        LEFT JOIN hosts
+        ON hosts.ip >>= scan_results.ip
+        LEFT JOIN organizations
+        ON organizations.id = hosts.organization_id
+        LEFT JOIN scan_jobs
+        ON scan_jobs.id = scan_results.scan_job_id
       )
       SELECT DISTINCT
+      nmap_results.organization_name AS nmap_organization_name,
       nmap_results.ip AS nmap_ip,
       nmap_results.port AS nmap_port,
       nmap_results.protocol AS nmap_protocol,
+      shodan_results.organization_name AS shodan_organization_name,
       shodan_results.ip AS shodan_ip,
       shodan_results.port AS shodan_port,
-      shodan_results.protocol AS shodan_protocol
+      shodan_results.protocol AS shodan_protocol,
+      nmap_results.engine || '/' || shodan_results.engine AS engines,
+      shodan_results.vulns || '' || nmap_results.vulns AS vulns
       FROM nmap_results
       FULL JOIN shodan_results
       ON nmap_results.ip = shodan_results.ip
