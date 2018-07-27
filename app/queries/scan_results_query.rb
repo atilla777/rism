@@ -19,6 +19,11 @@ class ScanResultsQuery
     @relation.where(not_registered_services_sql)
   end
 
+  def nmap_vs_shodan
+    #@relation.find_by_sql(nmap_vs_shodan_sql)
+    ActiveRecord::Base.connection.exec_query(nmap_vs_shodan_sql)
+  end
+
   private
 
   def last_results_sql
@@ -68,6 +73,85 @@ class ScanResultsQuery
       ON scan_results.ip = m.ip
       AND scan_results.job_start = m.max_time
     SQL
+  end
+
+  def nmap_vs_shodan_sql
+    <<~SQL
+      WITH nmap_results AS (
+        SELECT scan_results.* FROM scan_results
+        LEFT JOIN (
+          SELECT
+            scan_results.ip,
+            MAX(scan_results.job_start)
+            AS max_time
+          FROM scan_results
+          JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
+          WHERE scan_jobs.scan_engine = 'shodan'
+          GROUP BY scan_results.ip
+        )m
+        ON scan_results.ip = m.ip
+        AND scan_results.job_start = m.max_time
+      ), shodan_results AS (
+        SELECT scan_results.* FROM scan_results
+        INNER JOIN (
+          SELECT
+            scan_results.ip,
+            MAX(scan_results.job_start)
+            AS max_time
+          FROM scan_results
+          JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
+          WHERE scan_jobs.scan_engine = 'shodan'
+          GROUP BY scan_results.ip
+        )m
+        ON scan_results.ip = m.ip
+        AND scan_results.job_start = m.max_time
+      )
+      SELECT DISTINCT
+      nmap_results.ip AS nmap_ip,
+      nmap_results.port AS nmap_port,
+      nmap_results.protocol AS nmap_protocol,
+      shodan_results.ip AS shodan_ip,
+      shodan_results.port AS shodan_port,
+      shodan_results.protocol AS shodan_protocol
+      FROM nmap_results
+      FULL JOIN shodan_results
+      ON nmap_results.ip = shodan_results.ip
+      AND nmap_results.port = shodan_results.port
+      AND nmap_results.protocol = shodan_results.protocol
+      AND nmap_results.state = shodan_results.state
+    SQL
+#      SELECT * FROM scan_results AS nmap_results
+#      LEFT JOIN (
+#        SELECT
+#          scan_results.ip,
+#          MAX(scan_results.job_start)
+#          AS max_time
+#        FROM scan_results
+#        JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
+#        WHERE scan_jobs.scan_engine = 'shodan'
+#        GROUP BY scan_results.ip
+#      )m
+#      ON nmap_results.ip = m.ip
+#      AND nmap_results.job_start = m.max_time
+#      FULL JOIN (
+#        SELECT * FROM scan_results AS pre_shodan_results
+#        INNER JOIN (
+#          SELECT
+#            scan_results.ip,
+#            MAX(scan_results.job_start)
+#            AS max_time
+#          FROM scan_results
+#          JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
+#          WHERE scan_jobs.scan_engine = 'shodan'
+#          GROUP BY scan_results.ip
+#        )m
+#        ON scan_results.ip = m.ip
+#        AND _results.job_start = m.max_time
+#      )shodan_results
+#      ON nmap_results.ip = shodan_results.ip
+#      AND nmap_results.port = shodan_results.port
+#      AND nmap_results.protocol = shodan_results.protocol
+#    SQL
   end
 
   def not_registered_services_sql

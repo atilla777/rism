@@ -31,4 +31,5 @@ class Reports
   CSVPortsReport.register
   HostsReport.register
   ServicesReport.register
+  NmapVsShodanReport.register
 end
