@@ -94,7 +94,7 @@ class ScanResultsQuery
             AS max_time
           FROM scan_results
           JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
-          WHERE scan_jobs.scan_engine = 'shodan'
+          AND scan_jobs.scan_engine = 'shodan'
           GROUP BY scan_results.ip
         )m
         ON scan_results.ip = m.ip
@@ -106,6 +106,7 @@ class ScanResultsQuery
         LEFT JOIN scan_jobs
         ON scan_jobs.id = scan_results.scan_job_id
         WHERE scan_results.state = 5
+        AND scan_jobs.scan_engine = 'shodan'
       ), nmap_results AS (
         SELECT
         scan_results.ip,
@@ -127,7 +128,7 @@ class ScanResultsQuery
             AS max_time
           FROM scan_results
           JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
-          WHERE scan_jobs.scan_engine = 'nmap'
+          AND scan_jobs.scan_engine = 'nmap'
           GROUP BY scan_results.ip
         )m
         ON scan_results.ip = m.ip
@@ -139,6 +140,7 @@ class ScanResultsQuery
         LEFT JOIN scan_jobs
         ON scan_jobs.id = scan_results.scan_job_id
         WHERE scan_results.state = 5
+        AND scan_jobs.scan_engine = 'nmap'
       )
       SELECT DISTINCT
       COALESCE(nmap_results.ip, shodan_results.ip) AS ip,
