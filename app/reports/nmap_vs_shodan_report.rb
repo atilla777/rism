@@ -10,9 +10,10 @@ class NmapVsShodanReport < BaseReport
       :port,
       :protocol,
       :vulns,
+      :service,
+      :product_version,
+      :product_extrainfo,
       :engines
-#      :product_version,
-#      :product_extrainfo
     )
 
   include DateTimeHelper
@@ -53,12 +54,12 @@ class NmapVsShodanReport < BaseReport
       'Порт',
       'Протокол',
       'Уязвимости',
-      'Сканер'
 #      'Состояние',
 #      'Легальность',
-#      'Сервис',
-#      'ПО сервиса',
-#      'Дополнительно'
+      'Сервис',
+      'ПО сервиса',
+      'Дополнительно',
+      'Сканер'
     ]]
 
     records = records.each_with_object([]){ |rc, memo| memo << collapse_record(rc) }
@@ -75,13 +76,14 @@ class NmapVsShodanReport < BaseReport
       row << "#{record.ip}"
       row << "#{record.port}"
       row << "#{record.protocol}"
+#      row << "#{record.vulns}" 
       row << "#{record.show_vulns_names}" 
-      row << "#{record.engines}"
 #      row << "#{record.show_state}"
 #      row << "#{record.show_current_legality}"
-#      row << "#{record.service}"
-#      row << "#{record.product_version}"
-#      row << "#{record.product_extrainfo}"
+      row << "#{record.service}"
+      row << "#{record.product_version}"
+      row << "#{record.product_extrainfo}"
+      row << "#{record.engines}"
       memo << row
     end
     r.p
@@ -107,11 +109,14 @@ class NmapVsShodanReport < BaseReport
       temp_record['shodan_protocol'] = nil
     end
     Result.new(
-      temp_record['nmap_organization_name'] || temp_record['shodan_organization_name'],
-      temp_record['nmap_ip'] || temp_record['shodan_ip'],
-      temp_record['nmap_port'] || temp_record['shodan_port'],
-      temp_record['nmap_protocol'] || temp_record['shodan_protocol'],
-      temp_record['vulns'],
+      temp_record['organization_name'],
+      temp_record['ip'],
+      temp_record['port'],
+      temp_record['protocol'],
+      temp_record['vulns'].present? ? YAML::load(temp_record['vulns']) : {},
+      temp_record['service'],
+      temp_record['product_version'],
+      temp_record['product_extrainfo'],
       temp_record['engines']
     )
   end

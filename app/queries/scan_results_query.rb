@@ -77,31 +77,13 @@ class ScanResultsQuery
 
   def nmap_vs_shodan_sql
     <<~SQL
-      WITH nmap_results AS (
-        SELECT scan_results.*,
-        organizations.name AS organization_name,
-        scan_jobs.scan_engine AS engine
-        FROM scan_results
-        LEFT JOIN (
-          SELECT
-            scan_results.ip,
-            MAX(scan_results.job_start)
-            AS max_time
-          FROM scan_results
-          JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
-          WHERE scan_jobs.scan_engine = 'nmap'
-          GROUP BY scan_results.ip
-        )m
-        ON scan_results.ip = m.ip
-        AND scan_results.job_start = m.max_time
-        LEFT JOIN hosts
-        ON hosts.ip >>= scan_results.ip
-        LEFT JOIN organizations
-        ON organizations.id = hosts.organization_id
-        LEFT JOIN scan_jobs
-        ON scan_jobs.id = scan_results.scan_job_id
-      ), shodan_results AS (
-        SELECT scan_results.*,
+      WITH shodan_results AS (
+        SELECT
+        scan_results.ip,
+        scan_results.port,
+        scan_results.protocol,
+        scan_results.state,
+        scan_results.vulns,
         organizations.name AS organization_name,
         scan_jobs.scan_engine AS engine
         FROM scan_results
@@ -123,57 +105,58 @@ class ScanResultsQuery
         ON organizations.id = hosts.organization_id
         LEFT JOIN scan_jobs
         ON scan_jobs.id = scan_results.scan_job_id
+        WHERE scan_results.state = 5
+      ), nmap_results AS (
+        SELECT
+        scan_results.ip,
+        scan_results.port,
+        scan_results.protocol,
+        scan_results.state,
+        scan_results.service,
+        scan_results.product,
+        scan_results.product_version,
+        scan_results.product_extrainfo,
+        scan_results.vulns,
+        organizations.name AS organization_name,
+        scan_jobs.scan_engine AS engine
+        FROM scan_results
+        LEFT JOIN (
+          SELECT
+            scan_results.ip,
+            MAX(scan_results.job_start)
+            AS max_time
+          FROM scan_results
+          JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
+          WHERE scan_jobs.scan_engine = 'nmap'
+          GROUP BY scan_results.ip
+        )m
+        ON scan_results.ip = m.ip
+        AND scan_results.job_start = m.max_time
+        LEFT JOIN hosts
+        ON hosts.ip >>= scan_results.ip
+        LEFT JOIN organizations
+        ON organizations.id = hosts.organization_id
+        LEFT JOIN scan_jobs
+        ON scan_jobs.id = scan_results.scan_job_id
+        WHERE scan_results.state = 5
       )
       SELECT DISTINCT
-      nmap_results.organization_name AS nmap_organization_name,
-      nmap_results.ip AS nmap_ip,
-      nmap_results.port AS nmap_port,
-      nmap_results.protocol AS nmap_protocol,
-      shodan_results.organization_name AS shodan_organization_name,
-      shodan_results.ip AS shodan_ip,
-      shodan_results.port AS shodan_port,
-      shodan_results.protocol AS shodan_protocol,
-      nmap_results.engine || '/' || shodan_results.engine AS engines,
-      shodan_results.vulns || '' || nmap_results.vulns AS vulns
-      FROM nmap_results
-      FULL JOIN shodan_results
-      ON nmap_results.ip = shodan_results.ip
-      AND nmap_results.port = shodan_results.port
-      AND nmap_results.protocol = shodan_results.protocol
-      AND nmap_results.state = shodan_results.state
+      COALESCE(nmap_results.ip, shodan_results.ip) AS ip,
+      COALESCE(nmap_results.port, shodan_results.port) AS port,
+      COALESCE(nmap_results.protocol, shodan_results.protocol) AS protocol,
+      COALESCE(nmap_results.organization_name, shodan_results.organization_name, '') AS organization_name,
+      COALESCE(nmap_results.engine, '') || '/' || COALESCE(shodan_results.engine, '') AS engines,
+      nmap_results.service AS service,
+      nmap_results.product_version AS product_version,
+      nmap_results.product_extrainfo AS product_extrainfo,
+      shodan_results.vulns AS vulns
+      FROM shodan_results
+      FULL OUTER JOIN nmap_results
+      ON shodan_results.ip = nmap_results.ip
+      AND shodan_results.port = nmap_results.port
+      AND shodan_results.protocol = nmap_results.protocol
+      ORDER BY organization_name, ip, port, protocol
     SQL
-#      SELECT * FROM scan_results AS nmap_results
-#      LEFT JOIN (
-#        SELECT
-#          scan_results.ip,
-#          MAX(scan_results.job_start)
-#          AS max_time
-#        FROM scan_results
-#        JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
-#        WHERE scan_jobs.scan_engine = 'shodan'
-#        GROUP BY scan_results.ip
-#      )m
-#      ON nmap_results.ip = m.ip
-#      AND nmap_results.job_start = m.max_time
-#      FULL JOIN (
-#        SELECT * FROM scan_results AS pre_shodan_results
-#        INNER JOIN (
-#          SELECT
-#            scan_results.ip,
-#            MAX(scan_results.job_start)
-#            AS max_time
-#          FROM scan_results
-#          JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
-#          WHERE scan_jobs.scan_engine = 'shodan'
-#          GROUP BY scan_results.ip
-#        )m
-#        ON scan_results.ip = m.ip
-#        AND _results.job_start = m.max_time
-#      )shodan_results
-#      ON nmap_results.ip = shodan_results.ip
-#      AND nmap_results.port = shodan_results.port
-#      AND nmap_results.protocol = shodan_results.protocol
-#    SQL
   end
 
   def not_registered_services_sql
