@@ -19,9 +19,12 @@ class ScanResultsQuery
     @relation.where(not_registered_services_sql)
   end
 
-  def nmap_vs_shodan#(organization_id)
-    #@relation.find_by_sql(nmap_vs_shodan_sql)
-    ActiveRecord::Base.connection.exec_query(nmap_vs_shodan_sql)
+  def nmap_vs_shodan(organization_id)
+    ActiveRecord::Base.connection.exec_query(
+      nmap_vs_shodan_sql,
+      'postgresql',
+      [[nil, organization_id]]
+    )
   end
 
   private
@@ -107,6 +110,7 @@ class ScanResultsQuery
         ON scan_jobs.id = scan_results.scan_job_id
         WHERE scan_results.state = 5
         AND scan_jobs.scan_engine = 'shodan'
+        AND ($1::int IS NULL OR organizations.id = $1)
       ), nmap_results AS (
         SELECT
         scan_results.ip,
@@ -141,6 +145,7 @@ class ScanResultsQuery
         ON scan_jobs.id = scan_results.scan_job_id
         WHERE scan_results.state = 5
         AND scan_jobs.scan_engine = 'nmap'
+        AND ($1::int IS NULL OR organizations.id = $1)
       )
       SELECT DISTINCT
       COALESCE(nmap_results.ip, shodan_results.ip) AS ip,

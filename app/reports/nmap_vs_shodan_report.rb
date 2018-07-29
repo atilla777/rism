@@ -44,7 +44,7 @@ class NmapVsShodanReport < BaseReport
            .where('h.organization_id = ?', organization.id)
     end
 
-    records = records_request(scope)
+    records = records_request(scope, organization)
 
     header = [[
 #      'Дата проверки',
@@ -121,7 +121,7 @@ class NmapVsShodanReport < BaseReport
     )
   end
 
-  def records_request(scope)
-    ScanResultsQuery.new(scope).nmap_vs_shodan.to_hash
+  def records_request(scope, organization)
+    ScanResultsQuery.new(scope).nmap_vs_shodan(organization&.id).to_hash
   end
 end
