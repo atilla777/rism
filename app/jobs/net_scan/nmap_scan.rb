@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NetScan::NmapScan
   require 'nmap/program'
   require 'nmap/xml'
@@ -9,7 +11,8 @@ class NetScan::NmapScan
     :'unfiltered' => 'unfiltered',
     :'open|filtered' => 'open_filtered',
     :'open' => 'open'
-  }
+  }.freeze
+  NMAP_RESULT_PATH = 'tmp'
 
   def initialize(job)
     @job = job
@@ -30,15 +33,15 @@ class NetScan::NmapScan
   private
 
   def scan_options
-    scan_options = @job.scan_option.options.select { |key, value| value.to_i.nonzero? }
-    scan_options.update(scan_options) { |key, value| value = true if value == '1' }
+    scan_options = @job.scan_option.options.select { |_key, value| value.to_i.nonzero? }
+    scan_options.update(scan_options) { |_key, value| value = true if value == '1' }
     scan_options[:xml] = @result_path
     scan_options[:targets] = @job.hosts.split(',')
     if @job.ports.present?
       scan_options[:ports] = @job.ports.split(',')
       scan_options[:ports] = scan_options[:ports].map do |port|
         if port.include?('-')
-          Range.new(*port.split("-").map(&:to_i))
+          Range.new(*port.split('-').map(&:to_i))
         else
           port.to_i
         end
@@ -73,12 +76,13 @@ class NetScan::NmapScan
   end
 
   def save_to_database(result_attributes)
-    scan_result = ScanResult.create(result_attributes
+    scan_result = ScanResult.create(
+      result_attributes
       .merge(current_user: User.find(1))
     )
     scan_result.save!
   rescue ActiveRecord::RecordInvalid
-    logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_erros.log"))
+    logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
     logger.tagged("SCAN_JOB: #{scan_result}") do
       logger.error("scan result can`t be saved - #{scan_result.errors.full_messages}")
     end
@@ -109,7 +113,7 @@ class NetScan::NmapScan
       start: host.start_time,
       finished: host.end_time,
       scan_job_id: @job.id,
-      #organization_id: job.organization_id,
+      # organization_id: job.organization_id,
       ip: host.ip,
       port: port,
       protocol: '',
@@ -129,9 +133,9 @@ class NetScan::NmapScan
 
   def set_result_path
     # path to XML file with nmap scan results
-    result_folder = "tmp/nmap"
+    result_folder = NMAP_RESULT_PATH
     # XML file name
-    result_file = "#{@job.id}_#{@job_start.strftime("%Y.%m.%d-%H.%M.%S")}_nmap.xml"
+    result_file = "#{@job.id}_#{@job_start.strftime('%Y.%m.%d-%H.%M.%S')}_nmap.xml"
     # full path to XML file
     "#{result_folder}/#{result_file}"
   end
