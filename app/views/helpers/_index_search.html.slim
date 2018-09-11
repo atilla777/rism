@@ -1,5 +1,5 @@
 = search_form_for @q, class: 'form-inline', url: options[:url] do |f|
-  - options.each do | k, v |
+  - options.each do |k, v|
     = f.hidden_field k, value: v
   .form-group.pull-left
     .input-group
