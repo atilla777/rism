@@ -28,4 +28,6 @@ class Commands
   DeleteAllNmapScansCommand.register
   DeleteAllShodanScansCommand.register
   DeleteAllScansCommand.register
+  RestorySchedulesCommand.register
+  DestroySchedulesCommand.register
 end

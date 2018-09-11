@@ -1,0 +1,9 @@
+/= index_search :job_name_cont
+= command_button_for records
+= index_for records, actions: false do |t|
+  - t.header attribute: :job, label: ScanJob.model_name.human, sort: :desc
+  - t.header attribute: :job, label: Organization.model_name.human, sort: :desc
+  - t.header attribute: :job, label:  t('labels.schedules.current_schedule'), sort: :desc
+  - t.field { |record| link_to record.job.name, record.job }
+  - t.field { |record| link_to record.job.organization.name, record.job.organization }
+  - t.field { |record| record.show_crontab_line }

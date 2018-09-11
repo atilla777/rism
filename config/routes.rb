@@ -71,6 +71,7 @@ Rails.application.routes.draw do
   end
   resources :host_services
   get '/schedule/', to: 'schedules#show', as: :schedule
+  get '/schedules/', to: 'schedules#index', as: :schedules
   post '/schedule/', to: 'schedules#update', as: :update_schedule
   # resources :schedules, only: [:show]
   require 'sidekiq/web'

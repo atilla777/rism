@@ -7,6 +7,10 @@ class SchedulePolicy < ApplicationPolicy
          month_days]
   end
 
+  def run?
+    user.admin_editor?
+  end
+
   class Scope
     attr_reader :user, :scope
 

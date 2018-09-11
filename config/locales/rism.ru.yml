@@ -83,7 +83,7 @@ ru:
       vulnerable: 'Уязвим'
     current_legality: 'Легальность'
     schedules:
-      current_schedule: 'Текущее рассписание: '
+      current_schedule: 'Текущее рассписание'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'

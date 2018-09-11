@@ -13,9 +13,15 @@ class Schedule < ApplicationRecord
 
   belongs_to :job, polymorphic: true
 
-  has_one :organization, through: :job
+  #belongs_to :scan_job, polymorphic: true
+  #has_one :self_ref, class_name: self, foreign_key: :id
+  #has_one :scan_job, through: :self_ref, source: :job, source_type: ScanJob
+
+  #has_one :organization, through: :scan_job
 
   after_save :update_sidekiq_cron_schedule
+
+  after_destroy :destroy_sidekiq_cron_schedule
 
   #delegate :organization, to: :job
 
@@ -34,15 +40,22 @@ class Schedule < ApplicationRecord
     result.join(' ')
   end
 
+  def destroy_sidekiq_cron_schedule
+    cron_job_name = "#{job_type}_#{job_id}"
+    cron_job = Sidekiq::Cron::Job.find(cron_job_name)
+    return unless cron_job
+    cron_job.destroy
+  end
+
   private
 
   def update_sidekiq_cron_schedule
-    cron_job_name = "#{job_type}_#{job_id}"
     # if show_crontab_line = nil (m,h,md,m,wd = * * * * * and crontab_line is empty)
     unless show_crontab_line
-      destroy_sidekiq_cron_schedule(cron_job_name)
+      destroy_sidekiq_cron_schedule
       return
     end
+    cron_job_name = "#{job_type}_#{job_id}"
     Sidekiq::Cron::Job.create(
       name: cron_job_name,
       cron: show_crontab_line,
@@ -50,12 +63,6 @@ class Schedule < ApplicationRecord
       queue: job.job_queue('scheduled_scan'),
       args: [job.id, job.job_queue('scheduled_scan')]
     )
-  end
-
-  def destroy_sidekiq_cron_schedule(cron_job_name)
-    cron_job = Sidekiq::Cron::Job.find(cron_job_name)
-    return unless cron_job
-    cron_job.destroy
   end
 
   def array_to_crontab_symbol(arr)
