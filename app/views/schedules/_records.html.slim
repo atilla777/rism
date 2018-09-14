@@ -1,9 +1,17 @@
-/= index_search :job_name_cont
+= index_search :sharp_id_or_job_of_ScanJob_type_name_or_job_of_ScanJob_type_organization_name_cont
 = command_button_for records
-= index_for records, actions: false do |t|
-  - t.header attribute: :job, label: ScanJob.model_name.human, sort: :desc
-  - t.header attribute: :job, label: Organization.model_name.human, sort: :desc
-  - t.header attribute: :job, label:  t('labels.schedules.current_schedule'), sort: :desc
+= index_for records, decorator: ScheduleDecorator, actions: false do |t|
+  - t.header attribute: :id, sort_by: :id, sort: :desc
+  - t.header attribute: :job_of_ScanJob_name, label: ScanJob.model_name.human
+  - t.header attribute: :job
+  - t.header attribute: :week_days
+  - t.header attribute: :month_days
+  - t.header attribute: :months
+  - t.header attribute: :job, label:  t('labels.schedules.current_schedule')
+  - t.field { |record| link_to record.id, schedule_path(job_type: 'ScanJob', job_id: record.job.id) }
   - t.field { |record| link_to record.job.name, record.job }
-  - t.field { |record| link_to record.job.organization.name, record.job.organization }
-  - t.field { |record| record.show_crontab_line }
+  - t.field { |record| link_to record.job_organization.name, record.job_organization }
+  - t.field { |record| link_to record.show_week_days, schedule_path(job_type: 'ScanJob', job_id: record.job.id) }
+  - t.field { |record| link_to record.show_month_days, schedule_path(job_type: 'ScanJob', job_id: record.job.id) }
+  - t.field { |record| link_to record.show_months, schedule_path(job_type: 'ScanJob', job_id: record.job.id) }
+  - t.field { |record| link_to record.show_crontab_line, schedule_path(job_type: 'ScanJob', job_id: record.job.id) }

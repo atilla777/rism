@@ -3,7 +3,7 @@ class SchedulePolicy < ApplicationPolicy
       %i[minutes
          hours
          week_days
-         month
+         months
          month_days]
   end
 

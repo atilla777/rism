@@ -3,7 +3,7 @@
 class RestorySchedulesCommand < BaseCommand
 
   set_command_name :restory_schedules
-  set_human_name 'Восстановить рассписание из базы'
+  set_human_name 'Восстановить расписание из базы'
   set_command_model 'Schedule'
   set_required_params %i[]
 

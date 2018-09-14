@@ -1,5 +1,6 @@
 class Schedule < ApplicationRecord
   include OrganizationAssociated
+  include Schedule::Ransackers
 
   validates :job_id, uniqueness: { scope: :job_type }
   validates :job_id, presence: true
@@ -12,6 +13,10 @@ class Schedule < ApplicationRecord
   validate :check_month_days
 
   belongs_to :job, polymorphic: true
+
+  delegate :organization, to: :job, allow_nil: true, prefix: true
+
+  #belongs_to :scan_job, foreign_type: 'ScanJob'
 
   #belongs_to :scan_job, polymorphic: true
   #has_one :self_ref, class_name: self, foreign_key: :id
