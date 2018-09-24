@@ -1,9 +1,9 @@
 ---
-:concurrency: 12
+:concurrency: 15
 staging:
-  :concurrency: 12
+  :concurrency: 15
 production:
-  :concurrency: 12
+  :concurrency: 15
 :queues:
   - default
   - now_scan
@@ -12,5 +12,5 @@ production:
 :limits:
   default: 1
   now_scan: 5
-  scheduled_scan: 5
+  scheduled_scan: 8
   free_shodan_scan: 1
