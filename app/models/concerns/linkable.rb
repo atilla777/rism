@@ -15,7 +15,7 @@ module Linkable
     # records wich this record was linked to
     #has_many :me_linked_records, through: :me_links, source: :first_record, source_type: '?', foreign_key: :first_record
 
-    # TODO: user or delete
+    # TODO: use or delete
     has_many(
       :me_linked_incidents,
       as: :second_record,
