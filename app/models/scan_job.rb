@@ -21,6 +21,9 @@ class ScanJob < ApplicationRecord
 
   has_many :scan_results, dependent: :destroy
 
+  has_many :scan_jobs_hosts
+  has_many :hosts, through: :scan_jobs_hosts
+
   def self.scan_engines
     SCAN_ENGINES
   end

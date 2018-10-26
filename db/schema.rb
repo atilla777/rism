@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180714101753) do
+ActiveRecord::Schema.define(version: 20181026071008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -263,6 +263,15 @@ ActiveRecord::Schema.define(version: 20180714101753) do
     t.index ["scan_option_id"], name: "index_scan_jobs_on_scan_option_id"
   end
 
+  create_table "scan_jobs_hosts", force: :cascade do |t|
+    t.bigint "scan_job_id"
+    t.bigint "host_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_scan_jobs_hosts_on_host_id"
+    t.index ["scan_job_id"], name: "index_scan_jobs_hosts_on_scan_job_id"
+  end
+
   create_table "scan_options", force: :cascade do |t|
     t.string "name"
     t.jsonb "options"
@@ -412,6 +421,8 @@ ActiveRecord::Schema.define(version: 20180714101753) do
   add_foreign_key "role_members", "users"
   add_foreign_key "scan_jobs", "organizations"
   add_foreign_key "scan_jobs", "scan_options"
+  add_foreign_key "scan_jobs_hosts", "hosts"
+  add_foreign_key "scan_jobs_hosts", "scan_jobs"
   add_foreign_key "scan_results", "scan_jobs"
   add_foreign_key "tag_members", "tags"
   add_foreign_key "tags", "tag_kinds"

@@ -1,0 +1,4 @@
+= caption @scan_job
+= render 'scan_jobs/show_tabs', record: @scan_job, active_tab: :hosts, from_external_link: true
+= render 'form', scan_job: @scan_job
+= render 'hosts'
