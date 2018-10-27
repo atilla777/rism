@@ -1,7 +1,5 @@
-= form_tag scan_jobs_hosts_path, remote: :true do
+= form_tag scan_jobs_hosts_path, remote: :true, :class => "form-inline" do
   = hidden_field_tag :scan_job_id, scan_job.id
-  = autocomplete_field_tag :host, '', autocomplete_hosts_path, id_element: '#host_id',  class: 'form-control', autocomplete: :off
+  = autocomplete_field_tag :host, '', autocomplete_hosts_path, id_element: '#host_id',  class: 'form-control', autocomplete: :off, placeholder: t('placeholders.hosts.ip_auto'), style: 'width: 78%'
   = hidden_field_tag :host_id, '', id: "host_id"
-  br
-  br
   =< submit_tag t('labels.add'), class: 'btn btn-success' do

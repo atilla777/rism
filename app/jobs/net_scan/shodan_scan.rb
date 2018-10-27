@@ -10,7 +10,7 @@ class NetScan::ShodanScan
   def initialize(job)
     @job = job
     @job_start = DateTime.now
-    @hosts = hosts_to_array(@job.hosts)
+    @hosts = hosts_to_array(@job.targets)
     @key = ENV['SHODAN_KEY']
   end
 
@@ -20,8 +20,7 @@ class NetScan::ShodanScan
 
   private
 
-  def hosts_to_array(hosts)
-    hosts_ranges = hosts.split(',')
+  def hosts_to_array(hosts_ranges)
     result = hosts_ranges.each_with_object([]) do |hosts_range, memo|
       if hosts_range.include?('-')
         arr = hosts_range.split('-')

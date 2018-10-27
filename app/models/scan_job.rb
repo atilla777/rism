@@ -12,7 +12,6 @@ class ScanJob < ApplicationRecord
   validates :name, uniqueness: { scope: :organization_id }
   validates :organization_id, numericality: { only_integer: true }
   validates :scan_option_id, numericality: { only_integer: true }
-  validates :hosts, presence: true
 
   belongs_to :organization
   belongs_to :scan_option
@@ -21,8 +20,8 @@ class ScanJob < ApplicationRecord
 
   has_many :scan_results, dependent: :destroy
 
-  has_many :scan_jobs_hosts
-  has_many :hosts, through: :scan_jobs_hosts
+  has_many :scan_jobs_hosts, dependent: :destroy
+  has_many :linked_hosts, through: :scan_jobs_hosts, source: :host
 
   def self.scan_engines
     SCAN_ENGINES
@@ -38,5 +37,10 @@ class ScanJob < ApplicationRecord
     else
       queue
     end
+  end
+
+  def targets
+    hosts_from_scan_job = hosts.split(',').map(&:strip)
+    hosts_from_scan_job | linked_hosts.pluck(:ip).map(&:to_s)
   end
 end

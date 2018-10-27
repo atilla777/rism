@@ -17,7 +17,7 @@ class Host < ApplicationRecord
   belongs_to :organization
   has_many :host_services, dependent: :destroy
 
-  has_many :scan_jobs_hosts
+  has_many :scan_jobs_hosts, dependent: :destroy
   has_many :scan_jobs, through: :scan_jobs_hosts
   #
   # for use with RecordTemplate, Link and etc

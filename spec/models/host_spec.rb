@@ -6,5 +6,6 @@ RSpec.describe Host, type: :model do
         .scoped_to(:organization_id) }
   it { should validate_uniqueness_of(:ip) }
   it { should validate_numericality_of(:organization_id).only_integer }
-  it { should belong_to :organization }
+  it { should belong_to(:organization) }
+  it { should have_many(:scan_jobs) }
 end

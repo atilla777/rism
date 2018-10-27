@@ -1,6 +1,14 @@
 #hosts
-  - @scan_jobs_hosts.each do |scan_jobs_host|
-      = scan_jobs_host.host.show_full_name
-      =< link_to scan_jobs_host, method: :delete, remote: true, data: { confirm: t('views.action.confirm') } do
-        span.text-danger
-          = fa_icon 'remove'
+  = render 'form', scan_job: @scan_job
+  br
+  table.table.table-hover.table-bordered.table-striped
+    tbody
+      - @scan_jobs_hosts.each do |scan_jobs_host|
+        tr
+          td
+            = scan_jobs_host.host.show_full_name
+          td.fit
+            =< link_to scan_jobs_host, method: :delete, remote: true, data: { confirm: t('views.action.confirm') } do
+                span.text-danger
+                  = fa_icon 'remove'
+                =< t('views.action.delete')

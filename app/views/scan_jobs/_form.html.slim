@@ -32,7 +32,7 @@
           .col-lg-8
             = f.collection_select :scan_option_id, ScanOption.all, :id, :name, {}, { class: 'form-control' }
 
-      .form-group.required
+      .form-group
         .field
           .col-lg-2.text-right
             = f.label :hosts, class: 'control-label'
