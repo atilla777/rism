@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ScanResult < ApplicationRecord
+  require 'socket'
+
   include OrganizationAssociated
   include ScanResult::Ransackers
   include Legalitiable
@@ -9,6 +11,8 @@ class ScanResult < ApplicationRecord
 
   enum state: %i[closed closed_filtered filtered unfiltered open_filtered open]
   serialize :vulns, Hash
+
+  before_save :set_source_ip, :set_engine
 
 #  serialize :addition, Hash
 #  store_accessor :addition,
@@ -45,5 +49,17 @@ class ScanResult < ApplicationRecord
     else
       COLORS.reverse[1]
     end
+  end
+
+  private
+
+  def set_source_ip
+    self.source_ip = Socket.ip_address_list.map do |ip|
+      ip.ip_address if (ip.ipv4? && ! ip.ipv4_loopback?)
+    end.reject(&:blank?).join(', ')
+  end
+
+  def set_engine
+    self.scan_engine = self.scan_job.scan_engine
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181026071008) do
+ActiveRecord::Schema.define(version: 20181028054216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -298,6 +298,8 @@ ActiveRecord::Schema.define(version: 20181026071008) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "vulns"
+    t.string "source_ip"
+    t.string "scan_engine"
     t.index ["port"], name: "index_scan_results_on_port"
     t.index ["product"], name: "index_scan_results_on_product"
     t.index ["scan_job_id"], name: "index_scan_results_on_scan_job_id"

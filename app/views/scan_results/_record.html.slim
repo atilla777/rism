@@ -7,6 +7,8 @@
     = show_date_time(record.job_start)
   = r.show :start do
     = show_date_time(record.start)
+  = r.show :source_ip
+  = r.show :scan_engine
   = r.show :organization_id do
     = link_to @record.organization&.name, @record.organization
   = r.show :scan_job_id do

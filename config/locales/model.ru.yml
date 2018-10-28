@@ -227,6 +227,8 @@ ru:
         organization_id: 'Организация влад.'
         scan_job_id: 'Работа'
         scan_job_scan_engine: 'Движок'
+        scan_engine: 'Движок'
+        source_ip: 'Адрес сканера'
         state: 'Состояние'
         states:
           closed: 'Закрыт'
