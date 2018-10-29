@@ -7,7 +7,7 @@ class CommandPolicy
   end
 
   def run?
-    return true if @user.admin_editor_reader?
+    return true if @user.admin_editor?
     @user.can? :edit, 'Commands'
   end
 end

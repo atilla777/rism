@@ -30,4 +30,5 @@ class Commands
   DeleteAllScansCommand.register
   RestorySchedulesCommand.register
   DestroySchedulesCommand.register
+  LinkScanJobHostsCommand.register
 end

@@ -3,6 +3,12 @@
 module OrganizationRelative
   extend ActiveSupport::Concern
 
+  class ValidateCurrentUserError < StandardError
+    def message
+      'Current user must be set to save record that is an organization member'
+    end
+  end
+
   included do
     attr_accessor :current_user
 
@@ -13,6 +19,7 @@ module OrganizationRelative
   end
 
   def organization_id_is_allowed
+    raise ValidateCurrentUserError unless current_user.present?
     return if current_user.admin_editor?
     return if current_user.can_read_model_index?(self.class)
     return if current_user.allowed_organizations_ids.include?(organization_id)
