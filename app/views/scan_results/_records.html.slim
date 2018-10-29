@@ -5,7 +5,7 @@
   - t.header attribute: :finished, sort_by: :finished, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
   - t.header attribute: :scan_job_id, sort_by: :scan_job_name, sort: :desc
-  - t.header attribute: :scan_job_scan_engine, sort_by: :scan_job_scan_engine, sort: :desc
+  - t.header attribute: :scan_engine, sort_by: :scan_engine, sort: :desc
   - t.header attribute: :ip, sort_by: :ip, sort: :desc
   - t.header attribute: :protocol, sort_by: :protocol, sort: :desc
   - t.header attribute: :port, sort_by: :port, sort: :desc
@@ -23,7 +23,7 @@
     = link_to show_date_time(record.finished), record
   - t.field { |record| link_to record.organization.name, record.organization }
   - t.field { |record| link_to record.scan_job.name, record.scan_job }
-  - t.field { |record| link_to record.scan_job.scan_engine, record.scan_job }
+  - t.field { |record| link_to record.scan_engine, record.scan_engine}
   - t.field do |record|
     = link_to new_host_path(ip: record.ip, organization_id: @organization.id), data: { toggle: 'tooltip', placement: 'top'}, title: t('views.action.new_host') do
       span.text-success

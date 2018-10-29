@@ -53,7 +53,7 @@ class TablePortsReport < BaseReport
       row << "#{show_date_time(record.job_start)}"
       row << "#{show_date_time(record.finished)}"
       row << "#{record.real_organization_name}"
-      row << "#{record.scan_job.scan_engine}"
+      row << "#{record.scan_engine}"
       row << "#{record.scan_results_ip}"
       row << "#{record.port}"
       row << "#{record.protocol}"
@@ -87,7 +87,7 @@ class TablePortsReport < BaseReport
         service = []
         service << "#{record.scan_results_ip}"
         service << "#{record.real_organization_name}"
-        service << "#{record.scan_job.scan_engine}"
+        service << "#{record.scan_engine}"
         service << "#{record.port}"
         service << "#{record.protocol}"
         service << "#{show_date_time(record.job_start)}"

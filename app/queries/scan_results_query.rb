@@ -53,7 +53,7 @@ class ScanResultsQuery
           AS max_time
         FROM scan_results
         JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
-        WHERE scan_jobs.scan_engine = 'nmap'
+        WHERE scan_results.scan_engine = 'nmap'
         GROUP BY scan_results.ip
       )m
       ON scan_results.ip = m.ip
@@ -70,7 +70,7 @@ class ScanResultsQuery
           AS max_time
         FROM scan_results
         JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
-        WHERE scan_jobs.scan_engine = 'shodan'
+        WHERE scan_results.scan_engine = 'shodan'
         GROUP BY scan_results.ip
       )m
       ON scan_results.ip = m.ip
@@ -88,7 +88,7 @@ class ScanResultsQuery
         scan_results.state,
         scan_results.vulns,
         organizations.name AS organization_name,
-        scan_jobs.scan_engine AS engine
+        scan_results.scan_engine AS engine
         FROM scan_results
         INNER JOIN (
           SELECT
@@ -97,7 +97,7 @@ class ScanResultsQuery
             AS max_time
           FROM scan_results
           JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
-          AND scan_jobs.scan_engine = 'shodan'
+          AND scan_results.scan_engine = 'shodan'
           GROUP BY scan_results.ip
         )m
         ON scan_results.ip = m.ip
@@ -109,7 +109,7 @@ class ScanResultsQuery
         LEFT JOIN scan_jobs
         ON scan_jobs.id = scan_results.scan_job_id
         WHERE scan_results.state = 5
-        AND scan_jobs.scan_engine = 'shodan'
+        AND scan_results.scan_engine = 'shodan'
         AND ($1::int IS NULL OR organizations.id = $1)
       ), nmap_results AS (
         SELECT
@@ -123,7 +123,7 @@ class ScanResultsQuery
         scan_results.product_extrainfo,
         scan_results.vulns,
         organizations.name AS organization_name,
-        scan_jobs.scan_engine AS engine
+        scan_results.scan_engine AS engine
         FROM scan_results
         LEFT JOIN (
           SELECT
@@ -132,7 +132,7 @@ class ScanResultsQuery
             AS max_time
           FROM scan_results
           JOIN scan_jobs ON scan_jobs.id = scan_results.scan_job_id
-          AND scan_jobs.scan_engine = 'nmap'
+          AND scan_results.scan_engine = 'nmap'
           GROUP BY scan_results.ip
         )m
         ON scan_results.ip = m.ip
@@ -144,7 +144,7 @@ class ScanResultsQuery
         LEFT JOIN scan_jobs
         ON scan_jobs.id = scan_results.scan_job_id
         WHERE scan_results.state = 5
-        AND scan_jobs.scan_engine = 'nmap'
+        AND scan_results.scan_engine = 'nmap'
         AND ($1::int IS NULL OR organizations.id = $1)
       )
       SELECT DISTINCT
