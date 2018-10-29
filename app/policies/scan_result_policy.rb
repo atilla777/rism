@@ -11,6 +11,10 @@ class ScanResultPolicy < ApplicationPolicy
     create?
   end
 
+  def search?
+    index?
+  end
+
   def permitted_attributes
     %i[organization_id
       scan_job_id

@@ -51,6 +51,10 @@ class ScanResult < ApplicationRecord
     end
   end
 
+  def self.human_attribute_states
+    Hash[ScanResult.states.map { |k,v| [v, ScanResult.human_enum_name(:state, k)] }]
+  end
+
   private
 
   def set_source_ip

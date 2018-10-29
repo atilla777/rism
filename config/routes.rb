@@ -63,10 +63,11 @@ Rails.application.routes.draw do
       get 'run'
     end
   end
-  resources :scan_results, only: [:index, :show] do
+  resources :scan_results, only: [:index, :show, :search] do
     collection do
       get 'open_ports'
       get 'new_ports'
+      match 'search' => 'scan_results#search', via: [:post, :get], as: :search
     end
   end
   resources :host_services

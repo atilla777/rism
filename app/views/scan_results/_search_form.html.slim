@@ -1,0 +1,155 @@
+button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_search_modal'
+  =< t('navigations.advanced_search')
+.modal.fade#advanced_search_modal tabindex='-1' role='dialog'
+   = search_form_for @q, url: search_scan_results_path, html: { class: 'form-horizontal', method: :post } do |f|
+    .modal-dialog.modal-lg role='document'
+      .modal-content
+        .modal-header
+          button.close  type='button' data-dismiss="modal" aria-label="Close"
+          .modal-title
+            h4.text-info
+              = t('navigations.advanced_search')
+        .modal-body
+          .row
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :id, class: 'control-label'
+                .col-lg-8
+                  = f.text_field :id_eq, class: 'form-control'
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :organization_name, Organization.model_name.human(count: 1), class: 'control-label'
+                .col-lg-8
+                  = f.text_field :organization_name_cont, class: 'form-control'
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :scan_job_id, class: 'control-label'
+                .col-lg-8
+                  = f.text_field :scan_job_name_cont, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :scan_engine, class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes :scan_engine_in, ['nmap', 'shodan'], :to_s, :to_s, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< b.label
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :ip, class: 'control-label'
+                .col-lg-8
+                  = f.text_field :ip_eq, class: 'form-control'
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :port, class: 'control-label'
+                .col-lg-8
+                  = f.text_field :port_eq, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :protocol, class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes :protocol_in, ['tcp', 'udp'], :to_s, :to_s, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< b.label
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :state, class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes :state_in, ScanResult.human_attribute_states, :first, :last, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< color_icon(ScanResult.state_to_color b.value)
+                     =< b.label
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :service, class: 'control-label'
+                .col-lg-8
+                  = f.text_field :service_cont, class: 'form-control'
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :product, class: 'control-label'
+                .col-lg-2
+                  = f.text_field :product_cont, class: 'form-control'
+                .col-lg-1
+                  = f.label :product_version, class: 'control-label'
+                .col-lg-2
+                  = f.text_field :product_version_cont, class: 'form-control'
+                .col-lg-2
+                  = f.label :product_extrainfo, class: 'control-label'
+                .col-lg-1
+                  = f.text_field :product_extrainfo_cont, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :legality, class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes :legality_in, ScanResult.human_attribute_legalities, :first, :last, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< color_icon(ScanResult.legality_to_color b.value)
+                     =< b.label
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :vulns, class: 'control-label'
+                .col-lg-8
+                   = f.check_box :vulns_str_present, class: 'big-checkbox'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :job_start, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :job_start_gteq, class: 'form-control', datepicker: true
+                 .col-lg-3
+                   = f.date_field :job_start_end_of_day_lteq, class: 'form-control', datepicker: true
+
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :start, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :start_gteq, class: 'form-control', datepicker: true
+                 .col-lg-3
+                   = f.date_field :start_end_of_day_lteq, class: 'form-control', datepicker: true
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :finished, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :fin_qteq, class: 'form-control', datepicker: true, value: params.dig(:q, :fin_qteq)
+                 .col-lg-3
+                   = f.date_field :fin_end_of_day_lteq, class: 'form-control', datepicker: true, value: params.dig(:q, :fin_end_of_day_lteq)
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :source_ip, class: 'control-label'
+                .col-lg-8
+                  = f.text_field :source_ip_eq, class: 'form-control'
+
+
+        .modal-footer
+          button.btn.btn-default type='button' data-dismiss='modal'
+            = t('views.action.back')
+          =< f.submit t('views.action.find'), class: 'btn btn-success'

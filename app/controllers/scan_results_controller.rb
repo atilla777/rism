@@ -2,6 +2,19 @@
 class ScanResultsController < ApplicationController
   include RecordOfOrganization
 
+  def search
+    authorize model
+    @organization = organization
+    if @organization.id
+      @records = records(filter_for_organization)
+      render 'organization_index'
+      #render 'index'
+    else
+      @records = records(model)
+      #render 'application/index'
+      render 'index'
+    end
+  end
 
   def index
     authorize_model

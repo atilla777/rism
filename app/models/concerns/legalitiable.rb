@@ -15,6 +15,10 @@ module Legalitiable
     def legality_to_color code
       COLORS.reverse[code]
     end
+
+    def human_attribute_legalities
+      Hash[self.legalities.map { |k,v| [v, self.human_enum_name(:legality, k)] }]
+    end
   end
 
   def legality_color
