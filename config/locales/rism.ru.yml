@@ -88,6 +88,12 @@ ru:
       current_schedule: 'Текущее рассписание'
     scan_results:
       vulns_presence: 'Наличие уязвимостей'
+    scan_jobs:
+      working_count: 'Начато работ'
+    scan_job_logs:
+      status: 'Состояние'
+      started: 'Запущена'
+      finished: 'Завершена'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'

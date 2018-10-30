@@ -74,8 +74,11 @@ ru:
         one: 'Сетевой сервис'
         other: 'Сетевые сервисы'
       schedule:
-        one: 'Рассписание'
-        other: 'Рассписания'
+        one: 'Рассписание сканирования'
+        other: 'Рассписания сканирования'
+      scan_job_log:
+        one: 'История работы по санированию'
+        other: 'История работ по санированию'
     attributes:
       organization:
         name: 'Имя'
@@ -277,6 +280,12 @@ ru:
         months: 'Месяцы'
         month_days: 'Дни месяца'
         crontab_line: 'Рассписание в формате crontab'
+      scan_job_log:
+        scan_job_id: 'Работа по сканированию'
+        jid: 'ID фоновой работы'
+        start: 'Начало'
+        finish: 'Окончание'
+        queue: 'Очередь фоновой работы'
     errors:
       messages:
           organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'

@@ -23,6 +23,8 @@ class ScanJob < ApplicationRecord
   has_many :scan_jobs_hosts, dependent: :destroy
   has_many :linked_hosts, through: :scan_jobs_hosts, source: :host
 
+  has_many :scan_job_logs, dependent: :destroy
+
   def self.scan_engines
     SCAN_ENGINES
   end

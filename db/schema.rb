@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181028054216) do
+ActiveRecord::Schema.define(version: 20181030070616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,6 +249,17 @@ ActiveRecord::Schema.define(version: 20181028054216) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scan_job_logs", force: :cascade do |t|
+    t.bigint "scan_job_id"
+    t.string "jid"
+    t.string "queue"
+    t.datetime "start"
+    t.datetime "finish"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scan_job_id"], name: "index_scan_job_logs_on_scan_job_id"
+  end
+
   create_table "scan_jobs", force: :cascade do |t|
     t.string "name"
     t.bigint "organization_id"
@@ -421,6 +432,7 @@ ActiveRecord::Schema.define(version: 20181028054216) do
   add_foreign_key "rights", "roles"
   add_foreign_key "role_members", "roles"
   add_foreign_key "role_members", "users"
+  add_foreign_key "scan_job_logs", "scan_jobs"
   add_foreign_key "scan_jobs", "organizations"
   add_foreign_key "scan_jobs", "scan_options"
   add_foreign_key "scan_jobs_hosts", "hosts"

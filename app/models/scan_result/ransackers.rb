@@ -4,8 +4,6 @@ module ScanResult::Ransackers
   extend ActiveSupport::Concern
   included do
 
-    ransack_alias :fin, :finished
-
     ransacker :job_start_str do
       Arel.sql("to_char(job_start, 'DD.MM.YYYY')")
     end

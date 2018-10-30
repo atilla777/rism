@@ -14,6 +14,11 @@ li
       = fa_icon 'gears'
       =< ScanJob.model_name.human(count: 2)
 li
+  = link_to scan_job_logs_path do
+    .span.text-info
+      = fa_icon 'history'
+      =< ScanJobLog.model_name.human(count: 2)
+li
   = link_to schedules_path do
     .span.text-info
       = fa_icon 'clock-o'

@@ -75,6 +75,7 @@ Rails.application.routes.draw do
   get '/schedules/', to: 'schedules#index', as: :schedules
   post '/schedule/', to: 'schedules#update', as: :update_schedule
   resources :scan_jobs_hosts, only: [:index, :create, :destroy]
+  resources :scan_job_logs, only: [:index]
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

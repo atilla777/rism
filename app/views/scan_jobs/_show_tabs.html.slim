@@ -8,6 +8,9 @@
   - tabs.add(:schedule, schedule_path(job_id: record.id, job_type: 'ScanJob'), true) do
     = fa_icon 'clock-o'
     =< Schedule.model_name.human(count: 1)
+  - tabs.add(:logs, scan_job_logs_path(job_id: record.id), true) do
+    = fa_icon 'history'
+    =< ScanJobLog.model_name.human(count: 2)
   - tabs.add(:links, polymorphic_path(record, active_tab: :links)) do
     = fa_icon 'link'
     =< Link.model_name.human(count: 2)
