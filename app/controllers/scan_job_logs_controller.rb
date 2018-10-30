@@ -5,7 +5,7 @@ class ScanJobLogsController < ApplicationController
 
   def index
     authorize model
-    if params[:job_id].present? || params.dig(:q, :job_id)
+    if params[:job_id].present? || params.dig(:q, :job_id_eq)
       index_for_scan_job
     else
       index_for_all_jobs

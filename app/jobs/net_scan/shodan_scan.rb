@@ -16,7 +16,6 @@ class NetScan::ShodanScan
 
   def run
     save_result(fetch_result_from_shodan)
-    log_scan_job(@jid)
   end
 
   private
