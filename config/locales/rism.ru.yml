@@ -86,6 +86,8 @@ ru:
     current_legality: 'Легальность'
     schedules:
       current_schedule: 'Текущее рассписание'
+    scan_results:
+      vulns_presence: 'Наличие уязвимостей'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'

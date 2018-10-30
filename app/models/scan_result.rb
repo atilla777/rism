@@ -7,7 +7,7 @@ class ScanResult < ApplicationRecord
   include ScanResult::Ransackers
   include Legalitiable
 
-  COLORS = ['#228B22', '#DC143C'].freeze
+  COLORS = ['#228B22', '#DAA520', '#DC143C'].freeze
 
   enum state: %i[closed closed_filtered filtered unfiltered open_filtered open]
   serialize :vulns, Hash
@@ -44,10 +44,12 @@ class ScanResult < ApplicationRecord
   end
 
   def self.state_to_color code
-    if code == 0 || code == 2
-      COLORS.reverse[code]
+    if code == 0
+      COLORS[code]
+    elsif code == 5
+      COLORS[2]
     else
-      COLORS.reverse[1]
+      COLORS[1]
     end
   end
 

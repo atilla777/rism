@@ -22,37 +22,35 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
               .field
                 .col-lg-3.text-right
                   = f.label :organization_name, Organization.model_name.human(count: 1), class: 'control-label'
-                .col-lg-8
+                .col-lg-3
                   = f.text_field :organization_name_cont, class: 'form-control'
-
-            .form-group
-              .field
-                .col-lg-3.text-right
+                .col-lg-2.text-right
                   = f.label :scan_job_id, class: 'control-label'
-                .col-lg-8
+                .col-lg-3
                   = f.text_field :scan_job_name_cont, class: 'form-control'
 
             .form-group
               .field
                  .col-lg-3.text-right
                    = f.label :scan_engine, class: 'control-label'
-                 .col-lg-8
+                 .col-lg-3
                    = f.collection_check_boxes :scan_engine_in, ['nmap', 'shodan'], :to_s, :to_s, {}, class: 'big-checkbox' do |b|
                      =< b.check_box
                      =< b.label
+                 .col-lg-2.text-right
+                   = f.label :source_ip, class: 'control-label'
+                 .col-lg-3
+                   = f.text_field :source_ip_eq, class: 'form-control'
 
             .form-group
               .field
                 .col-lg-3.text-right
                   = f.label :ip, class: 'control-label'
-                .col-lg-8
+                .col-lg-3
                   = f.text_field :ip_eq, class: 'form-control'
-
-            .form-group
-              .field
-                .col-lg-3.text-right
+                .col-lg-2.text-right
                   = f.label :port, class: 'control-label'
-                .col-lg-8
+                .col-lg-3
                   = f.text_field :port_eq, class: 'form-control'
 
             .form-group
@@ -85,15 +83,18 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
               .field
                 .col-lg-3.text-right
                   = f.label :product, class: 'control-label'
-                .col-lg-2
+                .col-lg-3
                   = f.text_field :product_cont, class: 'form-control'
-                .col-lg-1
+                .col-lg-2.text-right
                   = f.label :product_version, class: 'control-label'
-                .col-lg-2
+                .col-lg-3
                   = f.text_field :product_version_cont, class: 'form-control'
-                .col-lg-2
+
+            .form-group
+              .field
+                .col-lg-3.text-right
                   = f.label :product_extrainfo, class: 'control-label'
-                .col-lg-1
+                .col-lg-8
                   = f.text_field :product_extrainfo_cont, class: 'form-control'
 
             .form-group
@@ -109,14 +110,18 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
             .form-group
               .field
                 .col-lg-3.text-right
-                  = f.label :vulns, class: 'control-label'
-                .col-lg-8
+                  = f.label t('labels.scan_results.vulns_presence'), class: 'control-label'
+                .col-lg-1
                    = f.check_box :vulns_str_present, class: 'big-checkbox'
+                .col-lg-2.text-right
+                  = f.label :vulns, class: 'control-label'
+                .col-lg-5
+                  = f.text_field :vulns_str_cont, class: 'form-control'
 
             .form-group
               .field
                  .col-lg-3.text-right
-                   = f.label :job_start, class: 'control-label'
+                   = f.label :job_start, ScanResult.human_attribute_name(:job_start), class: 'control-label'
                  .col-lg-3
                    = f.date_field :job_start_gteq, class: 'form-control', datepicker: true
                  .col-lg-3
@@ -137,16 +142,9 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                  .col-lg-3.text-right
                    = f.label :finished, class: 'control-label'
                  .col-lg-3
-                   = f.date_field :fin_qteq, class: 'form-control', datepicker: true, value: params.dig(:q, :fin_qteq)
+                   = f.date_field :finished_gteq, class: 'form-control', datepicker: true
                  .col-lg-3
-                   = f.date_field :fin_end_of_day_lteq, class: 'form-control', datepicker: true, value: params.dig(:q, :fin_end_of_day_lteq)
-
-            .form-group
-              .field
-                .col-lg-3.text-right
-                  = f.label :source_ip, class: 'control-label'
-                .col-lg-8
-                  = f.text_field :source_ip_eq, class: 'form-control'
+                   = f.date_field :finished_end_of_day_lteq, class: 'form-control', datepicker: true
 
 
         .modal-footer

@@ -4,8 +4,7 @@ module ScanResult::Ransackers
   extend ActiveSupport::Concern
   included do
 
-    ransack_alias :fin_qteq, :finished_qteq
-    ransack_alias :fin_end_of_day_lteq, :finished_end_of_day_lteq
+    ransack_alias :fin, :finished
 
     ransacker :job_start_str do
       Arel.sql("to_char(job_start, 'DD.MM.YYYY')")
