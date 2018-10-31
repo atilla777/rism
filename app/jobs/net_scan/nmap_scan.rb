@@ -14,8 +14,9 @@ class NetScan::NmapScan
   }.freeze
   NMAP_RESULT_PATH = 'tmp'
 
-  def initialize(job)
+  def initialize(job, jid)
     @job = job
+    @jid = jid
     @job_start = DateTime.now
     # set XML result file path
     @result_path = set_result_path
@@ -103,7 +104,8 @@ class NetScan::NmapScan
       product: port&.service&.product,
       product_version: port&.service&.version,
       product_extrainfo: port&.service&.extra_info,
-      vulns: {}
+      vulns: {},
+      jid: @jid
     }
   end
 
@@ -123,7 +125,8 @@ class NetScan::NmapScan
       product: '',
       product_version: '',
       product_extrainfo: '',
-      vulns: {}
+      vulns: {},
+      jid: @jid
     }
   end
 

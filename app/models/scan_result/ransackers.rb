@@ -20,16 +20,27 @@ module ScanResult::Ransackers
       Arel.sql("scan_results.port::text")
     end
 
+#    ransacker :vulns_str do
+#      field_transformation = <<~SQL
+#        CASE
+#        WHEN scan_results.vulns IS NOT NULL
+#        THEN '#{ScanResult.human_attribute_name(:vulns)}'
+#        ELSE ''
+#        END
+#      SQL
+#      Arel.sql(field_transformation)
+#    end
+
     ransacker :vulns_str do
-      field_transformation = <<~SQL
-        CASE
-        WHEN scan_results.vulns IS NOT NULL
-        THEN '#{ScanResult.human_attribute_name(:vulns)}'
-        ELSE ''
-        END
-      SQL
-      Arel.sql(field_transformation)
+      Arel.sql('scan_results.vulns')
     end
+
+#    ransacker :vulns_json do
+#      field_transformation = <<~SQL
+#        scan_results.vulns->'client'->>'firstName'
+#      SQL
+#      Arel.sql(field_transformation)
+#    end
 
     ransacker :state_str do
       field_transformation = <<~SQL

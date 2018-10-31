@@ -14,9 +14,9 @@ class NetScanJob < ApplicationJob
     job = ScanJob.find(args[0])
     log_scan_job(:start, job.id, jid, args[1])
     if job.scan_engine == 'nmap'
-      NetScan::NmapScan.new(job).run
+      NetScan::NmapScan.new(job, jid).run
     else
-      NetScan::ShodanScan.new(job).run
+      NetScan::ShodanScan.new(job, jid).run
     end
     log_scan_job(:finish, job.id, jid, args[1] )
   end

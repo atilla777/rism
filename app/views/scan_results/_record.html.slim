@@ -1,6 +1,7 @@
 = show_for @record do |r|
   = r.show :scan_job_id do
     = "#{@record.scan_job.name} (#{@record.scan_job.scan_engine})"
+  = r.show :jid
   = r.show :finished do
     = show_date_time(record.finished)
   = r.show :job_start do

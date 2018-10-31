@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181030070616) do
+ActiveRecord::Schema.define(version: 20181031074924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -311,6 +311,7 @@ ActiveRecord::Schema.define(version: 20181030070616) do
     t.text "vulns"
     t.string "source_ip"
     t.string "scan_engine"
+    t.string "jid"
     t.index ["port"], name: "index_scan_results_on_port"
     t.index ["product"], name: "index_scan_results_on_product"
     t.index ["scan_job_id"], name: "index_scan_results_on_scan_job_id"

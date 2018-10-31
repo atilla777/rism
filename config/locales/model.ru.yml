@@ -257,6 +257,7 @@ ru:
         product_version: 'Версия'
         product_extrainfo: 'Дополнительно'
         vulns: 'Уязвимости'
+        jid: 'ID фоновой работы'
       host_service:
         name: 'Название'
         organization_id: 'Организация'

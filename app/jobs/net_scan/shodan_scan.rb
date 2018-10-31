@@ -7,8 +7,9 @@ class NetScan::ShodanScan
   URL = 'https://api.shodan.io/'
   HOST_NOT_FOUND_ERROR='No information available for that IP.'
 
-  def initialize(job)
+  def initialize(job, jid)
     @job = job
+    @jid = jid
     @job_start = DateTime.now
     @hosts = hosts_to_array(@job.targets)
     @key = ENV['SHODAN_KEY']
@@ -131,7 +132,8 @@ class NetScan::ShodanScan
       product: '',
       product_version: '',
       product_extrainfo: '',
-      vulns: service.fetch('vulns', {})
+      vulns: service.fetch('vulns', {}),
+      jid: @jid
     }
   end
 
@@ -150,7 +152,8 @@ class NetScan::ShodanScan
       product: '',
       product_version: '',
       product_extrainfo: '',
-      vulns: {}
+      vulns: {},
+      jid: @jid
     }
   end
 end
