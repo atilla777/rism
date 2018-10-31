@@ -10,4 +10,4 @@
   - t.field { |record| link_to(show_date_time(record.finish), record.scan_job )}
   - t.field { |record| link_to(record.scan_job.name, record.scan_job) }
   - t.field { |record| link_to(record.queue, record.scan_job) }
-  - t.field { |record| link_to(record.jid, record.scan_job) }
+  - t.field { |record| link_to(record.jid, search_scan_results_path(:'q[scan_job_name_cont]' => record.scan_job.name, :'q[jid_eq]' => record.jid), method: :post) }

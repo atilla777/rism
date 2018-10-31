@@ -15,8 +15,12 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
               .field
                 .col-lg-3.text-right
                   = f.label :id, class: 'control-label'
-                .col-lg-8
+                .col-lg-3
                   = f.text_field :id_eq, class: 'form-control'
+                .col-lg-2.text-right
+                  = f.label :jid, class: 'control-label'
+                .col-lg-3
+                  = f.text_field :jid_eq, class: 'form-control'
 
             .form-group
               .field
