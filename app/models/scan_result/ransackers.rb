@@ -24,20 +24,20 @@ module ScanResult::Ransackers
       Arel.sql('scan_results.vulns')
     end
 
-    ransacker :vulners_bool do
-      field_transformation = <<~SQL
-        CASE
-        WHEN scan_results.vulners->0 IS NOT NULL
-        THEN 'true'
-        ELSE NULL
-        END
-      SQL
-      Arel.sql(field_transformation)
-    end
-
-    ransacker :vulners_jsonb do
-      Arel.sql("scan_results.vulners::varchar")
-    end
+#    ransacker :vulners_bool do
+#      field_transformation = <<~SQL
+#        CASE
+#        WHEN scan_results.vulners->0 IS NOT NULL
+#        THEN 'true'
+#        ELSE NULL
+#        END
+#      SQL
+#      Arel.sql(field_transformation)
+#    end
+#
+#    ransacker :vulners_jsonb do
+#      Arel.sql("scan_results.vulners::varchar")
+#    end
 
     ransacker :state_str do
       field_transformation = <<~SQL
