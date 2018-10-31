@@ -40,5 +40,7 @@
       = ScanResultDecorator.new(@record).show_vulns
       br
       = render 'cve', record: @record
+      br
+      = render 'vulners', record: @record
     - else
       = ''

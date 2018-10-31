@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181031074924) do
+ActiveRecord::Schema.define(version: 20181031115221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -312,10 +312,13 @@ ActiveRecord::Schema.define(version: 20181031074924) do
     t.string "source_ip"
     t.string "scan_engine"
     t.string "jid"
+    t.jsonb "vulners"
+    t.index ["jid"], name: "index_scan_results_on_jid"
     t.index ["port"], name: "index_scan_results_on_port"
     t.index ["product"], name: "index_scan_results_on_product"
     t.index ["scan_job_id"], name: "index_scan_results_on_scan_job_id"
     t.index ["service"], name: "index_scan_results_on_service"
+    t.index ["vulners"], name: "index_scan_results_on_vulners", using: :gin
   end
 
   create_table "schedules", force: :cascade do |t|
