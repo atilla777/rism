@@ -2,14 +2,11 @@
 
 class NmapVsShodanReport < BaseReport
     Result = Struct.new(
-#      'Result',
-#      :job_start,
-#      :finished,
       :organization_name,
       :ip,
       :port,
       :protocol,
-      :vulns,
+      :vulners,
       :service,
       :product_version,
       :product_extrainfo,
@@ -47,39 +44,30 @@ class NmapVsShodanReport < BaseReport
     records = records_request(scope, organization)
 
     header = [[
-#      'Дата проверки',
-#      'Дата сканирования',
       'Организация',
       'IP',
       'Порт',
       'Протокол',
       'Уязвимости',
-#      'Состояние',
-#      'Легальность',
       'Сервис',
       'ПО сервиса',
       'Дополнительно',
       'Сканер'
     ]]
 
-    records = records.each_with_object([]){ |rc, memo| memo << collapse_record(rc) }
-    # records = records.sort_by { |rc| rc.organization_name if rc.organization_name.to_s }
-
+    records = records.each_with_object([]) do |record, memo|
+      memo << collapse_record(record)
+    end
 
     table = records.each_with_object(header) do |record, memo|
       next if record.ip.blank?
       row = []
       record = ScanResultDecorator.new(record)
-#      row << "#{show_date_time(record.job_start)}"
-#      row << "#{show_date_time(record.finished)}"
       row << "#{record.organization_name}"
       row << "#{record.ip}"
       row << "#{record.port}"
       row << "#{record.protocol}"
-#      row << "#{record.vulns}" 
-      row << "#{record.show_vulns_names}" 
-#      row << "#{record.show_state}"
-#      row << "#{record.show_current_legality}"
+      row << "#{record.show_vulners_names}" 
       row << "#{record.service}"
       row << "#{record.product_version}"
       row << "#{record.product_extrainfo}"
@@ -113,7 +101,7 @@ class NmapVsShodanReport < BaseReport
       temp_record['ip'],
       temp_record['port'],
       temp_record['protocol'],
-      temp_record['vulns'].present? ? YAML::load(temp_record['vulns']) : {},
+      temp_record['vulners'].present? ? YAML::load(temp_record['vulners']) : [],
       temp_record['service'],
       temp_record['product_version'],
       temp_record['product_extrainfo'],

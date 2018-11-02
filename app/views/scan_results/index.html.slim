@@ -1,4 +1,4 @@
 = caption @records
-= index_search :vulns_str_or_job_start_str_or_finished_str_or_organization_name_or_scan_job_name_or_scan_engine_or_ip_str_or_port_str_or_protocol_or_service_or_product_or_state_str_or_legality_str_cont, organization_id_eq: @organization&.id
+= index_search :vulners_str_or_job_start_str_or_finished_str_or_organization_name_or_scan_job_name_or_scan_engine_or_ip_str_or_port_str_or_protocol_or_service_or_product_or_state_str_or_legality_str_cont, organization_id_eq: @organization&.id
 = render 'records', records: @records
 = render 'index_paginate', records: @records

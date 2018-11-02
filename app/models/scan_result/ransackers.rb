@@ -20,24 +20,37 @@ module ScanResult::Ransackers
       Arel.sql("scan_results.port::text")
     end
 
-    ransacker :vulns_str do
-      Arel.sql('scan_results.vulns')
+# TODO: delete after remove scan_results.vulns field
+#    ransacker :vulns_str do
+#      Arel.sql('scan_results.vulns')
+#    end
+
+    ransacker :vulners_bool do
+      field_transformation = <<~SQL
+        CASE
+        WHEN scan_results.vulners->0 IS NOT NULL
+        THEN 'true'
+        ELSE NULL
+        END
+      SQL
+      Arel.sql(field_transformation)
     end
 
-#    ransacker :vulners_bool do
-#      field_transformation = <<~SQL
-#        CASE
-#        WHEN scan_results.vulners->0 IS NOT NULL
-#        THEN 'true'
-#        ELSE NULL
-#        END
-#      SQL
-#      Arel.sql(field_transformation)
-#    end
-#
-#    ransacker :vulners_jsonb do
-#      Arel.sql("scan_results.vulners::varchar")
-#    end
+    ransacker :vulners_str do
+      field_transformation = <<~SQL
+      (
+        with vulns_table(arr) AS (
+          select jsonb_array_elements(scan_results.vulners)
+        )
+        select
+          string_agg(vulns_table.arr->>'cve', ' ')
+          ||
+          string_agg(vulns_table.arr->>'summary', ' ')
+        from vulns_table
+      )
+      SQL
+      Arel.sql(field_transformation)
+    end
 
     ransacker :state_str do
       field_transformation = <<~SQL

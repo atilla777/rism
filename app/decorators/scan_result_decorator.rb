@@ -48,15 +48,15 @@ class ScanResultDecorator < SimpleDelegator
     product_extrainfo || ''
   end
 
-  def show_vulns
-    return '' if vulns.empty?
+  def show_vulners
+    return '' if vulners.empty?
     "#{I18n.t('activerecord.attributes.host_service.vulnerable')}"
   end
 
-  def show_vulns_names
-    return '' if vulns.blank?
-    vulns.each_with_object([]) do |v, memo|
-      memo << v.first
+  def show_vulners_names
+    return '' if vulners.empty?
+    vulners.each_with_object([]) do |v, memo|
+      memo << v.fetch('cve')
     end.join(', ')
   end
 end

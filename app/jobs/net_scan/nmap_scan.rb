@@ -105,6 +105,7 @@ class NetScan::NmapScan
       product_version: port&.service&.version,
       product_extrainfo: port&.service&.extra_info,
       vulns: {},
+      vulners: [],
       jid: @jid
     }
   end
@@ -115,7 +116,6 @@ class NetScan::NmapScan
       start: host.start_time,
       finished: host.end_time,
       scan_job_id: @job.id,
-      # organization_id: job.organization_id,
       ip: host.ip,
       port: port,
       protocol: '',
@@ -126,6 +126,7 @@ class NetScan::NmapScan
       product_version: '',
       product_extrainfo: '',
       vulns: {},
+      vulners: [],
       jid: @jid
     }
   end

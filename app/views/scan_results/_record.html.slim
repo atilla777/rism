@@ -33,15 +33,12 @@
     = ScanResultDecorator.new(@record).show_product_version
   = r.show :product_extrainfo do
     = ScanResultDecorator.new(@record).show_product_extrainfo
-  = r.show :vulns do
-    - if record.vulns.present?
+  = r.show :vulners do
+    - if record.vulners.present?
       span.text-danger
         => fa_icon 'flash'
-      = ScanResultDecorator.new(@record).show_vulns
+      = ScanResultDecorator.new(@record).show_vulners
       br
-      = render 'cve', record: @record
-      //
-        br
-        = render 'vulners', record: @record
+      = render 'vulners', record: @record
     - else
       = ''

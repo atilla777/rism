@@ -154,12 +154,13 @@ class NetScan::ShodanScan
       product_version: '',
       product_extrainfo: '',
       vulns: {},
+      vulners: [],
       jid: @jid
     }
   end
 
   def vulners(service)
-    return {} unless service.fetch('vulns', false)
+    return [] unless service.fetch('vulns', false)
     service['vulns'].each_with_object([]) do |(k,v), memo|
       result = {}
       result[:cve] = k

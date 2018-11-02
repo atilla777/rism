@@ -5,7 +5,17 @@
   - t.header attribute: :scan_job_name, label: ScanJobLog.human_attribute_name(:scan_job_id), sort: :desc
   - t.header attribute: :queue, sort: :desc
   - t.header attribute: :jid, sort: :desc
-  - t.field { |record| link_to(record.show_state, record.scan_job) }
+  - t.field do |record|
+    = link_to record.scan_job do
+      - if record.finish.present?
+        span.text-success
+          => fa_icon 'search'
+        = record.show_state
+      - else
+        span.text-warning
+          => fa_icon 'search'
+        = record.show_state
+      end
   - t.field { |record| link_to(show_date_time(record.start), record.scan_job )}
   - t.field { |record| link_to(show_date_time(record.finish), record.scan_job )}
   - t.field { |record| link_to(record.scan_job.name, record.scan_job) }

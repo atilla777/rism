@@ -9,7 +9,7 @@ class VulnerablePortsByOrganization < BaseChart
       .joins('LEFT OUTER JOIN hosts ON hosts.ip = scan_results.ip')
       .joins('LEFT OUTER JOIN organizations ON organizations.id = hosts.organization_id')
       .where(state: :open)
-      .where('scan_results.vulns IS NOT NULL')
+      .where('scan_results.vulners->0 IS NOT NULL')
       .top('organizations.name', 10)
     [{name: 'Количество', data: result}]
   end

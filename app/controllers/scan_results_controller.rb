@@ -8,12 +8,9 @@ class ScanResultsController < ApplicationController
 
   def index
     authorize_model
-    if params[:q].present? && params[:q][:vulns_str_present] == '0'
-      params[:q][:vulns_str_present] = ''
+    if params[:q].present? && params[:q][:vulners_bool_present] == '0'
+      params[:q][:vulners_bool_present] = ''
     end
-#    if params[:q].present? && params[:q][:vulners_bool_present] == '0'
-#      params[:q][:vulners_bool_present] = ''
-#    end
     if @organization.id
       @records = records(filter_for_organization)
       render 'organization_index'

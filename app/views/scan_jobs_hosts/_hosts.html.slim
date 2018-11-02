@@ -6,7 +6,7 @@
       - @scan_jobs_hosts.each do |scan_jobs_host|
         tr
           td
-            = scan_jobs_host.host.show_full_name
+            = link_to scan_jobs_host.host.show_full_name, scan_jobs_host.host
           td.fit
             =< link_to scan_jobs_host, method: :delete, remote: true, data: { confirm: t('views.action.confirm') } do
                 span.text-danger

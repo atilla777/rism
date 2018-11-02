@@ -116,23 +116,11 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                 .col-lg-3.text-right
                   = f.label t('labels.scan_results.vulns_presence'), class: 'control-label'
                 .col-lg-1
-                   = f.check_box :vulns_str_present, class: 'big-checkbox'
+                   = f.check_box :vulners_bool_present, class: 'big-checkbox'
                 .col-lg-2.text-right
-                  = f.label :vulns, class: 'control-label'
+                  = f.label :vulners, class: 'control-label'
                 .col-lg-5
-                  = f.text_field :vulns_str_cont, class: 'form-control'
-
-            //
-              .form-group
-                .field
-                  .col-lg-3.text-right
-                    = f.label t('labels.scan_results.vulns_presence'), class: 'control-label'
-                  .col-lg-1
-                     = f.check_box :vulners_bool_present, class: 'big-checkbox'
-                  .col-lg-2.text-right
-                    = f.label :vulners, class: 'control-label'
-                  .col-lg-5
-                    = f.text_field :vulners_jsonb_cont, class: 'form-control'
+                  = f.text_field :vulners_str_cont, class: 'form-control'
 
             .form-group
               .field

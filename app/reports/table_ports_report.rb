@@ -58,7 +58,7 @@ class TablePortsReport < BaseReport
       row << "#{record.port}"
       row << "#{record.protocol}"
       row << "#{record.show_state}"
-      row << "#{record.show_vulns_names}"
+      row << "#{record.show_vulners_names}"
       row << "#{record.show_current_legality}"
       row << "#{record.service}"
       row << "#{record.product_version}"
@@ -80,8 +80,8 @@ class TablePortsReport < BaseReport
     ]]
 
     table = records.each_with_object(header) do |record, memo|
-      next if record.vulns.empty?
-      record.vulns.to_a.sort_by{ |v,c| c.fetch('cvss', '0').to_i }.reverse.each do |v, c|
+      next if record.vulners.empty?
+      record.vulners.sort_by{ |v| v.fetch('cvss', '0').to_i }.reverse.each do |v|
         row = []
         record = ScanResultDecorator.new(record)
         service = []
@@ -93,11 +93,11 @@ class TablePortsReport < BaseReport
         service << "#{show_date_time(record.job_start)}"
         service << "#{show_date_time(record.finished)}"
         row << service.join(', ')
-        row << v
-        row << c.fetch('cvss', '')
-        row << "#{c.fetch('summary', '')}\n"
+        row << v.fetch('cve', '')
+        row << v.fetch('cvss', '')
+        row << "#{v.fetch('summary', '')}\n"
         links = []
-        c['references'].each do |link|
+        v.fetch('references', []).each do |link|
           links << "#{link}"
         end
         row << links.join(', ')

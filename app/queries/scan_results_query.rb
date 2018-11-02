@@ -86,7 +86,7 @@ class ScanResultsQuery
         scan_results.port,
         scan_results.protocol,
         scan_results.state,
-        scan_results.vulns,
+        scan_results.vulners,
         organizations.name AS organization_name,
         scan_results.scan_engine AS engine
         FROM scan_results
@@ -121,7 +121,7 @@ class ScanResultsQuery
         scan_results.product,
         scan_results.product_version,
         scan_results.product_extrainfo,
-        scan_results.vulns,
+        scan_results.vulners,
         organizations.name AS organization_name,
         scan_results.scan_engine AS engine
         FROM scan_results
@@ -156,7 +156,7 @@ class ScanResultsQuery
       nmap_results.service AS service,
       nmap_results.product_version AS product_version,
       nmap_results.product_extrainfo AS product_extrainfo,
-      shodan_results.vulns AS vulns
+      shodan_results.vulners AS vulners
       FROM shodan_results
       FULL OUTER JOIN nmap_results
       ON shodan_results.ip = nmap_results.ip
