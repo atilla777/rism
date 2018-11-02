@@ -132,8 +132,7 @@ class NetScan::ShodanScan
       product: '',
       product_version: '',
       product_extrainfo: '',
-      vulns: service.fetch('vulns', {}),
-      vulners: vulners(service),
+      vulners: NetScan::FormatVulners.new(service, :shodan).format,
       jid: @jid
     }
   end
@@ -153,22 +152,8 @@ class NetScan::ShodanScan
       product: '',
       product_version: '',
       product_extrainfo: '',
-      vulns: {},
       vulners: [],
       jid: @jid
     }
-  end
-
-  def vulners(service)
-    return [] unless service.fetch('vulns', false)
-    service['vulns'].each_with_object([]) do |(k,v), memo|
-      result = {}
-      result[:cve] = k
-      result[:cvss] = v.fetch('cvss', 0)
-      result[:references] = v.fetch('references', [])
-      result[:verified] = v.fetch('verified', '')
-      result[:summary] = v.fetch('summary', '')
-      memo << result
-    end
   end
 end

@@ -78,8 +78,7 @@ class NetScan::NmapScan
 
   def save_to_database(result_attributes)
     scan_result = ScanResult.create(
-      result_attributes
-      .merge(current_user: User.find(1))
+      result_attributes.merge(current_user: User.find(1))
     )
     scan_result.save!
   rescue ActiveRecord::RecordInvalid
@@ -90,6 +89,11 @@ class NetScan::NmapScan
   end
 
   def scan_result_attributes(host, port, legality)
+    vulners = NetScan::VulnersService.new(
+      software: port&.service&.product,
+      version: port&.service&.version
+    ).run
+    vulners = NetScan::FormatVulners.new(vulners, :nmap).format
     {
       job_start: @job_start,
       start: host.start_time,
@@ -104,8 +108,7 @@ class NetScan::NmapScan
       product: port&.service&.product,
       product_version: port&.service&.version,
       product_extrainfo: port&.service&.extra_info,
-      vulns: {},
-      vulners: [],
+      vulners: vulners,
       jid: @jid
     }
   end
@@ -125,7 +128,6 @@ class NetScan::NmapScan
       product: '',
       product_version: '',
       product_extrainfo: '',
-      vulns: {},
       vulners: [],
       jid: @jid
     }
