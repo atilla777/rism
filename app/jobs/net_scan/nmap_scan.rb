@@ -89,11 +89,11 @@ class NetScan::NmapScan
   end
 
   def scan_result_attributes(host, port, legality)
-    vulners = NetScan::VulnersService.new(
+    vulners = NetScan::VuldbService.new(
       software: port&.service&.product,
       version: port&.service&.version
     ).run
-    vulners = NetScan::FormatVulners.new(vulners, :nmap).format
+    vulners = NetScan::FormatVulners.new(vulners, :vuldb).format
     {
       job_start: @job_start,
       start: host.start_time,

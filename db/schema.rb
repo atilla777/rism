@@ -311,7 +311,7 @@ ActiveRecord::Schema.define(version: 20181102094432) do
     t.string "source_ip"
     t.string "scan_engine"
     t.string "jid"
-    t.jsonb "vulners"
+    t.jsonb "vulners", default: [], null: false
     t.index ["jid"], name: "index_scan_results_on_jid"
     t.index ["port"], name: "index_scan_results_on_port"
     t.index ["product"], name: "index_scan_results_on_product"

@@ -23,7 +23,26 @@ class NetScan::FormatVulners
     end
   end
 
-  def nmap
+  # https://vuldb.com
+  def vuldb
+    return [] unless @vulners.fetch('result', false)
+    @vulners['result'].each_with_object([]) do |result, memo|
+      response = {}
+      cve = result.fetch('source', {}).fetch('cve', {})
+      response[:cve] = cve.fetch('id', '')
+      response[:cvss] = result.fetch('vulnerability', {}).fetch('cvss3', {}).fetch('basescore', 0)
+      response[:references] = result.fetch('references', [])
+      response[:verified] = result.fetch('verified', '')
+      summary = []
+      summary << result.fetch('entry', {}).fetch('title', '')
+      summary << result.fetch('entry', {}).fetch('summary', '')
+      response[:summary] = summary.reject(&:empty?).join('. ')
+      memo << response
+    end
+  end
+
+  # https://vulners.com
+  def vulners
     return [] if @vulners.empty?
     return [] unless @vulners&.first.fetch('data', false)
     @vulners.fetch('data', {}).fetch.('search', []).each_with_object([]) do |vuln, memo|
