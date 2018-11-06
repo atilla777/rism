@@ -13,8 +13,6 @@ class NetScan::VuldbService
   def run
     check_arguments
     response = request
-    # TODO remove after debug
-    puts response
     check_service_error(response)
     check_and_return_response(response)
   rescue StandardError => error
@@ -24,8 +22,8 @@ class NetScan::VuldbService
   private
 
   def check_arguments
-    return raise ArgumentError, 'Softare name should be present' if @software.nil?
-    return raise ArgumentError, 'Version should be present' if @version.nil?
+    raise ArgumentError, 'Software name should be present' if @software.nil?
+    raise ArgumentError, 'Version should be present' if @version.nil?
   end
 
   def request
@@ -38,8 +36,13 @@ class NetScan::VuldbService
   end
 
   def check_service_error(response)
-    return false if response.code == 200 || response.code == 204
-    raise 'External IP service response error' if service_error?(response)
+    not_error = response.code == 200 || response.code == 204
+    return true unless not_error
+    parsed_response = JSON.parse(response.body)
+    error = parsed_response.fetch('response', {}).fetch('error', '')
+    status = parsed_response.fetch('response', {}).fetch('status', 0)
+    return false if error.blank? || status.to_i == 204
+    raise StandardError, "External IP service response error - #{error}"
   end
 
   def check_and_return_response(response)

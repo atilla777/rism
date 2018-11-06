@@ -94,7 +94,8 @@ class TablePortsReport < BaseReport
         service << "#{show_date_time(record.finished)}"
         row << service.join(', ')
         row << v.fetch('cve', '')
-        row << v.fetch('cvss', '')
+        cvss = v.fetch('cvss', 0)
+        row << (cvss.to_f == 0 ? '' : cvss)
         row << "#{v.fetch('summary', '')}\n"
         links = []
         v.fetch('references', []).each do |link|

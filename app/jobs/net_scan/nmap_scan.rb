@@ -89,11 +89,7 @@ class NetScan::NmapScan
   end
 
   def scan_result_attributes(host, port, legality)
-    vulners = NetScan::VuldbService.new(
-      software: port&.service&.product,
-      version: port&.service&.version
-    ).run
-    vulners = NetScan::FormatVulners.new(vulners, :vuldb).format
+    vulners = check_vulners(port)
     {
       job_start: @job_start,
       start: host.start_time,
@@ -144,5 +140,15 @@ class NetScan::NmapScan
     result_file = "#{@job.id}_#{@job_start.strftime('%Y.%m.%d-%H.%M.%S')}_nmap.xml"
     # full path to XML file
     "#{result_folder}/#{result_file}"
+  end
+
+  def check_vulners(port)
+    params_valid = port&.service&.product.blank? || port&.service&.version.blank?
+    return [] if params_valid
+    vulners = NetScan::VuldbService.new(
+      software: port&.service&.product,
+      version: port&.service&.version
+    ).run
+    NetScan::FormatVulners.new(vulners, :vuldb).format
   end
 end
