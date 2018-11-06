@@ -107,6 +107,7 @@ ru:
     catalog: 'Прочее'
     reports:
       download: 'Скачать справку'
+      download_filtred: 'Скачать результаты поиска по полям'
     dashboards: 'Главная панель'
     charts: 'Графики'
     advanced_search: 'Поиск по полям'

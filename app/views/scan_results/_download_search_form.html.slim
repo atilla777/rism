@@ -1,4 +1,4 @@
-= search_form_for @q, url: filtred_reports_path({name: :filtred_table_ports}), html: { class: 'form-vertical', method: :post } do |f|
+= search_form_for @q, url: filtred_reports_path({name: :filtred_table_ports}), html: { method: :post } do |f|
   = f.hidden_field :organization_id_eq, value: @organization&.id
   = f.hidden_field :id_eq
   = f.hidden_field :jid_eq
@@ -23,4 +23,6 @@
   = f.hidden_field :start_end_of_day_lteq
   = f.hidden_field :finished_gteq
   = f.hidden_field :finished_end_of_day_lteq
-  =< f.submit t('views.action.find'), class: 'btn btn-link'
+  = button_tag(type: 'submit', class: 'btn btn-link') do
+    = fa_icon 'save'
+    =< t('navigations.reports.download_filtred') do

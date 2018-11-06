@@ -134,6 +134,6 @@ class FiltredTablePortsReport < BaseReport
     q = scope.ransack(options[:q])
     q.result
       .includes(:organization)
-      .limit(1000)
+      .limit(500)
   end
 end
