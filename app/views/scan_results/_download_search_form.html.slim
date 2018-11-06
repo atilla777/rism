@@ -4,21 +4,25 @@
   = f.hidden_field :jid_eq
   = f.hidden_field :organization_name_cont
   = f.hidden_field :scan_job_name_cont
-  = f.hidden_field :scan_engine_in
+  - params.fetch(:q, {}).fetch(:scan_engine_in, []).each do |p|
+    = f.hidden_field :scan_engine_in, multiple: true, value: p
   = f.hidden_field :source_ip_eq
   = f.hidden_field :ip_eq
   = f.hidden_field :port_eq
-  = f.hidden_field :protocol_in
-  = f.hidden_field :state_in
+  - params.fetch(:q, {}).fetch(:protocol_in, []).each do |p|
+    = f.hidden_field :protocol_in, multiple: true, value: p
+  - params.fetch(:q, {}).fetch(:state_in, []).each do |p|
+    = f.hidden_field :state_in, multiple: true, value: p
   = f.hidden_field :service_cont
   = f.hidden_field :product_cont
   = f.hidden_field :product_version_cont
   = f.hidden_field :product_extrainfo_cont
-  = f.hidden_field :legality_in
+  - params.fetch(:q, {}).fetch(:legality_in, []).each do |p|
+      = f.hidden_field :legality_in, multiple: true, value: p
   = f.hidden_field :vulners_bool_present
   = f.hidden_field :vulners_str_cont
   = f.hidden_field :job_start_gteq
-  = f.hidden_field :job_start_gteq
+  = f.hidden_field :job_start_end_of_day_lteq
   = f.hidden_field :start_gteq
   = f.hidden_field :start_end_of_day_lteq
   = f.hidden_field :finished_gteq
