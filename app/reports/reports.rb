@@ -32,4 +32,5 @@ class Reports
   HostsReport.register
   ServicesReport.register
   NmapVsShodanReport.register
+  FiltredTablePortsReport.register
 end

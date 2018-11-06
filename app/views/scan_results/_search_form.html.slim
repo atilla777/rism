@@ -1,7 +1,8 @@
 button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_search_modal'
   =< t('navigations.advanced_search')
 .modal.fade#advanced_search_modal tabindex='-1' role='dialog'
-   = search_form_for @q, url: search_scan_results_path, html: { class: 'form-horizontal', method: :post } do |f|
+  = search_form_for @q, url: search_scan_results_path, html: { class: 'form-horizontal', method: :post } do |f|
+    = f.hidden_field :organization_id_eq, value: @organization&.id
     .modal-dialog.modal-lg role='document'
       .modal-content
         .modal-header
@@ -149,7 +150,6 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                    = f.date_field :finished_gteq, class: 'form-control', datepicker: true
                  .col-lg-3
                    = f.date_field :finished_end_of_day_lteq, class: 'form-control', datepicker: true
-
 
         .modal-footer
           button.btn.btn-default type='button' data-dismiss='modal'

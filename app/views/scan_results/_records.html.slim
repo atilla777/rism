@@ -1,6 +1,7 @@
 = command_button_for records, organization_id: @organization.id
 = report_button_for records, organization_id: @organization.id
 = render 'search_form' if ['index', 'search'].include?(params[:action])
+= render 'download_search_form' if ['index', 'search'].include?(params[:action])
 = index_for records, decorator: ScanResultDecorator, actions: false do |t|
   - t.header attribute: :job_start, sort_by: :start, sort: :desc
   - t.header attribute: :finished, sort_by: :finished, sort: :desc
