@@ -85,7 +85,7 @@ ru:
       vulnerable: 'Уязвим'
     current_legality: 'Легальность'
     schedules:
-      current_schedule: 'Текущее рассписание'
+      current_schedule: 'Текущее расписание'
     scan_results:
       vulns_presence: 'Наличие уязвимостей'
     scan_jobs:

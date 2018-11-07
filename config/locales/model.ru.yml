@@ -74,11 +74,11 @@ ru:
         one: 'Сетевой сервис'
         other: 'Сетевые сервисы'
       schedule:
-        one: 'Рассписание сканирования'
-        other: 'Рассписания сканирования'
+        one: 'Расписание сканирования'
+        other: 'Расписания сканирования'
       scan_job_log:
-        one: 'История работы по санированию'
-        other: 'История работ по санированию'
+        one: 'История работы по сканированию'
+        other: 'История работ по сканированию'
     attributes:
       organization:
         name: 'Имя'
@@ -157,7 +157,7 @@ ru:
         id: 'Номер'
         name: 'Заголовок'
         organization_id: 'Организация (вл.)'
-        user_id: 'Пользотватель (вл.)'
+        user_id: 'Пользователь (вл.)'
         discovered_at: 'Обнаружен'
         discovered_time: 'Время обнаружения установлено'
         created_at: 'Зарегистрирован'
@@ -167,7 +167,7 @@ ru:
         finished_time: 'Время завершения установлено'
         closed_at: 'Закрыт'
         event_description: 'Описание события'
-        investigation_description: 'Результ расследования'
+        investigation_description: 'Результат расследования'
         action_description: 'Принятые меры'
         severity: 'Важность'
         damage: 'Ущерб'
@@ -215,7 +215,7 @@ ru:
         os_fingerprint: 'Определять ОС (-O)'
         service_scan: 'Определять сервис (-sV)'
         top_ports: 'Сканировать популярные порты (--top-ports)'
-        aggressive_timing: 'Агресивный тайминг (-T4)'
+        aggressive_timing: 'Агрессивный тайминг (-T4)'
         insane_timing: 'Безумный тайминг (-T5)'
         disable_dns: 'Не разрешать имя хоста (-n)'
       scan_job:
@@ -280,7 +280,7 @@ ru:
         week_days: 'Дни недели'
         months: 'Месяцы'
         month_days: 'Дни месяца'
-        crontab_line: 'Рассписание в формате crontab'
+        crontab_line: 'Расписание в формате crontab'
       scan_job_log:
         scan_job_id: 'Работа по сканированию'
         jid: 'ID фоновой работы'
