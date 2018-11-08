@@ -215,6 +215,7 @@ ru:
         os_fingerprint: 'Определять ОС (-O)'
         service_scan: 'Определять сервис (-sV)'
         top_ports: 'Сканировать популярные порты (--top-ports)'
+        ports: 'Список сканируемых портов (-p)'
         aggressive_timing: 'Агрессивный тайминг (-T4)'
         insane_timing: 'Безумный тайминг (-T5)'
         disable_dns: 'Не разрешать имя хоста (-n)'

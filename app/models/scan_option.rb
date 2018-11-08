@@ -14,7 +14,8 @@ class ScanOption < ApplicationRecord
                  :top_ports,
                  :aggressive_timing,
                  :insane_timing,
-                 :disable_dns
+                 :disable_dns,
+                 :ports
 
 
 # Used in ScanOptions to serilize options

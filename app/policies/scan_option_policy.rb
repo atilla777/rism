@@ -12,7 +12,8 @@ class ScanOptionPolicy < ApplicationPolicy
        top_ports
        aggressive_timing
        insane_timing
-       disable_dns]
+       disable_dns,
+       ports]
   end
 
   class Scope < Scope

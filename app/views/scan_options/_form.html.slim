@@ -51,6 +51,17 @@
             = f.label :service_scan, class: 'control-label'
           .col-lg-8
              => f.check_box :service_scan, class: 'big-checkbox'
+      //
+        .form-group
+          .field
+            .col-lg-2.text-right
+              = f.label :aggressive_timing, class: 'control-label'
+            .col-lg-2
+               => f.radio_button :aggressive_timing, checked: true
+               = label :aggressive_timing, 't'
+            .col-lg-2
+               => f.radio_button :insane_timing, checked: false
+               = label :insane_timing, 't'
 
       .form-group
         .field
@@ -77,7 +88,13 @@
         .col-lg-2.text-right
           = f.label :top_ports, class: 'control-label'
         .col-lg-8
-          = f.text_field :top_ports, placeholder: '1-65535', class: 'form-control'
+          = f.text_field :top_ports, placeholder: '1-8296', class: 'form-control'
+
+      .form-group
+        .col-lg-2.text-right
+          = f.label :ports, class: 'control-label'
+        .col-lg-8
+          = f.text_field :ports, placeholder: '21-22, 80, 443, 1-65535', class: 'form-control'
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8

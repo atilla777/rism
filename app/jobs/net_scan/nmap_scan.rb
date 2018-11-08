@@ -35,21 +35,34 @@ class NetScan::NmapScan
 
   def scan_options
     scan_options = @job.scan_option.options.select { |_key, value| value.to_i.nonzero? }
-    scan_options.update(scan_options) { |_key, value| value = true if value == '1' }
+    ports = if @job.ports.present?
+              normalize_ports(@job.ports)
+            elsif scan_options[:ports].present?
+              normalize_ports(scan_options[:ports])
+            end
+    top_ports = scan_options[:top_ports] if scan_options[:top_ports].present?
+    puts scan_options[:ports].to_s
+    scan_options.update(scan_options) do |key, value|
+      value = true if value == '1'
+    end
     scan_options[:xml] = @result_path
     scan_options[:targets] = @job.targets
-    if @job.ports.present?
-      scan_options[:ports] = @job.ports.split(',')
-      scan_options[:ports] = scan_options[:ports].map do |port|
-        if port.include?('-')
-          Range.new(*port.split('-').map(&:to_i))
-        else
-          port.to_i
-        end
+    scan_options[:verbose] = true
+    scan_options[:ports] = ports if ports.present?
+    if top_ports.present? && ports.blank?
+      scan_options[:top_ports] = top_ports.to_i
+    end
+    scan_options
+  end
+
+  def normalize_ports(ports)
+    ports.split(',').map do |port|
+      if port.include?('-')
+        Range.new(*port.split('-').map(&:to_i))
+      else
+        port.to_i
       end
     end
-    scan_options[:verbose] = true
-    scan_options
   end
 
   # parse result_file_name and save to database
