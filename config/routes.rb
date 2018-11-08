@@ -44,8 +44,8 @@ Rails.application.routes.draw do
   resources :link_kinds
   resources :links, only: %i[create destroy]
   resources :record_templates
-  get "/reports/:name", to: 'reports#show', as: :reports, format: 'docx'
-  post "/reports/:name", to: 'reports#show', as: :filtred_reports, format: 'docx'
+  get "/reports/:name", to: 'reports#show', as: :reports
+  post "/reports/:name", to: 'reports#show', as: :filtred_reports
   get "/commands/:name", to: 'commands#run', as: :commands
   #mount Blazer::Engine, at: "blazer"
   get "/dashboards/", to: 'dashboards#index', as: :dashboards

@@ -8,4 +8,9 @@
     ul.dropdown-menu
       - reports.each do |report|
         li
-          = link_to report.human_name, reports_path({name: report.report_name}.merge(options)), data: {turbolinks: false}, format: :docx
+          = report.human_name
+          - report.formats.each do |f|
+            =< link_to reports_path({name: report.report_name, format: f}.merge(options)), data: {turbolinks: false} do
+              span.text-info
+                = fa_icon 'save'
+                =< f

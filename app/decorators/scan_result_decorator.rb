@@ -57,6 +57,6 @@ class ScanResultDecorator < SimpleDelegator
     return '' if vulners.empty?
     vulners.each_with_object([]) do |v, memo|
       memo << v.fetch('cve')
-    end.join(', ')
+    end.join('; ')
   end
 end

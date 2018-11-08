@@ -28,7 +28,6 @@ class Reports
   TablePortsReport.register
   NmapTablePortsReport.register
   ShodanTablePortsReport.register
-  CSVPortsReport.register
   HostsReport.register
   ServicesReport.register
   NmapVsShodanReport.register

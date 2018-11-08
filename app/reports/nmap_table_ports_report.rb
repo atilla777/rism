@@ -6,6 +6,7 @@ class NmapTablePortsReport < TablePortsReport
   set_human_name 'Nmap открытые порты'
   set_report_model 'ScanResult'
   set_required_params %i[]
+  set_formats %i[docx csv]
 
   private
 

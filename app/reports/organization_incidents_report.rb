@@ -10,14 +10,14 @@ class OrganizationIncidentsReport < BaseReport
   set_human_name 'Инциденты организации'
   set_report_model 'Incident'
   set_required_params %i[organization_id]
+  set_formats %i[docx]
 
-  def report(r)
-    organization = OrganizationPolicy::Scope.new(current_user, Organization).resolve
-      .where(id: options[:organization_id]).first
+  def docx(blank_document)
+    r = blank_document
 
     # docx.h1 'Справка по инцидентам организации'
     # docx.hr
-    r.p  "Справка по инцидентам связанным с организацией #{organization.name}", style: 'Header'
+    r.p  "Справка по инцидентам связанным с организацией #{@organization.name}", style: 'Header'
     r.p  "(по состоянию на #{Date.current.strftime('%d.%m.%Y')})", style: 'Prim'
 #      docx.ul do
 #        li 'Custom page sizes and margins'
@@ -28,7 +28,7 @@ class OrganizationIncidentsReport < BaseReport
 #        li 'Tables'
 #        li 'Page numbers'
 #      end
-    organization.me_linked_incidents.each do |incident|
+    @organization.me_linked_incidents.each do |incident|
       r.p
       r.p "#{level}. Инцидент ID #{incident.id} (#{incident.name})", style: 'Header'
       r.p "#{sublevel} Основные параметры инцидента", style: 'Subheader'
@@ -84,4 +84,8 @@ class OrganizationIncidentsReport < BaseReport
 #        cell_style cells,      size: 18, margins: { top: 100, bottom: 0, left: 100, right: 100 }
 #      end
   end
+
+  private
+
+  def get_records(_options, _organization); end
 end

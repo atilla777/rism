@@ -3,10 +3,11 @@
 class ReportsController < ApplicationController
   def show
     authorize :reports
-    report = Reports.report_by_name(params[:name]).new(current_user, params)
+    report = Reports.report_by_name(params[:name])
+      .new(current_user, params[:format].to_sym, params)
     send_data(
-      report.file_content,
-      type: :docx,
+      report.rendered_file,
+      type: params[:format].to_sym,
       disposition: 'attachment',
       filename: report.file_name
     )
