@@ -15,7 +15,7 @@ class CsvReportFile < ReportFile
   end
 
   def blank_document
-    CSV.new('', col_sep: ';')
+    CSV.new('', col_sep: ';') # , encoding: 'UTF8:Windows-1251'
   end
 
   # Top level document sections numeration counter and marker
