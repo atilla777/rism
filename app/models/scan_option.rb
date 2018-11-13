@@ -2,7 +2,7 @@ class ScanOption < ApplicationRecord
   validates :name, length: { minimum: 3, maximum: 100 }
   validates :name, uniqueness: true
 
-  has_many :scan_jobs
+  has_many :scan_jobs, dependent: :restrict_with_error
 
   serialize :options, Hash#, HashSerializer
   store_accessor :options,
