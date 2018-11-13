@@ -26,6 +26,8 @@ module Right::SubjectTypes
     'ScanJob' => I18n.t('activerecord.models.scan_job.one'),
     'ScanResult' => I18n.t('activerecord.models.scan_result.one'),
     'HostService' => I18n.t('activerecord.models.host_service.one'),
-    'Schedule' => I18n.t('activerecord.models.schedule.one')
+    'Schedule' => I18n.t('activerecord.models.schedule.one'),
+    'ScanJobLog' => I18n.t('activerecord.models.scan_job_log.one'),
+    'ScanJobsHost' => I18n.t('activerecord.models.scan_jobs_host.one')
   }.freeze
 end

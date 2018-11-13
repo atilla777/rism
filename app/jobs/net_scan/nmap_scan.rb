@@ -41,7 +41,6 @@ class NetScan::NmapScan
               normalize_ports(scan_options[:ports])
             end
     top_ports = scan_options[:top_ports] if scan_options[:top_ports].present?
-    puts scan_options[:ports].to_s
     scan_options.update(scan_options) do |key, value|
       value = true if value == '1'
     end

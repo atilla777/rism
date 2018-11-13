@@ -79,6 +79,9 @@ ru:
       scan_job_log:
         one: 'История работы по сканированию'
         other: 'История работ по сканированию'
+      scan_jobs_host:
+        one: 'Хост/сеть'
+        other: 'Хосты/сети'
     attributes:
       organization:
         name: 'Имя'
