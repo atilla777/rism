@@ -4,7 +4,7 @@ This application can help you to manage information  related to information secu
 
 At now project is not finished yet (but already can be used - if your know what do you do).
 
-[How to install (draft)](deploy.md)
+[Documentation including how to install (draft, russian)](https://atilla777.github.io/kbook/rism/)
 
 What already released:
 * Organizations management
