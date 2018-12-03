@@ -94,6 +94,7 @@ ru:
       status: 'Состояние'
       started: 'Запущена'
       finished: 'Завершена'
+      lost: 'Не выполнена'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'

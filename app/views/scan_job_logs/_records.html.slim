@@ -11,8 +11,12 @@
         span.text-success
           => fa_icon 'search'
         = record.show_state
-      - else
+      - elsif record.working?
         span.text-warning
+          => fa_icon 'search'
+        = record.show_state
+      - else
+        span.text-danger
           => fa_icon 'search'
         = record.show_state
       end
