@@ -98,6 +98,7 @@ ru:
       worker_work: 'Работает'
       worker_lost: 'Отсутствует'
       worker_was: 'Отработал'
+      distance: 'Длительность мин.'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'

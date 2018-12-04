@@ -22,5 +22,16 @@ module ScanJobLog::Ransackers
       SQL
       Arel.sql(field_transformation)
     end
+
+    ransacker :distance do
+      field_transformation = <<~SQL
+        CASE
+        WHEN scan_job_logs.finish IS NOT NULL
+        THEN finish - start
+        ELSE NOW() - start
+        END
+      SQL
+      Arel.sql(field_transformation)
+    end
   end
 end

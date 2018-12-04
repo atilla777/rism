@@ -22,4 +22,13 @@ class ScanJobLogDecorator < SimpleDelegator
       "#{I18n.t('labels.scan_job_logs.worker_lost')}"
     end
   end
+
+  def show_distance
+    finish_time = if finish.present?
+                    finish
+                  else
+                    Time.now
+                  end
+    ((finish_time - start).round)/60
+  end
 end

@@ -29,4 +29,5 @@ class Charts
   IllegalPortsByOrganizations.register
   VulnerablePortsByOrganization.register
   ScanByDays.register
+  LongestScanJobsChart.register
 end
