@@ -8,4 +8,8 @@ class ScanJobLog < ApplicationRecord
   validates :queue, presence: true
 
   belongs_to :scan_job
+
+  def working?
+    Sidekiq::Workers.new.any?{|_,_, work| work['payload']['jid'] == jid}
+  end
 end

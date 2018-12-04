@@ -1,4 +1,7 @@
 class ScanJobLogPolicy < ApplicationPolicy
+  def run?
+    create?
+  end
 
   class Scope
     attr_reader :user, :scope

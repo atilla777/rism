@@ -94,7 +94,10 @@ ru:
       status: 'Состояние'
       started: 'Запущена'
       finished: 'Завершена'
-      lost: 'Не выполнена'
+      worker: 'Фоновый процесс'
+      worker_work: 'Работает'
+      worker_lost: 'Отсутствует'
+      worker_was: 'Отработал'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'

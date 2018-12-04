@@ -287,10 +287,10 @@ ru:
         crontab_line: 'Расписание в формате crontab'
       scan_job_log:
         scan_job_id: 'Работа по сканированию'
-        jid: 'ID фоновой работы'
+        jid: 'ID фонового процесса'
         start: 'Начало'
         finish: 'Окончание'
-        queue: 'Очередь фоновой работы'
+        queue: 'Очередь фонового порцесса'
     errors:
       messages:
           organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'

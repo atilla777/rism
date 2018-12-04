@@ -1,5 +1,7 @@
+= command_button_for records, job: @job
 = index_for records, decorator: ScanJobLogDecorator, actions: false do |t|
   - t.header attribute: :status, label: t('labels.scan_job_logs.status'), sort: :desc, sort_by: :status
+  - t.header attribute: :worker_state, label: t('labels.scan_job_logs.worker')
   - t.header attribute: :start, sort: :desc
   - t.header attribute: :finish, sort: :desc
   - t.header attribute: :scan_job_name, label: ScanJobLog.human_attribute_name(:scan_job_id), sort: :desc
@@ -20,6 +22,20 @@
           => fa_icon 'search'
         = record.show_state
       end
+  - t.field do |record|
+    = link_to record.scan_job do
+      - if record.finish.present?
+        span.text-primary
+          => fa_icon 'gear'
+        = record.show_worker_state
+      - elsif record.working?
+        span.text-success
+          => fa_icon 'gear'
+        = record.show_worker_state
+      - else
+        span.text-danger
+          => fa_icon 'gear'
+        = record.show_worker_state
   - t.field { |record| link_to(show_date_time(record.start), record.scan_job )}
   - t.field { |record| link_to(show_date_time(record.finish), record.scan_job )}
   - t.field { |record| link_to(record.scan_job.name, record.scan_job) }

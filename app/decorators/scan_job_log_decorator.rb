@@ -10,21 +10,16 @@ class ScanJobLogDecorator < SimpleDelegator
     if finish.present?
       "#{I18n.t('labels.scan_job_logs.finished')}"
     else
-      current_state
+      "#{I18n.t('labels.scan_job_logs.started')}"
     end
   end
 
-  def working?
-    Sidekiq::Workers.new.find {|_,_, work| work['payload']['jid'] == jid}
-  end
-
-  private
-
-  def current_state
+  def show_worker_state
+    return "#{I18n.t('labels.scan_job_logs.worker_was')}" if finish.present?
     if working?
-      "#{I18n.t('labels.scan_job_logs.started')}"
+      "#{I18n.t('labels.scan_job_logs.worker_work')}"
     else
-      "#{I18n.t('labels.scan_job_logs.lost')}"
+      "#{I18n.t('labels.scan_job_logs.worker_lost')}"
     end
   end
 end
