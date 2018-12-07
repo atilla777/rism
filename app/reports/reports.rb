@@ -32,4 +32,5 @@ class Reports
   ServicesReport.register
   NmapVsShodanReport.register
   FiltredTablePortsReport.register
+  LostServicesReport.register
 end

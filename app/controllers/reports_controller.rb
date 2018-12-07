@@ -5,8 +5,13 @@ class ReportsController < ApplicationController
     authorize :reports
     report = Reports.report_by_name(params[:name])
       .new(current_user, params[:format].to_sym, params)
+    file = if params[:format] == 'csv'
+      report.rendered_file.encode('Windows-1251')
+    else
+      report.rendered_file
+    end
     send_data(
-      report.rendered_file.encode('Windows-1251'),
+      file,
       type: params[:format].to_sym,
       disposition: 'attachment',
       filename: report.file_name

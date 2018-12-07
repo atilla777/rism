@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class ServicesReport < BaseReport
+class LostServicesReport < BaseReport
   include DateTimeHelper
 
   set_lang :ru
-  set_report_name :services
-  set_human_name 'Сервисы'
+  set_report_name :lost_services
+  set_human_name 'Сервисы по которым нет результатов сканирования'
   set_report_model 'HostService'
   set_required_params %i[]
   set_formats %i[docx csv]
@@ -18,9 +18,9 @@ class ServicesReport < BaseReport
       orientation :landscape  # sets the printer orientation. accepts :portrait and :landscape.
     end
     if @organization.present?
-      r.p  "Справка по сетевым сервисам организации #{@organization.name}", style: 'Header'
+      r.p  "Справка по сетевым сервисам организации #{@organization.name} по которым нет результатов сканирования", style: 'Header'
     else
-      r.p  "Справка по сетевым сервисам организаций", style: 'Header'
+      r.p  "Справка по сетевым сервисам организаций по которым нет результатов сканирования", style: 'Header'
     end
     r.p  "(по состоянию на #{Date.current.strftime('%d.%m.%Y')})", style: 'Prim'
 
@@ -95,9 +95,10 @@ class ServicesReport < BaseReport
       scope = scope.where(organization_id: organization.id)
     end
     scope = scope.select('host_services.*')
-         .select('scan_results.state')
-         .joins(join_host)
-         .joins(join_scan_result)
+                 .select('scan_results.state')
+      .where('scan_results.state < 5 OR scan_results.state IS NULL')
+                 .joins(join_host)
+                 .joins(join_scan_result)
     result = Pundit.policy_scope(current_user, scope)
                    .joins(:organization)
                    .order('organizations.name')
