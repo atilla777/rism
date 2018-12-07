@@ -20,11 +20,6 @@ module ScanResult::Ransackers
       Arel.sql("scan_results.port::text")
     end
 
-# TODO: delete after remove scan_results.vulns field
-#    ransacker :vulns_str do
-#      Arel.sql('scan_results.vulns')
-#    end
-
     ransacker :vulners_bool do
       field_transformation = <<~SQL
         CASE

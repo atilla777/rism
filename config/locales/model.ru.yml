@@ -265,7 +265,7 @@ ru:
       host_service:
         name: 'Название'
         organization_id: 'Организация'
-        host_id: 'Хост'
+        ip_str: 'Хост'
         vulnerable: 'Уязвим'
         vuln_description: 'Описание уязвимости'
         legality: 'Легальность'
@@ -277,6 +277,14 @@ ru:
         port: 'Порт'
         protocol: 'Протокол'
         description: 'Описание'
+        state_str: 'Текущее состояние'
+        states:
+          0: 'Закрыт'
+          1: 'Закрыт|Фильтруется'
+          2: 'Фильтруется'
+          3: 'Не фильтруется'
+          4: 'Открыт Фильтруется'
+          5: 'Открыт'
       schedule:
         job: 'Работа'
         minutes: 'Минуты'
