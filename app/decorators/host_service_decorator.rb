@@ -13,8 +13,11 @@ class HostServiceDecorator < SimpleDelegator
   end
 
   def show_state
-    return '' if state.blank?
-    ScanResult.human_attribute_states[state]
+    if state.blank?
+      return I18n.t('activerecord.attributes.host_service.unknown_state')
+    else
+      ScanResult.human_attribute_states[state]
+    end
   end
 
   def show_state2
