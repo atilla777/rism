@@ -54,6 +54,7 @@ module HostService::Ransackers
         THEN '#{ScanResult.human_attribute_states[4]}'
         WHEN 5
         THEN '#{ScanResult.human_attribute_states[5]}'
+        ELSE '#{HostService.human_attribute_name(:unknown_state)}'
         END
       SQL
       Arel.sql(field_transformation)
