@@ -1,7 +1,8 @@
 = show_for @record do |r|
   = r.show :scan_job_id do
     = "#{@record.scan_job.name} (#{@record.scan_job.scan_engine})"
-  = r.show :jid
+  = r.show :jid do
+    = link_to(@record.jid, search_scan_results_path(:'q[scan_job_name_cont]' => @record.scan_job.name, :'q[jid_eq]' => @record.jid), method: :post)
   = r.show :finished do
     = show_date_time(record.finished)
   = r.show :job_start do

@@ -17,7 +17,11 @@
   - t.field { |record| link_to(record.port, record) }
   - t.field { |record| link_to(record.protocol, record) }
   - t.field { |record| link_to(record.name, record) }
-  - t.field { |record| link_to(record.show_state, scan_result_path(record.id)) }
+  - t.field do |record|
+    - if record.state.present?
+      = link_to(record.show_state, scan_result_path(record.scan_result_id))
+    - else
+      = record.show_state
   - t.field do |record|
     - if record.vulnerable == true
       span.text-danger

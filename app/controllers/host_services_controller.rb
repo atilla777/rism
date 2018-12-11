@@ -42,7 +42,8 @@ class HostServicesController < ApplicationController
   def records(scope)
     scope = scope
       .select('host_services.*')
-      .select('scan_results.id, scan_results.state')
+      .select('scan_results.state')
+      .select('scan_results.id AS scan_result_id')
       .joins(join_host)
       .joins(join_scan_result)
     scope = policy_scope(scope)
