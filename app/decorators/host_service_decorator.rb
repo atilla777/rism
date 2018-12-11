@@ -19,16 +19,4 @@ class HostServiceDecorator < SimpleDelegator
       ScanResult.human_attribute_states[state]
     end
   end
-
-  def show_state2
-    scope = ScanResult.where(ip: host.ip, port: port, protocol: protocol)
-    result = ScanResultsQuery.new(scope)
-                    .last_results
-                    .first
-    if result.present? 
-      ScanResult.human_enum_name(:states, result.state)
-    else
-      ''
-    end
-  end
 end
