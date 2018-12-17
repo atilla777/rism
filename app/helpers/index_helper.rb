@@ -71,6 +71,8 @@ module IndexHelper
     # can be any field in attribute of ActiveRelation record,
     # fields of associated model id also supported
     # (this function is delivered by ransack)
+    # * +:sort_array+   - used to sort by several fields,
+    # array formt is in ransack documentation
     # * +:fit+       - column fit ( true or false, default is false)
     # ==== Examples
     #  = index_for @users do |table|
@@ -78,6 +80,7 @@ module IndexHelper
     #    - table.header attribute: :name / not sortable column with user names
     #    - table.header attribute: :phone, sort: :desc / sortable column with users phones
     #    - table.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+    #    - table.header attribute: :start, sort_by: :start, sort_array: [:start, 'finish desc']
     #    / sortable column with associated table (organizations) column
     def header(options = {})
       if options[:attribute]
@@ -88,7 +91,7 @@ module IndexHelper
       else
         options[:label] ||= ''
       end
-      @headers << options.slice(:attribute, :label, :sort_by, :sort, :fit)
+      @headers << options.slice(:attribute, :label, :sort_by, :sort, :sort_array, :fit)
     end
 
     # Add custom top row to the table

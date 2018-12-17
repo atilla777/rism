@@ -4,9 +4,14 @@ table.table.table-hover.table-bordered.table-striped
       - headers.each do |header|
         th
           - if header[:sort]
-            = sort_link @q, header[:sort_by], default_order: header[:sort] do
-              span.text-info
-                = header[:label]
+            - if header[:sort_array]
+              = sort_link @q, header[:sort_by], header[:sort_array], default_order: header[:sort] do
+                span.text-info
+                  = header[:label]
+            - else
+              = sort_link @q, header[:sort_by], default_order: header[:sort] do
+                span.text-info
+                  = header[:label]
           - else
             span.text-info
               = header[:label]
