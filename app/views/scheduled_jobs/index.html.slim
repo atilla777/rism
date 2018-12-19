@@ -1,7 +1,7 @@
 h3.caption.text-info
   = t('navigations.scheduled_jobs')
 
-- @records.each_with_index do |queue, index|
+- @records.each do |queue|
   table.table.table-hover.table-bordered.table-striped
     h4
       = t('navigations.queue_jobs')
@@ -26,7 +26,7 @@ h3.caption.text-info
                 span.text-info
                   =< t('views.action.delete_all')
     tbody
-      - queue.each do |job|
+      - queue.each_with_index do |job, index|
         - scan_job = ScanJob.find(job.args[0]['arguments'][0])
         tr
             td
