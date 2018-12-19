@@ -1,0 +1,45 @@
+h3.caption.text-info
+  = t('navigations.scheduled_jobs')
+
+- @records.each_with_index do |queue, index|
+  table.table.table-hover.table-bordered.table-striped
+    h4
+      = t('navigations.queue_jobs')
+      span.text-warning
+        =< queue.name
+      | :
+    thead.thead-dark
+      tr
+        th.text-info
+          | #
+        th.text-info
+          = t('navigations.queue_job_start')
+        th.text-info
+          = ScanJobLog.human_attribute_name(:scan_job_id)
+        th.text-info
+          = ScanJob.human_attribute_name(:organization_id)
+        th.text-info
+          = ScanJobLog.human_attribute_name(:jid)
+        th.fit
+          =< link_to destroy_scheduled_jobs_path(name: queue.name), data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
+                i.glyphicon.glyphicon-remove.text-danger
+                span.text-info
+                  =< t('views.action.delete_all')
+    tbody
+      - queue.each do |job|
+        - scan_job = ScanJob.find(job.args[0]['arguments'][0])
+        tr
+            td
+              = index + 1
+            td
+              = show_date_time(job.created_at.localtime)
+            td
+              = link_to scan_job.name, scan_job
+            td
+              = link_to scan_job.organization.name, scan_job.organization
+            td
+              = job.jid
+            td.fit
+              =< link_to destroy_scheduled_jobs_path(jid: job.jid), data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
+                  i.glyphicon.glyphicon-remove.text-danger
+                  =< t('views.action.delete')

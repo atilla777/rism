@@ -75,6 +75,8 @@ Rails.application.routes.draw do
   get '/schedule/', to: 'schedules#show', as: :schedule
   get '/schedules/', to: 'schedules#index', as: :schedules
   post '/schedule/', to: 'schedules#update', as: :update_schedule
+  get '/scheduled_jobs/', to: 'scheduled_jobs#index', as: :scheduled_jobs
+  delete '/scheduled_jobs/', to: 'scheduled_jobs#destroy', as: :destroy_scheduled_jobs
   resources :scan_jobs_hosts, only: [:index, :create, :destroy]
   resources :scan_job_logs, only: [:index]
   # resources :schedules, only: [:show]
