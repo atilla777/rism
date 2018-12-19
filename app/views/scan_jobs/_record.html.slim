@@ -3,7 +3,10 @@
   = r.show :organization_id
     = link_to @record.organization.name, @record.organization
 
-  = r.show t('labels.scan_jobs.working_count'), value: ScanJobDecorator.new(@record).show_working_count
+  = r.show t('labels.scan_jobs.working_count')
+    = link_to ScanJobDecorator.new(@record).show_working_count, scan_job_logs_path(job_id: record.id) 
+  = r.show t('labels.scan_jobs.planned_count') do
+    = link_to ScanJobDecorator.new(@record).show_planned_count, scheduled_jobs_path
   = r.show :scan_engine
   = r.show :scan_option_id do
     =link_to @record.scan_option.name, @record.scan_option

@@ -26,8 +26,8 @@ class SchedulePolicy < ApplicationPolicy
         scope.all
       else
         ids = user.allowed_organizations_ids
-        scope.joins(:job)
-             .where(job: {organization_id: ids})
+        scope.joins(:scan_job)
+             .where(scan_jobs: {organization_id: ids})
       end
     end
   end

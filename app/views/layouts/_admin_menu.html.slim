@@ -14,11 +14,6 @@ li
       = fa_icon 'history'
       =< t('labels.version.versions')
 li
-  = link_to scheduled_jobs_path do
-    .span.text-info
-      = fa_icon 'gear'
-      =< t('navigations.queue_jobs')
-li
   = link_to 'sidekiq' do
     .span.text-info
       = fa_icon 'gear'
