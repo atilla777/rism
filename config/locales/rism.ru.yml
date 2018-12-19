@@ -90,6 +90,7 @@ ru:
       vulns_presence: 'Наличие уязвимостей'
     scan_jobs:
       working_count: 'Начато работ'
+      planned_count: 'Запланировано работ'
     scan_job_logs:
       status: 'Состояние'
       started: 'Запущена'
@@ -160,7 +161,7 @@ ru:
       new: "Новая запись -"
       confirm: "Вы уверены?"
       show: "Показать"
-      edit: "Редактировать"
+      edit: "Реplannedдактировать"
       delete: "Удалить"
       delete_all: "Удалить всё"
       back: "Назад"

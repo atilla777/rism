@@ -11,4 +11,19 @@ class ScanJobDecorator < SimpleDelegator
     return '' if working.blank?
     working.count
   end
+
+  def show_planned_count
+    result = Sidekiq::Queue.all.sum(0) do |queue, memo|
+      queue.sum do |job_from_queue|
+        scan_job_id(job_from_queue) == id ? 1 : 0
+      end
+    end
+    result == 0 ? '' : result
+  end
+
+  private
+
+  def scan_job_id(job_from_queue)
+    job_from_queue.args[0]['arguments'][0]
+  end
 end
