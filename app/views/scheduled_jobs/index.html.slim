@@ -1,12 +1,17 @@
 h3.caption.text-info
   = t('navigations.scheduled_jobs')
 
-- @records.each do |queue|
+-if flash.present?
+  h3.caption#message
+    - flash.each do |key, value|
+      =< content_tag :span, value, class: "text-#{key}"
+
+- @records.each do |queue, jobs|
   table.table.table-hover.table-bordered.table-striped
     h4
       = t('navigations.queue_jobs')
       span.text-warning
-        =< queue.name
+        =< queue
       | :
     thead.thead-dark
       tr
@@ -21,12 +26,12 @@ h3.caption.text-info
         th.text-info
           = ScanJobLog.human_attribute_name(:jid)
         th.fit
-          =< link_to destroy_scheduled_jobs_path(name: queue.name), data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
+          =< link_to destroy_scheduled_jobs_path(name: queue), data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
                 i.glyphicon.glyphicon-remove.text-danger
                 span.text-info
                   =< t('views.action.delete_all')
     tbody
-      - queue.each_with_index do |job, index|
+      - jobs.each_with_index do |job, index|
         - scan_job = ScanJob.find(job.args[0]['arguments'][0])
         tr
             td

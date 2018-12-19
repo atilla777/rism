@@ -13,6 +13,7 @@ class Schedule < ApplicationRecord
   validate :check_month_days
 
   belongs_to :job, polymorphic: true
+  belongs_to :scan_job, class_name: 'ScanJob', foreign_key: :job_id
 
   delegate :organization, to: :job, allow_nil: true, prefix: true
 
