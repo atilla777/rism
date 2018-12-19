@@ -25,7 +25,6 @@ class DestroyLostScanJobsLogsCommand < BaseCommand
     if options[:job].present?
       scope = scope.where(scan_job_id: options[:job])
     end
-    scope = scope.joins(:scan_job).where(scan_jobs: {scan_engine: 'nmap'})
     Pundit.policy_scope(current_user, scope).all
   end
 end

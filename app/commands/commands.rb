@@ -31,5 +31,6 @@ class Commands
   RestorySchedulesCommand.register
   DestroySchedulesCommand.register
   LinkScanJobHostsCommand.register
+  DestroyScanJobsLogsCommand.register
   DestroyLostScanJobsLogsCommand.register
 end
