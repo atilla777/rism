@@ -5,12 +5,14 @@
         = fa_icon 'save'
       =<> t('navigations.reports.download')
       span.caret
-    ul.dropdown-menu
+    ul.dropdown-menu.dropdown-menu-right
       - reports.each do |report|
         li
           = report.human_name
+          | :
           - report.formats.each do |f|
             =< link_to reports_path({name: report.report_name, format: f}.merge(options)), data: {turbolinks: false} do
               span.text-info
                 = fa_icon 'save'
+              span.text-warning
                 =< f
