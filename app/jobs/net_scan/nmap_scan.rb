@@ -12,7 +12,7 @@ class NetScan::NmapScan
     :'open|filtered' => 'open_filtered',
     :'open' => 'open'
   }.freeze
-  NMAP_RESULT_PATH = 'tmp'
+  #NMAP_RESULT_PATH = 'tmp'
 
   def initialize(job, jid)
     @job = job
@@ -147,7 +147,8 @@ class NetScan::NmapScan
 
   def set_result_path
     # path to XML file with nmap scan results
-    result_folder = NMAP_RESULT_PATH
+    result_folder = Rails.root.join('tmp', 'nmap')#NMAP_RESULT_PATH
+    FileUtils.mkdir_p(result_folder) unless File.directory?(result_folder)
     # XML file name
     result_file = "#{@job.id}_#{@job_start.strftime('%Y.%m.%d-%H.%M.%S')}_nmap.xml"
     # full path to XML file
