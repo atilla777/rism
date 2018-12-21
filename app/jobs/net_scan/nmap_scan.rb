@@ -150,7 +150,7 @@ class NetScan::NmapScan
     result_folder = Rails.root.join('tmp', 'nmap')#NMAP_RESULT_PATH
     FileUtils.mkdir_p(result_folder) unless File.directory?(result_folder)
     # XML file name
-    result_file = "#{@job.id}_#{@job_start.strftime('%Y.%m.%d-%H.%M.%S')}_nmap.xml"
+    result_file = "#{@job.id}_#{@job_start.strftime('%Y.%m.%d-%H.%M.%6N')}_nmap.xml"
     # full path to XML file
     "#{result_folder}/#{result_file}"
   end
