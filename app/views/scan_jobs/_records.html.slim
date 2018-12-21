@@ -6,15 +6,16 @@
   - t.header attribute: :scan_engine, sort_by: :scan_engine, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
   - t.header attribute: :scan_option_id, sort_by: :scan_option_name, sort: :desc
-  - t.header attribute: :scan_job_logs, label: t('labels.scan_jobs.working_count')
-  - t.header attribute: :scan_job_logs, label: t('labels.scan_jobs.planned_count')
+  - t.header attribute: :scan_job_logs, label: t('labels.scan_jobs.working_planned_count')
   - t.header fit: true
   - t.field { |record| link_to record.name, record }
   - t.field { |record| link_to record.scan_engine, record }
   - t.field { |record| link_to record.organization.name, record.organization }
   - t.field { |record| link_to record.scan_option.name, record.scan_option}
-  - t.field { |record| link_to record.show_working_count, scan_job_logs_path(job_id: record.id) }
-  - t.field { |record| link_to record.show_planned_count, scheduled_jobs_path }
+  - t.field do |record|
+    => link_to record.show_working_count, scan_job_logs_path(job_id: record.id)
+    = record.show_separator
+    =< link_to record.show_planned_count, scheduled_jobs_path
   - t.field do |record|
     => link_to run_scan_job_path(record), class: 'btn btn-link' do
       span.text-info

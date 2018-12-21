@@ -89,8 +89,7 @@ ru:
     scan_results:
       vulns_presence: 'Наличие уязвимостей'
     scan_jobs:
-      working_count: 'Начато работ'
-      planned_count: 'Запланировано работ'
+      working_planned_count: 'Начато / в очереди'
     scan_job_logs:
       status: 'Состояние'
       started: 'Запущена'

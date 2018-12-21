@@ -21,6 +21,10 @@ class ScanJobDecorator < SimpleDelegator
     result == 0 ? '' : result
   end
 
+  def show_separator
+    '/' if show_planned_count.present?
+  end
+
   private
 
   def scan_job_id(job_from_queue)
