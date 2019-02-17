@@ -1,5 +1,7 @@
 class ScanOption < ApplicationRecord
+  QUEUE_NUMBERS = 1..2
   validates :name, length: { minimum: 3, maximum: 100 }
+  validates :queue_number, length: { minimum: 1, maximum: 2 }
   validates :name, uniqueness: true
 
   has_many :scan_jobs, dependent: :restrict_with_error
@@ -17,7 +19,9 @@ class ScanOption < ApplicationRecord
                  :disable_dns,
                  :ports
 
-
+  def self.queue_numbers
+    QUEUE_NUMBERS
+  end
 # Used in ScanOptions to serilize options
 # (it makes allow acces to serialized field by symbol,
 # not only string key)

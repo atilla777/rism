@@ -37,7 +37,7 @@ class ScanJob < ApplicationRecord
     if scan_engine == 'shodan' && ENV['FREE_SHODAN'] == 'true'
       'free_shodan_scan'
     else
-      queue
+      "#{queue}_#{scan_option.queue_number}"
     end
   end
 

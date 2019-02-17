@@ -222,6 +222,7 @@ ru:
         aggressive_timing: 'Агрессивный тайминг (-T4)'
         insane_timing: 'Безумный тайминг (-T5)'
         disable_dns: 'Не разрешать имя хоста (-n)'
+        queue_number: 'Приоритет очереди'
       scan_job:
         name: 'Название'
         organization_id: 'Организация'

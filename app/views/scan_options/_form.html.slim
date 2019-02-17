@@ -96,6 +96,12 @@
         .col-lg-8
           = f.text_field :ports, placeholder: '21-22, 80, 443, 1-65535', class: 'form-control'
 
+      .form-group
+        .col-lg-2.text-right
+          = f.label :queue_number, class: 'control-label'
+        .col-lg-8
+          = f.select :queue_number, ScanOption.queue_numbers, { }, { class: 'form-control' }
+
       .actions.form-group
         .col-lg-offset-2.col-lg-8
           => f.submit t('helpers.submit.save'), class: 'btn btn-success'

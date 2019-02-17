@@ -6,11 +6,15 @@ production:
   :concurrency: 21
 :queues:
   - default
-  - now_scan
-  - scheduled_scan
+  - now_scan_1
+  - now_scan_2
+  - scheduled_scan_1
+  - scheduled_scan_2
   - free_shodan_scan
 :limits:
   default: 1
-  now_scan: 5
-  scheduled_scan: 14
+  now_scan_1: 3
+  now_scan_2: 2
+  scheduled_scan_1: 4
+  scheduled_scan_2: 10
   free_shodan_scan: 1
