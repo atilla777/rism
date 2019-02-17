@@ -8,6 +8,10 @@ class ScanJob < ApplicationRecord
 
   has_paper_trail
 
+  attr_accessor :add_organization_hosts
+
+  after_save :link_organization_hosts
+
   validates :name, length: { minimum: 3, maximum: 100 }
   validates :name, uniqueness: { scope: :organization_id }
   validates :organization_id, numericality: { only_integer: true }
@@ -44,5 +48,18 @@ class ScanJob < ApplicationRecord
   def targets
     hosts_from_scan_job = hosts.split(',').map(&:strip)
     hosts_from_scan_job | linked_hosts.pluck(:ip).map(&:to_s)
+  end
+
+  private
+
+  def link_organization_hosts
+    return unless add_organization_hosts
+    organization.hosts.each do |host|
+      scan_jobs_host = ScanJobsHost.new(
+        host_id: host.id,
+        scan_job_id: id
+      )
+      scan_jobs_host.save
+    end
   end
 end

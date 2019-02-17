@@ -31,6 +31,13 @@
             = f.label :scan_option_id, class: 'control-label'
           .col-lg-8
             = f.collection_select :scan_option_id, ScanOption.all, :id, :name, {}, { class: 'form-control' }
+      - if @record.new_record?
+        .form-group
+          .field
+            .col-lg-2.text-right
+              = f.label :add_organization_hosts, class: 'control-label'
+            .col-lg-8
+              = f.check_box :add_organization_hosts, class: 'big-checkbox'
 
       .form-group
         .field

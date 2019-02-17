@@ -230,6 +230,7 @@ ru:
         scan_option_id: 'Набор опций сканирования nmap'
         hosts: 'Хосты'
         ports: 'Порты'
+        add_organization_hosts: 'Добавить все хосты организации'
         description: 'Описание'
       scan_result:
         organization_id: 'Организация влад.'

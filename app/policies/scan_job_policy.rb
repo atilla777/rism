@@ -6,7 +6,8 @@ class ScanJobPolicy < ApplicationPolicy
        scan_option_id
        hosts
        ports
-       description]
+       description
+       add_organization_hosts]
   end
 
   def run?
