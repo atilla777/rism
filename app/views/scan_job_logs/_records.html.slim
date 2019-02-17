@@ -1,6 +1,6 @@
 = command_button_for records, job: @job
 = index_for records, decorator: ScanJobLogDecorator, actions: false do |t|
-  - t.header attribute: :status, label: t('labels.scan_job_logs.status'), sort: :desc, sort_by: :status
+  - t.header attribute: :status, label: t('labels.scan_job_logs.status'), sort: :desc, sort_by: :status, sort_array: [:status, 'start desc']
   - t.header attribute: :worker_state, label: t('labels.scan_job_logs.worker')
   - t.header attribute: :start, sort: :desc
   - t.header attribute: :finish, sort: :desc, sort_by: :finish, sort_array: [:finish, 'start desc']

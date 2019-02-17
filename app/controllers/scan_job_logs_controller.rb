@@ -34,7 +34,7 @@ class ScanJobLogsController < ApplicationController
   end
 
   def default_sort
-    'status desc'
+    ['status desc', 'start desc']
   end
 
   def records_includes
