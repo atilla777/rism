@@ -82,6 +82,15 @@ ru:
       scan_jobs_host:
         one: 'Хост/сеть'
         other: 'Хосты/сети'
+      investigation:
+        one: 'Исследование'
+        other: 'Исследования'
+      indicator:
+        one: 'Индикатор'
+        other: 'Индикаторы'
+      feed:
+        one: 'Источник'
+        other: 'Источники'
     attributes:
       organization:
         name: 'Имя'
@@ -302,6 +311,46 @@ ru:
         start: 'Начало'
         finish: 'Окончание'
         queue: 'Очередь фонового порцесса'
+      feed:
+        name: 'Имя'
+        description: 'Описание'
+      investigation:
+        name: 'Имя'
+        organization_id: 'Организация влад.'
+        user_id: 'Пользователь созд.'
+        feed_id: 'Источник информации'
+        description: 'Описание'
+        threats:
+          other: 'Прочее'
+          network: 'Сетевая активность'
+          email: 'Email'
+          process: 'Активность программы'
+          account: 'Активность пользователя'
+      indicator:
+        organization_id: 'Организация'
+        user_id: 'Пользователь'
+        investigation_id: 'Исследования'
+        content: 'Значение'
+        enrichment: 'Обогащение'
+        trust_levels:
+          unknown: 'Неизвестно'
+          low: 'Низкий'
+          high: 'Высокий'
+        ioc_kinds:
+          other: 'Прочее'
+          network: 'IP-адрес/сеть'
+          email_adress: 'Почтовый адрес'
+          email_theme: 'Тема письма'
+          email_content: 'Содержание письма'
+          url: 'URL'
+          domain: 'Домен'
+          md5: 'MD5'
+          sha256: 'SHA256'
+          sha512: 'SHA512'
+          filename: 'Имя файла'
+          filesize: 'Размер файла'
+          process: 'Имя процесса'
+          account: 'Учетная запись'
     errors:
       messages:
           organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'
