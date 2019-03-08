@@ -33,3 +33,8 @@ li
     .span.text-info
       = fa_icon 'sliders'
       =< ScanOption.model_name.human(count: 2)
+li
+  = link_to feeds_path do
+    .span.text-info
+      = fa_icon 'wifi'
+      =< Feed.model_name.human(count: 2)

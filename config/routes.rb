@@ -79,6 +79,7 @@ Rails.application.routes.draw do
   delete '/scheduled_jobs/', to: 'scheduled_jobs#destroy', as: :destroy_scheduled_jobs
   resources :scan_jobs_hosts, only: [:index, :create, :destroy]
   resources :scan_job_logs, only: [:index]
+  resources :feeds
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 
