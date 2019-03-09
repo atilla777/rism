@@ -80,6 +80,8 @@ Rails.application.routes.draw do
   resources :scan_jobs_hosts, only: [:index, :create, :destroy]
   resources :scan_job_logs, only: [:index]
   resources :feeds
+  resources :investigations
+  resources :indicators
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

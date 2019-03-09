@@ -1,0 +1,17 @@
+= index_search :name_or_organization_name_or_user_name_or_feed_name_cont, organization_id_eq: @organization&.id
+= command_button_for records, organization_id: @organization.id
+= report_button_for @records, organization_id: @organization.id
+= index_for records, decorator: InvestigationDecorator do |t|
+  - t.header attribute: :created_at, sort_by: :created_at, sort: :desc
+  - t.header attribute: :name, sort_by: :name, sort: :desc
+  - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - t.header attribute: :user_id, sort_by: :user_name, sort: :desc
+  - t.header attribute: :feed_id, sort_by: :feed_name, sort: :desc
+  - t.header attribute: :threat, sort_by: :threat, sort: :desc
+  - t.header fit: true
+  - t.field { |record| link_to(show_date_time(record.created_at), record) }
+  - t.field { |record| link_to record.name, record }
+  - t.field { |record| link_to record.organization.name, record.organization }
+  - t.field { |record| link_to record.user.name, record.user }
+  - t.field { |record| link_to record.feed.name, record.feed }
+  - t.field { |record| link_to record.show_threat, record}

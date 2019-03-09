@@ -319,7 +319,9 @@ ru:
         organization_id: 'Организация влад.'
         user_id: 'Пользователь созд.'
         feed_id: 'Источник информации'
+        created_at: 'Время создания'
         description: 'Описание'
+        threat: 'Объект исследования (угроза)'
         threats:
           other: 'Прочее'
           network: 'Сетевая активность'

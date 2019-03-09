@@ -31,3 +31,5 @@
     =< t'navigations.new_ports'
   - tabs.add(:agreements, agreements_path(organization_id: record.id), true) do
     = Agreement.model_name.human(count: 2)
+  - tabs.add(:investigations, investigations_path(organization_id: record.id), true) do
+    = Investigation.model_name.human(count: 2)
