@@ -10,7 +10,7 @@ class InvestigationsController < ApplicationController
   end
 
   def records_includes
-    %i[organization]
+    %i[organization user feed]
   end
 
   def default_sort

@@ -36,3 +36,8 @@ li
     .text-info
       = fa_icon 'eye'
       =< Investigation.model_name.human(count: 2)
+li
+  = link_to indicators_path do
+    .text-info
+      = fa_icon 'bomb'
+      =< Indicator.model_name.human(count: 2)

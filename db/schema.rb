@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(version: 20190302045850) do
     t.jsonb "enrichment", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index "content gin_trgm_ops", name: "index_indicators_on_content", using: :gin
     t.index ["enrichment"], name: "index_indicators_on_enrichment", using: :gin
     t.index ["investigation_id"], name: "index_indicators_on_investigation_id"
     t.index ["user_id"], name: "index_indicators_on_user_id"

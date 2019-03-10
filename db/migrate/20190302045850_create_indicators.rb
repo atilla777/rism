@@ -12,5 +12,6 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
     end
 
     add_index  :indicators, :enrichment, using: :gin
+    add_index :indicators, :content, using: :gin, order: {content: :gin_trgm_ops}
   end
 end

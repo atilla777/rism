@@ -30,6 +30,10 @@ class User < ApplicationRecord
 
   has_many :rights, as: :subject, dependent: :destroy
 
+  has_many :investigation, dependent: :destroy
+
+  has_many :indicator, dependent: :destroy
+
   def show_full_name
     name
   end

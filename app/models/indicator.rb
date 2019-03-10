@@ -1,4 +1,7 @@
 class Indicator < ApplicationRecord
+  include OrganizationAssociated
+  include Indicator::Ransackers
+
   enum trust_level: %i[
                        unknown
                        low
@@ -23,13 +26,15 @@ class Indicator < ApplicationRecord
 
   validates :investigation_id, numericality: { only_integer: true }
   validates :user_id, numericality: { only_integer: true }
-  validates :content, presence: true
   validates :ioc_kind, inclusion: { in: Indicator.ioc_kinds.keys}
+  validates :content, presence: true
   validates :trust_level, inclusion: { in: Indicator.trust_levels.keys}
 
-  serialize :enrichment, Hash
+  #serialize :enrichment, Hash
 
   belongs_to :investigation
+  belongs_to :user
+  has_one :organization, through: :investigation
 
   def self.human_attribute_ioc_kinds
     Hash[Indicator.ioc_kinds.map { |k,v| [v, Indicator.human_enum_name(:ioc_kind, k)] }]

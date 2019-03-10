@@ -5,6 +5,7 @@ class InvestigationPolicy < ApplicationPolicy
        user_id
        feed_id
        threat
+       indicators_list
        description]
   end
 

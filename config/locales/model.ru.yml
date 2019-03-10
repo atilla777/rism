@@ -322,6 +322,7 @@ ru:
         created_at: 'Время создания'
         description: 'Описание'
         threat: 'Объект исследования (угроза)'
+        indicators_list: 'Индикаторы'
         threats:
           other: 'Прочее'
           network: 'Сетевая активность'
@@ -331,9 +332,12 @@ ru:
       indicator:
         organization_id: 'Организация'
         user_id: 'Пользователь'
-        investigation_id: 'Исследования'
+        investigation_id: 'Исследование'
         content: 'Значение'
         enrichment: 'Обогащение'
+        created_at: 'Время создания'
+        trust_level: 'Уровень доверия'
+        ioc_kind: 'Тип индикатора'
         trust_levels:
           unknown: 'Неизвестно'
           low: 'Низкий'
