@@ -1,13 +1,14 @@
 class IndicatorPolicy < ApplicationPolicy
 
   def permitted_attributes
-    %i[organization_id
+    %i[
       user_id
       investigation_id
       content
+      indicators_list
       ioc_kind
       trust_level
-      description]
+    ]
   end
 
   class Scope

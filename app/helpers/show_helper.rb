@@ -8,9 +8,12 @@ module ShowHelper
   # It assumes that bootstrap and slim used in Rails project.
 
   class RecordWrapper
-    def initialize(record, context)
+    attr_reader :decorated
+
+    def initialize(record, decorator, context)
       @record = record
       @context = context
+      @decorated = decorator.new(record) if decorator
     end
 
     # Display record attribute.
@@ -45,11 +48,13 @@ module ShowHelper
   #  Display table with record attributes.
   # ==== Options
   # * <tt>:record</tt> - Specifies record whose attributes will display
+  # * <tt>:decorator</tt> - Specifies decorator class for record
   # * <tt>:block</tt> - Specifies block in which attributes will display
   #
   # ==== Examples
-  #  show_for(@user) do |row|
+  #  show_for(@user), decorator: UserDecorator do |row|
   #    row.show :name
+  #    row.show :name, value: row.decorated.show_full_name
   #  end
   #
   #  show_for(@user) do |row|
@@ -58,7 +63,7 @@ module ShowHelper
   #             value: "My name is #{@user.name}"
   #  end
   def show_for(record, options = {}, &block)
-    record_wrapper = RecordWrapper.new(record, self)
+    record_wrapper = RecordWrapper.new(record, options.fetch(:decorator, nil), self)
     render 'helpers/show_record', record: record_wrapper, &block
   end
 end

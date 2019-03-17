@@ -334,6 +334,7 @@ ru:
         user_id: 'Пользователь'
         investigation_id: 'Исследование'
         content: 'Значение'
+        indicators_list: 'Значения'
         enrichment: 'Обогащение'
         created_at: 'Время создания'
         trust_level: 'Уровень доверия'

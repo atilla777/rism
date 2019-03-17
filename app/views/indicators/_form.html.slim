@@ -1,0 +1,40 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      = f.hidden_field :investigation_id, value: @investigation&.id || @record.investigation_id
+      = f.hidden_field :user_id, value: current_user.id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :trust_level, class: 'control-label'
+          .col-lg-8
+            = f.select :trust_level, Indicator.trust_levels.keys.collect { |level| [Indicator.human_enum_name(:trust_level, level), level] }, { selected: @record.trust_level || :unknown }, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :ioc_kind, class: 'control-label'
+          .col-lg-8
+            = f.select :ioc_kind, Indicator.ioc_kinds.keys.collect { |kind| [Indicator.human_enum_name(:ioc_kind, kind), kind] }, { selected: @record.ioc_kind || :email}, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :content, class: 'control-label'
+          .col-lg-8
+            = f.text_field :content, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :indicators_list, class: 'control-label'
+          .col-lg-8
+            = f.text_area :indicators_list, rows: 8, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = render 'form_back_button'

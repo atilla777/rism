@@ -1,5 +1,6 @@
 = caption @investigation
 = render 'investigations/show_tabs', record: @investigation, active_tab: :indicators, from_external_link: true
 = index_search :ioc_kind_str_or_trust_level_str_or_created_at_reverse_str_or_organization_name_or_user_name_or_content_or_investigation_full_name_cont, investigation_id_eq: @investigation.id
+= index_new_button @records, investigation_id: @investigation.id
 = render 'records', records: @records
 = render 'index_paginate', records: @records
