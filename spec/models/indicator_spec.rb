@@ -6,6 +6,7 @@ RSpec.describe Indicator, type: :model do
 #  it { should validate_numericality_of(:ioc_kind).only_integer }
 #  it { should validate_numericality_of(:trust_level).only_integer }
   it { should validate_presence_of :content}
+  it { should validate_uniqueness_of(:content).scoped_to(:investigation_id)}
   it { should belong_to :investigation}
 #  it do
 #    should validate_inclusion_of(:threat)

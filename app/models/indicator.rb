@@ -7,14 +7,22 @@ class Indicator < ApplicationRecord
   include Attachable
   include Indicator::Ransackers
 
-  INDICATOR_KINDS = {
-    md5: /^[a-f0-9]{32}$/,
-    sha256: /^[a-f0-9]{64}$/,
-    sha512: /^[a-f0-9]{128}$/,
-    email_adress: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
-    network: Resolv::IPv4::Regex,
-    url: URI.regexp
-  }
+  INDICATOR_KINDS = [
+    {kind: :other, pattern: /^\s*other:\s*(.{1,500})$/, check_prefix: true},
+    {kind: :network, pattern: /^\s*(#{Resolv::IPv4::Regex})\s*$/},
+    {kind: :email_adress, pattern: /^\s*([\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+)\s*$/i, check_prefix: true},
+    {kind: :email_theme, pattern: /^\s*email_theme:\s*(.{1,500})$/, check_prefix: true},
+    {kind: :email_content, pattern: /^\s*email_content:\s*(.{1,500})$/, check_prefix: true},
+    {kind: :url, pattern: /\s*url:\s*(#{URI.regexp})/, check_prefix: true},
+    {kind: :domain, pattern: /^\s*domain:\s*((((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,}))$/, check_prefix: true},
+    {kind: :md5, pattern: /^\s*([a-f0-9]{32})\s*$/},
+    {kind: :sha256, pattern: /^\s*([a-f0-9]{64})\s*$/},
+    {kind: :sha512, pattern: /^\s*([a-f0-9]{128})\s*$/},
+    {kind: :filename, pattern: /^\s*filename:\s*(.{1,500})$/, check_prefix: true},
+    {kind: :filesize, pattern: /^\s*filesize:\s*(.{1,500})$/, check_prefix: true},
+    {kind: :process, pattern: /^\s*process:\s*(.{1,500})$/, check_prefix: true},
+    {kind: :account, pattern: /^\s*account:\s*(.{1,500})$/, check_prefix: true},
+  ]
 
   attr_accessor :indicators_list
 
@@ -23,22 +31,8 @@ class Indicator < ApplicationRecord
                        low
                        high
                       ]
-  enum ioc_kind: %i[
-                    other
-                    network
-                    email_adress
-                    email_theme
-                    email_content
-                    url
-                    domain
-                    md5
-                    sha256
-                    sha512
-                    filename
-                    filesize
-                    process
-                    account
-                   ]
+
+  enum ioc_kind: INDICATOR_KINDS.map { |i| i[:kind] }
 
   validate :check_content_format
 
@@ -47,6 +41,7 @@ class Indicator < ApplicationRecord
   validates :ioc_kind, inclusion: { in: Indicator.ioc_kinds.keys}
   validates :content, presence: true
   validates :trust_level, inclusion: { in: Indicator.trust_levels.keys}
+  validates :content, uniqueness: { scope: :investigation_id }
 
   #serialize :enrichment, Hash
 
@@ -63,14 +58,26 @@ class Indicator < ApplicationRecord
   end
 
   def self.cast_indicator(string)
-    INDICATOR_KINDS.each do |kind, pattern|
-      break {content: $~[0], ioc_kind: kind} if pattern =~ string
+    result = INDICATOR_KINDS.each do |i|
+      break {content: $1, ioc_kind: i[:kind]} if i[:pattern] =~ string
+    end
+    if result.is_a? Hash
+      return result
+    else
+      return {}
     end
   end
 
   # TODO: translate error message
   def check_content_format
-    return if Indicator.cast_indicator(content)[:ioc_kind] == ioc_kind.to_sym
+    ioc_kind_description = INDICATOR_KINDS.find { |i| i[:kind] == ioc_kind.to_sym }
+    content_with_prefix= if ioc_kind_description.fetch(:check_prefix, false)
+      "#{ioc_kind}:#{content}"
+    else
+      content
+    end
+    casted_indicator = Indicator.cast_indicator(content_with_prefix)
+    return if casted_indicator[:ioc_kind] == ioc_kind.to_sym
     errors.add(:content, 'wrong format')
   end
 end

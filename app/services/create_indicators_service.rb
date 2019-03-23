@@ -31,6 +31,6 @@ class CreateIndicatorsService
      )
      indicator = Indicator.new(indicator_params)
      indicator.current_user = User.find(@user_id)
-     indicator.save
+     indicator.save!(validate: false)
   end
 end
