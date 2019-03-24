@@ -13,7 +13,7 @@ class Indicator < ApplicationRecord
     {kind: :email_adress, pattern: /^\s*([\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+)\s*$/i, check_prefix: true},
     {kind: :email_theme, pattern: /^\s*email_theme:\s*(.{1,500})$/, check_prefix: true},
     {kind: :email_content, pattern: /^\s*email_content:\s*(.{1,500})$/, check_prefix: true},
-    {kind: :url, pattern: /\s*url:\s*(#{URI.regexp})/, check_prefix: true},
+    {kind: :uri, pattern: /\s*uri:\s*(#{URI.regexp})/, check_prefix: true},
     {kind: :domain, pattern: /^\s*domain:\s*((((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,}))$/, check_prefix: true},
     {kind: :md5, pattern: /^\s*([a-f0-9]{32})\s*$/},
     {kind: :sha256, pattern: /^\s*([a-f0-9]{64})\s*$/},
@@ -24,7 +24,7 @@ class Indicator < ApplicationRecord
     {kind: :account, pattern: /^\s*account:\s*(.{1,500})$/, check_prefix: true},
   ]
 
-  attr_accessor :indicators_list
+  attr_accessor :indicators_list, :skip_format_validation
 
   enum trust_level: %i[
                        unknown
@@ -34,7 +34,7 @@ class Indicator < ApplicationRecord
 
   enum ioc_kind: INDICATOR_KINDS.map { |i| i[:kind] }
 
-  validate :check_content_format
+  validate :check_content_format, unless: :skip_format_validation
 
   validates :investigation_id, numericality: { only_integer: true }
   validates :user_id, numericality: { only_integer: true }
@@ -78,6 +78,6 @@ class Indicator < ApplicationRecord
     end
     casted_indicator = Indicator.cast_indicator(content_with_prefix)
     return if casted_indicator[:ioc_kind] == ioc_kind.to_sym
-    errors.add(:content, 'wrong format')
+    errors.add(:content, :wrong_format_or_dublication)
   end
 end

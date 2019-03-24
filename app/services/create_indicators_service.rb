@@ -11,26 +11,27 @@ class CreateIndicatorsService
 
   def execute
     @text.split("\n")
-        .map do |string|
-          next if string.blank?
-          create_indicator(string)
-        end
+         .select do |string|
+           next if string.blank?
+           string unless create_indicator(string)
+          end
   end
 
   private
 
   def create_indicator(string)
     string.strip!
-     indicator_params = Indicator.cast_indicator(string)
-     return unless indicator_params.fetch(:ioc_kind, false)
-     indicator_params.merge!(
-       investigation_id: @investigation_id,
-       user_id: @user_id,
-       trust_level: :unknown,
-       enrichment: {}
-     )
-     indicator = Indicator.new(indicator_params)
-     indicator.current_user = User.find(@user_id)
-     indicator.save!(validate: false)
+    indicator_params = Indicator.cast_indicator(string)
+    return unless indicator_params.fetch(:ioc_kind, false)
+    indicator_params.merge!(
+      investigation_id: @investigation_id,
+      user_id: @user_id,
+      trust_level: :unknown,
+      enrichment: {}
+    )
+    indicator = Indicator.new(indicator_params)
+    indicator.current_user = User.find(@user_id)
+    indicator.skip_format_validation = true
+    indicator.save
   end
 end

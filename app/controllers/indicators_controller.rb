@@ -29,15 +29,28 @@ class IndicatorsController < ApplicationController
     @investigation = Investigation.find(investigation_id)
   end
 
+  def new
+    @record = model.new(template_attributes)
+    authorize @record.class
+    @organization = organization
+    preset_record
+    @template_id = params[:template_id]
+    set_format_errors
+  end
+
   def create
     @record = model.new(record_params)
     authorize @record.class
     if params[:indicator][:indicators_list].present?
-      CreateIndicatorsService.call(
+      @not_saved_strings = CreateIndicatorsService.call(
         params[:indicator][:indicators_list],
         @record.investigation_id,
         current_user.id
       )
+      if @not_saved_strings.present?
+        @record.errors.add(:content, :wrong_format_or_dublication)
+        raise ActiveRecord::RecordInvalid.new(@record)
+      end
     else
       @record.current_user = current_user
       @record.save!
@@ -76,5 +89,11 @@ class IndicatorsController < ApplicationController
 
   def set_investigation
     @investigation = Investigation.find(params[:investigation_id])
+  end
+
+  def set_format_errors
+    return unless params[:format_errors] == 'true'
+    @record.errors.add(:content, :wrong_format_or_dublication)
+    @not_saved_strings = params[:not_saved_strings]
   end
 end

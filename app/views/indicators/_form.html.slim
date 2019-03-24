@@ -30,9 +30,9 @@
       .form-group.required
         .field
           .col-lg-2.text-right
-            = f.label :indicators_list, class: 'control-label'
+            = f.label :content, class: 'control-label'
           .col-lg-8
-            = f.text_area :indicators_list, rows: 8, class: 'form-control'
+            = f.text_area :indicators_list, rows: 8, class: 'form-control', value: @not_saved_strings&.join("\n")
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8

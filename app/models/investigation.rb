@@ -16,7 +16,7 @@ class Investigation < ApplicationRecord
   attr_accessor :indicators_list
 
   before_validation :set_name
-  after_save :set_indicators
+#  after_create :set_indicators
 
   validates :name, length: { in: 3..100 }
   validates :feed_id, numericality: { only_integer: true }
@@ -36,7 +36,7 @@ class Investigation < ApplicationRecord
     self.name = InvestigationDecorator.new(self).show_threat
   end
 
-  def set_indicators
-    CreateIndicatorsService.call(indicators_list, id, user_id)
-  end
+#  def set_indicators
+#    CreateIndicatorsService.call(indicators_list, id, user_id)
+#  end
 end

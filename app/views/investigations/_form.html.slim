@@ -34,12 +34,13 @@
           .col-lg-8
             = f.select :threat, Investigation.threats.keys.collect { |threat| [Investigation.human_enum_name(:threats, threat), threat] }, { selected: @record.threat || :email }, class: 'form-control'
 
-      .form-group
-        .field
-          .col-lg-2.text-right
-            = f.label :indicators_list, class: 'control-label'
-          .col-lg-8
-            = f.text_area :indicators_list, rows: 8, class: 'form-control'
+      - if @record.new_record?
+        .form-group
+          .field
+            .col-lg-2.text-right
+              = f.label :indicators_list, class: 'control-label'
+            .col-lg-8
+              = f.text_area :indicators_list, rows: 8, class: 'form-control'
 
       .form-group
         .field
