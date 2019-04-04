@@ -5,7 +5,6 @@ class CreateInvestigations < ActiveRecord::Migration[5.1]
       t.references :user, foreign_key: true
       t.references :organization, foreign_key: true
       t.references :feed, foreign_key: true
-      t.integer :threat
       t.text :description
 
       t.timestamps

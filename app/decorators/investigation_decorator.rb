@@ -6,7 +6,7 @@ class InvestigationDecorator < SimpleDelegator
     end
   end
 
-  def show_threat
-    Investigation.human_enum_name(:threat, threat)
-  end
+#  def show_threat
+#    Investigation.human_enum_name(:threat, threat)
+#  end
 end

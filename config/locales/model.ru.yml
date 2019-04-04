@@ -91,6 +91,9 @@ ru:
       feed:
         one: 'Источник индикаторов'
         other: 'Источники индикаторов'
+      investigation_kind:
+        one: 'Тип исследования'
+        other: 'Типы исследований'
     attributes:
       organization:
         name: 'Имя'
@@ -314,6 +317,9 @@ ru:
       feed:
         name: 'Имя'
         description: 'Описание'
+      investigation_kind:
+        name: 'Имя'
+        description: 'Описание'
       investigation:
         name: 'Имя'
         organization_id: 'Организация влад.'
@@ -321,7 +327,7 @@ ru:
         feed_id: 'Источник информации'
         created_at: 'Время создания'
         description: 'Описание'
-        threat: 'Объект исследования (угроза)'
+        investigation_kind_id: 'Тип исследования (угроза)'
         indicators_list: 'Индикаторы'
         threats:
           other: 'Прочее'
@@ -339,6 +345,7 @@ ru:
         created_at: 'Время создания'
         trust_level: 'Уровень доверия'
         ioc_kind: 'Тип индикатора'
+        danger: 'Опасен'
         trust_levels:
           unknown: 'Неизвестно'
           low: 'Низкий'

@@ -20,6 +20,14 @@
           .col-lg-8
             = f.select :ioc_kind, Indicator.ioc_kinds.keys.collect { |kind| [Indicator.human_enum_name(:ioc_kind, kind), kind] }, { selected: @record.ioc_kind || :email}, class: 'form-control'
 
+      .form-group
+        .col-lg-offset-2.col-lg-8
+          .checkbox
+             label
+               = f.check_box :danger, class: 'big-checkbox'
+               strong
+                | #{t('activerecord.attributes.indicator.danger')}
+
       .form-group.required
         .field
           .col-lg-2.text-right

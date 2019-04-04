@@ -38,3 +38,8 @@ li
     .span.text-info
       = fa_icon 'wifi'
       =< Feed.model_name.human(count: 2)
+li
+  = link_to investigation_kinds_path do
+    .span.text-info
+      = fa_icon 'star'
+      =< InvestigationKind.model_name.human(count: 2)

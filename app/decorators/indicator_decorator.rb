@@ -10,6 +10,11 @@ class IndicatorDecorator < SimpleDelegator
     Indicator.human_enum_name(:ioc_kind, ioc_kind)
   end
 
+  def show_danger
+    return I18n.t('messages.yes') if danger
+    I18n.t('messages.no')
+  end
+
   def show_trust_level
     Indicator.human_enum_name(:trust_level, trust_level)
   end

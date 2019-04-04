@@ -5,13 +5,13 @@ class Investigation < ApplicationRecord
   include Attachable
   include Investigation::Ransackers
 
-  enum threat: %i[
-                  other
-                  network
-                  email
-                  process
-                  account
-                 ]
+#  enum threat: %i[
+#                  other
+#                  network
+#                  email
+#                  process
+#                  account
+#                 ]
 
   attr_accessor :indicators_list
 
@@ -22,11 +22,12 @@ class Investigation < ApplicationRecord
   validates :feed_id, numericality: { only_integer: true }
   validates :organization_id, numericality: { only_integer: true }
   validates :user_id, numericality: { only_integer: true }
-  validates :threat, inclusion: { in: Investigation.threats.keys}
+ # validates :threat, inclusion: { in: Investigation.threats.keys}
 
   belongs_to :user
   belongs_to :organization
   belongs_to :feed
+  belongs_to :investigation_kind
   has_many :indicators, dependent: :destroy
 
   private

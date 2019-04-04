@@ -7,7 +7,8 @@
     = link_to @record.user.name, @record.user
   = r.show :feed_id
     = link_to @record.feed.name, @record.feed
-  = r.show :threat, value: InvestigationDecorator.new(@record).show_threat
+  = r.show :investigation_kind
+    = link_to @record.investigation_kind.name, @record.investigation_kind
   = r.show :description
 
 = render 'application/record_versions'

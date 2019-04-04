@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190302045850) do
+ActiveRecord::Schema.define(version: 20190404145346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,10 +166,18 @@ ActiveRecord::Schema.define(version: 20190302045850) do
     t.jsonb "enrichment", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "danger"
     t.index "content gin_trgm_ops", name: "index_indicators_on_content", using: :gin
     t.index ["enrichment"], name: "index_indicators_on_enrichment", using: :gin
     t.index ["investigation_id"], name: "index_indicators_on_investigation_id"
     t.index ["user_id"], name: "index_indicators_on_user_id"
+  end
+
+  create_table "investigation_kinds", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "investigations", force: :cascade do |t|
@@ -177,11 +185,12 @@ ActiveRecord::Schema.define(version: 20190302045850) do
     t.bigint "user_id"
     t.bigint "organization_id"
     t.bigint "feed_id"
-    t.integer "threat"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "investigation_kind_id"
     t.index ["feed_id"], name: "index_investigations_on_feed_id"
+    t.index ["investigation_kind_id"], name: "index_investigations_on_investigation_kind_id"
     t.index ["organization_id"], name: "index_investigations_on_organization_id"
     t.index ["user_id"], name: "index_investigations_on_user_id"
   end
@@ -468,6 +477,7 @@ ActiveRecord::Schema.define(version: 20190302045850) do
   add_foreign_key "indicators", "investigations"
   add_foreign_key "indicators", "users"
   add_foreign_key "investigations", "feeds"
+  add_foreign_key "investigations", "investigation_kinds"
   add_foreign_key "investigations", "organizations"
   add_foreign_key "investigations", "users"
   add_foreign_key "links", "link_kinds"

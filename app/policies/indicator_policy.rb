@@ -7,6 +7,7 @@ class IndicatorPolicy < ApplicationPolicy
       content
       indicators_list
       ioc_kind
+      danger
       trust_level
     ]
   end

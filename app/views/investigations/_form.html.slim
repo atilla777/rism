@@ -30,9 +30,9 @@
       .form-group.required
         .field
           .col-lg-2.text-right
-            = f.label :threat, class: 'control-label'
+            = f.label :investigation_kind_id, class: 'control-label'
           .col-lg-8
-            = f.select :threat, Investigation.threats.keys.collect { |threat| [Investigation.human_enum_name(:threats, threat), threat] }, { selected: @record.threat || :email }, class: 'form-control'
+            = f.collection_select :investigation_kind_id, InvestigationKind.all, :id, :name, { }, { class: 'form-control' }
 
       - if @record.new_record?
         .form-group
