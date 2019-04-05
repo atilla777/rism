@@ -46,7 +46,7 @@ ru:
     incident:
       full_name: 'Номер / Имя'
       dates_and_times: 'Даты и времена'
-      organization_link: '%{name}% относится к'
+      organization_link: '%{name} относится к'
       owners: 'Владельцы (нажмите для просмотра)'
       more_owners: 'Владельцы (нажмите для изменения)'
     tags:

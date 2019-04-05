@@ -12,7 +12,8 @@
           .col-lg-8
             = f.text_field :name, class: 'form-control'
 
-      - if @organization.class.name == 'Organization' && @record.new_record?
+      - new_from_organizatoin = params[:organization_id].present? || params.fetch(:incident, {}).fetch(:links_attributes, false).present?
+      - if new_from_organizatoin && @record.new_record?
         - 1.times { @record.links.build } if @record.links.blank?
         = f.fields_for :links do |ff|
           = ff.hidden_field :second_record_id, value: @organization.id
