@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   resources :tags
   resources :tag_members, only: %i[create destroy]
   resources :incidents do
+    get :autocomplete_incident_id, :on => :collection, as: :autocomplete
     collection do
       match 'search' => 'incidents#search', via: [:get, :post], as: :search
     end

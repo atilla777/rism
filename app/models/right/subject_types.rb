@@ -28,6 +28,10 @@ module Right::SubjectTypes
     'HostService' => I18n.t('activerecord.models.host_service.one'),
     'Schedule' => I18n.t('activerecord.models.schedule.one'),
     'ScanJobLog' => I18n.t('activerecord.models.scan_job_log.one'),
-    'ScanJobsHost' => I18n.t('activerecord.models.scan_jobs_host.one')
+    'ScanJobsHost' => I18n.t('activerecord.models.scan_jobs_host.one'),
+    'Feed' => I18n.t('activerecord.models.feed.one'),
+    'InvestigationKind' => I18n.t('activerecord.models.investigation_kind.one'),
+    'Investigation' => I18n.t('activerecord.models.investigation.one'),
+    'Indicator' => I18n.t('activerecord.models.indicator.one')
   }.freeze
 end

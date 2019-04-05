@@ -1,4 +1,4 @@
-= index_search :created_at_reverse_str_or_threat_str_or_name_or_organization_name_or_user_name_or_feed_name_cont, organization_id_eq: @organization&.id
+= index_search :created_at_reverse_str_or_name_or_organization_name_or_user_name_or_feed_name_or_investigation_kind_name_cont, organization_id_eq: @organization&.id
 = command_button_for records, organization_id: @organization.id
 = report_button_for @records, organization_id: @organization.id
 = index_for records, decorator: InvestigationDecorator do |t|

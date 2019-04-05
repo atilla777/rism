@@ -62,5 +62,16 @@ module Indicator::Ransackers
       SQL
       Arel.sql(field_transformation)
     end
+
+    ransacker :danger_str do
+      field_transformation = <<~SQL
+        CASE indicators.danger
+        WHEN true
+        THEN '#{I18n.t('labels.indicator.danger')}'
+        ELSE '#{I18n.t('labels.indicator.not_danger')}'
+        END
+      SQL
+      Arel.sql(field_transformation)
+    end
   end
 end

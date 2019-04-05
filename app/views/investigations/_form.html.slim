@@ -34,6 +34,13 @@
           .col-lg-8
             = f.collection_select :investigation_kind_id, InvestigationKind.all, :id, :name, { }, { class: 'form-control' }
 
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, rows: 5, class: 'form-control'
+
       - if @record.new_record?
         .form-group
           .field
@@ -43,11 +50,34 @@
               = f.text_area :indicators_list, rows: 8, class: 'form-control'
 
       .form-group
-        .field
-          .col-lg-2.text-right
-            = f.label :description, class: 'control-label'
-          .col-lg-8
-            = f.text_area :description, rows: 8, class: 'form-control'
+          .col-lg-offset-2.col-lg-8
+            .alert
+              h5.text-danger = t('labels.indicators.template_description')
+              ul
+                li
+                  = t('labels.indicators.other')
+                li
+                  = t('labels.indicators.network')
+                li
+                  = t('labels.indicators.email_adress')
+                li
+                  = t('labels.indicators.email_theme')
+                li
+                  = t('labels.indicators.email_content')
+                li
+                  = t('labels.indicators.uri')
+                li
+                  = t('labels.indicators.domain')
+                li
+                  = t('labels.indicators.hash')
+                li
+                  = t('labels.indicators.filename')
+                li
+                  = t('labels.indicators.filesize')
+                li
+                  = t('labels.indicators.process')
+                li
+                  = t('labels.indicators.account')
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8

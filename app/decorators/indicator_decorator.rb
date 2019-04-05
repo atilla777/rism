@@ -11,8 +11,8 @@ class IndicatorDecorator < SimpleDelegator
   end
 
   def show_danger
-    return I18n.t('messages.yes') if danger
-    I18n.t('messages.no')
+    return I18n.t('labels.indicator.danger') if danger
+    I18n.t('labels.indicator.not_danger')
   end
 
   def show_trust_level
