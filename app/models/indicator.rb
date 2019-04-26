@@ -15,9 +15,9 @@ class Indicator < ApplicationRecord
     {kind: :email_content, pattern: /^\s*email_content:\s*(.{1,500})$/, check_prefix: true},
     {kind: :uri, pattern: /\s*uri:\s*(#{URI.regexp})/, check_prefix: true},
     {kind: :domain, pattern: /^\s*domain:\s*((((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,}))$/, check_prefix: true},
-    {kind: :md5, pattern: /^\s*([a-f0-9]{32})\s*$/},
-    {kind: :sha256, pattern: /^\s*([a-f0-9]{64})\s*$/},
-    {kind: :sha512, pattern: /^\s*([a-f0-9]{128})\s*$/},
+    {kind: :md5, pattern: /^\s*([a-f0-9]{32})\s*$/i},
+    {kind: :sha256, pattern: /^\s*([a-f0-9]{64})\s*$/i},
+    {kind: :sha512, pattern: /^\s*([a-f0-9]{128})\s*$/i},
     {kind: :filename, pattern: /^\s*filename:\s*(.{1,500})$/, check_prefix: true},
     {kind: :filesize, pattern: /^\s*filesize:\s*(.{1,500})$/, check_prefix: true},
     {kind: :process, pattern: /^\s*process:\s*(.{1,500})$/, check_prefix: true},
@@ -33,6 +33,8 @@ class Indicator < ApplicationRecord
                       ]
 
   enum ioc_kind: INDICATOR_KINDS.map { |i| i[:kind] }
+
+  before_save :downcase_hashes
 
   validate :check_content_format, unless: :skip_format_validation
 
@@ -79,5 +81,10 @@ class Indicator < ApplicationRecord
     casted_indicator = Indicator.cast_indicator(content_with_prefix)
     return if casted_indicator[:ioc_kind] == ioc_kind.to_sym
     errors.add(:content, :wrong_format_or_dublication)
+  end
+
+  def downcase_hashes
+    return unless [:md5, :sha512, :sha256].include?(ioc_kind.to_sym)
+    self.content = self.content.downcase
   end
 end
