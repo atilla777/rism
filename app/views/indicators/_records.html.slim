@@ -2,16 +2,18 @@
   - t.header attribute: :created_at, sort_by: :created_at, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
   - t.header attribute: :user_id, sort_by: :user_name, sort: :desc
-  - t.header attribute: :investigation_id, sort_by: :investigation, sort: :desc
+  - t.header attribute: :investigation_id, sort_by: :investigation_name, sort: :desc
   - t.header attribute: :trust_level, sort_by: :trust_level, sort: :desc
   - t.header attribute: :ioc_kind, sort_by: :ioc_kind, sort: :desc
   - t.header attribute: :danger, sort_by: :danger, sort: :desc
   - t.header attribute: :content, sort_by: :content, sort: :desc
+  - t.header attribute: :appearance
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
   - t.field { |record| link_to truncate(record.organization.name, length: 15), record.organization }
   - t.field { |record| link_to truncate(record.user.name, length: 15), record.user }
-  - t.field { |record| link_to(truncate(record.organization.name, length: 15), record.investigation) }
+  - t.field { |record| link_to record.show_investigation_full_name, record.investigation }
   - t.field { |record| link_to record.show_trust_level, record}
   - t.field { |record| link_to record.show_ioc_kind, record}
   - t.field { |record| link_to record.show_danger, record}
   - t.field { |record| link_to truncate(record.content, length: 20), record}
+  - t.field { |record| link_to record.show_appearance, record}

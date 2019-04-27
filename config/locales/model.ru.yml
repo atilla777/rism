@@ -336,8 +336,8 @@ ru:
           process: 'Активность программы'
           account: 'Активность пользователя'
       indicator:
-        organization_id: 'Организация'
-        user_id: 'Пользователь'
+        organization_id: 'Организация влад.'
+        user_id: 'Создатель'
         investigation_id: 'Исследование'
         content: 'Индикатор'
         indicators_list: 'Индикаторы'
@@ -346,6 +346,7 @@ ru:
         trust_level: 'Уровень доверия'
         ioc_kind: 'Тип индикатора'
         danger: 'Угроза (IOC)'
+        appearance: 'Встречался'
         trust_levels:
           unknown: 'Неизвестно'
           low: 'Низкий'

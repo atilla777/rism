@@ -20,6 +20,11 @@ class IndicatorDecorator < SimpleDelegator
   end
 
   def show_investigation_full_name
-    "##{investigation.id}: #{investigation.name}"
+    id_digest = Digest::MD5.hexdigest(id.to_s)[-4..-1]
+    "##{id_digest} #{investigation.created_at.strftime('%d.%m')} #{investigation.name} (#{investigation.feed.name})"
+  end
+
+  def show_appearance
+    Indicator.where(content: content).count
   end
 end

@@ -10,7 +10,7 @@
   - t.header attribute: :investigation_kind_id, sort_by: :investigation_kind_id, sort: :desc
   - t.header fit: true
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
-  - t.field { |record| link_to record.name, record }
+  - t.field { |record| link_to record.show_name_with_digest, record }
   - t.field { |record| link_to record.organization.name, record.organization }
   - t.field { |record| link_to record.user.name, record.user }
   - t.field { |record| link_to record.feed.name, record.feed }
