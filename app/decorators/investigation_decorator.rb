@@ -7,7 +7,7 @@ class InvestigationDecorator < SimpleDelegator
   end
 
   def show_name_with_digest
-    "#{name} (#{Digest::MD5.hexdigest(id.to_s)[-4..-1]})"
+    "#{Digest::MD5.hexdigest(id.to_s)[-4..-1]} (#{name})"
   end
 
 #  def show_threat

@@ -20,8 +20,8 @@ class IndicatorDecorator < SimpleDelegator
   end
 
   def show_investigation_full_name
-    id_digest = Digest::MD5.hexdigest(id.to_s)[-4..-1]
-    "##{id_digest} #{investigation.created_at.strftime('%d.%m')} #{investigation.name} (#{investigation.feed.name})"
+    id_digest = Digest::MD5.hexdigest(investigation_id.to_s)[-4..-1]
+    "#{id_digest} (#{investigation.name})"
   end
 
   def show_appearance
