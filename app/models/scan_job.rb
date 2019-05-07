@@ -22,7 +22,7 @@ class ScanJob < ApplicationRecord
 
   has_one :schedule, as: :job, dependent: :destroy
 
-  has_many :scan_results, dependent: :destroy
+  has_many :scan_results, dependent: :delete_all
 
   has_many :scan_jobs_hosts, dependent: :destroy
   has_many :linked_hosts, through: :scan_jobs_hosts, source: :host
