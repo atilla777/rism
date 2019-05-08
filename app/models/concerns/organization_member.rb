@@ -5,16 +5,22 @@ module OrganizationMember
   include OrganizationRelative
 
   included do
+    validates :organization_id,
+      numericality: { only_integer: true },
+      unless: :organization?
+
+    #TODO: move optianal: true to concrect model
     belongs_to :organization, optional: true
   end
 
   def top_level_organizations
-    id_of_organization = if model_name == 'Organization'
-                           id
-                         else
-                           organization_id
-                         end
-
+    id_of_organization = organization? ? id : organization_id
     Organization.top_level_organizations(id_of_organization)
+  end
+
+  private
+
+  def organization?
+    model_name == 'Organization'
   end
 end

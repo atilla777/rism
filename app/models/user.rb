@@ -7,10 +7,10 @@ class User < ApplicationRecord
   include Linkable
   include Tagable
   include Attachable
+  include Rightable
 
   has_paper_trail ignore: %i[password]
 
-  validates :organization_id, numericality: { only_integer: true }
   validates :email, presence: true, if: proc { |r| r.active == true }
   validates :department_id,
             numericality: { only_integer: true, allow_blank: true }
@@ -22,13 +22,9 @@ class User < ApplicationRecord
   before_save :set_organization_id,
               if: ->(obj) { obj.department_id.present? }
 
-  belongs_to :organization
-
   belongs_to :department, optional: true
 
   has_many :incidents, dependent: :restrict_with_error
-
-  has_many :rights, as: :subject, dependent: :destroy
 
   def show_full_name
     name

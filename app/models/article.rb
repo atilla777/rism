@@ -5,6 +5,7 @@ class Article < ApplicationRecord
   include Tagable
   include Attachable
   include PgSearch
+  include Rightable
 
   multisearchable against: [:name, :content]
 
@@ -16,20 +17,9 @@ class Article < ApplicationRecord
 
   validates :content, presence: true
   validates :name, length: { minimum: 3, maximum: 300 }
-  validates :organization_id, numericality: { only_integer: true }
   validates :user_id, numericality: { only_integer: true }
 
-  belongs_to :organization
   belongs_to :user
-
-  has_many :tag_members, as: :record, dependent: :destroy
-  has_many :tags, through: :tag_members
-
-  # TODO move code to attachable concern
-  has_many :attachment_links, as: :record, dependent: :destroy
-  has_many :attachments, through: :attachment_links
-
-  has_many :rights, as: :subject, dependent: :destroy
 
   # for use with RecordTemplate, Link and
   # in autocomplite (inside controller)

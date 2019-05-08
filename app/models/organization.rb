@@ -5,6 +5,7 @@ class Organization < ApplicationRecord
   include Linkable
   include Tagable
   include Attachable
+  include Rightable
 
   attr_accessor :current_user
 
@@ -18,10 +19,11 @@ class Organization < ApplicationRecord
   validates :organization_kind_id, numericality: { only_integer: true, allow_blank: true }
 
   # Organization here is like a security domain (scope)
-  has_many :right_scopes, class_name: 'Right', dependent: :destroy
+  has_many :right_scopes, class_name: 'Right', dependent: :delete_all
 
   # Organization here is like an access subject
-  has_many :rights, as: :subject, dependent: :destroy
+  # See below code in Rightable concern
+  # has_many :rights, as: :subject, dependent: :destroy
 
   has_many :users, dependent: :destroy
 
@@ -44,6 +46,7 @@ class Organization < ApplicationRecord
            class_name: 'Organization',
            foreign_key: :parent_id,
            dependent: :destroy
+
   belongs_to :parent, class_name: 'Organization', optional: true
 
   belongs_to :organization_kind, optional: true

@@ -10,6 +10,10 @@ class ApplicationPolicy
     index?
   end
 
+  def autocomplete_incident_name?
+    index?
+  end
+
   def autocomplete_agreement_prop?
     index?
   end

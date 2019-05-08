@@ -5,6 +5,7 @@ class Department < ApplicationRecord
   include Linkable
   include Tagable
   include Attachable
+  include Rightable
 
   has_paper_trail
 
@@ -15,7 +16,6 @@ class Department < ApplicationRecord
 
   validates :name, uniqueness: { scope: :organization_id }
   validates :name, length: { in: 1..100 }
-  validates :organization_id, numericality: { only_integer: true }
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
   validates :rank, numericality: { only_integer: true, allow_blank: true }
 
@@ -25,8 +25,6 @@ class Department < ApplicationRecord
            dependent: :destroy
 
   belongs_to :parent, class_name: 'Department', optional: true
-
-  has_many :rights, as: :subject, dependent: :destroy
 
   has_many :users, dependent: :destroy
 

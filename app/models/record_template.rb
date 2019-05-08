@@ -1,5 +1,7 @@
 class RecordTemplate < ApplicationRecord
   include Linkable
+  include Tagable
+  include Attachable
 
   RECORD_TYPES = {
     'Organization' => I18n.t('activerecord.models.organization.one'),
@@ -26,14 +28,6 @@ class RecordTemplate < ApplicationRecord
   validates :record_type, inclusion: { in: record_types.keys }
 
   after_create :add_tags
-
-  # TODO: move code to taggable concern
-  has_many :tag_members, as: :record, dependent: :destroy
-  has_many :tags, through: :tag_members
-
-  # TODO: move code to attachable concern
-  has_many :attachment_links, as: :record, dependent: :destroy
-  has_many :attachments, through: :attachment_links
 
   attr_accessor :record_tags#, :record_links, :record_attachment_links
 

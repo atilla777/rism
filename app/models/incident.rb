@@ -7,6 +7,7 @@ class Incident < ApplicationRecord
   include Attachable
   include Incident::Ransackers
   include PgSearch
+  include Rightable
 
   multisearchable(
     against: [:name, :event_description, :investigation_description, :action_description]
@@ -34,7 +35,6 @@ class Incident < ApplicationRecord
   has_paper_trail
 
   validates :name, length: { in: 3..100, allow_blank: true }
-  validates :organization_id, numericality: { only_integer: true }
   validates :user_id, numericality: { only_integer: true }
   validates :event_description, presence: true
   validates :damage, inclusion: { in: DAMAGES.keys }
@@ -95,7 +95,7 @@ class Incident < ApplicationRecord
 
   # for use with RecordTemplate, Link and etc
   def show_full_name
-    name
+    IncidentDecorator.new(self).show_full_name
   end
 
   def damage_color
