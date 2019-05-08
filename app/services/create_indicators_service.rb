@@ -22,7 +22,7 @@ class CreateIndicatorsService
   def create_indicator(string)
     string.strip!
     indicator_params = Indicator.cast_indicator(string)
-    return unless indicator_params.fetch(:ioc_kind, false)
+    return unless indicator_params.fetch(:content_kind, false)
     indicator_params.merge!(
       investigation_id: @investigation_id,
       user_id: @user_id,

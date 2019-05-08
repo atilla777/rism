@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190404145346) do
+ActiveRecord::Schema.define(version: 20190302045850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,13 +160,15 @@ ActiveRecord::Schema.define(version: 20190404145346) do
   create_table "indicators", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "investigation_id"
-    t.integer "ioc_kind"
     t.integer "trust_level"
     t.string "content"
+    t.integer "content_kind"
+    t.text "content_subkinds"
+    t.boolean "danger"
+    t.text "description"
     t.jsonb "enrichment", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "danger"
     t.index "content gin_trgm_ops", name: "index_indicators_on_content", using: :gin
     t.index ["enrichment"], name: "index_indicators_on_enrichment", using: :gin
     t.index ["investigation_id"], name: "index_indicators_on_investigation_id"
@@ -184,11 +186,11 @@ ActiveRecord::Schema.define(version: 20190404145346) do
     t.string "name"
     t.bigint "user_id"
     t.bigint "organization_id"
+    t.bigint "investigation_kind_id"
     t.bigint "feed_id"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "investigation_kind_id"
     t.index ["feed_id"], name: "index_investigations_on_feed_id"
     t.index ["investigation_kind_id"], name: "index_investigations_on_investigation_kind_id"
     t.index ["organization_id"], name: "index_investigations_on_organization_id"

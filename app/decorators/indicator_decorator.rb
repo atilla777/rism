@@ -6,8 +6,13 @@ class IndicatorDecorator < SimpleDelegator
     end
   end
 
-  def show_ioc_kind
-    Indicator.human_enum_name(:ioc_kind, ioc_kind)
+  def show_content_kind
+    Indicator.human_enum_name(:content_kind, content_kind)
+  end
+
+  def show_content_subkinds
+    #Indicator.human_enum_name(:content_subkind, content_kind)
+    content_subkinds
   end
 
   def show_danger

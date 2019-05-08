@@ -6,7 +6,9 @@ class IndicatorPolicy < ApplicationPolicy
       investigation_id
       content
       indicators_list
-      ioc_kind
+      content_kind
+      content_subkinds
+      description
       danger
       trust_level
     ]

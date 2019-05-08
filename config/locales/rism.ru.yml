@@ -33,6 +33,7 @@ ru:
     indicator:
       danger: 'Да'
       not_danger: 'Нет'
+      indicators_list: 'Показать/скрыть список индикаторов'
     attachment:
       more_files: 'Файлы'
       attachable_file: 'Выбранный файл:'

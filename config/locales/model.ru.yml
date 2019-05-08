@@ -344,14 +344,16 @@ ru:
         enrichment: 'Обогащение'
         created_at: 'Время создания'
         trust_level: 'Уровень доверия'
-        ioc_kind: 'Тип индикатора'
+        content_kind: 'Тип индикатора'
+        content_subkinds: 'Подтипы индикатора'
         danger: 'Угроза (IOC)'
+        description: 'Описание'
         appearance: 'Встречался'
         trust_levels:
           unknown: 'Неизвестно'
           low: 'Низкий'
           high: 'Высокий'
-        ioc_kinds:
+        content_kinds:
           other: 'Прочее'
           network: 'IP-адрес/сеть'
           email_adress: 'Почтовый адрес'

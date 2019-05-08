@@ -3,9 +3,12 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
     create_table :indicators do |t|
       t.references :user, foreign_key: true
       t.references :investigation, foreign_key: true
-      t.integer :ioc_kind
       t.integer :trust_level
       t.string :content
+      t.integer :content_kind
+      t.text:content_subkinds
+      t.boolean :danger
+      t.text:description
       t.jsonb :enrichment, null: false, default: '{}'
 
       t.timestamps

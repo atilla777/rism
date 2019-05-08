@@ -7,6 +7,7 @@
   = r.show :investigation_id
     = link_to r.decorated.show_investigation_full_name, @record.investigation
   = r.show :trust_level, value: r.decorated.show_trust_level
-  = r.show :ioc_kind, value: r.decorated.show_ioc_kind
-  = r.show :danger, value: r.decorated.show_danger
+  = r.show :content_kind, value: r.decorated.show_content_kind
+  = r.show :content_subkinds, value: r.decorated.show_content_subkinds
   = r.show :content
+  = r.show :danger, value: r.decorated.show_danger

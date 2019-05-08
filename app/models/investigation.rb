@@ -34,7 +34,7 @@ class Investigation < ApplicationRecord
 
   def set_name
     return if name.present?
-    self.name = investigation_kind.name
+    self.name = investigation_kind&.name
   end
 
 #  def set_indicators

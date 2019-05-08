@@ -7,7 +7,7 @@ class Indicator < ApplicationRecord
   include Attachable
   include Indicator::Ransackers
 
-  INDICATOR_KINDS = [
+  CONTENT_KINDS = [
     {kind: :other, pattern: /^\s*other:\s*(.{1,500})$/, check_prefix: true},
     {kind: :network, pattern: /^\s*(#{Resolv::IPv4::Regex})\s*$/},
     {kind: :email_adress, pattern: /^\s*([\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+)\s*$/i, check_prefix: true},
@@ -32,7 +32,7 @@ class Indicator < ApplicationRecord
                        high
                       ]
 
-  enum ioc_kind: INDICATOR_KINDS.map { |i| i[:kind] }
+  enum content_kind: CONTENT_KINDS.map { |i| i[:kind] }
 
   before_save :downcase_hashes
 
@@ -40,7 +40,7 @@ class Indicator < ApplicationRecord
 
   validates :investigation_id, numericality: { only_integer: true }
   validates :user_id, numericality: { only_integer: true }
-  validates :ioc_kind, inclusion: { in: Indicator.ioc_kinds.keys}
+  validates :content_kind, inclusion: { in: Indicator.content_kinds.keys}
   validates :content, presence: true
   validates :trust_level, inclusion: { in: Indicator.trust_levels.keys}
   validates :content, uniqueness: { scope: :investigation_id }
@@ -51,8 +51,8 @@ class Indicator < ApplicationRecord
   belongs_to :user
   has_one :organization, through: :investigation
 
-  def self.human_attribute_ioc_kinds
-    Hash[Indicator.ioc_kinds.map { |k,v| [v, Indicator.human_enum_name(:ioc_kind, k)] }]
+  def self.human_attribute_content_kinds
+    Hash[Indicator.content_kinds.map { |k,v| [v, Indicator.human_enum_name(:content_kind, k)] }]
   end
 
   def self.human_attribute_trust_levels
@@ -60,8 +60,8 @@ class Indicator < ApplicationRecord
   end
 
   def self.cast_indicator(string)
-    result = INDICATOR_KINDS.each do |i|
-      break {content: $1, ioc_kind: i[:kind]} if i[:pattern] =~ string
+    result = CONTENT_KINDS.each do |i|
+      break {content: $1, content_kind: i[:kind]} if i[:pattern] =~ string
     end
     if result.is_a? Hash
       return result
@@ -72,19 +72,19 @@ class Indicator < ApplicationRecord
 
   # TODO: translate error message
   def check_content_format
-    ioc_kind_description = INDICATOR_KINDS.find { |i| i[:kind] == ioc_kind.to_sym }
-    content_with_prefix= if ioc_kind_description.fetch(:check_prefix, false)
-      "#{ioc_kind}:#{content}"
+    content_kind_description = CONTENT_KINDS.find { |i| i[:kind] == content_kind.to_sym }
+    content_with_prefix= if content_kind_description.fetch(:check_prefix, false)
+      "#{content_kind}:#{content}"
     else
       content
     end
     casted_indicator = Indicator.cast_indicator(content_with_prefix)
-    return if casted_indicator[:ioc_kind] == ioc_kind.to_sym
+    return if casted_indicator[:content_kind] == content_kind.to_sym
     errors.add(:content, :wrong_format_or_dublication)
   end
 
   def downcase_hashes
-    return unless [:md5, :sha512, :sha256].include?(ioc_kind.to_sym)
+    return unless [:md5, :sha512, :sha256].include?(content_kind.to_sym)
     self.content = self.content.downcase
   end
 end
