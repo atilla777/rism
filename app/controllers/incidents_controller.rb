@@ -5,6 +5,32 @@ class IncidentsController < ApplicationController
 
   before_action :set_time, only: [:create, :update]
 
+  def autocomplete_incident_name
+    authorize model
+    scope = if current_user.admin_editor?
+              Incident
+            elsif current_user.can_read_model_index? Organization
+              Incident
+            else
+              Incident.where(
+                organization_id: current_user.allowed_organizations_ids
+              )
+            end
+
+    term = params[:term]
+    records = scope.select(:id, :name, :created_at)
+                       .where('name ILIKE ? OR id::text LIKE ?', "%#{term}%", "#{term}%")
+                       .order(:id)
+    result = IncidentDecorator.wrap(records).map do |record|
+               {
+                 id: record.id,
+                 name: record.name,
+                 value: record.show_full_name
+               }
+             end
+    render json: result
+  end
+
   def search
     authorize model
     @organization = organization

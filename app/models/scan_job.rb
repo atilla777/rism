@@ -3,6 +3,7 @@ class ScanJob < ApplicationRecord
   include Linkable
   include Tagable
   include Attachable
+  include Rightable
 
   SCAN_ENGINES = %w[nmap shodan]
 
@@ -14,20 +15,18 @@ class ScanJob < ApplicationRecord
 
   validates :name, length: { minimum: 3, maximum: 100 }
   validates :name, uniqueness: { scope: :organization_id }
-  validates :organization_id, numericality: { only_integer: true }
   validates :scan_option_id, numericality: { only_integer: true }
 
-  belongs_to :organization
   belongs_to :scan_option
 
   has_one :schedule, as: :job, dependent: :destroy
 
   has_many :scan_results, dependent: :delete_all
 
-  has_many :scan_jobs_hosts, dependent: :destroy
+  has_many :scan_jobs_hosts, dependent: :delete_all
   has_many :linked_hosts, through: :scan_jobs_hosts, source: :host
 
-  has_many :scan_job_logs, dependent: :destroy
+  has_many :scan_job_logs, dependent: :delete_all
 
   def self.scan_engines
     SCAN_ENGINES

@@ -267,6 +267,7 @@ ru:
       host_service:
         name: 'Название'
         organization_id: 'Организация'
+        host_id: 'Хост'
         ip_str: 'Хост'
         vulnerable: 'Уязвим'
         vuln_description: 'Описание уязвимости'

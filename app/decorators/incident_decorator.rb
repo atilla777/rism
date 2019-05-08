@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 class IncidentDecorator < SimpleDelegator
-# TODO: delete unused
-#  def show_full_name
-#    result = ["##{id}"]
-#    result << name if name.present?
-#    result.join(' - ')
-#  end
+  def self.wrap(collection)
+    collection.map do |obj|
+      new obj
+    end
+  end
+
+  def show_full_name
+    "#{id} #{name} (#{created_at.strftime('%d.%m.%Y-%H:%M')})"
+  end
 
   def show_id
     "##{id}"

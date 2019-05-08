@@ -1,4 +1,5 @@
 class ScanOption < ApplicationRecord
+
   QUEUE_NUMBERS = 1..2
   validates :name, length: { minimum: 3, maximum: 100 }
   validates :queue_number, length: { minimum: 1, maximum: 2 }

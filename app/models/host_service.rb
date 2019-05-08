@@ -7,12 +7,12 @@ class HostService < ApplicationRecord
   include Attachable
   include Legalitiable
   include HostService::Ransackers
+  include Rightable
 
   PROTOCOLS = %w[tcp udp]
 
   has_paper_trail
 
-  validates :organization_id, numericality: { only_integer: true }
   validates :host_id, numericality: { only_integer: true }
   validates :name, length: { in: 3..200, allow_blank: true }
   validates :port,
@@ -21,7 +21,6 @@ class HostService < ApplicationRecord
   validates :port, inclusion: { in: 0..65535 }
   validates :protocol, presence: true
 
-  belongs_to :organization
   belongs_to :host
 
 #  belongs_to :scan_result,

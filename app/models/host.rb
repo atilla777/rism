@@ -6,18 +6,17 @@ class Host < ApplicationRecord
   include Tagable
   include Attachable
   include Host::Ransackers
+  include Rightable
 
   has_paper_trail
 
   validates :name, length: { in: 3..200, allow_blank: true }
   validates :name, uniqueness: { scope: :organization_id, allow_blank: true }
   validates :ip, uniqueness: true
-  validates :organization_id, numericality: { only_integer: true }
 
-  belongs_to :organization
   has_many :host_services, dependent: :destroy
 
-  has_many :scan_jobs_hosts, dependent: :destroy
+  has_many :scan_jobs_hosts, dependent: :delete_all
   has_many :scan_jobs, through: :scan_jobs_hosts
   #
   # for use with RecordTemplate, Link and etc

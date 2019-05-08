@@ -2,14 +2,12 @@
 
 class Attachment < ApplicationRecord
   include OrganizationMember
+  include Rightable
 
   mount_uploader :document, DocumentUploader
 
   validates :name, length: { minimum: 1, maximum: 100, allow_blank: true }
-  validates :organization_id, numericality: { only_integer: true }
   validates :document, presence: true
-
-  belongs_to :organization
 
   has_many :attachment_links, dependent: :destroy
 
@@ -22,9 +20,6 @@ class Attachment < ApplicationRecord
            through: :attachment_links,
            source: :record,
            source_type: 'Incident'
-
-  has_many :rights, as: :subject, dependent: :destroy
-
 
   accepts_nested_attributes_for :attachment_links
 end

@@ -6,9 +6,9 @@ module User::HasRole
   included do
     before_destroy :protect_admin
 
-    has_many :role_members, dependent: :destroy
+    has_many :role_members, dependent: :delete_all
     has_many :roles, through: :role_members
-    has_many :rights, as: :subject, dependent: :destroy
+    has_many :rights, as: :subject, dependent: :delete_all
   end
 
   def protect_admin
