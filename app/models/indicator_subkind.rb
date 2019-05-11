@@ -15,7 +15,7 @@ class IndicatorSubkind < ApplicationRecord
   private
 
   def set_indicators_kinds
-    indicators_kinds.compact!
-      .map! {|indicators_kind| indicators_kind.to_i}
+    indicators_kinds.select!(&:present?)
+      .map! {|indicators_kind| indicators_kind}
   end
 end

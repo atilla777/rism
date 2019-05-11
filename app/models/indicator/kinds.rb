@@ -22,7 +22,7 @@ module Indicator::Kinds
     {kind: :network_service, pattern: /^\s*(#{IP4_REGEXP}:#{NETWORK_PORT_REGEXP}:(tcp|udp)?)\s*$/},
     {kind: :network, pattern: /^\s*(#{IP4_REGEXP})\s*$/},
     {kind: :network_port, pattern: /^\s*(#{NETWORK_PORT_REGEXP}(tcp|udp)?)\s*$/},
-    {kind: :email_adress, pattern: /^\s*([\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+)\s*$/i, check_prefix: true},
+    {kind: :email_adress, pattern: /^\s*([\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+)\s*$/i},
     {kind: :email_theme, pattern: /^\s*email_theme:\s*(.{1,500})$/, check_prefix: true},
     {kind: :email_content, pattern: /^\s*email_content:\s*(.{1,500})$/, check_prefix: true},
     {kind: :uri, pattern: /\s*uri:\s*(#{URI.regexp})/, check_prefix: true},

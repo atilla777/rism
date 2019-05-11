@@ -10,7 +10,7 @@ class IndicatorSubkindsDecorator < SimpleDelegator
   def show_indicators_subkinds
     indicators_kinds.map do |indicator_kind|
       Indicator.human_enum_name(
-        :content_kind, Indicator.content_kinds.key(indicator_kind)
+        :content_kind, indicator_kind
       )
     end.join(', ')
   end

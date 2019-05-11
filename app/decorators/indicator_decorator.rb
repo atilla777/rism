@@ -11,8 +11,9 @@ class IndicatorDecorator < SimpleDelegator
   end
 
   def show_content_subkinds
-    #Indicator.human_enum_name(:content_subkind, content_kind)
-    content_subkinds
+    indicator_subkinds.map do |indicator_subkind|
+      indicator_subkind.name
+    end.join(', ')
   end
 
   def show_danger

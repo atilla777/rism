@@ -18,15 +18,17 @@
           .col-lg-2.text-right
             = f.label :content_kind, class: 'control-label'
           .col-lg-8
-            = f.select :content_kind, Indicator.content_kinds.keys.collect { |kind| [Indicator.human_enum_name(:content_kind, kind), kind] }, { selected: @record.content_kind || :email}, class: 'form-control'
+            // = f.text_field :content_kind,  value: @record.content_kind || @content_kind, class: 'form-control', readonly: true
+            = f.select :content_kind, Indicator.content_kinds.keys.collect { |kind| [Indicator.human_enum_name(:content_kind, kind), kind] }, { selected: @record.content_kind || @content_kind}, class: 'form-control', readonly: true
 
-      .form-group
+      .form-group.recomended
         .field
-          .col-lg-2.text-right
-            = f.label :content_subkinds, class: 'control-label'
-          .col-lg-8
-            = f.text_field :content_subkinds, class: 'form-control'
-
+           .col-lg-2.text-right
+             = f.label :content_subkinds, class: 'control-label'
+           .col-lg-8
+             = f.collection_check_boxes :indicator_subkind_ids, @indicator_subkinds, :id, :name, {}, class: 'big-checkbox' do |b|
+               =< b.check_box(checked: @selected_indicator_subkind_ids.include?(b.value.to_i))
+               =< b.text
 
       .form-group.required
         .field

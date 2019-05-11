@@ -9,6 +9,7 @@ class Indicator < ApplicationRecord
   include Indicator::Kinds
 
   attr_accessor :indicators_list, :skip_format_validation
+  attr_accessor :indicator_subkind_ids
 
   enum trust_level: %i[
                        unknown
@@ -19,6 +20,7 @@ class Indicator < ApplicationRecord
   enum content_kind: CONTENT_KINDS.map { |i| i[:kind] }
 
   before_save :downcase_hashes
+  after_save :set_indicator_subkind_member
 
   validate :check_content_format, unless: :skip_format_validation
 
@@ -34,6 +36,9 @@ class Indicator < ApplicationRecord
   belongs_to :investigation
   belongs_to :user
   has_one :organization, through: :investigation
+
+  has_many :indicator_subkind_members
+  has_many :indicator_subkinds, through: :indicator_subkind_members
 
   def self.human_attribute_content_kinds
     Hash[Indicator.content_kinds.map { |k,v| [v, Indicator.human_enum_name(:content_kind, k)] }]
@@ -70,5 +75,9 @@ class Indicator < ApplicationRecord
   def downcase_hashes
     return unless [:md5, :sha512, :sha256].include?(content_kind.to_sym)
     self.content = self.content.downcase
+  end
+
+  def set_indicator_subkind_member
+    SetIndicatorSubkindsService.call(id, indicator_subkind_ids)
   end
 end

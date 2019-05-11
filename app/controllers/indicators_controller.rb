@@ -4,6 +4,9 @@ class IndicatorsController < ApplicationController
   include RecordOfOrganization
 
   before_action :set_investigation, only: [:new]
+  before_action :set_content_kind, only: [:new, :create, :edit, :update]
+  before_action :set_indicator_subkinds, only: [:new, :create, :edit, :update]
+  before_action :set_selected_indicator_subkinds, only: [:new, :create, :edit, :update]
 
   def index
     authorize model
@@ -89,6 +92,24 @@ class IndicatorsController < ApplicationController
 
   def set_investigation
     @investigation = Investigation.find(params[:investigation_id])
+  end
+
+  def set_content_kind
+    @content_kind = params[:content_kind] || params.fetch(:indicator, {})
+      .fetch(:content_kind, nil)
+  end
+
+  def set_indicator_subkinds
+    #TODO: exclude record fetch dublication (here and in record of organization)
+    content_kind = @content_kind || Indicator.find(params[:id].to_i).content_kind
+    @indicator_subkinds = IndicatorSubkind
+      .where(":indicator_kind = ANY(indicators_kinds)", indicator_kind: content_kind)
+  end
+
+  def set_selected_indicator_subkinds
+    @selected_indicator_subkind_ids = IndicatorSubkindMember.where(
+      indicator_id: params[:id]
+    ).pluck(:indicator_subkind_id)
   end
 
   def set_format_errors

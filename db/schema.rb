@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(version: 20190511051655) do
   create_table "indicator_subkinds", force: :cascade do |t|
     t.string "name"
     t.string "codename"
-    t.integer "indicators_kinds", default: [], array: true
+    t.text "indicators_kinds", array: true
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

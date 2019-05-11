@@ -1,16 +1,17 @@
 class IndicatorPolicy < ApplicationPolicy
 
   def permitted_attributes
-    %i[
-      user_id
-      investigation_id
-      content
-      indicators_list
-      content_kind
-      content_subkinds
-      description
-      danger
-      trust_level
+    [
+      :user_id,
+      :investigation_id,
+      :content,
+      :indicators_list,
+      {indicator_subkind_ids: []},
+      :content_kind,
+      :content_subkinds,
+      :description,
+      :danger,
+      :trust_level
     ]
   end
 
