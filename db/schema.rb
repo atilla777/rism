@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190302045850) do
+ActiveRecord::Schema.define(version: 20190511051655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,6 +155,24 @@ ActiveRecord::Schema.define(version: 20190302045850) do
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_incidents_on_organization_id"
     t.index ["user_id"], name: "index_incidents_on_user_id"
+  end
+
+  create_table "indicator_subkind_members", force: :cascade do |t|
+    t.bigint "indicator_id"
+    t.bigint "indicator_subkind_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["indicator_id"], name: "index_indicator_subkind_members_on_indicator_id"
+    t.index ["indicator_subkind_id"], name: "index_indicator_subkind_members_on_indicator_subkind_id"
+  end
+
+  create_table "indicator_subkinds", force: :cascade do |t|
+    t.string "name"
+    t.string "codename"
+    t.integer "indicators_kinds", default: [], array: true
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "indicators", force: :cascade do |t|
@@ -476,6 +494,8 @@ ActiveRecord::Schema.define(version: 20190302045850) do
   add_foreign_key "hosts", "organizations"
   add_foreign_key "incidents", "organizations"
   add_foreign_key "incidents", "users"
+  add_foreign_key "indicator_subkind_members", "indicator_subkinds"
+  add_foreign_key "indicator_subkind_members", "indicators"
   add_foreign_key "indicators", "investigations"
   add_foreign_key "indicators", "users"
   add_foreign_key "investigations", "feeds"

@@ -6,40 +6,52 @@ li
 li
   = link_to tag_kinds_path do
     .span.text-info
-      = fa_icon 'tag'
+      = fa_icon 'star'
+      =< fa_icon 'tags'
       =< TagKind.model_name.human(count: 2)
-li
-  = link_to link_kinds_path do
-    .span.text-info
-      = fa_icon 'link'
-      =< LinkKind.model_name.human(count: 2)
 li
   = link_to tags_path do
     .span.text-info
       = fa_icon 'tags'
       =< Tag.model_name.human(count: 2)
 li
+  = link_to link_kinds_path do
+    .span.text-info
+      = fa_icon 'link'
+      =< LinkKind.model_name.human(count: 2)
+li
   = link_to organization_kinds_path do
     .span.text-info
-      = fa_icon 'industry'
+      = fa_icon 'star'
+      =< fa_icon 'industry'
       =< OrganizationKind.model_name.human(count: 2)
 li
   = link_to agreement_kinds_path do
     .span.text-info
-      = fa_icon 'handshake-o'
+      = fa_icon 'star'
+      =< fa_icon 'handshake-o'
       =< AgreementKind.model_name.human(count: 2)
 li
   = link_to scan_options_path do
     .span.text-info
-      = fa_icon 'sliders'
+      = fa_icon 'star'
+      =< fa_icon 'gears'
       =< ScanOption.model_name.human(count: 2)
 li
   = link_to feeds_path do
     .span.text-info
-      = fa_icon 'wifi'
+      = fa_icon 'star'
+      =< fa_icon 'eye'
       =< Feed.model_name.human(count: 2)
 li
   = link_to investigation_kinds_path do
     .span.text-info
       = fa_icon 'star'
+      =< fa_icon 'eye'
       =< InvestigationKind.model_name.human(count: 2)
+li
+  = link_to indicator_subkinds_path do
+    .span.text-info
+      = fa_icon 'star'
+      =< fa_icon 'bomb'
+      =< IndicatorSubkind.model_name.human(count: 2)

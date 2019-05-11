@@ -1,28 +1,12 @@
 class Indicator < ApplicationRecord
-  require 'resolv'
+  # require 'resolv' #{Resolv::IPv4::Regex}
 
   include OrganizationAssociated
   include Linkable
   include Tagable
   include Attachable
   include Indicator::Ransackers
-
-  CONTENT_KINDS = [
-    {kind: :other, pattern: /^\s*other:\s*(.{1,500})$/, check_prefix: true},
-    {kind: :network, pattern: /^\s*(#{Resolv::IPv4::Regex})\s*$/},
-    {kind: :email_adress, pattern: /^\s*([\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+)\s*$/i, check_prefix: true},
-    {kind: :email_theme, pattern: /^\s*email_theme:\s*(.{1,500})$/, check_prefix: true},
-    {kind: :email_content, pattern: /^\s*email_content:\s*(.{1,500})$/, check_prefix: true},
-    {kind: :uri, pattern: /\s*uri:\s*(#{URI.regexp})/, check_prefix: true},
-    {kind: :domain, pattern: /^\s*domain:\s*((((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,}))$/, check_prefix: true},
-    {kind: :md5, pattern: /^\s*([a-f0-9]{32})\s*$/i},
-    {kind: :sha256, pattern: /^\s*([a-f0-9]{64})\s*$/i},
-    {kind: :sha512, pattern: /^\s*([a-f0-9]{128})\s*$/i},
-    {kind: :filename, pattern: /^\s*filename:\s*(.{1,500})$/, check_prefix: true},
-    {kind: :filesize, pattern: /^\s*filesize:\s*(.{1,500})$/, check_prefix: true},
-    {kind: :process, pattern: /^\s*process:\s*(.{1,500})$/, check_prefix: true},
-    {kind: :account, pattern: /^\s*account:\s*(.{1,500})$/, check_prefix: true},
-  ]
+  include Indicator::Kinds
 
   attr_accessor :indicators_list, :skip_format_validation
 

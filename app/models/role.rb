@@ -3,7 +3,7 @@
 class Role < ApplicationRecord
   before_destroy :protect_main_roles
 
-  has_many :role_members, dependent: :destroy
+  has_many :role_members, dependent: :delete_all
   has_many :users, through: :role_members
 
   has_many :rights, dependent: :destroy

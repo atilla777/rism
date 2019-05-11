@@ -89,11 +89,14 @@ ru:
         one: 'Индикатор'
         other: 'Индикаторы'
       feed:
-        one: 'Источник индикаторов'
-        other: 'Источники индикаторов'
+        one: 'Источник информации исследования'
+        other: 'Источники информации исследования'
       investigation_kind:
         one: 'Тип исследования'
         other: 'Типы исследований'
+      indicator_subkind:
+        one: 'Подтип индикатора'
+        other: 'Подтипы индикаторов'
     attributes:
       organization:
         name: 'Имя'
@@ -355,12 +358,14 @@ ru:
           high: 'Высокий'
         content_kinds:
           other: 'Прочее'
+          network_service: 'Сетевой сервис (8.8.8.8:53 или 10.1.1.1:443:tcp)'
           network: 'IP-адрес/сеть'
-          email_adress: 'Почтовый адрес'
+          network_port: 'Сетевой порт (21 или 22:tcp)'
+          email_adress: 'Почтовый адрес (my@example.com)'
           email_theme: 'Тема письма'
           email_content: 'Содержание письма'
-          uri: 'URI'
-          domain: 'Домен'
+          uri: 'URI (http://www.ya.ru)'
+          domain: 'Домен (ya.ru)'
           md5: 'MD5'
           sha256: 'SHA256'
           sha512: 'SHA512'
@@ -368,6 +373,11 @@ ru:
           filesize: 'Размер файла'
           process: 'Имя процесса'
           account: 'Учетная запись'
+      indicator_subkind:
+        name: 'Имя'
+        codename: 'Кодовое имя'
+        indicators_kinds: 'Типы индикаторов'
+        description: 'Описание'
     errors:
       messages:
           organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'
