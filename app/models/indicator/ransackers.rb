@@ -13,37 +13,37 @@ module Indicator::Ransackers
       RansackerDatetimeCast.datetime_field_to_text_search 'indicators', 'created_at', :reverse
     end
 
-    ransacker :content_kind_str do
+    ransacker :content_format_str do
       field_transformation = <<~SQL
-        CASE indicators.content_kind
+        CASE indicators.content_format
         WHEN 0
-        THEN '#{Indicator.human_enum_name(:content_kind, 'other')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'other')}'
         WHEN 1
-        THEN '#{Indicator.human_enum_name(:content_kind, 'network')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'network')}'
         WHEN 2
-        THEN '#{Indicator.human_enum_name(:content_kind, 'email_adress')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'email_adress')}'
         WHEN 3
-        THEN '#{Indicator.human_enum_name(:content_kind, 'email_theme')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'email_theme')}'
         WHEN 4
-        THEN '#{Indicator.human_enum_name(:content_kind, 'email_content')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'email_content')}'
         WHEN 5
-        THEN '#{Indicator.human_enum_name(:content_kind, 'url')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'url')}'
         WHEN 6
-        THEN '#{Indicator.human_enum_name(:content_kind, 'domain')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'domain')}'
         WHEN 7
-        THEN '#{Indicator.human_enum_name(:content_kind, 'md5')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'md5')}'
         WHEN 8
-        THEN '#{Indicator.human_enum_name(:content_kind, 'sha256')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'sha256')}'
         WHEN 9
-        THEN '#{Indicator.human_enum_name(:content_kind, 'sha512')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'sha512')}'
         WHEN 10
-        THEN '#{Indicator.human_enum_name(:content_kind, 'filename')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'filename')}'
         WHEN 11
-        THEN '#{Indicator.human_enum_name(:content_kind, 'filesize')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'filesize')}'
         WHEN 12
-        THEN '#{Indicator.human_enum_name(:content_kind, 'process')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'process')}'
         WHEN 13
-        THEN '#{Indicator.human_enum_name(:content_kind, 'account')}'
+        THEN '#{Indicator.human_enum_name(:content_format, 'account')}'
         END
       SQL
       Arel.sql(field_transformation)

@@ -6,8 +6,8 @@ class IndicatorDecorator < SimpleDelegator
     end
   end
 
-  def show_content_kind
-    Indicator.human_enum_name(:content_kind, content_kind)
+  def show_content_format
+    Indicator.human_enum_name(:content_format, content_format)
   end
 
   def show_content_subkinds

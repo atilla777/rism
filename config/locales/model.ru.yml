@@ -347,7 +347,7 @@ ru:
         enrichment: 'Обогащение'
         created_at: 'Время создания'
         trust_level: 'Уровень доверия'
-        content_kind: 'Тип индикатора'
+        content_format: 'Формат индикатора'
         content_subkinds: 'Подтипы индикатора'
         danger: 'Угроза (IOC)'
         description: 'Описание'
@@ -356,7 +356,7 @@ ru:
           unknown: 'Неизвестно'
           low: 'Низкий'
           high: 'Высокий'
-        content_kinds:
+        content_formats:
           other: 'Прочее'
           network_service: 'Сетевой сервис (8.8.8.8:53 или 10.1.1.1:443:tcp)'
           network: 'IP-адрес/сеть'
@@ -376,7 +376,7 @@ ru:
       indicator_subkind:
         name: 'Имя'
         codename: 'Кодовое имя'
-        indicators_kinds: 'Типы индикаторов'
+        indicators_formats: 'Форматы индикаторов'
         description: 'Описание'
     errors:
       messages:

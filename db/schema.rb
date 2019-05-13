@@ -180,8 +180,7 @@ ActiveRecord::Schema.define(version: 20190511051655) do
     t.bigint "investigation_id"
     t.integer "trust_level"
     t.string "content"
-    t.integer "content_kind"
-    t.text "content_subkinds"
+    t.integer "content_format"
     t.boolean "danger"
     t.text "description"
     t.jsonb "enrichment", default: "{}", null: false

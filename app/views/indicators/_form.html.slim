@@ -16,10 +16,10 @@
       .form-group.required
         .field
           .col-lg-2.text-right
-            = f.label :content_kind, class: 'control-label'
+            = f.label :content_format, class: 'control-label'
           .col-lg-8
-            // = f.text_field :content_kind,  value: @record.content_kind || @content_kind, class: 'form-control', readonly: true
-            = f.select :content_kind, Indicator.content_kinds.keys.collect { |kind| [Indicator.human_enum_name(:content_kind, kind), kind] }, { selected: @record.content_kind || @content_kind}, class: 'form-control', readonly: true
+            // = f.text_field :content_format,  value: @record.content_format || @content_format, class: 'form-control', readonly: true
+            = f.select :content_format, Indicator.content_formats.keys.collect { |format| [Indicator.human_enum_name(:content_format, format), format] }, { selected: @record.content_format || @content_format }, class: 'form-control', readonly: true
 
       .form-group.recomended
         .field

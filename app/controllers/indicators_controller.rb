@@ -4,7 +4,7 @@ class IndicatorsController < ApplicationController
   include RecordOfOrganization
 
   before_action :set_investigation, only: [:new]
-  before_action :set_content_kind, only: [:new, :create, :edit, :update]
+  before_action :set_content_format, only: [:new, :create, :edit, :update]
   before_action :set_indicator_subkinds, only: [:new, :create, :edit, :update]
   before_action :set_selected_indicator_subkinds, only: [:new, :create, :edit, :update]
 
@@ -94,16 +94,16 @@ class IndicatorsController < ApplicationController
     @investigation = Investigation.find(params[:investigation_id])
   end
 
-  def set_content_kind
-    @content_kind = params[:content_kind] || params.fetch(:indicator, {})
-      .fetch(:content_kind, nil)
+  def set_content_format
+    @content_format = params[:content_format] || params.fetch(:indicator, {})
+      .fetch(:content_format, nil)
   end
 
   def set_indicator_subkinds
     #TODO: exclude record fetch dublication (here and in record of organization)
-    content_kind = @content_kind || Indicator.find(params[:id].to_i).content_kind
+    content_format = @content_format || Indicator.find(params[:id].to_i).content_format
     @indicator_subkinds = IndicatorSubkind
-      .where(":indicator_kind = ANY(indicators_kinds)", indicator_kind: content_kind)
+      .where(":indicator_format = ANY(indicators_kinds)", indicator_format: content_format)
   end
 
   def set_selected_indicator_subkinds

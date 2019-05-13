@@ -7,7 +7,7 @@ class IndicatorPolicy < ApplicationPolicy
       :content,
       :indicators_list,
       {indicator_subkind_ids: []},
-      :content_kind,
+      :content_format,
       :content_subkinds,
       :description,
       :danger,

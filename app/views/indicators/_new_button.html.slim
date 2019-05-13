@@ -6,7 +6,7 @@
       =<> t('helpers.submit.create', model: Indicator.model_name.human)
       span.caret
     ul.dropdown-menu.dropdown-menu-right
-      - Indicator.content_kinds.each do |content_kind, _|
+      - Indicator.content_formats.each do |content_format, _|
         li
-          = link_to new_indicator_path({content_kind: content_kind, investigation_id: investigation_id}), data: {turbolinks: false} do
-            =< Indicator.human_enum_name(:content_kind, content_kind)
+          = link_to new_indicator_path({content_format: content_format, investigation_id: investigation_id}), data: {turbolinks: false} do
+            =< Indicator.human_enum_name(:content_format, content_format)
