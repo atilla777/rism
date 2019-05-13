@@ -22,7 +22,10 @@ class CreateIndicatorsService
   def create_indicator(string)
     string.strip!
     indicator_params = Indicator.cast_indicator(string)
-    return unless indicator_params.fetch(:content_kind, false)
+    return unless indicator_params.fetch(:content_format, false)
+    indicator_params[:indicator_context_ids] = indicator_context_ids(
+      indicator_params[:indicator_context_ids]
+    )
     indicator_params.merge!(
       investigation_id: @investigation_id,
       user_id: @user_id,
@@ -33,5 +36,9 @@ class CreateIndicatorsService
     indicator.current_user = User.find(@user_id)
     indicator.skip_format_validation = true
     indicator.save
+  end
+
+  def indicator_context_ids(codenames)
+    IndicatorContext.where(codename: codenames).pluck(:id)
   end
 end

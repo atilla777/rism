@@ -6,7 +6,8 @@ class Indicator < ApplicationRecord
   include Indicator::Ransackers
   include Indicator::Formats
 
-  attr_accessor :indicators_list, :skip_format_validation
+  attr_accessor :indicators_list
+  attr_accessor :skip_format_validation
   attr_accessor :indicator_context_ids
 
   enum trust_level: %i[
@@ -52,7 +53,7 @@ class Indicator < ApplicationRecord
 
   def self.cast_indicator(string)
     result = CONTENT_FORMATS.each do |i|
-      break {content: $1, content_format: i[:format]} if i[:pattern] =~ string
+      break {indicator_context_ids: $~[:contexts], content: $~[:content], content_format: i[:format]} if i[:pattern] =~ string
     end
     if result.is_a? Hash
       return result
@@ -82,6 +83,7 @@ class Indicator < ApplicationRecord
   end
 
   def set_indicator_context_member
+    return if indicator_context_ids.blank?
     SetIndicatorContextsService.call(id, indicator_context_ids)
   end
 end

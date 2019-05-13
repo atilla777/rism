@@ -101,7 +101,9 @@ class IndicatorsController < ApplicationController
 
   def set_indicator_contexts
     #TODO: exclude record fetch dublication (here and in record of organization)
-    content_format = @content_format || Indicator.find(params[:id].to_i).content_format
+    content_format = @content_format \
+      || Indicator.find_by(id: params[:id].to_i)&.content_format \
+      || []
     @indicator_contexts = IndicatorContext
       .where(":content_format = ANY(indicators_formats)", content_format: content_format)
   end
