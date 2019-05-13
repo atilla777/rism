@@ -84,7 +84,7 @@ Rails.application.routes.draw do
   resources :investigation_kinds
   resources :investigations
   resources :indicators
-  resources :indicator_subkinds
+  resources :indicator_contexts
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

@@ -6,7 +6,7 @@ class IndicatorPolicy < ApplicationPolicy
       :investigation_id,
       :content,
       :indicators_list,
-      {indicator_subkind_ids: []},
+      {indicator_context_ids: []},
       :content_format,
       :content_subkinds,
       :description,

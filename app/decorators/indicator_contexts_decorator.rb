@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-class IndicatorSubkindsDecorator < SimpleDelegator
+class IndicatorContextsDecorator < SimpleDelegator
   def self.wrap(collection)
     collection.map do |obj|
       new obj
     end
   end
 
-  def show_indicators_subkinds
-    indicators_kinds.map do |indicator_kind|
+  def show_indicators_formats
+    indicators_formats.map do |format|
       Indicator.human_enum_name(
-        :content_kind, indicator_kind
+        :content_format, format
       )
     end.join(', ')
   end

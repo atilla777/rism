@@ -5,8 +5,8 @@ class IndicatorsController < ApplicationController
 
   before_action :set_investigation, only: [:new]
   before_action :set_content_format, only: [:new, :create, :edit, :update]
-  before_action :set_indicator_subkinds, only: [:new, :create, :edit, :update]
-  before_action :set_selected_indicator_subkinds, only: [:new, :create, :edit, :update]
+  before_action :set_indicator_contexts, only: [:new, :create, :edit, :update]
+  before_action :set_selected_indicator_contexts, only: [:new, :create, :edit, :update]
 
   def index
     authorize model
@@ -99,17 +99,17 @@ class IndicatorsController < ApplicationController
       .fetch(:content_format, nil)
   end
 
-  def set_indicator_subkinds
+  def set_indicator_contexts
     #TODO: exclude record fetch dublication (here and in record of organization)
     content_format = @content_format || Indicator.find(params[:id].to_i).content_format
-    @indicator_subkinds = IndicatorSubkind
-      .where(":indicator_format = ANY(indicators_kinds)", indicator_format: content_format)
+    @indicator_contexts = IndicatorContext
+      .where(":content_format = ANY(indicators_formats)", content_format: content_format)
   end
 
-  def set_selected_indicator_subkinds
-    @selected_indicator_subkind_ids = IndicatorSubkindMember.where(
+  def set_selected_indicator_contexts
+    @selected_indicator_contexts_ids = IndicatorContextMember.where(
       indicator_id: params[:id]
-    ).pluck(:indicator_subkind_id)
+    ).pluck(:indicator_context_id)
   end
 
   def set_format_errors

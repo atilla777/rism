@@ -24,10 +24,10 @@
       .form-group.recomended
         .field
            .col-lg-2.text-right
-             = f.label :content_subkinds, class: 'control-label'
+             = f.label :indicator_contexts, class: 'control-label'
            .col-lg-8
-             = f.collection_check_boxes :indicator_subkind_ids, @indicator_subkinds, :id, :name, {}, class: 'big-checkbox' do |b|
-               =< b.check_box(checked: @selected_indicator_subkind_ids.include?(b.value.to_i))
+             = f.collection_check_boxes :indicator_context_ids, @indicator_contexts, :id, :name, {}, class: 'big-checkbox' do |b|
+               =< b.check_box(checked: @selected_indicator_contexts_ids.include?(b.value.to_i))
                =< b.text
 
       .form-group.required

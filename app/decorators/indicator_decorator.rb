@@ -10,9 +10,9 @@ class IndicatorDecorator < SimpleDelegator
     Indicator.human_enum_name(:content_format, content_format)
   end
 
-  def show_content_subkinds
-    indicator_subkinds.map do |indicator_subkind|
-      indicator_subkind.name
+  def show_indicator_contexts
+    indicator_contexts.map do |context|
+      context.name
     end.join(', ')
   end
 

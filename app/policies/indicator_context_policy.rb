@@ -1,10 +1,10 @@
-class IndicatorSubkindPolicy < ApplicationPolicy
+class IndicatorContextPolicy < ApplicationPolicy
   include RecordPolicy
 
   def permitted_attributes
     [:name,
      :codename,
-     {indicators_kinds: []},
+     {indicators_formats: []},
      :description]
   end
 

@@ -157,19 +157,19 @@ ActiveRecord::Schema.define(version: 20190511051655) do
     t.index ["user_id"], name: "index_incidents_on_user_id"
   end
 
-  create_table "indicator_subkind_members", force: :cascade do |t|
+  create_table "indicator_context_members", force: :cascade do |t|
     t.bigint "indicator_id"
-    t.bigint "indicator_subkind_id"
+    t.bigint "indicator_context_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["indicator_id"], name: "index_indicator_subkind_members_on_indicator_id"
-    t.index ["indicator_subkind_id"], name: "index_indicator_subkind_members_on_indicator_subkind_id"
+    t.index ["indicator_context_id"], name: "index_indicator_context_members_on_indicator_context_id"
+    t.index ["indicator_id"], name: "index_indicator_context_members_on_indicator_id"
   end
 
-  create_table "indicator_subkinds", force: :cascade do |t|
+  create_table "indicator_contexts", force: :cascade do |t|
     t.string "name"
     t.string "codename"
-    t.text "indicators_kinds", array: true
+    t.text "indicators_formats", array: true
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -493,8 +493,8 @@ ActiveRecord::Schema.define(version: 20190511051655) do
   add_foreign_key "hosts", "organizations"
   add_foreign_key "incidents", "organizations"
   add_foreign_key "incidents", "users"
-  add_foreign_key "indicator_subkind_members", "indicator_subkinds"
-  add_foreign_key "indicator_subkind_members", "indicators"
+  add_foreign_key "indicator_context_members", "indicator_contexts"
+  add_foreign_key "indicator_context_members", "indicators"
   add_foreign_key "indicators", "investigations"
   add_foreign_key "indicators", "users"
   add_foreign_key "investigations", "feeds"

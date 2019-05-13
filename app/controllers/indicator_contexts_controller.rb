@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class IndicatorSubkindsController < ApplicationController
+class IndicatorContextsController < ApplicationController
   include Record
 
   private
 
   def model
-    IndicatorSubkind
+    IndicatorContext
   end
 end

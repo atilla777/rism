@@ -94,9 +94,9 @@ ru:
       investigation_kind:
         one: 'Тип исследования'
         other: 'Типы исследований'
-      indicator_subkind:
-        one: 'Подтип индикатора'
-        other: 'Подтипы индикаторов'
+      indicator_context:
+        one: 'Контекст индикатора'
+        other: 'Контексты индикаторов'
     attributes:
       organization:
         name: 'Имя'
@@ -348,7 +348,7 @@ ru:
         created_at: 'Время создания'
         trust_level: 'Уровень доверия'
         content_format: 'Формат индикатора'
-        content_subkinds: 'Подтипы индикатора'
+        indicator_contexts: 'Контексты индикатора'
         danger: 'Угроза (IOC)'
         description: 'Описание'
         appearance: 'Встречался'
@@ -373,7 +373,7 @@ ru:
           filesize: 'Размер файла'
           process: 'Имя процесса'
           account: 'Учетная запись'
-      indicator_subkind:
+      indicator_context:
         name: 'Имя'
         codename: 'Кодовое имя'
         indicators_formats: 'Форматы индикаторов'

@@ -1,8 +1,8 @@
 FactoryBot.define do
-  factory :indicator_subkind do
+  factory :indicator_context do
     name "MyString"
     codename "MyString"
-    indicators_kinds [0]
+    indicators_formats [0]
     description "MyString"
   end
 end

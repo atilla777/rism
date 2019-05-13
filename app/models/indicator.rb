@@ -7,7 +7,7 @@ class Indicator < ApplicationRecord
   include Indicator::Formats
 
   attr_accessor :indicators_list, :skip_format_validation
-  attr_accessor :indicator_subkind_ids
+  attr_accessor :indicator_context_ids
 
   enum trust_level: %i[
                        unknown
@@ -18,7 +18,8 @@ class Indicator < ApplicationRecord
   enum content_format: CONTENT_FORMATS.map { |i| i[:format] }
 
   before_save :downcase_hashes
-  after_save :set_indicator_subkind_member
+  after_save :set_indicator_context_member
+
 
   validate :check_content_format, unless: :skip_format_validation
 
@@ -35,8 +36,8 @@ class Indicator < ApplicationRecord
   belongs_to :user
   has_one :organization, through: :investigation
 
-  has_many :indicator_subkind_members
-  has_many :indicator_subkinds, through: :indicator_subkind_members
+  has_many :indicator_context_members
+  has_many :indicator_contexts, through: :indicator_context_members
 
   def self.human_attribute_content_formats
     new_hash = Indicator.content_formats.map do |k,v|
@@ -80,7 +81,7 @@ class Indicator < ApplicationRecord
     self.content = self.content.downcase
   end
 
-  def set_indicator_subkind_member
-    SetIndicatorSubkindsService.call(id, indicator_subkind_ids)
+  def set_indicator_context_member
+    SetIndicatorContextsService.call(id, indicator_context_ids)
   end
 end
