@@ -39,6 +39,8 @@ class CreateIndicatorsService
   end
 
   def indicator_context_ids(codenames)
-    IndicatorContext.where(codename: codenames).pluck(:id)
+    codenames.split(',').map(&:strip).each_with_object([]) do |codename, ids|
+      ids << IndicatorContext.find_by(codename: codename).id
+    end
   end
 end
