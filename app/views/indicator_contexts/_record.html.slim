@@ -1,0 +1,5 @@
+contexts = show_for @record, decorator: IndicatorContextsDecorator do |r|
+  = r.show :name
+  = r.show :codename
+  = r.show :indicators_formats, value: r.decorated.show_indicators_formats
+  = r.show :description

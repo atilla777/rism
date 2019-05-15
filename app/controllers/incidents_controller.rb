@@ -43,6 +43,30 @@ class IncidentsController < ApplicationController
     end
   end
 
+  def autocomplete_incident_id
+    authorize model
+    scope = if current_user.admin_editor?
+              model
+            else
+              model.where(
+                organization_id: current_user.allowed_organizations_ids
+              )
+            end
+
+    term = params[:term]
+    records = scope.select(:id, :name)
+                       .where('id::text LIKE ?', "#{term}%")
+                       .order(:id)
+    result = records.map do |record|
+               {
+                 id: record.id,
+                 name: record.name,
+                 :value => record.name
+               }
+             end
+    render json: result
+  end
+
   private
 
   def model

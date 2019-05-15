@@ -1,0 +1,8 @@
+= index_search :name_cont
+= index_for records, decorator: IndicatorContextsDecorator do |t|
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :codename, sort: :desc
+  - t.header attribute: :indicators_formats
+  - t.field { |record| link_to(record.name, record) }
+  - t.field { |record| link_to(record.codename, record) }
+  - t.field { |record| link_to(truncate(record.show_indicators_formats, length: 50), record) }

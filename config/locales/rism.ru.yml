@@ -30,6 +30,10 @@ ru:
       active: 'Да'
       not_active: 'Нет'
       phone: 'тел.'
+    indicator:
+      danger: 'Да'
+      not_danger: 'Нет'
+      indicators_list: 'Показать/скрыть список индикаторов'
     attachment:
       more_files: 'Файлы'
       attachable_file: 'Выбранный файл:'
@@ -43,7 +47,7 @@ ru:
     incident:
       full_name: 'Номер / Имя'
       dates_and_times: 'Даты и времена'
-      organization_link: '%{name}% относится к'
+      organization_link: '%{name} относится к'
       owners: 'Владельцы (нажмите для просмотра)'
       more_owners: 'Владельцы (нажмите для изменения)'
     tags:
@@ -99,6 +103,22 @@ ru:
       worker_lost: 'Отсутствует'
       worker_was: 'Отработал'
       distance: 'Длительность мин.'
+    indicators:
+      template_description: "В поле 'Индикаторы' можно перечислить индикаторы в следующем формате (каждый индикатор размещается в отдельной строке, некоторые индикаторы вводятся с префиксом, оканчивающимся на двоеточие - например 'other:')"
+      other: 'other: произвольный текст (1-500 символов)'
+      network_service: 'Сетевой сервис (8.8.8.8:53 или 10.1.1.1:443:tcp)'
+      network_port: 'Сетевой порт (21, 22:tcp или 53:udp)'
+      network: 'IP-адрес (127.0.0.1)'
+      email_adress: 'адрес (example@example.com)'
+      email_theme: 'email_theme: тема'
+      email_content: 'email_content: сообщение'
+      uri: 'uri: http://ресурс, https://ресурс или ftp://ресурс)'
+      domain: 'domain: домен (www.example.com)'
+      hash: 'md5, sha256 или sha512 хэш'
+      filename: 'filename: название файла (отчет.doc)'
+      filesize: 'filesize: размер файла (1-500 символов, например 500Kb)'
+      process: 'process: название процесса(1-500 символов, например - psexec.exe)'
+      account: 'account: учетная запись (1-500 символов, например - Administrator)'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
@@ -117,7 +137,7 @@ ru:
     charts: 'Графики'
     advanced_search: 'Поиск по полям'
     open_ports: 'Открытые порты'
-    new_ports: 'Новые порты (не зарегистрированные как сервис)'
+    new_ports: 'Новые порты (незарегистрированные как сервис)'
     commands:
       run: 'Выполнить команду'
     scheduled_jobs: 'Фоновые работы в очередях'

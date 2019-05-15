@@ -1,0 +1,14 @@
+= show_for @record, decorator: InvestigationDecorator do |r|
+  = r.show :created_at, value: show_date_time(@record.created_at)
+  = r.show :name, value: r.decorated.show_name_with_digest
+  = r.show :organization_id
+    = link_to @record.organization.name, @record.organization
+  = r.show :user_id
+    = link_to @record.user.name, @record.user
+  = r.show :feed_id
+    = link_to @record.feed.name, @record.feed
+  = r.show :investigation_kind_id
+    = link_to @record.investigation_kind.name, @record.investigation_kind
+  = r.show :description
+
+= render 'application/record_versions'

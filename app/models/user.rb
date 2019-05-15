@@ -26,6 +26,10 @@ class User < ApplicationRecord
 
   has_many :incidents, dependent: :restrict_with_error
 
+  has_many :investigation, dependent: :destroy
+
+  has_many :indicator, dependent: :destroy
+
   def show_full_name
     name
   end

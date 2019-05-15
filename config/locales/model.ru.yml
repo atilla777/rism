@@ -82,6 +82,21 @@ ru:
       scan_jobs_host:
         one: 'Хост/сеть'
         other: 'Хосты/сети'
+      investigation:
+        one: 'Исследование'
+        other: 'Исследования'
+      indicator:
+        one: 'Индикатор'
+        other: 'Индикаторы'
+      feed:
+        one: 'Источник информации исследования'
+        other: 'Источники информации исследования'
+      investigation_kind:
+        one: 'Тип исследования'
+        other: 'Типы исследований'
+      indicator_context:
+        one: 'Контекст индикатора'
+        other: 'Контексты индикаторов'
     attributes:
       organization:
         name: 'Имя'
@@ -303,8 +318,70 @@ ru:
         start: 'Начало'
         finish: 'Окончание'
         queue: 'Очередь фонового порцесса'
+      feed:
+        name: 'Имя'
+        description: 'Описание'
+      investigation_kind:
+        name: 'Имя'
+        description: 'Описание'
+      investigation:
+        name: 'Имя'
+        organization_id: 'Организация влад.'
+        user_id: 'Пользователь созд.'
+        feed_id: 'Источник информации'
+        created_at: 'Время создания'
+        description: 'Описание'
+        investigation_kind_id: 'Тип исследования (угроза)'
+        indicators_list: 'Индикаторы'
+        threats:
+          other: 'Прочее'
+          network: 'Сетевая активность'
+          email: 'Email'
+          process: 'Активность программы'
+          account: 'Активность пользователя'
+      indicator:
+        organization_id: 'Организация влад.'
+        user_id: 'Пользователь созд.'
+        investigation_id: 'Исследование'
+        content: 'Индикатор'
+        indicators_list: 'Индикаторы'
+        enrichment: 'Обогащение'
+        created_at: 'Время создания'
+        trust_level: 'Уровень доверия'
+        content_format: 'Формат индикатора'
+        indicator_contexts: 'Контексты индикатора'
+        danger: 'Угроза (IOC)'
+        description: 'Описание'
+        appearance: 'Встречался'
+        trust_levels:
+          unknown: 'Неизвестно'
+          low: 'Низкий'
+          high: 'Высокий'
+        content_formats:
+          other: 'Прочее'
+          network_service: 'Сетевой сервис (8.8.8.8:53 или 10.1.1.1:443:tcp)'
+          network: 'IP-адрес/сеть'
+          network_port: 'Сетевой порт (21 или 22:tcp)'
+          email_adress: 'Почтовый адрес (my@example.com)'
+          email_theme: 'Тема письма'
+          email_content: 'Содержание письма'
+          uri: 'URI (http://www.ya.ru)'
+          domain: 'Домен (ya.ru)'
+          md5: 'MD5'
+          sha256: 'SHA256'
+          sha512: 'SHA512'
+          filename: 'Имя файла'
+          filesize: 'Размер файла'
+          process: 'Имя процесса'
+          account: 'Учетная запись'
+      indicator_context:
+        name: 'Имя'
+        codename: 'Кодовое имя'
+        indicators_formats: 'Форматы индикаторов'
+        description: 'Описание'
     errors:
       messages:
           organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'
           user_is_built_in: 'Невозможно удалить пользователя, так как он является встроенным'
           role_is_built_in: 'Невозможно удалить роль, так как она является встроенной'
+          wrong_format_or_dublication: 'Неверный формат/дублирование записи'

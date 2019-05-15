@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190217040546) do
+ActiveRecord::Schema.define(version: 20190511051655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,13 @@ ActiveRecord::Schema.define(version: 20190217040546) do
     t.index ["parent_id"], name: "index_departments_on_parent_id"
   end
 
+  create_table "feeds", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "host_services", force: :cascade do |t|
     t.string "name"
     t.bigint "organization_id"
@@ -148,6 +155,63 @@ ActiveRecord::Schema.define(version: 20190217040546) do
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_incidents_on_organization_id"
     t.index ["user_id"], name: "index_incidents_on_user_id"
+  end
+
+  create_table "indicator_context_members", force: :cascade do |t|
+    t.bigint "indicator_id"
+    t.bigint "indicator_context_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["indicator_context_id"], name: "index_indicator_context_members_on_indicator_context_id"
+    t.index ["indicator_id"], name: "index_indicator_context_members_on_indicator_id"
+  end
+
+  create_table "indicator_contexts", force: :cascade do |t|
+    t.string "name"
+    t.string "codename"
+    t.text "indicators_formats", array: true
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "indicators", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "investigation_id"
+    t.integer "trust_level"
+    t.string "content"
+    t.integer "content_format"
+    t.boolean "danger"
+    t.text "description"
+    t.jsonb "enrichment", default: "{}", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "content gin_trgm_ops", name: "index_indicators_on_content", using: :gin
+    t.index ["enrichment"], name: "index_indicators_on_enrichment", using: :gin
+    t.index ["investigation_id"], name: "index_indicators_on_investigation_id"
+    t.index ["user_id"], name: "index_indicators_on_user_id"
+  end
+
+  create_table "investigation_kinds", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "investigations", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id"
+    t.bigint "organization_id"
+    t.bigint "investigation_kind_id"
+    t.bigint "feed_id"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feed_id"], name: "index_investigations_on_feed_id"
+    t.index ["investigation_kind_id"], name: "index_investigations_on_investigation_kind_id"
+    t.index ["organization_id"], name: "index_investigations_on_organization_id"
+    t.index ["user_id"], name: "index_investigations_on_user_id"
   end
 
   create_table "link_kinds", force: :cascade do |t|
@@ -429,6 +493,14 @@ ActiveRecord::Schema.define(version: 20190217040546) do
   add_foreign_key "hosts", "organizations"
   add_foreign_key "incidents", "organizations"
   add_foreign_key "incidents", "users"
+  add_foreign_key "indicator_context_members", "indicator_contexts"
+  add_foreign_key "indicator_context_members", "indicators"
+  add_foreign_key "indicators", "investigations"
+  add_foreign_key "indicators", "users"
+  add_foreign_key "investigations", "feeds"
+  add_foreign_key "investigations", "investigation_kinds"
+  add_foreign_key "investigations", "organizations"
+  add_foreign_key "investigations", "users"
   add_foreign_key "links", "link_kinds"
   add_foreign_key "organizations", "organization_kinds"
   add_foreign_key "organizations", "organizations", column: "parent_id"

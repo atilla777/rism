@@ -1,0 +1,13 @@
+= show_for @record, decorator: IndicatorDecorator do | r |
+  = r.show :created_at, value: show_date_time(@record.created_at)
+  = r.show :organization_id
+    = link_to @record.organization.name, @record.organization
+  = r.show :user_id
+    = link_to @record.user.name, @record.user
+  = r.show :investigation_id
+    = link_to r.decorated.show_investigation_full_name, @record.investigation
+  = r.show :trust_level, value: r.decorated.show_trust_level
+  = r.show :content_format, value: r.decorated.show_content_format
+  = r.show :indicator_contexts, value: r.decorated.show_indicator_contexts
+  = r.show :content
+  = r.show :danger, value: r.decorated.show_danger

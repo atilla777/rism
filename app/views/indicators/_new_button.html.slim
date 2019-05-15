@@ -1,0 +1,12 @@
+.pull-right
+  .btn-group
+    button.btn.btn-default.dropdown-toggle data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'
+      i.text-success
+        = fa_icon 'plus-circle'
+      =<> t('helpers.submit.create', model: Indicator.model_name.human)
+      span.caret
+    ul.dropdown-menu.dropdown-menu-right
+      - Indicator.content_formats.each do |content_format, _|
+        li
+          = link_to new_indicator_path({content_format: content_format, investigation_id: investigation_id}), data: {turbolinks: false} do
+            =< Indicator.human_enum_name(:content_format, content_format)

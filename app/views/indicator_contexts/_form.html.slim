@@ -1,0 +1,39 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :name, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :codename, class: 'control-label'
+          .col-lg-8
+            = f.text_field :codename, class: 'form-control'
+
+      .form-group
+        .field
+           .col-lg-2.text-right
+             = f.label :indicators_formats, class: 'control-label'
+           .col-lg-8
+             = f.collection_check_boxes :indicators_formats, Indicator.content_formats, :first, :last, {}, class: 'big-checkbox' do |b|
+               =< b.check_box
+               =< Indicator.human_enum_name(:content_format, b.value)
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          = f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = render 'form_back_button'

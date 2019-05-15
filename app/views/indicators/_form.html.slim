@@ -1,0 +1,108 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      = f.hidden_field :investigation_id, value: @investigation&.id || @record.investigation_id
+      = f.hidden_field :user_id, value: current_user.id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :trust_level, class: 'control-label'
+          .col-lg-8
+            = f.select :trust_level, Indicator.trust_levels.keys.collect { |level| [Indicator.human_enum_name(:trust_level, level), level] }, { selected: @record.trust_level || :unknown }, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :content_format, class: 'control-label'
+          .col-lg-8
+            // = f.text_field :content_format,  value: @record.content_format || @content_format, class: 'form-control', readonly: true
+            = f.select :content_format, Indicator.content_formats.keys.collect { |format| [Indicator.human_enum_name(:content_format, format), format] }, { selected: @record.content_format || @content_format }, class: 'form-control', readonly: true
+
+      .form-group.recomended
+        .field
+           .col-lg-2.text-right
+             = f.label :indicator_contexts, class: 'control-label'
+           .col-lg-8
+             = f.collection_check_boxes :indicator_context_ids, @indicator_contexts, :id, :name, {}, class: 'big-checkbox' do |b|
+               =< b.check_box(checked: @selected_indicator_contexts_ids.include?(b.value.to_i))
+               =< b.text
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :content, class: 'control-label'
+          .col-lg-8
+            = f.text_field :content, class: 'form-control'
+
+      .form-group
+        .col-lg-offset-2.col-lg-8
+          .checkbox
+             label
+               = f.check_box :danger, class: 'big-checkbox'
+               strong
+                  = "#{t('activerecord.attributes.indicator.danger')}"
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, rows: 5, class: 'form-control'
+
+      - if @record.new_record?
+
+        .form-group
+          .field
+            .col-lg-2.text-right
+              = f.label :organization_id, class: 'control-label' do
+                a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_list'
+                  = t('labels.indicator.indicators_list')
+
+        .collapse#toggle_list
+          .form-group.required
+            .field
+              .col-lg-2.text-right
+                = f.label :indicators_list, class: 'control-label'
+              .col-lg-8
+                = f.text_area :indicators_list, rows: 8, class: 'form-control', value: @not_saved_strings&.join("\n")
+          .form-group
+              .col-lg-offset-2.col-lg-8
+                .alert
+                  h5.text-danger = t('labels.indicators.template_description')
+                  ul
+                    li
+                      = t('labels.indicators.other')
+                    li
+                      = t('labels.indicators.network_service')
+                    li
+                      = t('labels.indicators.network')
+                    li
+                      = t('labels.indicators.network_port')
+                    li
+                      = t('labels.indicators.email_adress')
+                    li
+                      = t('labels.indicators.email_theme')
+                    li
+                      = t('labels.indicators.email_content')
+                    li
+                      = t('labels.indicators.uri')
+                    li
+                      = t('labels.indicators.domain')
+                    li
+                      = t('labels.indicators.hash')
+                    li
+                      = t('labels.indicators.filename')
+                    li
+                      = t('labels.indicators.filesize')
+                    li
+                      = t('labels.indicators.process')
+                    li
+                      = t('labels.indicators.account')
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = render 'form_back_button'
