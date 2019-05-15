@@ -8,6 +8,7 @@ class RecordTemplate < ApplicationRecord
     'User' => I18n.t('activerecord.models.user.one'),
     'Agreement' => I18n.t('activerecord.models.agreement.one'),
     'Incident' => I18n.t('activerecord.models.incident.one'),
+    'Investigation' => I18n.t('activerecord.models.investigation.one'),
   }.freeze
 
   def self.record_types
