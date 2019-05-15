@@ -37,7 +37,7 @@ class Indicator < ApplicationRecord
   belongs_to :user
   has_one :organization, through: :investigation
 
-  has_many :indicator_context_members, dependent: :delete_all
+  has_many :indicator_context_members
   has_many :indicator_contexts, through: :indicator_context_members
 
   def self.human_attribute_content_formats
