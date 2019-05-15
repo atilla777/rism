@@ -8,6 +8,8 @@ class TagMember < ApplicationRecord
                    Host
                    RecordTemplate
                    Article
+                   Investigation
+                   Indicator
                  ]
 
   def self.record_types
