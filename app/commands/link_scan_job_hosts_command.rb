@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class LinkScanJobHostsCommand < BaseCommand
-
   set_command_name :link_scan_jobs_hosts_command
   set_human_name 'Перенести цели сканирования из поля Хосты в связи'
   set_command_model 'ScanJob'

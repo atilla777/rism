@@ -85,6 +85,7 @@ Rails.application.routes.draw do
   resources :investigations
   resources :indicators
   resources :indicator_contexts
+  resources :vulnerabilities
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

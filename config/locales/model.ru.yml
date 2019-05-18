@@ -97,6 +97,9 @@ ru:
       indicator_context:
         one: 'Контекст индикатора'
         other: 'Контексты индикаторов'
+      vulnerability:
+        one: 'Уязвимость'
+        other: 'Уязвимости'
     attributes:
       organization:
         name: 'Имя'
@@ -378,6 +381,18 @@ ru:
         name: 'Имя'
         codename: 'Кодовое имя'
         indicators_formats: 'Форматы индикаторов'
+        description: 'Описание'
+      vulnerability:
+        codename: 'Кодовое имя'
+        vendors: 'Вендоры'
+        products: 'Продукты'
+        versions: 'Версии'
+        cvss3: 'CVSS'
+        cvss3_vector: 'Вектор CVSS'
+        references: 'Ссылки'
+        feed: 'Источник'
+        published: 'Опубликована'
+        feed_description: 'Описание поставщика'
         description: 'Описание'
     errors:
       messages:

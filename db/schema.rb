@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190511051655) do
+ActiveRecord::Schema.define(version: 20190518052155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,19 +157,19 @@ ActiveRecord::Schema.define(version: 20190511051655) do
     t.index ["user_id"], name: "index_incidents_on_user_id"
   end
 
-  create_table "indicator_context_members", force: :cascade do |t|
+  create_table "indicator_subkind_members", force: :cascade do |t|
     t.bigint "indicator_id"
-    t.bigint "indicator_context_id"
+    t.bigint "indicator_subkind_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["indicator_context_id"], name: "index_indicator_context_members_on_indicator_context_id"
-    t.index ["indicator_id"], name: "index_indicator_context_members_on_indicator_id"
+    t.index ["indicator_id"], name: "index_indicator_subkind_members_on_indicator_id"
+    t.index ["indicator_subkind_id"], name: "index_indicator_subkind_members_on_indicator_subkind_id"
   end
 
-  create_table "indicator_contexts", force: :cascade do |t|
+  create_table "indicator_subkinds", force: :cascade do |t|
     t.string "name"
     t.string "codename"
-    t.text "indicators_formats", array: true
+    t.text "indicators_kinds", array: true
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -180,7 +180,8 @@ ActiveRecord::Schema.define(version: 20190511051655) do
     t.bigint "investigation_id"
     t.integer "trust_level"
     t.string "content"
-    t.integer "content_format"
+    t.integer "content_kind"
+    t.text "content_subkinds"
     t.boolean "danger"
     t.text "description"
     t.jsonb "enrichment", default: "{}", null: false
@@ -480,6 +481,26 @@ ActiveRecord::Schema.define(version: 20190511051655) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  create_table "vulnerabilities", force: :cascade do |t|
+    t.string "codename"
+    t.text "vendors", default: [], array: true
+    t.text "products", default: [], array: true
+    t.jsonb "versions", default: "{}", null: false
+    t.string "cvss3"
+    t.string "cvss3_vector"
+    t.text "references", default: [], array: true
+    t.integer "feed"
+    t.string "feed_description", default: [], array: true
+    t.string "description"
+    t.datetime "published"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feed_description"], name: "index_vulnerabilities_on_feed_description", using: :gin
+    t.index ["products"], name: "index_vulnerabilities_on_products", using: :gin
+    t.index ["vendors"], name: "index_vulnerabilities_on_vendors", using: :gin
+    t.index ["versions"], name: "index_vulnerabilities_on_versions", using: :gin
+  end
+
   add_foreign_key "agreements", "agreement_kinds"
   add_foreign_key "agreements", "organizations"
   add_foreign_key "agreements", "organizations", column: "contractor_id"
@@ -493,8 +514,8 @@ ActiveRecord::Schema.define(version: 20190511051655) do
   add_foreign_key "hosts", "organizations"
   add_foreign_key "incidents", "organizations"
   add_foreign_key "incidents", "users"
-  add_foreign_key "indicator_context_members", "indicator_contexts"
-  add_foreign_key "indicator_context_members", "indicators"
+  add_foreign_key "indicator_subkind_members", "indicator_subkinds"
+  add_foreign_key "indicator_subkind_members", "indicators"
   add_foreign_key "indicators", "investigations"
   add_foreign_key "indicators", "users"
   add_foreign_key "investigations", "feeds"
