@@ -7,7 +7,7 @@ class ResetNvdBaseJob < ApplicationJob
   NVD_JSON_VERSION = '1.0'.freeze
   NVD_BASE_PATH = "https://nvd.nist.gov/feeds/json/cve/#{NVD_JSON_VERSION}/".freeze
 
-  Sidekiq.default_worker_options = { 'retry' => 2 }
+  Sidekiq.default_worker_options = { 'retry' => 0 }
 
   queue_as do
     arg = self.arguments.first
@@ -19,7 +19,6 @@ class ResetNvdBaseJob < ApplicationJob
   end
 
   def perform(_, year)
-    clear_base
     download_gz_file(uri(year), gz_save_path(year))
     extract_gz_file(gz_save_path(year), year)
     delete_gz_file(year)
@@ -28,10 +27,6 @@ class ResetNvdBaseJob < ApplicationJob
   end
 
   private
-
-  def clear_base
-    Vulnerability.where(feed: Vulnerability.feeds[:nvd]).delete_all
-  end
 
   def uri(year)
     "#{NVD_BASE_PATH}nvdcve-#{NVD_JSON_VERSION}-#{year}.json.gz"
