@@ -1,0 +1,20 @@
+= show_for @record, decorator: VulnerabilityDecorator do | r |
+  = r.show :feed, value: r.decorated.show_feed
+  = r.show :published, value: show_date_time(@record.published)
+  = r.show :codename do
+    - if @record.feed == 'nvd'
+      a href=r.decorated.show_link_nvd_codename
+        = @record.codename
+    - else
+      = @record.codename
+  = r.show :vendors, value: r.decorated.show_vendors
+  = r.show :products, value: r.decorated.show_products
+  = r.show :versions, value: r.decorated.show_versions_string
+  = r.show :cvss3
+  = r.show :cvss3_vector
+  = r.show :references do
+    - @record.references.each do |link|
+      a href=link
+        = "#{link} "
+  = r.show :feed_description, value: r.decorated.show_feed_description
+  = r.show :description

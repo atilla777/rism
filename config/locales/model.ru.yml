@@ -394,6 +394,9 @@ ru:
         published: 'Опубликована'
         feed_description: 'Описание поставщика'
         description: 'Описание'
+        feeds:
+          custom: 'Свой'
+          nvd: 'NVD'
     errors:
       messages:
           organization_is_built_in: 'Невозможно удалить организацию, так как он является встроенной'

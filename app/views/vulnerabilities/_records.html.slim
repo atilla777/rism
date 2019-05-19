@@ -2,6 +2,7 @@
 = command_button_for records
 = index_for records, decorator: VulnerabilityDecorator do |t|
   - t.header attribute: :published, sort: :desc
+  - t.header attribute: :feed, sort: :desc
   - t.header attribute: :codename, sort: :desc
   - t.header attribute: :feed_description, sort: :desc
   - t.header attribute: :vendors, sort: :desc
@@ -9,8 +10,14 @@
   - t.header attribute: :cvss3, sort: :desc
   - t.header attribute: :cvss3_vector, sort: :desc
   - t.field { |record| link_to(show_date_time(record.published), record) }
-  - t.field { |record| link_to(record.codename, record) }
-  - t.field { |record| link_to(truncate(record.show_feed_description, length: 25), record) }
+  - t.field { |record| link_to(record.show_feed, record) }
+  - t.field do |record|
+    - if record.feed == 'nvd'
+      a href=record.show_link_nvd_codename
+        = record.codename
+    - else
+      = record.codename
+  - t.field { |record| link_to(truncate(record.show_feed_description, length: 45), record) }
   - t.field { |record| link_to(record.show_vendors, record) }
   - t.field { |record| link_to(record.show_products, record) }
   - t.field { |record| link_to(record.cvss3, record) }

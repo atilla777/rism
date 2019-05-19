@@ -34,4 +34,5 @@ class Commands
   DestroyScanJobsLogsCommand.register
   DestroyLostScanJobsLogsCommand.register
   ResetNvdBaseCommand.register
+  ResetNvdBaseLastYearCommand.register
 end

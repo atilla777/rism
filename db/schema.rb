@@ -483,6 +483,7 @@ ActiveRecord::Schema.define(version: 20190518052155) do
 
   create_table "vulnerabilities", force: :cascade do |t|
     t.string "codename"
+    t.integer "year"
     t.text "vendors", default: [], array: true
     t.text "products", default: [], array: true
     t.jsonb "versions", default: "{}", null: false
@@ -493,8 +494,10 @@ ActiveRecord::Schema.define(version: 20190518052155) do
     t.string "feed_description", default: [], array: true
     t.string "description"
     t.datetime "published"
+    t.boolean "published_time", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["codename"], name: "index_vulnerabilities_on_codename", unique: true
     t.index ["feed_description"], name: "index_vulnerabilities_on_feed_description", using: :gin
     t.index ["products"], name: "index_vulnerabilities_on_products", using: :gin
     t.index ["vendors"], name: "index_vulnerabilities_on_vendors", using: :gin

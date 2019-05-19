@@ -1,0 +1,73 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      = hidden_field_tag :template_id, @template_id
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :published, class: 'control-label'
+          .col-lg-3
+            = f.date_select :published, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
+            = link_to '#', data: { set_date: 'published', turbolinks: false } do
+              = fa_icon 'calendar'
+          .col-lg-2
+            = f.time_select :published, { prompt: true, selected: (@record.published) , include_blank: true, ignore_date: true }, { style: 'width:40%; display:inline', class: 'form-control' }
+            = link_to '#', data: { set_time: 'published', turbolinks: false } do
+              = fa_icon 'clock-o'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :feed, class: 'control-label'
+          .col-lg-8
+            = f.select :feed, Vulnerability.feeds.keys.collect { |feed| [Vulnerability.human_enum_name(:feed, feed), feed] }, { selected: @record.feed || :custom }, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :codename, class: 'control-label'
+          .col-lg-8
+            = f.text_field :codename, class: 'form-control'
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :vendors, class: 'control-label'
+          .col-lg-8
+            = f.text_field :vendors, class: 'form-control'
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :products, class: 'control-label'
+          .col-lg-8
+            = f.text_field :products, class: 'form-control'
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :cvss3, class: 'control-label'
+          .col-lg-8
+            = f.text_field :cvss3, class: 'form-control'
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :cvss3_vector, class: 'control-label'
+          .col-lg-8
+            = f.text_field :cvss3_vector, class: 'form-control'
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, rows: 8, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = render 'form_back_button'

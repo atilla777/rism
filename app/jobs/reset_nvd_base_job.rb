@@ -69,7 +69,7 @@ class ResetNvdBaseJob < ApplicationJob
 
     #file = File.open(save_path(year), 'r')
     Oj.load_file(save_path(year)).fetch('CVE_Items', []).each do |cve|
-      record = Vulnerability.create(record_attributes(cve))
+      record = Vulnerability.create(record_attributes(cve, year))
       record.save!
     end
 
@@ -85,15 +85,15 @@ class ResetNvdBaseJob < ApplicationJob
     end
   end
 
-  def record_attributes(cve)
+  def record_attributes(cve, year)
     products = []
-    versions = []
     vendors_arr = cve.dig('cve', 'affects', 'vendor', 'vendor_data') || []
     versions = vendors_arr
     vendors = vendors_arr.each_with_object([]) do |vendor, arr|
       products_array = vendor.dig('product', 'product_data') || []
       products_array.each do |product|
         products << product.fetch('product_name', '')
+
 #        versions = product.dig('version', 'version_data') || []
  #       versions_arr = product.dig('version', 'version_data') || []
 #        versions_arr.each do |version|
@@ -106,9 +106,11 @@ class ResetNvdBaseJob < ApplicationJob
 #            version_affected: ver_aff
 #          }
 #        end
+
       end
       arr << vendor.fetch('vendor_name', '')
     end
+
     references_arr = cve.dig('cve', 'references', 'reference_data') || []
     references = references_arr.each_with_object([]) do |reference, arr|
       arr << reference.fetch('url', '')
@@ -119,6 +121,7 @@ class ResetNvdBaseJob < ApplicationJob
     end
     {
       codename: cve.dig('cve', 'CVE_data_meta', 'ID'),
+      year: year,
       vendors: vendors,
       products: products,
       versions: versions,
@@ -126,6 +129,7 @@ class ResetNvdBaseJob < ApplicationJob
       cvss3_vector: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'vectorString') || '',
       references: references,
       published: cve.dig('publishedDate'),
+      published_time: true,
       feed: Vulnerability.feeds[:nvd],
       feed_description: feed_description
     }

@@ -2,6 +2,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
   def change
     create_table :vulnerabilities do |t|
       t.string :codename
+      t.integer :year
       t.text :vendors, array: true, default: []
       t.text :products, array: true, default: []
       t.jsonb :versions, null: false, default: '{}'
@@ -12,10 +13,12 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.string :feed_description, array: true, default: []
       t.string :description
       t.datetime :published
+      t.boolean :published_time, default: false
 
       t.timestamps
     end
 
+    add_index  :vulnerabilities, :codename, unique: true
     add_index  :vulnerabilities, :vendors, using: :gin
     add_index  :vulnerabilities, :products, using: :gin
     add_index  :vulnerabilities, :versions, using: :gin
