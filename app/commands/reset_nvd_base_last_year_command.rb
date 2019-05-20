@@ -9,7 +9,9 @@ class ResetNvdBaseLastYearCommand < BaseCommand
   def run
     return unless @current_user.admin?
     year = Time.current.year
-    Vulnerability.where(feed: Vulnerability.feeds[:nvd], year: year).delete_all
+    Vulnerability.where(feed: Vulnerability.feeds[:nvd])
+                 .where('codename LIKE :codename', codename: "CVE-#{year}%")
+                 .delete_all
     ResetNvdBaseJob.perform_later('reset_nvd_base', year)
   end
 end

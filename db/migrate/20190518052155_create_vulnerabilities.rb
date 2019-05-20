@@ -2,10 +2,10 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
   def change
     create_table :vulnerabilities do |t|
       t.string :codename
-      t.integer :year
       t.text :vendors, array: true, default: []
       t.text :products, array: true, default: []
       t.jsonb :versions, null: false, default: '{}'
+      t.integer :cpe
       t.string :cvss3
       t.string :cvss3_vector
       t.text :references, array: true, default: []
