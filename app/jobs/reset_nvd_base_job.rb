@@ -31,14 +31,16 @@ class ResetNvdBaseJob < ApplicationJob
     "#{NVD_BASE_PATH}nvdcve-#{NVD_JSON_VERSION}-#{year}.json.gz"
   end
 
+  def save_folder
+    Rails.root.join('tmp','vulners')
+  end
+
   def gz_save_path(year)
-    download_folder = Rails.root.join('tmp')
-    "#{download_folder}/#{year}.gz"
+    "#{save_folder}/#{year}.gz"
   end
 
   def save_path(year)
-    download_folder = Rails.root.join('tmp')
-    "#{download_folder}/#{year}"
+    "#{save_folder}/#{year}"
   end
 
   def download_gz_file(uri, gz_save_path)
@@ -60,7 +62,9 @@ class ResetNvdBaseJob < ApplicationJob
 
   def save_to_base(year)
     Oj.load_file(save_path(year)).fetch('CVE_Items', []).each do |cve|
-      record = Vulnerability.create(record_attributes(cve, year))
+      record = Vulnerability.create(
+        NvdBase::Parser.record_attributes(cve)
+      )
       record.save!
     end
   rescue ActiveRecord::RecordInvalid
@@ -68,55 +72,6 @@ class ResetNvdBaseJob < ApplicationJob
     logger.tagged("RESET_NVD: #{record}") do
       logger.error("vulnerability can`t be saved - #{record.errors.full_messages}")
     end
-  end
-
-  def record_attributes(cve, year)
-    products = []
-    vendors_arr = cve.dig('cve', 'affects', 'vendor', 'vendor_data') || []
-    versions = vendors_arr
-    vendors = vendors_arr.each_with_object([]) do |vendor, arr|
-      products_array = vendor.dig('product', 'product_data') || []
-      products_array.each do |product|
-        products << product.fetch('product_name', '')
-
-#        versions = product.dig('version', 'version_data') || []
-#        versions_arr = product.dig('version', 'version_data') || []
-#        versions_arr.each do |version|
-#          ver = version.fetch('version_value', '')
-#          ver_aff = version.fetch('version_affected', '')
-#          versions <<  {
-#            vendor: vendor,
-#            product: product,
-#            version: ver,
-#            version_affected: ver_aff
-#          }
-#        end
-
-      end
-      arr << vendor.fetch('vendor_name', '')
-    end
-
-    references_arr = cve.dig('cve', 'references', 'reference_data') || []
-    references = references_arr.each_with_object([]) do |reference, arr|
-      arr << reference.fetch('url', '')
-    end
-    feed_descriptions_arr = cve.dig('cve', 'description', 'description_data') || []
-    feed_description = feed_descriptions_arr.each_with_object([]) do |description, arr|
-      arr << description.fetch('value', '')
-    end
-    {
-      codename: cve.dig('cve', 'CVE_data_meta', 'ID'),
-      vendors: vendors,
-      products: products,
-      versions: versions,
-      cvss3: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'baseScore') || '',
-      cvss3_vector: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'vectorString') || '',
-      references: references,
-      published: cve.dig('publishedDate'),
-      published_time: true,
-      feed: Vulnerability.feeds[:nvd],
-      feed_description: feed_description
-    }
   end
 
   def delete_gz_file(year)

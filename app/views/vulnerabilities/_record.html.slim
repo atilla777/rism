@@ -1,6 +1,7 @@
 = show_for @record, decorator: VulnerabilityDecorator do | r |
   = r.show :feed, value: r.decorated.show_feed
   = r.show :published, value: show_date_time(@record.published)
+  = r.show :modified, value: show_date_time(@record.published)
   = r.show :codename do
     - if @record.feed == 'nvd'
       a href=r.decorated.show_link_nvd_codename
@@ -9,12 +10,87 @@
       = @record.codename
   = r.show :vendors, value: r.decorated.show_vendors
   = r.show :products, value: r.decorated.show_products
-  = r.show :versions, value: r.decorated.show_versions_string
-  = r.show :cvss3
-  = r.show :cvss3_vector
+  = r.show :versions, value: truncate(r.decorated.show_versions_string, length: 2000)
+  = r.show :cwe do
+    - @record.cwe.each do |link|
+      a href='https://nvd.nist.gov/vuln/categories'
+        = "#{link} "
+  = r.show :cvss, value: r.decorated.show_cvss
+  = r.show :vector, value: r.decorated.show_cvss_vector
+  = r.show :exploitability, value: r.decorated.show_exploitability
+  = r.show :impact, value: r.decorated.show_impact
   = r.show :references do
     - @record.references.each do |link|
       a href=link
         = "#{link} "
   = r.show :feed_description, value: r.decorated.show_feed_description
   = r.show :description
+
+table.table.table-hover.table-bordered.table-striped
+  caption
+    a.link data-toggle='collapse' href='#toggle_extra'
+      strong
+        = t('labels.extra_info')
+      =< fa_icon('hand-pointer-o')
+
+  tbody id='toggle_extra' class='collapse'
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss3)
+      td
+        = @record.cvss3
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss3_vector)
+      td
+        = @record.cvss3_vector
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss3_exploitability)
+      td
+        = @record.cvss3_exploitability
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss3_impact)
+      td
+        = @record.cvss3_impact
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss2)
+      td
+        = @record.cvss2
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss2_vector)
+      td
+        = @record.cvss2_vector
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss2_exploitability)
+      td
+        = @record.cvss2_exploitability
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss2_impact)
+      td
+        = @record.cvss2_impact
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:versions)
+      td
+        = VulnerabilityDecorator.new(@record).show_versions_string
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cpe)
+      td
+        = @record.cpe

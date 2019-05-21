@@ -85,7 +85,11 @@ Rails.application.routes.draw do
   resources :investigations
   resources :indicators
   resources :indicator_contexts
-  resources :vulnerabilities
+  resources :vulnerabilities do
+    collection do
+      match 'search' => 'vulnerabilities#search', via: [:get, :post], as: :search
+    end
+  end
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

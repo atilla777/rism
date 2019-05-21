@@ -22,4 +22,3 @@ production:
   free_shodan_scan: 1
   reset_nvd_base: 1
   sync_nvd_base: 1
-

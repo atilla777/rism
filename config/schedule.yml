@@ -1,0 +1,6 @@
+sync_nvd_base:
+  cron: "*/30 * * * *" # execute local NVD base synchronization at every 30 minutes
+  class: 'SyncNvdBaseJob'
+  queue: 'sync_nvd_base'
+  args:
+    queue: 'sync_nvd_base'

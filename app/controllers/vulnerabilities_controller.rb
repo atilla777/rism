@@ -5,6 +5,12 @@ class VulnerabilitiesController < ApplicationController
 
   before_action :set_time, only: [:create, :update]
 
+  def search
+    authorize model
+    @records = records(model)
+    render 'application/index'
+  end
+
   private
 
   def model
@@ -12,7 +18,7 @@ class VulnerabilitiesController < ApplicationController
   end
 
   def default_sort
-    'published desc'
+    'modified desc'
   end
 
   def set_time

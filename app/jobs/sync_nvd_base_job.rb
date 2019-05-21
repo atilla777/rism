@@ -16,7 +16,7 @@ class SyncNvdBaseJob < ApplicationJob
   end
 
   def perform(_)
-    return if modified_meta_not_changed?
+    return if meta_not_changed?
     download_gz_file
     extract_gz_file
     delete_gz_file
@@ -26,21 +26,21 @@ class SyncNvdBaseJob < ApplicationJob
 
   private
 
-  def modified_meta_not_changed?
-    old_modified_meta = old_modified_meta()
-    new_modified_meta = download_modified_meta()
-    return true if new_modified_meta == old_modified_meta
+  def meta_not_changed?
+    old_meta = old_meta()
+    new_meta = download_meta()
+    return true if new_meta == old_meta
     File.delete
-    save_modified_meta(new_modified_meta)
+    save_meta(new_meta)
     false
   end
 
-  def old_modified_meta
+  def old_meta
     return '' unless File.file?(meta_path)
     File.open(meta_path) { |file| file.read}
   end
 
-  def download_modified_meta
+  def download_meta
     HTTParty.get(meta_uri)
             .response
             .body
@@ -51,7 +51,7 @@ class SyncNvdBaseJob < ApplicationJob
     end
   end
 
-  def save_modified_meta(string)
+  def save_meta(string)
     FileUtils.mkdir_p(save_folder) unless File.directory?(save_folder)
     File.open(meta_path, 'w') {|file| file.write string}
   end
@@ -99,64 +99,21 @@ class SyncNvdBaseJob < ApplicationJob
 
   def save_to_base
     Oj.load_file(save_path).fetch('CVE_Items', []).each do |cve|
-      attributes = record_attributes(cve)
-      Vulnerability.find_or_initialize_by(codename: attributes[:codename])
-                   .update_attributes!(attributes)
-    end
-  rescue ActiveRecord::RecordInvalid
-    logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
-    logger.tagged("SYNC_NVD: #{record}") do
-      logger.error("vulnerability can`t be saved - #{record.errors.full_messages}")
-    end
-  end
-
-  def record_attributes(cve)
-    products = []
-    vendors_arr = cve.dig('cve', 'affects', 'vendor', 'vendor_data') || []
-    versions = vendors_arr
-    vendors = vendors_arr.each_with_object([]) do |vendor, arr|
-      products_array = vendor.dig('product', 'product_data') || []
-      products_array.each do |product|
-        products << product.fetch('product_name', '')
-
-#        versions = product.dig('version', 'version_data') || []
- #       versions_arr = product.dig('version', 'version_data') || []
-#        versions_arr.each do |version|
-#          ver = version.fetch('version_value', '')
-#          ver_aff = version.fetch('version_affected', '')
-#          versions <<  {
-#            vendor: vendor,
-#            product: product,
-#            version: ver,
-#            version_affected: ver_aff
-#          }
-#        end
-
+      attributes = NvdBase::Parser.record_attributes(cve)
+      begin
+        record = Vulnerability
+          .find_or_initialize_by(codename: attributes[:codename])
+        record.update_attributes!(attributes)
+      rescue ActiveRecord::RecordInvalid
+        logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
+        logger.tagged("SYNC_NVD: #{record.codename}") do
+          logger.error <<-TEXT
+            vulnerability can`t be saved -
+            #{record.errors.full_messages}
+          TEXT
+        end
       end
-      arr << vendor.fetch('vendor_name', '')
     end
-
-    references_arr = cve.dig('cve', 'references', 'reference_data') || []
-    references = references_arr.each_with_object([]) do |reference, arr|
-      arr << reference.fetch('url', '')
-    end
-    feed_descriptions_arr = cve.dig('cve', 'description', 'description_data') || []
-    feed_description = feed_descriptions_arr.each_with_object([]) do |description, arr|
-      arr << description.fetch('value', '')
-    end
-    {
-      codename: cve.dig('cve', 'CVE_data_meta', 'ID'),
-      vendors: vendors,
-      products: products,
-      versions: versions,
-      cvss3: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'baseScore') || '',
-      cvss3_vector: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'vectorString') || '',
-      references: references,
-      published: cve.dig('publishedDate'),
-      published_time: true,
-      feed: Vulnerability.feeds[:nvd],
-      feed_description: feed_description
-    }
   end
 
   def delete_gz_file

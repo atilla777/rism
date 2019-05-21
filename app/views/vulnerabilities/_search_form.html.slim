@@ -1,0 +1,162 @@
+button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_search_modal'
+  =< t('navigations.advanced_search')
+.modal.fade#advanced_search_modal tabindex='-1' role='dialog'
+   = search_form_for @q, url: search_vulnerabilities_path, html: { class: 'form-horizontal', method: :post } do |f|
+    .modal-dialog.modal-lg role='document'
+      .modal-content
+        .modal-header
+          button.close  type='button' data-dismiss="modal" aria-label="Close"
+          .modal-title
+            h4.text-info
+              = t('navigations.advanced_search')
+        .modal-body
+          .row
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :codename, class: 'control-label'
+                .col-lg-3
+                  = f.text_field :codename_eq, class: 'form-control'
+                .col-lg-3
+                  = f.text_field :codename_cont, class: 'form-control'
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :vendors, class: 'control-label'
+                .col-lg-6
+                  = f.text_field :vendors_str_cont, class: 'form-control'
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :products, class: 'control-label'
+                .col-lg-6
+                  = f.text_field :products_str_cont, class: 'form-control'
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :feed_description, class: 'control-label'
+                .col-lg-6
+                  = f.text_field :feed_description_str_cont, class: 'form-control'
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :description, class: 'control-label'
+                .col-lg-6
+                  = f.text_field :description_cont, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :cvss
+                 .col-lg-3
+                   = f.text_field :cvss_gteq, class: 'form-control'
+                 .col-lg-3
+                   = f.text_field :cvss_lteq, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :cvss3
+                 .col-lg-3
+                   = f.text_field :cvss3_gteq, class: 'form-control'
+                 .col-lg-3
+                   = f.text_field :cvss3_lteq, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :cvss3_exploitability
+                 .col-lg-3
+                   = f.text_field :cvss3_exploitability_gteq, class: 'form-control'
+                 .col-lg-3
+                   = f.text_field :cvss3_exploitability_lteq, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :cvss3_impact
+                 .col-lg-3
+                   = f.text_field :cvss3_impact_gteq, class: 'form-control'
+                 .col-lg-3
+                   = f.text_field :cvss3_impact_lteq, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :cvss2
+                 .col-lg-3
+                   = f.text_field :cvss2_gteq, class: 'form-control'
+                 .col-lg-3
+                   = f.text_field :cvss2_lteq, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :cvss2_exploitability
+                 .col-lg-3
+                   = f.text_field :cvss2_exploitability_gteq, class: 'form-control'
+                 .col-lg-3
+                   = f.text_field :cvss2_exploitability_lteq, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :cvss2_impact
+                 .col-lg-3
+                   = f.text_field :cvss2_impact_gteq, class: 'form-control'
+                 .col-lg-3
+                   = f.text_field :cvss2_impact_lteq, class: 'form-control'
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :feed, class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes :feed_in, Vulnerability.feeds, :last, :first, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< Vulnerability.human_enum_name(:feed, b.text)
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :published, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :published_gteq, class: 'form-control', datepicker: true
+                 .col-lg-3
+                   = f.date_field :published_end_of_day_lteq, class: 'form-control', datepicker: true
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :modified, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :modified_gteq, class: 'form-control', datepicker: true
+                 .col-lg-3
+                   = f.date_field :modified_end_of_day_lteq, class: 'form-control', datepicker: true
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :created_at, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :created_at_gteq, class: 'form-control', datepicker: true
+                 .col-lg-3
+                   = f.date_field :created_at_end_of_day_lteq, class: 'form-control', datepicker: true
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
+                   = f.label :updated_at, class: 'control-label'
+                 .col-lg-3
+                   = f.date_field :updated_at_gteq, class: 'form-control', datepicker: true
+                 .col-lg-3
+                   = f.date_field :updated_at_end_of_day_lteq, class: 'form-control', datepicker: true
+
+        .modal-footer
+          button.btn.btn-default type='button' data-dismiss='modal'
+            = t('views.action.back')
+          =< f.submit t('views.action.find'), class: 'btn btn-success'
