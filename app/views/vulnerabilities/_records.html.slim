@@ -1,9 +1,10 @@
-= index_search :codename_or_published_str_or_modified_str_or_feed_str_or_vendors_str_or_products_str_or_feed_description_str_or_description_cont
+= index_search :codename_or_published_str_or_modified_str_or_feed_str_or_vendors_str_or_products_str_or_feed_description_str_or_description_or_unread_str_cont
 = command_button_for records
 = render 'search_form'
 = index_for records, decorator: VulnerabilityDecorator do |t|
   - t.header attribute: :modified, sort: :desc
   - t.header attribute: :published, sort: :desc
+  - t.header attribute: :unread, sort: :desc
   - t.header attribute: :feed, sort: :desc
   - t.header attribute: :codename, sort: :desc
   - t.header attribute: :feed_description, sort: :desc
@@ -13,6 +14,7 @@
   - t.header attribute: :vector
   - t.field { |record| link_to(show_date_time(record.modified), record) }
   - t.field { |record| link_to(show_date_time(record.published), record) }
+  - t.field { |record| link_to(record.show_unread, record) }
   - t.field { |record| link_to(record.show_feed, record) }
   - t.field do |record|
     - if record.feed == 'nvd'

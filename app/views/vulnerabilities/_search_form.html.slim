@@ -11,6 +11,14 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
               = t('navigations.advanced_search')
         .modal-body
           .row
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :unread, class: 'control-label'
+                .col-lg-6
+                  = f.select :unread_eq, [[t('labels.vulnerability.unread'), true], [t('labels.vulnerability.read'), false]], {include_blank: true}, class: 'form-control'
+
             .form-group
               .field
                 .col-lg-3.text-right
@@ -24,15 +32,19 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
               .field
                 .col-lg-3.text-right
                   = f.label :vendors, class: 'control-label'
-                .col-lg-6
-                  = f.text_field :vendors_str_cont, class: 'form-control'
+                .col-lg-3
+                  = f.text_field :vendors_arr_cont, class: 'form-control'
+                .col-lg-3
+                  = f.text_field :vendors_arr_over, class: 'form-control'
 
             .form-group
               .field
                 .col-lg-3.text-right
                   = f.label :products, class: 'control-label'
-                .col-lg-6
-                  = f.text_field :products_str_cont, class: 'form-control'
+                .col-lg-3
+                  = f.text_field :products_arr_cont, class: 'form-control'
+                .col-lg-3
+                  = f.text_field :products_arr_over, class: 'form-control'
 
             .form-group
               .field
@@ -155,6 +167,7 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                    = f.date_field :updated_at_gteq, class: 'form-control', datepicker: true
                  .col-lg-3
                    = f.date_field :updated_at_end_of_day_lteq, class: 'form-control', datepicker: true
+
 
         .modal-footer
           button.btn.btn-default type='button' data-dismiss='modal'

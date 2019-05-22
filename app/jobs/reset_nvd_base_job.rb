@@ -9,12 +9,7 @@ class ResetNvdBaseJob < ApplicationJob
   Sidekiq.default_worker_options = { 'retry' => 0 }
 
   queue_as do
-    arg = self.arguments.first
-    if arg.present?
-      arg.to_sym
-    else
-      :default
-    end
+    self.arguments&.first || :default
   end
 
   def perform(_, year)

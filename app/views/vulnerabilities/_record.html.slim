@@ -1,4 +1,5 @@
 = show_for @record, decorator: VulnerabilityDecorator do | r |
+  = r.show :unread, value: r.decorated.show_unread
   = r.show :feed, value: r.decorated.show_feed
   = r.show :published, value: show_date_time(@record.published)
   = r.show :modified, value: show_date_time(@record.published)
@@ -37,9 +38,15 @@ table.table.table-hover.table-bordered.table-striped
     tr
       td.col-md-2.text-right
         strong.text-info
-          = @record.class.human_attribute_name(:cvss3)
+          = @record.class.human_attribute_name(:created_at)
       td
-        = @record.cvss3
+        = show_date_time(@record.created_at)
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:updated_at)
+      td
+        = show_date_time(@record.updated_at)
     tr
       td.col-md-2.text-right
         strong.text-info

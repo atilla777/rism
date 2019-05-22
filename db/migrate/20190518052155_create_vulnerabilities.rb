@@ -11,6 +11,20 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.string :cvss3_vector
       t.decimal :cvss3_exploitability, precision: 3, scale: 1
       t.decimal :cvss3_impact, precision: 3, scale: 1
+#      t.integer :av
+#      t.integer :ac
+#      t.integer :pr
+#      t.integer :ui
+#      t.integer :s
+#      t.integer :c
+#      t.integer :i
+#      t.integer :a
+#      t.integer :e
+#      t.integer :rl
+#      t.integer :rc
+#      t.integer :cr
+#      t.integer :ir
+#      t.integer :ar
       t.decimal :cvss2, precision: 3, scale: 1
       t.string :cvss2_vector
       t.decimal :cvss2_exploitability, precision: 3, scale: 1
@@ -23,12 +37,13 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.boolean :published_time, default: false
       t.datetime :modified
       t.boolean :modified_time, default: false
+      t.boolean :unread, default: false
 
       t.timestamps
     end
 
-#    add_index  :published
-#    add_index  :modified
+    add_index  :vulnerabilities, :published
+    add_index  :vulnerabilities, :modified
     add_index  :vulnerabilities, :codename, unique: true
     add_index  :vulnerabilities, :vendors, using: :gin
     add_index  :vulnerabilities, :products, using: :gin

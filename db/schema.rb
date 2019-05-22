@@ -503,13 +503,16 @@ ActiveRecord::Schema.define(version: 20190518052155) do
     t.boolean "published_time", default: false
     t.datetime "modified"
     t.boolean "modified_time", default: false
+    t.boolean "unread", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["codename"], name: "index_vulnerabilities_on_codename", unique: true
     t.index ["cpe"], name: "index_vulnerabilities_on_cpe", using: :gin
     t.index ["cwe"], name: "index_vulnerabilities_on_cwe", using: :gin
     t.index ["feed_description"], name: "index_vulnerabilities_on_feed_description", using: :gin
+    t.index ["modified"], name: "index_vulnerabilities_on_modified"
     t.index ["products"], name: "index_vulnerabilities_on_products", using: :gin
+    t.index ["published"], name: "index_vulnerabilities_on_published"
     t.index ["vendors"], name: "index_vulnerabilities_on_vendors", using: :gin
     t.index ["versions"], name: "index_vulnerabilities_on_versions", using: :gin
   end

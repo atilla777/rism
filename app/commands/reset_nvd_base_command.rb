@@ -12,7 +12,7 @@ class ResetNvdBaseCommand < BaseCommand
     return unless @current_user.admin?
     clear_base
     (NVD_START_YEAR..Time.current.year).each do |year|
-      ResetNvdBaseJob.perform_later('reset_nvd_base', year)
+      ResetNvdBaseJob.perform_later('sync_nvd_base', year)
     end
   end
 

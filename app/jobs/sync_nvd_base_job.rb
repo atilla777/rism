@@ -11,7 +11,6 @@ class SyncNvdBaseJob < ApplicationJob
   Sidekiq.default_worker_options = { 'retry' => 0 }
 
   queue_as do
-    #self.arguments.first&.present? ? self.arguments.first : :default
     self.arguments&.first || :default
   end
 
@@ -103,7 +102,7 @@ class SyncNvdBaseJob < ApplicationJob
       begin
         record = Vulnerability
           .find_or_initialize_by(codename: attributes[:codename])
-        record.update_attributes!(attributes)
+        record.update_attributes!(attributes.merge(unread: true))
       rescue ActiveRecord::RecordInvalid
         logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
         logger.tagged("SYNC_NVD: #{record.codename}") do

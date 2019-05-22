@@ -120,6 +120,9 @@ ru:
       filesize: 'filesize: размер файла (1-500 символов, например 500Kb)'
       process: 'process: название процесса(1-500 символов, например - psexec.exe)'
       account: 'account: учетная запись (1-500 символов, например - Administrator)'
+    vulnerability:
+      unread: 'Ожидает'
+      read: 'Обработано'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
