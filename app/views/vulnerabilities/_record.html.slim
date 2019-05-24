@@ -1,10 +1,10 @@
 = show_for @record, decorator: VulnerabilityDecorator do | r |
-  = r.show :unread, value: r.decorated.show_unread
+  = r.show :state, value: r.decorated.show_state
   = r.show :feed, value: r.decorated.show_feed
   = r.show :published, value: show_date_time(@record.published)
   = r.show :modified, value: show_date_time(@record.published)
   = r.show :codename do
-    - if @record.feed == 'nvd'
+    - if @record.nvd?
       a href=r.decorated.show_link_nvd_codename
         = @record.codename
     - else
@@ -24,8 +24,8 @@
     - @record.references.each do |link|
       a href=link
         = "#{link} "
-  = r.show :feed_description, value: r.decorated.show_feed_description
-  = r.show :description
+  = r.show :description, value: r.decorated.show_description
+  = r.show :custom_description
 
 table.table.table-hover.table-bordered.table-striped
   caption

@@ -15,9 +15,11 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
             .form-group
               .field
                 .col-lg-3.text-right
-                  = f.label :unread, class: 'control-label'
+                  = f.label :state, class: 'control-label'
                 .col-lg-6
-                  = f.select :unread_eq, [[t('labels.vulnerability.unread'), true], [t('labels.vulnerability.read'), false]], {include_blank: true}, class: 'form-control'
+                   = f.collection_check_boxes :state_in, Vulnerability.states, :last, :first, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< Vulnerability.human_enum_name(:states, b.text)
 
             .form-group
               .field
@@ -49,16 +51,16 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
             .form-group
               .field
                 .col-lg-3.text-right
-                  = f.label :feed_description, class: 'control-label'
+                  = f.label :description, class: 'control-label'
                 .col-lg-6
-                  = f.text_field :feed_description_str_cont, class: 'form-control'
+                  = f.text_field :description_str_cont, class: 'form-control'
 
             .form-group
               .field
                 .col-lg-3.text-right
-                  = f.label :description, class: 'control-label'
+                  = f.label :custom_description, class: 'control-label'
                 .col-lg-6
-                  = f.text_field :description_cont, class: 'form-control'
+                  = f.text_field :custom_description_cont, class: 'form-control'
 
             .form-group
               .field

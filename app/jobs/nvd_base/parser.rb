@@ -31,8 +31,8 @@ module NvdBase::Parser
     references = references_arr.each_with_object([]) do |reference, arr|
       arr << reference.fetch('url', '')
     end
-    feed_descriptions_arr = cve.dig('cve', 'description', 'description_data') || []
-    feed_description = feed_descriptions_arr.each_with_object([]) do |description, arr|
+    descriptions_arr = cve.dig('cve', 'description', 'description_data') || []
+    description = descriptions_arr.each_with_object([]) do |description, arr|
       arr << description.fetch('value', '')
     end
     cwe_arr = cve.dig('cve', 'problemtype', 'problemtype_data') || []
@@ -44,11 +44,12 @@ module NvdBase::Parser
     end
     {
       codename: cve.dig('cve', 'CVE_data_meta', 'ID'),
+      feed: Vulnerability.feeds[:nvd],
       vendors: vendors,
       products: products,
       versions: versions,
-      cpe: cve.dig('configurations', 'nodes') || [],
       cwe: cwe,
+      cpe: cve.dig('configurations', 'nodes') || [],
       cvss3: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'baseScore')&.to_d,
       cvss3_vector: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'vectorString') || '',
       cvss3_exploitability: cve.dig('impact', 'baseMetricV3', 'exploitabilityScore')&.to_d,
@@ -57,13 +58,12 @@ module NvdBase::Parser
       cvss2_vector: cve.dig('impact', 'baseMetricV2', 'cvssV2', 'vectorString') || '',
       cvss2_exploitability: cve.dig('impact', 'baseMetricV2', 'exploitabilityScore')&.to_d,
       cvss2_impact: cve.dig('impact', 'baseMetricV2', 'impactScore')&.to_d,
+      description: description,
       references: references,
       published: cve.dig('publishedDate'),
       published_time: true,
       modified: cve.dig('lastModifiedDate'),
-      modified_time: true,
-      feed: Vulnerability.feeds[:nvd],
-      feed_description: feed_description
+      modified_time: true
     }
   end
 end
