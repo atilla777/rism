@@ -1,7 +1,5 @@
 = show_for @record, decorator: VulnerabilityDecorator do | r |
-  = r.show :state, value: r.decorated.show_state
-  = r.show :feed, value: r.decorated.show_feed
-  = r.show :published, value: show_date_time(@record.published)
+  = r.show :published, value: show_date_time(@record.modified)
   = r.show :modified, value: show_date_time(@record.published)
   = r.show :codename do
     - if @record.nvd?
@@ -9,6 +7,13 @@
         = @record.codename
     - else
       = @record.codename
+  = r.show :state, value: r.decorated.show_state
+  = r.show :blocked, value: r.decorated.show_blocked
+  = r.show :feed, value: r.decorated.show_feed
+  = r.show :actuality, value: r.decorated.show_actuality
+  = r.show :relevance, value: r.decorated.show_relevance
+  = r.show :custom_actuality, value: r.decorated.show_custom_actuality
+  = r.show :custom_relevance, value: r.decorated.show_custom_relevance
   = r.show :vendors, value: r.decorated.show_vendors
   = r.show :products, value: r.decorated.show_products
   = r.show :versions, value: truncate(r.decorated.show_versions_string, length: 2000)
@@ -21,9 +26,11 @@
   = r.show :exploitability, value: r.decorated.show_exploitability
   = r.show :impact, value: r.decorated.show_impact
   = r.show :references do
-    - @record.references.each do |link|
+    - @record.references.each_with_index do |link, index|
+      - break if index > 10
       a href=link
         = "#{link} "
+  = r.show :custom_references, value: auto_link(record.custom_references)
   = r.show :description, value: r.decorated.show_description
   = r.show :custom_description
 
@@ -101,3 +108,11 @@ table.table.table-hover.table-bordered.table-striped
           = @record.class.human_attribute_name(:cpe)
       td
         = @record.cpe
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:references)
+      td
+        - @record.references.each_with_index do |link, index|
+          a href=link
+            = "#{link} "

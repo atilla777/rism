@@ -45,8 +45,9 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.integer :state, limit: 1 # is vuln old (readed), new published (unreadead) or modified (unreaded)?
       t.boolean :relevance, default: false # automatic set - is vuln applicable to us by vendor and (or) product?
       t.boolean :custom_relevance, default: false # manual set
-      t.boolean :actuality, default: false # automatic set - is vuln applicable ti us by criticality and vector?
+      t.boolean :actuality, default: false # automatic set - is vuln applicable tu us by criticality and vector?
       t.boolean :custom_actuality, default: false # manual set
+      t.boolean :blocked, default: false # is vuln created from automatic sync from NVD base?
 
       t.timestamps
     end

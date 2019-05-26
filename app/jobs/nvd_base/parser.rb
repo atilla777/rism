@@ -63,7 +63,8 @@ module NvdBase::Parser
       published: cve.dig('publishedDate'),
       published_time: true,
       modified: cve.dig('lastModifiedDate'),
-      modified_time: true
+      modified_time: true,
+      blocked: true
     }
   end
 end

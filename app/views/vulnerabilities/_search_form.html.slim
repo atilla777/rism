@@ -24,29 +24,49 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
             .form-group
               .field
                 .col-lg-3.text-right
+                .col-lg-2
+                  = f.select :actuality_eq, [[t('labels.yes_label'), true], [t('labels.no_label'), false]], {include_blank: t('labels.all_label')}, class: 'form-control'
+                  label
+                    | #{t('activerecord.attributes.vulnerability.actuality')}
+                .col-lg-2
+                  = f.select:custom_actuality_eq, [[t('labels.yes_label'), true], [t('labels.no_label'), false]], {include_blank: t('labels.all_label')}, class: 'form-control'
+                  label
+                    | #{t('activerecord.attributes.vulnerability.custom_actuality')}
+                .col-lg-2
+                  = f.select:relevance_eq, [[t('labels.yes_label'), true], [t('labels.no_label'), false]], {include_blank: t('labels.all_label')}, class: 'form-control'
+                  label
+                    | #{t('activerecord.attributes.vulnerability.relevance')}
+                .col-lg-2
+                  = f.select :custom_relevance_eq, [[t('labels.yes_label'), true], [t('labels.no_label'), false]], {include_blank: t('labels.all_label')}, class: 'form-control'
+                  label
+                    | #{t('activerecord.attributes.vulnerability.custom_relevance')}
+
+            .form-group
+              .field
+                .col-lg-3.text-right
                   = f.label :codename, class: 'control-label'
                 .col-lg-3
-                  = f.text_field :codename_eq, class: 'form-control'
+                  = f.text_field :codename_eq, class: 'form-control', placeholder: t('labels.eq_filter')
                 .col-lg-3
-                  = f.text_field :codename_cont, class: 'form-control'
+                  = f.text_field :codename_cont, class: 'form-control', placeholder: t('labels.cont_filter')
 
             .form-group
               .field
                 .col-lg-3.text-right
                   = f.label :vendors, class: 'control-label'
                 .col-lg-3
-                  = f.text_field :vendors_arr_cont, class: 'form-control'
+                  = f.text_field :vendors_arr_cont, class: 'form-control', placeholder: t('labels.cont_list_filter')
                 .col-lg-3
-                  = f.text_field :vendors_arr_over, class: 'form-control'
+                  = f.text_field :vendors_arr_over, class: 'form-control', placeholder: t('labels.over_list_filter')
 
             .form-group
               .field
                 .col-lg-3.text-right
                   = f.label :products, class: 'control-label'
                 .col-lg-3
-                  = f.text_field :products_arr_cont, class: 'form-control'
+                  = f.text_field :products_arr_cont, class: 'form-control', placeholder: t('labels.cont_list_filter')
                 .col-lg-3
-                  = f.text_field :products_arr_over, class: 'form-control'
+                  = f.text_field :products_arr_over, class: 'form-control', placeholder: t('labels.over_list_filter')
 
             .form-group
               .field

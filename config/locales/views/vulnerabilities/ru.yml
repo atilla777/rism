@@ -1,0 +1,5 @@
+ru:
+  views:
+    vulnerabilities:
+      labels:
+        yes 'Да'
