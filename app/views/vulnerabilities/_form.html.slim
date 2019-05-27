@@ -23,13 +23,13 @@
       .form-group.required
         .field
           .col-lg-2.text-right
-            = f.label :feed, class: 'control-label'
-          .col-lg-2
-            = f.select :feed, Vulnerability.feeds.keys.collect { |feed| [Vulnerability.human_enum_name(:feed, feed), feed] }, { selected: @record.feed || :custom }, class: 'form-control', disabled: @record.blocked
-          .col-lg-2.text-right
             = f.label :codename, class: 'control-label'
           .col-lg-2
             = f.text_field :codename, class: 'form-control', disabled: @record.blocked, placeholder: t('activerecord.attributes.vulnerability.ph_codename')
+          .col-lg-2.text-right
+            = f.label :feed, class: 'control-label'
+          .col-lg-2
+            = f.select :feed, Vulnerability.feeds.keys.collect { |feed| [Vulnerability.human_enum_name(:feed, feed), feed] }, { selected: @record.feed || :custom }, class: 'form-control', disabled: @record.blocked
 
       .form-group.recomended
         .field
@@ -37,28 +37,27 @@
             = f.label :state, class: 'control-label'
           .col-lg-2
             = f.select :state, Vulnerability.states.keys.collect { |state| [Vulnerability.human_enum_name(:state, state), state] }, { selected: @record.state|| :readed}, class: 'form-control'
-          .col-lg-6
-            .checkbox
-               label
-                 = f.check_box :actuality, class: 'big-checkbox', disabled: true
-                 strong
-                   | #{t('activerecord.attributes.vulnerability.actuality')}
-               label
-               label
-                 = f.check_box :custom_actuality, class: 'big-checkbox'
-                 strong
-                   | #{t('activerecord.attributes.vulnerability.custom_actuality')}
-               label
-               label
-                 = f.check_box :relevance, class: 'big-checkbox', disabled: true
-                 strong
-                   | #{t('activerecord.attributes.vulnerability.relevance')}
-               label
-               label
-               label
-                 = f.check_box :custom_relevance, class: 'big-checkbox'
-                 strong
-                   | #{t('activerecord.attributes.vulnerability.custom_relevance')}
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :actuality
+          .col-lg-2
+            = f.select :actuality, Vulnerability.actualities.keys.collect { |actuality| [Vulnerability.human_enum_name(:actuality, actuality), actuality] }, { selected: @record.actuality}, class: 'form-control', disabled: true
+          .col-lg-2.text-right
+            = f.label :custom_actuality
+          .col-lg-2
+            = f.select :custom_actuality, Vulnerability.custom_actualities.keys.collect { |actuality| [Vulnerability.human_enum_name(:custom_actuality, actuality), actuality] }, { selected: @record.custom_actuality}, class: 'form-control'
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :relevance
+          .col-lg-2
+            = f.select :relevance, Vulnerability.custom_relevances.keys.collect { |relevance| [Vulnerability.human_enum_name(:custom_relevance, relevance), relevance ] }, { selected: @record.custom_relevance}, class: 'form-control', disabled: true
+          .col-lg-2.text-right
+            = f.label :custom_relevance
+          .col-lg-2
+            = f.select :custom_relevance, Vulnerability.custom_relevances.keys.collect { |relevance| [Vulnerability.human_enum_name(:custom_relevance, relevance), relevance ] }, { selected: @record.custom_relevance}, class: 'form-control'
 
       .form-group.recomended
         .field
@@ -94,7 +93,31 @@
           .col-lg-2.text-right
             = f.label :cvss3_vector, class: 'control-label'
           .col-lg-8
-            = f.text_field :cvss3_vector, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss_vector'), disabled: @record.blocked
+            = f.text_field :cvss3_vector, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss3_vector'), disabled: @record.blocked
+
+      - if @record.blocked?
+
+        .form-group.recomended
+          .field
+            .col-lg-2.text-right
+              = f.label :cvss2, class: 'control-label'
+            .col-lg-1
+              = f.text_field :cvss2, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: @record.blocked
+            .col-lg-2.text-right
+              = f.label :cvss2_exploitability, class: 'control-label'
+            .col-lg-1
+              = f.text_field :cvss2_exploitability, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: @record.blocked
+            .col-lg-2.text-right
+              = f.label :cvss2_impact, class: 'control-label'
+            .col-lg-1
+              = f.text_field :cvss2_impact, class: 'form-control', class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: @record.blocked
+
+        .form-group.recomended
+          .field
+            .col-lg-2.text-right
+              = f.label :cvss2_vector, class: 'control-label'
+            .col-lg-8
+              = f.text_field :cvss2_vector, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss2_vector'), disabled: @record.blocked
 
       .form-group
         .field

@@ -59,6 +59,12 @@ class ResetNvdBaseJob < ApplicationJob
     Oj.load_file(save_path(year)).fetch('CVE_Items', []).each do |cve|
       record = Vulnerability.create(
         NvdBase::Parser.record_attributes(cve)
+          .merge(
+            state: :published,
+            custom_actuality: 'not_set',
+            relevance: 'not_set',
+            custom_relevance: 'not_set',
+          )
       )
       record.save!
     end

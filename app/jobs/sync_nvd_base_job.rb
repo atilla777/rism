@@ -107,7 +107,14 @@ class SyncNvdBaseJob < ApplicationJob
       begin
         record = Vulnerability
           .find_or_initialize_by(codename: attributes[:codename])
-        record.update_attributes!(attributes.merge(state: state))
+        record.update_attributes!(
+          attributes.merge(
+            state: state,
+            custom_actuality: 'not_set',
+            relevance: 'not_set',
+            custom_relevance: 'not_set',
+          )
+        )
       rescue ActiveRecord::RecordInvalid
         logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
         logger.tagged("SYNC_NVD: #{record.codename}") do

@@ -1,10 +1,10 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
-SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -37,12 +37,34 @@ COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching
 
 
 --
+-- Name: vuln_actuality; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.vuln_actuality AS ENUM (
+    'not_set',
+    'actual',
+    'not_actual'
+);
+
+
+--
 -- Name: vuln_feed; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.vuln_feed AS ENUM (
     'custom',
-    'NVD'
+    'nvd'
+);
+
+
+--
+-- Name: vuln_relevance; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.vuln_relevance AS ENUM (
+    'not_set',
+    'relevant',
+    'not_relevant'
 );
 
 
@@ -254,6 +276,7 @@ CREATE TABLE public.ckeditor_assets (
 --
 
 CREATE SEQUENCE public.ckeditor_assets_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -455,23 +478,23 @@ ALTER SEQUENCE public.incidents_id_seq OWNED BY public.incidents.id;
 
 
 --
--- Name: indicator_subkind_members; Type: TABLE; Schema: public; Owner: -
+-- Name: indicator_context_members; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.indicator_subkind_members (
+CREATE TABLE public.indicator_context_members (
     id bigint NOT NULL,
     indicator_id bigint,
-    indicator_subkind_id bigint,
+    indicator_context_id bigint,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
 
 --
--- Name: indicator_subkind_members_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: indicator_context_members_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.indicator_subkind_members_id_seq
+CREATE SEQUENCE public.indicator_context_members_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -480,21 +503,21 @@ CREATE SEQUENCE public.indicator_subkind_members_id_seq
 
 
 --
--- Name: indicator_subkind_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: indicator_context_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.indicator_subkind_members_id_seq OWNED BY public.indicator_subkind_members.id;
+ALTER SEQUENCE public.indicator_context_members_id_seq OWNED BY public.indicator_context_members.id;
 
 
 --
--- Name: indicator_subkinds; Type: TABLE; Schema: public; Owner: -
+-- Name: indicator_contexts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.indicator_subkinds (
+CREATE TABLE public.indicator_contexts (
     id bigint NOT NULL,
     name character varying,
     codename character varying,
-    indicators_kinds text[],
+    indicators_formats text[],
     description character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -502,10 +525,10 @@ CREATE TABLE public.indicator_subkinds (
 
 
 --
--- Name: indicator_subkinds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: indicator_contexts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.indicator_subkinds_id_seq
+CREATE SEQUENCE public.indicator_contexts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -514,10 +537,10 @@ CREATE SEQUENCE public.indicator_subkinds_id_seq
 
 
 --
--- Name: indicator_subkinds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: indicator_contexts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.indicator_subkinds_id_seq OWNED BY public.indicator_subkinds.id;
+ALTER SEQUENCE public.indicator_contexts_id_seq OWNED BY public.indicator_contexts.id;
 
 
 --
@@ -530,8 +553,7 @@ CREATE TABLE public.indicators (
     investigation_id bigint,
     trust_level integer,
     content character varying,
-    content_kind integer,
-    content_subkinds text,
+    content_format integer,
     danger boolean,
     description text,
     enrichment jsonb DEFAULT '"{}"'::jsonb NOT NULL,
@@ -1367,7 +1389,7 @@ ALTER SEQUENCE public.versions_id_seq OWNED BY public.versions.id;
 CREATE TABLE public.vulnerabilities (
     id bigint NOT NULL,
     codename character varying,
-    feed smallint,
+    feed public.vuln_feed,
     vendors text[] DEFAULT '{}'::text[],
     products text[] DEFAULT '{}'::text[],
     versions jsonb DEFAULT '"{}"'::jsonb NOT NULL,
@@ -1392,10 +1414,10 @@ CREATE TABLE public.vulnerabilities (
     custom_references text,
     custom_fields jsonb,
     state smallint,
-    relevance boolean DEFAULT false,
-    custom_relevance boolean DEFAULT false,
-    actuality boolean DEFAULT false,
-    custom_actuality boolean DEFAULT false,
+    custom_actuality public.vuln_actuality DEFAULT 'not_set'::public.vuln_actuality,
+    actuality public.vuln_actuality DEFAULT 'not_set'::public.vuln_actuality,
+    custom_relevance public.vuln_relevance DEFAULT 'not_set'::public.vuln_relevance,
+    relevance public.vuln_relevance DEFAULT 'not_set'::public.vuln_relevance,
     blocked boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -1422,266 +1444,266 @@ ALTER SEQUENCE public.vulnerabilities_id_seq OWNED BY public.vulnerabilities.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: agreement_kinds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.agreement_kinds ALTER COLUMN id SET DEFAULT nextval('public.agreement_kinds_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: agreements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.agreements ALTER COLUMN id SET DEFAULT nextval('public.agreements_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: articles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.articles ALTER COLUMN id SET DEFAULT nextval('public.articles_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: attachment_links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.attachment_links ALTER COLUMN id SET DEFAULT nextval('public.attachment_links_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: attachments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.attachments ALTER COLUMN id SET DEFAULT nextval('public.attachments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: ckeditor_assets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ckeditor_assets ALTER COLUMN id SET DEFAULT nextval('public.ckeditor_assets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: departments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.departments ALTER COLUMN id SET DEFAULT nextval('public.departments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: feeds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.feeds ALTER COLUMN id SET DEFAULT nextval('public.feeds_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: host_services id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.host_services ALTER COLUMN id SET DEFAULT nextval('public.host_services_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: hosts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.hosts ALTER COLUMN id SET DEFAULT nextval('public.hosts_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: incidents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.incidents ALTER COLUMN id SET DEFAULT nextval('public.incidents_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: indicator_context_members id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.indicator_subkind_members ALTER COLUMN id SET DEFAULT nextval('public.indicator_subkind_members_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.indicator_subkinds ALTER COLUMN id SET DEFAULT nextval('public.indicator_subkinds_id_seq'::regclass);
+ALTER TABLE ONLY public.indicator_context_members ALTER COLUMN id SET DEFAULT nextval('public.indicator_context_members_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: indicator_contexts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.indicator_contexts ALTER COLUMN id SET DEFAULT nextval('public.indicator_contexts_id_seq'::regclass);
+
+
+--
+-- Name: indicators id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.indicators ALTER COLUMN id SET DEFAULT nextval('public.indicators_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: investigation_kinds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.investigation_kinds ALTER COLUMN id SET DEFAULT nextval('public.investigation_kinds_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: investigations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.investigations ALTER COLUMN id SET DEFAULT nextval('public.investigations_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: link_kinds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.link_kinds ALTER COLUMN id SET DEFAULT nextval('public.link_kinds_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.links ALTER COLUMN id SET DEFAULT nextval('public.links_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: organization_kinds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.organization_kinds ALTER COLUMN id SET DEFAULT nextval('public.organization_kinds_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: organizations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.organizations ALTER COLUMN id SET DEFAULT nextval('public.organizations_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: pg_search_documents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.pg_search_documents ALTER COLUMN id SET DEFAULT nextval('public.pg_search_documents_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: record_templates id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_templates ALTER COLUMN id SET DEFAULT nextval('public.record_templates_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: rights id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.rights ALTER COLUMN id SET DEFAULT nextval('public.rights_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: role_members id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.role_members ALTER COLUMN id SET DEFAULT nextval('public.role_members_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: roles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: scan_job_logs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_job_logs ALTER COLUMN id SET DEFAULT nextval('public.scan_job_logs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: scan_jobs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_jobs ALTER COLUMN id SET DEFAULT nextval('public.scan_jobs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: scan_jobs_hosts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_jobs_hosts ALTER COLUMN id SET DEFAULT nextval('public.scan_jobs_hosts_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: scan_options id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_options ALTER COLUMN id SET DEFAULT nextval('public.scan_options_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: scan_results id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_results ALTER COLUMN id SET DEFAULT nextval('public.scan_results_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: schedules id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schedules ALTER COLUMN id SET DEFAULT nextval('public.schedules_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: tag_kinds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tag_kinds ALTER COLUMN id SET DEFAULT nextval('public.tag_kinds_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: tag_members id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tag_members ALTER COLUMN id SET DEFAULT nextval('public.tag_members_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: tags id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: versions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.versions ALTER COLUMN id SET DEFAULT nextval('public.versions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: vulnerabilities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.vulnerabilities ALTER COLUMN id SET DEFAULT nextval('public.vulnerabilities_id_seq'::regclass);
 
 
 --
--- Name: agreement_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: agreement_kinds agreement_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.agreement_kinds
@@ -1689,7 +1711,7 @@ ALTER TABLE ONLY public.agreement_kinds
 
 
 --
--- Name: agreements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: agreements agreements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.agreements
@@ -1697,7 +1719,7 @@ ALTER TABLE ONLY public.agreements
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ar_internal_metadata
@@ -1705,7 +1727,7 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
--- Name: articles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: articles articles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.articles
@@ -1713,7 +1735,7 @@ ALTER TABLE ONLY public.articles
 
 
 --
--- Name: attachment_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: attachment_links attachment_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.attachment_links
@@ -1721,7 +1743,7 @@ ALTER TABLE ONLY public.attachment_links
 
 
 --
--- Name: attachments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: attachments attachments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.attachments
@@ -1729,7 +1751,7 @@ ALTER TABLE ONLY public.attachments
 
 
 --
--- Name: ckeditor_assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ckeditor_assets ckeditor_assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ckeditor_assets
@@ -1737,7 +1759,7 @@ ALTER TABLE ONLY public.ckeditor_assets
 
 
 --
--- Name: departments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: departments departments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.departments
@@ -1745,7 +1767,7 @@ ALTER TABLE ONLY public.departments
 
 
 --
--- Name: feeds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: feeds feeds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.feeds
@@ -1753,7 +1775,7 @@ ALTER TABLE ONLY public.feeds
 
 
 --
--- Name: host_services_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: host_services host_services_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.host_services
@@ -1761,7 +1783,7 @@ ALTER TABLE ONLY public.host_services
 
 
 --
--- Name: hosts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: hosts hosts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.hosts
@@ -1769,7 +1791,7 @@ ALTER TABLE ONLY public.hosts
 
 
 --
--- Name: incidents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: incidents incidents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.incidents
@@ -1777,23 +1799,23 @@ ALTER TABLE ONLY public.incidents
 
 
 --
--- Name: indicator_subkind_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: indicator_context_members indicator_context_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.indicator_subkind_members
-    ADD CONSTRAINT indicator_subkind_members_pkey PRIMARY KEY (id);
-
-
---
--- Name: indicator_subkinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.indicator_subkinds
-    ADD CONSTRAINT indicator_subkinds_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.indicator_context_members
+    ADD CONSTRAINT indicator_context_members_pkey PRIMARY KEY (id);
 
 
 --
--- Name: indicators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: indicator_contexts indicator_contexts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.indicator_contexts
+    ADD CONSTRAINT indicator_contexts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: indicators indicators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.indicators
@@ -1801,7 +1823,7 @@ ALTER TABLE ONLY public.indicators
 
 
 --
--- Name: investigation_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: investigation_kinds investigation_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.investigation_kinds
@@ -1809,7 +1831,7 @@ ALTER TABLE ONLY public.investigation_kinds
 
 
 --
--- Name: investigations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: investigations investigations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.investigations
@@ -1817,7 +1839,7 @@ ALTER TABLE ONLY public.investigations
 
 
 --
--- Name: link_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: link_kinds link_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.link_kinds
@@ -1825,7 +1847,7 @@ ALTER TABLE ONLY public.link_kinds
 
 
 --
--- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: links links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.links
@@ -1833,7 +1855,7 @@ ALTER TABLE ONLY public.links
 
 
 --
--- Name: organization_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: organization_kinds organization_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.organization_kinds
@@ -1841,7 +1863,7 @@ ALTER TABLE ONLY public.organization_kinds
 
 
 --
--- Name: organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: organizations organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.organizations
@@ -1849,7 +1871,7 @@ ALTER TABLE ONLY public.organizations
 
 
 --
--- Name: pg_search_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: pg_search_documents pg_search_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.pg_search_documents
@@ -1857,7 +1879,7 @@ ALTER TABLE ONLY public.pg_search_documents
 
 
 --
--- Name: record_templates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: record_templates record_templates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.record_templates
@@ -1865,7 +1887,7 @@ ALTER TABLE ONLY public.record_templates
 
 
 --
--- Name: rights_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rights rights_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.rights
@@ -1873,7 +1895,7 @@ ALTER TABLE ONLY public.rights
 
 
 --
--- Name: role_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: role_members role_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.role_members
@@ -1881,7 +1903,7 @@ ALTER TABLE ONLY public.role_members
 
 
 --
--- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.roles
@@ -1889,7 +1911,7 @@ ALTER TABLE ONLY public.roles
 
 
 --
--- Name: scan_job_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_job_logs scan_job_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_job_logs
@@ -1897,7 +1919,7 @@ ALTER TABLE ONLY public.scan_job_logs
 
 
 --
--- Name: scan_jobs_hosts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_jobs_hosts scan_jobs_hosts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_jobs_hosts
@@ -1905,7 +1927,7 @@ ALTER TABLE ONLY public.scan_jobs_hosts
 
 
 --
--- Name: scan_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_jobs scan_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_jobs
@@ -1913,7 +1935,7 @@ ALTER TABLE ONLY public.scan_jobs
 
 
 --
--- Name: scan_options_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_options scan_options_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_options
@@ -1921,7 +1943,7 @@ ALTER TABLE ONLY public.scan_options
 
 
 --
--- Name: scan_results_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_results scan_results_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_results
@@ -1929,7 +1951,7 @@ ALTER TABLE ONLY public.scan_results
 
 
 --
--- Name: schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: schedules schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schedules
@@ -1937,7 +1959,7 @@ ALTER TABLE ONLY public.schedules
 
 
 --
--- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schema_migrations
@@ -1945,7 +1967,7 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- Name: tag_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: tag_kinds tag_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tag_kinds
@@ -1953,7 +1975,7 @@ ALTER TABLE ONLY public.tag_kinds
 
 
 --
--- Name: tag_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: tag_members tag_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tag_members
@@ -1961,7 +1983,7 @@ ALTER TABLE ONLY public.tag_members
 
 
 --
--- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tags
@@ -1969,7 +1991,7 @@ ALTER TABLE ONLY public.tags
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -1977,7 +1999,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: versions versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.versions
@@ -1985,7 +2007,7 @@ ALTER TABLE ONLY public.versions
 
 
 --
--- Name: vulnerabilities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: vulnerabilities vulnerabilities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.vulnerabilities
@@ -2161,17 +2183,17 @@ CREATE INDEX index_incidents_on_user_id ON public.incidents USING btree (user_id
 
 
 --
--- Name: index_indicator_subkind_members_on_indicator_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_indicator_context_members_on_indicator_context_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_indicator_subkind_members_on_indicator_id ON public.indicator_subkind_members USING btree (indicator_id);
+CREATE INDEX index_indicator_context_members_on_indicator_context_id ON public.indicator_context_members USING btree (indicator_context_id);
 
 
 --
--- Name: index_indicator_subkind_members_on_indicator_subkind_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_indicator_context_members_on_indicator_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_indicator_subkind_members_on_indicator_subkind_id ON public.indicator_subkind_members USING btree (indicator_subkind_id);
+CREATE INDEX index_indicator_context_members_on_indicator_id ON public.indicator_context_members USING btree (indicator_id);
 
 
 --
@@ -2609,7 +2631,7 @@ CREATE INDEX index_vulnerabilities_on_versions ON public.vulnerabilities USING g
 
 
 --
--- Name: fk_rails_013b129140; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_job_logs fk_rails_013b129140; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_job_logs
@@ -2617,7 +2639,7 @@ ALTER TABLE ONLY public.scan_job_logs
 
 
 --
--- Name: fk_rails_024a724903; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: agreements fk_rails_024a724903; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.agreements
@@ -2625,7 +2647,7 @@ ALTER TABLE ONLY public.agreements
 
 
 --
--- Name: fk_rails_053b3ff7a7; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: investigations fk_rails_053b3ff7a7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.investigations
@@ -2633,7 +2655,7 @@ ALTER TABLE ONLY public.investigations
 
 
 --
--- Name: fk_rails_05716955e9; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_results fk_rails_05716955e9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_results
@@ -2641,7 +2663,7 @@ ALTER TABLE ONLY public.scan_results
 
 
 --
--- Name: fk_rails_0e536c99da; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_jobs_hosts fk_rails_0e536c99da; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_jobs_hosts
@@ -2649,7 +2671,7 @@ ALTER TABLE ONLY public.scan_jobs_hosts
 
 
 --
--- Name: fk_rails_1018d7a07e; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: host_services fk_rails_1018d7a07e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.host_services
@@ -2657,7 +2679,7 @@ ALTER TABLE ONLY public.host_services
 
 
 --
--- Name: fk_rails_14f353f832; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: rights fk_rails_14f353f832; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.rights
@@ -2665,7 +2687,7 @@ ALTER TABLE ONLY public.rights
 
 
 --
--- Name: fk_rails_1e10701e6e; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: tag_members fk_rails_1e10701e6e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tag_members
@@ -2673,15 +2695,7 @@ ALTER TABLE ONLY public.tag_members
 
 
 --
--- Name: fk_rails_22c4962a98; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.indicator_subkind_members
-    ADD CONSTRAINT fk_rails_22c4962a98 FOREIGN KEY (indicator_id) REFERENCES public.indicators(id);
-
-
---
--- Name: fk_rails_2313388e41; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: indicators fk_rails_2313388e41; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.indicators
@@ -2689,7 +2703,7 @@ ALTER TABLE ONLY public.indicators
 
 
 --
--- Name: fk_rails_3a104ea16c; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: investigations fk_rails_3a104ea16c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.investigations
@@ -2697,7 +2711,7 @@ ALTER TABLE ONLY public.investigations
 
 
 --
--- Name: fk_rails_3c29d4c7ac; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: investigations fk_rails_3c29d4c7ac; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.investigations
@@ -2705,7 +2719,7 @@ ALTER TABLE ONLY public.investigations
 
 
 --
--- Name: fk_rails_3d31dad1cc; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: articles fk_rails_3d31dad1cc; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.articles
@@ -2713,7 +2727,7 @@ ALTER TABLE ONLY public.articles
 
 
 --
--- Name: fk_rails_46655864e6; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_jobs_hosts fk_rails_46655864e6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_jobs_hosts
@@ -2721,7 +2735,15 @@ ALTER TABLE ONLY public.scan_jobs_hosts
 
 
 --
--- Name: fk_rails_55b0ae9928; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: indicator_context_members fk_rails_4c8cbf51af; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.indicator_context_members
+    ADD CONSTRAINT fk_rails_4c8cbf51af FOREIGN KEY (indicator_context_id) REFERENCES public.indicator_contexts(id);
+
+
+--
+-- Name: agreements fk_rails_55b0ae9928; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.agreements
@@ -2729,7 +2751,7 @@ ALTER TABLE ONLY public.agreements
 
 
 --
--- Name: fk_rails_59050ee868; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_jobs fk_rails_59050ee868; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_jobs
@@ -2737,7 +2759,7 @@ ALTER TABLE ONLY public.scan_jobs
 
 
 --
--- Name: fk_rails_5b1d913b7c; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: incidents fk_rails_5b1d913b7c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.incidents
@@ -2745,7 +2767,7 @@ ALTER TABLE ONLY public.incidents
 
 
 --
--- Name: fk_rails_5d78265c8c; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: role_members fk_rails_5d78265c8c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.role_members
@@ -2753,7 +2775,7 @@ ALTER TABLE ONLY public.role_members
 
 
 --
--- Name: fk_rails_6551137b98; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: organizations fk_rails_6551137b98; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.organizations
@@ -2761,7 +2783,7 @@ ALTER TABLE ONLY public.organizations
 
 
 --
--- Name: fk_rails_6af30a70d3; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: incidents fk_rails_6af30a70d3; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.incidents
@@ -2769,7 +2791,7 @@ ALTER TABLE ONLY public.incidents
 
 
 --
--- Name: fk_rails_73a117a592; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: organizations fk_rails_73a117a592; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.organizations
@@ -2777,7 +2799,7 @@ ALTER TABLE ONLY public.organizations
 
 
 --
--- Name: fk_rails_7809a1a57d; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: articles fk_rails_7809a1a57d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.articles
@@ -2785,15 +2807,7 @@ ALTER TABLE ONLY public.articles
 
 
 --
--- Name: fk_rails_7c5eb38516; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.indicator_subkind_members
-    ADD CONSTRAINT fk_rails_7c5eb38516 FOREIGN KEY (indicator_subkind_id) REFERENCES public.indicator_subkinds(id);
-
-
---
--- Name: fk_rails_8e1e5764fc; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: departments fk_rails_8e1e5764fc; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.departments
@@ -2801,7 +2815,7 @@ ALTER TABLE ONLY public.departments
 
 
 --
--- Name: fk_rails_94440b0e8f; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: departments fk_rails_94440b0e8f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.departments
@@ -2809,7 +2823,7 @@ ALTER TABLE ONLY public.departments
 
 
 --
--- Name: fk_rails_99f9f6987e; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: rights fk_rails_99f9f6987e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.rights
@@ -2817,7 +2831,7 @@ ALTER TABLE ONLY public.rights
 
 
 --
--- Name: fk_rails_9ec9042bd2; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: role_members fk_rails_9ec9042bd2; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.role_members
@@ -2825,7 +2839,15 @@ ALTER TABLE ONLY public.role_members
 
 
 --
--- Name: fk_rails_b0df4c4847; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: indicator_context_members fk_rails_b0bedef6aa; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.indicator_context_members
+    ADD CONSTRAINT fk_rails_b0bedef6aa FOREIGN KEY (indicator_id) REFERENCES public.indicators(id);
+
+
+--
+-- Name: agreements fk_rails_b0df4c4847; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.agreements
@@ -2833,7 +2855,7 @@ ALTER TABLE ONLY public.agreements
 
 
 --
--- Name: fk_rails_b10ecc2b5d; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: attachments fk_rails_b10ecc2b5d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.attachments
@@ -2841,7 +2863,7 @@ ALTER TABLE ONLY public.attachments
 
 
 --
--- Name: fk_rails_b463051f3b; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: tags fk_rails_b463051f3b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tags
@@ -2849,7 +2871,7 @@ ALTER TABLE ONLY public.tags
 
 
 --
--- Name: fk_rails_bf29091984; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: links fk_rails_bf29091984; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.links
@@ -2857,7 +2879,7 @@ ALTER TABLE ONLY public.links
 
 
 --
--- Name: fk_rails_cc5f382133; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: scan_jobs fk_rails_cc5f382133; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.scan_jobs
@@ -2865,7 +2887,7 @@ ALTER TABLE ONLY public.scan_jobs
 
 
 --
--- Name: fk_rails_cca0d30785; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: investigations fk_rails_cca0d30785; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.investigations
@@ -2873,7 +2895,7 @@ ALTER TABLE ONLY public.investigations
 
 
 --
--- Name: fk_rails_d7b9ff90af; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users fk_rails_d7b9ff90af; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -2881,7 +2903,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: fk_rails_e08d243821; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: indicators fk_rails_e08d243821; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.indicators
@@ -2889,7 +2911,7 @@ ALTER TABLE ONLY public.indicators
 
 
 --
--- Name: fk_rails_e9b8591b46; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: hosts fk_rails_e9b8591b46; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.hosts
@@ -2897,7 +2919,7 @@ ALTER TABLE ONLY public.hosts
 
 
 --
--- Name: fk_rails_f29bf9cdf2; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users fk_rails_f29bf9cdf2; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -2905,7 +2927,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: fk_rails_f3f5e734a9; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: host_services fk_rails_f3f5e734a9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.host_services

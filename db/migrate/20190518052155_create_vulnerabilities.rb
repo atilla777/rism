@@ -4,7 +4,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       change.up do
         execute <<-SQL
           CREATE TYPE vuln_feed
-          AS ENUM ('custom', 'NVD');
+          AS ENUM ('custom', 'nvd');
         SQL
       end
 
@@ -13,11 +13,37 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
           DROP TYPE vuln_feed;
         SQL
       end
+
+      change.up do
+        execute <<-SQL
+          CREATE TYPE vuln_actuality
+          AS ENUM ('not_set', 'actual', 'not_actual');
+        SQL
+      end
+
+      change.down do
+        execute <<-SQL
+          DROP TYPE vuln_actuality;
+        SQL
+      end
+
+      change.up do
+        execute <<-SQL
+          CREATE TYPE vuln_relevance
+          AS ENUM ('not_set', 'relevant', 'not_relevant');
+        SQL
+      end
+
+      change.down do
+        execute <<-SQL
+          DROP TYPE vuln_relevance;
+        SQL
+      end
     end
     create_table :vulnerabilities do |t|
       # manual or from NVD json
       t.string :codename
-      t.integer :feed, limit: 1 # NVD or something else
+      t.column  :feed, 'vuln_feed'#, limit: 1 # NVD or something else
       t.text :vendors, array: true, default: []
       t.text :products, array: true, default: []
       t.jsonb :versions, null: false, default: '{}'
@@ -43,10 +69,12 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.text :custom_references
       t.jsonb :custom_fields
       t.integer :state, limit: 1 # is vuln old (readed), new published (unreadead) or modified (unreaded)?
-      t.boolean :relevance, default: false # automatic set - is vuln applicable to us by vendor and (or) product?
-      t.boolean :custom_relevance, default: false # manual set
-      t.boolean :actuality, default: false # automatic set - is vuln applicable tu us by criticality and vector?
-      t.boolean :custom_actuality, default: false # manual set
+      t.column :custom_actuality, 'vuln_actuality', default: 'not_set'
+      t.column :actuality, 'vuln_actuality', default: 'not_set' # automatic set - is vuln applicable tu us by criticality and vector?
+      t.column :custom_relevance, 'vuln_relevance', default: 'not_set'
+      t.column :relevance, 'vuln_relevance', default: 'not_set' # automatic set - is vuln applicable to us by vendor and (or) product?
+      #t.boolean :custom_relevance, default: false # manual set
+      #t.boolean :custom_actuality, default: false # manual set
       t.boolean :blocked, default: false # is vuln created from automatic sync from NVD base?
 
       t.timestamps
