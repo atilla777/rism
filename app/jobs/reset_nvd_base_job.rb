@@ -6,7 +6,7 @@ class ResetNvdBaseJob < ApplicationJob
   NVD_JSON_VERSION = '1.0'.freeze
   NVD_BASE_PATH = "https://nvd.nist.gov/feeds/json/cve/#{NVD_JSON_VERSION}/".freeze
 
-  Sidekiq.default_worker_options = { 'retry' => 0 }
+  Sidekiq.default_worker_options = { 'retry' => 2 }
 
   queue_as do
     self.arguments&.first || :default
@@ -57,21 +57,23 @@ class ResetNvdBaseJob < ApplicationJob
 
   def save_to_base(year)
     Oj.load_file(save_path(year)).fetch('CVE_Items', []).each do |cve|
-      record = Vulnerability.create(
-        NvdBase::Parser.record_attributes(cve)
-          .merge(
-            state: :published,
-            custom_actuality: 'not_set',
-            relevance: 'not_set',
-            custom_relevance: 'not_set',
-          )
-      )
-      record.save!
-    end
-  rescue ActiveRecord::RecordInvalid
-    logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
-    logger.tagged("RESET_NVD: #{record}") do
-      logger.error("vulnerability can`t be saved - #{record.errors.full_messages}")
+      begin
+        record = Vulnerability.create(
+          NvdBase::Parser.record_attributes(cve)
+            .merge(
+              state: :published,
+              custom_actuality: 'not_set',
+              relevance: 'not_set',
+              custom_relevance: 'not_set',
+            )
+        )
+        record.save!
+      rescue ActiveRecord::RecordInvalid
+        logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
+        logger.tagged("RESET_NVD: #{record}") do
+          logger.error("vulnerability can`t be saved - #{record.errors.full_messages}, record:  #{record}")
+        end
+      end
     end
   end
 

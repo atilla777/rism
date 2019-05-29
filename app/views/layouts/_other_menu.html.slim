@@ -1,49 +1,4 @@
 li
-  = link_to hosts_path do
-    .text-info
-      = fa_icon 'sitemap'
-      =< Host.model_name.human(count: 2)
-li
-  = link_to host_services_path do
-    .text-info
-      = fa_icon 'sun-o'
-      =< HostService.model_name.human(count: 2)
-li
-  = link_to scan_jobs_path do
-    .span.text-info
-      = fa_icon 'gears'
-      =< ScanJob.model_name.human(count: 2)
-li
-  = link_to scan_job_logs_path do
-    .span.text-info
-      = fa_icon 'history'
-      =< ScanJobLog.model_name.human(count: 2)
-li
-  = link_to scheduled_jobs_path do
-    .span.text-info
-      = fa_icon 'gear'
-      =< t('navigations.scheduled_jobs')
-li
-  = link_to schedules_path do
-    .span.text-info
-      = fa_icon 'clock-o'
-      =< Schedule.model_name.human(count: 2)
-li
-  = link_to scan_results_path do
-    .span.text-info
-      = fa_icon 'search'
-      =< ScanResult.model_name.human(count: 2)
-li
-  = link_to open_ports_scan_results_path do
-    .span.text-info
-      = fa_icon 'circle'
-      =< t'navigations.open_ports'
-li
-  = link_to new_ports_scan_results_path do
-    .span.text-info
-      = fa_icon 'asterisk'
-      =< t'navigations.new_ports'
-li
   = link_to agreements_path do
     .span.text-info
       = fa_icon 'handshake-o'

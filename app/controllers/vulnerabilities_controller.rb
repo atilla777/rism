@@ -6,9 +6,20 @@ class VulnerabilitiesController < ApplicationController
   before_action :set_time, only: [:create, :update]
 
   def search
+    if params[:actual_and_relevant]
+      actual_and_relevant
+    else
+      index
+      render 'index'
+    end
+  end
+
+  def actual_and_relevant
     authorize model
-    @records = records(model)
-    render 'application/index'
+    @actual_and_relevant = true
+    scope = model.actual_and_relevant
+    @records = records(scope)
+    render 'vulnerabilities/_actual_and_relevant'
   end
 
   private
@@ -31,5 +42,9 @@ class VulnerabilitiesController < ApplicationController
         params[:vulnerability]["#{field}_time"] = '0'
       end
     end
+  end
+
+  def set_custom_fields
+    @custom_fields = CustomField.where(field_model: model.model_name.to_s)
   end
 end

@@ -1,6 +1,6 @@
+=> link_to polymorphic_path(record), class: 'btn btn-link' do
+  = fa_icon 'eye', class: 'text-info', data_toggle: 'tooltip', title: t('views.action.show')
 => link_to edit_polymorphic_path(record), class: 'btn btn-link' do
-  i.glyphicon.glyphicon-pencil.text-warning
-  =< t('views.action.edit')
+  = fa_icon 'pencil', class: 'text-warning', data_toggle: 'tooltip', title: t('views.action.edit')
 = link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
-  i.glyphicon.glyphicon-remove.text-danger
-  =< t('views.action.delete')
+  = fa_icon 'remove', class: 'text-danger', data_toggle: 'tooltip', title: t('views.action.delete')

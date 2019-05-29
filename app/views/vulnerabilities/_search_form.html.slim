@@ -1,7 +1,8 @@
 button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_search_modal'
   =< t('navigations.advanced_search')
 .modal.fade#advanced_search_modal tabindex='-1' role='dialog'
-   = search_form_for @q, url: search_vulnerabilities_path, html: { class: 'form-horizontal', method: :post } do |f|
+  = search_form_for @q, url: search_vulnerabilities_path, html: { class: 'form-horizontal', method: :post } do |f|
+    = f.hidden_field :actual_and_relevant_eq, value: @actual_and_relevant
     .modal-dialog.modal-lg role='document'
       .modal-content
         .modal-header
@@ -21,26 +22,6 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                      =< b.check_box
                      =< Vulnerability.human_enum_name(:states, b.text)
 
-            //.form-group
-              .field
-                .col-lg-3.text-right
-                .col-lg-2
-                  = f.select :actuality_eq, Vulnerability.actualities.keys.collect { |actuality| [Vulnerability.human_enum_name(:actuality, actuality), actuality] }, {include_blank: t('labels.all_label')}, class: 'form-control'
-                  label
-                    | #{t('activerecord.attributes.vulnerability.actuality')}
-                .col-lg-2
-                  = f.select:custom_actuality_eq, [[t('labels.yes_label'), true], [t('labels.no_label'), false]], {include_blank: t('labels.all_label')}, class: 'form-control'
-                  label
-                    | #{t('activerecord.attributes.vulnerability.custom_actuality')}
-                .col-lg-2
-                  = f.select:relevance_eq, [[t('labels.yes_label'), true], [t('labels.no_label'), false]], {include_blank: t('labels.all_label')}, class: 'form-control'
-                  label
-                    | #{t('activerecord.attributes.vulnerability.relevance')}
-                .col-lg-2
-                  = f.select :custom_relevance_eq, [[t('labels.yes_label'), true], [t('labels.no_label'), false]], {include_blank: t('labels.all_label')}, class: 'form-control'
-                  label
-                    | #{t('activerecord.attributes.vulnerability.custom_relevance')}
-
             .form-group
               .field
                 .col-lg-3.text-right
@@ -50,14 +31,15 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                      =< b.check_box
                      =< Vulnerability.human_enum_name(:actualities, b.value)
 
-            .form-group
-              .field
-                .col-lg-3.text-right
-                  = f.label :custom_actuality, class: 'control-label'
-                .col-lg-6
-                   = f.collection_check_boxes :custom_actuality_in, Vulnerability.custom_actualities, :last, :first, {}, class: 'big-checkbox' do |b|
-                     =< b.check_box
-                     =< Vulnerability.human_enum_name(:custom_actualities, b.value)
+            - unless @actual_and_relevant
+              .form-group
+                .field
+                  .col-lg-3.text-right
+                    = f.label :custom_actuality, class: 'control-label'
+                  .col-lg-6
+                     = f.collection_check_boxes :custom_actuality_in, Vulnerability.custom_actualities, :last, :first, {}, class: 'big-checkbox' do |b|
+                       =< b.check_box
+                       =< Vulnerability.human_enum_name(:custom_actualities, b.value)
 
             .form-group
               .field
@@ -68,14 +50,15 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                      =< b.check_box
                      =< Vulnerability.human_enum_name(:relevance, b.value)
 
-            .form-group
-              .field
-                .col-lg-3.text-right
-                  = f.label :custom_relevance, class: 'control-label'
-                .col-lg-6
-                   = f.collection_check_boxes :custom_relevance_in, Vulnerability.custom_relevances, :last, :first, {}, class: 'big-checkbox' do |b|
-                     =< b.check_box
-                     =< Vulnerability.human_enum_name(:custom_relevance, b.value)
+            - unless @actual_and_relevant
+              .form-group
+                .field
+                  .col-lg-3.text-right
+                    = f.label :custom_relevance, class: 'control-label'
+                  .col-lg-6
+                     = f.collection_check_boxes :custom_relevance_in, Vulnerability.custom_relevances, :last, :first, {}, class: 'big-checkbox' do |b|
+                       =< b.check_box
+                       =< Vulnerability.human_enum_name(:custom_relevance, b.value)
 
             .form-group
               .field
@@ -225,7 +208,6 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                    = f.date_field :updated_at_gteq, class: 'form-control', datepicker: true
                  .col-lg-3
                    = f.date_field :updated_at_end_of_day_lteq, class: 'form-control', datepicker: true
-
 
         .modal-footer
           button.btn.btn-default type='button' data-dismiss='modal'

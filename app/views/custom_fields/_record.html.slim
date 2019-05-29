@@ -1,0 +1,5 @@
+= show_for @record, decorator: CustomFieldDecorator do | r |
+  = r.show :name
+  = r.show :field_model, value: r.decorated.show_field_model
+  = r.show :data_type, value: r.decorated.show_data_type
+  = r.show :description

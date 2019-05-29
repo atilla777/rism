@@ -43,12 +43,10 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
     create_table :vulnerabilities do |t|
       # manual or from NVD json
       t.string :codename
-      t.column  :feed, 'vuln_feed'#, limit: 1 # NVD or something else
+      t.column  :feed, 'vuln_feed'
       t.text :vendors, array: true, default: []
       t.text :products, array: true, default: []
-      t.jsonb :versions, null: false, default: '{}'
       t.text :cwe, array: true, default: []
-      t.jsonb :cpe, null: false, default: '{}'
       t.decimal :cvss3, precision: 3, scale: 1
       t.string :cvss3_vector
       t.decimal :cvss3_exploitability, precision: 3, scale: 1
@@ -58,7 +56,6 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.decimal :cvss2_exploitability, precision: 3, scale: 1
       t.decimal :cvss2_impact, precision: 3, scale: 1
       t.string :description, array: true, default: []
-      t.text :references, array: true, default: []
       t.datetime :published
       t.boolean :published_time, default: false # is time in published present?
       t.datetime :modified
@@ -76,6 +73,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       #t.boolean :custom_relevance, default: false # manual set
       #t.boolean :custom_actuality, default: false # manual set
       t.boolean :blocked, default: false # is vuln created from automatic sync from NVD base?
+      t.jsonb :raw_data, null: false, default: '{}'
 
       t.timestamps
     end
@@ -83,8 +81,6 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
     add_index  :vulnerabilities, :codename, unique: true
     add_index  :vulnerabilities, :vendors, using: :gin
     add_index  :vulnerabilities, :products, using: :gin
-    add_index  :vulnerabilities, :versions, using: :gin
-    add_index  :vulnerabilities, :cpe, using: :gin
     add_index  :vulnerabilities, :cwe, using: :gin
     add_index  :vulnerabilities, :cvss3_vector, using: :gin, order: {cvss3_vector: :gin_trgm_ops}
     add_index  :vulnerabilities, :cvss2_vector, using: :gin, order: {cvss2_vector: :gin_trgm_ops}

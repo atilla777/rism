@@ -127,7 +127,7 @@
                 = t('activerecord.attributes.vulnerability.description')
                 =< fa_icon('hand-pointer-o')
           .col-lg-8 id='toggle_descritpion' class='collapse'
-            = decorated.show_description
+            = decorated.show_description_string
 
       .form-group.recomended
         .field
@@ -144,7 +144,7 @@
                 = t('activerecord.attributes.vulnerability.references')
                 =< fa_icon('hand-pointer-o')
           .col-lg-8 id='toggle_references' class='collapse'
-            = auto_link decorated.show_references
+            = auto_link decorated.show_references_string
 
       .form-group.recomended
         .field
@@ -159,6 +159,14 @@
             = f.label :custom_recomendation, class: 'control-label'
           .col-lg-8
             = f.text_area :custom_recomendation, rows: 4, class: 'form-control'
+
+      - Vulnerability.custom_fields_list.each do |cf|
+        .form-group
+          .field
+            .col-lg-2.text-right
+              = label_tag "vulnerability[custom_fields][#{cf.name}]", cf.name, class: 'control-label'
+            .col-lg-8
+              = text_field_tag "vulnerability[custom_fields][#{cf.name}]", @record.custom_field(cf.name), class: 'form-control'
 
       .form-group.recomended
         .field
@@ -236,7 +244,7 @@
                     strong.text-info
                       = @record.class.human_attribute_name(:cpe)
                   td
-                    = @record.cpe
+                    = decorated.show_cpe_array
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8

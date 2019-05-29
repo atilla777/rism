@@ -37,6 +37,19 @@ COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching
 
 
 --
+-- Name: custom_field_data_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.custom_field_data_type AS ENUM (
+    'string',
+    'text',
+    'datetime',
+    'number',
+    'boolean'
+);
+
+
+--
 -- Name: vuln_actuality; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -289,6 +302,40 @@ CREATE SEQUENCE public.ckeditor_assets_id_seq
 --
 
 ALTER SEQUENCE public.ckeditor_assets_id_seq OWNED BY public.ckeditor_assets.id;
+
+
+--
+-- Name: custom_fields; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.custom_fields (
+    id bigint NOT NULL,
+    name character varying,
+    data_type public.custom_field_data_type,
+    field_model character varying,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: custom_fields_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.custom_fields_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: custom_fields_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.custom_fields_id_seq OWNED BY public.custom_fields.id;
 
 
 --
@@ -1392,9 +1439,7 @@ CREATE TABLE public.vulnerabilities (
     feed public.vuln_feed,
     vendors text[] DEFAULT '{}'::text[],
     products text[] DEFAULT '{}'::text[],
-    versions jsonb DEFAULT '"{}"'::jsonb NOT NULL,
     cwe text[] DEFAULT '{}'::text[],
-    cpe jsonb DEFAULT '"{}"'::jsonb NOT NULL,
     cvss3 numeric(3,1),
     cvss3_vector character varying,
     cvss3_exploitability numeric(3,1),
@@ -1404,7 +1449,6 @@ CREATE TABLE public.vulnerabilities (
     cvss2_exploitability numeric(3,1),
     cvss2_impact numeric(3,1),
     description character varying[] DEFAULT '{}'::character varying[],
-    "references" text[] DEFAULT '{}'::text[],
     published timestamp without time zone,
     published_time boolean DEFAULT false,
     modified timestamp without time zone,
@@ -1419,6 +1463,7 @@ CREATE TABLE public.vulnerabilities (
     custom_relevance public.vuln_relevance DEFAULT 'not_set'::public.vuln_relevance,
     relevance public.vuln_relevance DEFAULT 'not_set'::public.vuln_relevance,
     blocked boolean DEFAULT false,
+    raw_data jsonb DEFAULT '"{}"'::jsonb NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -1483,6 +1528,13 @@ ALTER TABLE ONLY public.attachments ALTER COLUMN id SET DEFAULT nextval('public.
 --
 
 ALTER TABLE ONLY public.ckeditor_assets ALTER COLUMN id SET DEFAULT nextval('public.ckeditor_assets_id_seq'::regclass);
+
+
+--
+-- Name: custom_fields id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_fields ALTER COLUMN id SET DEFAULT nextval('public.custom_fields_id_seq'::regclass);
 
 
 --
@@ -1756,6 +1808,14 @@ ALTER TABLE ONLY public.attachments
 
 ALTER TABLE ONLY public.ckeditor_assets
     ADD CONSTRAINT ckeditor_assets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: custom_fields custom_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_fields
+    ADD CONSTRAINT custom_fields_pkey PRIMARY KEY (id);
 
 
 --
@@ -2554,13 +2614,6 @@ CREATE UNIQUE INDEX index_vulnerabilities_on_codename ON public.vulnerabilities 
 
 
 --
--- Name: index_vulnerabilities_on_cpe; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_vulnerabilities_on_cpe ON public.vulnerabilities USING gin (cpe);
-
-
---
 -- Name: index_vulnerabilities_on_custom_description; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2621,13 +2674,6 @@ CREATE INDEX index_vulnerabilities_on_published ON public.vulnerabilities USING 
 --
 
 CREATE INDEX index_vulnerabilities_on_vendors ON public.vulnerabilities USING gin (vendors);
-
-
---
--- Name: index_vulnerabilities_on_versions; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_vulnerabilities_on_versions ON public.vulnerabilities USING gin (versions);
 
 
 --
@@ -2997,6 +3043,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190302045850'),
 ('20190511051035'),
 ('20190511051655'),
-('20190518052155');
+('20190518052155'),
+('20190529065940');
 
 

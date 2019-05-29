@@ -11,8 +11,8 @@
   = r.show :blocked, value: r.decorated.show_blocked
   = r.show :feed, value: r.decorated.show_feed
   = r.show :actuality, value: r.decorated.show_actuality
-  = r.show :relevance, value: r.decorated.show_relevance
   = r.show :custom_actuality, value: r.decorated.show_custom_actuality
+  = r.show :relevance, value: r.decorated.show_relevance
   = r.show :custom_relevance, value: r.decorated.show_custom_relevance
   = r.show :vendors, value: r.decorated.show_vendors
   = r.show :products, value: r.decorated.show_products
@@ -26,13 +26,14 @@
   = r.show :exploitability, value: r.decorated.show_exploitability
   = r.show :impact, value: r.decorated.show_impact
   = r.show :references do
-    - @record.references.each_with_index do |link, index|
-      - break if index > 10
-      a href=link
-        = "#{link} "
+    = auto_link(r.decorated.show_references_string(limit: 10))
   = r.show :custom_references, value: auto_link(record.custom_references)
-  = r.show :description, value: r.decorated.show_description
+  = r.show :description, value: r.decorated.show_description_string
   = r.show :custom_description
+  - @record.custom_fields&.each do |name, value|
+    = r.show :custom_fields, label: name, value: value
+
+- decorated = VulnerabilityDecorator.new(@record)
 
 table.table.table-hover.table-bordered.table-striped
   caption
@@ -101,18 +102,16 @@ table.table.table-hover.table-bordered.table-striped
         strong.text-info
           = @record.class.human_attribute_name(:versions)
       td
-        = VulnerabilityDecorator.new(@record).show_versions_string
+        = auto_link(decorated.show_versions_string(separator: "\n"))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:cpe)
       td
-        = @record.cpe
+        = decorated.show_cpe_array
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:references)
       td
-        - @record.references.each_with_index do |link, index|
-          a href=link
-            = "#{link} "
+        = auto_link(decorated.show_references_string(separator: "\n"))

@@ -1,0 +1,24 @@
+ul.nav.navbar-nav
+  li role="presentation" class="dropdown"
+    a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+      .text-info
+        = fa_icon 'flash'
+        =< t('navigations.investigations_incidents')
+        span class='caret'
+      ul class="dropdown-menu"
+        li
+          = link_to incidents_path do
+            .text-info
+              = fa_icon 'flash'
+              =< Incident.model_name.human(count: 2)
+        li
+          = link_to investigations_path do
+            .text-info
+              = fa_icon 'eye'
+              =< Investigation.model_name.human(count: 2)
+        li
+          = link_to indicators_path do
+            .text-info
+              = fa_icon 'bomb'
+              =< Indicator.model_name.human(count: 2)
+

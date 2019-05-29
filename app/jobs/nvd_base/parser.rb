@@ -4,32 +4,12 @@ module NvdBase::Parser
   def record_attributes(cve)
     products = []
     vendors_arr = cve.dig('cve', 'affects', 'vendor', 'vendor_data') || []
-    versions = vendors_arr
     vendors = vendors_arr.each_with_object([]) do |vendor, arr|
       products_array = vendor.dig('product', 'product_data') || []
       products_array.each do |product|
         products << product.fetch('product_name', '')
-
-#        versions = product.dig('version', 'version_data') || []
-#        versions_arr = product.dig('version', 'version_data') || []
-#        versions_arr.each do |version|
-#          ver = version.fetch('version_value', '')
-#          ver_aff = version.fetch('version_affected', '')
-#          versions <<  {
-#            vendor: vendor,
-#            product: product,
-#            version: ver,
-#            version_affected: ver_aff
-#          }
-#        end
-
       end
       arr << vendor.fetch('vendor_name', '')
-    end
-
-    references_arr = cve.dig('cve', 'references', 'reference_data') || []
-    references = references_arr.each_with_object([]) do |reference, arr|
-      arr << reference.fetch('url', '')
     end
     descriptions_arr = cve.dig('cve', 'description', 'description_data') || []
     description = descriptions_arr.each_with_object([]) do |description, arr|
@@ -47,9 +27,7 @@ module NvdBase::Parser
       feed: Vulnerability.feeds[:nvd],
       vendors: vendors,
       products: products,
-      versions: versions,
       cwe: cwe,
-      cpe: cve.dig('configurations', 'nodes') || [],
       cvss3: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'baseScore')&.to_d,
       cvss3_vector: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'vectorString') || '',
       cvss3_exploitability: cve.dig('impact', 'baseMetricV3', 'exploitabilityScore')&.to_d,
@@ -59,12 +37,12 @@ module NvdBase::Parser
       cvss2_exploitability: cve.dig('impact', 'baseMetricV2', 'exploitabilityScore')&.to_d,
       cvss2_impact: cve.dig('impact', 'baseMetricV2', 'impactScore')&.to_d,
       description: description,
-      references: references,
       published: cve.dig('publishedDate'),
       published_time: true,
       modified: cve.dig('lastModifiedDate'),
       modified_time: true,
-      blocked: true
+      blocked: true,
+      raw_data: cve
     }
   end
 end
