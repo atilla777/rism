@@ -1,0 +1,18 @@
+ul.nav.navbar-nav
+  li role="presentation" class="dropdown"
+    a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+      .text-info
+        = fa_icon 'bug'
+        =< Vulnerability.model_name.human(count: 2)
+        span class='caret'
+      ul class="dropdown-menu"
+        li
+          = link_to vulnerabilities_path do
+            .text-info
+              = fa_icon 'bug'
+              =< Vulnerability.model_name.human(count: 2)
+        li
+          = link_to actual_and_relevant_vulnerabilities_path do
+            .text-info
+              = fa_icon 'bug'
+              =< t('navigations.actual_and_relevant_vulnerabilities')

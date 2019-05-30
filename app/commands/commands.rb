@@ -33,4 +33,7 @@ class Commands
   LinkScanJobHostsCommand.register
   DestroyScanJobsLogsCommand.register
   DestroyLostScanJobsLogsCommand.register
+  ResetNvdBaseCommand.register
+  ResetNvdBaseLastYearCommand.register
+  SyncNvdBaseCommand.register
 end

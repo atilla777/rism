@@ -1,0 +1,117 @@
+= show_for @record, decorator: VulnerabilityDecorator do | r |
+  = r.show :published, value: show_date_time(@record.modified)
+  = r.show :modified, value: show_date_time(@record.published)
+  = r.show :codename do
+    - if @record.nvd?
+      a href=r.decorated.show_link_nvd_codename
+        = @record.codename
+    - else
+      = @record.codename
+  = r.show :state, value: r.decorated.show_state
+  = r.show :blocked, value: r.decorated.show_blocked
+  = r.show :feed, value: r.decorated.show_feed
+  = r.show :actuality, value: r.decorated.show_actuality
+  = r.show :custom_actuality, value: r.decorated.show_custom_actuality
+  = r.show :relevance, value: r.decorated.show_relevance
+  = r.show :custom_relevance, value: r.decorated.show_custom_relevance
+  = r.show :vendors, value: r.decorated.show_vendors
+  = r.show :products, value: r.decorated.show_products
+  = r.show :versions, value: truncate(r.decorated.show_versions_string, length: 2000)
+  = r.show :cwe do
+    - @record.cwe.each do |link|
+      a href='https://nvd.nist.gov/vuln/categories'
+        = "#{link} "
+  = r.show :cvss, value: r.decorated.show_cvss
+  = r.show :vector, value: r.decorated.show_cvss_vector
+  = r.show :exploitability, value: r.decorated.show_exploitability
+  = r.show :impact, value: r.decorated.show_impact
+  = r.show :references do
+    = auto_link(r.decorated.show_references_string(limit: 10))
+  = r.show :custom_references, value: auto_link(record.custom_references)
+  = r.show :description, value: r.decorated.show_description_string
+  = r.show :custom_description
+  - @record.custom_fields&.each do |name, value|
+    = r.show :custom_fields, label: name, value: value
+
+- decorated = VulnerabilityDecorator.new(@record)
+
+table.table.table-hover.table-bordered.table-striped
+  caption
+    a.link data-toggle='collapse' href='#toggle_extra'
+      strong
+        = t('labels.extra_info')
+      =< fa_icon('hand-pointer-o')
+
+  tbody id='toggle_extra' class='collapse'
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:created_at)
+      td
+        = show_date_time(@record.created_at)
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:updated_at)
+      td
+        = show_date_time(@record.updated_at)
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss3_vector)
+      td
+        = @record.cvss3_vector
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss3_exploitability)
+      td
+        = @record.cvss3_exploitability
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss3_impact)
+      td
+        = @record.cvss3_impact
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss2)
+      td
+        = @record.cvss2
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss2_vector)
+      td
+        = @record.cvss2_vector
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss2_exploitability)
+      td
+        = @record.cvss2_exploitability
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cvss2_impact)
+      td
+        = @record.cvss2_impact
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:versions)
+      td
+        = auto_link(decorated.show_versions_string(separator: "\n"))
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:cpe)
+      td
+        = decorated.show_cpe_array
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:references)
+      td
+        = auto_link(decorated.show_references_string(separator: "\n"))

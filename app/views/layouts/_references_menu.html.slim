@@ -6,7 +6,7 @@ li
 li
   = link_to tag_kinds_path do
     .span.text-info
-      = fa_icon 'star'
+      = fa_icon 'book'
       =< fa_icon 'tags'
       =< TagKind.model_name.human(count: 2)
 li
@@ -22,36 +22,41 @@ li
 li
   = link_to organization_kinds_path do
     .span.text-info
-      = fa_icon 'star'
+      = fa_icon 'book'
       =< fa_icon 'industry'
       =< OrganizationKind.model_name.human(count: 2)
 li
   = link_to agreement_kinds_path do
     .span.text-info
-      = fa_icon 'star'
+      = fa_icon 'book'
       =< fa_icon 'handshake-o'
       =< AgreementKind.model_name.human(count: 2)
 li
   = link_to scan_options_path do
     .span.text-info
-      = fa_icon 'star'
+      = fa_icon 'book'
       =< fa_icon 'gears'
       =< ScanOption.model_name.human(count: 2)
 li
   = link_to feeds_path do
     .span.text-info
-      = fa_icon 'star'
+      = fa_icon 'book'
       =< fa_icon 'eye'
       =< Feed.model_name.human(count: 2)
 li
   = link_to investigation_kinds_path do
     .span.text-info
-      = fa_icon 'star'
+      = fa_icon 'book'
       =< fa_icon 'eye'
       =< InvestigationKind.model_name.human(count: 2)
 li
   = link_to indicator_contexts_path do
     .span.text-info
-      = fa_icon 'star'
+      = fa_icon 'book'
       =< fa_icon 'bomb'
       =< IndicatorContext.model_name.human(count: 2)
+li
+  = link_to custom_fields_path do
+    .span.text-info
+      =< fa_icon 'pencil-square-o'
+      =< CustomField.model_name.human(count: 2)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190511051655) do
+ActiveRecord::Schema.define(version: 20190518052155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -478,6 +478,51 @@ ActiveRecord::Schema.define(version: 20190511051655) do
     t.text "object"
     t.datetime "created_at"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
+  create_table "vulnerabilities", force: :cascade do |t|
+    t.string "codename"
+    t.integer "feed", limit: 2
+    t.text "vendors", default: [], array: true
+    t.text "products", default: [], array: true
+    t.jsonb "versions", default: "{}", null: false
+    t.text "cwe", default: [], array: true
+    t.jsonb "cpe", default: "{}", null: false
+    t.decimal "cvss3", precision: 3, scale: 1
+    t.string "cvss3_vector"
+    t.decimal "cvss3_exploitability", precision: 3, scale: 1
+    t.decimal "cvss3_impact", precision: 3, scale: 1
+    t.decimal "cvss2", precision: 3, scale: 1
+    t.string "cvss2_vector"
+    t.decimal "cvss2_exploitability", precision: 3, scale: 1
+    t.decimal "cvss2_impact", precision: 3, scale: 1
+    t.string "description", default: [], array: true
+    t.text "references", default: [], array: true
+    t.datetime "published"
+    t.boolean "published_time", default: false
+    t.datetime "modified"
+    t.boolean "modified_time", default: false
+    t.text "custom_description"
+    t.text "custom_recomendation"
+    t.text "custom_references"
+    t.jsonb "custom_fields"
+    t.integer "status"
+    t.boolean "relevance", default: false
+    t.boolean "custom_relevance", default: false
+    t.boolean "actuality", default: false
+    t.boolean "custom_actuality", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "custom_description gin_trgm_ops", name: "index_vulnerabilities_on_custom_description", using: :gin
+    t.index ["codename"], name: "index_vulnerabilities_on_codename", unique: true
+    t.index ["cpe"], name: "index_vulnerabilities_on_cpe", using: :gin
+    t.index ["cwe"], name: "index_vulnerabilities_on_cwe", using: :gin
+    t.index ["description"], name: "index_vulnerabilities_on_description", using: :gin
+    t.index ["modified"], name: "index_vulnerabilities_on_modified"
+    t.index ["products"], name: "index_vulnerabilities_on_products", using: :gin
+    t.index ["published"], name: "index_vulnerabilities_on_published", order: { published: :desc }
+    t.index ["vendors"], name: "index_vulnerabilities_on_vendors", using: :gin
+    t.index ["versions"], name: "index_vulnerabilities_on_versions", using: :gin
   end
 
   add_foreign_key "agreements", "agreement_kinds"

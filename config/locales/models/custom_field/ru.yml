@@ -1,0 +1,19 @@
+ru:
+  activerecord:
+    models:
+      custom_field:
+        one: 'Пользовательское поле'
+        other: 'Пользовательские поля'
+    attributes:
+      custom_field:
+        name: 'Имя'
+        field_model: 'Ресурс'
+        description: 'Описание'
+        data_type: 'Тип данных'
+        data_types:
+          string: 'Строка'
+          text: 'Текст'
+          number: 'Число'
+          datetime: 'Дата и время'
+          boolean: 'Булевое'
+

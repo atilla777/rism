@@ -26,6 +26,10 @@ ru:
     default_organization_name: 'Общедоступные организации'
     press_to_add: 'нажмите для добавления'
     expert_mode: 'Экспертный режим (имеет приоритет перед расписанием)'
+    extra_info: 'Дополнительная информация (нажмите)'
+    yes_label: 'Да'
+    no_label: 'Нет'
+    all_label: 'Все'
     user:
       active: 'Да'
       not_active: 'Нет'
@@ -119,6 +123,18 @@ ru:
       filesize: 'filesize: размер файла (1-500 символов, например 500Kb)'
       process: 'process: название процесса(1-500 символов, например - psexec.exe)'
       account: 'account: учетная запись (1-500 символов, например - Administrator)'
+    vulnerability:
+      unread: 'Ожидает'
+      read: 'Обработано'
+      none: 'Нет'
+      low: 'Низкая'
+      medium: 'Средняя'
+      high: 'Высокая'
+      critical: 'Критическая'
+      local: 'Локальный'
+      adjacent_network: 'Примыкающий сетевой'
+      network: 'Сетевой'
+      physical: 'Физический'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
@@ -136,6 +152,9 @@ ru:
     dashboards: 'Главная панель'
     charts: 'Графики'
     advanced_search: 'Поиск по полям'
+    actual_and_relevant_vulnerabilities: 'Актуальные и релевантные уязвимости'
+    investigations_incidents: 'Инциденты/исследования'
+    scans: 'Сканирования'
     open_ports: 'Открытые порты'
     new_ports: 'Новые порты (незарегистрированные как сервис)'
     commands:
@@ -174,7 +193,7 @@ ru:
     destroy: Запись %{model} успешно удалена.
     revert: Запись %{model} успешно откатилась на предыдущую версию.
     command: Команда %{command} успешно выполнена.
-    now_scan: Сканирование %{net_scan_job_id} запущено, результат появится через некоторое время.
+    now_scan: Сканирование %{net_scan_job_id} запущено, результат появится через некоторое время
   views:
     action:
       new: "Новая запись -"

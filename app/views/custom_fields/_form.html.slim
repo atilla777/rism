@@ -1,0 +1,37 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :name, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :data_type, class: 'control-label'
+          .col-lg-8
+            = f.select :data_type, CustomField.data_types.keys.collect { |data_type| [CustomField.human_enum_name(:data_type, data_type), data_type] }, { selected: @record.data_type || :string}, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :field_model, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :field_model, CustomField.field_models, :first, :last, {}, {class: 'form-control'}
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = render 'form_back_button'

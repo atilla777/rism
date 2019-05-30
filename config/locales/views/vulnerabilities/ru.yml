@@ -1,0 +1,11 @@
+ru:
+  views:
+    shared:
+      placeholders:
+        cont_list_filter: 'все (значение1, значениеN)'
+        over_list_filter: 'любое (значение1, значениеN)'
+        eq_filter: 'равно'
+        cont_filter: 'содержит'
+    vulnerabilities:
+      placeholders:
+        description_cont: 'строка (содержится)'

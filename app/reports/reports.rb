@@ -33,4 +33,5 @@ class Reports
   NmapVsShodanReport.register
   FiltredTablePortsReport.register
   LostServicesReport.register
+  ActualAndRelevantVulnerabilitiesReport.register
 end

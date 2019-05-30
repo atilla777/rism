@@ -87,6 +87,9 @@ gem 'ruby-nmap', '~> 0.9.3'
 #gem 'shodanz', '~> 1.0.6'
 gem 'httparty', '~> 0.16.2'
 gem 'sidekiq-limit_fetch', '~> 3.4.0'
+#gem 'json-streamer', '~> 2.1.0'
+gem 'oj', '~> 3.7.12'
+gem 'rails_autolink', '~> 1.1.6'
 
 # Lint with overcommit
 group :development do

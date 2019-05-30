@@ -3,9 +3,11 @@ $(document).on('turbolinks:load', function() {
   $('a[data-set-date="started_at"]').on('click', {atrib: 'incident_started_at'}, set_today);
   $('a[data-set-date="finished_at"]').on('click', {atrib: 'incident_finished_at'}, set_today);
   $('a[data-set-date="beginning"]').on('click', {atrib: 'agreement_beginning'}, set_today);
+  $('a[data-set-date="published"]').on('click', {atrib: 'vulnerability_published'}, set_today);
   $('a[data-set-time="discovered_at"]').on('click', {atrib: 'incident_discovered_at'}, set_now);
   $('a[data-set-time="started_at"]').on('click', {atrib: 'incident_started_at'}, set_now);
   $('a[data-set-time="finished_at"]').on('click', {atrib: 'incident_finished_at'}, set_now);
+  $('a[data-set-time="published"]').on('click', {atrib: 'vulnerability_published'}, set_now);
 });
 
 function set_today(e) {

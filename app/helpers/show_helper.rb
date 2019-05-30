@@ -36,7 +36,10 @@ module ShowHelper
     def show(attribute, options = {}, &block)
       options[:label] ||= @record.class
                                  .human_attribute_name(attribute.to_sym)
-      options[:value] ||= @context.capture(&block) if block.present?
+      block_content = if block.present?
+        @context.capture(&block) || ''
+      end
+      options[:value] ||= block_content
       options[:value] ||= @record.send(attribute.to_sym)
 
       @context.render 'helpers/show_attribute',
