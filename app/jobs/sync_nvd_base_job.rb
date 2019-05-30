@@ -40,13 +40,15 @@ class SyncNvdBaseJob < ApplicationJob
   end
 
   def download_meta
-    HTTParty.get(meta_uri)
-            .response
-            .body
-  rescue StandardError
-    logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
-    logger.tagged("SYNC_NVD: #{record}") do
-      logger.error("modifeitd meta can`t be downloaded - #{record.errors.full_messages}")
+    begin
+      HTTParty.get(meta_uri)
+              .response
+              .body
+    rescue StandardError
+      logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
+      logger.tagged("SYNC_NVD: #{record}") do
+        logger.error("vulnerability can`t be saved - #{record.errors.full_messages}, record:  #{record}")
+      end
     end
   end
 
