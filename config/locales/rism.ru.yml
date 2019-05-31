@@ -147,7 +147,7 @@ ru:
     workers: 'Работники'
     catalog: 'Прочее'
     reports:
-      download: 'Скачать справку'
+      download: 'Скачать справку (бюллетень, отчет)'
       download_filtred: 'Скачать результаты поиска по полям'
     dashboards: 'Главная панель'
     charts: 'Графики'

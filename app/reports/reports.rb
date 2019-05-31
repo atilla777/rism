@@ -34,4 +34,5 @@ class Reports
   FiltredTablePortsReport.register
   LostServicesReport.register
   ActualAndRelevantVulnerabilitiesReport.register
+  InvestigationReport.register
 end

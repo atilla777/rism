@@ -1,3 +1,4 @@
+= report_button_for @record, investigation_id: @record.id
 = show_for @record, decorator: InvestigationDecorator do |r|
   = r.show :created_at, value: show_date_time(@record.created_at)
   = r.show :name, value: r.decorated.show_name_with_digest
