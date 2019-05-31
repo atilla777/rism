@@ -50,6 +50,28 @@ CREATE TYPE public.custom_field_data_type AS ENUM (
 
 
 --
+-- Name: indicator_purpose; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.indicator_purpose AS ENUM (
+    'not_set',
+    'for_detect',
+    'for_prevent'
+);
+
+
+--
+-- Name: indicator_trust_level; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.indicator_trust_level AS ENUM (
+    'not_set',
+    'low',
+    'high'
+);
+
+
+--
 -- Name: vuln_actuality; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -598,10 +620,10 @@ CREATE TABLE public.indicators (
     id bigint NOT NULL,
     user_id bigint,
     investigation_id bigint,
-    trust_level integer,
+    trust_level public.indicator_trust_level DEFAULT 'not_set'::public.indicator_trust_level,
     content character varying,
-    content_format integer,
-    danger boolean,
+    content_format smallint,
+    purpose public.indicator_purpose DEFAULT 'not_set'::public.indicator_purpose,
     description text,
     enrichment jsonb DEFAULT '"{}"'::jsonb NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -1436,7 +1458,7 @@ ALTER SEQUENCE public.versions_id_seq OWNED BY public.versions.id;
 CREATE TABLE public.vulnerabilities (
     id bigint NOT NULL,
     codename character varying,
-    feed public.vuln_feed,
+    feed public.vuln_feed DEFAULT 'custom'::public.vuln_feed,
     vendors text[] DEFAULT '{}'::text[],
     products text[] DEFAULT '{}'::text[],
     cwe text[] DEFAULT '{}'::text[],
@@ -2257,10 +2279,10 @@ CREATE INDEX index_indicator_context_members_on_indicator_id ON public.indicator
 
 
 --
--- Name: index_indicators_on_content; Type: INDEX; Schema: public; Owner: -
+-- Name: index_indicators_on_content_gin_trgm_ops; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_indicators_on_content ON public.indicators USING gin (content public.gin_trgm_ops);
+CREATE INDEX index_indicators_on_content_gin_trgm_ops ON public.indicators USING gin (content public.gin_trgm_ops);
 
 
 --
@@ -2614,24 +2636,24 @@ CREATE UNIQUE INDEX index_vulnerabilities_on_codename ON public.vulnerabilities 
 
 
 --
--- Name: index_vulnerabilities_on_custom_description; Type: INDEX; Schema: public; Owner: -
+-- Name: index_vulnerabilities_on_custom_description_gin_trgm_ops; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_vulnerabilities_on_custom_description ON public.vulnerabilities USING gin (custom_description public.gin_trgm_ops);
-
-
---
--- Name: index_vulnerabilities_on_cvss2_vector; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_vulnerabilities_on_cvss2_vector ON public.vulnerabilities USING gin (cvss2_vector public.gin_trgm_ops);
+CREATE INDEX index_vulnerabilities_on_custom_description_gin_trgm_ops ON public.vulnerabilities USING gin (custom_description public.gin_trgm_ops);
 
 
 --
--- Name: index_vulnerabilities_on_cvss3_vector; Type: INDEX; Schema: public; Owner: -
+-- Name: index_vulnerabilities_on_cvss2_vector_gin_trgm_ops; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_vulnerabilities_on_cvss3_vector ON public.vulnerabilities USING gin (cvss3_vector public.gin_trgm_ops);
+CREATE INDEX index_vulnerabilities_on_cvss2_vector_gin_trgm_ops ON public.vulnerabilities USING gin (cvss2_vector public.gin_trgm_ops);
+
+
+--
+-- Name: index_vulnerabilities_on_cvss3_vector_gin_trgm_ops; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerabilities_on_cvss3_vector_gin_trgm_ops ON public.vulnerabilities USING gin (cvss3_vector public.gin_trgm_ops);
 
 
 --

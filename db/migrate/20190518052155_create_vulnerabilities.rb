@@ -43,7 +43,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
     create_table :vulnerabilities do |t|
       # manual or from NVD json
       t.string :codename
-      t.column  :feed, 'vuln_feed'
+      t.column  :feed, 'vuln_feed', default: 'custom'
       t.text :vendors, array: true, default: []
       t.text :products, array: true, default: []
       t.text :cwe, array: true, default: []
@@ -82,11 +82,11 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
     add_index  :vulnerabilities, :vendors, using: :gin
     add_index  :vulnerabilities, :products, using: :gin
     add_index  :vulnerabilities, :cwe, using: :gin
-    add_index  :vulnerabilities, :cvss3_vector, using: :gin, order: {cvss3_vector: :gin_trgm_ops}
-    add_index  :vulnerabilities, :cvss2_vector, using: :gin, order: {cvss2_vector: :gin_trgm_ops}
+    add_index  :vulnerabilities, 'cvss3_vector gin_trgm_ops', using: :gin
+    add_index  :vulnerabilities, 'cvss2_vector gin_trgm_ops', using: :gin
     add_index  :vulnerabilities, :description, using: :gin
 
-    add_index  :vulnerabilities, :custom_description, using: :gin, order: {custom_description: :gin_trgm_ops}
+    add_index  :vulnerabilities, 'custom_description gin_trgm_ops', using: :gin
     add_index  :vulnerabilities, :published, order: {published: :desc}
     add_index  :vulnerabilities, :modified, order: {published: :desc}
   end

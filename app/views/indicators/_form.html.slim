@@ -11,7 +11,7 @@
           .col-lg-2.text-right
             = f.label :trust_level, class: 'control-label'
           .col-lg-8
-            = f.select :trust_level, Indicator.trust_levels.keys.collect { |level| [Indicator.human_enum_name(:trust_level, level), level] }, { selected: @record.trust_level || :unknown }, class: 'form-control'
+            = f.select :trust_level, Indicator.trust_levels.keys.collect { |level| [Indicator.human_enum_name(:trust_level, level), level] }, { selected: @record.trust_level || :not_set}, class: 'form-control'
 
       .form-group.required
         .field
@@ -37,13 +37,12 @@
           .col-lg-8
             = f.text_field :content, class: 'form-control'
 
-      .form-group
-        .col-lg-offset-2.col-lg-8
-          .checkbox
-             label
-               = f.check_box :danger, class: 'big-checkbox'
-               strong
-                  = "#{t('activerecord.attributes.indicator.danger')}"
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :purpose, class: 'control-label'
+          .col-lg-8
+            = f.select :purpose, Indicator.purposes.keys.collect { |purpose| [Indicator.human_enum_name(:purpose, purpose), purpose] }, { selected: @record.purpose || :not_set}, class: 'form-control'
 
       .form-group
         .field

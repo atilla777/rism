@@ -29,7 +29,7 @@ class CreateIndicatorsService
     indicator_params.merge!(
       investigation_id: @investigation_id,
       user_id: @user_id,
-      trust_level: :unknown,
+      trust_level: :not_set,
       enrichment: {}
     )
     indicator = Indicator.new(indicator_params)

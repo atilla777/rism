@@ -10,25 +10,31 @@ class Indicator < ApplicationRecord
   attr_accessor :skip_format_validation
   attr_accessor :indicator_context_ids
 
-  enum trust_level: %i[
-                       unknown
-                       low
-                       high
-                      ]
+  enum purpose: {
+    not_set: 'not_set',
+    for_detect: 'for_detect',
+    for_prevent: 'for_prevent'
+  }, _prefix: true
 
-  enum content_format: CONTENT_FORMATS.map { |i| i[:format] }
+  enum trust_level: {
+    not_set: 'not_set',
+    low: 'low',
+    high: 'high'
+    }, _prefix: true
+
+  enum content_format: CONTENT_FORMATS.map { |f| f[:format] }
 
   before_save :downcase_hashes
   after_save :set_indicator_context_member
-
 
   validate :check_content_format, unless: :skip_format_validation
 
   validates :investigation_id, numericality: { only_integer: true }
   validates :user_id, numericality: { only_integer: true }
-  validates :content_format, inclusion: { in: Indicator.content_formats.keys}
+  validates :trust_level, inclusion: { in: Indicator.trust_levels.values}
+  validates :content_format, inclusion: { in: Indicator.content_formats}
   validates :content, presence: true
-  validates :trust_level, inclusion: { in: Indicator.trust_levels.keys}
+  validates :purpose, inclusion: { in: Indicator.purposes.values}
   validates :content, uniqueness: { scope: :investigation_id }
 
   #serialize :enrichment, Hash

@@ -10,7 +10,7 @@ class IndicatorPolicy < ApplicationPolicy
       :content_format,
       :content_subkinds,
       :description,
-      :danger,
+      :purpose,
       :trust_level
     ]
   end

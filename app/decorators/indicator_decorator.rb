@@ -16,9 +16,8 @@ class IndicatorDecorator < SimpleDelegator
     end.join(', ')
   end
 
-  def show_danger
-    return I18n.t('labels.indicator.danger') if danger
-    I18n.t('labels.indicator.not_danger')
+  def show_purpose
+    Indicator.human_enum_name(:purpose, purpose)
   end
 
   def show_trust_level
