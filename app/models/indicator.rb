@@ -22,7 +22,11 @@ class Indicator < ApplicationRecord
     high: 'high'
     }, _prefix: true
 
-  enum content_format: CONTENT_FORMATS.map { |f| f[:format] }
+  formats = CONTENT_FORMATS.each_with_object({}) do |f, memo|
+    memo[f[:format]] = f[:format].to_s
+  end
+
+  enum(content_format: formats)
 
   before_save :downcase_hashes
   after_save :set_indicator_context_member
@@ -32,12 +36,10 @@ class Indicator < ApplicationRecord
   validates :investigation_id, numericality: { only_integer: true }
   validates :user_id, numericality: { only_integer: true }
   validates :trust_level, inclusion: { in: Indicator.trust_levels.values}
-  validates :content_format, inclusion: { in: Indicator.content_formats}
+  validates :content_format, inclusion: { in: Indicator.content_formats.values}
   validates :content, presence: true
   validates :purpose, inclusion: { in: Indicator.purposes.values}
   validates :content, uniqueness: { scope: :investigation_id }
-
-  #serialize :enrichment, Hash
 
   belongs_to :investigation
   belongs_to :user

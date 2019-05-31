@@ -47,6 +47,11 @@ module Indicator::Formats
       pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{EMAIL_REGEXP})\s*$/i
     },
     {
+      format: :email_author,
+      pattern: /^\s*email_author#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
+      check_prefix: true
+    },
+    {
       format: :email_theme,
       pattern: /^\s*email_theme#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
       check_prefix: true

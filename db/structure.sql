@@ -50,6 +50,31 @@ CREATE TYPE public.custom_field_data_type AS ENUM (
 
 
 --
+-- Name: indicator_content_format; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.indicator_content_format AS ENUM (
+    'other',
+    'network_service',
+    'network',
+    'network_port',
+    'email_adress',
+    'email_author',
+    'email_theme',
+    'email_content',
+    'uri',
+    'domain',
+    'md5',
+    'sha256',
+    'sha512',
+    'filename',
+    'filesize',
+    'process',
+    'account'
+);
+
+
+--
 -- Name: indicator_purpose; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -622,7 +647,7 @@ CREATE TABLE public.indicators (
     investigation_id bigint,
     trust_level public.indicator_trust_level DEFAULT 'not_set'::public.indicator_trust_level,
     content character varying,
-    content_format smallint,
+    content_format public.indicator_content_format,
     purpose public.indicator_purpose DEFAULT 'not_set'::public.indicator_purpose,
     description text,
     enrichment jsonb DEFAULT '"{}"'::jsonb NOT NULL,

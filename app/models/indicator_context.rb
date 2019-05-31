@@ -16,6 +16,5 @@ class IndicatorContext < ApplicationRecord
 
   def set_indicators_formats
     indicators_formats.select!(&:present?)
-      .map! {|format| format}
   end
 end

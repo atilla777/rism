@@ -4,7 +4,9 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       change.up do
         execute <<-SQL
           CREATE TYPE vuln_feed
-          AS ENUM ('custom', 'nvd');
+          AS ENUM (
+            #{Vulnerability.feeds.values.map {|i| "'#{i}'"}.join(', ')}
+          )
         SQL
       end
 
@@ -17,7 +19,9 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       change.up do
         execute <<-SQL
           CREATE TYPE vuln_actuality
-          AS ENUM ('not_set', 'actual', 'not_actual');
+          AS ENUM (
+            #{Vulnerability.actualities.values.map {|i| "'#{i}'"}.join(', ')}
+          )
         SQL
       end
 
@@ -30,7 +34,9 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       change.up do
         execute <<-SQL
           CREATE TYPE vuln_relevance
-          AS ENUM ('not_set', 'relevant', 'not_relevant');
+          AS ENUM (
+            #{Vulnerability.relevances.values.map {|i| "'#{i}'"}.join(', ')}
+          )
         SQL
       end
 

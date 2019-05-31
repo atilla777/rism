@@ -4,7 +4,9 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
       change.up do
         execute <<-SQL
           CREATE TYPE indicator_purpose
-          AS ENUM ('not_set', 'for_detect', 'for_prevent');
+          AS ENUM (
+            #{Indicator.purposes.values.map {|i| "'#{i}'"}.join(', ')}
+          )
         SQL
       end
 
@@ -17,13 +19,30 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
       change.up do
         execute <<-SQL
           CREATE TYPE indicator_trust_level
-          AS ENUM ('not_set', 'low', 'high');
+          AS ENUM (
+            #{Indicator.trust_levels.values.map {|i| "'#{i}'"}.join(', ')}
+          )
         SQL
       end
 
       change.down do
         execute <<-SQL
           DROP TYPE indicator_trust_level;
+        SQL
+      end
+
+      change.up do
+        execute <<-SQL
+          CREATE TYPE indicator_content_format
+          AS ENUM (
+            #{Indicator.content_formats.values.map {|i| "'#{i}'"}.join(', ')}
+          );
+        SQL
+      end
+
+      change.down do
+        execute <<-SQL
+          DROP TYPE indicator_content_format;
         SQL
       end
     end
@@ -33,7 +52,7 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
       t.references :investigation, foreign_key: true
       t.column :trust_level, 'indicator_trust_level', default: 'not_set'
       t.string :content
-      t.integer :content_format, limit: 1
+      t.column :content_format, 'indicator_content_format'
       t.column :purpose, 'indicator_purpose', default: 'not_set'
       t.text:description
       t.jsonb :enrichment, null: false, default: '{}'

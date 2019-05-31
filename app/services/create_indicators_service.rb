@@ -40,7 +40,10 @@ class CreateIndicatorsService
 
   def indicator_context_ids(codenames)
     return if codenames.blank?
-    codenames.split(',').map(&:strip).each_with_object([]) do |codename, ids|
+    codenames.split(',').map(&:strip)
+                        .each_with_object([]) do |codename, ids|
+      indicator_context = IndicatorContext.find_by(codename: codename)
+      next if indicator_context.blank?
       ids << IndicatorContext.find_by(codename: codename).id
     end
   end
