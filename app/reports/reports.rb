@@ -35,4 +35,11 @@ class Reports
   LostServicesReport.register
   ActualAndRelevantVulnerabilitiesReport.register
   InvestigationReport.register
+  ForBlockReport.register
+  ForDetectReport.register
+  IpForBlockReport.register
+  DomainForBlockReport.register
+  EmailForBlockReport.register
+  Md5ForBlockReport.register
+  UriForBlockReport.register
 end

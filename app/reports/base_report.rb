@@ -48,7 +48,9 @@ class BaseReport
 
   def get_organization(options)
     return nil unless options[:organization_id].present?
-    OrganizationPolicy::Scope.new(current_user, Organization).resolve.where(id: options[:organization_id]).first
+    OrganizationPolicy::Scope.new(current_user, Organization).resolve
+      .where(id: options[:organization_id])
+      .first
   end
 
   def fill_in_report(format)
@@ -61,6 +63,8 @@ class BaseReport
       WordReportFile.new(@human_name)
     when :csv
       CsvReportFile.new(@human_name)
+    when :txt
+      TxtReportFile.new(@human_name)
     else
       raise ArgumentError, 'Unknown report format'
     end

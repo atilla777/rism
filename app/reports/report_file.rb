@@ -15,4 +15,25 @@ class ReportFile
   def render
     raise StandartError, 'Method shuld be defined in sublcass.'
   end
+
+  def initialization_preset
+    @level = 0
+  end
+
+  # Top level document sections numeration counter and marker
+  # Example:
+  # "#{level} Part one"
+  def level
+    @sublevel = 0
+    @level += 1
+  end
+
+  # Sublevel document sections numeration counter and marker
+  # Example:
+  # "#{level} Part one"
+  # "#{sublevel} Capter one"
+  def sublevel
+    @sublevel += 1
+    "#{@level}.#{@sublevel}"
+  end
 end
