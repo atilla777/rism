@@ -92,6 +92,7 @@ Rails.application.routes.draw do
     end
   end
   resources :custom_fields
+  resources :delivery_lists
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

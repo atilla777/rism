@@ -1,0 +1,7 @@
+= show_for @record do |r|
+  = r.show :name
+  = r.show :organization_id do
+    = link_to @record.organization&.name, record.organization
+  = r.show :description
+
+= render 'application/record_versions'

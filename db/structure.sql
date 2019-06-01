@@ -385,6 +385,39 @@ ALTER SEQUENCE public.custom_fields_id_seq OWNED BY public.custom_fields.id;
 
 
 --
+-- Name: delivery_lists; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.delivery_lists (
+    id bigint NOT NULL,
+    name character varying,
+    organization_id bigint,
+    description character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: delivery_lists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.delivery_lists_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: delivery_lists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.delivery_lists_id_seq OWNED BY public.delivery_lists.id;
+
+
+--
 -- Name: departments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1586,6 +1619,13 @@ ALTER TABLE ONLY public.custom_fields ALTER COLUMN id SET DEFAULT nextval('publi
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY public.delivery_lists ALTER COLUMN id SET DEFAULT nextval('public.delivery_lists_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY public.departments ALTER COLUMN id SET DEFAULT nextval('public.departments_id_seq'::regclass);
 
 
@@ -1861,6 +1901,14 @@ ALTER TABLE ONLY public.ckeditor_assets
 
 ALTER TABLE ONLY public.custom_fields
     ADD CONSTRAINT custom_fields_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: delivery_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_lists
+    ADD CONSTRAINT delivery_lists_pkey PRIMARY KEY (id);
 
 
 --
@@ -2215,6 +2263,13 @@ CREATE INDEX index_attachments_on_organization_id ON public.attachments USING bt
 --
 
 CREATE INDEX index_ckeditor_assets_on_type ON public.ckeditor_assets USING btree (type);
+
+
+--
+-- Name: index_delivery_lists_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_delivery_lists_on_organization_id ON public.delivery_lists USING btree (organization_id);
 
 
 --
@@ -2921,6 +2976,14 @@ ALTER TABLE ONLY public.departments
 
 
 --
+-- Name: fk_rails_971d6bd7da; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_lists
+    ADD CONSTRAINT fk_rails_971d6bd7da FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
+
+
+--
 -- Name: fk_rails_99f9f6987e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3096,6 +3159,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190511051035'),
 ('20190511051655'),
 ('20190518052155'),
-('20190529065940');
+('20190529065940'),
+('20190601061759');
 
 

@@ -33,3 +33,5 @@
     = Agreement.model_name.human(count: 2)
   - tabs.add(:investigations, investigations_path(organization_id: record.id), true) do
     = Investigation.model_name.human(count: 2)
+  - tabs.add(:delivery_lists, delivery_lists_path(organization_id: record.id), true) do
+    = DeliveryList.model_name.human(count: 2)
