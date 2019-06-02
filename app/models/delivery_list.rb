@@ -10,4 +10,10 @@ class DeliveryList < ApplicationRecord
   validates :name, length: { minimum: 3, maximum: 250 }
   validates :name, uniqueness: { scope: :organization_id }
   validates :organization_id, numericality: { only_integer: true }
+
+  has_many :delivery_subjects, dependent: :delete_all
+  has_many :delivery_lists, through: :delivery_subjects
+
+  has_many :delivery_list_members, dependent: :delete_all
+  has_many :organizations, through: :delivery_list_members
 end

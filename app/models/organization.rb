@@ -51,6 +51,9 @@ class Organization < ApplicationRecord
 
   belongs_to :organization_kind, optional: true
 
+  has_many :delivery_list_members, dependent: :delete_all
+  has_many :delivery_lists, through: :delivery_list_members
+
   before_destroy :protect_default_organization
 
   scope :default_organization, -> { find(1) }

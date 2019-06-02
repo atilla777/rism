@@ -135,6 +135,9 @@ ru:
       adjacent_network: 'Примыкающий сетевой'
       network: 'Сетевой'
       physical: 'Физический'
+    delivery_subject:
+      allowed_delivery_lists: 'Доступные для назначения списки доставки'
+      assigned_delivery_lists: 'Назначенные списки доставки'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
@@ -199,6 +202,7 @@ ru:
       new: "Новая запись -"
       confirm: "Вы уверены?"
       show: "Показать"
+      add: 'Добавить'
       edit: "Редактировать"
       delete: "Удалить"
       delete_all: "Удалить всё"

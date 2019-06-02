@@ -2,12 +2,12 @@
   - tabs.add(:main_info, polymorphic_path(record, active_tab: :main_info)) do
     = fa_icon 'info'
     =< t('navigations.main_info')
-  - tabs.add(:indicators, indicators_path(investigation_id: record.id), true) do
-    = fa_icon 'bomb'
-    =< Indicator.model_name.human(count: 2)
-  - tabs.add(:delivery_subjects, delivery_subjects_path(deliverable_id: record.id, deliverable_type: record.class.model_name, active_tab: :delivery_subjects), true) do
-    = fa_icon 'address-book'
-    =< DeliveryList.model_name.human(count: 2)
+  - tabs.add(:delivery_list_members, delivery_list_members_path(delivery_list_id: record.id, active_tab: :delivery_list_members), true) do
+    = fa_icon 'industry'
+    =< Organization.model_name.human(count: 2)
+  - tabs.add(:allowed_organizations, delivery_list_members_path(delivery_list_id: record.id, active_tab: :allowed_organizations), true) do
+    = fa_icon 'industry'
+    =< "Allowed"
   - tabs.add(:links, polymorphic_path(record, active_tab: :links)) do
     = fa_icon 'link'
     =< Link.model_name.human(count: 2)

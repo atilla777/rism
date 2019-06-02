@@ -385,6 +385,38 @@ ALTER SEQUENCE public.custom_fields_id_seq OWNED BY public.custom_fields.id;
 
 
 --
+-- Name: delivery_list_members; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.delivery_list_members (
+    id bigint NOT NULL,
+    organization_id bigint,
+    delivery_list_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: delivery_list_members_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.delivery_list_members_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: delivery_list_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.delivery_list_members_id_seq OWNED BY public.delivery_list_members.id;
+
+
+--
 -- Name: delivery_lists; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -415,6 +447,40 @@ CREATE SEQUENCE public.delivery_lists_id_seq
 --
 
 ALTER SEQUENCE public.delivery_lists_id_seq OWNED BY public.delivery_lists.id;
+
+
+--
+-- Name: delivery_subjects; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.delivery_subjects (
+    id bigint NOT NULL,
+    deliverable_type character varying,
+    deliverable_id bigint,
+    delivery_list_id bigint,
+    sent_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: delivery_subjects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.delivery_subjects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: delivery_subjects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.delivery_subjects_id_seq OWNED BY public.delivery_subjects.id;
 
 
 --
@@ -1619,7 +1685,21 @@ ALTER TABLE ONLY public.custom_fields ALTER COLUMN id SET DEFAULT nextval('publi
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY public.delivery_list_members ALTER COLUMN id SET DEFAULT nextval('public.delivery_list_members_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY public.delivery_lists ALTER COLUMN id SET DEFAULT nextval('public.delivery_lists_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_subjects ALTER COLUMN id SET DEFAULT nextval('public.delivery_subjects_id_seq'::regclass);
 
 
 --
@@ -1904,11 +1984,27 @@ ALTER TABLE ONLY public.custom_fields
 
 
 --
+-- Name: delivery_list_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_list_members
+    ADD CONSTRAINT delivery_list_members_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: delivery_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.delivery_lists
     ADD CONSTRAINT delivery_lists_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: delivery_subjects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_subjects
+    ADD CONSTRAINT delivery_subjects_pkey PRIMARY KEY (id);
 
 
 --
@@ -2266,10 +2362,38 @@ CREATE INDEX index_ckeditor_assets_on_type ON public.ckeditor_assets USING btree
 
 
 --
+-- Name: index_delivery_list_members_on_delivery_list_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_delivery_list_members_on_delivery_list_id ON public.delivery_list_members USING btree (delivery_list_id);
+
+
+--
+-- Name: index_delivery_list_members_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_delivery_list_members_on_organization_id ON public.delivery_list_members USING btree (organization_id);
+
+
+--
 -- Name: index_delivery_lists_on_organization_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_delivery_lists_on_organization_id ON public.delivery_lists USING btree (organization_id);
+
+
+--
+-- Name: index_delivery_subjects_on_deliverable_type_and_deliverable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_delivery_subjects_on_deliverable_type_and_deliverable_id ON public.delivery_subjects USING btree (deliverable_type, deliverable_id);
+
+
+--
+-- Name: index_delivery_subjects_on_delivery_list_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_delivery_subjects_on_delivery_list_id ON public.delivery_subjects USING btree (delivery_list_id);
 
 
 --
@@ -2840,6 +2964,14 @@ ALTER TABLE ONLY public.rights
 
 
 --
+-- Name: fk_rails_1822f728ab; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_subjects
+    ADD CONSTRAINT fk_rails_1822f728ab FOREIGN KEY (delivery_list_id) REFERENCES public.delivery_lists(id);
+
+
+--
 -- Name: fk_rails_1e10701e6e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2965,6 +3097,14 @@ ALTER TABLE ONLY public.articles
 
 ALTER TABLE ONLY public.departments
     ADD CONSTRAINT fk_rails_8e1e5764fc FOREIGN KEY (parent_id) REFERENCES public.departments(id);
+
+
+--
+-- Name: fk_rails_90d32e6f96; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_list_members
+    ADD CONSTRAINT fk_rails_90d32e6f96 FOREIGN KEY (delivery_list_id) REFERENCES public.delivery_lists(id);
 
 
 --
@@ -3096,6 +3236,14 @@ ALTER TABLE ONLY public.host_services
 
 
 --
+-- Name: fk_rails_f5d1bba46a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.delivery_list_members
+    ADD CONSTRAINT fk_rails_f5d1bba46a FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -3160,6 +3308,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190511051655'),
 ('20190518052155'),
 ('20190529065940'),
-('20190601061759');
+('20190601061759'),
+('20190601070608'),
+('20190602060535');
 
 

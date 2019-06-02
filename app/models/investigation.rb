@@ -30,6 +30,21 @@ class Investigation < ApplicationRecord
   belongs_to :investigation_kind
   has_many :indicators, dependent: :destroy
 
+  has_many :delivery_subjects, as: :deliverable, dependent: :delete_all
+  has_many :delivery_lists, through: :delivery_subjects
+
+
+  def allowed_delivery_lists
+    DeliveryList.all - delivery_lists
+  end
+
+#  def self.assigned_delivery_subjects(record)
+#    DeliverySubject.where(
+#      deliverable_type: record.class.model_name.to_s,
+#      deliverable_id: record.id
+#    )
+#  end
+
   private
 
   def set_name

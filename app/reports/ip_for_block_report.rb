@@ -11,7 +11,7 @@ class IpForBlockReport < BaseReport
   def txt(blank_document)
     @file_name = "#{Time.now.utc} #{@human_name}.txt"
     r = blank_document
-    @records.each do |record, index|
+    @records.each do |record|
       r << "#{record.content}\n"
     end
   end

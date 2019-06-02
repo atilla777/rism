@@ -1,0 +1,6 @@
+ru:
+  views:
+    delivery_subjects:
+      labels:
+        allowed_delivery_lists: 'Доступные для назначения списки доставки'
+        assigned_delivery_lists: 'Назначенные списки доставки'
