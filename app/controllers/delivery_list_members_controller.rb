@@ -31,6 +31,7 @@ class DeliveryListMembersController < ApplicationController
     @delivery_list = delivery_list_member.delivery_list
     authorize @delivery_list
     delivery_list_member.destroy
+    @records = @delivery_list.organizations
   end
 
   private

@@ -1,9 +1,10 @@
-= index_for records, actions: false do |t|
-  - t.header attribute: :delivery_list_id, sort_by: :delivery_list_name, sort: :desc
-  - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
-  - t.field { |record| link_to record.delivery_list.name, record.delivery_list}
-  - t.field do |record|
-    = link_to record, method: :delete, remote: true, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('views.action.delete'), data: {confirm: t('views.action.confirm')} do
-      span.text-success
-        i.glyphicon.glyphicon-ok aria-hidden="true"
-      =< record.organization.name
+#delivery_list_members
+  = index_for @records, actions: false do |t|
+    - t.header attribute: :delivery_list_id, sort_by: :delivery_list_name, sort: :desc
+    - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+    - t.field { |record| link_to record.delivery_list.name, record.delivery_list}
+    - t.field do |record|
+      = link_to record, method: :delete, remote: true, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('views.action.delete'), data: {confirm: t('views.action.confirm')} do
+        span.text-success
+          i.glyphicon.glyphicon-ok aria-hidden="true"
+        =< record.organization.name
