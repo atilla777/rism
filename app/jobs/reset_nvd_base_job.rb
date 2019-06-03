@@ -61,12 +61,12 @@ class ResetNvdBaseJob < ApplicationJob
         record = Vulnerability.create(
           NvdBase::Parser.record_attributes(cve)
             .merge(
-              state: :published,
-              custom_actuality: 'not_set',
               relevance: 'not_set',
-              custom_relevance: 'not_set',
+              custom_actuality: 'not_set',
+              custom_relevance: 'not_set'
             )
         )
+        #state: :published,
         record.save!
       rescue ActiveRecord::RecordInvalid
         logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))

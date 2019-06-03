@@ -1,6 +1,6 @@
 = show_for @record, decorator: VulnerabilityDecorator do | r |
-  = r.show :published, value: show_date_time(@record.modified)
-  = r.show :modified, value: show_date_time(@record.published)
+  = r.show :published, value: show_date_time(@record.published)
+  = r.show :modified, value: show_date_time(@record.modified)
   = r.show :codename do
     - if @record.nvd?
       a href=r.decorated.show_link_nvd_codename
