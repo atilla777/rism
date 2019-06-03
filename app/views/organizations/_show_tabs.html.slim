@@ -35,3 +35,5 @@
     = Investigation.model_name.human(count: 2)
   - tabs.add(:delivery_lists, delivery_lists_path(organization_id: record.id), true) do
     = DeliveryList.model_name.human(count: 2)
+  - tabs.add(:deliveries, delivery_subjects_path(organization_id: record.id), true) do
+    = DeliverySubject.model_name.human(count: 2)

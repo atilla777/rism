@@ -15,7 +15,10 @@ module Record
   def show
     @record = record
     authorize @record.class
-    render 'show_without_tabs'
+    respond_to do |format|
+      format.js  { render template: 'application/modal_show.js.erb' }
+      format.html { render 'show_without_tabs' }
+    end
   end
 
   def new

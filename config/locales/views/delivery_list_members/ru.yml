@@ -1,0 +1,5 @@
+ru:
+  views:
+    delivery_list_members:
+      allowed_organizations: 'Доступные для назначения организации'
+      assigned_organizations: 'Назначенные организации'

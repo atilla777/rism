@@ -1,27 +1,9 @@
-table.table.table-hover.table-bordered.table-striped#delivery_subjects
-  thead
-    tr
-      th
-        strong
-          =< "#{t('labels.delivery_subject.allowed_delivery_lists')}:"
-      th
-        strong
-          =< "#{t('labels.delivery_subject.assigned_delivery_lists')}:"
-  tbody
-    tr
-      td
-        ol
-          - record.delivery_subjects.each do |ds|
-            li
-              = link_to ds, method: :delete, remote: true, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('views.action.delete'), data: {confirm: t('views.action.confirm')} do
-                span.text-success
-                  i.glyphicon.glyphicon-ok aria-hidden="true"
-                =< ds.delivery_list.name
-      td
-        ol
-          - record.allowed_delivery_lists.each do |list|
-            li
-              = link_to delivery_subjects_path(deliverable_id: record.id, deliverable_type: record.class, delivery_list_id: list.id), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('views.action.add')  do
-                span.text-danger
-                  i.glyphicon.glyphicon-remove aria-hidden="true"
-                =< list.name
+= index_for records, actions: false do |t|
+  - t.header attribute: :created_at, sort: :desc
+  - t.header attribute: :name
+  - t.field { |record| link_to(show_date_time(record.created_at), record) }
+  - t.field do |record|
+    = link_to record.deliverable do
+      span.text-warning
+        = record.deliverable.class.model_name.human(count: 1)
+      =< record.deliverable.name

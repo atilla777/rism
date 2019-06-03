@@ -24,6 +24,10 @@ module RecordOfOrganization
   def show
     @record = record
     authorize @record
+    respond_to do |format|
+      format.js  { render template: 'application/modal_show.js.erb' }
+      format.html
+    end
   end
 
   def new

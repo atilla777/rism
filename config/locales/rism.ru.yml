@@ -138,6 +138,9 @@ ru:
     delivery_subject:
       allowed_delivery_lists: 'Доступные для назначения списки доставки'
       assigned_delivery_lists: 'Назначенные списки доставки'
+    delivery_list_members:
+      allowed_organizations: 'Доступные для назначения организации'
+      assigned_organizations: 'Назначенные организации'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
@@ -201,7 +204,8 @@ ru:
     action:
       new: "Новая запись -"
       confirm: "Вы уверены?"
-      show: "Показать"
+      show: "Перейти"
+      info: "Показать"
       add: 'Добавить'
       edit: "Редактировать"
       delete: "Удалить"

@@ -5,7 +5,7 @@
   - tabs.add(:indicators, indicators_path(investigation_id: record.id), true) do
     = fa_icon 'bomb'
     =< Indicator.model_name.human(count: 2)
-  - tabs.add(:delivery_subjects, delivery_subjects_path(deliverable_id: record.id, deliverable_type: record.class.model_name, active_tab: :delivery_subjects), true) do
+  - tabs.add(:delivery_subjects, list_subjects_delivery_subjects_path(deliverable_id: record.id, deliverable_type: record.class.model_name, active_tab: :delivery_subjects), true) do
     = fa_icon 'address-book'
     =< DeliveryList.model_name.human(count: 2)
   - tabs.add(:links, polymorphic_path(record, active_tab: :links)) do

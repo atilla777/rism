@@ -1,0 +1,35 @@
+table.table.table-hover.table-bordered.table-striped#delivery_subjects
+  thead
+    tr
+      th
+        strong
+          =< "#{t('labels.delivery_subject.assigned_delivery_lists')}:"
+      th
+        strong
+          =< "#{t('labels.delivery_subject.allowed_delivery_lists')}:"
+  tbody
+    tr
+      td
+        ol
+          - record.delivery_subjects.includes(:delivery_list).each do |ds|
+            li
+              = link_to ds, method: :delete, remote: true, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('views.action.delete'), data: {confirm: t('views.action.confirm')} do
+                =< ds.delivery_list.name
+                span.text-danger
+                  =< fa_icon 'arrow-right'
+              =< link_to ds.delivery_list, remote: true, data: {toggle: "modal", target: "#modal"}, class: 'btn btn-link' do
+                =< fa_icon 'info', class: 'text-info', data_toggle: 'tooltip', title: t('views.action.info')
+              =< link_to ds.delivery_list, class: 'btn btn-link' do
+                =< fa_icon 'eye', class: 'text-info', data_toggle: 'tooltip', title: t('views.action.show')
+      td
+        ol
+          - record.allowed_delivery_lists.each do |list|
+            li
+              = link_to delivery_subjects_path(deliverable_id: record.id, deliverable_type: record.class, delivery_list_id: list.id), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('views.action.add')  do
+                span.text-success
+                  = fa_icon 'arrow-left'
+                =< list.name
+              =< link_to list, remote: true, data: {toggle: "modal", target: "#modal"}, class: 'btn btn-link' do
+                =< fa_icon 'info', class: 'text-info', data_toggle: 'tooltip', title: t('views.action.info')
+              =< link_to list, class: 'btn btn-link' do
+                =< fa_icon 'eye', class: 'text-info', data_toggle: 'tooltip', title: t('views.action.show')

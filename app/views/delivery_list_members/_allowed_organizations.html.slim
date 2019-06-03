@@ -1,8 +1,8 @@
 #organizations
-  = index_for @records, actions: false do |t|
+  = index_for records, actions: false do |t|
     - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
     - t.field do |record|
-      = link_to delivery_list_members_path(delivery_list_id: @delivery_list.id, organization_id: record.id), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('views.action.add')  do
-        span.text-danger
-          i.glyphicon.glyphicon-remove aria-hidden="true"
+      = link_to delivery_list_members_path(delivery_list_id: @delivery_list.id, organization_id: record.id, :'q[name_cont]' => @name), remote: true, method: :post, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('views.action.add')  do
+        span.text-success
+          = fa_icon 'arrow-left'
         =< record.name

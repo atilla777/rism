@@ -1,0 +1,11 @@
+ru:
+  activerecord:
+    models:
+      delivery_subject:
+        one: 'Сообщение'
+        other: 'Сообщения'
+    attributes:
+      delivery_subject:
+        name: 'Имя'
+        delivarable_type: 'Тип сообщения'
+        created_at: 'Создано'

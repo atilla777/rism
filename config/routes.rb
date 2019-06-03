@@ -93,7 +93,11 @@ Rails.application.routes.draw do
   end
   resources :custom_fields
   resources :delivery_lists
-  resources :delivery_subjects, only: [:index, :create, :destroy]
+  resources :delivery_subjects, only: [:index, :create, :destroy] do
+    collection do
+      get 'list_subjects'
+    end
+  end
   resources :delivery_list_members, only: [:index, :create, :destroy]
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
