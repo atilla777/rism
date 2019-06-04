@@ -45,7 +45,23 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
           DROP TYPE vuln_relevance;
         SQL
       end
+
+      change.up do
+        execute <<-SQL
+          CREATE TYPE vuln_state
+          AS ENUM (
+            #{Vulnerability.states.values.map {|i| "'#{i}'"}.join(', ')}
+          )
+        SQL
+      end
+
+      change.down do
+        execute <<-SQL
+          DROP TYPE vuln_state;
+        SQL
+      end
     end
+
     create_table :vulnerabilities do |t|
       # manual or from NVD json
       t.string :codename
@@ -61,6 +77,10 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.string :cvss2_vector
       t.decimal :cvss2_exploitability, precision: 3, scale: 1
       t.decimal :cvss2_impact, precision: 3, scale: 1
+      t.decimal :custom_cvss3, precision: 3, scale: 1
+      t.string :custom_cvss3_vector
+      t.decimal :custom_cvss3_exploitability, precision: 3, scale: 1
+      t.decimal :custom_cvss3_impact, precision: 3, scale: 1
       t.string :description, array: true, default: []
       t.datetime :published
       t.boolean :published_time, default: false # is time in published present?
@@ -71,7 +91,8 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.text :custom_recomendation
       t.text :custom_references
       t.jsonb :custom_fields
-      t.integer :state, limit: 1 # is vuln old (readed), new published (unreadead) or modified (unreaded)?
+      t.column :state, 'vuln_state'  # is vuln new published (unreadead) or modified (unreaded)?
+      t.boolean :processed, default: false # was vulnerability processed (read) by operator?
       t.column :custom_actuality, 'vuln_actuality', default: 'not_set'
       t.column :actuality, 'vuln_actuality', default: 'not_set' # automatic set - is vuln applicable tu us by criticality and vector?
       t.column :custom_relevance, 'vuln_relevance', default: 'not_set'

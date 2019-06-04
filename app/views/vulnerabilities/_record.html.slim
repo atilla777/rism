@@ -8,6 +8,7 @@
     - else
       = @record.codename
   = r.show :state, value: r.decorated.show_state
+  = r.show :processed, value: r.decorated.show_processed
   = r.show :blocked, value: r.decorated.show_blocked
   = r.show :feed, value: r.decorated.show_feed
   = r.show :actuality, value: r.decorated.show_actuality
@@ -58,6 +59,12 @@ table.table.table-hover.table-bordered.table-striped
     tr
       td.col-md-2.text-right
         strong.text-info
+          = @record.class.human_attribute_name(:cvss3)
+      td
+        = @record.cvss3
+    tr
+      td.col-md-2.text-right
+        strong.text-info
           = @record.class.human_attribute_name(:cvss3_vector)
       td
         = @record.cvss3_vector
@@ -73,6 +80,30 @@ table.table.table-hover.table-bordered.table-striped
           = @record.class.human_attribute_name(:cvss3_impact)
       td
         = @record.cvss3_impact
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:custom_cvss3)
+      td
+        = @record.custom_cvss3
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:custom_cvss3_vector)
+      td
+        = @record.custom_cvss3_vector
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:custom_cvss3_exploitability)
+      td
+        = @record.custom_cvss3_exploitability
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:custom_cvss3_impact)
+      td
+        = @record.custom_cvss3_impact
     tr
       td.col-md-2.text-right
         strong.text-info

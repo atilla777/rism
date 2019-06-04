@@ -128,6 +128,16 @@ CREATE TYPE public.vuln_relevance AS ENUM (
 );
 
 
+--
+-- Name: vuln_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.vuln_state AS ENUM (
+    'modified',
+    'published'
+);
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -1594,6 +1604,10 @@ CREATE TABLE public.vulnerabilities (
     cvss2_vector character varying,
     cvss2_exploitability numeric(3,1),
     cvss2_impact numeric(3,1),
+    custom_cvss3 numeric(3,1),
+    custom_cvss3_vector character varying,
+    custom_cvss3_exploitability numeric(3,1),
+    custom_cvss3_impact numeric(3,1),
     description character varying[] DEFAULT '{}'::character varying[],
     published timestamp without time zone,
     published_time boolean DEFAULT false,
@@ -1603,7 +1617,8 @@ CREATE TABLE public.vulnerabilities (
     custom_recomendation text,
     custom_references text,
     custom_fields jsonb,
-    state smallint,
+    state public.vuln_state,
+    processed boolean DEFAULT false,
     custom_actuality public.vuln_actuality DEFAULT 'not_set'::public.vuln_actuality,
     actuality public.vuln_actuality DEFAULT 'not_set'::public.vuln_actuality,
     custom_relevance public.vuln_relevance DEFAULT 'not_set'::public.vuln_relevance,

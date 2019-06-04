@@ -36,7 +36,13 @@
           .col-lg-2.text-right
             = f.label :state, class: 'control-label'
           .col-lg-2
-            = f.select :state, Vulnerability.states.keys.collect { |state| [Vulnerability.human_enum_name(:state, state), state] }, { selected: @record.state|| :readed}, class: 'form-control'
+            = f.select :state, Vulnerability.states.keys.collect { |state| [Vulnerability.human_enum_name(:state, state), state] }, { selected: @record.state|| :readed }, class: 'form-control'
+          .checkbox
+             label
+               = f.check_box :processed, class: 'big-checkbox'
+               strong
+                | #{t('activerecord.attributes.vulnerability.processed')}
+
       .form-group.recomended
         .field
           .col-lg-2.text-right
@@ -94,6 +100,28 @@
             = f.label :cvss3_vector, class: 'control-label'
           .col-lg-8
             = f.text_field :cvss3_vector, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss3_vector'), disabled: @record.blocked
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :custom_cvss3, class: 'control-label'
+          .col-lg-1
+            = f.text_field :custom_cvss3, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+          .col-lg-2.text-right
+            = f.label :custom_cvss3_exploitability, class: 'control-label'
+          .col-lg-1
+            = f.text_field :custom_cvss3_exploitability, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+          .col-lg-2.text-right
+            = f.label :custom_cvss3_impact, class: 'control-label'
+          .col-lg-1
+            = f.text_field :custom_cvss3_impact, class: 'form-control', class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :custom_cvss3_vector, class: 'control-label'
+          .col-lg-8
+            = f.text_field :custom_cvss3_vector, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss3_vector')
 
       - if @record.blocked?
 
