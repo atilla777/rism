@@ -17,33 +17,39 @@ class Indicator
       ransacker :content_format_str do
         field_transformation = <<~SQL
           CASE indicators.content_format
-          WHEN 0
+          WHEN 'other'
           THEN '#{Indicator.human_enum_name(:content_format, 'other')}'
-          WHEN 1
+          WHEN 'network_service'
+          THEN '#{Indicator.human_enum_name(:content_format, 'network_service')}'
+          WHEN 'network'
           THEN '#{Indicator.human_enum_name(:content_format, 'network')}'
-          WHEN 2
+          WHEN 'network_port'
+          THEN '#{Indicator.human_enum_name(:content_format, 'network_port')}'
+          WHEN 'email_adress'
           THEN '#{Indicator.human_enum_name(:content_format, 'email_adress')}'
-          WHEN 3
+          WHEN 'email_author'
+          THEN '#{Indicator.human_enum_name(:content_format, 'email_author')}'
+          WHEN 'email_theme'
           THEN '#{Indicator.human_enum_name(:content_format, 'email_theme')}'
-          WHEN 4
+          WHEN 'email_content'
           THEN '#{Indicator.human_enum_name(:content_format, 'email_content')}'
-          WHEN 5
-          THEN '#{Indicator.human_enum_name(:content_format, 'url')}'
-          WHEN 6
+          WHEN 'uri'
+          THEN '#{Indicator.human_enum_name(:content_format, 'uri')}'
+          WHEN 'domain'
           THEN '#{Indicator.human_enum_name(:content_format, 'domain')}'
-          WHEN 7
+          WHEN 'md5'
           THEN '#{Indicator.human_enum_name(:content_format, 'md5')}'
-          WHEN 8
+          WHEN 'sha256'
           THEN '#{Indicator.human_enum_name(:content_format, 'sha256')}'
-          WHEN 9
+          WHEN 'sha512'
           THEN '#{Indicator.human_enum_name(:content_format, 'sha512')}'
-          WHEN 10
+          WHEN 'filename'
           THEN '#{Indicator.human_enum_name(:content_format, 'filename')}'
-          WHEN 11
+          WHEN 'filesize'
           THEN '#{Indicator.human_enum_name(:content_format, 'filesize')}'
-          WHEN 12
+          WHEN 'process'
           THEN '#{Indicator.human_enum_name(:content_format, 'process')}'
-          WHEN 13
+          WHEN 'account'
           THEN '#{Indicator.human_enum_name(:content_format, 'account')}'
           END
         SQL
@@ -53,23 +59,26 @@ class Indicator
       ransacker :trust_level_str do
         field_transformation = <<~SQL
           CASE indicators.trust_level
-          WHEN 0
+          WHEN 'not_set'
           THEN '#{Indicator.human_enum_name(:trust_level, 'unknown')}'
-          WHEN 1
+          WHEN 'low'
           THEN '#{Indicator.human_enum_name(:trust_level, 'low')}'
-          WHEN 2
+          WHEN 'high'
           THEN '#{Indicator.human_enum_name(:trust_level, 'high')}'
           END
         SQL
         Arel.sql(field_transformation)
       end
 
-      ransacker :danger_str do
+      ransacker :purpose_str do
         field_transformation = <<~SQL
-          CASE indicators.danger
-          WHEN true
-          THEN '#{I18n.t('labels.indicator.danger')}'
-          ELSE '#{I18n.t('labels.indicator.not_danger')}'
+          CASE indicators.purpose
+          WHEN 'not_set'
+          THEN '#{Indicator.human_enum_name(:purpose, 'not_set')}'
+          WHEN 'for_detect'
+          THEN '#{Indicator.human_enum_name(:purpose, 'for_detect')}'
+          WHEN 'for_prevent'
+          THEN '#{Indicator.human_enum_name(:purpose, 'for_prevent')}'
           END
         SQL
         Arel.sql(field_transformation)
