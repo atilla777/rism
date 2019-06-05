@@ -90,6 +90,24 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
             .form-group
               .field
                 .col-lg-3.text-right
+                  = f.label :custom_vendors, class: 'control-label'
+                .col-lg-3
+                  = f.text_field :custom_vendors_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
+                .col-lg-3
+                  = f.text_field :custom_vendors_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :custom_products, class: 'control-label'
+                .col-lg-3
+                  = f.text_field :custom_products_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
+                .col-lg-3
+                  = f.text_field :custom_products_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
+
+            .form-group
+              .field
+                .col-lg-3.text-right
                   = f.label :description, class: 'control-label'
                 .col-lg-6
                   = f.text_field :description_str_cont, class: 'form-control', placeholder: t('views.vulnerabilities.placeholders.description_cont')

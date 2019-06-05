@@ -23,10 +23,7 @@
     - else
       = link_to record.show_state, record
   - t.field do |record|
-    - if record.processed
-      = link_to record.show_processed, record, class: 'text-success'
-    - else
-      = link_to record.show_processed, record, class: 'text-warning'
+    = render 'processed', record: record
   - t.field do |record|
     - if record.custom_actuality_actual?
         = link_to record.show_custom_actuality, record, class: 'text-warning'
@@ -44,7 +41,7 @@
     - else
       = record.codename
   - t.field { |record| link_to(truncate(record.show_description_string, length: 45), record) }
-  - t.field { |record| link_to(truncate(record.show_vendors, length: 45), record) }
-  - t.field { |record| link_to(truncate(record.show_products, length: 45), record) }
+  - t.field { |record| link_to(truncate(record.show_all_vendors, length: 45), record) }
+  - t.field { |record| link_to(truncate(record.show_all_products, length: 45), record) }
   - t.field { |record| link_to(record.show_cvss, record) }
   - t.field { |record| link_to(record.show_cvss_vector, record) }

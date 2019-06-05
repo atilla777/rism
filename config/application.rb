@@ -23,7 +23,7 @@ module Rism
     config.active_record.schema_format = :sql
 
     config.autoload_paths << "#{Rails.root}/lib"
-    
+
     config.eager_load_paths << "#{Rails.root}/lib"
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]

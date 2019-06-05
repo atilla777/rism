@@ -135,6 +135,7 @@ ru:
       adjacent_network: 'Примыкающий сетевой'
       network: 'Сетевой'
       physical: 'Физический'
+      toggle: 'Переключить'
     delivery_subject:
       allowed_delivery_lists: 'Доступные для назначения списки доставки'
       assigned_delivery_lists: 'Назначенные списки доставки'

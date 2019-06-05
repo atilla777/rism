@@ -22,6 +22,11 @@ class VulnerabilitiesController < ApplicationController
     render 'vulnerabilities/_actual_and_relevant'
   end
 
+  def toggle_processed
+    record.toggle!(:processed)
+    @record = VulnerabilityDecorator.new(record)
+  end
+
   private
 
   def model

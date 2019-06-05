@@ -68,6 +68,8 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.column  :feed, 'vuln_feed', default: 'custom'
       t.text :vendors, array: true, default: []
       t.text :products, array: true, default: []
+      t.text :custom_vendors, array: true, default: []
+      t.text :custom_products, array: true, default: []
       t.text :cwe, array: true, default: []
       t.decimal :cvss3, precision: 3, scale: 1
       t.string :cvss3_vector
@@ -108,6 +110,8 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
     add_index  :vulnerabilities, :codename, unique: true
     add_index  :vulnerabilities, :vendors, using: :gin
     add_index  :vulnerabilities, :products, using: :gin
+    add_index  :vulnerabilities, :custom_vendors, using: :gin
+    add_index  :vulnerabilities, :custom_products, using: :gin
     add_index  :vulnerabilities, :cwe, using: :gin
     add_index  :vulnerabilities, 'cvss3_vector gin_trgm_ops', using: :gin
     add_index  :vulnerabilities, 'cvss2_vector gin_trgm_ops', using: :gin

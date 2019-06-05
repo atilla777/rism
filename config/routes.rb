@@ -90,6 +90,9 @@ Rails.application.routes.draw do
       match 'search' => 'vulnerabilities#search', via: [:get, :post], as: :search
       get 'actual_and_relevant'
     end
+    member do
+      patch :toggle_processed
+    end
   end
   resources :custom_fields
   resources :delivery_lists

@@ -1,0 +1,6 @@
+. id="#{record.id}"
+  - if record.processed?
+    = link_to record.show_processed, toggle_processed_vulnerability_path(record), method: :patch, remote: true, class: 'text-success btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('labels.vulnerability.toggle')
+  - else
+    = link_to record.show_processed, toggle_processed_vulnerability_path(record), method: :patch, remote: true, class: 'text-warning btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('labels.vulnerability.toggle')
+

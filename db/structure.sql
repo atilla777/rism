@@ -1595,6 +1595,8 @@ CREATE TABLE public.vulnerabilities (
     feed public.vuln_feed DEFAULT 'custom'::public.vuln_feed,
     vendors text[] DEFAULT '{}'::text[],
     products text[] DEFAULT '{}'::text[],
+    custom_vendors text[] DEFAULT '{}'::text[],
+    custom_products text[] DEFAULT '{}'::text[],
     cwe text[] DEFAULT '{}'::text[],
     cvss3 numeric(3,1),
     cvss3_vector character varying,
@@ -2859,6 +2861,20 @@ CREATE UNIQUE INDEX index_vulnerabilities_on_codename ON public.vulnerabilities 
 --
 
 CREATE INDEX index_vulnerabilities_on_custom_description_gin_trgm_ops ON public.vulnerabilities USING gin (custom_description public.gin_trgm_ops);
+
+
+--
+-- Name: index_vulnerabilities_on_custom_products; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerabilities_on_custom_products ON public.vulnerabilities USING gin (custom_products);
+
+
+--
+-- Name: index_vulnerabilities_on_custom_vendors; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerabilities_on_custom_vendors ON public.vulnerabilities USING gin (custom_vendors);
 
 
 --

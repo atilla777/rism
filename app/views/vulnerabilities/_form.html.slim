@@ -36,7 +36,7 @@
           .col-lg-2.text-right
             = f.label :state, class: 'control-label'
           .col-lg-2
-            = f.select :state, Vulnerability.states.keys.collect { |state| [Vulnerability.human_enum_name(:state, state), state] }, { selected: @record.state|| :readed }, class: 'form-control'
+            = f.select :state, Vulnerability.states.keys.collect { |state| [Vulnerability.human_enum_name(:state, state), state] }, { selected: @record.state || :published }, class: 'form-control'
           .checkbox
              label
                = f.check_box :processed, class: 'big-checkbox'
@@ -65,41 +65,93 @@
           .col-lg-2
             = f.select :custom_relevance, Vulnerability.custom_relevances.keys.collect { |relevance| [Vulnerability.human_enum_name(:custom_relevance, relevance), relevance ] }, { selected: @record.custom_relevance}, class: 'form-control'
 
-      .form-group.recomended
+      .form-group
+        .field
+          .col-lg-2.text-right
+            a.link data-toggle='collapse' href='.toggle_products_vendors'
+              strong.control-label
+                = t('activerecord.attributes.vulnerability.feed_info')
+                =< fa_icon('hand-pointer-o')
+
+      .form-group.recomended.collapse.toggle_products_vendors
         .field
           .col-lg-2.text-right
             = f.label :vendors, class: 'control-label'
           .col-lg-8
-            = f.text_field :vendors_str, value: decorated.show_vendors,  class: 'form-control', disabled: @record.blocked, placeholder: t('activerecord.attributes.vulnerability.ph_vendors')
+            = f.text_field :vendors_str, value: decorated.show_vendors,  class: 'form-control', disabled: true, placeholder: t('activerecord.attributes.vulnerability.ph_vendors'), disabled: true
 
-      .form-group.recomended
+      .form-group.recomended.collapse.toggle_products_vendors
         .field
           .col-lg-2.text-right
             = f.label :products, class: 'control-label'
           .col-lg-8
-            = f.text_field :products_str, value: decorated.show_products, class: 'form-control', disabled: @record.blocked, placeholder: t('activerecord.attributes.vulnerability.ph_products')
+            = f.text_field :products_str, value: decorated.show_products, class: 'form-control', disabled: true, placeholder: t('activerecord.attributes.vulnerability.ph_products'), disabled: true
 
       .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :custom_vendors, class: 'control-label'
+          .col-lg-8
+            = f.text_field :custom_vendors_str, value: decorated.show_custom_vendors,  class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_vendors')
+
+      .form-group.recomended  
+        .field
+          .col-lg-2.text-right
+            = f.label :custom_products, class: 'control-label'
+          .col-lg-8
+            = f.text_field :custom_products_str, value: decorated.show_custom_products, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_products')
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            a.link data-toggle='collapse' href='.toggle_cvss'
+              strong.control-label
+                = t('activerecord.attributes.vulnerability.feed_info')
+                =< fa_icon('hand-pointer-o')
+
+      .form-group.recomended.collapse.toggle_cvss
         .field
           .col-lg-2.text-right
             = f.label :cvss3, class: 'control-label'
           .col-lg-1
-            = f.text_field :cvss3, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: @record.blocked
+            = f.text_field :cvss3, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: true
           .col-lg-2.text-right
             = f.label :cvss3_exploitability, class: 'control-label'
           .col-lg-1
-            = f.text_field :cvss3_exploitability, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: @record.blocked
+            = f.text_field :cvss3_exploitability, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: true
           .col-lg-2.text-right
             = f.label :cvss3_impact, class: 'control-label'
           .col-lg-1
-            = f.text_field :cvss3_impact, class: 'form-control', class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: @record.blocked
+            = f.text_field :cvss3_impact, class: 'form-control', class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: true
 
-      .form-group.recomended
+      .form-group.recomended.collapse.toggle_cvss
         .field
           .col-lg-2.text-right
             = f.label :cvss3_vector, class: 'control-label'
           .col-lg-8
-            = f.text_field :cvss3_vector, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss3_vector'), disabled: @record.blocked
+            = f.text_field :cvss3_vector, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss3_vector'), disabled: true
+
+      .form-group.recomended.collapse.toggle_cvss
+        .field
+          .col-lg-2.text-right
+            = f.label :cvss2, class: 'control-label'
+          .col-lg-1
+            = f.text_field :cvss2, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: true
+          .col-lg-2.text-right
+            = f.label :cvss2_exploitability, class: 'control-label'
+          .col-lg-1
+            = f.text_field :cvss2_exploitability, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: true
+          .col-lg-2.text-right
+            = f.label :cvss2_impact, class: 'control-label'
+          .col-lg-1
+            = f.text_field :cvss2_impact, class: 'form-control', class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: true
+
+      .form-group.recomended.collapse.toggle_cvss
+        .field
+          .col-lg-2.text-right
+            = f.label :cvss2_vector, class: 'control-label'
+          .col-lg-8
+            = f.text_field :cvss2_vector, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss2_vector'), disabled: true
 
       .form-group.recomended
         .field
@@ -122,30 +174,6 @@
             = f.label :custom_cvss3_vector, class: 'control-label'
           .col-lg-8
             = f.text_field :custom_cvss3_vector, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss3_vector')
-
-      - if @record.blocked?
-
-        .form-group.recomended
-          .field
-            .col-lg-2.text-right
-              = f.label :cvss2, class: 'control-label'
-            .col-lg-1
-              = f.text_field :cvss2, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: @record.blocked
-            .col-lg-2.text-right
-              = f.label :cvss2_exploitability, class: 'control-label'
-            .col-lg-1
-              = f.text_field :cvss2_exploitability, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: @record.blocked
-            .col-lg-2.text-right
-              = f.label :cvss2_impact, class: 'control-label'
-            .col-lg-1
-              = f.text_field :cvss2_impact, class: 'form-control', class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: @record.blocked
-
-        .form-group.recomended
-          .field
-            .col-lg-2.text-right
-              = f.label :cvss2_vector, class: 'control-label'
-            .col-lg-8
-              = f.text_field :cvss2_vector, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss2_vector'), disabled: @record.blocked
 
       .form-group
         .field
