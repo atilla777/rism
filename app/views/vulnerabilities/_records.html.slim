@@ -7,14 +7,14 @@
   - t.header attribute: :published, sort: :desc
   - t.header attribute: :state, sort: :desc
   - t.header attribute: :processed, sort: :desc
+  - t.header attribute: :criticality, sort: :desc
+  - t.header attribute: :cvss_av
   - t.header attribute: :custom_actuality, sort: :desc
   - t.header attribute: :custom_relevance, sort: :desc
   - t.header attribute: :codename, sort: :desc
   - t.header attribute: :description, sort: :desc
   - t.header attribute: :vendors, sort: :desc
   - t.header attribute: :products, sort: :desc
-  - t.header attribute: :criticality, sort: :desc
-  - t.header attribute: :cvss_av
   - t.field { |record| link_to(show_date_time(record.modified), record) }
   - t.field { |record| link_to(show_date_time(record.published), record) }
   - t.field do |record|
@@ -24,6 +24,18 @@
       = link_to record.show_state, record
   - t.field do |record|
     = render 'processed', record: record
+  - t.field do |record|
+    - if record.show_cvss_num > 8.9
+      = link_to record.show_full_cvss, record, class: 'text-danger'
+    - elsif record.show_cvss_num > 6.9
+      = link_to record.show_full_cvss, record, class: 'text-warning'
+    - else
+      = link_to record.show_full_cvss, record
+  - t.field do |record|
+    - if record.show_cvss_av_network?
+      = link_to record.show_cvss_av, record, class: 'text-warning'
+    - else
+      = link_to record.show_cvss_av, record
   - t.field do |record|
     - if record.custom_actuality_actual?
         = link_to record.show_custom_actuality, record, class: 'text-warning'
@@ -43,15 +55,3 @@
   - t.field { |record| link_to(truncate(record.show_description_string, length: 45), record) }
   - t.field { |record| link_to(truncate(record.show_all_vendors, length: 45), record) }
   - t.field { |record| link_to(truncate(record.show_all_products, length: 45), record) }
-  - t.field do |record|
-    - if record.show_cvss_num > 8.9
-      = link_to record.show_full_cvss, record, class: 'text-danger'
-    - elsif record.show_cvss_num > 6.9
-      = link_to record.show_full_cvss, record, class: 'text-warning'
-    - else
-      = link_to record.show_full_cvss, record
-  - t.field do |record|
-    - if record.show_cvss_av_network?
-      = link_to record.show_cvss_av, record, class: 'text-warning'
-    - else
-      = link_to record.show_cvss_av, record

@@ -3,7 +3,7 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
 .modal.fade#advanced_search_modal tabindex='-1' role='dialog'
   = search_form_for @q, url: search_vulnerabilities_path, html: { class: 'form-horizontal', method: :post } do |f|
     = f.hidden_field :actual_and_relevant_eq, value: @actual_and_relevant
-    .modal-dialog.modal-lg role='document'
+    .modal-dialog.modal-lg role='document' style='width:95%'
       .modal-content
         .modal-header
           button.close  type='button' data-dismiss="modal" aria-label="Close"
@@ -13,219 +13,278 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
         .modal-body
           .row
 
-            .form-group
-              .field
-                .col-lg-3.text-right
-                  = f.label :state, class: 'control-label'
-                .col-lg-6
-                   = f.collection_check_boxes :state_in, Vulnerability.states, :last, :first, {}, class: 'big-checkbox' do |b|
-                     =< b.check_box
-                     =< Vulnerability.human_enum_name(:states, b.text)
 
             .form-group
-              .field
-                .col-lg-3.text-right
-                  = f.label :actuality, class: 'control-label'
-                .col-lg-6
-                   = f.collection_check_boxes :actuality_in, Vulnerability.actualities, :last, :first, {}, class: 'big-checkbox' do |b|
-                     =< b.check_box
-                     =< Vulnerability.human_enum_name(:actualities, b.value)
-
-            - unless @actual_and_relevant
-              .form-group
+              .form-row
                 .field
-                  .col-lg-3.text-right
-                    = f.label :custom_actuality, class: 'control-label'
-                  .col-lg-6
-                     = f.collection_check_boxes :custom_actuality_in, Vulnerability.custom_actualities, :last, :first, {}, class: 'big-checkbox' do |b|
+                  .col-lg-1.text-right
+                    = f.label :actuality, class: 'control-label'
+                  .col-lg-3
+                     = f.collection_check_boxes :actuality_in, Vulnerability.actualities, :last, :first, {}, class: 'big-checkbox' do |b|
                        =< b.check_box
-                       =< Vulnerability.human_enum_name(:custom_actualities, b.value)
+                       span.text-info
+                         =< Vulnerability.human_enum_name(:actualities, b.value)
+
+                - unless @actual_and_relevant
+                  .field
+                    .col-lg-1.text-right
+                      = f.label :custom_actuality, class: 'control-label'
+                    .col-lg-3
+                       = f.collection_check_boxes :custom_actuality_in, Vulnerability.custom_actualities, :last, :first, {}, class: 'big-checkbox' do |b|
+                         =< b.check_box
+                         span.text-info
+                           =< Vulnerability.human_enum_name(:custom_actualities, b.value)
 
             .form-group
-              .field
-                .col-lg-3.text-right
-                  = f.label :relevance, class: 'control-label'
-                .col-lg-6
-                   = f.collection_check_boxes :relevance_in, Vulnerability.relevances, :last, :first, {}, class: 'big-checkbox' do |b|
-                     =< b.check_box
-                     =< Vulnerability.human_enum_name(:relevance, b.value)
-
-            - unless @actual_and_relevant
-              .form-group
+              .form-row
                 .field
-                  .col-lg-3.text-right
-                    = f.label :custom_relevance, class: 'control-label'
-                  .col-lg-6
-                     = f.collection_check_boxes :custom_relevance_in, Vulnerability.custom_relevances, :last, :first, {}, class: 'big-checkbox' do |b|
+                  .col-lg-1.text-right
+                    = f.label :relevance, class: 'control-label'
+                  .col-lg-3
+                     = f.collection_check_boxes :relevance_in, Vulnerability.relevances, :last, :first, {}, class: 'big-checkbox' do |b|
                        =< b.check_box
-                       =< Vulnerability.human_enum_name(:custom_relevance, b.value)
+                       span.text-info
+                         =< Vulnerability.human_enum_name(:relevance, b.value)
+
+                - unless @actual_and_relevant
+                  .form-group
+                    .field
+                      .col-lg-1.text-right
+                        = f.label :custom_relevance, class: 'control-label'
+                      .col-lg-2
+                         = f.collection_check_boxes :custom_relevance_in, Vulnerability.custom_relevances, :last, :first, {}, class: 'big-checkbox' do |b|
+                           =< b.check_box
+                           span.text-info
+                             =< Vulnerability.human_enum_name(:custom_relevance, b.value)
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :codename, class: 'control-label'
+                  .col-lg-2
+                    = f.text_field :codename_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                  .col-lg-2
+                    = f.text_field :codename_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+                .field
+                  .col-lg-1.text-right
+                    = f.label :state, class: 'control-label'
+                  .col-lg-2
+                     = f.collection_check_boxes :state_in, Vulnerability.states, :last, :first, {}, class: 'big-checkbox' do |b|
+                       =< b.check_box
+                       span.text-info
+                         =< Vulnerability.human_enum_name(:states, b.text)
+
+                .field
+                  .col-lg-1.text-right
+                    = f.label :feed, class: 'control-label'
+                  .col-lg-2
+                    = f.collection_check_boxes :feed_in, Vulnerability.feeds, :last, :first, {}, class: 'big-checkbox' do |b|
+                      =< b.check_box
+                      span.text-info
+                        =< Vulnerability.human_enum_name(:feed, b.text)
 
             .form-group
               .field
-                .col-lg-3.text-right
-                  = f.label :codename, class: 'control-label'
-                .col-lg-3
-                  = f.text_field :codename_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
-                .col-lg-3
-                  = f.text_field :codename_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
-
-            .form-group
-              .field
-                .col-lg-3.text-right
-                  = f.label :vendors, class: 'control-label'
-                .col-lg-3
-                  = f.text_field :vendors_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
-                .col-lg-3
-                  = f.text_field :vendors_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
-
-            .form-group
-              .field
-                .col-lg-3.text-right
-                  = f.label :products, class: 'control-label'
-                .col-lg-3
-                  = f.text_field :products_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
-                .col-lg-3
-                  = f.text_field :products_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
-
-            .form-group
-              .field
-                .col-lg-3.text-right
-                  = f.label :custom_vendors, class: 'control-label'
-                .col-lg-3
-                  = f.text_field :custom_vendors_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
-                .col-lg-3
-                  = f.text_field :custom_vendors_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
-
-            .form-group
-              .field
-                .col-lg-3.text-right
-                  = f.label :custom_products, class: 'control-label'
-                .col-lg-3
-                  = f.text_field :custom_products_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
-                .col-lg-3
-                  = f.text_field :custom_products_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
-
-            .form-group
-              .field
-                .col-lg-3.text-right
+                .col-lg-1.text-right
                   = f.label :description, class: 'control-label'
-                .col-lg-6
+                .col-lg-4
                   = f.text_field :description_str_cont, class: 'form-control', placeholder: t('views.vulnerabilities.placeholders.description_cont')
-
-            .form-group
               .field
-                .col-lg-3.text-right
+                .col-lg-1.text-right
                   = f.label :custom_description, class: 'control-label'
-                .col-lg-6
+                .col-lg-4
                   = f.text_field :custom_description_cont, class: 'form-control', placeholder: t('views.vulnerabilities.placeholders.description_cont')
 
             .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :vendors, class: 'control-label'
+                  .col-lg-2
+                    = f.text_field :vendors_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
+                  .col-lg-2
+                    = f.text_field :vendors_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
+
+                .field
+                  .col-lg-1.text-right
+                    = f.label :products, class: 'control-label'
+                  .col-lg-2
+                    = f.text_field :products_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
+                  .col-lg-2
+                    = f.text_field :products_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :custom_vendors, class: 'control-label'
+                  .col-lg-2
+                    = f.text_field :custom_vendors_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
+                  .col-lg-2
+                    = f.text_field :custom_vendors_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
+                .field
+                  .col-lg-1.text-right
+                    = f.label :custom_products, class: 'control-label'
+                  .col-lg-2
+                    = f.text_field :custom_products_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
+                  .col-lg-2
+                    = f.text_field :custom_products_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
+
+
+            .form-group
               .field
-                 .col-lg-3.text-right
+                 .col-lg-1.text-right
                    = f.label :cvss
-                 .col-lg-3
+                 .col-lg-2
                    = f.text_field :cvss_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-                 .col-lg-3
+                 .col-lg-2
                    = f.text_field :cvss_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
 
             .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :cvss3
-                 .col-lg-3
-                   = f.text_field :cvss3_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-                 .col-lg-3
-                   = f.text_field :cvss3_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+              .form-row
+                .field
+                   .col-lg-1.text-right
+                     = f.label :cvss3
+                   .col-lg-2
+                     = f.text_field :cvss3_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                   .col-lg-2
+                     = f.text_field :cvss3_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+
+              .form-group
+                .field
+                   .col-lg-1.text-right
+                     = f.label :cvss3_vector
+                   .col-lg-2
+                     = f.text_field :cvss3_vector_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                   .col-lg-2
+                     = f.text_field :cvss3_vector_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
 
             .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :cvss3_exploitability
-                 .col-lg-3
-                   = f.text_field :cvss3_exploitability_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-                 .col-lg-3
-                   = f.text_field :cvss3_exploitability_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+              .form-row
+                .field
+                   .col-lg-1.text-right
+                     = f.label :cvss3_exploitability
+                   .col-lg-2
+                     = f.text_field :cvss3_exploitability_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                   .col-lg-2
+                     = f.text_field :cvss3_exploitability_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+              .form-group
+                .field
+                   .col-lg-1.text-right
+                     = f.label :cvss3_impact
+                   .col-lg-2
+                     = f.text_field :cvss3_impact_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                   .col-lg-2
+                     = f.text_field :cvss3_impact_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
 
             .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :cvss3_impact
-                 .col-lg-3
-                   = f.text_field :cvss3_impact_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-                 .col-lg-3
-                   = f.text_field :cvss3_impact_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+              .form-row
+                .field
+                   .col-lg-1.text-right
+                     = f.label :cvss2
+                   .col-lg-2
+                     = f.text_field :cvss2_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                   .col-lg-2
+                     = f.text_field :cvss2_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+
+              .form-group
+                .field
+                   .col-lg-1.text-right
+                     = f.label :cvss2_vector
+                   .col-lg-2
+                     = f.text_field :cvss2_vector_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                   .col-lg-2
+                     = f.text_field :cvss2_vector_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
 
             .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :cvss2
-                 .col-lg-3
-                   = f.text_field :cvss2_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-                 .col-lg-3
-                   = f.text_field :cvss2_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+              .form-row
+                .field
+                   .col-lg-1.text-right
+                     = f.label :cvss2_exploitability
+                   .col-lg-2
+                     = f.text_field :cvss2_exploitability_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                   .col-lg-2
+                     = f.text_field :cvss2_exploitability_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+
+              .form-group
+                .field
+                   .col-lg-1.text-right
+                     = f.label :cvss2_impact
+                   .col-lg-2
+                     = f.text_field :cvss2_impact_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                   .col-lg-2
+                     = f.text_field :cvss2_impact_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
 
             .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :cvss2_exploitability
-                 .col-lg-3
-                   = f.text_field :cvss2_exploitability_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-                 .col-lg-3
-                   = f.text_field :cvss2_exploitability_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+              .form-row
+                .field
+                 .col-lg-1.text-right
+                   = f.label :custom_cvss3
+                 .col-lg-2
+                   = f.text_field :custom_cvss3_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                 .col-lg-2
+                   = f.text_field :custom_cvss3_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                .field
+                   .col-lg-1.text-right
+                     = f.label :custom_cvss3_vector
+                   .col-lg-2
+                     = f.text_field :custom_cvss3_vector_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                   .col-lg-2
+                     = f.text_field :cvss3_vector_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
 
             .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :cvss2_impact
-                 .col-lg-3
-                   = f.text_field :cvss2_impact_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-                 .col-lg-3
-                   = f.text_field :cvss2_impact_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :custom_cvss3_exploitability
+                  .col-lg-2
+                    = f.text_field :custom_cvss3_exploitability_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                  .col-lg-2
+                    = f.text_field :custom_cvss3_exploitability_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                .field
+                  .col-lg-1.text-right
+                    = f.label :custom_cvss3_impact
+                  .col-lg-2
+                    = f.text_field :custom_cvss3_impact_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+                  .col-lg-2
+                    = f.text_field :custom_cvss3_impact_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
 
             .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :feed, class: 'control-label'
-                 .col-lg-8
-                   = f.collection_check_boxes :feed_in, Vulnerability.feeds, :last, :first, {}, class: 'big-checkbox' do |b|
-                     =< b.check_box
-                     =< Vulnerability.human_enum_name(:feed, b.text)
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :published, class: 'control-label'
+                  .col-lg-2
+                    = f.date_field :published_gteq, class: 'form-control', datepicker: true
+                  .col-lg-2
+                    = f.date_field :published_end_of_day_lteq, class: 'form-control', datepicker: true
+                .field
+                  .col-lg-1.text-right
+                    = f.label :modified, class: 'control-label'
+                  .col-lg-2
+                    = f.date_field :modified_gteq, class: 'form-control', datepicker: true
+                  .col-lg-2
+                    = f.date_field :modified_end_of_day_lteq, class: 'form-control', datepicker: true
 
             .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :published, class: 'control-label'
-                 .col-lg-3
-                   = f.date_field :published_gteq, class: 'form-control', datepicker: true
-                 .col-lg-3
-                   = f.date_field :published_end_of_day_lteq, class: 'form-control', datepicker: true
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :created_at, class: 'control-label'
+                  .col-lg-2
+                    = f.date_field :created_at_gteq, class: 'form-control', datepicker: true
+                  .col-lg-2
+                    = f.date_field :created_at_end_of_day_lteq, class: 'form-control', datepicker: true
 
-            .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :modified, class: 'control-label'
-                 .col-lg-3
-                   = f.date_field :modified_gteq, class: 'form-control', datepicker: true
-                 .col-lg-3
-                   = f.date_field :modified_end_of_day_lteq, class: 'form-control', datepicker: true
-
-            .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :created_at, class: 'control-label'
-                 .col-lg-3
-                   = f.date_field :created_at_gteq, class: 'form-control', datepicker: true
-                 .col-lg-3
-                   = f.date_field :created_at_end_of_day_lteq, class: 'form-control', datepicker: true
-
-            .form-group
-              .field
-                 .col-lg-3.text-right
-                   = f.label :updated_at, class: 'control-label'
-                 .col-lg-3
-                   = f.date_field :updated_at_gteq, class: 'form-control', datepicker: true
-                 .col-lg-3
-                   = f.date_field :updated_at_end_of_day_lteq, class: 'form-control', datepicker: true
+              .form-group
+                .field
+                  .col-lg-1.text-right
+                    = f.label :updated_at, class: 'control-label'
+                  .col-lg-2
+                    = f.date_field :updated_at_gteq, class: 'form-control', datepicker: true
+                  .col-lg-2
+                    = f.date_field :updated_at_end_of_day_lteq, class: 'form-control', datepicker: true
 
         .modal-footer
           button.btn.btn-default type='button' data-dismiss='modal'
