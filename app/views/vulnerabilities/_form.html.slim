@@ -216,13 +216,7 @@
           .col-lg-8
             = f.text_area :custom_recomendation, rows: 4, class: 'form-control'
 
-      - Vulnerability.custom_fields_list.each do |cf|
-        .form-group
-          .field
-            .col-lg-2.text-right
-              = label_tag "vulnerability[custom_fields][#{cf.name}]", cf.name, class: 'control-label'
-            .col-lg-8
-              = text_field_tag "vulnerability[custom_fields][#{cf.name}]", @record.custom_field(cf.name), class: 'form-control'
+      = custom_fields_input @record
 
       .form-group.recomended
         .field

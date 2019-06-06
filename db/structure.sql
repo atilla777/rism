@@ -759,6 +759,7 @@ CREATE TABLE public.indicators (
     content_format public.indicator_content_format,
     purpose public.indicator_purpose DEFAULT 'not_set'::public.indicator_purpose,
     description text,
+    custom_fields jsonb,
     enrichment jsonb DEFAULT '"{}"'::jsonb NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -823,10 +824,12 @@ ALTER SEQUENCE public.investigation_kinds_id_seq OWNED BY public.investigation_k
 CREATE TABLE public.investigations (
     id bigint NOT NULL,
     name character varying,
+    custom_codename character varying,
     user_id bigint,
     organization_id bigint,
     investigation_kind_id bigint,
     feed_id bigint,
+    custom_fields jsonb,
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -1602,6 +1605,7 @@ CREATE TABLE public.vulnerabilities (
     cvss3_vector character varying,
     cvss3_exploitability numeric(3,1),
     cvss3_impact numeric(3,1),
+    custom_fields jsonb,
     cvss2 numeric(3,1),
     cvss2_vector character varying,
     cvss2_exploitability numeric(3,1),
@@ -1618,8 +1622,9 @@ CREATE TABLE public.vulnerabilities (
     custom_description text,
     custom_recomendation text,
     custom_references text,
-    custom_fields jsonb,
     state public.vuln_state,
+    first_updated_by_id bigint,
+    updated_by_id bigint,
     processed boolean DEFAULT false,
     custom_actuality public.vuln_actuality DEFAULT 'not_set'::public.vuln_actuality,
     actuality public.vuln_actuality DEFAULT 'not_set'::public.vuln_actuality,
@@ -2507,6 +2512,13 @@ CREATE INDEX index_indicators_on_content_gin_trgm_ops ON public.indicators USING
 
 
 --
+-- Name: index_indicators_on_custom_fields; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_indicators_on_custom_fields ON public.indicators USING gin (custom_fields);
+
+
+--
 -- Name: index_indicators_on_enrichment; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2525,6 +2537,13 @@ CREATE INDEX index_indicators_on_investigation_id ON public.indicators USING btr
 --
 
 CREATE INDEX index_indicators_on_user_id ON public.indicators USING btree (user_id);
+
+
+--
+-- Name: index_investigations_on_custom_fields; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_investigations_on_custom_fields ON public.investigations USING gin (custom_fields);
 
 
 --
@@ -2864,6 +2883,13 @@ CREATE INDEX index_vulnerabilities_on_custom_description_gin_trgm_ops ON public.
 
 
 --
+-- Name: index_vulnerabilities_on_custom_fields; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerabilities_on_custom_fields ON public.vulnerabilities USING gin (custom_fields);
+
+
+--
 -- Name: index_vulnerabilities_on_custom_products; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2906,6 +2932,13 @@ CREATE INDEX index_vulnerabilities_on_description ON public.vulnerabilities USIN
 
 
 --
+-- Name: index_vulnerabilities_on_first_updated_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerabilities_on_first_updated_by_id ON public.vulnerabilities USING btree (first_updated_by_id);
+
+
+--
 -- Name: index_vulnerabilities_on_modified; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2924,6 +2957,13 @@ CREATE INDEX index_vulnerabilities_on_products ON public.vulnerabilities USING g
 --
 
 CREATE INDEX index_vulnerabilities_on_published ON public.vulnerabilities USING btree (published DESC);
+
+
+--
+-- Name: index_vulnerabilities_on_updated_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerabilities_on_updated_by_id ON public.vulnerabilities USING btree (updated_by_id);
 
 
 --
@@ -3094,6 +3134,14 @@ ALTER TABLE ONLY public.organizations
 
 
 --
+-- Name: vulnerabilities fk_rails_676219d013; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerabilities
+    ADD CONSTRAINT fk_rails_676219d013 FOREIGN KEY (first_updated_by_id) REFERENCES public.users(id);
+
+
+--
 -- Name: incidents fk_rails_6af30a70d3; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3115,6 +3163,14 @@ ALTER TABLE ONLY public.organizations
 
 ALTER TABLE ONLY public.articles
     ADD CONSTRAINT fk_rails_7809a1a57d FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
+
+
+--
+-- Name: vulnerabilities fk_rails_7ac31eacb9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerabilities
+    ADD CONSTRAINT fk_rails_7ac31eacb9 FOREIGN KEY (updated_by_id) REFERENCES public.users(id);
 
 
 --

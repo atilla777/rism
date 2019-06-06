@@ -1,12 +1,13 @@
 class InvestigationPolicy < ApplicationPolicy
   def permitted_attributes
-    %i[name
-       organization_id
-       user_id
-       feed_id
-       investigation_kind_id
-       indicators_list
-       description]
+    [:name,
+      :organization_id,
+      :user_id,
+      :feed_id,
+      :investigation_kind_id,
+      :indicators_list,
+      {custom_fields: Investigation.custom_fields_names},
+     :description]
   end
 
 #    t.bigint "user_id"

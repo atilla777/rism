@@ -55,12 +55,14 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
       t.column :content_format, 'indicator_content_format'
       t.column :purpose, 'indicator_purpose', default: 'not_set'
       t.text:description
+      t.jsonb :custom_fields
       t.jsonb :enrichment, null: false, default: '{}'
 
       t.timestamps
     end
 
-    add_index  :indicators, :enrichment, using: :gin
+    add_index :indicators, :enrichment, using: :gin
+    add_index :indicators, :custom_fields, using: :gin
     add_index :indicators, 'content gin_trgm_ops', using: :gin
   end
 end

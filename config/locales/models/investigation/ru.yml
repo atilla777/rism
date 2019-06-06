@@ -1,0 +1,23 @@
+ru:
+  activerecord:
+    models:
+      investigation:
+        one: 'Исследование/Бюллетень'
+        other: 'Исследования/Бюллетени'
+    attributes:
+      investigation:
+        name: 'Имя'
+        custom_codename: 'Кодовое имя'
+        organization_id: 'Организация влад.'
+        user_id: 'Пользователь созд.'
+        feed_id: 'Источник информации'
+        created_at: 'Время создания'
+        description: 'Описание'
+        investigation_kind_id: 'Тип исследования (угрозы)'
+        indicators_list: 'Индикаторы'
+        threats:
+          other: 'Прочее'
+          network: 'Сетевая активность'
+          email: 'Email'
+          process: 'Активность программы'
+          account: 'Активность пользователя'

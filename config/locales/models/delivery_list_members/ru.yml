@@ -1,0 +1,9 @@
+ru:
+  activerecord:
+    models:
+      delivery_list_member:
+        one: 'Член списка доставки'
+        other: 'Члены списка доставки'
+    attributes:
+      delivery_list_member:
+        organization_id: 'Организация'

@@ -1,7 +1,8 @@
 = report_button_for @record, investigation_id: @record.id
 = show_for @record, decorator: InvestigationDecorator do |r|
   = r.show :created_at, value: show_date_time(@record.created_at)
-  = r.show :name, value: r.decorated.show_name_with_digest
+  = r.show :name, value: r.decorated.name
+  = r.show :custom_codename, value: r.decorated.custom_codename
   = r.show :organization_id
     = link_to @record.organization.name, @record.organization
   = r.show :user_id
@@ -10,6 +11,8 @@
     = link_to @record.feed.name, @record.feed
   = r.show :investigation_kind_id
     = link_to @record.investigation_kind.name, @record.investigation_kind
+  - @record.custom_fields&.each do |name, value|
+    = r.show :custom_fields, label: name, value: value
   = r.show :description
 
 = render 'application/record_versions'

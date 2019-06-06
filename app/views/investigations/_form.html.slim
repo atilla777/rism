@@ -34,6 +34,8 @@
           .col-lg-8
             = f.collection_select :investigation_kind_id, InvestigationKind.all, :id, :name, { }, { class: 'form-control' }
 
+      = custom_fields_input @record
+
       .form-group
         .field
           .col-lg-2.text-right

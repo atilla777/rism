@@ -82,9 +82,6 @@ ru:
       scan_jobs_host:
         one: 'Хост/сеть'
         other: 'Хосты/сети'
-      investigation:
-        one: 'Исследование/Бюллетень'
-        other: 'Исследования/Бюллетени'
       feed:
         one: 'Источник информации исследования'
         other: 'Источники информации исследования'
@@ -324,21 +321,6 @@ ru:
       investigation_kind:
         name: 'Имя'
         description: 'Описание'
-      investigation:
-        name: 'Имя'
-        organization_id: 'Организация влад.'
-        user_id: 'Пользователь созд.'
-        feed_id: 'Источник информации'
-        created_at: 'Время создания'
-        description: 'Описание'
-        investigation_kind_id: 'Тип исследования (угрозы)'
-        indicators_list: 'Индикаторы'
-        threats:
-          other: 'Прочее'
-          network: 'Сетевая активность'
-          email: 'Email'
-          process: 'Активность программы'
-          account: 'Активность пользователя'
       indicator_context:
         name: 'Имя'
         codename: 'Кодовое имя'

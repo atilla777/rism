@@ -11,6 +11,7 @@ class IndicatorPolicy < ApplicationPolicy
       :content_subkinds,
       :description,
       :purpose,
+      {custom_fields: Indicator.custom_fields_names},
       :trust_level
     ]
   end

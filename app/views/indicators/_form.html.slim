@@ -43,6 +43,8 @@
           .col-lg-8
             = f.select :purpose, Indicator.purposes.keys.collect { |purpose| [Indicator.human_enum_name(:purpose, purpose), purpose] }, { selected: @record.purpose || :not_set}, class: 'form-control'
 
+      = custom_fields_input @record
+
       .form-group
         .field
           .col-lg-2.text-right

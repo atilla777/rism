@@ -1,0 +1,7 @@
+- fields.each do |cf|
+  .form-group
+    .field
+      .col-lg-2.text-right
+        = label_tag "#{resource}[custom_fields][#{cf.name}]", cf.name, class: 'control-label'
+      .col-lg-8
+        = text_field_tag "#{resource}[custom_fields][#{cf.name}]", record.custom_field(cf.name), class: 'form-control'

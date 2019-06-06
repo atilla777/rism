@@ -5,6 +5,7 @@ class Indicator < ApplicationRecord
   include Attachable
   include Indicator::Ransackers
   include Indicator::Formats
+  include CustomFieldable
 
   attr_accessor :indicators_list
   attr_accessor :skip_format_validation

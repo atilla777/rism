@@ -11,3 +11,5 @@
   = r.show :content_format, value: r.decorated.show_content_format
   = r.show :indicator_contexts, value: r.decorated.show_indicator_contexts
   = r.show :content
+  - @record.custom_fields&.each do |name, value|
+    = r.show :custom_fields, label: name, value: value

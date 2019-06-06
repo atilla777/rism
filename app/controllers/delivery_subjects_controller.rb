@@ -48,9 +48,14 @@ class DeliverySubjectsController < ApplicationController
   end
 
   def filter_for_organization
-#    model.where(
-#      delivery_list: {organization_id: @organization_id}
-#    )
-    model.all
+    model.joins(:delivery_list)
+         .merge(
+           DeliveryList.joins(:organizations)
+                       .where('delivery_list_members.organization_id =?', organization.id)
+         )
+  end
+
+  def records_includes
+    [:deliverable]
   end
 end

@@ -20,7 +20,7 @@ class CreateIndicatorsService
   private
 
   def create_indicator(string)
-    string.strip!
+    string = clean_string(string)
     indicator_params = Indicator.cast_indicator(string)
     return unless indicator_params.fetch(:content_format, false)
     indicator_params[:indicator_context_ids] = indicator_context_ids(
@@ -46,5 +46,10 @@ class CreateIndicatorsService
       next if indicator_context.blank?
       ids << IndicatorContext.find_by(codename: codename).id
     end
+  end
+
+  def clean_string(string)
+    string.strip
+      .gsub('[.]', '.')
   end
 end

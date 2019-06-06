@@ -4,6 +4,7 @@ class Investigation < ApplicationRecord
   include Tagable
   include Attachable
   include Investigation::Ransackers
+  include CustomFieldable
 
 #  enum threat: %i[
 #                  other
@@ -16,6 +17,7 @@ class Investigation < ApplicationRecord
   attr_accessor :indicators_list
 
   before_validation :set_name
+  before_validation :set_custom_codename
 #  after_create :set_indicators
 
   validates :name, length: { in: 3..100 }
@@ -50,6 +52,10 @@ class Investigation < ApplicationRecord
   def set_name
     return if name.present?
     self.name = investigation_kind&.name
+  end
+
+  def set_custom_codename
+    self.custom_codename = Custom::InvestigationCustomization.cast_custom_codename(self)
   end
 
 #  def set_indicators

@@ -75,6 +75,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.string :cvss3_vector
       t.decimal :cvss3_exploitability, precision: 3, scale: 1
       t.decimal :cvss3_impact, precision: 3, scale: 1
+      t.jsonb :custom_fields
       t.decimal :cvss2, precision: 3, scale: 1
       t.string :cvss2_vector
       t.decimal :cvss2_exploitability, precision: 3, scale: 1
@@ -94,6 +95,8 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.text :custom_references
       t.jsonb :custom_fields
       t.column :state, 'vuln_state'  # is vuln new published (unreadead) or modified (unreaded)?
+      t.references :first_updated_by,  index: true, foreign_key: {to_table: :users}
+      t.references :updated_by,  index: true, foreign_key: {to_table: :users}
       t.boolean :processed, default: false # was vulnerability processed (read) by operator?
       t.column :custom_actuality, 'vuln_actuality', default: 'not_set'
       t.column :actuality, 'vuln_actuality', default: 'not_set' # automatic set - is vuln applicable tu us by criticality and vector?
@@ -116,7 +119,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
     add_index  :vulnerabilities, 'cvss3_vector gin_trgm_ops', using: :gin
     add_index  :vulnerabilities, 'cvss2_vector gin_trgm_ops', using: :gin
     add_index  :vulnerabilities, :description, using: :gin
-
+    add_index  :vulnerabilities, :custom_fields, using: :gin
     add_index  :vulnerabilities, 'custom_description gin_trgm_ops', using: :gin
     add_index  :vulnerabilities, :published, order: {published: :desc}
     add_index  :vulnerabilities, :modified, order: {published: :desc}
