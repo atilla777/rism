@@ -24,11 +24,6 @@ class IndicatorDecorator < SimpleDelegator
     Indicator.human_enum_name(:trust_level, trust_level)
   end
 
-  def show_investigation_full_name
-    id_digest = Digest::MD5.hexdigest(investigation_id.to_s)[-4..-1]
-    "#{id_digest} (#{investigation.name})"
-  end
-
   def show_appearance
     Indicator.where(content: content).count
   end

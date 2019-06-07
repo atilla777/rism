@@ -14,6 +14,29 @@ class Indicator
         RansackerDatetimeCast.datetime_field_to_text_search 'indicators', 'created_at', :reverse
       end
 
+      ransacker :custom_fields_str do
+
+        Arel.sql( <<~SQL
+                investigations.custom_fields::text
+          SQL
+        )
+      end
+#        Arel.sql( <<~SQL
+#            concat_ws(
+#              ' ',
+#                (SELECT value FROM jsonb_each_text(investigations.custom_fields) )
+#            )
+#          SQL
+#        )
+#      end
+#      ransacker :custom_fields_str do
+#        Arel.sql("concat_ws(' ', (jsonb_each_text(investigations.custom_fields)))")
+#      end
+
+#      SELECT *
+#      FROM   tbl
+#      WHERE  EXISTS (SELECT FROM jsonb_each_text(jsonb_column) WHERE value ~* 'val');
+
       ransacker :content_format_str do
         field_transformation = <<~SQL
           CASE indicators.content_format
@@ -60,7 +83,7 @@ class Indicator
         field_transformation = <<~SQL
           CASE indicators.trust_level
           WHEN 'not_set'
-          THEN '#{Indicator.human_enum_name(:trust_level, 'unknown')}'
+          THEN '#{Indicator.human_enum_name(:trust_level, 'not_set')}'
           WHEN 'low'
           THEN '#{Indicator.human_enum_name(:trust_level, 'low')}'
           WHEN 'high'
