@@ -148,3 +148,5 @@ table.table.table-hover.table-bordered.table-striped
           = @record.class.human_attribute_name(:references)
       td
         = auto_link(decorated.show_references_string(separator: "\n"))
+
+= render 'application/record_versions'
