@@ -46,8 +46,8 @@ class SyncNvdBaseJob < ApplicationJob
               .body
     rescue StandardError
       logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
-      logger.tagged("SYNC_NVD: #{record}") do
-        logger.error("vulnerability can`t be saved - #{record.errors.full_messages}, record:  #{record}")
+      logger.tagged("SYNC_NVD:") do
+        logger.error("meta file can`t be saved (network error?)")
       end
     end
   end
