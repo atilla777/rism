@@ -75,7 +75,7 @@ class IndicatorsController < ApplicationController
   end
 
   def records_includes
-    %i[organization user investigation]
+    %i[organization creator investigation]
   end
 
   def default_sort

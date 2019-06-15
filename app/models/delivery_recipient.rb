@@ -1,4 +1,4 @@
-class DeliveryListMember < ApplicationRecord
+class DeliveryRecipient < ApplicationRecord
   validates :organization_id,
             numericality: { only_integer: true }
 

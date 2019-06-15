@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeliveryListMembersController < ApplicationController
+class DeliveryRecipientsController < ApplicationController
   before_action :set_delivery_list, only: [:index, :create]
   before_action :set_name_cont, only: [:index, :create, :destroy]
 
@@ -11,16 +11,16 @@ class DeliveryListMembersController < ApplicationController
       @records = organizations
       render 'organizations_index'
     else
-      @records = delivery_list_members
+      @records = delivery_recipients
     end
   end
 
   def create
-    authorize DeliveryListMember
+    authorize DeliveryRecipient
     organization = Organization.find(params[:organization_id])
     authorize organization
     authorize @delivery_list
-    DeliveryListMember.create(
+    DeliveryRecipient.create(
       delivery_list_id: @delivery_list.id,
       organization_id: organization.id,
     )
@@ -28,18 +28,18 @@ class DeliveryListMembersController < ApplicationController
   end
 
   def destroy
-    authorize DeliveryListMember
-    delivery_list_member = DeliveryListMember.find(params[:id])
-    @delivery_list = delivery_list_member.delivery_list
+    authorize DeliveryRecipient
+    delivery_recipient = DeliveryRecipient.find(params[:id])
+    @delivery_list = delivery_recipient.delivery_list
     authorize @delivery_list
-    delivery_list_member.destroy
-    @records = delivery_list_members
+    delivery_recipient.destroy
+    @records = delivery_recipients
   end
 
   private
 
   def model
-    DeliveryListMember
+    DeliveryRecipient
   end
 
   def set_delivery_list
@@ -67,8 +67,8 @@ class DeliveryListMembersController < ApplicationController
       .page(params[:page])
   end
 
-  def delivery_list_members
-    scope = policy_scope(@delivery_list.delivery_list_members)
+  def delivery_recipients
+    scope = policy_scope(@delivery_list.delivery_recipients)
     @q = scope.ransack(params[:q])
     @q.sorts = default_sort if @q.sorts.empty?
     @q.result

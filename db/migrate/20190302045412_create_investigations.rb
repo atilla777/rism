@@ -3,12 +3,14 @@ class CreateInvestigations < ActiveRecord::Migration[5.1]
     create_table :investigations do |t|
       t.string :name
       t.string :custom_codename
-      t.references :user, foreign_key: true
       t.references :organization, foreign_key: true
       t.references :investigation_kind, foreign_key: true
       t.references :feed, foreign_key: true
       t.jsonb :custom_fields
       t.text :description
+
+      t.references :created_by,  index: true, foreign_key: {to_table: :users}
+      t.references :updated_by,  index: true, foreign_key: {to_table: :users}
 
       t.timestamps
     end

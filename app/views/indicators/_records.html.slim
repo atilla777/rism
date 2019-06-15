@@ -2,7 +2,7 @@
 = index_for records, decorator: IndicatorDecorator do |t|
   - t.header attribute: :created_at, sort_by: :created_at, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
-  - t.header attribute: :user_id, sort_by: :user_name, sort: :desc
+  - t.header attribute: :created_by_id, sort_by: :creator_name, sort: :desc
   - t.header attribute: :investigation_name, label: t('activerecord.attributes.investigation.name'), sort_by: :investigation_name, sort: :desc
   - t.header attribute: :investigation_custom_codename, label: t('activerecord.attributes.investigation.custom_codename'), sort_by: :investigation_custom_codename, sort: :desc
   - t.header attribute: :trust_level, sort_by: :trust_level, sort: :desc
@@ -12,7 +12,7 @@
   - t.header attribute: :appearance
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
   - t.field { |record| link_to truncate(record.organization.name, length: 15), record.organization }
-  - t.field { |record| link_to truncate(record.user.name, length: 15), record.user }
+  - t.field { |record| link_to truncate(record.creator.name, length: 15), record.creator}
   - t.field { |record| link_to truncate(record.investigation.name, length: 15), record.investigation }
   - t.field { |record| link_to record.investigation.custom_codename, record.investigation }
   - t.field { |record| link_to record.show_trust_level, record}

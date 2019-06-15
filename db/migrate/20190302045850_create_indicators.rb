@@ -48,7 +48,6 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
     end
 
     create_table :indicators do |t|
-      t.references :user, foreign_key: true
       t.references :investigation, foreign_key: true
       t.column :trust_level, 'indicator_trust_level', default: 'not_set'
       t.string :content
@@ -57,6 +56,9 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
       t.text:description
       t.jsonb :custom_fields
       t.jsonb :enrichment, null: false, default: '{}'
+
+      t.references :created_by,  index: true, foreign_key: {to_table: :users}
+      t.references :updated_by,  index: true, foreign_key: {to_table: :users}
 
       t.timestamps
     end

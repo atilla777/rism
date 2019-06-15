@@ -1,6 +1,12 @@
 = show_for @record, decorator: VulnerabilityDecorator do | r |
   = r.show :published, value: show_date_time(@record.published)
   = r.show :modified, value: show_date_time(@record.modified)
+  = r.show :created_by_id
+    - if  @record.creator.present?
+      = link_to @record.creator.name, @record.creator
+  = r.show :updated_by_id
+    - if  @record.updater.present?
+      = link_to @record.updater.name, @record.updater
   = r.show :codename do
     - if @record.nvd?
       a href=r.decorated.show_link_nvd_codename
@@ -9,6 +15,9 @@
       = @record.codename
   = r.show :state, value: r.decorated.show_state
   = r.show :processed, value: r.decorated.show_processed
+  = r.show :processed_by_id
+    - if  @record.processor.present?
+      = link_to @record.processor.name, @record.processor
   = r.show :blocked, value: r.decorated.show_blocked
   = r.show :feed, value: r.decorated.show_feed
   = r.show :actuality, value: r.decorated.show_actuality

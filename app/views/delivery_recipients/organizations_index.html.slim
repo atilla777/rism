@@ -1,5 +1,5 @@
 = caption @delivery_list
 = render 'delivery_lists/show_tabs', record: @delivery_list, active_tab: :allowed_organizations, from_external_link: true
-= index_search :name_cont, url: delivery_list_members_path, active_tab_eq: :allowed_organizations, delivery_list_id_eq: @delivery_list.id
+= index_search :name_cont, url: delivery_recipients_path, active_tab_eq: :allowed_organizations, delivery_list_id_eq: @delivery_list.id
 = render 'allowed_organizations', records: @records
 = render 'index_paginate', records: @records

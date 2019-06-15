@@ -1,10 +1,11 @@
-= index_search :codename_or_published_str_or_modified_str_or_vendors_str_or_products_str_or_description_str_or_custom_description_or_state_str_or_cvss_vector_or_actuality_str_or_relevance_str_cont
+= index_search :creator_name_or_codename_or_published_str_or_modified_str_or_vendors_str_or_products_str_or_description_str_or_custom_description_or_state_str_or_cvss_vector_or_actuality_str_or_relevance_str_cont
 = report_button_for records
 = command_button_for records
 = render 'search_form'
 = index_for records, decorator: VulnerabilityDecorator do |t|
   - t.header attribute: :modified, sort: :desc
   - t.header attribute: :published, sort: :desc
+  - t.header attribute: :created_by_id, sort_by: :creator_name, sort: :desc
   - t.header attribute: :state, sort: :desc
   - t.header attribute: :processed, sort: :desc
   - t.header attribute: :criticality, sort: :desc
@@ -17,6 +18,9 @@
   - t.header attribute: :products, sort: :desc
   - t.field { |record| link_to(show_date_time(record.modified), record) }
   - t.field { |record| link_to(show_date_time(record.published), record) }
+  - t.field do |record|
+    - if record.creator.present?
+      = link_to truncate(record.creator.name, length: 15), record.creator
   - t.field do |record|
     - if record.state_published?
       = link_to record.show_state, record, class: 'text-warning'

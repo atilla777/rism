@@ -14,6 +14,6 @@ class DeliveryList < ApplicationRecord
   has_many :delivery_subjects, dependent: :delete_all
   has_many :delivery_lists, through: :delivery_subjects
 
-  has_many :delivery_list_members, dependent: :delete_all
-  has_many :organizations, through: :delivery_list_members
+  has_many :delivery_recipients, dependent: :delete_all
+  has_many :organizations, through: :delivery_recipients
 end

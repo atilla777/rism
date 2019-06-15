@@ -101,7 +101,7 @@ Rails.application.routes.draw do
       get 'list_subjects'
     end
   end
-  resources :delivery_list_members, only: [:index, :create, :destroy]
+  resources :delivery_recipients, only: [:index, :create, :destroy]
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

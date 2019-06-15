@@ -2,7 +2,6 @@ class IndicatorPolicy < ApplicationPolicy
 
   def permitted_attributes
     [
-      :user_id,
       :investigation_id,
       :content,
       :indicators_list,

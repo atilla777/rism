@@ -1,4 +1,4 @@
-class DeliveryListMemberPolicy < ApplicationPolicy
+class DeliveryRecipientPolicy < ApplicationPolicy
 
   def permitted_attributes
     %i[organization_id

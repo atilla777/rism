@@ -24,6 +24,7 @@ class VulnerabilitiesController < ApplicationController
 
   def toggle_processed
     record.toggle!(:processed)
+    record.update_attribute(:processed_by_id, current_user.id)
     @record = VulnerabilityDecorator.new(record)
   end
 

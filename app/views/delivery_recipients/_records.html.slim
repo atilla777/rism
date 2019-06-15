@@ -1,0 +1,8 @@
+#delivery_recipients
+  = index_for records, actions: false do |t|
+    - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+    - t.field do |record|
+      = link_to delivery_recipient_path(record, delivery_list_id: @delivery_list_id, :'q[name_cont]' => @name), method: :delete, remote: true, class: 'btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: t('views.action.delete'), data: {confirm: t('views.action.confirm')} do
+        =< record.organization.name
+        span.text-danger
+          =< fa_icon 'arrow-right'

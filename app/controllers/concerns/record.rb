@@ -30,6 +30,7 @@ module Record
   def create
     @record = model.new(record_params)
     authorize @record.class
+    @record.current_user = current_user if @record.respond_to?(:current_user)
     @record.save!
     add_from_template
     redirect_to(
@@ -49,6 +50,7 @@ module Record
   def update
     @record = record
     authorize @record.class
+    @record.current_user = current_user if @record.respond_to?(:current_user)
     @record.update!(record_params)
     redirect_to(
       session.delete(:edit_return_to),

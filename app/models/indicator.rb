@@ -6,6 +6,7 @@ class Indicator < ApplicationRecord
   include Indicator::Ransackers
   include Indicator::Formats
   include CustomFieldable
+  include Monitorable
 
   attr_accessor :indicators_list
   attr_accessor :skip_format_validation
@@ -35,7 +36,6 @@ class Indicator < ApplicationRecord
   validate :check_content_format, unless: :skip_format_validation
 
   validates :investigation_id, numericality: { only_integer: true }
-  validates :user_id, numericality: { only_integer: true }
   validates :trust_level, inclusion: { in: Indicator.trust_levels.values}
   validates :content_format, inclusion: { in: Indicator.content_formats.values}
   validates :content, presence: true
@@ -43,7 +43,6 @@ class Indicator < ApplicationRecord
   validates :content, uniqueness: { scope: :investigation_id }
 
   belongs_to :investigation
-  belongs_to :user
   has_one :organization, through: :investigation
 
   has_many :indicator_context_members, dependent: :delete_all

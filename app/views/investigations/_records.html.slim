@@ -1,12 +1,12 @@
-= index_search :created_at_reverse_str_or_name_or_organization_name_or_user_name_or_feed_name_or_investigation_kind_name_cont, organization_id_eq: @organization&.id
+= index_search :created_at_reverse_str_or_name_or_organization_name_or_creator_name_or_updater_name_or_feed_name_or_investigation_kind_name_cont, organization_id_eq: @organization&.id
 = command_button_for records, organization_id: @organization.id
 = report_button_for @records, organization_id: @organization.id
-= index_for records, decorator: InvestigationDecorator do |t|
+= index_for records do |t|
   - t.header attribute: :created_at, sort_by: :created_at, sort: :desc
   - t.header attribute: :name, sort_by: :name, sort: :desc
   - t.header attribute: :custom_codename, sort_by: :name, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
-  - t.header attribute: :user_id, sort_by: :user_name, sort: :desc
+  - t.header attribute: :created_by_id, sort_by: :creator_name, sort: :desc
   - t.header attribute: :feed_id, sort_by: :feed_name, sort: :desc
   - t.header attribute: :investigation_kind_id, sort_by: :investigation_kind_id, sort: :desc
   - t.header fit: true
@@ -14,6 +14,6 @@
   - t.field { |record| link_to truncate(record.name, limit: 15), record }
   - t.field { |record| link_to record.custom_codename, record }
   - t.field { |record| link_to record.organization.name, record.organization }
-  - t.field { |record| link_to record.user.name, record.user }
+  - t.field { |record| link_to record.creator.name, record.creator }
   - t.field { |record| link_to record.feed.name, record.feed }
   - t.field { |record| link_to record.investigation_kind.name, record.investigation_kind}

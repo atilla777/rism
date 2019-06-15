@@ -4,7 +4,6 @@
     = form_for @record, html: {class: 'form-horizontal'} do |f|
 
       = f.hidden_field :investigation_id, value: @investigation&.id || @record.investigation_id
-      = f.hidden_field :user_id, value: current_user.id
 
       .form-group.required
         .field
