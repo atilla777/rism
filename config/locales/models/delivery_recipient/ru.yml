@@ -1,9 +1,11 @@
 ru:
   activerecord:
     models:
-      delivery_list_member:
+      delivery_recipient:
         one: 'Член списка доставки'
         other: 'Члены списка доставки'
     attributes:
-      delivery_list_member:
+      delivery_recipient:
         organization_id: 'Организация'
+        processed: 'Обработано'
+        processed_by_id: 'Обработал'

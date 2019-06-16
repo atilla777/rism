@@ -1,9 +1,18 @@
-= index_for records, actions: false do |t|
+= index_for records, decorator: DeliverySubjectDecorator, actions: false do |t|
   - t.header attribute: :created_at, sort: :desc
+  - t.header attribute: :processed
   - t.header attribute: :name
+  - t.header fit: true
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
+  - t.field do |record|
+    = render 'processed', record: record
   - t.field do |record|
     = link_to record.deliverable do
       span.text-warning
         = record.deliverable.class.model_name.human(count: 1)
       =< record.deliverable.name
+  - t.field do |record|
+    => link_to polymorphic_path(record), class: 'btn btn-link' do
+      = fa_icon 'eye', class: 'text-info', data_toggle: 'tooltip', title: t('views.action.show')
+    => link_to edit_polymorphic_path(record), class: 'btn btn-link' do
+      = fa_icon 'pencil', class: 'text-warning', data_toggle: 'tooltip', title: t('views.action.edit')

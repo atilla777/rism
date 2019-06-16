@@ -3,6 +3,8 @@ class DeliverySubjectPolicy < ApplicationPolicy
   def permitted_attributes
     %i[deliverable_type
       deliverable_id
+      recipient_comment
+      processed
       delivery_list_id]
   end
 

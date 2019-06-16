@@ -58,5 +58,12 @@ li
 li
   = link_to custom_fields_path do
     .span.text-info
+      = fa_icon 'book'
       =< fa_icon 'pencil-square-o'
       =< CustomField.model_name.human(count: 2)
+li
+  = link_to delivery_lists_path do
+    .span.text-info
+      = fa_icon 'book'
+      =< fa_icon 'address-book'
+      =< DeliveryList.model_name.human(count: 2)

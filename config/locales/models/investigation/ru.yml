@@ -21,3 +21,5 @@ ru:
           email: 'Email'
           process: 'Активность программы'
           account: 'Активность пользователя'
+        created_by_id: 'Cоздал'
+        updated_by_id: 'Отредактировал'

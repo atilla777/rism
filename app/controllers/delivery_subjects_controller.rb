@@ -8,6 +8,15 @@ class DeliverySubjectsController < ApplicationController
   def list_subjects
   end
 
+  def show
+    @record = record
+    authorize @record.class
+    respond_to do |format|
+      format.js  { render template: 'application/modal_show.js.erb' }
+      format.html { render 'show_without_tabs' }
+    end
+  end
+
   # TODO: rename @record to @delivarable
   def create
     delivery_list = DeliveryList.find(params[:delivery_list_id])
@@ -32,6 +41,12 @@ class DeliverySubjectsController < ApplicationController
     render 'renew_list_subjects'
   end
 
+  def toggle_processed
+    record.toggle!(:processed)
+    record.update_attribute(:processed_by_id, current_user.id)
+    @record = VulnerabilityDecorator.new(record)
+  end
+
   private
 
   def model
@@ -45,6 +60,21 @@ class DeliverySubjectsController < ApplicationController
   def set_deliverable_subject
     @record = params[:deliverable_type].constantize
       .find(params[:deliverable_id])
+  end
+
+  def organization
+    id = if params[:organization_id]
+           params[:organization_id]
+         elsif params.dig(:q, :organization_id_eq)
+           params[:q][:organization_id_eq]
+         elsif params.dig(model.name.underscore.to_sym, :organization_id)
+           params[model.name.underscore.to_sym][:organization_id]
+         end
+    if id
+      Organization.where(id: id).first || @record&.organization || OpenStruct.new(id: nil)
+    else
+      @record.delivery_list.organization
+    end
   end
 
   def filter_for_organization

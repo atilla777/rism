@@ -5,7 +5,8 @@ class CreateDeliverySubjects < ActiveRecord::Migration[5.1]
       t.references :delivery_list, foreign_key: true
       t.boolean :processed, default: false
       t.references :processed_by,  index: true, foreign_key: {to_table: :users}
-      t.text :recepient_comment
+      t.boolean :answerable, default: false
+      t.text :recipient_comment
       t.datetime :sent_at
 
       t.references :created_by,  index: true, foreign_key: {to_table: :users}

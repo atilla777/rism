@@ -139,7 +139,7 @@ ru:
     delivery_subject:
       allowed_delivery_lists: 'Доступные для назначения списки доставки'
       assigned_delivery_lists: 'Назначенные списки доставки'
-    delivery_list_members:
+    delivery_recipients:
       allowed_organizations: 'Доступные для назначения организации'
       assigned_organizations: 'Назначенные организации'
   navigations:

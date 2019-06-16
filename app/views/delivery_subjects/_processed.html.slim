@@ -1,0 +1,9 @@
+. id="#{record.id}"
+  - title = []
+  - if  record.processor.present?
+    - title << record.processor.name
+  - title << t('labels.vulnerability.toggle')
+  - if record.processed?
+    = link_to record.show_processed, toggle_processed_delivery_subject_path(record), method: :patch, remote: true, class: 'text-success btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: title.join(' - ')
+  - else
+    = link_to record.show_processed, toggle_processed_delivery_subject_path(record), method: :patch, remote: true, class: 'text-warning btn btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: title.join(' - ')

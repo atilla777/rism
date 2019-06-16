@@ -96,9 +96,12 @@ Rails.application.routes.draw do
   end
   resources :custom_fields
   resources :delivery_lists
-  resources :delivery_subjects, only: [:index, :create, :destroy] do
+  resources :delivery_subjects do
     collection do
       get 'list_subjects'
+    end
+    member do
+      patch :toggle_processed
     end
   end
   resources :delivery_recipients, only: [:index, :create, :destroy]
