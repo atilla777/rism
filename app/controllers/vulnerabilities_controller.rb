@@ -55,6 +55,6 @@ class VulnerabilitiesController < ApplicationController
   end
 
   def records_includes
-    %i[creator processor]
+    %i[processor]
   end
 end

@@ -41,12 +41,20 @@ class Indicator < ApplicationRecord
   validates :content, presence: true
   validates :purpose, inclusion: { in: Indicator.purposes.values}
   validates :content, uniqueness: { scope: :investigation_id }
+  validates :parent_id, numericality: { only_integer: true, allow_blank: true }
 
   belongs_to :investigation
   has_one :organization, through: :investigation
 
   has_many :indicator_context_members, dependent: :delete_all
   has_many :indicator_contexts, through: :indicator_context_members
+
+  belongs_to :parent, class_name: 'Indicator', optional: true
+
+  has_many :children,
+           class_name: 'Indicator',
+           foreign_key: :parent_id,
+           dependent: :destroy
 
   def self.human_attribute_content_formats
     new_hash = Indicator.content_formats.map do |k,v|

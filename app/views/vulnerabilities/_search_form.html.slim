@@ -56,6 +56,24 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                            =< b.check_box
                            span.text-info
                              =< Vulnerability.human_enum_name(:custom_relevance, b.value)
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :exploit_maturity, class: 'control-label'
+                  .col-lg-3
+                     = f.collection_check_boxes :exploit_maturity_in, Vulnerability.exploit_maturities, :last, :first, {}, class: 'big-checkbox' do |b|
+                       =< b.check_box
+                       span.text-info
+                         =< Vulnerability.human_enum_name(:exploit_maturity, b.text)
+                .field
+                  .col-lg-1.text-right
+                    = f.label :custom_exploit_maturity, class: 'control-label'
+                  .col-lg-3
+                     = f.collection_check_boxes :custom_exploit_maturity_in, Vulnerability.exploit_maturities, :last, :first, {}, class: 'big-checkbox' do |b|
+                       =< b.check_box
+                       span.text-info
+                         =< Vulnerability.human_enum_name(:exploit_maturity, b.text)
 
             .form-group
               .form-row

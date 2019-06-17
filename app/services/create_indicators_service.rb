@@ -6,7 +6,7 @@ class CreateIndicatorsService
   def initialize(text, investigation_id, current_user)
      @text = text
      @investigation_id = investigation_id
-     @user_id = user_id
+     @user_id = current_user
   end
 
   def execute
@@ -28,12 +28,12 @@ class CreateIndicatorsService
     )
     indicator_params.merge!(
       investigation_id: @investigation_id,
-      current_user: current_user,
+      current_user: @user_id,
       trust_level: :not_set,
       enrichment: {}
     )
     indicator = Indicator.new(indicator_params)
-    indicator.current_user = User.find(current_user)
+    indicator.current_user = User.find(@user_id)
     indicator.skip_format_validation = true
     indicator.save
   end

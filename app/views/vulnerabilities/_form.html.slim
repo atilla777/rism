@@ -59,11 +59,22 @@
           .col-lg-2.text-right
             = f.label :relevance
           .col-lg-2
-            = f.select :relevance, Vulnerability.custom_relevances.keys.collect { |relevance| [Vulnerability.human_enum_name(:custom_relevance, relevance), relevance ] }, { selected: @record.custom_relevance}, class: 'form-control', disabled: true
+            = f.select :relevance, Vulnerability.relevances.keys.collect { |relevance| [Vulnerability.human_enum_name(:custom_relevance, relevance), relevance ] }, { selected: @record.relevance}, class: 'form-control', disabled: true
           .col-lg-2.text-right
             = f.label :custom_relevance
           .col-lg-2
             = f.select :custom_relevance, Vulnerability.custom_relevances.keys.collect { |relevance| [Vulnerability.human_enum_name(:custom_relevance, relevance), relevance ] }, { selected: @record.custom_relevance}, class: 'form-control'
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :exploit_maturity
+          .col-lg-2
+            = f.select :exploit_maturity, Vulnerability.exploit_maturities.keys.collect { |maturity| [Vulnerability.human_enum_name(:exploit_maturity, maturity), maturity] }, { selected: @record.exploit_maturity}, class: 'form-control', disabled: true
+          .col-lg-2.text-right
+            = f.label :custom_exploit_maturity
+          .col-lg-2
+            = f.select :custom_exploit_maturity, Vulnerability.custom_exploit_maturities.keys.collect { |maturity| [Vulnerability.human_enum_name(:exploit_maturity, maturity), maturity] }, { selected: @record.custom_exploit_maturity}, class: 'form-control'
 
       .form-group
         .field

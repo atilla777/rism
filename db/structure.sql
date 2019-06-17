@@ -108,6 +108,19 @@ CREATE TYPE public.vuln_actuality AS ENUM (
 
 
 --
+-- Name: vuln_exploit_maturity; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.vuln_exploit_maturity AS ENUM (
+    'not_defined',
+    'high',
+    'functional',
+    'poc',
+    'unproven'
+);
+
+
+--
 -- Name: vuln_feed; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -759,6 +772,8 @@ ALTER SEQUENCE public.indicator_contexts_id_seq OWNED BY public.indicator_contex
 CREATE TABLE public.indicators (
     id bigint NOT NULL,
     investigation_id bigint,
+    parent_id bigint,
+    parent_conjunction boolean,
     trust_level public.indicator_trust_level DEFAULT 'not_set'::public.indicator_trust_level,
     content character varying,
     content_format public.indicator_content_format,
@@ -1638,6 +1653,10 @@ CREATE TABLE public.vulnerabilities (
     relevance public.vuln_relevance DEFAULT 'not_set'::public.vuln_relevance,
     blocked boolean DEFAULT false,
     raw_data jsonb DEFAULT '"{}"'::jsonb NOT NULL,
+    exploit boolean,
+    custom_exploit boolean,
+    exploit_maturity public.vuln_exploit_maturity DEFAULT 'not_defined'::public.vuln_exploit_maturity,
+    custom_exploit_maturity public.vuln_exploit_maturity DEFAULT 'not_defined'::public.vuln_exploit_maturity,
     created_by_id bigint,
     updated_by_id bigint,
     created_at timestamp without time zone NOT NULL,
@@ -2566,6 +2585,13 @@ CREATE INDEX index_indicators_on_enrichment ON public.indicators USING gin (enri
 --
 
 CREATE INDEX index_indicators_on_investigation_id ON public.indicators USING btree (investigation_id);
+
+
+--
+-- Name: index_indicators_on_parent_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_indicators_on_parent_id ON public.indicators USING btree (parent_id);
 
 
 --

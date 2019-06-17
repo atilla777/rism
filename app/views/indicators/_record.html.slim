@@ -2,6 +2,11 @@
   = r.show :created_at, value: show_date_time(@record.created_at)
   = r.show :organization_id
     = link_to @record.organization.name, @record.organization
+  = r.show :parent_id
+    - if @record.parent_id.present?
+      = link_to @record.parent.content, @record.parent
+  = r.show :parent_conjunction
+    = @record.parent_conjunction
   = r.show :created_by_id
     = link_to @record.creator.name, @record.creator
   = r.show :updated_by_id

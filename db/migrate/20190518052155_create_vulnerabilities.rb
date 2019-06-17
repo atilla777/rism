@@ -57,7 +57,22 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
 
       change.down do
         execute <<-SQL
-          DROP TYPE vuln_state;
+          DROP TYPE vuln_exploit_maturity;
+        SQL
+      end
+
+      change.up do
+        execute <<-SQL
+          CREATE TYPE vuln_exploit_maturity
+          AS ENUM (
+            #{Vulnerability.exploit_maturities.values.map {|i| "'#{i}'"}.join(', ')}
+          )
+        SQL
+      end
+
+      change.down do
+        execute <<-SQL
+          DROP TYPE vuln_exploit_maturity;
         SQL
       end
     end
@@ -105,6 +120,10 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       #t.boolean :custom_actuality, default: false # manual set
       t.boolean :blocked, default: false # is vuln created from automatic sync from NVD base?
       t.jsonb :raw_data, null: false, default: '{}'
+      t.boolean :exploit
+      t.boolean :custom_exploit
+      t.column :exploit_maturity, 'vuln_exploit_maturity', default: 'not_defined'
+      t.column :custom_exploit_maturity, 'vuln_exploit_maturity', default: 'not_defined'
 
       t.references :created_by,  index: true, foreign_key: {to_table: :users}
       t.references :updated_by,  index: true, foreign_key: {to_table: :users}

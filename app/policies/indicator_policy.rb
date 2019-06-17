@@ -11,7 +11,9 @@ class IndicatorPolicy < ApplicationPolicy
       :description,
       :purpose,
       {custom_fields: Indicator.custom_fields_names},
-      :trust_level
+      :trust_level,
+      :parent_id,
+      :parent_conjunction
     ]
   end
 

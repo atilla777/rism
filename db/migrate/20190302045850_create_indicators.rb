@@ -49,6 +49,8 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
 
     create_table :indicators do |t|
       t.references :investigation, foreign_key: true
+      t.references :parent, table: :indicators, index: true
+      t.boolean :parent_conjunction
       t.column :trust_level, 'indicator_trust_level', default: 'not_set'
       t.string :content
       t.column :content_format, 'indicator_content_format'

@@ -15,6 +15,29 @@
       .form-group.required
         .field
           .col-lg-2.text-right
+            = f.label :purpose, class: 'control-label'
+          .col-lg-8
+            = f.select :purpose, Indicator.purposes.keys.collect { |purpose| [Indicator.human_enum_name(:purpose, purpose), purpose] }, { selected: @record.purpose || :not_set}, class: 'form-control'
+
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :parent_id, class: 'control-label'
+          .col-lg-8
+            => f.collection_select :parent_id, @record.investigation.indicators, :id, :content, {include_blank: true}, {class: 'form-control'}
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :parent_conjunction, class: 'control-label'
+          .col-lg-8
+             = f.check_box :parent_conjunction, class: 'big-checkbox'
+
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
             = f.label :content_format, class: 'control-label'
           .col-lg-8
             = f.select :content_format, Indicator.content_formats.keys.collect { |format| [Indicator.human_enum_name(:content_format, format), format] }, { selected: @record.content_format || @content_format}, class: 'form-control', readonly: true
@@ -34,13 +57,6 @@
             = f.label :content, class: 'control-label'
           .col-lg-8
             = f.text_field :content, class: 'form-control'
-
-      .form-group.required
-        .field
-          .col-lg-2.text-right
-            = f.label :purpose, class: 'control-label'
-          .col-lg-8
-            = f.select :purpose, Indicator.purposes.keys.collect { |purpose| [Indicator.human_enum_name(:purpose, purpose), purpose] }, { selected: @record.purpose || :not_set}, class: 'form-control'
 
       = custom_fields_input @record
 

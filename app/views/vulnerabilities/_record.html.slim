@@ -24,6 +24,7 @@
   = r.show :custom_actuality, value: r.decorated.show_custom_actuality
   = r.show :relevance, value: r.decorated.show_relevance
   = r.show :custom_relevance, value: r.decorated.show_custom_relevance
+  = r.show :some_exploit_maturity, value: r.decorated.show_some_exploit_maturity
   = r.show :vendors, value: r.decorated.show_vendors
   = r.show :products, value: r.decorated.show_products
   = r.show :versions, value: truncate(r.decorated.show_versions_string, length: 2000)
@@ -67,6 +68,18 @@ table.table.table-hover.table-bordered.table-striped
           = @record.class.human_attribute_name(:updated_at)
       td
         = show_date_time(@record.updated_at)
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:exploit_maturity)
+      td
+        = decorated.show_exploit_maturity
+    tr
+      td.col-md-2.text-right
+        strong.text-info
+          = @record.class.human_attribute_name(:custom_exploit_maturity)
+      td
+        = decorated.show_custom_exploit_maturity
     tr
       td.col-md-2.text-right
         strong.text-info
