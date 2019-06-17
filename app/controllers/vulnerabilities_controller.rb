@@ -53,4 +53,8 @@ class VulnerabilitiesController < ApplicationController
   def set_custom_fields
     @custom_fields = CustomField.where(field_model: model.model_name.to_s)
   end
+
+  def records_includes
+    %i[creator processor]
+  end
 end

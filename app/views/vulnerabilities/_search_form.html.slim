@@ -150,8 +150,6 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                      = f.text_field :cvss3_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
                    .col-lg-2
                      = f.text_field :cvss3_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-
-              .form-group
                 .field
                    .col-lg-1.text-right
                      = f.label :cvss3_vector
@@ -169,7 +167,6 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                      = f.text_field :cvss3_exploitability_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
                    .col-lg-2
                      = f.text_field :cvss3_exploitability_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-              .form-group
                 .field
                    .col-lg-1.text-right
                      = f.label :cvss3_impact
@@ -187,8 +184,6 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                      = f.text_field :cvss2_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
                    .col-lg-2
                      = f.text_field :cvss2_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-
-              .form-group
                 .field
                    .col-lg-1.text-right
                      = f.label :cvss2_vector
@@ -206,8 +201,6 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                      = f.text_field :cvss2_exploitability_gteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
                    .col-lg-2
                      = f.text_field :cvss2_exploitability_lteq, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
-
-              .form-group
                 .field
                    .col-lg-1.text-right
                      = f.label :cvss2_impact
@@ -231,7 +224,7 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                    .col-lg-2
                      = f.text_field :custom_cvss3_vector_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
                    .col-lg-2
-                     = f.text_field :cvss3_vector_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+                     = f.text_field :custom_cvss3_vector_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
 
             .form-group
               .form-row
@@ -276,8 +269,6 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                     = f.date_field :created_at_gteq, class: 'form-control', datepicker: true
                   .col-lg-2
                     = f.date_field :created_at_end_of_day_lteq, class: 'form-control', datepicker: true
-
-              .form-group
                 .field
                   .col-lg-1.text-right
                     = f.label :updated_at, class: 'control-label'

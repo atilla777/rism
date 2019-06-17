@@ -33,6 +33,9 @@ module Right::SubjectTypes
     'InvestigationKind' => I18n.t('activerecord.models.investigation_kind.one'),
     'Investigation' => I18n.t('activerecord.models.investigation.one'),
     'Indicator' => I18n.t('activerecord.models.indicator.one'),
-    'Vulnerability' => I18n.t('activerecord.models.vulnerability.one')
+    'Vulnerability' => I18n.t('activerecord.models.vulnerability.one'),
+    'DeliveryList' => I18n.t('activerecord.models.delivery_list.one'),
+    'DeliveryListMember' => I18n.t('activerecord.models.delivery_list_member.one'),
+    'DeliverySubject' => I18n.t('activerecord.models.delivery_subject.one')
   }.freeze
 end
