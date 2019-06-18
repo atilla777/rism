@@ -8,7 +8,13 @@ class IndicatorsController < ApplicationController
   before_action :set_indicator_contexts, only: [:new, :create, :edit, :update]
   before_action :set_selected_indicator_contexts, only: [:new, :create, :edit, :update]
 
+  def search
+    index
+    @scope = params.dig(:q, :scope_eq) || params.dig(:scope)
+  end
+
   def index
+    @associations = [:investigation]
     authorize model
     if params[:investigation_id].present? || params.dig(:q, :investigation_id_eq)
       index_for_investigation

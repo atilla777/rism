@@ -38,6 +38,10 @@ class ApplicationPolicy
     index?
   end
 
+  def search?
+    index?
+  end
+
   def index?
     return true if @user.admin_editor_reader?
     @user.can? :read, @record

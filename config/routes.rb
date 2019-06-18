@@ -83,7 +83,11 @@ Rails.application.routes.draw do
   resources :feeds
   resources :investigation_kinds
   resources :investigations
-  resources :indicators
+  resources :indicators do
+    collection do
+      match 'search' => 'indicators#search', via: [:get, :post], as: :search
+    end
+end
   resources :indicator_contexts
   resources :vulnerabilities do
     collection do
