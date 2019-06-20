@@ -2,6 +2,7 @@
 = report_button_for records
 = command_button_for records
 = render 'search_form'
+= render 'download_search_form' if ['index', 'search'].include?(params[:action])
 = index_for records, decorator: VulnerabilityDecorator do |t|
   - t.header attribute: :modified, sort: :desc
   - t.header attribute: :published, sort: :desc

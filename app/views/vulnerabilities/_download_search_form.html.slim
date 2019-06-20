@@ -1,0 +1,74 @@
+= search_form_for @q, url: filtred_reports_path({name: :filtred_table_vulners}), html: { method: :post } do |f|
+  - params.fetch(:q, {}).fetch(:actuality_in, []).each do |p|
+    = f.hidden_field :actuality_in, multiple: true, value: p
+  - params.fetch(:q, {}).fetch(:custom_actuality_in, []).each do |p|
+    = f.hidden_field :custom_actuality_in, multiple: true, value: p
+  - params.fetch(:q, {}).fetch(:relevance_in, []).each do |p|
+    = f.hidden_field :relevance_in, multiple: true, value: p
+  - params.fetch(:q, {}).fetch(:custom_relevance_in, []).each do |p|
+    = f.hidden_field :custom_relevance_in, multiple: true, value: p
+  - params.fetch(:q, {}).fetch(:exploit_maturity_in, []).each do |p|
+    = f.hidden_field :exploit_maturity_in, multiple: true, value: p
+  - params.fetch(:q, {}).fetch(:custom_exploit_maturity_in, []).each do |p|
+    = f.hidden_field :custom_exploit_maturity_in, multiple: true, value: p
+  = f.hidden_field :codename_eq
+  = f.hidden_field :codename_cont
+  - params.fetch(:q, {}).fetch(:state_in, []).each do |p|
+    = f.hidden_field :state_in, multiple: true, value: p
+  - params.fetch(:q, {}).fetch(:feed_in, []).each do |p|
+    = f.hidden_field :feed_in, multiple: true, value: p
+  = f.hidden_field :description_str_cont
+  = f.hidden_field :custom_description_cont
+  = f.hidden_field :vendors_arr_cont
+  = f.hidden_field :vendors_arr_over
+  = f.hidden_field :products_arr_cont
+  = f.hidden_field :products_arr_over
+  = f.hidden_field :custom_vendors_arr_cont
+  = f.hidden_field :custom_vendors_arr_over
+  = f.hidden_field :custom_products_arr_cont
+  = f.hidden_field :custom_products_arr_over
+  = f.hidden_field :cvss_gteq
+  = f.hidden_field :cvss_lteq
+
+  = f.hidden_field :cvss3_gteq
+  = f.hidden_field :cvss3_lteq
+  = f.hidden_field :cvss3_vector_eq
+  = f.hidden_field :cvss3_vector_cont
+  = f.hidden_field :cvss3_exploitability_gteq
+  = f.hidden_field :cvss3_exploitability_lteq
+  = f.hidden_field :cvss3_impact_gteq
+  = f.hidden_field :cvss3_impact_lteq
+
+  = f.hidden_field :cvss2_gteq
+  = f.hidden_field :cvss2_lteq
+  = f.hidden_field :cvss2_vector_eq
+  = f.hidden_field :cvss2_vector_cont
+  = f.hidden_field :cvss2_exploitability_gteq
+  = f.hidden_field :cvss2_exploitability_lteq
+  = f.hidden_field :cvss2_impact_gteq
+  = f.hidden_field :cvss2_impact_lteq
+
+  = f.hidden_field :custom_cvss3_gteq
+  = f.hidden_field :custom_cvss3_lteq
+  = f.hidden_field :custom_cvss3_vector_eq
+  = f.hidden_field :custom_cvss3_vector_cont
+  = f.hidden_field :custom_cvss3_exploitability_gteq
+  = f.hidden_field :custom_cvss3_exploitability_lteq
+  = f.hidden_field :custom_cvss3_impact_gteq
+  = f.hidden_field :custom_cvss3_impact_lteq
+
+  = f.hidden_field :published_gteq
+  = f.hidden_field :published_end_of_day_lteq
+  = f.hidden_field :modified_gteq
+  = f.hidden_field :modified_end_of_day_lteq
+  = f.hidden_field :created_at_gteq
+  = f.hidden_field :created_at_end_of_day_lteq
+  = f.hidden_field :updated_at_gteq
+  = f.hidden_field :updated_at_end_of_day_lteq
+  = f.hidden_field :updated_at_end_of_day_lteq
+
+  =< t('navigations.reports.download_filtred')
+  = f.button name: :format, value: :csv, type: 'submit', class: 'btn btn-link' do
+    span.text-info
+      => fa_icon 'save'
+      | csv

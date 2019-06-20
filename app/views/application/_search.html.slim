@@ -3,7 +3,9 @@ a.link.btn.btn-default data-toggle='collapse' href='#toggle_search'
 
 - @q.build_condition
 
-= search_form_for @q, url: polymorphic_url(records.klass, action: :search), html: { class: 'form-horizontal collapse', id: 'toggle_search', method: :post } do |f|
+= search_form_for @q,
+  url: polymorphic_url(records.klass, action: :search),
+  html: { class: 'form-inline collapse', id: 'toggle_search', method: :post } do |f|
 
   = setup_search_form(f)
 
@@ -15,6 +17,12 @@ a.link.btn.btn-default data-toggle='collapse' href='#toggle_search'
     = f.sort_fields do |s|
       = render 'sort_fields', f: s
     = button_to_add_fields(f, :sort)
+
+  = tag.fieldset class: 'fieldset-border' do
+    = tag.legend 'Condition Groups'
+    = f.grouping_fields do |g|
+      = render 'grouping_fields', f: g
+    = button_to_add_fields(f, :grouping)
 
   br
   = f.condition_fields do |c|

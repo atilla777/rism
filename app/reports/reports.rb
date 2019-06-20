@@ -42,4 +42,5 @@ class Reports
   EmailForBlockReport.register
   Md5ForBlockReport.register
   UriForBlockReport.register
+  FiltredTableVulnersReport.register
 end

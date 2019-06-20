@@ -49,13 +49,6 @@ module AdvancedSearchHelper
       grouping:  'Add Condition Group' }.freeze
   end
 
-  def app_info
-    @@app_info ||= "#{
-      tag.strong 'Ransack demo app'
-      } running on Ruby #{RUBY_VERSION}, Rails #{Rails::VERSION::STRING
-      } and #{User.postgres_version} - #{source_code_link}".html_safe
-  end
-
   #TODO: user or delete
   def action
     if action_name == 'advanced_search'
