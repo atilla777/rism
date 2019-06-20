@@ -21,4 +21,5 @@
 //= require Chart.bundle
 //= require chartkick
 //= require ckeditor/init
+//= require search
 //= require_tree .

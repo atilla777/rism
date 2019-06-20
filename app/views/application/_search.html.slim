@@ -1,13 +1,20 @@
-a.link.btn data-toggle='collapse' href='#toggle_search'
-  strong
-    =< t('labels.advance_search')
-  =< fa_icon('hand-pointer-o')
+a.link.btn.btn-default data-toggle='collapse' href='#toggle_search'
+  = t('labels.advance_search')
 
 - @q.build_condition
 
 = search_form_for @q, url: polymorphic_url(records.klass, action: :search), html: { class: 'form-horizontal collapse', id: 'toggle_search', method: :post } do |f|
 
+  = setup_search_form(f)
+
   = f.hidden_field :scope_eq, value: @scope
+
+  fieldset.fieldset-border
+    legend
+      | Sort fields
+    = f.sort_fields do |s|
+      = render 'sort_fields', f: s
+    = button_to_add_fields(f, :sort)
 
   br
   = f.condition_fields do |c|
@@ -15,7 +22,7 @@ a.link.btn data-toggle='collapse' href='#toggle_search'
       .form-group
         .form-row
           .field
-            .col-lg-1.text-right
+            .col-lg-2.text-right
               = f.label :field, class: 'control-label'
             .col-lg-2
               = a.attribute_select({associations: associations}, {class: 'form-control'})
@@ -29,13 +36,6 @@ a.link.btn data-toggle='collapse' href='#toggle_search'
               = c.value_fields do |v|
                 = v.text_field :value, class: 'form-control'
 
-  = f.sort_fields do |s|
-    .form-group
-      .form-row
-        .field
-          .col-lg-1.text-right
-            = f.label :order, class: 'control-label'
-          .col-lg-9
-            = s.sort_select Hash.new, class: 'form-control'
-
-  = f.submit t('views.action.find'), class: 'btn btn-success'
+  .actions.form-group
+    .col-lg-offset-2.col-lg-2
+      = f.submit t('views.action.find'), class: 'btn btn-success'
