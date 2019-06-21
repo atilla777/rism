@@ -29,8 +29,10 @@ class FiltredTableVulnersReport < BaseReport
       'Базовое значение CVSS',
       'Вектор CVSS',
       'Вектор атаки',
+      'Наличие эксплоита',
       'Описание источника',
       'Описание',
+      'Ссылка на NVD',
       'Ссылки источника',
       'Ссылки',
       'Рекомендации',
@@ -56,8 +58,10 @@ class FiltredTableVulnersReport < BaseReport
       row << record.show_cvss
       row << record.show_cvss_vector
       row << record.show_cvss_av
+      row << record.show_custom_exploit_maturity
       row << record.show_description_string
       row << record.custom_description
+      row << record.show_link_nvd_codename
       row << record.show_references_string(limit: 10, separator: "\n")
       row << record.custom_references
       row << record.custom_recomendation
@@ -71,25 +75,10 @@ class FiltredTableVulnersReport < BaseReport
   def get_records(options, organization)
     scope = Vulnerability
     if options[:q].present?
-      records_request(
-        ransack_filter_and_sort(scope, options)
-      )
+      q = scope.ransack(options[:q])
+      q.result.limit(2000)
     else
-      records_request(scope)
+      scope.all.limit(2000)
     end
-  end
-
-  def get_records(options, organization)
-    Vulnerability.actual_and_relevant
-  end
-
-  def records_request(scope)
-    scope.actual_and_relevant
-  end
-
-  def ransack_filter_and_sort(scope, options)
-    q = scope.ransack(options[:q])
-    q.result
-      .limit(500)
   end
 end
