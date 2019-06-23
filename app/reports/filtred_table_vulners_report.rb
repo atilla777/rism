@@ -30,6 +30,8 @@ class FiltredTableVulnersReport < BaseReport
       'Вектор CVSS',
       'Вектор атаки',
       'Наличие эксплоита',
+      'Актуальность',
+      'Релевантность',
       'Описание источника',
       'Описание',
       'Ссылка на NVD',
@@ -59,6 +61,8 @@ class FiltredTableVulnersReport < BaseReport
       row << record.show_cvss_vector
       row << record.show_cvss_av
       row << record.show_custom_exploit_maturity
+      row << record.show_custom_actuality
+      row << record.show_custom_relevance
       row << record.show_description_string
       row << record.custom_description
       row << record.show_link_nvd_codename
