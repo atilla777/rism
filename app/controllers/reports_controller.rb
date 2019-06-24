@@ -6,7 +6,7 @@ class ReportsController < ApplicationController
     report = Reports.report_by_name(params[:name])
       .new(current_user, params[:format].to_sym, params)
     file = if params[:format] == 'csv'
-      report.rendered_file.encode('Windows-1251')
+      report.rendered_file.encode('Windows-1251', invalid: :replace, undef: :replace)
     else
       report.rendered_file
     end
