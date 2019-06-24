@@ -24,7 +24,8 @@
   = r.show :custom_actuality, value: r.decorated.show_custom_actuality
   = r.show :relevance, value: r.decorated.show_relevance
   = r.show :custom_relevance, value: r.decorated.show_custom_relevance
-  = r.show :some_exploit_maturity, value: r.decorated.show_some_exploit_maturity
+  = r.show :exploit_maturity, value: r.decorated.show_exploit_maturity
+  = r.show :custom_exploit_maturity, value: r.decorated.show_custom_exploit_maturity
   = r.show :vendors, value: r.decorated.show_vendors
   = r.show :products, value: r.decorated.show_products
   = r.show :versions, value: truncate(r.decorated.show_versions_string, length: 2000)

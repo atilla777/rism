@@ -18,10 +18,10 @@ class FiltredTableVulnersReport < BaseReport
       'CVE ID',
       'CWE ID',
       'Источник',
-      'Дата публикации NVD',
       'Дата обновления NVD',
-      'Дата сохранения в базе',
+      'Дата публикации NVD',
       'Дата обновления в базе',
+      'Дата сохранения в базе',
       'Производители',
       'Продукты',
       'Версии',
@@ -49,10 +49,10 @@ class FiltredTableVulnersReport < BaseReport
       row << record.codename
       row << record.show_cwe
       row << record.show_feed
-      row << show_date_time(record.published)
       row << show_date_time(record.modified)
-      row << show_date_time(record.created_at)
+      row << show_date_time(record.published)
       row << show_date_time(record.updated_at)
+      row << show_date_time(record.created_at)
       row << record.show_vendors_text
       row << record.show_products_text
       row << record.show_versions_string(limit: 10, separator: "\n")
@@ -80,9 +80,23 @@ class FiltredTableVulnersReport < BaseReport
     scope = Vulnerability
     if options[:q].present?
       q = scope.ransack(options[:q])
+      q.sorts = default_sort if q.sorts.empty?
       q.result.limit(2000)
     else
-      scope.all.limit(2000)
+      scope.all.limit(2000).sort(default_sort)
     end
+  end
+
+  def default_sort
+    'modified desc'
+  end
+
+  def records(scope)
+    scope = policy_scope(scope)
+    @q = scope.ransack(params[:q])
+    @q.sorts = default_sort if @q.sorts.empty?
+    @q.result
+      .includes(records_includes)
+      .page(params[:page])
   end
 end

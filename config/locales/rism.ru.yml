@@ -132,10 +132,6 @@ ru:
       medium: 'Средняя'
       high: 'Высокая'
       critical: 'Критическая'
-      local: 'Локальный'
-      adjacent_network: 'Примыкающий сетевой'
-      network: 'Сетевой'
-      physical: 'Физический'
       toggle: 'Переключить'
     delivery_subject:
       allowed_delivery_lists: 'Доступные для назначения списки доставки'
