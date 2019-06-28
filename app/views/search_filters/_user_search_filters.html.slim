@@ -1,0 +1,7 @@
+- @search_filters.each do |filter|
+  =< link_to polymorphic_path(
+    filter.filtred_model.constantize,
+    search_filter_id: filter.id
+    ) do
+    span.btn.btn-default
+      = filter.name

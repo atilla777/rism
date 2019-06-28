@@ -109,6 +109,7 @@ end
     end
   end
   resources :delivery_recipients, only: [:index, :create, :destroy]
+  resources :search_filters
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

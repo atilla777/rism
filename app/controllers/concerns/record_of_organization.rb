@@ -8,6 +8,7 @@
 module RecordOfOrganization
   extend ActiveSupport::Concern
   include SharedMethods
+  include SearchFilterable
 
   def index
     authorize model

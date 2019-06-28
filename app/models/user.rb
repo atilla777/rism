@@ -30,6 +30,13 @@ class User < ApplicationRecord
 
   has_many :indicator, dependent: :destroy
 
+  def search_filters(model_str)
+    SearchFilter.where(
+      user_id: self.id,
+      filtred_model: model_str
+    )
+  end
+
   def show_full_name
     name
   end

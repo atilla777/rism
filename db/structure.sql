@@ -1420,6 +1420,44 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: search_filters; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.search_filters (
+    id bigint NOT NULL,
+    name character varying,
+    filtred_model character varying,
+    organization_id bigint,
+    user_id bigint,
+    shared boolean,
+    rank integer,
+    content text,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: search_filters_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.search_filters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: search_filters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.search_filters_id_seq OWNED BY public.search_filters.id;
+
+
+--
 -- Name: tag_kinds; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1929,6 +1967,13 @@ ALTER TABLE ONLY public.schedules ALTER COLUMN id SET DEFAULT nextval('public.sc
 
 
 --
+-- Name: search_filters id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.search_filters ALTER COLUMN id SET DEFAULT nextval('public.search_filters_id_seq'::regclass);
+
+
+--
 -- Name: tag_kinds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2264,6 +2309,14 @@ ALTER TABLE ONLY public.schedules
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: search_filters search_filters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.search_filters
+    ADD CONSTRAINT search_filters_pkey PRIMARY KEY (id);
 
 
 --
@@ -2847,6 +2900,20 @@ CREATE INDEX index_schedules_on_job_type_and_job_id ON public.schedules USING bt
 
 
 --
+-- Name: index_search_filters_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_search_filters_on_organization_id ON public.search_filters USING btree (organization_id);
+
+
+--
+-- Name: index_search_filters_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_search_filters_on_user_id ON public.search_filters USING btree (user_id);
+
+
+--
 -- Name: index_tag_kinds_on_code_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3193,6 +3260,14 @@ ALTER TABLE ONLY public.agreements
 
 
 --
+-- Name: search_filters fk_rails_56c4284722; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.search_filters
+    ADD CONSTRAINT fk_rails_56c4284722 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: scan_jobs fk_rails_59050ee868; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3278,6 +3353,14 @@ ALTER TABLE ONLY public.indicators
 
 ALTER TABLE ONLY public.delivery_recipients
     ADD CONSTRAINT fk_rails_833f5f3e8e FOREIGN KEY (delivery_list_id) REFERENCES public.delivery_lists(id);
+
+
+--
+-- Name: search_filters fk_rails_8b18112236; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.search_filters
+    ADD CONSTRAINT fk_rails_8b18112236 FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
 
 
 --
@@ -3523,6 +3606,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190529065940'),
 ('20190601061759'),
 ('20190601070608'),
-('20190602060535');
+('20190602060535'),
+('20190625133152');
 
 
