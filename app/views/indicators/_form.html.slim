@@ -20,12 +20,17 @@
             = f.select :purpose, Indicator.purposes.keys.collect { |purpose| [Indicator.human_enum_name(:purpose, purpose), purpose] }, { selected: @record.purpose || :not_set}, class: 'form-control'
 
 
-      .form-group.required
+      .form-group
         .field
           .col-lg-2.text-right
             = f.label :parent_id, class: 'control-label'
           .col-lg-8
-            => f.collection_select :parent_id, @record.investigation.indicators, :id, :content, {include_blank: true}, {class: 'form-control'}
+            => f.collection_select(:parent_id,
+                Investigation.find(@investigation&.id || @record.investigation.id).indicators,
+                :id,
+                :content,
+                {include_blank: true},
+                {class: 'form-control'})
 
       .form-group.required
         .field
