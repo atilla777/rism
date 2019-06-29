@@ -29,11 +29,16 @@ module SharedMethods
   # set Pundit scope, ransack query object and return query result
   def records(scope)
     scope = policy_scope(scope)
-    @q = scope.ransack(params[:q])
+    @q = scope.ransack(ransack_params)
     @q.sorts = default_sort if @q.sorts.empty?
     @q.result
       .includes(records_includes)
       .page(params[:page])
+  end
+
+  def ransack_params
+    return params[:q] unless params[:search_filter_id].present?
+    params[:q] = SearchFilter.find(params[:search_filter_id]).content
   end
 
   def set_show_previous_page

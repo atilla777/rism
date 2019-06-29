@@ -7,6 +7,4 @@ class SearchFilter < ApplicationRecord
   validates :user_id, numericality: { only_integer: true }
 
   belongs_to :user
-
-  serialize :content
 end

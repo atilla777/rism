@@ -30,10 +30,10 @@ class User < ApplicationRecord
 
   has_many :indicator, dependent: :destroy
 
-  def search_filters(model_str)
+  def search_filters(model)
     SearchFilter.where(
       user_id: self.id,
-      filtred_model: model_str
+      filtred_model: model.model_name.to_str
     )
   end
 

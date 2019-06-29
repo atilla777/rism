@@ -7,7 +7,7 @@ class CreateSearchFilters < ActiveRecord::Migration[5.1]
       t.references :user, foreign_key: true
       t.boolean :shared
       t.integer :rank
-      t.text :content
+      t.jsonb :content
       t.text :description
 
       t.timestamps

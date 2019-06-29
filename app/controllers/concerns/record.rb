@@ -5,6 +5,7 @@
 # (organization model included)
 module Record
   extend ActiveSupport::Concern
+  include SearchFilterable
   include SharedMethods
 
   def index

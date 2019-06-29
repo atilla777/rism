@@ -4,8 +4,9 @@ module SearchFilterable
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_ransack_params, only: %i[index]
-    before_action :set_search_filters, only: %i[index]
+    #before_action :set_ransack_params, only: %i[index search]
+    before_action :set_search_filters, only: %i[index search]
+    before_action :set_search_filter, only: %i[index search]
   end
 
   private
@@ -18,6 +19,10 @@ module SearchFilterable
   def set_search_filters
     # SearchFilter.where(shared: true).all
     @search_filters = current_user.search_filters(model)
+  end
+
+  def set_search_filter
+    @search_filter = SearchFilter.new
   end
 end
 

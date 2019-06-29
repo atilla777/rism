@@ -7,8 +7,8 @@
 #  but use own methods)
 module RecordOfOrganization
   extend ActiveSupport::Concern
-  include SharedMethods
   include SearchFilterable
+  include SharedMethods
 
   def index
     authorize model
