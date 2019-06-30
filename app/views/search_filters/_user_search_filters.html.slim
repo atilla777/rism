@@ -12,7 +12,7 @@
           method: :delete do
             = fa_icon 'remove',
               data_toggle: 'tooltip',
-              title: "#{t('views.action.delete')} #{filter.name}"
+              title: "#{t('views.action.delete')} #{filter.name} (#{filter.user.name})"
 
 - if params[:q].present?
   = link_to '#toggle-search-filter',

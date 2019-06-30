@@ -34,6 +34,11 @@ class User < ApplicationRecord
     SearchFilter.where(
       user_id: self.id,
       filtred_model: model.model_name.to_str
+    ).or(SearchFilter.where(
+        shared: true,
+        filtred_model: model.model_name.to_str,
+        organization_id: self.organization_id
+      )
     )
   end
 
