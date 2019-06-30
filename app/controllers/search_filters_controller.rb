@@ -21,6 +21,15 @@ class SearchFiltersController < ApplicationController
     )
   end
 
+  def destroy
+    @record = record
+    redirect_to_model = @record.filtred_model.constantize
+    authorize @record
+    @record.destroy
+    @organization = organization
+    redirect_to(polymorphic_url(redirect_to_model), organization_id: @organization.id)
+  end
+
   private
 
   def model

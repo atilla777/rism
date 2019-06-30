@@ -26,6 +26,8 @@
 
 #a:visited {color: #337ab7;}
 
+.text_dangerable:hover {color: red;}
+
 .btn-file {
     position: relative;
     overflow: hidden;
@@ -106,4 +108,4 @@ legend {
   color: white;
   border-radius: 0px;
   width: 100%;
-} 
+}

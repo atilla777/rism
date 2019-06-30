@@ -67,8 +67,8 @@
   = f.hidden_field :updated_at_end_of_day_lteq
   = f.hidden_field :updated_at_end_of_day_lteq
 
-  =< t('navigations.reports.download_filtred')
-  = f.button name: :format, value: :csv, type: 'submit', class: 'btn btn-link' do
+  = f.button name: :format, value: :csv, type: 'submit', class: 'btn btn-default' do
     span.text-info
-      => fa_icon 'save'
+      =<> fa_icon 'save'
       | csv
+    =< t('navigations.reports.download_filtred')

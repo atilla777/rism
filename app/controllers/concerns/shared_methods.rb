@@ -5,8 +5,8 @@ module SharedMethods
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_edit_previous_page, only: %i[index show]
-    before_action :set_show_previous_page, only: %i[index]
+    before_action :set_edit_previous_page, only: %i[index show search]
+    before_action :set_show_previous_page, only: %i[index search]
   end
 
   private
@@ -37,8 +37,20 @@ module SharedMethods
   end
 
   def ransack_params
-    return params[:q] unless params[:search_filter_id].present?
+    return clear_ransack_params if params[:q]
+    return if params[:search_filter_id].blank?
     params[:q] = SearchFilter.find(params[:search_filter_id]).content
+  end
+
+  def clear_ransack_params
+    params[:q].delete_if do |k, v|
+      if v.respond_to?(:all)
+        v.all?(&:blank?)
+      else
+        v.blank?
+      end
+    end
+
   end
 
   def set_show_previous_page
@@ -96,6 +108,7 @@ module SharedMethods
                     )
     end
   end
+# TODO: use or delete
 #  def group_field
 #    "#{model.table_name}.id"
 #  end

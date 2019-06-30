@@ -1,20 +1,43 @@
 - search_filters.each do |filter|
-  =< link_to polymorphic_path(filter.filtred_model.constantize,
-    search_filter_id: filter.id) do
-      span.btn.btn-default
+
+  span.btn.btn-default
+    =< link_to polymorphic_path(filter.filtred_model.constantize,
+      search_filter_id: filter.id),
+      data_toggle: 'tooltip',
+      title: filter.description do
         = filter.name
+        =< link_to filter,
+          class: 'text_dangerable',
+          data: {confirm: t('views.action.confirm')},
+          method: :delete do
+            = fa_icon 'remove',
+              data_toggle: 'tooltip',
+              title: "#{t('views.action.delete')} #{filter.name}"
+
 - if params[:q].present?
-  = form_for @search_filter, html: { class: 'form-inline' } do |f|
+  = link_to '#toggle-search-filter',
+    data: {toggle: 'collapse'},
+    turbolinks: false do
+      i.text-success
+        => fa_icon 'plus-circle'
+      = SearchFilter.model_name.human
+
+  = form_for @search_filter,
+    html: { class: 'form-inline collapse', id: 'toggle-search-filter' } do |f|
     = f.hidden_field :content, value: params[:q]
     = f.hidden_field :filtred_model, value: records.klass.model_name.to_str
     = f.hidden_field :user_id, value: current_user.id
     = f.hidden_field :organization_id, value: current_user.organization.id
-    =< f.text_field :name, class: 'form-control'
-    =<> f.number_field :rank, class: 'form-control'
+    =< f.text_field :name, class: 'form-control',
+      placeholder: t('activerecord.attributes.search_filter.name')
+    =< f.number_field :rank, size: 10, class: 'form-control',
+      placeholder:  t('activerecord.attributes.search_filter.rank')
+    =<> f.text_field :description, class: 'form-control',
+      placeholder: t('activerecord.attributes.search_filter.description')
     .checkbox
        label
          = f.check_box :shared, class: 'big-checkbox'
          strong
           | #{t('activerecord.attributes.search_filter.shared')}
-    =< f.text_field :description, class: 'form-control'
     =< f.submit t('helpers.submit.save'), class: 'btn btn-success'
+

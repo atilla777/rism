@@ -1,0 +1,15 @@
+ru:
+  activerecord:
+    models:
+      search_filter:
+        one: 'Фильтр поиска'
+        other: 'Фильтры поиска'
+    attributes:
+      search_filter:
+        name: 'Имя'
+        shared: 'Общий'
+        organization_id: 'Организация'
+        user_id: 'Пользователь'
+        filtred_model: 'Для'
+        rank: 'Порядок'
+        description: 'Описание'
