@@ -6,20 +6,8 @@ class VulnerabilitiesController < ApplicationController
   before_action :set_time, only: [:create, :update]
 
   def search
-    if params[:actual_and_relevant]
-      actual_and_relevant
-    else
-      index
-      render 'index'
-    end
-  end
-
-  def actual_and_relevant
-    authorize model
-    @actual_and_relevant = true
-    scope = model.actual_and_relevant
-    @records = records(scope)
-    render 'vulnerabilities/_actual_and_relevant'
+    index
+    render 'index'
   end
 
   def toggle_processed

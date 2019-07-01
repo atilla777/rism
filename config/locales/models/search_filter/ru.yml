@@ -6,10 +6,10 @@ ru:
         other: 'Фильтры поиска'
     attributes:
       search_filter:
-        name: 'Имя'
-        shared: 'Общий'
+        name: 'Имя фильтра'
+        shared: 'Общий в организации'
         organization_id: 'Организация'
         user_id: 'Пользователь'
         filtred_model: 'Для'
-        rank: 'Порядок'
-        description: 'Описание'
+        rank: 'Порядок отображения'
+        description: 'Описание фильтра'

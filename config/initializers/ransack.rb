@@ -1,13 +1,3 @@
-#module Arel
-#  module Predications
-#    def arr_contains(other)
-#      Nodes::Equality.new(
-#        Nodes.build_quoted(other, self),
-#        Nodes::NamedFunction.new('ANY', [self])
-#      )
-#    end
-#  end
-#end
 require 'arel/nodes/binary'
 require 'arel/predications'
 require 'arel/visitors/postgresql'
@@ -50,17 +40,49 @@ end
 
 Ransack.configure do |config|
   config.add_predicate :contains_array, arel_predicate: :contains
-end
-Ransack.configure do |config|
+
   config.add_predicate(
     'end_of_day_lteq',
     arel_predicate: 'lteq',
     formatter: proc { |v| v.end_of_day }
   )
-#  config.add_predicate(
-#    :arr_any_cont,
-#    arel_predicate: :arr_contains
-#  )
+
+  # last N days filter
+  config.add_predicate(
+    'last_days',
+    arel_predicate: 'gteq',
+    formatter: proc { |v| v.to_i.days.ago },
+    type: :integer,
+    compounds: false
+  )
+
+  # last N weeks filter
+  config.add_predicate(
+    'last_weeks',
+    arel_predicate: 'gteq',
+    formatter: proc { |v| v.to_i.weeks.ago },
+    type: :integer,
+    compounds: false
+  )
+
+  # last N months filter
+  config.add_predicate(
+    'last_months',
+    arel_predicate: 'gteq',
+    formatter: proc { |v| v.to_i.months.ago },
+    type: :integer,
+    compounds: false
+  )
+
+  # last N years filter
+  config.add_predicate(
+    'last_years',
+    arel_predicate: 'gteq',
+    formatter: proc { |v| v.to_i.years.ago },
+    type: :integer,
+    compounds: false
+  )
+
   config.add_predicate(
     :arr_cont,
     arel_predicate: :contained_within_or_equals,

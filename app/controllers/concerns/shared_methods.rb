@@ -50,7 +50,6 @@ module SharedMethods
         v.blank?
       end
     end
-
   end
 
   def set_show_previous_page

@@ -1,4 +1,4 @@
-button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_search_modal'
+button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='#advanced_search_modal'
   =< t('navigations.advanced_search')
 .modal.fade#advanced_search_modal tabindex='-1' role='dialog'
   = search_form_for @q, url: search_vulnerabilities_path, html: { class: 'form-horizontal', method: :post } do |f|
@@ -19,7 +19,7 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                 .field
                   .col-lg-1.text-right
                     = f.label :actuality, class: 'control-label'
-                  .col-lg-3
+                  .col-lg-4
                      = f.collection_check_boxes :actuality_in, Vulnerability.actualities, :last, :first, {}, class: 'big-checkbox' do |b|
                        =< b.check_box
                        span.text-info
@@ -29,7 +29,7 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                   .field
                     .col-lg-1.text-right
                       = f.label :custom_actuality, class: 'control-label'
-                    .col-lg-3
+                    .col-lg-4
                        = f.collection_check_boxes :custom_actuality_in, Vulnerability.custom_actualities, :last, :first, {}, class: 'big-checkbox' do |b|
                          =< b.check_box
                          span.text-info
@@ -40,7 +40,7 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                 .field
                   .col-lg-1.text-right
                     = f.label :relevance, class: 'control-label'
-                  .col-lg-3
+                  .col-lg-4
                      = f.collection_check_boxes :relevance_in, Vulnerability.relevances, :last, :first, {}, class: 'big-checkbox' do |b|
                        =< b.check_box
                        span.text-info
@@ -51,7 +51,7 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                     .field
                       .col-lg-1.text-right
                         = f.label :custom_relevance, class: 'control-label'
-                      .col-lg-2
+                      .col-lg-4
                          = f.collection_check_boxes :custom_relevance_in, Vulnerability.custom_relevances, :last, :first, {}, class: 'big-checkbox' do |b|
                            =< b.check_box
                            span.text-info
@@ -61,15 +61,18 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                 .field
                   .col-lg-1.text-right
                     = f.label :exploit_maturity, class: 'control-label'
-                  .col-lg-3
+                  .col-lg-9
                      = f.collection_check_boxes :exploit_maturity_in, Vulnerability.exploit_maturities, :last, :first, {}, class: 'big-checkbox' do |b|
                        =< b.check_box
                        span.text-info
                          =< Vulnerability.human_enum_name(:exploit_maturity, b.text)
+
+            .form-group
+              .form-row
                 .field
                   .col-lg-1.text-right
                     = f.label :custom_exploit_maturity, class: 'control-label'
-                  .col-lg-3
+                  .col-lg-9
                      = f.collection_check_boxes :custom_exploit_maturity_in, Vulnerability.exploit_maturities, :last, :first, {}, class: 'big-checkbox' do |b|
                        =< b.check_box
                        span.text-info
@@ -267,16 +270,69 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                   .col-lg-1.text-right
                     = f.label :published, class: 'control-label'
                   .col-lg-2
-                    = f.date_field :published_gteq, class: 'form-control', datepicker: true
+                    = f.date_field :published_gteq,
+                      class: 'form-control',
+                      datepicker: true,
+                      placeholder: t('placeholders.from')
                   .col-lg-2
-                    = f.date_field :published_end_of_day_lteq, class: 'form-control', datepicker: true
+                    = f.date_field :published_end_of_day_lteq,
+                      class: 'form-control',
+                      datepicker: true,
+                      placeholder: t('placeholders.to')
                 .field
                   .col-lg-1.text-right
                     = f.label :modified, class: 'control-label'
                   .col-lg-2
-                    = f.date_field :modified_gteq, class: 'form-control', datepicker: true
+                    = f.date_field :modified_gteq,
+                      class: 'form-control',
+                      datepicker: true,
+                      placeholder: t('placeholders.from')
                   .col-lg-2
-                    = f.date_field :modified_end_of_day_lteq, class: 'form-control', datepicker: true
+                    = f.date_field :modified_end_of_day_lteq,
+                      class: 'form-control',
+                      datepicker: true,
+                      placeholder: t('placeholders.to')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :published, class: 'control-label'
+                  .col-lg-1
+                    = f.number_field :published_last_days,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_days')
+                  .col-lg-1
+                    = f.number_field :published_last_weeks,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_weeks')
+                  .col-lg-1
+                    = f.number_field :published_last_months,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_months')
+                  .col-lg-1
+                    = f.number_field :published_last_years,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_years')
+                .field
+                  .col-lg-1.text-right
+                    = f.label :modified, class: 'control-label'
+                  .col-lg-1
+                    = f.number_field :modified_last_days,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_days')
+                  .col-lg-1
+                    = f.number_field :modified_last_weeks,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_weeks')
+                  .col-lg-1
+                    = f.number_field :modified_last_months,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_months')
+                  .col-lg-1
+                    = f.number_field :modified_last_years,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_years')
 
             .form-group
               .form-row
@@ -284,16 +340,25 @@ button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_
                   .col-lg-1.text-right
                     = f.label :created_at, class: 'control-label'
                   .col-lg-2
-                    = f.date_field :created_at_gteq, class: 'form-control', datepicker: true
+                    = f.date_field :created_at_gteq,
+                      class: 'form-control',
+                      datepicker: true
                   .col-lg-2
-                    = f.date_field :created_at_end_of_day_lteq, class: 'form-control', datepicker: true
+                    = f.date_field :created_at_end_of_day_lteq,
+                      class: 'form-control',
+                      datepicker: true
                 .field
                   .col-lg-1.text-right
-                    = f.label :updated_at, class: 'control-label'
+                    = f.label :updated_at,
+                      class: 'control-label'
                   .col-lg-2
-                    = f.date_field :updated_at_gteq, class: 'form-control', datepicker: true
+                    = f.date_field :updated_at_gteq,
+                      class: 'form-control',
+                      datepicker: true
                   .col-lg-2
-                    = f.date_field :updated_at_end_of_day_lteq, class: 'form-control', datepicker: true
+                    = f.date_field :updated_at_end_of_day_lteq,
+                      class: 'form-control',
+                      datepicker: true
 
         .modal-footer
           button.btn.btn-default type='button' data-dismiss='modal'

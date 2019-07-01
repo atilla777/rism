@@ -13,11 +13,11 @@ module SearchFilterable
   def set_search_filters
     # SearchFilter.where(shared: true).all
     @search_filters = current_user.search_filters(model)
+      .includes(:user)
+      .order(rank: :asc)
   end
 
   def set_search_filter
     @search_filter = SearchFilter.new
   end
 end
-
-

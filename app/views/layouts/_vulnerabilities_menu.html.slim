@@ -11,8 +11,3 @@ ul.nav.navbar-nav
             .text-info
               = fa_icon 'bug'
               =< Vulnerability.model_name.human(count: 2)
-        li
-          = link_to actual_and_relevant_vulnerabilities_path do
-            .text-info
-              = fa_icon 'bug'
-              =< t('navigations.actual_and_relevant_vulnerabilities')

@@ -1,11 +1,13 @@
 - search_filters.each do |filter|
 
-  span.btn.btn-default
+  = content_tag :span,
+    class: filter.id == params[:search_filter_id].to_i  ? 'btn btn-primary' : 'btn btn-default'
     =< link_to polymorphic_path(filter.filtred_model.constantize,
       search_filter_id: filter.id),
       data_toggle: 'tooltip',
       title: filter.description do
-        = filter.name
+        = fa_icon 'filter'
+        =< filter.name
         =< link_to filter,
           class: 'text_dangerable',
           data: {confirm: t('views.action.confirm')},
@@ -15,7 +17,8 @@
               title: "#{t('views.action.delete')} #{filter.name} (#{filter.user.name})"
 
 - if params[:q].present?
-  = link_to '#toggle-search-filter',
+  =< link_to '#toggle-search-filter',
+    class: 'btn',
     data: {toggle: 'collapse'},
     turbolinks: false do
       i.text-success
@@ -28,11 +31,16 @@
     = f.hidden_field :filtred_model, value: records.klass.model_name.to_str
     = f.hidden_field :user_id, value: current_user.id
     = f.hidden_field :organization_id, value: current_user.organization.id
-    =< f.text_field :name, class: 'form-control',
+    =< f.text_field :name,
+      class: 'form-control',
+      size: 50,
       placeholder: t('activerecord.attributes.search_filter.name')
-    =< f.number_field :rank, size: 10, class: 'form-control',
+    =< f.number_field :rank,
+      class: 'form-control',
       placeholder:  t('activerecord.attributes.search_filter.rank')
-    =<> f.text_field :description, class: 'form-control',
+    =<> f.text_field :description,
+      class: 'form-control',
+      size: 100,
       placeholder: t('activerecord.attributes.search_filter.description')
     .checkbox
        label

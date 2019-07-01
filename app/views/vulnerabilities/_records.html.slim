@@ -3,6 +3,7 @@
 = command_button_for records
 = render 'search_form'
 = render 'download_search_form' if ['index', 'search'].include?(params[:action])
+br
 = render('search_filters/user_search_filters',
   search_filters: @search_filters,
   records: records)

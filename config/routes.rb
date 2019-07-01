@@ -92,7 +92,6 @@ end
   resources :vulnerabilities do
     collection do
       match 'search' => 'vulnerabilities#search', via: [:get, :post], as: :search
-      get 'actual_and_relevant'
     end
     member do
       patch :toggle_processed
