@@ -27,7 +27,9 @@
   = r.show :exploit_maturity, value: r.decorated.show_exploit_maturity
   = r.show :custom_exploit_maturity, value: r.decorated.show_custom_exploit_maturity
   = r.show :vendors, value: r.decorated.show_vendors
+  = r.show :custom_vendors, value: r.decorated.show_custom_vendors
   = r.show :products, value: r.decorated.show_products
+  = r.show :custom_products, value: r.decorated.show_custom_products
   = r.show :versions, value: truncate(r.decorated.show_versions_string, length: 2000)
   = r.show :cwe do
     - @record.cwe.each do |link|
