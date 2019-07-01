@@ -72,18 +72,6 @@ table.table.table-hover.table-bordered.table-striped
     tr
       td.col-md-2.text-right
         strong.text-info
-          = @record.class.human_attribute_name(:exploit_maturity)
-      td
-        = decorated.show_exploit_maturity
-    tr
-      td.col-md-2.text-right
-        strong.text-info
-          = @record.class.human_attribute_name(:custom_exploit_maturity)
-      td
-        = decorated.show_custom_exploit_maturity
-    tr
-      td.col-md-2.text-right
-        strong.text-info
           = @record.class.human_attribute_name(:cvss3)
       td
         = @record.cvss3

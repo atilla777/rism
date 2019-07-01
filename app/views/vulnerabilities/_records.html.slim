@@ -21,8 +21,8 @@ br
   - t.header attribute: :custom_relevance, sort: :desc
   - t.header attribute: :codename, sort: :desc
   - t.header attribute: :description, sort: :desc
-  - t.header attribute: :vendors, sort: :desc
-  - t.header attribute: :products, sort: :desc
+  - t.header attribute: :some_vendors, sort: :desc
+  - t.header attribute: :some_products, sort: :desc
   - t.field { |record| link_to(show_date_time(record.modified), record) }
   - t.field { |record| link_to(show_date_time(record.published), record) }
   - t.field do |record|
