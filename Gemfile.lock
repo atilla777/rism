@@ -239,7 +239,7 @@ GEM
     parallel (1.12.1)
     parser (2.5.0.5)
       ast (~> 2.4.0)
-    pg (0.21.0)
+    pg (1.1.4)
     pg_search (2.1.2)
       activerecord (>= 4.2)
       activesupport (>= 4.2)
@@ -477,7 +477,7 @@ DEPENDENCIES
   oj (~> 3.7.12)
   overcommit (~> 0.44)
   paper_trail (~> 8.1)
-  pg (~> 0.21)
+  pg (~> 1.1.4)
   pg_search (~> 2.1)
   puma (~> 3.11)
   pundit (~> 1.1)
@@ -508,4 +508,4 @@ DEPENDENCIES
   web-console (~> 3.5)
 
 BUNDLED WITH
-   1.16.2
+   1.17.3
