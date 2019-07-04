@@ -1698,7 +1698,8 @@ CREATE TABLE public.vulnerabilities (
     created_by_id bigint,
     updated_by_id bigint,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    vulnerability_kind_id bigint
 );
 
 
@@ -1719,6 +1720,38 @@ CREATE SEQUENCE public.vulnerabilities_id_seq
 --
 
 ALTER SEQUENCE public.vulnerabilities_id_seq OWNED BY public.vulnerabilities.id;
+
+
+--
+-- Name: vulnerability_kinds; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.vulnerability_kinds (
+    id bigint NOT NULL,
+    name character varying,
+    description character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vulnerability_kinds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.vulnerability_kinds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vulnerability_kinds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.vulnerability_kinds_id_seq OWNED BY public.vulnerability_kinds.id;
 
 
 --
@@ -2013,6 +2046,13 @@ ALTER TABLE ONLY public.versions ALTER COLUMN id SET DEFAULT nextval('public.ver
 --
 
 ALTER TABLE ONLY public.vulnerabilities ALTER COLUMN id SET DEFAULT nextval('public.vulnerabilities_id_seq'::regclass);
+
+
+--
+-- Name: vulnerability_kinds id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_kinds ALTER COLUMN id SET DEFAULT nextval('public.vulnerability_kinds_id_seq'::regclass);
 
 
 --
@@ -2365,6 +2405,14 @@ ALTER TABLE ONLY public.versions
 
 ALTER TABLE ONLY public.vulnerabilities
     ADD CONSTRAINT vulnerabilities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vulnerability_kinds vulnerability_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_kinds
+    ADD CONSTRAINT vulnerability_kinds_pkey PRIMARY KEY (id);
 
 
 --
@@ -3124,6 +3172,13 @@ CREATE INDEX index_vulnerabilities_on_vendors ON public.vulnerabilities USING gi
 
 
 --
+-- Name: index_vulnerabilities_on_vulnerability_kind_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerabilities_on_vulnerability_kind_id ON public.vulnerabilities USING btree (vulnerability_kind_id);
+
+
+--
 -- Name: scan_job_logs fk_rails_013b129140; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3289,6 +3344,14 @@ ALTER TABLE ONLY public.incidents
 
 ALTER TABLE ONLY public.role_members
     ADD CONSTRAINT fk_rails_5d78265c8c FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: vulnerabilities fk_rails_5f089792db; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerabilities
+    ADD CONSTRAINT fk_rails_5f089792db FOREIGN KEY (vulnerability_kind_id) REFERENCES public.vulnerability_kinds(id);
 
 
 --
@@ -3607,6 +3670,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190601061759'),
 ('20190601070608'),
 ('20190602060535'),
-('20190625133152');
+('20190625133152'),
+('20190704143524'),
+('20190704145457');
 
 

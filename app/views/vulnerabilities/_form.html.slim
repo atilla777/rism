@@ -20,6 +20,14 @@
             = link_to '#', data: { set_time: 'published', turbolinks: false } do
               = fa_icon 'clock-o'
 
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :vulnerability_kind_id, class: 'control-label'
+          .col-lg-2
+            = f.collection_select :vulnerability_kind_id, VulnerabilityKind.all, :id, :name, { include_blank: true }, { class: 'form-control' }
+
+
       .form-group.required
         .field
           .col-lg-2.text-right
