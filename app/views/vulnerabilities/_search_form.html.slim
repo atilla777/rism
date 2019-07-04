@@ -82,6 +82,19 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
               .form-row
                 .field
                   .col-lg-1.text-right
+                    = f.label :processed, class: 'control-label'
+                  .col-lg-2
+                    = f.select :processed_not_eq,
+                      [[t('labels.yes_label'), 0],
+                      [t('labels.no_label'), 1]],
+                      {include_blank: t('labels.all_label'),
+                      selected: params.dig(:q, :processed_not_eq)},
+                      class: 'form-control'
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
                     = f.label :codename, class: 'control-label'
                   .col-lg-2
                     = f.text_field :codename_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
