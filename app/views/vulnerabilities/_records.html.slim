@@ -55,10 +55,7 @@ br
     - else
         = link_to record.show_custom_actuality, record
   - t.field do |record|
-    - if record.custom_relevance_relevant?
-      = link_to record.show_custom_relevance, record, class: 'text-warning'
-    - else
-      = link_to record.show_custom_relevance, record
+    = render 'custom_relevance', record: record
   - t.field do |record|
     - if record.nvd?
       a href=record.show_link_nvd_codename

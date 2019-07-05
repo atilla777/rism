@@ -1,0 +1,12 @@
+. id="#{record.id}_relevance"
+  - if record.custom_relevance == 'relevant'
+    - klass = 'text-warning'
+  - else
+    - klass = ''
+  = link_to toggle_custom_relevance_vulnerability_path(record),
+    method: :patch,
+    remote: true,
+    data: {confirm: t('views.action.confirm')},
+    class: 'btn btn-link' do
+    = tag.span class: klass
+      = record.show_custom_relevance

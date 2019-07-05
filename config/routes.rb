@@ -95,6 +95,7 @@ end
     end
     member do
       patch :toggle_processed
+      patch :toggle_custom_relevance
     end
   end
   resources :custom_fields
