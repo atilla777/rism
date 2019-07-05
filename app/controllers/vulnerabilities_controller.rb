@@ -19,11 +19,11 @@ class VulnerabilitiesController < ApplicationController
   def toggle_custom_relevance
     case record.custom_relevance
     when 'not_set'
-      relevance = 'relevant'
-    when 'relevant'
       relevance = 'not_relevant'
-    else
+    when 'relevant'
       relevance = 'not_set'
+    else
+      relevance = 'relevant'
     end
     record.update_attribute(:custom_relevance, relevance)
     record.update_attribute(:updated_by_id, current_user.id)
