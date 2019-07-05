@@ -37,6 +37,7 @@ module Right::SubjectTypes
     'DeliveryList' => I18n.t('activerecord.models.delivery_list.one'),
     'DeliveryListMember' => I18n.t('activerecord.models.delivery_recipient.one'),
     'DeliverySubject' => I18n.t('activerecord.models.delivery_subject.one'),
-    'SearchFilter' => I18n.t('activerecord.models.search_filter.one')
+    'SearchFilter' => I18n.t('activerecord.models.search_filter.one'),
+    'Vulnerabilitykind' => I18n.t('activerecord.models.vulnerability_kind.one'),
   }.freeze
 end

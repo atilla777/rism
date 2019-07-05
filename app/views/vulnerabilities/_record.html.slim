@@ -13,6 +13,7 @@
         = @record.codename
     - else
       = @record.codename
+  = r.show :vulnerability_kind_id, value: record.vulnerability_kind&.name
   = r.show :state, value: r.decorated.show_state
   = r.show :processed, value: r.decorated.show_processed
   = r.show :processed_by_id
