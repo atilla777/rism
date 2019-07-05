@@ -16,6 +16,9 @@ class FiltredTableVulnersReport < BaseReport
     header = [
       '№',
       'CVE ID',
+      'Обработано',
+      'Обработал',
+      'Категория',
       'CWE ID',
       'Источник',
       'Дата обновления NVD',
@@ -47,6 +50,9 @@ class FiltredTableVulnersReport < BaseReport
 
       row << index + 1
       row << record.codename
+      row << record.show_processed
+      row << record.processor&.name
+      row << record.vulnerability_kind&.name
       row << record.show_cwe
       row << record.show_feed
       row << show_date_time(record.modified)
