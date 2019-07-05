@@ -37,12 +37,13 @@ module SharedMethods
   end
 
   def ransack_params
-    return clear_ransack_params if params[:q]
+    return prepare_ransack_params if params[:q]
     return if params[:search_filter_id].blank?
     params[:q] = SearchFilter.find(params[:search_filter_id]).content
   end
 
-  def clear_ransack_params
+  def prepare_ransack_params
+    custom_prepare_ransack_params
     params[:q].delete_if do |k, v|
       if v.respond_to?(:all)
         v.all?(&:blank?)
@@ -51,6 +52,8 @@ module SharedMethods
       end
     end
   end
+
+  def custom_prepare_ransack_params; end
 
   def set_show_previous_page
     session[:show_return_to] = request.original_url

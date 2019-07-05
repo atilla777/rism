@@ -13,7 +13,6 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
         .modal-body
           .row
 
-
             .form-group
               .form-row
                 .field
@@ -102,7 +101,10 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
               .form-row
                 .field
                   .col-lg-1.text-right
-                    = f.label :codename, class: 'control-label'
+                    a.link data-toggle='collapse' href='#toggle_codename_in'
+                      strong.control-label
+                        = t('activerecord.attributes.vulnerability.codename')
+                        =< fa_icon('hand-pointer-o')
                   .col-lg-2
                     = f.text_field :codename_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
                   .col-lg-2
@@ -124,6 +126,19 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
                       =< b.check_box
                       span.text-info
                         =< Vulnerability.human_enum_name(:feed, b.text)
+
+            .form-group.collapse#toggle_codename_in
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label t('activerecord.attributes.vulnerability.codenames'),
+                      class: 'control-label'
+                  .col-lg-9
+                    = f.text_area :codename_in,
+                      rows: 20,
+                      class: 'form-control',
+                      placeholder: t('views.shared.placeholders.eq_list_filter'),
+                      value: params.dig(:q, :codename_in)&.join("\n")
 
             .form-group
               .field

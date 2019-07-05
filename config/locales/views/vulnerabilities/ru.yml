@@ -5,6 +5,7 @@ ru:
         cont_list_filter: 'все (значение1, значениеN)'
         over_list_filter: 'любое (значение1, значениеN)'
         eq_filter: 'равно'
+        eq_list_filter: 'равно значениям из списка (одно значение на строке)'
         cont_filter: 'содержит'
     vulnerabilities:
       placeholders:
