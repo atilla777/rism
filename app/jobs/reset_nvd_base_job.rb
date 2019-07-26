@@ -41,7 +41,6 @@ class ResetNvdBaseJob < ApplicationJob
   def download_gz_file(uri, gz_save_path)
     File.open(gz_save_path, "w") do |file|
       file.binmode
-      }
       HTTParty.get(uri, options.merge(stream_body: true)) do |fragment|
         file.write(fragment)
       end

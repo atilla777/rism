@@ -92,8 +92,6 @@ class SyncNvdBaseJob < ApplicationJob
 
   def options
     return {} if ENV['PROXY_SERVER'].blank?
-    puts '!!!!!!!!!'
-    puts ENV['PROXY_PASSWORD']
     {
       verify: false,
       http_proxyaddr: ENV['PROXY_SERVER'],
