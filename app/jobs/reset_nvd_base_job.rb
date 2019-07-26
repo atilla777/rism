@@ -41,10 +41,22 @@ class ResetNvdBaseJob < ApplicationJob
   def download_gz_file(uri, gz_save_path)
     File.open(gz_save_path, "w") do |file|
       file.binmode
-      HTTParty.get(uri, stream_body: true) do |fragment|
+      }
+      HTTParty.get(uri, options.merge(stream_body: true)) do |fragment|
         file.write(fragment)
       end
     end
+  end
+
+  def options
+    return {} if ENV['PROXY_SERVER'].blank?
+    {
+      verify: false,
+      http_proxyaddr: ENV['PROXY_SERVER'],
+      http_proxyport: ENV['PROXY_PORT'],
+      http_proxyuser: ENV['PROXY_USER'],
+      http_proxypass: ENV['PROXY_PASSWORD'],
+    }
   end
 
   def extract_gz_file(path, year)
