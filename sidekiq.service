@@ -4,6 +4,9 @@ After=syslog.target network.target
 
 [Service]
 Type=simple
+
+User=rism
+
 Environment=RAILS_ENV=production
 EnvironmentFile=/home/rism/prod/shared/.env.production
 WorkingDirectory=/home/rism/prod/current

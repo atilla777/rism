@@ -56,7 +56,7 @@ class NetScan::VuldbService
   end
 
   def log_error(error, tag)
-    logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_erros.log"))
+    logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_error.log"))
     logger.tagged("SCAN_JOB (#{Time.now}): #{tag}") do
       logger.error(error)
     end

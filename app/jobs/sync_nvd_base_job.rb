@@ -45,7 +45,7 @@ class SyncNvdBaseJob < ApplicationJob
               .response
               .body
     rescue StandardError
-      logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
+      logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_error.log'))
       logger.tagged("SYNC_NVD:") do
         logger.error("meta file can`t be saved (network error?)")
       end
@@ -97,7 +97,7 @@ class SyncNvdBaseJob < ApplicationJob
       http_proxyaddr: ENV['PROXY_SERVER'],
       http_proxyport: ENV['PROXY_PORT'],
       http_proxyuser: ENV['PROXY_USER'],
-      http_proxypass: ENV['PROXY_PASSWORD'],
+      http_proxypass: ENV['PROXY_PASSWORD']
     }
   end
 

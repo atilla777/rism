@@ -94,7 +94,7 @@ class NetScan::NmapScan
     )
     scan_result.save!
   rescue ActiveRecord::RecordInvalid
-    logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
+    logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_error.log'))
     logger.tagged("SCAN_JOB: #{scan_result}") do
       logger.error("scan result can`t be saved - #{scan_result.errors.full_messages}")
     end
