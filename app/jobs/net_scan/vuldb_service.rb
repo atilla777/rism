@@ -32,7 +32,21 @@ class NetScan::VuldbService
         apikey: @key,
         advancedsearch: search_string
     }
-    HTTParty.post(SERVICE_URL,  body: request_params)
+    HTTParty.post(
+      SERVICE_URL,
+      options.merge(body: request_params)
+    )
+  end
+
+  def options
+    return {} if ENV['PROXY_SERVER'].blank?
+    {
+      verify: false,
+      http_proxyaddr: ENV['PROXY_SERVER'],
+      http_proxyport: ENV['PROXY_PORT'],
+      http_proxyuser: ENV['PROXY_USER'],
+      http_proxypass: ENV['PROXY_PASSWORD']
+    }
   end
 
   def check_service_error(response)

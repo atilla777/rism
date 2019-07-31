@@ -62,7 +62,10 @@ class NetScan::ShodanScan
   end
 
   def get(ip)
-    response = HTTParty.get("#{URL}shodan/host/#{ip}?key=#{@key}")
+    response = HTTParty.get(
+      "#{URL}shodan/host/#{ip}?key=#{@key}",
+      options
+    )
     raise 'Shodan response error' if shodan_unexpected_error?(response)
     response.parsed_response
   rescue StandardError => err
@@ -70,8 +73,19 @@ class NetScan::ShodanScan
     {'error' => err}
   end
 
+  def options
+    return {} if ENV['PROXY_SERVER'].blank?
+    {
+      verify: false,
+      http_proxyaddr: ENV['PROXY_SERVER'],
+      http_proxyport: ENV['PROXY_PORT'],
+      http_proxyuser: ENV['PROXY_USER'],
+      http_proxypass: ENV['PROXY_PASSWORD']
+    }
+  end
+
   def log_error(error, tag)
-    logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_erros.log"))
+    logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_error.log"))
     logger.tagged("SCAN_JOB (#{Time.now}): #{tag}") do
       logger.error(error)
     end

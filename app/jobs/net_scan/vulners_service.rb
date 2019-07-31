@@ -15,7 +15,8 @@ class NetScan::VulnersService
     # TODO: add argument error
     return {} if wrong_options?
     response = HTTParty.get(
-      "#{SERVICE_URL}?software=#{@software}:&version=#{@version}&type=#{@type}"
+      "#{SERVICE_URL}?software=#{@software}:&version=#{@version}&type=#{@type}",
+      options
     )
     # TODO remove after debug
     puts response
@@ -28,6 +29,17 @@ class NetScan::VulnersService
   end
 
   private
+
+  def options
+    return {} if ENV['PROXY_SERVER'].blank?
+    {
+      verify: false,
+      http_proxyaddr: ENV['PROXY_SERVER'],
+      http_proxyport: ENV['PROXY_PORT'],
+      http_proxyuser: ENV['PROXY_USER'],
+      http_proxypass: ENV['PROXY_PASSWORD']
+    }
+  end
 
   def wrong_options?
     return true if @software.nil?
