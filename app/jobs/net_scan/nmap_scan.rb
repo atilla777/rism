@@ -25,7 +25,9 @@ class NetScan::NmapScan
 
   def run
     # scan and save result to XML file
-    Nmap::Program.sudo_scan(@scan_options)
+    unless  Nmap::Program.sudo_scan(@scan_options)
+      log_error("nmap programm finished with status 1", 'nmap scan')
+    end
     # save result from XML to database
     parse_and_save_result
   end
@@ -85,6 +87,15 @@ class NetScan::NmapScan
       end
     end
     File.delete(@result_path)
+  rescue StandardError => error
+    log_error("scan result can`t be opened - #{error}", 'nmap scan')
+  end
+
+  def log_error(error, tag)
+    logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_error.log"))
+    logger.tagged("SCAN_JOB (#{Time.now}): #{tag}") do
+      logger.error(error)
+    end
   end
 
   def save_to_database(result_attributes)

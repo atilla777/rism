@@ -68,9 +68,9 @@ class NetScan::ShodanScan
     )
     raise 'Shodan response error' if shodan_unexpected_error?(response)
     response.parsed_response
-  rescue StandardError => err
-    log_error("scan result can`t be fetched - #{err}", 'shodan')
-    {'error' => err}
+  rescue StandardError => error
+    log_error("scan result can`t be fetched - #{error}", 'shodan scan')
+    {'error' => error}
   end
 
   def options
