@@ -12,7 +12,6 @@ class NetScan::NmapScan
     :'open|filtered' => 'open_filtered',
     :'open' => 'open'
   }.freeze
-  #NMAP_RESULT_PATH = 'tmp'
 
   def initialize(job, jid)
     @job = job
@@ -34,24 +33,24 @@ class NetScan::NmapScan
   private
 
   def scan_options
-    scan_options = @job.scan_option.options.select { |_key, value| value.to_i.nonzero? }
+    result = @job.scan_option.options.select { |_key, value| value.to_i.nonzero? }
     ports = if @job.ports.present?
               normalize_ports(@job.ports)
-            elsif scan_options[:ports].present?
-              normalize_ports(scan_options[:ports])
+            elsif result[:ports].present?
+              normalize_ports(result[:ports])
             end
-    top_ports = scan_options[:top_ports] if scan_options[:top_ports].present?
-    scan_options.update(scan_options) do |key, value|
+    top_ports = result[:top_ports] if result[:top_ports].present?
+    result.update(result) do |key, value|
       value = true if value == '1'
     end
-    scan_options[:xml] = @result_path
-    scan_options[:targets] = @job.targets
-    scan_options[:verbose] = true
-    scan_options[:ports] = ports if ports.present?
+    result[:xml] = @result_path
+    result[:targets] = @job.targets
+    result[:verbose] = true
+    result[:ports] = ports if ports.present?
     if top_ports.present? && ports.blank?
-      scan_options[:top_ports] = top_ports.to_i
+      result[:top_ports] = top_ports.to_i
     end
-    scan_options
+    result
   end
 
   def normalize_ports(ports)
@@ -147,7 +146,7 @@ class NetScan::NmapScan
 
   def set_result_path
     # path to XML file with nmap scan results
-    result_folder = Rails.root.join('tmp', 'nmap')#NMAP_RESULT_PATH
+    result_folder = Rails.root.join('tmp', 'nmap')
     FileUtils.mkdir_p(result_folder) unless File.directory?(result_folder)
     # XML file name
     result_file = "#{@job.id}_#{@job_start.strftime('%Y.%m.%d-%H.%M.%6N')}_nmap.xml"
