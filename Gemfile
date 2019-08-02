@@ -59,7 +59,7 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'authlogic', '~> 3.6'
-gem 'bootstrap-sass', '~> 3.3'
+gem 'bootstrap-sass', '~> 3.4'
 gem 'bootswatch-rails', "~> 3.3"
 gem 'font-awesome-rails', "~> 4.7"
 gem 'jquery-rails', "~> 4.3"
@@ -74,11 +74,11 @@ gem 'carrierwave', '~> 1.2'
 gem 'dotenv-rails', "~> 2.2"
 gem 'caracal', "~> 1.1"
 #gem 'blazer'
-gem "chartkick", "~> 2.3"
+gem "chartkick", "~> 3.2" # 2.3
 gem 'groupdate', "~> 4.0"
 gem 'hightop', "~> 0.2"
 gem 'ckeditor', '~> 4.2'
-gem 'mini_magick', '~> 4.8'
+gem 'mini_magick', '~> 4.9' # 4.8
 gem 'pg_search', '~> 2.1'
 gem 'sidekiq', '~> 5.1.3'
 gem 'rufus-scheduler', '3.4.2' # TODO: check that newer versions API (> 3.4.2) was fixed and work
