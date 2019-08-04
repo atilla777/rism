@@ -15,6 +15,7 @@ module OrganizationRelative
     # TODO: solve problem with - factory_bot to_create not work
     # (make session user  creation via User.new User.save(validation: false))
     # and remove unless below
+    # TODO: it should be moved to policy
     validate :organization_id_is_allowed, unless: -> { Rails.env.test? }
   end
 
@@ -23,6 +24,7 @@ module OrganizationRelative
     return if current_user.admin_editor?
     return if current_user.can_read_model_index?(self.class)
     return if current_user.allowed_organizations_ids.include?(organization_id)
+    return if current_user == self
     # TODO: add translation
     errors.add(:organization_id, 'parent id is not allowed')
   end

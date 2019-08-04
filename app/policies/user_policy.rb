@@ -1,7 +1,7 @@
 class UserPolicy < ApplicationPolicy
-  def permitted_attributes
+  def permitted_attributes(record)
     if user.admin?
-      %i[name
+      result = %i[name
          organization_id
          email
          phone
@@ -16,17 +16,31 @@ class UserPolicy < ApplicationPolicy
          rank
          description]
     else
-      %i[name
-         organization_id
-         email
-         phone
-         mobile_phone
-         job
-         current_user
-         department_id
-         department_name
-         rank
-         description]
+      result = %i[name
+        organization_id
+        email
+        phone
+        mobile_phone
+        job
+        current_user
+        department_id
+        department_name
+        rank
+        description]
+      if @user == record
+        result = result + %i[password password_confirmation]
+      end
     end
+    result
+  end
+
+  def edit?
+    return true if @user.admin_editor?
+    return true if @user.can? :edit, @record
+    @user == @record
+  end
+
+  def update?
+    edit?
   end
 end

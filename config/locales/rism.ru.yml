@@ -35,6 +35,7 @@ ru:
     yes_label: 'Да'
     no_label: 'Нет'
     all_label: 'Все'
+    user_has_no_roles: 'Пользователю не назначены роли - обратитесь к администратору.'
     user:
       active: 'Да'
       not_active: 'Нет'

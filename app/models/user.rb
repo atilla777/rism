@@ -9,7 +9,20 @@ class User < ApplicationRecord
   include Attachable
   include Rightable
 
-  has_paper_trail ignore: %i[password]
+  has_paper_trail(
+    ignore: %i[password
+               failed_login_count
+               perishable_token
+               login_count
+               last_request_at
+               current_login_at
+               last_login_at
+               updated_at
+               persistence_token
+               crypted_password
+               perishable_token
+               password_salt]
+  )
 
   validates :email, presence: true, if: proc { |r| r.active == true }
   validates :department_id,

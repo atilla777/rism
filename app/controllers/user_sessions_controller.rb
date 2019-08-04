@@ -23,7 +23,10 @@ class UserSessionsController < ApplicationController
   def destroy
     current_user_session.destroy
     flash[:success] = t('user_sessions.goodbay')
-    redirect_to root_path
+    redirect_to :sign_in
+  end
+
+  def no_roles
   end
 
   private

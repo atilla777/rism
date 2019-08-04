@@ -59,7 +59,11 @@ class ApplicationController < ActionController::Base
       return render json: {success: false, errors: ['Authorization is required.']}
     else
       flash[:danger] = t('messages.not_allowed')
-      redirect_back(fallback_location: root_path)
+      if @current_user.has_any_role?
+        redirect_back(fallback_location: root_path)
+      else
+        redirect_to :no_roles
+      end
     end
   end
 end

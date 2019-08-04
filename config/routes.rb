@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :user_sessions, only: [:create, :destroy]
   delete '/sign_out', to: 'user_sessions#destroy', as: :sign_out
   get '/sign_in', to: 'user_sessions#new', as: :sign_in
+  get '/no_roles', to: 'user_sessions#no_roles', as: :no_roles
 
 
   resources :organizations do

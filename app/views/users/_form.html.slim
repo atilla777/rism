@@ -86,17 +86,18 @@
                  strong
                    | #{t('activerecord.attributes.user.active')}
 
-        .form-group
-          .col-lg-2.text-right.control-label
-            = f.label :password
-          .col-lg-8
-            = f.password_field :password, class: 'form-control'
+        - if current_user.admin?
+          .form-group
+            .col-lg-2.text-right.control-label
+              = f.label :password
+            .col-lg-8
+              = f.password_field :password, class: 'form-control'
 
-        .form-group
-          .col-lg-2.text-right.control-label
-            = f.label :password
-          .col-lg-8
-            = f.password_field :password_confirmation, class: 'form-control'
+          .form-group
+            .col-lg-2.text-right.control-label
+              = f.label :password
+            .col-lg-8
+              = f.password_field :password_confirmation, class: 'form-control'
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8

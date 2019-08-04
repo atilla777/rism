@@ -17,6 +17,10 @@ module User::HasRole
     throw :abort
   end
 
+  def has_any_role?
+    self.roles.present?
+  end
+
   def admin?
     roles.any? { |role| role.id == 1 }
   end

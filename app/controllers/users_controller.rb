@@ -60,6 +60,32 @@ class UsersController < ApplicationController
     authorize @record
     @organization = organization
     @department = department
+    render select_form
+  end
+
+  def change_password
+    @record = record
+    authorize @record
+    @organization = organization
+    @department = department
+    render '_passwd_form'
+  end
+
+  def update_password
+    @record = record
+    authorize @record
+    @record.current_user = current_user
+    @organization = organization
+    @department = department
+    @record.update!(record_params)
+    redirect_to(
+      session.delete(:edit_return_to),
+      organization_id: @organization.id,
+      department_id: @department.id,
+      success: t('flashes.update', model: model.model_name.human)
+    )
+  rescue ActiveRecord::RecordInvalid
+    render '_passwd_form'
   end
 
   def update
@@ -76,7 +102,7 @@ class UsersController < ApplicationController
       success: t('flashes.update', model: model.model_name.human)
     )
   rescue ActiveRecord::RecordInvalid
-    render :edit
+    render select_form
   end
 
   def destroy
@@ -97,6 +123,17 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def record_params
+    params.require(model.name.underscore.to_sym)
+          .permit(policy(model).permitted_attributes(@record))
+  end
+
+  def select_form
+    return '_form' unless current_user == @record
+    return '_form' if current_user.can? :edit, @record
+    '_passwd_form'
+  end
 
   # TODO: try to remove (it can be replaced by record_of_organization)
   def organization
