@@ -27,4 +27,12 @@ class IndicatorDecorator < SimpleDelegator
   def show_appearance
     Indicator.where(content: content).count
   end
+
+  def show_creator
+    creator&.name || ''
+  end
+
+  def show_updater
+    updater&.name || ''
+  end
 end

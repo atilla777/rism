@@ -5,18 +5,26 @@ module User::DeviseConfig
 
   included do
     acts_as_authentic do |c|
-      c.crypto_provider = Authlogic::CryptoProviders::Sha512
-      c.merge_validates_format_of_email_field_options message: I18n.t('user_session.email_required')
-      c.merge_validates_uniqueness_of_email_field_options if: :active
-      condition = proc do
+      condition_for_password = proc do
                     (password.present? || password_confirmation.present?) ||
                     (new_record? && active) ||
                     (crypted_password.blank? && active)
                   end
-      c.merge_validates_length_of_password_field_options minimum: 6, if: condition
-      c.merge_validates_confirmation_of_password_field_options if: condition
-      c.merge_validates_length_of_password_confirmation_field_options if: condition
-      c.merge_validates_format_of_email_field_options if: condition
+      condition_for_email = proc do
+                    (password.present? || password_confirmation.present?) ||
+                    (new_record? && active) ||
+                    (crypted_password.blank? && active) ||
+                    email.present?
+                  end
+      c.crypto_provider = Authlogic::CryptoProviders::Sha512
+      c.merge_validates_uniqueness_of_email_field_options if: :active
+      c.merge_validates_length_of_password_field_options minimum: 6, if: condition_for_password
+      c.merge_validates_confirmation_of_password_field_options if: condition_for_password
+      c.merge_validates_length_of_password_confirmation_field_options if: condition_for_password
+      c.merge_validates_format_of_email_field_options(
+        message: I18n.t('user_session.email_required'),
+        if: condition_for_email
+      )
     end
 
     before_save :set_activity

@@ -14,6 +14,10 @@ Rails.application.routes.draw do
 
   resources :users do
     get :autocomplete_user_name, :on => :collection, as: :autocomplete
+    member do
+      get 'change_password'
+      patch 'update_password'
+    end
   end
   post '/departments/select', to: 'departments#select', as: :departments_select
   put '/departments/paste', to: 'departments#paste', as: :departments_paste

@@ -199,6 +199,8 @@ ru:
   flashes:
     create: Запись %{model} успешно создана.
     update: Запись %{model} успешно отредактирована.
+    password_update: Пароль успешно изменён.
+    password_not_update: Пароль не был изменен.
     destroy: Запись %{model} успешно удалена.
     revert: Запись %{model} успешно откатилась на предыдущую версию.
     command: Команда %{command} успешно выполнена.
@@ -225,10 +227,13 @@ ru:
       new_scan_job: 'Новое сканирование'
       legalize: 'Легализовать'
       delegalize: 'Делегализовать'
+      change_password: 'Сменить пароль'
   messages:
     yes: 'да'
     no: 'нет'
     not_allowed: Нет прав доступа.
+  user_session:
+    email_required: должно быть адресом электронной почты
   user_sessions:
     sign_in: Войти в систему
     sign_out: Выйти
@@ -236,5 +241,4 @@ ru:
     sign_in_error: Неверный email или пароль
     welcome: С возвращением!
     goodbay: Всего доброго!
-    email_required: Должно быть адресом электронной почты
     sign_in_user: Текущий пользователь

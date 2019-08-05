@@ -34,13 +34,11 @@ class UserPolicy < ApplicationPolicy
     result
   end
 
-  def edit?
-    return true if @user.admin_editor?
-    return true if @user.can? :edit, @record
-    @user == @record
+  def change_password?
+    @user == record
   end
 
-  def update?
-    edit?
+  def update_password?
+    change_password?
   end
 end

@@ -9,8 +9,8 @@ class CreateInvestigations < ActiveRecord::Migration[5.1]
       t.jsonb :custom_fields
       t.text :description
 
-      t.references :created_by,  index: true, foreign_key: {to_table: :users}
-      t.references :updated_by,  index: true, foreign_key: {to_table: :users}
+      t.references :created_by,  index: true, foreign_key: false
+      t.references :updated_by,  index: true, foreign_key: false
 
       t.timestamps
     end

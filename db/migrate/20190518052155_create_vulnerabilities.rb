@@ -125,8 +125,8 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
       t.column :exploit_maturity, 'vuln_exploit_maturity', default: 'not_defined'
       t.column :custom_exploit_maturity, 'vuln_exploit_maturity', default: 'not_defined'
 
-      t.references :created_by,  index: true, foreign_key: {to_table: :users}
-      t.references :updated_by,  index: true, foreign_key: {to_table: :users}
+      t.references :created_by,  index: true, foreign_key: false
+      t.references :updated_by,  index: true, foreign_key: false
 
       t.timestamps
     end

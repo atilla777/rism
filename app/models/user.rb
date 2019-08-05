@@ -24,7 +24,6 @@ class User < ApplicationRecord
                password_salt]
   )
 
-  validates :email, presence: true, if: proc { |r| r.active == true }
   validates :department_id,
             numericality: { only_integer: true, allow_blank: true }
   validates :department_name,
@@ -39,9 +38,21 @@ class User < ApplicationRecord
 
   has_many :incidents, dependent: :restrict_with_error
 
-  has_many :investigation, dependent: :destroy
+  has_many :created_investigations,
+           class_name: 'Investigation',
+           foreign_key: :created_by_id
 
-  has_many :indicator, dependent: :destroy
+  has_many :updated_investigations,
+           class_name: 'Investigation',
+           foreign_key: :updated_by_id
+
+  has_many :created_indicators,
+           class_name: 'Indicator',
+           foreign_key: :created_by_id
+
+  has_many :updated_indicators,
+           class_name: 'Indicator',
+           foreign_key: :created_by_id
 
   def search_filters(model)
     SearchFilter.where(

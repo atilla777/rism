@@ -8,10 +8,10 @@
   = r.show :parent_conjunction
     = @record.parent_conjunction
   = r.show :created_by_id
-    = link_to @record.creator.name, @record.creator
+    = link_to r.decorated.show_creator, @record.creator
   = r.show :updated_by_id
     - if  @record.updater.present?
-      = link_to @record.updater.name, @record.updater
+      = link_to r.decorated.show_updater, @record.updater
   = r.show :investigation_id
     = link_to r.decorated.investigation.name, @record.investigation
     br

@@ -1,15 +1,15 @@
 = report_button_for @record, investigation_id: @record.id
-= show_for @record do |r|
+= show_for @record, decorator: InvestigationDecorator do |r|
   = r.show :created_at, value: show_date_time(@record.created_at)
   = r.show :name
   = r.show :custom_codename
   = r.show :organization_id
     = link_to @record.organization.name, @record.organization
   = r.show :created_by_id
-    = link_to @record.creator.name, @record.creator
+    = link_to r.decorated.show_creator, @record.creator
   = r.show :updated_by_id
     - if @record.updater.present?
-      = link_to @record.updater.name, @record.updater
+      = link_to r.decorated.show_updater, @record.updater
   = r.show :feed_id
     = link_to @record.feed.name, @record.feed
   = r.show :investigation_kind_id
