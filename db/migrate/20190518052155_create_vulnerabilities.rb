@@ -80,7 +80,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
     create_table :vulnerabilities do |t|
       # manual or from NVD json
       t.string :codename
-      t.column  :feed, 'vuln_feed', default: 'custom'
+      t.column :feed, 'vuln_feed', default: 'custom'
       t.text :vendors, array: true, default: []
       t.text :products, array: true, default: []
       t.text :custom_vendors, array: true, default: []
