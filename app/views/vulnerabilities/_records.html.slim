@@ -1,4 +1,4 @@
-= index_search :custom_exploit_maturity_str_or_codename_or_published_str_or_modified_str_or_vendors_str_or_products_str_or_description_str_or_custom_description_or_state_str_or_cvss_vector_or_actuality_str_or_relevance_str_cont
+= index_search :vulnerability_kind_name_or_codename_or_published_str_or_modified_str_or_vendors_str_or_products_str_or_description_str_or_custom_description_or_state_str_or_cvss_vector_or_actuality_str_or_relevance_str_cont
 = report_button_for records
 = command_button_for records
 = render 'search_form'
@@ -14,8 +14,8 @@ br
   - t.header attribute: :processed, sort: :desc
   - t.header attribute: :criticality, sort_by: :cvss, sort: :desc
   - t.header attribute: :cvss_av
-  - t.header attribute: :custom_exploit_maturity,
-    sort_by: :custom_exploit_maturity,
+  - t.header attribute: :vulnerability_kind_id,
+    sort_by: :vulnerability_kind_name,
     sort: :desc
   - t.header attribute: :custom_actuality, sort: :desc
   - t.header attribute: :custom_relevance, sort: :desc
@@ -44,11 +44,8 @@ br
       = link_to record.show_cvss_av, record, class: 'text-warning'
     - else
       = link_to record.show_cvss_av, record
-  - t.field do |record|
-    - if record.custom_exploit_maturity?
-      = link_to record.show_custom_exploit_maturity, record, class: 'text-warning'
-    - else
-      = link_to record.show_custom_exploit_maturity, record
+
+  - t.field { |record| link_to(record.show_vulnerability_kind_name, record.vulnerability_kind) }
   - t.field do |record|
     - if record.custom_actuality_actual?
         = link_to record.show_custom_actuality, record, class: 'text-warning'
