@@ -96,13 +96,13 @@ class FiltredTableVulnersReport < BaseReport
   def default_sort
     'modified desc'
   end
-
-  def records(scope)
-    scope = policy_scope(scope)
-    @q = scope.ransack(params[:q])
-    @q.sorts = default_sort if @q.sorts.empty?
-    @q.result
-      .includes(records_includes)
-      .page(params[:page])
-  end
+#
+#  def records(scope)
+#    scope = policy_scope(scope)
+#    @q = scope.ransack(params[:q])
+#    @q.sorts = default_sort if @q.sorts.empty?
+#    @q.result
+#      .includes(records_includes)
+#      .page(params[:page])
+#  end
 end
