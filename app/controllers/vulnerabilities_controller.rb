@@ -64,4 +64,8 @@ class VulnerabilitiesController < ApplicationController
     return unless params.dig(:q, :codename_in)
     params[:q][:codename_in] = params[:q][:codename_in].split("\n").map(&:strip)
   end
+
+  def records_includes
+    [:vulnerability_kind, :processor]
+  end
 end
