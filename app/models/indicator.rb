@@ -102,4 +102,8 @@ class Indicator < ApplicationRecord
     return if indicator_context_ids.blank?
     SetIndicatorContextsService.call(id, indicator_context_ids)
   end
+
+  def organization_id
+    investigation.organization_id
+  end
 end

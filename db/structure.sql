@@ -65,6 +65,7 @@ CREATE TYPE public.indicator_content_format AS ENUM (
     'uri',
     'domain',
     'md5',
+    'sha1',
     'sha256',
     'sha512',
     'filename',
@@ -3624,6 +3625,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190602060535'),
 ('20190625133152'),
 ('20190704143524'),
-('20190704145457');
+('20190704145457'),
+('20190807140005');
 
 
