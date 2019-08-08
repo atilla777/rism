@@ -2,6 +2,7 @@
 = show_for @record, decorator: InvestigationDecorator do |r|
   = r.show :created_at, value: show_date_time(@record.created_at)
   = r.show :name
+  = r.show :feed_codename
   = r.show :custom_codename
   = r.show :organization_id
     = link_to @record.organization.name, @record.organization

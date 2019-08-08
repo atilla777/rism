@@ -10,6 +10,13 @@
           .col-lg-8
             = f.text_field :name, class: 'form-control'
 
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :feed_codename, class: 'control-label'
+          .col-lg-8
+            = f.text_field :feed_codename, class: 'form-control'
+
       .form-group.required
         .field
           .col-lg-2.text-right
@@ -39,7 +46,7 @@
           .col-lg-2.text-right
             = f.label :description, class: 'control-label'
           .col-lg-8
-            = f.text_area :description, rows: 5, class: 'form-control'
+            = f.text_area :description, rows: 12, class: 'form-control'
 
       - if @record.new_record?
 
@@ -56,7 +63,7 @@
               .col-lg-2.text-right
                 = f.label :indicators_list, class: 'control-label'
               .col-lg-8
-                = f.text_area :indicators_list, rows: 8, class: 'form-control'
+                = f.text_area :indicators_list, rows: 20, class: 'form-control'
 
           .form-group
               .col-lg-offset-2.col-lg-8

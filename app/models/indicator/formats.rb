@@ -36,7 +36,7 @@ module Indicator::Formats
     },
     {
       format: :network,
-      pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{IP4_REGEXP})\s*$/
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{IP4_REGEXP})\s*/
     },
     {
       format: :network_port,
@@ -44,7 +44,7 @@ module Indicator::Formats
     },
     {
       format: :email_adress,
-      pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{EMAIL_REGEXP})\s*$/i
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{EMAIL_REGEXP})\s*/i
     },
     {
       format: :email_author,
@@ -73,19 +73,19 @@ module Indicator::Formats
       },
     {
       format: :md5,
-      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{32})\s*$/i
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*\b(?<content>[a-f0-9]{32})\b/i
     },
     {
       format: :sha1,
-      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{40})\s*$/i
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*\b(?<content>[a-f0-9]{40})\b/i
     },
     {
       format: :sha256,
-      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{64})\s*$/i
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*\b(?<content>[a-f0-9]{64})\b/i
     },
     {
       format: :sha512,
-      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{128})\s*$/i
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*\b(?<content>[a-f0-9]{128})\b/i
     },
     {
       format: :filename,

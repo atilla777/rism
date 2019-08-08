@@ -3,8 +3,8 @@
 = index_for records, decorator: IndicatorDecorator do |t|
   - t.header attribute: :created_at, sort_by: :created_at, sort: :desc
   - t.header attribute: :created_by_id, sort_by: :creator_name, sort: :desc
-  - t.header attribute: :investigation_name, label: t('activerecord.attributes.investigation.name'), sort_by: :investigation_name, sort: :desc
-  - t.header attribute: :investigation_custom_codename, label: t('activerecord.attributes.investigation.custom_codename'), sort_by: :investigation_custom_codename, sort: :desc
+  - t.header attribute: :investigation_name, sort_by: :investigation_name, sort: :desc
+  - t.header attribute: :investigation_custom_codename, sort_by: :investigation_custom_codename, sort: :desc
   - t.header attribute: :trust_level, sort_by: :trust_level, sort: :desc
   - t.header attribute: :purpose, sort_by: :purpose, sort: :desc
   - t.header attribute: :content_format, sort_by: :content_format, sort: :desc

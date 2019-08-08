@@ -13,6 +13,7 @@ class Investigation < ApplicationRecord
   before_validation :set_custom_codename
 
   validates :name, length: { in: 3..100 }
+  validates :feed_codename, length: { in: 3..200, allow_blank: true }
   validates :feed_id, numericality: { only_integer: true }
   validates :organization_id, numericality: { only_integer: true }
 

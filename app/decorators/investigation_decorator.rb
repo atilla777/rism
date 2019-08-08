@@ -14,4 +14,9 @@ class InvestigationDecorator < SimpleDelegator
   def show_updater
     updater&.name || ''
   end
+
+
+  def show_feed_codename
+    feed_codename || ''
+  end
 end

@@ -856,7 +856,8 @@ CREATE TABLE public.investigations (
     created_by_id bigint,
     updated_by_id bigint,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    feed_codename character varying
 );
 
 
@@ -3626,6 +3627,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190625133152'),
 ('20190704143524'),
 ('20190704145457'),
-('20190807140005');
+('20190807140005'),
+('20190808090026');
 
 
