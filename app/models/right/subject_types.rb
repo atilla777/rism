@@ -32,6 +32,7 @@ module Right::SubjectTypes
     'Feed' => I18n.t('activerecord.models.feed.one'),
     'InvestigationKind' => I18n.t('activerecord.models.investigation_kind.one'),
     'Investigation' => I18n.t('activerecord.models.investigation.one'),
+    'IndicatorContext' => I18n.t('activerecord.models.indicator_context.one'),
     'Indicator' => I18n.t('activerecord.models.indicator.one'),
     'Vulnerability' => I18n.t('activerecord.models.vulnerability.one'),
     'DeliveryList' => I18n.t('activerecord.models.delivery_list.one'),

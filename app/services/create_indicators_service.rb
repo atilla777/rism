@@ -30,6 +30,7 @@ class CreateIndicatorsService
       investigation_id: @investigation_id,
       current_user: @user_id,
       trust_level: :not_set,
+      purpose: :for_detect,
       enrichment: {}
     )
     indicator = Indicator.new(indicator_params)
