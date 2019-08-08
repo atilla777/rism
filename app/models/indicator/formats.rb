@@ -73,19 +73,19 @@ module Indicator::Formats
       },
     {
       format: :md5,
-      pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{32})\s*$/i
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{32})\s*$/i
     },
     {
       format: :sha1,
-      pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{40})\s*$/i
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{40})\s*$/i
     },
     {
       format: :sha256,
-      pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{64})\s*$/i
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{64})\s*$/i
     },
     {
       format: :sha512,
-      pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{128})\s*$/i
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>[a-f0-9]{128})\s*$/i
     },
     {
       format: :filename,
