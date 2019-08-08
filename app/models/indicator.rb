@@ -94,7 +94,7 @@ class Indicator < ApplicationRecord
   end
 
   def downcase_hashes
-    return unless [:md5, :sha512, :sha256].include?(content_format.to_sym)
+    return unless [:md5, :sha1, :sha512, :sha256].include?(content_format.to_sym)
     self.content = self.content.downcase
   end
 
