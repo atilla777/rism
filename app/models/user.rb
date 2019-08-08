@@ -40,21 +40,42 @@ class User < ApplicationRecord
 
   has_many :created_investigations,
            class_name: 'Investigation',
-           foreign_key: :created_by_id
+           foreign_key: :created_by_id,
+           dependent: :restrict_with_error
 
   has_many :updated_investigations,
            class_name: 'Investigation',
-           foreign_key: :updated_by_id
+           foreign_key: :updated_by_id,
+           dependent: :restrict_with_error
 
   has_many :created_indicators,
            class_name: 'Indicator',
-           foreign_key: :created_by_id
+           foreign_key: :created_by_id,
+           dependent: :restrict_with_error
 
   has_many :updated_indicators,
            class_name: 'Indicator',
-           foreign_key: :created_by_id
+           foreign_key: :updated_by_id,
+           dependent: :restrict_with_error
 
-  def search_filters(model)
+  has_many :created_vulnerabilities,
+           class_name: 'Vulnerability',
+           foreign_key: :created_by_id,
+           dependent: :restrict_with_error
+
+  has_many :updated_vulnerabilities,
+           class_name: 'Vulnerability',
+           foreign_key: :updated_by_id,
+           dependent: :restrict_with_error
+
+  has_many :processed_vulnerabilities,
+           class_name: 'Vulnerability',
+           foreign_key: :processed_by_id,
+           dependent: :restrict_with_error
+
+  has_many :search_filters, dependent: :destroy
+
+  def search_filters_for(model)
     SearchFilter.where(
       user_id: self.id,
       filtred_model: model.model_name.to_str
