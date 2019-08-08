@@ -113,7 +113,8 @@ ru:
         description: 'Описание'
         organization_id: 'Организация'
         active: 'Разрешено входить в систему'
-        password: 'Пароль'
+        password: 'Пароль (мин. 8 символов и удовлетворяющий условию сложности)'
+        password_confirmation: 'Подтверждение пароля'
         rank: 'Ранг должности'
         password_confirmation: 'Подтверждение пароля'
       role:
