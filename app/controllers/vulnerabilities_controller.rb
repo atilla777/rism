@@ -11,13 +11,17 @@ class VulnerabilitiesController < ApplicationController
   end
 
   def toggle_processed
-    record.toggle!(:processed)
-    record.update_attribute(:processed_by_id, current_user.id)
+    vulnerability = record
+    authorize vulnerability.class
+    vulnerability.toggle!(:processed)
+    vulnerability.update_attribute(:processed_by_id, current_user.id)
     @record = VulnerabilityDecorator.new(record)
   end
 
   def toggle_custom_relevance
-    case record.custom_relevance
+    vulnerability = record
+    authorize vulnerability.class
+    case vulnerability.custom_relevance
     when 'not_set'
       relevance = 'not_relevant'
     when 'relevant'
@@ -25,8 +29,8 @@ class VulnerabilitiesController < ApplicationController
     else
       relevance = 'relevant'
     end
-    record.update_attribute(:custom_relevance, relevance)
-    record.update_attribute(:updated_by_id, current_user.id)
+    vulnerability.update_attribute(:custom_relevance, relevance)
+    vulnerability.update_attribute(:updated_by_id, current_user.id)
     @record = VulnerabilityDecorator.new(record)
   end
 
