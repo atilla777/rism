@@ -15,6 +15,7 @@ ul.nav.navbar-nav
           = link_to investigations_path do
             .text-info
               = fa_icon 'eye'
+              =< fa_icon 'newspaper-o'
               =< Investigation.model_name.human(count: 2)
         li
           = link_to indicators_path do

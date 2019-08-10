@@ -1724,6 +1724,108 @@ ALTER SEQUENCE public.vulnerabilities_id_seq OWNED BY public.vulnerabilities.id;
 
 
 --
+-- Name: vulnerability_bulletin_kinds; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.vulnerability_bulletin_kinds (
+    id bigint NOT NULL,
+    name character varying,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vulnerability_bulletin_kinds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.vulnerability_bulletin_kinds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vulnerability_bulletin_kinds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.vulnerability_bulletin_kinds_id_seq OWNED BY public.vulnerability_bulletin_kinds.id;
+
+
+--
+-- Name: vulnerability_bulletin_members; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.vulnerability_bulletin_members (
+    id bigint NOT NULL,
+    vulnerability_id bigint,
+    vulnerability_bulletin_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vulnerability_bulletin_members_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.vulnerability_bulletin_members_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vulnerability_bulletin_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.vulnerability_bulletin_members_id_seq OWNED BY public.vulnerability_bulletin_members.id;
+
+
+--
+-- Name: vulnerability_bulletins; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.vulnerability_bulletins (
+    id bigint NOT NULL,
+    name character varying,
+    codename character varying,
+    organization_id bigint,
+    vulnerability_bulletin_kind_id bigint,
+    custom_fields jsonb,
+    description text,
+    created_by_id bigint,
+    updated_by_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vulnerability_bulletins_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.vulnerability_bulletins_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vulnerability_bulletins_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.vulnerability_bulletins_id_seq OWNED BY public.vulnerability_bulletins.id;
+
+
+--
 -- Name: vulnerability_kinds; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2047,6 +2149,27 @@ ALTER TABLE ONLY public.versions ALTER COLUMN id SET DEFAULT nextval('public.ver
 --
 
 ALTER TABLE ONLY public.vulnerabilities ALTER COLUMN id SET DEFAULT nextval('public.vulnerabilities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_bulletin_kinds ALTER COLUMN id SET DEFAULT nextval('public.vulnerability_bulletin_kinds_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_bulletin_members ALTER COLUMN id SET DEFAULT nextval('public.vulnerability_bulletin_members_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_bulletins ALTER COLUMN id SET DEFAULT nextval('public.vulnerability_bulletins_id_seq'::regclass);
 
 
 --
@@ -2406,6 +2529,30 @@ ALTER TABLE ONLY public.versions
 
 ALTER TABLE ONLY public.vulnerabilities
     ADD CONSTRAINT vulnerabilities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vulnerability_bulletin_kinds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_bulletin_kinds
+    ADD CONSTRAINT vulnerability_bulletin_kinds_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vulnerability_bulletin_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_bulletin_members
+    ADD CONSTRAINT vulnerability_bulletin_members_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vulnerability_bulletins_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_bulletins
+    ADD CONSTRAINT vulnerability_bulletins_pkey PRIMARY KEY (id);
 
 
 --
@@ -3180,6 +3327,55 @@ CREATE INDEX index_vulnerabilities_on_vulnerability_kind_id ON public.vulnerabil
 
 
 --
+-- Name: index_vulnerability_bulletin_members_on_vulnerability_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerability_bulletin_members_on_vulnerability_id ON public.vulnerability_bulletin_members USING btree (vulnerability_id);
+
+
+--
+-- Name: index_vulnerability_bulletins_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerability_bulletins_on_created_by_id ON public.vulnerability_bulletins USING btree (created_by_id);
+
+
+--
+-- Name: index_vulnerability_bulletins_on_custom_fields; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerability_bulletins_on_custom_fields ON public.vulnerability_bulletins USING gin (custom_fields);
+
+
+--
+-- Name: index_vulnerability_bulletins_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerability_bulletins_on_organization_id ON public.vulnerability_bulletins USING btree (organization_id);
+
+
+--
+-- Name: index_vulnerability_bulletins_on_updated_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerability_bulletins_on_updated_by_id ON public.vulnerability_bulletins USING btree (updated_by_id);
+
+
+--
+-- Name: index_vulnerability_bulletins_on_vulnerability_bulletin_kind_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerability_bulletins_on_vulnerability_bulletin_kind_id ON public.vulnerability_bulletins USING btree (vulnerability_bulletin_kind_id);
+
+
+--
+-- Name: index_vulny_bulletin_members_on_vuln_bulletin_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulny_bulletin_members_on_vuln_bulletin_id ON public.vulnerability_bulletin_members USING btree (vulnerability_bulletin_id);
+
+
+--
 -- Name: fk_rails_013b129140; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3201,6 +3397,14 @@ ALTER TABLE ONLY public.agreements
 
 ALTER TABLE ONLY public.scan_results
     ADD CONSTRAINT fk_rails_05716955e9 FOREIGN KEY (scan_job_id) REFERENCES public.scan_jobs(id);
+
+
+--
+-- Name: fk_rails_09f3770dbd; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_bulletins
+    ADD CONSTRAINT fk_rails_09f3770dbd FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
 
 
 --
@@ -3268,6 +3472,14 @@ ALTER TABLE ONLY public.articles
 
 
 --
+-- Name: fk_rails_4289ee7b94; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_bulletin_members
+    ADD CONSTRAINT fk_rails_4289ee7b94 FOREIGN KEY (vulnerability_id) REFERENCES public.vulnerabilities(id);
+
+
+--
 -- Name: fk_rails_46655864e6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3281,6 +3493,14 @@ ALTER TABLE ONLY public.scan_jobs_hosts
 
 ALTER TABLE ONLY public.delivery_subjects
     ADD CONSTRAINT fk_rails_476d3bbec8 FOREIGN KEY (processed_by_id) REFERENCES public.users(id);
+
+
+--
+-- Name: fk_rails_4881f2259a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_bulletin_members
+    ADD CONSTRAINT fk_rails_4881f2259a FOREIGN KEY (vulnerability_bulletin_id) REFERENCES public.vulnerability_bulletins(id);
 
 
 --
@@ -3473,6 +3693,14 @@ ALTER TABLE ONLY public.rights
 
 ALTER TABLE ONLY public.role_members
     ADD CONSTRAINT fk_rails_9ec9042bd2 FOREIGN KEY (role_id) REFERENCES public.roles(id);
+
+
+--
+-- Name: fk_rails_a5bf6b1a42; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vulnerability_bulletins
+    ADD CONSTRAINT fk_rails_a5bf6b1a42 FOREIGN KEY (vulnerability_bulletin_kind_id) REFERENCES public.vulnerability_bulletin_kinds(id);
 
 
 --
@@ -3675,6 +3903,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190704143524'),
 ('20190704145457'),
 ('20190807140005'),
-('20190808090026');
+('20190808090026'),
+('20190810041847'),
+('20190810045108'),
+('20190810071507');
 
 

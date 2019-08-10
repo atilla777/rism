@@ -5,6 +5,11 @@ class VulnerabilitiesController < ApplicationController
 
   before_action :set_time, only: [:create, :update]
 
+  autocomplete(
+    :vulnerability,
+    :codename
+  )
+
   def search
     index
     render 'index'

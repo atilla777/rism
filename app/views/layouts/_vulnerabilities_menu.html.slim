@@ -11,3 +11,9 @@ ul.nav.navbar-nav
             .text-info
               = fa_icon 'bug'
               =< Vulnerability.model_name.human(count: 2)
+        li
+          = link_to vulnerability_bulletins_path do
+            .text-info
+              = fa_icon 'bug'
+              =< fa_icon 'newspaper-o'
+              =< VulnerabilityBulletin.model_name.human(count: 2)

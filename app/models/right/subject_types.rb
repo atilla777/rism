@@ -40,5 +40,7 @@ module Right::SubjectTypes
     'DeliverySubject' => I18n.t('activerecord.models.delivery_subject.one'),
     'SearchFilter' => I18n.t('activerecord.models.search_filter.one'),
     'VulnerabilityKind' => I18n.t('activerecord.models.vulnerability_kind.one'),
+    'VulnerabilityBulletinKind' => I18n.t('activerecord.models.vulnerability_bulletin_kind.one'),
+    'VulnerabilityBulletin' => I18n.t('activerecord.models.vulnerability_bulletin.one')
   }.freeze
 end

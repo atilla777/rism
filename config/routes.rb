@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   get '/sign_in', to: 'user_sessions#new', as: :sign_in
   get '/no_roles', to: 'user_sessions#no_roles', as: :no_roles
 
-
   resources :organizations do
     get :autocomplete_organization_name, :on => :collection, as: :autocomplete
   end
@@ -95,6 +94,7 @@ Rails.application.routes.draw do
 end
   resources :indicator_contexts
   resources :vulnerabilities do
+    get :autocomplete_vulnerability_codename, :on => :collection, as: :autocomplete
     collection do
       match 'search' => 'vulnerabilities#search', via: [:get, :post], as: :search
     end
@@ -116,6 +116,10 @@ end
   resources :delivery_recipients, only: [:index, :create, :destroy]
   resources :search_filters
   resources :vulnerability_kinds
+  resources :vulnerability_bulletin_kinds
+  resources :vulnerability_bulletins
+  resources :vulnerability_bulletin_members, only: %i[index create destroy]
+
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

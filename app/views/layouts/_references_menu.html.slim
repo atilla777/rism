@@ -73,3 +73,9 @@ li
       = fa_icon 'book'
       =< fa_icon 'bug'
       =< VulnerabilityKind.model_name.human(count: 2)
+li
+  = link_to vulnerability_bulletin_kinds_path do
+    .span.text-info
+      = fa_icon 'book'
+      =< fa_icon 'bug'
+      =< VulnerabilityBulletinKind.model_name.human(count: 2)
