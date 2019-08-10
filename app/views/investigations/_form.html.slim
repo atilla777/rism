@@ -13,9 +13,19 @@
       .form-group
         .field
           .col-lg-2.text-right
+            = f.label :custom_codename, class: 'control-label'
+          .col-lg-8
+            = f.text_field(:custom_codename,
+                class: 'form-control',
+                disabled: (current_user.admin? ? false : true))
+
+      .form-group
+        .field
+          .col-lg-2.text-right
             = f.label :feed_codename, class: 'control-label'
           .col-lg-8
             = f.text_field :feed_codename, class: 'form-control'
+
 
       .form-group.required
         .field

@@ -12,7 +12,9 @@ class Investigation < ApplicationRecord
   before_validation :set_name
   before_validation :set_custom_codename
 
-  validates :name, length: { in: 3..100 }
+  validates :name, length: { in: 3..200 }
+  validates :custom_codename, length: { in: 3..200, allow_blank: true }
+  validates :custom_codename, uniqueness: true, allow_blank: true
   validates :feed_codename, length: { in: 3..200, allow_blank: true }
   validates :feed_id, numericality: { only_integer: true }
   validates :organization_id, numericality: { only_integer: true }
@@ -36,6 +38,7 @@ class Investigation < ApplicationRecord
   end
 
   def set_custom_codename
+    return if custom_codename.present?
     self.custom_codename = Custom::InvestigationCustomization.cast_custom_codename(self)
   end
 end

@@ -7,8 +7,8 @@ ru:
     attributes:
       investigation:
         name: 'Имя'
-        feed_codename: 'Имя ист.'
-        custom_codename: 'Имя пол.'
+        feed_codename: 'Код ист.'
+        custom_codename: 'Код пол.'
         organization_id: 'Организация влад.'
         user_id: 'Пользователь созд.'
         feed_id: 'Источник информации'

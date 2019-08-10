@@ -1,6 +1,7 @@
 class InvestigationPolicy < ApplicationPolicy
   def permitted_attributes
     [:name,
+      :custom_codename,
       :feed_codename,
       :organization_id,
       :feed_id,
