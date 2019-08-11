@@ -1,1 +1,2 @@
 $('#<%= "#{@record.id}_processed" %>').html("<%= j render('processed', record: @record) %>")
+$('#<%= "#{@record.id}_readable" %>').html("<%= j render('readable', record: @record) %>")

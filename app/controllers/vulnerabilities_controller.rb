@@ -4,7 +4,10 @@ class VulnerabilitiesController < ApplicationController
   include Record
 
   before_action :set_time, only: [:create, :update]
-  after_action :set_readable_log, only: [:create, :show, :edit, :update, :toggle_processed, :toggle_custom_relevance]
+  after_action(
+    :set_readable_log,
+    only: [:create, :show, :edit, :update]
+  )
 
   autocomplete(
     :vulnerability,
@@ -22,6 +25,7 @@ class VulnerabilitiesController < ApplicationController
     vulnerability.toggle!(:processed)
     vulnerability.update_attribute(:processed_by_id, current_user.id)
     @record = VulnerabilityDecorator.new(record)
+    set_readable_log
   end
 
   def toggle_custom_relevance
@@ -38,6 +42,7 @@ class VulnerabilitiesController < ApplicationController
     vulnerability.update_attribute(:custom_relevance, relevance)
     vulnerability.update_attribute(:updated_by_id, current_user.id)
     @record = VulnerabilityDecorator.new(record)
+    set_readable_log
   end
 
   private
@@ -47,7 +52,7 @@ class VulnerabilitiesController < ApplicationController
   end
 
   def default_sort
-    'modified desc'
+    ['modified desc', 'id desc']
   end
 
   def set_time
