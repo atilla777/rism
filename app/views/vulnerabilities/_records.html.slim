@@ -63,9 +63,10 @@ br
   - t.field { |record| link_to(truncate(record.show_description_string, length: 45), record) }
   - t.field { |record| link_to(truncate(record.show_all_vendors, length: 45), record) }
   - t.field { |record| link_to(truncate(record.show_all_products, length: 45), record) }
-  - t.field do |record|
-    = search_form_for @q, class: 'form-inline', url: vulnerability_bulletins_path, html: { method: :get } do |f|
-         = f.hidden_field :vulnerability_bulletin_id_eq, value: record.vulnerability_bulletins&.first&.id
-         = button_tag class: 'btn btn-link' do
-           = record.show_bulletin_counts
+  // - t.field do |record|
+     = search_form_for @q, class: 'form-inline', url: vulnerability_bulletins_path, html: { method: :get } do |f|
+      = f.hidden_field :vulnerability_bulletin_id_cont, value: record.vulnerability_bulletins&.first&.id
+      = button_tag class: 'btn btn-link' do
+        = record.show_bulletin_counts
   //- t.field { |record| link_to(record.show_bulletin_counts, vulnerability_bulletins_path(q: {vulnerability_bulletin_id_eq: record.vulnerability_bulletins&.first&.id, html_method: :get})) }
+  - t.field { |record| link_to(record.show_bulletin_counts, record.first_bulletin ) }
