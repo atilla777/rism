@@ -4,6 +4,7 @@ class VulnerabilitiesController < ApplicationController
   include Record
 
   before_action :set_time, only: [:create, :update]
+  after_action :set_readable_log, only: [:create, :show, :edit, :update, :toggle_processed, :toggle_custom_relevance]
 
   autocomplete(
     :vulnerability,
@@ -75,6 +76,10 @@ class VulnerabilitiesController < ApplicationController
   end
 
   def records_includes
-    [:vulnerability_kind, :processor]
+    [:vulnerability_kind, :processor, :vulnerability_bulletins, :vulnerability_bulletin_members]
+  end
+
+  def set_readable_log
+    SetReadableLogService.call(@record, current_user)
   end
 end

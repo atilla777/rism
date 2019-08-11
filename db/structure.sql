@@ -1054,6 +1054,41 @@ ALTER SEQUENCE public.pg_search_documents_id_seq OWNED BY public.pg_search_docum
 
 
 --
+-- Name: readable_logs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.readable_logs (
+    id bigint NOT NULL,
+    user_id bigint,
+    readable_type character varying,
+    readable_id bigint,
+    read_created_at timestamp without time zone,
+    read_updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: readable_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.readable_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: readable_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.readable_logs_id_seq OWNED BY public.readable_logs.id;
+
+
+--
 -- Name: record_templates; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2036,6 +2071,13 @@ ALTER TABLE ONLY public.pg_search_documents ALTER COLUMN id SET DEFAULT nextval(
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY public.readable_logs ALTER COLUMN id SET DEFAULT nextval('public.readable_logs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY public.record_templates ALTER COLUMN id SET DEFAULT nextval('public.record_templates_id_seq'::regclass);
 
 
@@ -2385,6 +2427,14 @@ ALTER TABLE ONLY public.organizations
 
 ALTER TABLE ONLY public.pg_search_documents
     ADD CONSTRAINT pg_search_documents_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: readable_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.readable_logs
+    ADD CONSTRAINT readable_logs_pkey PRIMARY KEY (id);
 
 
 --
@@ -2956,6 +3006,20 @@ CREATE INDEX index_pg_search_documents_on_searchable_type_and_searchable_id ON p
 
 
 --
+-- Name: index_readable_logs_on_readable_type_and_readable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_readable_logs_on_readable_type_and_readable_id ON public.readable_logs USING btree (readable_type, readable_id);
+
+
+--
+-- Name: index_readable_logs_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_readable_logs_on_user_id ON public.readable_logs USING btree (user_id);
+
+
+--
 -- Name: index_rights_on_inherit; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3448,6 +3512,14 @@ ALTER TABLE ONLY public.tag_members
 
 
 --
+-- Name: fk_rails_3732af80d4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.readable_logs
+    ADD CONSTRAINT fk_rails_3732af80d4 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: fk_rails_3a104ea16c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3906,6 +3978,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190808090026'),
 ('20190810041847'),
 ('20190810045108'),
-('20190810071507');
+('20190810071507'),
+('20190811033116');
 
 

@@ -73,7 +73,10 @@ class User < ApplicationRecord
            foreign_key: :processed_by_id,
            dependent: :restrict_with_error
 
-  has_many :search_filters, dependent: :destroy
+  has_many :search_filters, dependent: :delete_all
+
+  has_many :readable_logs, dependent: :delete_all
+  has_many :readable, through: :readable_logs
 
   def search_filters_for(model)
     SearchFilter.where(
