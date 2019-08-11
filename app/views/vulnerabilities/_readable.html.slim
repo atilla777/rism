@@ -1,0 +1,11 @@
+. id="#{record.id}_readable"
+  - case record.read_status(current_user)
+  - when :unreaded
+    = link_to '#', class: 'btn btn-link' do
+      = fa_icon 'circle-o', class: 'text-danger'
+  - when :readed
+    = link_to '#', class: 'btn btn-link' do
+      = fa_icon 'circle', class: 'text-success'
+  - when :unreaded_update
+    = link_to '#', class: 'btn btn-link' do
+      = fa_icon 'circle', class: 'text-warning'

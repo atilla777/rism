@@ -1,1 +1,2 @@
 $('#<%= "#{@record.id}_relevance" %>').html("<%= j render('custom_relevance', record: @record) %>")
+$('#<%= "#{@record.id}_readable" %>').html("<%= j render('readable', record: @record) %>")
