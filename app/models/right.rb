@@ -13,18 +13,28 @@ class Right < ApplicationRecord
   validates :level, inclusion: { in: LEVELS.keys }
 
   # TODO: RSpec it
+  # Object here was wrong named as subject
   validates :subject_id,
             uniqueness: { scope: [:role_id, :subject_type, :level] },
-            allow_blank: true
+            if: proc { |record| record.subject_id.present? && organization_id.blank? }
   validates :subject_type,
-            uniqueness: { scope: [:role_id, :subject_id, :level] },
-            allow_blank: true,
-            if: proc { |record| record.subject_id.present? }
-  validates :level,
-            uniqueness: { scope: [:role_id, :subject_type, :subject_id] },
-            unless: proc { |r| r.subject_id.blank? }
+            uniqueness: { scope: [:role_id, :level] },
+            if: proc { |record| record.subject_id.blank? && organization_id.blank? }
+  validates :subject_id,
+            uniqueness: { scope: [:role_id, :subject_type, :level, :organization_id] },
+            if: proc { |record| record.subject_id.present? && organization_id.present? }
+  validates :subject_type,
+            uniqueness: { scope: [:role_id, :level, :organization_id] },
+            if: proc { |record| record.subject_id.blank? && organization_id.present? }
+#  validates :subject_type,
+#            uniqueness: { scope: [:role_id, :subject_id, :level] },
+#            allow_blank: true,
+#            if: proc { |record| record.subject_id.present? }
+#  validates :level,
+#            uniqueness: { scope: [:role_id, :subject_type, :subject_id] },
+#            unless: proc { |r| r.subject_id.blank? }
 
-  # Organization here is liake a security domain (scope)
+  # Organization here is like a security domain (scope)
   # (organization has many right_scopes)
   belongs_to :organization, optional: true
 

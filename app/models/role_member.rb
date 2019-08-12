@@ -6,4 +6,9 @@ class RoleMember < ApplicationRecord
 
   validates :user_id, numericality: { only_integer: true }
   validates :role_id, numericality: { only_integer: true }
+
+  validates(
+    :user_id,
+    uniqueness: { scope: :role_id}
+  )
 end

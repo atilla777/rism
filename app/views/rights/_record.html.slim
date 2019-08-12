@@ -1,0 +1,7 @@
+= report_button_for @record, right_id: @record.id
+= show_for @record do |r|
+  = r.show :subject_type, value: RightDecorator.new(@record).show_subject_type
+  = r.show :subject_id
+  = r.show :organization_id, value: @record.organization&.name
+  = r.show :level, value: @record.show_level
+  = r.show :role_id, value: @record.role.name
