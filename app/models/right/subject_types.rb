@@ -41,7 +41,7 @@ module Right::SubjectTypes
     'SearchFilter' => I18n.t('activerecord.models.search_filter.one'),
     'VulnerabilityKind' => I18n.t('activerecord.models.vulnerability_kind.one'),
     'VulnerabilityBulletinKind' => I18n.t('activerecord.models.vulnerability_bulletin_kind.one'),
-    'VulnerabilityBulletin' => I18n.t('activerecord.models.vulnerability_bulletin.one')
+    'VulnerabilityBulletin' => I18n.t('activerecord.models.vulnerability_bulletin.one'),
     'VulnerabilityBulletinMember' => I18n.t('activerecord.models.vulnerability_bulletin_member.one')
   }.freeze
 end
