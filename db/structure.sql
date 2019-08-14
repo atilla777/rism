@@ -148,7 +148,8 @@ CREATE TYPE public.vuln_relevance AS ENUM (
 
 CREATE TYPE public.vuln_state AS ENUM (
     'modified',
-    'published'
+    'published',
+    'not_published'
 );
 
 
@@ -1736,7 +1737,10 @@ CREATE TABLE public.vulnerabilities (
     updated_by_id bigint,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    vulnerability_kind_id bigint
+    vulnerability_kind_id bigint,
+    custom_published timestamp without time zone,
+    custom_published_time boolean DEFAULT false,
+    custom_codenames text[] DEFAULT '{}'::text[]
 );
 
 
@@ -3287,6 +3291,13 @@ CREATE INDEX index_vulnerabilities_on_created_by_id ON public.vulnerabilities US
 
 
 --
+-- Name: index_vulnerabilities_on_custom_codenames; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerabilities_on_custom_codenames ON public.vulnerabilities USING gin (custom_codenames);
+
+
+--
 -- Name: index_vulnerabilities_on_custom_description_gin_trgm_ops; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3932,6 +3943,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190810041847'),
 ('20190810045108'),
 ('20190810071507'),
-('20190811033116');
+('20190811033116'),
+('20190814124932'),
+('20190814130942');
 
 

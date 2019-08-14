@@ -1,5 +1,6 @@
 = show_for @record, decorator: VulnerabilityDecorator do | r |
   = r.show :published, value: show_date_time(@record.published)
+  = r.show :custom_published, value: show_date_time(@record.custom_published)
   = r.show :modified, value: show_date_time(@record.modified)
   = r.show :created_by_id
     - if  @record.creator.present?
@@ -13,6 +14,9 @@
         = @record.codename
     - else
       = @record.codename
+  = r.show(:custom_codenames,
+      value: truncate(r.decorated.show_custom_codenames, length: 2000))
+
   = r.show :vulnerability_kind_id, value: record.vulnerability_kind&.name
   = r.show :state, value: r.decorated.show_state
   = r.show :processed, value: r.decorated.show_processed

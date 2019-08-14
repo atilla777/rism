@@ -57,7 +57,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
 
       change.down do
         execute <<-SQL
-          DROP TYPE vuln_exploit_maturity;
+          DROP TYPE vuln_state;
         SQL
       end
 

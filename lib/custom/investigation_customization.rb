@@ -16,15 +16,16 @@ module Custom
 #    end
 
     def cast_custom_codename(investigation)
-      now = Time.now
+      start_day = Time.zone.now.beginning_of_day
       last_number = Investigation.select(:custom_codename, :id)
+        .where('created_at >= ?', start_day)
         .order(id: :desc)
         .first
         &.custom_codename
         &.scan(/\d+$/)
         &.first
         &.to_i || 0
-      "#{now.strftime('%d.%m.%Y')}/#{(last_number + 1)}"
+      "#{start_day.strftime('%d.%m.%Y')}/#{(last_number + 1)}"
     end
   end
 end

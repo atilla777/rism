@@ -10,14 +10,14 @@
       .form-group.required
         .field
           .col-lg-2.text-right
-            = f.label :published, class: 'control-label'
+            = f.label :custom_published, class: 'control-label'
           .col-lg-3
-            = f.date_select :published, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline', disabled: @record.blocked? }
-            = link_to '#', data: { set_date: 'published', turbolinks: false } do
+            = f.date_select :custom_published, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, include_blank: true, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
+            = link_to '#', data: { set_date: 'custom_published', turbolinks: false } do
               = fa_icon 'calendar'
           .col-lg-2
-            = f.time_select :published, { prompt: true, selected: (@record.published) , include_blank: true, ignore_date: true }, { style: 'width:40%; display:inline', class: 'form-control', disabled: @record.blocked }
-            = link_to '#', data: { set_time: 'published', turbolinks: false } do
+            = f.time_select :custom_published, { prompt: true, selected: (@record.custom_published) , include_blank: true, ignore_date: true }, { style: 'width:40%; display:inline', class: 'form-control' }
+            = link_to '#', data: { set_time: 'custom_published', turbolinks: false } do
               = fa_icon 'clock-o'
 
       .form-group.recomended
@@ -38,6 +38,16 @@
             = f.label :feed, class: 'control-label'
           .col-lg-2
             = f.select :feed, Vulnerability.feeds.keys.collect { |feed| [Vulnerability.human_enum_name(:feed, feed), feed] }, { selected: @record.feed || :custom }, class: 'form-control', disabled: @record.blocked
+
+      .form-group.recomended
+        .field
+          .col-lg-2.text-right
+            = f.label :custom_codenames, class: 'control-label'
+          .col-lg-8
+            = f.text_field(:custom_codenames_str,
+              value: decorated.show_custom_codenames,
+              class: 'form-control',
+              placeholder: t('activerecord.attributes.vulnerability.ph_custom_codenames'))
 
       .form-group.recomended
         .field
