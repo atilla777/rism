@@ -2,12 +2,9 @@
 
 class VulnerabilitiesController < ApplicationController
   include Record
+  include ReadableRecord
 
   before_action :set_time, only: [:create, :update]
-  after_action(
-    :set_readable_log,
-    only: [:create, :show, :edit, :update]
-  )
 
   autocomplete(
     :vulnerability,
@@ -22,15 +19,16 @@ class VulnerabilitiesController < ApplicationController
   def toggle_processed
     vulnerability = record
     authorize vulnerability.class
-    vulnerability.toggle!(:processed)
-    vulnerability.update_attribute(:processed_by_id, current_user.id)
-    @record = VulnerabilityDecorator.new(record)
+    vulnerability.toggle(:processed)
+    vulnerability.processed_by_id = current_user.id
+    vulnerability.save
+    @record = VulnerabilityDecorator.new(vulnerability.reload)
     set_readable_log
   end
 
   def toggle_custom_relevance
     vulnerability = record
-    authorize vulnerability.class
+    authorize vulnerability
     case vulnerability.custom_relevance
     when 'not_set'
       relevance = 'not_relevant'
@@ -39,9 +37,10 @@ class VulnerabilitiesController < ApplicationController
     else
       relevance = 'relevant'
     end
-    vulnerability.update_attribute(:custom_relevance, relevance)
-    vulnerability.update_attribute(:updated_by_id, current_user.id)
-    @record = VulnerabilityDecorator.new(record)
+    vulnerability.custom_relevance = relevance
+    vulnerability.updated_by_id = current_user.id
+    vulnerability.save
+    @record = VulnerabilityDecorator.new(vulnerability.reload)
     set_readable_log
   end
 
@@ -81,10 +80,9 @@ class VulnerabilitiesController < ApplicationController
   end
 
   def records_includes
-    [:vulnerability_kind, :processor, :vulnerability_bulletins, :vulnerability_bulletin_members]
-  end
-
-  def set_readable_log
-    SetReadableLogService.call(@record, current_user)
+    %i[vulnerability_kind
+       processor
+       vulnerability_bulletins
+       vulnerability_bulletin_members]
   end
 end

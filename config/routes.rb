@@ -101,6 +101,7 @@ end
     member do
       patch :toggle_processed
       patch :toggle_custom_relevance
+      patch :set_readable
     end
   end
   resources :custom_fields
