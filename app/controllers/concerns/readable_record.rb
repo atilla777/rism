@@ -12,7 +12,7 @@ module ReadableRecord
 
   def set_readable
     @record = record
-    authorize @record
+    authorize @record.class
     set_readable_log(@record)
   end
 

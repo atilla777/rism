@@ -1,0 +1,6 @@
+ru:
+  activerecord:
+    models:
+      readable_log:
+        one: 'Журнал просмотра'
+        other: 'Журналы просмотров'
