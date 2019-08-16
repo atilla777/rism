@@ -2,6 +2,7 @@
 
 class InvestigationsController < ApplicationController
   include RecordOfOrganization
+  include ReadableRecord
 
   def create
     @record = model.new(record_params)

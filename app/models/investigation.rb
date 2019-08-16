@@ -9,6 +9,7 @@ class Investigation < ApplicationRecord
   include CustomFieldable
   include Monitorable
   include Deliverable
+  include Readable
 
   attr_accessor :indicators_list
 

@@ -17,6 +17,10 @@ class IndicatorPolicy < ApplicationPolicy
     ]
   end
 
+  def set_readable?
+    index?
+  end
+
   class Scope
     attr_reader :user, :scope
 

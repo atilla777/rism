@@ -1,6 +1,7 @@
 = report_button_for records
 = render 'application/search', records: @records, associations: @associations
 = index_for records, decorator: IndicatorDecorator do |t|
+  - t.header attribute: :readed, fit: true, label: ''
   - t.header attribute: :created_at, sort_by: :created_at, sort: :desc
   - t.header attribute: :created_by_id, sort_by: :creator_name, sort: :desc
   - t.header attribute: :investigation_name, sort_by: :investigation_name, sort: :desc
@@ -10,6 +11,7 @@
   - t.header attribute: :content_format, sort_by: :content_format, sort: :desc
   - t.header attribute: :content, sort_by: :content, sort: :desc
   - t.header attribute: :appearance
+  - t.field { |record| render 'readable', record: record }
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
   - t.field { |record| link_to truncate(record.show_creator, length: 15), record.creator}
   - t.field { |record| link_to truncate(record.investigation.name, length: 15), record.investigation }

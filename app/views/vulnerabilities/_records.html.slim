@@ -8,7 +8,7 @@ br
   search_filters: @search_filters,
   records: records)
 = index_for records, decorator: VulnerabilityDecorator do |t|
-  - t.header attribute: :readed, label: ''
+  - t.header attribute: :readed, fit: true, label: ''
   - t.header attribute: :modified, sort: :desc
   - t.header attribute: :published, sort: :desc
   - t.header attribute: :state, sort: :desc
@@ -25,8 +25,7 @@ br
   - t.header attribute: :some_vendors, sort: :desc
   - t.header attribute: :some_products, sort: :desc
   - t.header attribute: :vulnerability_bulletins
-  - t.field do |record|
-    = render 'readable', record: record
+  - t.field { |record| render 'readable', record: record }
   - t.field { |record| link_to(show_date_time(record.modified), record) }
   - t.field { |record| link_to(show_date_time(record.published), record) }
   - t.field do |record|

@@ -86,10 +86,17 @@ Rails.application.routes.draw do
   resources :scan_job_logs, only: [:index]
   resources :feeds
   resources :investigation_kinds
-  resources :investigations
+  resources :investigations do
+    member do
+      patch :set_readable
+    end
+  end
   resources :indicators do
     collection do
       match 'search' => 'indicators#search', via: [:get, :post], as: :search
+    end
+    member do
+      patch :set_readable
     end
 end
   resources :indicator_contexts
@@ -118,7 +125,11 @@ end
   resources :search_filters
   resources :vulnerability_kinds
   resources :vulnerability_bulletin_kinds
-  resources :vulnerability_bulletins
+  resources :vulnerability_bulletins do
+    member do
+      patch :set_readable
+    end
+  end
   resources :vulnerability_bulletin_members, only: %i[index create destroy]
 
   # resources :schedules, only: [:show]

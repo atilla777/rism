@@ -14,4 +14,8 @@ class InvestigationPolicy < ApplicationPolicy
   def run?
     create?
   end
+
+  def set_readable?
+    index?
+  end
 end

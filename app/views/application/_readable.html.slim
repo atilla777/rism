@@ -1,5 +1,5 @@
 . id="#{record.id}_readable"
-    = link_to set_readable_vulnerability_path(record), method: :patch, remote: true, class: 'btn btn-link'
+    = link_to polymorphic_path(record, action: :set_readable), method: :patch, remote: true, class: 'btn btn-link'
       - case record.read_status(current_user)
       - when :unreaded
           = fa_icon 'circle-o', class: 'text-danger'

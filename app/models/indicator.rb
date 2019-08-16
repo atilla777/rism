@@ -7,6 +7,7 @@ class Indicator < ApplicationRecord
   include Indicator::Formats
   include CustomFieldable
   include Monitorable
+  include Readable
 
   attr_accessor :indicators_list
   attr_accessor :skip_format_validation

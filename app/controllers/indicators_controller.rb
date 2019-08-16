@@ -2,6 +2,7 @@
 
 class IndicatorsController < ApplicationController
   include RecordOfOrganization
+  include ReadableRecord
 
   before_action :set_investigation, only: [:new]
   before_action :set_content_format, only: [:new, :create, :edit, :update]
