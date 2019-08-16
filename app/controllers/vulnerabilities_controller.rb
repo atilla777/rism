@@ -28,7 +28,7 @@ class VulnerabilitiesController < ApplicationController
 
   def toggle_custom_relevance
     vulnerability = record
-    authorize vulnerability
+    authorize vulnerability.class
     case vulnerability.custom_relevance
     when 'not_set'
       relevance = 'not_relevant'
