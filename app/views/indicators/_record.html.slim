@@ -23,3 +23,8 @@
   = r.show :content
   - @record.custom_fields&.each do |name, value|
     = r.show :custom_fields, label: name, value: value
+
+=> link_to indicators_path(investigation_id: @record.investigation.id) do
+  span.btn.btn-default
+    = Investigation.model_name.human
+

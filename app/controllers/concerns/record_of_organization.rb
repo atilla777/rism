@@ -68,11 +68,7 @@ module RecordOfOrganization
     @organization = organization
     @record.current_user = current_user
     @record.update!(record_params)
-    redirect_to(
-      session.delete(:edit_return_to),
-      organization_id: @organization.id,
-      success: t('flashes.update', model: model.model_name.human)
-    )
+    default_update_redirect_to
   rescue ActiveRecord::RecordInvalid
     render :edit
   end
@@ -95,6 +91,14 @@ module RecordOfOrganization
   end
 
   private
+
+  def default_update_redirect_to
+    redirect_to(
+      session.delete(:edit_return_to),
+      organization_id: @organization.id,
+      success: t('flashes.update', model: model.model_name.human)
+    )
+  end
 
   # get organization to wich record belongs
   def organization

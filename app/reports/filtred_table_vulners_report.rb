@@ -16,13 +16,14 @@ class FiltredTableVulnersReport < BaseReport
     header = [
       '№',
       'CVE ID',
+      'Прочие ID',
       'Обработано',
       'Обработал',
       'Категория',
       'CWE ID',
-      'Источник',
-      'Дата обновления NVD',
-      'Дата публикации NVD',
+      'Источник последнего внесения сведений',
+      'Дата обновления источником',
+      'Дата публикации источником',
       'Дата обновления в базе',
       'Дата сохранения в базе',
       'Производители',
@@ -41,6 +42,7 @@ class FiltredTableVulnersReport < BaseReport
       'Ссылки источника',
       'Ссылки',
       'Рекомендации',
+      'Бюллеттени'
     ]
     r. << header
 
@@ -50,6 +52,7 @@ class FiltredTableVulnersReport < BaseReport
 
       row << index + 1
       row << record.codename
+      row << record.show_custom_codenames
       row << record.show_processed
       row << record.processor&.name
       row << record.vulnerability_kind&.name
@@ -75,6 +78,7 @@ class FiltredTableVulnersReport < BaseReport
       row << record.show_references_string(limit: 10, separator: "\n")
       row << record.custom_references
       row << record.custom_recomendation
+      row << record.show_bulletins_string
 
       r << row
     end
@@ -83,7 +87,7 @@ class FiltredTableVulnersReport < BaseReport
   private
 
   def get_records(options, organization)
-    scope = Vulnerability
+    scope = Vulnerability.includes(:vulnerability_bulletins)
     if options[:q].present?
       q = scope.ransack(options[:q])
       q.sorts = default_sort if q.sorts.empty?

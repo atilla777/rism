@@ -66,8 +66,12 @@ class IndicatorsController < ApplicationController
       @record.save!
     end
     add_from_template
+#    redirect_to(
+#      session.delete(:edit_return_to),
+#      success: t('flashes.create', model: model.model_name.human)
+#    )
     redirect_to(
-      session.delete(:edit_return_to),
+      indicators_path(investigation_id: @record.investigation_id),
       success: t('flashes.create', model: model.model_name.human)
     )
   rescue ActiveRecord::RecordInvalid
@@ -76,6 +80,19 @@ class IndicatorsController < ApplicationController
   end
 
   private
+
+  def set_return_to
+    @return_to = {}
+    @return_to[:label] = Investigation.model_name.human
+    @return_to[:path] = indicators_path(investigation_id: @record.investigation.id)
+  end
+
+  def default_update_redirect_to
+    redirect_to(
+      indicators_path(investigation_id: @record.investigation_id),
+      success: t('flashes.update', model: model.model_name.human)
+    )
+  end
 
   def model
     Indicator

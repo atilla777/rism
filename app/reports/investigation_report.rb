@@ -5,7 +5,7 @@ class InvestigationReport < BaseReport
 
   set_lang :ru
   set_report_name :investigation_report
-  set_human_name 'Бюллетень индикаторов компроментации'
+  set_human_name 'Бюллетень индикаторов компрометации'
   set_report_model 'Investigation'
   set_required_params %i[investigation_id]
   set_formats %i[docx csv]
@@ -19,10 +19,11 @@ class InvestigationReport < BaseReport
     end
 
     r.p  "Бюллетень индикаторов компрометации", style: 'Header'
+    if @investigation.name != @investigation.investigation_kind.name
+      r.p  @investigation.name, style: 'Header'
+    end
+    r.p  "#{@investigation.custom_codename}", style: 'Header'
     r.p  "(по состоянию на #{Date.current.strftime('%d.%m.%Y')})", style: 'Prim'
-    r.p
-    r.p  "Общая информация:", style: 'Subheader'
-    r.p  @investigation.description, style: 'Text'
     r.p
     r.p  "Тип события:", style: 'Subheader'
     r.p  @investigation.investigation_kind.name, style: 'Text'
@@ -30,16 +31,16 @@ class InvestigationReport < BaseReport
     r.p  "Источник информации:", style: 'Subheader'
     r.p  @investigation.feed.name, style: 'Text'
     r.p
+    r.p  "Общая информация:", style: 'Subheader'
+    r.p  @investigation.description, style: 'Text'
+    r.p
     r.p  "Индикаторы", style: 'Header'
     header = [[
-      '№ п.',
       'Формат индикатора',
+      'Значение',
       'Контекст индикатора',
       'Уровень доверия',
       'Назначение',
-      'Значение',
-      'Дата сохранения в базе',
-      'Дата обновления в базе',
       'Примечания',
     ]]
 
@@ -50,14 +51,11 @@ class InvestigationReport < BaseReport
 
       record = IndicatorDecorator.new(r)
 
-      row << @i
       row << record.show_content_format
+      row << record.content
       row << record.show_indicator_contexts
       row << record.show_trust_level
       row << record.show_purpose
-      row << record.content
-      row << show_date_time(record.created_at)
-      row << show_date_time(record.updated_at)
       row << record.description
       memo << row
     end
@@ -76,13 +74,13 @@ class InvestigationReport < BaseReport
       'Исследование (бюллетень)',
       'Источник информации',
       'Формат индикатора',
+      'Значение',
       'Контекст индикатора',
       'Уровень доверия',
       'Назначение',
-      'Значение',
+      'Примечания',
       'Дата сохранения в базе',
       'Дата обновления в базе',
-      'Примечания',
       'Описание исследования (бюллетеня)'
     ]
     r. << header
@@ -92,16 +90,16 @@ class InvestigationReport < BaseReport
       record = IndicatorDecorator.new(record)
 
       row << index + 1
-      row << @investigation.name
+      row << "#{@investigation.custom_codename} #{@investigation.name}"
       row << @investigation.feed.name
       row << record.show_content_format
+      row << record.content
       row << record.show_indicator_contexts
       row << record.show_trust_level
       row << record.show_purpose
-      row << record.content
+      row << record.description
       row << show_date_time(record.created_at)
       row << show_date_time(record.updated_at)
-      row << record.description
       row << @investigation.description
 
       r << row

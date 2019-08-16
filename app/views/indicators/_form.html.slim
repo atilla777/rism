@@ -19,7 +19,6 @@
           .col-lg-8
             = f.select :purpose, Indicator.purposes.keys.collect { |purpose| [Indicator.human_enum_name(:purpose, purpose), purpose] }, { selected: @record.purpose || :not_set}, class: 'form-control'
 
-
       .form-group
         .field
           .col-lg-2.text-right
@@ -45,7 +44,11 @@
           .col-lg-2.text-right
             = f.label :content_format, class: 'control-label'
           .col-lg-8
-            = f.select :content_format, Indicator.content_formats.keys.collect { |format| [Indicator.human_enum_name(:content_format, format), format] }, { selected: @record.content_format || @content_format}, class: 'form-control', readonly: true
+            = f.select(:content_format,
+              Indicator.content_formats.keys.collect { |format| ["#{Indicator.human_enum_name(:content_format, format)} (#{Indicator.human_enum_name(:ph_content_format, format)})", format] },
+              {selected: @record.content_format || @content_format},
+              class: 'form-control',
+              readonly: true)
 
       .form-group.recomended
         .field
@@ -61,7 +64,8 @@
           .col-lg-2.text-right
             = f.label :content, class: 'control-label'
           .col-lg-8
-            = f.text_field :content, class: 'form-control'
+            = f.text_field(:content,
+              class: 'form-control')
 
       = custom_fields_input @record
 
@@ -121,6 +125,12 @@
                       = t('labels.indicators.process')
                     li
                       = t('labels.indicators.account')
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => link_to indicators_path(investigation_id: @record&.investigation&.id || @investigation.id) do
+            span.btn.btn-default
+              = Investigation.model_name.human
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8
