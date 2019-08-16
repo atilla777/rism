@@ -40,7 +40,9 @@ class ActualAndRelevantVulnerabilitiesReport< BaseReport
       'Рекомендации',
       'Бюллеттени'
     ]
-    r. << header
+    custom_fields = CustomField.where(field_model: 'Vulnerability')
+    custom_fields_names = custom_fields.each_with_object([]) { |v, o| o << v.name }
+    r. << (header + custom_fields_names)
 
     @records.each_with_index do |record, index|
       row = []
@@ -71,6 +73,9 @@ class ActualAndRelevantVulnerabilitiesReport< BaseReport
       row << record.custom_references
       row << record.custom_recomendation
       row << record.show_bulletins_string
+      custom_fields.each do |c|
+        row << record.custom_field(c.name)
+      end
 
       r << row
     end

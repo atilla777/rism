@@ -56,7 +56,10 @@
   = r.show :description, value: r.decorated.show_description_string
   = r.show :custom_description
   - @record.custom_fields&.each do |name, value|
-    = r.show :custom_fields, label: name, value: value
+    - if @record.custom_field_data_type(name) == 'text'
+      = r.show :custom_fields, label: name, value: simple_format(value)
+    - else
+      = r.show :custom_fields, label: name, value: value
 
 - decorated = VulnerabilityDecorator.new(@record)
 

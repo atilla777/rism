@@ -19,6 +19,13 @@ module CustomFieldable
                  &.last
   end
 
+  def custom_field_data_type(field_name)
+    CustomField.where(
+      field_model: self.model_name.to_s,
+      name: field_name
+    )&.first&.data_type
+  end
+
   def custom_fields_names
     self.class.custom_fields_names.merge(custom_fields.keys)
   end
