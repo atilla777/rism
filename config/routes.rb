@@ -97,6 +97,8 @@ Rails.application.routes.draw do
     end
     member do
       patch :set_readable
+      get :enrich
+      get :enrichment
     end
 end
   resources :indicator_contexts

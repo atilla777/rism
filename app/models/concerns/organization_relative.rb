@@ -11,6 +11,7 @@ module OrganizationRelative
 
   included do
     attr_accessor :current_user
+    attr_accessor :skip_current_user_check
 
     # TODO: solve problem with - factory_bot to_create not work
     # (make session user  creation via User.new User.save(validation: false))
@@ -20,6 +21,7 @@ module OrganizationRelative
   end
 
   def organization_id_is_allowed
+    return if skip_current_user_check
     raise ValidateCurrentUserError unless current_user.present?
     return if current_user.admin_editor?
     return if current_user.can_read_model_index?(self.class)

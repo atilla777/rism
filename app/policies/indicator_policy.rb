@@ -21,6 +21,14 @@ class IndicatorPolicy < ApplicationPolicy
     index?
   end
 
+  def enrich?
+    create?
+  end
+
+  def enrichment?
+    index?
+  end
+
   class Scope
     attr_reader :user, :scope
 

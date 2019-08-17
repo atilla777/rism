@@ -1,9 +1,9 @@
 ---
-:concurrency: 25
+:concurrency: 26
 staging:
-  :concurrency: 25
+  :concurrency: 26
 production:
-  :concurrency: 25
+  :concurrency: 26
 :queues:
   - default
   - now_scan_1
@@ -11,6 +11,7 @@ production:
   - scheduled_scan_1
   - scheduled_scan_2
   - free_shodan_scan
+  - free_virus_total_search
   - sync_nvd_base
 :limits:
   default: 1
@@ -19,4 +20,5 @@ production:
   scheduled_scan_1: 4
   scheduled_scan_2: 14
   free_shodan_scan: 1
+  free_virus_total_search: 1
   sync_nvd_base: 1

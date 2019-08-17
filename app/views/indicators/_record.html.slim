@@ -23,8 +23,16 @@
   = r.show :content
   - @record.custom_fields&.each do |name, value|
     = r.show :custom_fields, label: name, value: value
+  = r.show :enrichment
+    = link_to 'Enrichment', enrichment_indicator_path(@record)
 
 => link_to indicators_path(investigation_id: @record.investigation.id) do
   span.btn.btn-default
     = Investigation.model_name.human
 
+= link_to(enrich_indicator_path(record, service_name: :virus_total),
+  method: :get,
+  remote: true,
+  class: 'btn btn-link') do
+    span.btn.btn-success
+      | VirusTotal

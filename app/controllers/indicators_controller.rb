@@ -14,6 +14,23 @@ class IndicatorsController < ApplicationController
     @scope = params.dig(:q, :scope_eq) || params.dig(:scope)
   end
 
+  def enrich
+    record = Indicator.find(params[:id])
+    authorize record
+    IndicatorEnrichmentJob.perform_later(
+      'free_virus_total_search',
+      record.id,
+      params[:service_name]
+    )
+  end
+
+  def enrichment
+    indicator = Indicator.find(params[:id])
+    authorize indicator
+    @enrichment = indicator.enrichment
+    render 'enrichments/ip_virus_total'
+  end
+
   def index
     @associations = [:investigation]
     authorize model

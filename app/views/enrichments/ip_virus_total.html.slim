@@ -1,0 +1,10 @@
+span.text-success
+  | VirusTotal info:
+  br
+  - @enrichment.each do |e|
+    //    - e.each do |i|
+    //      = i
+    = e[1].each do |i|
+      = i
+      br
+
