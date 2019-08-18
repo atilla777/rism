@@ -6,10 +6,10 @@ class IndicatorEnrichment::VirusTotalBrocker
   API_VERSION = 2
 
   INDICATORS_KINDS_MAP = {
-    md5: ['file', 'resuorce'],
-    sha1: ['file', 'resuorce'],
-    sha256: ['file', 'resuorce'],
-    uri: ['url', 'resuorce'],
+    md5: ['file', 'resource'],
+    sha1: ['file', 'resource'],
+    sha256: ['file', 'resource'],
+    uri: ['url', 'resource'],
     domain: ['domain', 'domain'],
     network: ['ip-address', 'ip']
   }.freeze

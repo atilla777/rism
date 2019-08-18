@@ -25,10 +25,12 @@ class IndicatorsController < ApplicationController
   end
 
   def enrichment
-    indicator = Indicator.find(params[:id])
-    authorize indicator
-    @enrichment = indicator.enrichment
-    render 'enrichments/ip_virus_total'
+    @indicator = Indicator.find(params[:id])
+    authorize @indicator
+    format = @indicator.content_format
+    service_name = Indicator::Enrichments.enrichment_by_name(params[:service_name])
+    @enrichment = @indicator.enrichment.fetch(service_name)
+    render "indicator_enrichments/#{format}_#{service_name}"
   end
 
   def index

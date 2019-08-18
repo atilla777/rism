@@ -1,0 +1,27 @@
+h3
+  span.text-info
+    => fa_icon 'database'
+    | VirusTotal
+  span
+    =< @indicator.content
+hr
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_whois'
+  h4
+    span.text-info
+      | WHOIS:
+.collapse#toggle_whois
+  - @enrichment.fetch('whois', '').split(/\n/).each do |str|
+    span.text-success
+      = str.match(/^\w+:/)
+    span
+      =< str.sub(/^\w+:/, '')
+    br
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
+  h4
+    span.text-info
+      | RAW data:
+.collapse#toggle_raw_data
+  = simple_format(JSON.pretty_generate(@enrichment))
+= link_to indicator_path(@indicator, active_tab: :enrichments) do
+  span.btn.btn-info
+    = Indicator.model_name.human

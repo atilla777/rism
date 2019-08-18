@@ -1,0 +1,17 @@
+table.table.table-hover.table-bordered.table-striped
+  thead.thead-dark
+    tr
+      th
+  tbody
+    - unless record.enrichment == '{}'
+      - record.enrichment.each do |k, v|
+        tr
+          td
+            = link_to k, enrichment_indicator_path(@record, service_name: k)
+
+= link_to(enrich_indicator_path(record, service_name: :virus_total),
+  method: :get,
+  remote: true,
+  class: 'btn btn-link') do
+    span.btn.btn-success
+      | VirusTotal
