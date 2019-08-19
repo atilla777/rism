@@ -29,9 +29,9 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_whois'
 .collapse#toggle_whois
   - @enrichment.fetch('whois', '').split(/\n/).each do |str|
     span.text-success
-      = str.match(/^\w+:/)
+      = str.match(/^([\w\/-]+\s*)+:/)
     span
-      =< str.sub(/^\w+:/, '')
+      =< str.sub(/^([\w\/-]+\s*)+:/, '')
     br
 a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_resolutions'
   h4

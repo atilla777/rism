@@ -1,6 +1,8 @@
 class InvestigationPolicy < ApplicationPolicy
   def permitted_attributes
-    [:name,
+    [
+      :name,
+      :enrich,
       :custom_codename,
       :feed_codename,
       :organization_id,
@@ -8,10 +10,15 @@ class InvestigationPolicy < ApplicationPolicy
       :investigation_kind_id,
       :indicators_list,
       {custom_fields: Investigation.custom_fields_names},
-     :description]
+      :description
+    ]
   end
 
   def run?
+    create?
+  end
+
+  def enrich?
     create?
   end
 

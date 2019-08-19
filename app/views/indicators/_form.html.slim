@@ -76,6 +76,13 @@
           .col-lg-8
             = f.text_area :description, rows: 5, class: 'form-control'
 
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :enrich, class: 'control-label'
+          .col-lg-8
+             = f.check_box :enrich, class: 'big-checkbox'
+
       - if @record.new_record?
 
         .form-group

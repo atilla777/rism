@@ -11,7 +11,7 @@ class Investigation < ApplicationRecord
   include Deliverable
   include Readable
 
-  attr_accessor :indicators_list
+  attr_accessor :indicators_list, :enrich
 
   before_validation :set_name
   before_validation :set_custom_codename

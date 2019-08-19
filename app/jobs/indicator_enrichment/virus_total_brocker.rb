@@ -29,8 +29,12 @@ class IndicatorEnrichment::VirusTotalBrocker
     sleep(15) unless ENV['VIRUS_TOTAL_PRIVATE_KEY'].present?
     response = http_request(uri)
     check_and_return_http_response(response)
-  rescue StandardError => error
+  rescue  => error
     handle_httparty_errors(error)
+  end
+
+  def self.format_supported?(format)
+    INDICATORS_KINDS_MAP.fetch(format.to_sym, false)
   end
 
   private

@@ -17,17 +17,13 @@ class IndicatorsController < ApplicationController
   def enrich
     record = Indicator.find(params[:id])
     authorize record
-    IndicatorEnrichmentJob.perform_later(
-      'free_virus_total_search',
-      record.id,
-      params[:service_name]
-    )
+    enrich_indicator(record)
   end
 
   def enrichment
     @indicator = Indicator.find(params[:id])
     authorize @indicator
-    format = @indicator.content_format
+    format = Indicator::Enrichments.map_hash_format(@indicator.content_format)
     service_name = Indicator::Enrichments.enrichment_by_name(params[:service_name])
     @enrichment = @indicator.enrichment.fetch(service_name)
     render "indicator_enrichments/#{format}_#{service_name}"
@@ -74,7 +70,8 @@ class IndicatorsController < ApplicationController
       @not_saved_strings = CreateIndicatorsService.call(
         params[:indicator][:indicators_list],
         @record.investigation_id,
-        current_user.id
+        current_user.id,
+        @record.enrich
       )
       if @not_saved_strings.present?
         @record.errors.add(:content, :wrong_format_or_dublication)
@@ -83,6 +80,7 @@ class IndicatorsController < ApplicationController
     else
       @record.current_user = current_user
       @record.save!
+      enrich_indicator(@record) if @record.enrich == '1'
     end
     add_from_template
 #    redirect_to(
@@ -99,6 +97,17 @@ class IndicatorsController < ApplicationController
   end
 
   private
+
+  def enrich_indicator(indicator)
+    unless Indicator::Enrichments.format_supported?(indicator.content_format, 'virus_total')
+      return
+    end
+    IndicatorEnrichmentJob.perform_later(
+      'free_virus_total_search',
+      indicator.id,
+      'virus_total'
+    )
+  end
 
   def set_return_to
     @return_to = {}

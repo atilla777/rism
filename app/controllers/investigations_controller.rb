@@ -4,6 +4,21 @@ class InvestigationsController < ApplicationController
   include RecordOfOrganization
   include ReadableRecord
 
+  def enrich
+    investigation = Investigation.find(params[:id])
+    authorize record
+    investigation.indicators.each do |indicator|
+      unless Indicator::Enrichments.format_supported?(indicator.content_format, 'virus_total')
+        next
+      end
+      IndicatorEnrichmentJob.perform_later(
+        'free_virus_total_search',
+        indicator.id,
+        'virus_total'
+      )
+    end
+  end
+
   def create
     @record = model.new(record_params)
     authorize @record.class
@@ -15,7 +30,8 @@ class InvestigationsController < ApplicationController
       @not_saved_strings = CreateIndicatorsService.call(
         params[:investigation][:indicators_list],
         @record.id,
-        current_user.id
+        current_user.id,
+        @record.enrich
       )
       if @not_saved_strings.present?
         redirect_to new_indicator_path(

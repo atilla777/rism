@@ -68,6 +68,15 @@
                   = t('labels.indicator.indicators_list')
 
         .collapse#toggle_list
+
+          .form-group.required
+            .field
+              .col-lg-2.text-right
+                = f.label :enrich, class: 'control-label'
+              .col-lg-8
+                 = f.check_box :enrich, class: 'big-checkbox'
+
+
           .form-group
             .field
               .col-lg-2.text-right

@@ -89,6 +89,7 @@ Rails.application.routes.draw do
   resources :investigations do
     member do
       patch :set_readable
+      get :enrich
     end
   end
   resources :indicators do

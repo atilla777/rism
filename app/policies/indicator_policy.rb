@@ -3,6 +3,7 @@ class IndicatorPolicy < ApplicationPolicy
   def permitted_attributes
     [
       :investigation_id,
+      :enrich,
       :content,
       :indicators_list,
       {indicator_context_ids: []},

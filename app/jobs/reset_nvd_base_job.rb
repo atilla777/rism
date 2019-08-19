@@ -81,7 +81,7 @@ class ResetNvdBaseJob < ApplicationJob
         record.save!
       rescue ActiveRecord::RecordInvalid
         logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_error.log'))
-        logger.tagged("RESET_NVD: #{record}") do
+        logger.tagged("RESET_NVD (#{Time.now}): #{record}") do
           logger.error("vulnerability can`t be saved - #{record.errors.full_messages}, record:  #{record}")
         end
       end

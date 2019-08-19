@@ -22,7 +22,6 @@ h4
     | Scan date:
   span.tex-info
     =<> @enrichment.fetch('scan_date', '')
-
 a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_scans'
   h4
     span.text-info
@@ -31,14 +30,14 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_scans'
   - @enrichment.fetch('scans', []).each do |antivirus, value|
     span.text-success
       => antivirus
-      - if value.fetch('detected', false)
-        span.label.label-danger
-          =<> value.fetch('result', '')
-      - else
-        span.label.label-info
-          =< value.fetch('result', '')
-      br
-
+    => "(v. #{value.fetch('version', '')}, update #{value.fetch('update', '')})"
+    - if value.fetch('detected', false)
+      span.label.label-danger
+        =<> value.fetch('result', '')
+    - else
+      span.label.label-info
+        =< value.fetch('result', '') || 'clear'
+    br
 a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
   h4
     span.text-info

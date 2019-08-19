@@ -130,7 +130,7 @@ class SyncNvdBaseJob < ApplicationJob
 #            custom_actuality: 'not_set',
       rescue ActiveRecord::RecordInvalid
         logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
-        logger.tagged("SYNC_NVD: #{record.codename}") do
+        logger.tagged("SYNC_NVD (#{Time.now}): #{record.codename}") do
           logger.error <<-TEXT
             vulnerability can`t be saved -
             #{record.errors.full_messages}

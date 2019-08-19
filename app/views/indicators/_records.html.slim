@@ -1,6 +1,6 @@
 = report_button_for records
 = render 'application/search', records: @records, associations: @associations
-= index_for records, decorator: IndicatorDecorator do |t|
+= index_for records, actions: false, decorator: IndicatorDecorator do |t|
   - t.header attribute: :readed, fit: true, label: ''
   - t.header attribute: :created_at, sort_by: :created_at, sort: :desc
   - t.header attribute: :created_by_id, sort_by: :creator_name, sort: :desc
@@ -10,7 +10,7 @@
   - t.header attribute: :purpose, sort_by: :purpose, sort: :desc
   - t.header attribute: :content_format, sort_by: :content_format, sort: :desc
   - t.header attribute: :content, sort_by: :content, sort: :desc
-  - t.header attribute: :appearance
+  - t.header attribute: :actions, fit: true, label: ''
   - t.field { |record| render 'readable', record: record }
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
   - t.field { |record| link_to truncate(record.show_creator, length: 15), record.creator}
@@ -19,5 +19,28 @@
   - t.field { |record| link_to record.show_trust_level, record}
   - t.field { |record| link_to record.show_purpose }
   - t.field { |record| link_to record.show_content_format, record}
-  - t.field { |record| link_to truncate(record.content, length: 20), record}
-  - t.field { |record| link_to record.show_appearance, record}
+  - t.field do |record|
+    = link_to record do
+      - case
+      - when record.show_appearance < 2
+        span.text-info.text-right
+          = "#{record.show_appearance}x"
+      - when record.show_appearance < 5
+        span.text-warning
+          = "#{record.show_appearance}x"
+      - when record.show_appearance > 10
+        span.text-danger
+          = "#{record.show_appearance}x"
+    =< link_to truncate(record.content, length: 20), record
+  - t.field do |record|
+    => link_to(indicator_path(record, active_tab: :enrichments),
+      data_toggle: 'tooltip',
+      title: Indicator.human_attribute_name(:enrichment),
+      class: 'btn btn-link') do
+      - if record.enrichment_done?
+        span.text-warning
+          = fa_icon 'database'
+      - else
+        span
+          = fa_icon 'database'
+    = render 'helpers/index_actions', record: record

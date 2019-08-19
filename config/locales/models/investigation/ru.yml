@@ -6,6 +6,7 @@ ru:
         other: 'Исследования/Бюллетени'
     attributes:
       investigation:
+        enrich: 'Обогатить'
         name: 'Имя'
         feed_codename: 'Код ист.'
         custom_codename: 'Код пол.'

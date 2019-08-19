@@ -10,6 +10,7 @@ class Indicator < ApplicationRecord
   include Readable
 
   attr_accessor :indicators_list
+  attr_accessor :enrich
   attr_accessor :skip_format_validation
   attr_accessor :indicator_context_ids
 

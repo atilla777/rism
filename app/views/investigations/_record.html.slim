@@ -19,4 +19,12 @@
     = r.show :custom_fields, label: name, value: value
   = r.show :description
 
+= link_to(enrich_investigation_path(record, service_name: :virus_total),
+  data: {confirm: t('views.action.confirm')},
+  method: :get,
+  remote: true,
+  class: 'btn btn-link') do
+    span.btn.btn-success
+      | VirusTotal
+
 = render 'application/record_versions'

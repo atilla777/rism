@@ -6,6 +6,7 @@ ru:
         other: 'Индикаторы'
     attributes:
       indicator:
+        enrich: 'Обогатить'
         investigation_name: 'Имя исс.'
         investigation_custom_codename: 'Кодовое имя исс.'
         organization_id: 'Организация влад.'

@@ -3,10 +3,11 @@ class CreateIndicatorsService
     new(*args, &block).execute
   end
 
-  def initialize(text, investigation_id, current_user)
-     @text = text
-     @investigation_id = investigation_id
-     @user_id = current_user
+  def initialize(text, investigation_id, current_user, enrich = false)
+    @enrich = enrich
+    @text = text
+    @investigation_id = investigation_id
+    @user_id = current_user
   end
 
   def execute
@@ -34,9 +35,23 @@ class CreateIndicatorsService
       enrichment: {}
     )
     indicator = Indicator.new(indicator_params)
-    indicator.current_user = User.find(@user_id)
+    current_user = User.find(@user_id)
+    indicator.current_user = current_user
     indicator.skip_format_validation = true
     indicator.save
+    enrich(indicator) if @enrich == '1'
+    SetReadableLogService.call(indicator, current_user)
+  end
+
+  def enrich(indicator)
+    unless Indicator::Enrichments.format_supported?(indicator.content_format, 'virus_total')
+      return
+    end
+    IndicatorEnrichmentJob.perform_later(
+      'free_virus_total_search',
+      indicator.id,
+      'virus_total'
+    )
   end
 
   def indicator_context_ids(codenames)

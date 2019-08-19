@@ -10,6 +10,7 @@ table.table.table-hover.table-bordered.table-striped
             = link_to k, enrichment_indicator_path(@record, service_name: k)
 
 = link_to(enrich_indicator_path(record, service_name: :virus_total),
+  data: {confirm: t('views.action.confirm')},
   method: :get,
   remote: true,
   class: 'btn btn-link') do

@@ -35,4 +35,9 @@ class IndicatorDecorator < SimpleDelegator
   def show_updater
     updater&.name || ''
   end
+
+  def enrichment_done?
+    return false if enrichment.empty?
+    true
+  end
 end

@@ -23,17 +23,17 @@ class IndicatorEnrichmentJob < ApplicationJob
   private
 
   def save_result
-    if @indicator.enrichment == '{}'
-      @indicator.enrichment = {}
-    end
+#    if @indicator.enrichment == '{}'
+#      @indicator.enrichment = {}
+#    end
     @indicator.skip_current_user_check = true
     @indicator.enrichment[@enrichment_service_name] = @result
     @indicator.save!
   rescue ActiveRecord::RecordInvalid
     logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_error.log'))
-    logger.tagged("INDICATOR_ENRICHMENT: ") do
+    logger.tagged("INDICATOR_ENRICHMENT (#{Time.now}): ") do
       logger.error(
-        "indicator enrichment can`t be saved - #{@indicator.errors.full_messages}, indicator ID-  #{@indicator.id}"
+        "indicator enrichment can`t be saved - #{@indicator.errors.full_messages}, indicator ID - #{@indicator.id}"
       )
     end
   end
