@@ -16,6 +16,8 @@
     = f.hidden_field :vulnerability_kind_id_in, multiple: true, value: p
   = f.hidden_field :codename_eq
   = f.hidden_field :codename_cont
+  - params.fetch(:q, {}).fetch(:codename_in, []).each do |p|
+    = f.hidden_field :codename_in, multiple: true, value: p
   - params.fetch(:q, {}).fetch(:state_in, []).each do |p|
     = f.hidden_field :state_in, multiple: true, value: p
   - params.fetch(:q, {}).fetch(:feed_in, []).each do |p|
