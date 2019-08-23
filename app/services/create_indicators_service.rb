@@ -3,11 +3,12 @@ class CreateIndicatorsService
     new(*args, &block).execute
   end
 
-  def initialize(text, investigation_id, current_user, enrich = false)
+  def initialize(text, investigation_id, current_user, contexts, enrich = false)
     @enrich = enrich
     @text = text
     @investigation_id = investigation_id
     @user_id = current_user
+    @contexts = contexts.reject { |i| i.blank? }
   end
 
   def execute
@@ -24,9 +25,15 @@ class CreateIndicatorsService
     string = clean_string(string)
     indicator_params = Indicator.cast_indicator(string)
     return unless indicator_params.fetch(:content_format, false)
-    indicator_params[:indicator_context_ids] = indicator_context_ids(
-      indicator_params[:indicator_context_ids]
-    )
+    if @contexts.blank?
+      indicator_params[:indicator_context_ids] = indicator_context_ids(
+        indicator_params[:indicator_context_ids]
+      )
+    else
+      ids = IndicatorContext.pluck(:id)
+      contexts = @contexts.map(&:to_i).select { |id| ids.include? id }
+      indicator_params[:indicator_context_ids] = contexts
+    end
     indicator_params.merge!(
       investigation_id: @investigation_id,
       current_user: @user_id,

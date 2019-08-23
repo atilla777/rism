@@ -103,7 +103,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
-    caracal (1.1.2)
+    caracal (1.4.1)
       nokogiri (~> 1.6)
       rubyzip (~> 1.1)
       tilt (>= 1.4)
@@ -453,7 +453,7 @@ DEPENDENCIES
   capistrano-sidekiq
   capistrano3-puma (~> 3.1)
   capybara (~> 2.18)
-  caracal (~> 1.1)
+  caracal (~> 1.4)
   carrierwave (~> 1.2)
   chartkick (~> 3.2)
   ckeditor (~> 4.2)

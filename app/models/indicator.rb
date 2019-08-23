@@ -44,6 +44,7 @@ class Indicator < ApplicationRecord
   validates :purpose, inclusion: { in: Indicator.purposes.values}
   validates :content, uniqueness: { scope: :investigation_id }
   validates :parent_id, numericality: { only_integer: true, allow_blank: true }
+  validate :check_parent_id
 
   belongs_to :investigation
   has_one :organization, through: :investigation
@@ -107,5 +108,13 @@ class Indicator < ApplicationRecord
 
   def organization_id
     investigation.organization_id
+  end
+
+  private
+
+  def check_parent_id
+    return if id.blank?
+    return if parent_id != id
+    errors.add(:parent_id, 'Parent id cant be as self id')
   end
 end

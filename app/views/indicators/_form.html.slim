@@ -17,7 +17,10 @@
           .col-lg-2.text-right
             = f.label :purpose, class: 'control-label'
           .col-lg-8
-            = f.select :purpose, Indicator.purposes.keys.collect { |purpose| [Indicator.human_enum_name(:purpose, purpose), purpose] }, { selected: @record.purpose || :not_set}, class: 'form-control'
+            = f.select(:purpose,
+              Indicator.purposes.keys.collect { |purpose| [Indicator.human_enum_name(:purpose, purpose), purpose] },
+              {selected: (@record.new_record? ? @record.purpose : :for_detect)},
+              class: 'form-control')
 
       .form-group
         .field
@@ -25,11 +28,11 @@
             = f.label :parent_id, class: 'control-label'
           .col-lg-8
             => f.collection_select(:parent_id,
-                Investigation.find(@investigation&.id || @record.investigation.id).indicators,
-                :id,
-                :content,
-                {include_blank: true},
-                {class: 'form-control'})
+              (Investigation.find(@investigation&.id || @record.investigation.id).indicators - [@record]),
+              :id,
+              :content,
+              {include_blank: true},
+              {class: 'form-control'})
 
       .form-group.required
         .field
@@ -50,15 +53,6 @@
               class: 'form-control',
               readonly: true)
 
-      .form-group.recomended
-        .field
-           .col-lg-2.text-right
-             = f.label :indicator_contexts, class: 'control-label'
-           .col-lg-8
-             = f.collection_check_boxes :indicator_context_ids, @indicator_contexts, :id, :name, {}, class: 'big-checkbox' do |b|
-               =< b.check_box(checked: @selected_indicator_contexts_ids.include?(b.value.to_i))
-               =< b.text
-
       .form-group.required
         .field
           .col-lg-2.text-right
@@ -75,6 +69,15 @@
             = f.label :description, class: 'control-label'
           .col-lg-8
             = f.text_area :description, rows: 5, class: 'form-control'
+
+      .form-group.recomended
+        .field
+           .col-lg-2.text-right
+             = f.label :indicator_contexts, class: 'control-label'
+           .col-lg-8
+             = f.collection_check_boxes :indicator_context_ids, @indicator_contexts, :id, :name, {}, class: 'big-checkbox' do |b|
+               =< b.check_box(checked: @selected_indicator_contexts_ids.include?(b.value.to_i))
+               =< b.text
 
       - if @record.new_record?
 

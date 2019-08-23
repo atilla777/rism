@@ -72,4 +72,5 @@ ru:
         created_by_id: 'Cоздал'
         updated_by_id: 'Отредактировал'
         parent_id: 'Родительский контейнер'
+        children: 'Дочерние контейнеры'
         parent_conjunction: ' Контейнер - логическое И'

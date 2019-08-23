@@ -1,0 +1,46 @@
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_tree'
+  h5
+    span.text-info
+      | Для копирования:
+.collapse#toggle_tree
+  . style='background-color: #ffffff'
+    - investigation = @record
+    br
+    h3 style='color: #990066; text-align: center'
+      | Бюллетень индикаторов компрометации
+    h4 style='color: #000000; text-align: center'
+      = "№ #{investigation.custom_codename}"
+    h5 style='color: #000000; text-align: center'
+      = "(по состоянию на #{Date.current.strftime('%d.%m.%Y')})"
+    h4 style='color: #990066'
+      | Тип события:
+      span style='color: #000000'
+        = " #{investigation.investigation_kind.name}"
+    - if investigation.feed_codename.present?
+      h4 style='color: #990066'
+        | Источник информации:
+        span style='color: #000000'
+          = " #{investigation.feed.name} (#{investigation.feed_codename})"
+    - else
+      h4 style='color: #990066'
+        | Источник информации:
+        span style='color: #000000'
+          = "#{investigation.feed.name}"
+    = simple_format investigation.description
+    h4 style='color: #990066'
+      | Индикаторы:
+    hr style='color: #990066'
+    - investigation.top_parents_indicators.each do |top_parent|
+      - i = IndicatorDecorator.new(top_parent)
+      h4 style='color: #990066'
+        = "#{i.show_content_format}"
+        - if i.show_indicator_contexts.present?
+          = " (#{i.show_indicator_contexts}) "
+        - p = {'for_detect' => 'для поиска', 'for_prevent' => 'для поиска и блокировки'}.fetch(i.purpose, '')
+        = "#{ p}:"
+      span style='color: #ff1493'
+        = i.show_escaped_content
+        - if i.description.present?
+          br
+          = text i.description
+      hr style='color: #990066'

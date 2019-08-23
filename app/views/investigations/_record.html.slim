@@ -18,6 +18,9 @@
   - @record.custom_fields&.each do |name, value|
     = r.show :custom_fields, label: name, value: value
   = r.show :description
+    = simple_format @record.description
+
+  = render 'tree_show'
 
 = link_to(enrich_investigation_path(record, service_name: :virus_total),
   data: {confirm: t('views.action.confirm')},

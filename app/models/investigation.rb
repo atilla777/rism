@@ -31,6 +31,11 @@ class Investigation < ApplicationRecord
 #  has_many :delivery_subjects, as: :deliverable, dependent: :delete_all
 #  has_many :delivery_lists, through: :delivery_subjects
 
+  def top_parents_indicators
+    indicators.where(parent_id: nil)
+  end
+
+
   def allowed_delivery_lists
     DeliveryList.all - delivery_lists
   end

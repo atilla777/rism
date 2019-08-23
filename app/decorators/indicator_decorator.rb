@@ -10,6 +10,16 @@ class IndicatorDecorator < SimpleDelegator
     Indicator.human_enum_name(:content_format, content_format)
   end
 
+  def show_escaped_content
+    formats = Indicator::Formats::ESCAPED_FORMATS
+    return content unless formats.include?(content_format)
+    if content_format == 'uri'
+      content.gsub(/^(h|f)t(t?ps?:\/\/.*)/,'\1x\2')
+    else
+      content.gsub(/\.([^.]*)$/,'[.]\1')
+    end
+  end
+
   def show_indicator_contexts
     indicator_contexts.map do |context|
       context.name

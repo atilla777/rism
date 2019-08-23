@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Indicator::Formats
+  ESCAPED_FORMATS = %w[network network_service email_adress domain uri].freeze
 
   NETWORK_PORT_REGEXP = /(6553[0-5]|655[0-2][0-9]\d|65[0-4](\d){2}|6[0-4](\d){3}|[1-5](\d){4}|[1-9](\d){0,3})/.freeze
 
@@ -43,7 +44,7 @@ module Indicator::Formats
       pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{NETWORK_PORT_REGEXP}(tcp|udp)?)\s*$/
     },
     {
-      format: :email_adress,
+      format: :email_adress, # TOD: fix adress to address
       pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{EMAIL_REGEXP})\s*/i
     },
     {

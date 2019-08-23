@@ -15,7 +15,7 @@ class SearchFilterPolicy < ApplicationPolicy
   end
 
   def destroy?
-    return true if @user.admin_editor?
+    return true if @user.admin?
     return true if @user.can?(:edit, @record)
     @user.id == @record.user_id
   end
