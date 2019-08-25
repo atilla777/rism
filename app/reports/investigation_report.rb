@@ -18,7 +18,7 @@ class InvestigationReport < BaseReport
       #orientation :landscape  # sets the printer orientation. accepts :portrait and :landscape.
       orientation :portrait # sets the printer orientation. accepts :portrait and :landscape.
     end
-    r.style id: 'header', name: 'Header' do
+    r.style id: 'Likeh1', name: 'likeh1' do
       font 'Times New Roman'
       size 28
       bold true
@@ -62,15 +62,12 @@ class InvestigationReport < BaseReport
 
     investigation = @investigation
 
-    r.p do
-      style 'Header'
-      text "Бюллетень индикаторов компрометации", style: 'TextHeader', color: '990066'
-    end
+    r.p "Бюллетень индикаторов компрометации", style: 'Likeh1', color: '990066'
     if investigation.name != investigation.investigation_kind.name
-      r.p  investigation.name, style: 'Header'
+      r.p  investigation.name, style: 'Likeh1'
     end
-    r.p  "№ #{investigation.custom_codename}", style: 'Header'
-    r.p  "(по состоянию на #{Date.current.strftime('%d.%m.%Y')})", style: 'Prim', size: 20
+    r.p  "№ #{investigation.custom_codename}", style: 'Likeh1'
+    r.p  "(по состоянию на #{Date.current.strftime('%d.%m.%Y')})", style: 'Likeh1', size: 20
     r.p
     r.p do
       text "Тип события: ", style: 'TextSubheader', color: '990066'
