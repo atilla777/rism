@@ -71,6 +71,14 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
               .form-row
                 .field
                   .col-lg-1.text-right
+                    = f.label :description, class: 'control-label'
+                  .col-lg-10
+                    = f.text_field :description_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
                     = f.label :investigation_custom_codename, class: 'control-label'
                   .col-lg-5
                     = f.text_field :investigation_custom_codename_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
@@ -102,21 +110,21 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
               .form-row
                 .field
                   .col-lg-1.text-right
-                    = f.label :created_by_id, class: 'control-label'
-                  .col-lg-5
-                    = f.text_field :creator_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
-                  .col-lg-5
-                    = f.text_field :creator_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
-
-            .form-group
-              .form-row
-                .field
-                  .col-lg-1.text-right
                     = f.label :organization_id, class: 'control-label'
                   .col-lg-5
                     = f.text_field :organization_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
                   .col-lg-5
                     = f.text_field :organization_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :created_by_id, class: 'control-label'
+                  .col-lg-5
+                    = f.text_field :creator_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                  .col-lg-5
+                    = f.text_field :creator_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
 
             .form-group
               .form-row

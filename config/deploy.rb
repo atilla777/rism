@@ -36,6 +36,9 @@ set(
   fetch(:linked_files, []).push('.env.production', 'puma.service', 'sidekiq.service')
 )
 
+# to use with proxy with spoofed certificate
+# set :bundle_env_variables, {'BUNDLE_SSL_VERIFY_MODE'=>'0'}
+
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 

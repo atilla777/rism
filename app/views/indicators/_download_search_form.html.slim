@@ -1,10 +1,37 @@
 = search_form_for @q, url: filtred_reports_path({name: :filtred_table_indicators}), html: { method: :post } do |f|
+  = f.hidden_field :s, value: params.fetch(:q, {}).fetch(:s, '')
+
+  - params.fetch(:q, {}).fetch(:content_format_in, []).each do |p|
+    = f.hidden_field :content_format_in, multiple: true, value: p
+  - params.fetch(:q, {}).fetch(:indicator_contexts_id_in, []).each do |p|
+    = f.hidden_field :indicator_contexts_id_in, multiple: true, value: p
+  - params.fetch(:q, {}).fetch(:indicator_contexts_id_in, []).each do |p|
+    = f.hidden_field :indicator_contexts_id_in, multiple: true, value: p
+
+  = f.hidden_field :content_eq
+  = f.hidden_field :content_cont
+
   - params.fetch(:q, {}).fetch(:purpose_in, []).each do |p|
     = f.hidden_field :purpose_in, multiple: true, value: p
   - params.fetch(:q, {}).fetch(:trust_level_in, []).each do |p|
     = f.hidden_field :trust_level_in, multiple: true, value: p
-  = f.hidden_field :content_eq
-  = f.hidden_field :content_cont
+
+  = f.hidden_field :investigation_custom_codename_eq
+  = f.hidden_field :investigation_custom_codename_cont
+  = f.hidden_field :investigation_feed_codename_eq
+  = f.hidden_field :investigation_feed_codename_cont
+  - params.fetch(:q, {}).fetch(:investigation_kind_id_in, []).each do |p|
+    = f.hidden_field :investigation_kind_id_in, multiple: true, value: p
+
+  = f.hidden_field :creator_name_eq
+  = f.hidden_field :creator_name_cont
+
+  = f.hidden_field :updater_name_eq
+  = f.hidden_field :updater_name_cont
+
+  = f.hidden_field :organization_name_eq
+  = f.hidden_field :organization_name_cont
+
   = f.hidden_field :description_cont
 
   = f.hidden_field :created_at_last_days
