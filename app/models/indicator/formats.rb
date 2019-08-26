@@ -27,29 +27,23 @@ module Indicator::Formats
 
   CONTENT_FORMATS = [
     {
-      format: :other,
-      pattern: /^\s*other#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
+      format: :filename,
+      pattern: /^\s*filename#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
       check_prefix: true
     },
     {
-      format: :network_service,
-      pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{IP4_REGEXP}:#{NETWORK_PORT_REGEXP}(:tcp|:udp)?)\s*$/
+      format: :filesize,
+      pattern: /^\s*filesize#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
+      check_prefix: true
     },
     {
-      format: :network,
-      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{IP4_REGEXP})\s*/
+      format: :process,
+      pattern: /^\s*process#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
+      check_prefix: true
     },
     {
-      format: :network_port,
-      pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{NETWORK_PORT_REGEXP}(tcp|udp)?)\s*$/
-    },
-    {
-      format: :email_adress, # TOD: fix adress to address
-      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{EMAIL_REGEXP})\s*/i
-    },
-    {
-      format: :email_author,
-      pattern: /^\s*email_author#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
+      format: :account,
+      pattern: /^\s*account#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
       check_prefix: true
     },
     {
@@ -73,6 +67,32 @@ module Indicator::Formats
       check_prefix: true
       },
     {
+      format: :email_author,
+      pattern: /^\s*email_author#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
+      check_prefix: true
+    },
+    {
+      format: :other,
+      pattern: /^\s*other#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
+      check_prefix: true
+    },
+    {
+      format: :network_service,
+      pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{IP4_REGEXP}:#{NETWORK_PORT_REGEXP}(:tcp|:udp)?)\s*$/
+    },
+    {
+      format: :network,
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{IP4_REGEXP})\s*/
+    },
+    {
+      format: :network_port,
+      pattern: /^\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{NETWORK_PORT_REGEXP}(tcp|udp)?)\s*$/
+    },
+    {
+      format: :email_adress, # TOD: fix adress to address
+      pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*(?<content>#{EMAIL_REGEXP})\s*/i
+    },
+    {
       format: :md5,
       pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*\b(?<content>[a-f0-9]{32})\b/i
     },
@@ -87,26 +107,6 @@ module Indicator::Formats
     {
       format: :sha512,
       pattern: /\s*(#{CONTEXTS_REGEXP}:)?\s*\b(?<content>[a-f0-9]{128})\b/i
-    },
-    {
-      format: :filename,
-      pattern: /^\s*filename#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
-      check_prefix: true
-    },
-    {
-      format: :filesize,
-      pattern: /^\s*filesize#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
-      check_prefix: true
-    },
-    {
-      format: :process,
-      pattern: /^\s*process#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
-      check_prefix: true
-    },
-    {
-      format: :account,
-      pattern: /^\s*account#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
-      check_prefix: true
     }
   ]
 end

@@ -43,6 +43,9 @@ module SharedMethods
   end
 
   def prepare_ransack_params
+#    if ransack_params.is_a?(String)
+#      params[:q].transform_values!(&:strip)
+#    end
     custom_prepare_ransack_params
     params[:q].delete_if do |k, v|
       if v.respond_to?(:all)

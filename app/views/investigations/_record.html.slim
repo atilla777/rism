@@ -20,7 +20,7 @@
   = r.show :description
     = simple_format @record.description
 
-  = render 'tree_show'
+//  = render 'tree_show'
 
 = link_to(enrich_investigation_path(record, service_name: :virus_total),
   data: {confirm: t('views.action.confirm')},

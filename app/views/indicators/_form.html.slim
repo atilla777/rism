@@ -8,6 +8,25 @@
       .form-group.required
         .field
           .col-lg-2.text-right
+            = f.label :content_format, class: 'control-label'
+          .col-lg-8
+            = f.select(:content_format,
+              Indicator.content_formats.keys.collect { |format| ["#{Indicator.human_enum_name(:content_format, format)} (#{Indicator.human_enum_name(:ph_content_format, format)})", format] },
+              {selected: @record.content_format || @content_format},
+              class: 'form-control',
+              readonly: true)
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :content, class: 'control-label'
+          .col-lg-8
+            = f.text_field(:content,
+              class: 'form-control')
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
             = f.label :trust_level, class: 'control-label'
           .col-lg-8
             = f.select :trust_level, Indicator.trust_levels.keys.collect { |level| [Indicator.human_enum_name(:trust_level, level), level] }, { selected: @record.trust_level || :not_set}, class: 'form-control'
@@ -19,7 +38,7 @@
           .col-lg-8
             = f.select(:purpose,
               Indicator.purposes.keys.collect { |purpose| [Indicator.human_enum_name(:purpose, purpose), purpose] },
-              {selected: (@record.new_record? ? @record.purpose : :for_detect)},
+              {selected: (@record.new_record? ? :for_detect : @record.purpose )},
               class: 'form-control')
 
       .form-group
@@ -40,26 +59,6 @@
             = f.label :parent_conjunction, class: 'control-label'
           .col-lg-8
              = f.check_box :parent_conjunction, class: 'big-checkbox'
-
-
-      .form-group.required
-        .field
-          .col-lg-2.text-right
-            = f.label :content_format, class: 'control-label'
-          .col-lg-8
-            = f.select(:content_format,
-              Indicator.content_formats.keys.collect { |format| ["#{Indicator.human_enum_name(:content_format, format)} (#{Indicator.human_enum_name(:ph_content_format, format)})", format] },
-              {selected: @record.content_format || @content_format},
-              class: 'form-control',
-              readonly: true)
-
-      .form-group.required
-        .field
-          .col-lg-2.text-right
-            = f.label :content, class: 'control-label'
-          .col-lg-8
-            = f.text_field(:content,
-              class: 'form-control')
 
       = custom_fields_input @record
 

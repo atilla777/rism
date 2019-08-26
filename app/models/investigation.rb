@@ -10,6 +10,7 @@ class Investigation < ApplicationRecord
   include Monitorable
   include Deliverable
   include Readable
+  include StripTextFields
 
   attr_accessor :indicators_list, :enrich
 

@@ -71,7 +71,7 @@ class IndicatorsController < ApplicationController
         params[:indicator][:indicators_list],
         @record.investigation_id,
         current_user.id,
-        params[:indicator].fetch(:indicator_context_ids, nil),
+        params[:indicator].fetch(:indicator_context_ids, []),
         @record.enrich
       )
       if @not_saved_strings.present?

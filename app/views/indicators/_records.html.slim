@@ -1,10 +1,14 @@
 = report_button_for records
-= render 'application/search', records: @records, associations: @associations
+= render 'search_form'
+= render 'download_search_form' if ['index', 'search'].include?(params[:action])
+br
+= render('search_filters/user_search_filters',
+  search_filters: @search_filters,
+  records: records)
 = index_for records, actions: false, decorator: IndicatorDecorator do |t|
   - t.header attribute: :readed, fit: true, label: ''
   - t.header attribute: :created_at, sort_by: :created_at, sort: :desc
   - t.header attribute: :created_by_id, sort_by: :creator_name, sort: :desc
-  - t.header attribute: :investigation_name, sort_by: :investigation_name, sort: :desc
   - t.header attribute: :investigation_custom_codename, sort_by: :investigation_custom_codename, sort: :desc
   - t.header attribute: :trust_level, sort_by: :trust_level, sort: :desc
   - t.header attribute: :purpose, sort_by: :purpose, sort: :desc
@@ -14,7 +18,6 @@
   - t.field { |record| render 'readable', record: record }
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
   - t.field { |record| link_to truncate(record.show_creator, length: 15), record.creator}
-  - t.field { |record| link_to truncate(record.investigation.name, length: 15), record.investigation }
   - t.field { |record| link_to record.investigation.custom_codename, record.investigation }
   - t.field { |record| link_to record.show_trust_level, record}
   - t.field { |record| link_to record.show_purpose }
@@ -31,7 +34,7 @@
       - when record.show_appearance > 10
         span.text-danger
           = "#{record.show_appearance}x"
-    =< link_to truncate(record.content, length: 20), record
+    =< link_to truncate(record.content, length: 50), record
   - t.field do |record|
     => link_to(indicator_path(record, active_tab: :enrichments),
       data_toggle: 'tooltip',

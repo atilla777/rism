@@ -31,7 +31,7 @@ class InvestigationsController < ApplicationController
         params[:investigation][:indicators_list],
         @record.id,
         current_user.id,
-        nil,
+        [],
         @record.enrich
       )
       if @not_saved_strings.present?

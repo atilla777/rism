@@ -43,4 +43,5 @@ class Reports
   Md5ForBlockReport.register
   UriForBlockReport.register
   FiltredTableVulnersReport.register
+  FiltredTableIndicatorsReport.register
 end

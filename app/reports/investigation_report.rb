@@ -18,86 +18,128 @@ class InvestigationReport < BaseReport
       #orientation :landscape  # sets the printer orientation. accepts :portrait and :landscape.
       orientation :portrait # sets the printer orientation. accepts :portrait and :landscape.
     end
-    r.style id: 'Likeh1', name: 'likeh1' do
+
+    r.style id: 'ParagraphHeader', name: 'ParagraphHeader' do
       font 'Times New Roman'
-      size 28
-      bold true
       align :center
+      top 0
+      bottom 0
+      line 230
     end
-    r.style id: 'text_header', name: 'TextHeader' do
-      type 'character'
+
+    r.style id: 'ParagraphContent', name: 'ParagraphContent' do
       font 'Times New Roman'
-      size 28
-      bold true
+      align :left
+      top 0
+      bottom 100
+      line 230
     end
-    r.style id: 'subheader', name: 'Subheader' do
+
+    r.style id: 'ParagraphBreak', name: 'ParagraphBreak' do
       font 'Times New Roman'
-      size 24
-      bold true
-      align :both
-      #indent_first 720
-    end
-    r.style id: 'text_subheader', name: 'TextSubheader' do
-      type 'character'
-      font 'Times New Roman'
-      size 24
-      bold true
-      #indent_first 720
-    end
-    r.style id: 'text', name: 'Text' do
-      font 'Times New Roman'
-      size 24
-      bold false
-      align :both
-      indent_first 0
       top 0
       bottom 0
     end
-    r.style id: 'text_text', name: 'TextText' do
+
+    r.style id: 'TextMainHeader', name: 'TextMainHeader' do
       type 'character'
-      font 'Times New Roman'
+      size 28
+      bold true
+      color '154360'
+    end
+
+    r.style id: 'TextHeader', name: 'TextHeader' do
+      type 'character'
       size 24
-      bold false
+      bold true
+      color '154360'
+    end
+
+    r.style id: 'TextContent', name: 'TextContent' do
+      type 'character'
+      size 24
+    end
+
+    r.style id: 'TextContentDanger', name: 'TextContentDanger' do
+      type 'character'
+      size 24
+      color 'B03A2E'
     end
 
     investigation = @investigation
 
-    r.p "Бюллетень индикаторов компрометации", style: 'Likeh1', color: '990066'
+    r.p do
+      style  'ParagraphHeader'
+      text "Бюллетень индикаторов компрометации", style: 'TextMainHeader'
+    end
+
     if investigation.name != investigation.investigation_kind.name
-      r.p  investigation.name, style: 'Likeh1'
+      r.p do
+        style  'ParagraphHeader'
+        text investigation.name, style: 'TextContent'
+      end
     end
-    r.p  "№ #{investigation.custom_codename}", style: 'Likeh1'
-    r.p  "(по состоянию на #{Date.current.strftime('%d.%m.%Y')})", style: 'Likeh1', size: 20
-    r.p
-    r.p do
-      text "Тип события: ", style: 'TextSubheader', color: '990066'
-      text investigation.investigation_kind.name, style: 'TextText'
+
+    r.p  do
+      style  'ParagraphHeader'
+      text "№ #{investigation.custom_codename}", style: 'TextHeader'
     end
+
     r.p do
-      text "Источник информации: ", style: 'TextSubheader', color: '990066'
+      style  'ParagraphHeader'
+      text(
+        "(по состоянию на #{Date.current.strftime('%d.%m.%Y')})",
+        style: 'TextContent',
+        size: 20
+      )
+    end
+
+    r.p style: 'ParagraphBreak'
+
+    r.p do
+      style  'ParagraphContent'
+      text "Тип события: ", style: 'TextHeader'
+      text investigation.investigation_kind.name, style: 'TextContent'
+    end
+
+    r.p do
+      style  'ParagraphContent'
+      text "Источник информации: ", style: 'TextHeader'
       if investigation.feed_codename.present?
         text(
           "#{investigation.feed.name} (#{investigation.feed_codename})",
-          style: 'TextText'
-         )
+          style: 'TextContent'
+        )
       else
-        text investigation.feed.name, style: 'TextText'
+        text investigation.feed.name, style: 'TextContent'
       end
     end
-    r.p style: 'Text' do
-      text investigation.description, style: 'TextText'
+
+    r.p style: 'ParagraphContent' do
+      description = investigation.description.split("\n")
+      description.each do |d|
+       text d, style: 'TextContent'
+       br if d != description.last
+      end
     end
-    r.p
-    r.p  "Индикаторы:", style: 'TextSubheader', color: '990066'
+
+    r.p do
+      style 'ParagraphContent'
+      text "Индикаторы:", style: 'TextHeader'
+    end
+
     r.hr do
-      color   '990066'   # sets the color of the line. defaults to auto.
-      line    :double    # sets the line style (single or double). defaults to single.
-      size    8          # sets the thickness of the line. units in 1/8 points. defaults to 4.
-      spacing 4          # sets the spacing around the line. units in 1/8 points. defaults to 1.
+      color '154360'
+      size    20
+      #spacing 4
     end
+
     investigation.top_parents_indicators.each do |top_parent|
       print_indicator(r, top_parent, self)
-      r.hr color: '990066'
+      r.hr do
+        color '154360'
+        spacing 4
+      end
     end
   end
 
@@ -145,10 +187,11 @@ class InvestigationReport < BaseReport
     space = space + '      '
     i = IndicatorDecorator.new(indicator)
     r.p do
+      style 'ParagraphContent'
       text space
-      text "#{i.show_content_format}", style: 'TextSubheader', color: '990066'
+      text "#{i.show_content_format}", style: 'TextHeader'
       if i.show_indicator_contexts.present?
-        text " (#{i.show_indicator_contexts})", style: 'TextSubheader'
+        text " (#{i.show_indicator_contexts})", style: 'TextContent'
       end
       purpose = case i.purpose
                 when 'for_detect'
@@ -158,14 +201,18 @@ class InvestigationReport < BaseReport
                 else
                   ''
                 end
-      text "#{purpose}:", style: 'TextSubheader'
+      text "#{purpose}:", style: 'TextContent'
       br
       text space
-      text  i.show_escaped_content, style: 'TextText', color: 'ff1493'
+      text  i.show_escaped_content, style: 'TextContentDanger'
       if i.description.present?
         br
-        text space
-        text i.description, style: 'TextText', italic: true
+        description = i.description.split("\n")
+        description.each do |d|
+         text space
+         text d, style: 'TextContent', italic: true
+         br if d != description.last
+        end
       end
     end
     indicator.children.each do |child|
@@ -177,6 +224,5 @@ class InvestigationReport < BaseReport
 
   def get_records(options, _organization)
     @investigation = Investigation.find(options[:investigation_id])
-    @investigation.indicators
   end
 end

@@ -16,6 +16,7 @@ ru:
         indicators_list: 'Индикаторы'
         enrichment: 'Обогащение'
         created_at: 'Время создания'
+        updated_at: 'Время обновления'
         trust_level: 'Уровень доверия'
         trust_levels:
           not_set: 'Неизвестно'

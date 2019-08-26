@@ -62,6 +62,15 @@
   = f.hidden_field :custom_cvss3_impact_gteq
   = f.hidden_field :custom_cvss3_impact_lteq
 
+  = f.hidden_field :published_last_days
+  = f.hidden_field :published_last_weeks
+  = f.hidden_field :published_last_months
+  = f.hidden_field :published_last_years
+  = f.hidden_field :modified_last_days
+  = f.hidden_field :modified_last_weeks
+  = f.hidden_field :modified_last_months
+  = f.hidden_field :modified_last_years
+
   = f.hidden_field :published_gteq
   = f.hidden_field :published_end_of_day_lteq
   = f.hidden_field :modified_gteq
@@ -69,7 +78,6 @@
   = f.hidden_field :created_at_gteq
   = f.hidden_field :created_at_end_of_day_lteq
   = f.hidden_field :updated_at_gteq
-  = f.hidden_field :updated_at_end_of_day_lteq
   = f.hidden_field :updated_at_end_of_day_lteq
 
   = f.button name: :format,

@@ -8,6 +8,7 @@ class Indicator < ApplicationRecord
   include CustomFieldable
   include Monitorable
   include Readable
+  include StripTextFields
 
   attr_accessor :indicators_list
   attr_accessor :enrich
@@ -48,6 +49,8 @@ class Indicator < ApplicationRecord
 
   belongs_to :investigation
   has_one :organization, through: :investigation
+
+  has_one :investigation_kind, through: :investigation
 
   has_many :indicator_context_members, dependent: :delete_all
   has_many :indicator_contexts, through: :indicator_context_members

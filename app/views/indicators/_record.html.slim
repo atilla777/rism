@@ -1,5 +1,8 @@
 = show_for @record, decorator: IndicatorDecorator do | r |
+  = r.show :content_format, value: r.decorated.show_content_format
   = r.show :content
+  = r.show :trust_level, value: r.decorated.show_trust_level
+  = r.show :purpose, value: r.decorated.show_purpose
   = r.show :parent_id
     - if @record.parent_id.present?
       = link_to @record.parent.content, @record.parent
@@ -17,13 +20,14 @@
         - children.each do |child|
           = link_to child.content, child
           br
-  = r.show :created_at, value: show_date_time(@record.created_at)
   = r.show :organization_id
     = link_to @record.organization.name, @record.organization
   = r.show :parent_conjunction
     = @record.parent_conjunction
+  = r.show :created_at, value: show_date_time(@record.created_at)
   = r.show :created_by_id
     = link_to r.decorated.show_creator, @record.creator
+  = r.show :updated_at, value: show_date_time(@record.updated_at)
   = r.show :updated_by_id
     - if  @record.updater.present?
       = link_to r.decorated.show_updater, @record.updater
@@ -31,9 +35,8 @@
     = link_to r.decorated.investigation.name, @record.investigation
     br
     = link_to r.decorated.investigation.custom_codename, @record.investigation
-  = r.show :trust_level, value: r.decorated.show_trust_level
-  = r.show :purpose, value: r.decorated.show_purpose
-  = r.show :content_format, value: r.decorated.show_content_format
+  = r.show :description do
+    = simple_format @record.description
   = r.show :indicator_contexts, value: r.decorated.show_indicator_contexts
   - @record.custom_fields&.each do |name, value|
     = r.show :custom_fields, label: name, value: value
