@@ -14,8 +14,8 @@ module StripTextFields
     string_columns.each do |string_column|
       attribute = string_column.name
       value = send(attribute)
-      if value.present?
-        send("#{attribute}=", value.strip)
+      if value.is_a?(String)
+        send("#{attribute}=", value.strip) if value.present?
       end
     end
     true

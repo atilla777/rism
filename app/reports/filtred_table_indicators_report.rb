@@ -81,7 +81,7 @@ class FiltredTableIndicatorsReport < BaseReport
     )
     if options[:q].present?
       q = scope.ransack(options[:q])
-      q.sorts = default_sort if q['s'].empty?
+      q.sorts = options[:q].fetch('s', default_sort)
       q.result.limit(2000)
     else
       scope.all.limit(2000).sort(default_sort)
