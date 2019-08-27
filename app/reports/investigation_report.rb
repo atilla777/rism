@@ -115,6 +115,8 @@ class InvestigationReport < BaseReport
       end
     end
 
+    r.p style: 'ParagraphBreak'
+
     r.p style: 'ParagraphContent' do
       description = investigation.description.split("\n")
       description.each do |d|
@@ -122,6 +124,8 @@ class InvestigationReport < BaseReport
        br if d != description.last
       end
     end
+
+    r.p style: 'ParagraphBreak'
 
     r.p do
       style 'ParagraphContent'
