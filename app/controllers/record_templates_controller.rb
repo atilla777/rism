@@ -17,7 +17,6 @@ class RecordTemplatesController < ApplicationController
     @record.record_content = original_record.attributes
                                             .except(
                                               'id',
-                                              'organization_id',
                                               'user_id',
                                               'created_at',
                                               'updated_at'
