@@ -1,12 +1,12 @@
 = index_search :organization_name_or_level_or_subject_id_or_subject_type_or_role_name_cont, role_id_eq: @role&.id
 = index_for records, decorator: RightDecorator do |t|
-  - t.header attribute: :organization_id, sort: :desc
   - t.header attribute: :role_id, sort: :desc
+  - t.header attribute: :organization_id, sort: :desc
   - t.header attribute: :level, sort: :desc
   - t.header attribute: :subject_type, sort: :desc
   - t.header attribute: :subject_id, sort: :desc
-  - t.field { |r| r.organization&.name }
-  - t.field { |r| r.role.name }
+  - t.field { |r| link_to(r.role.name, r) }
+  - t.field { |r| link_to(r.organization&.name, r.organization || '') }
   - t.field { |r| r.show_level }
   - t.field { |r| r.show_subject_type }
   - t.field { |r| link_to r.show_subject_id, r.subject }
