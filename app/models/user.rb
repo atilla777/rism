@@ -78,6 +78,8 @@ class User < ApplicationRecord
   has_many :readable_logs, dependent: :delete_all
   has_many :readable, through: :readable_logs
 
+  has_many :record_templates
+
   def search_filters_for(model)
     SearchFilter.where(
       user_id: self.id,

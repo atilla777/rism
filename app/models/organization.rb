@@ -54,6 +54,8 @@ class Organization < ApplicationRecord
   has_many :delivery_recipients, dependent: :delete_all
   has_many :delivery_lists, through: :delivery_recipients
 
+  has_many :record_templates
+
   before_destroy :protect_default_organization
 
   scope :default_organization, -> { find(1) }

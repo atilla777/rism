@@ -1,6 +1,6 @@
 module TemplateButtonHelper
-  def template_button(model, options = {})
-    templates = RecordTemplate.allowed_for_model(model.name)
+  def template_button(model, current_user, options = {})
+    templates = RecordTemplate.allowed_for_model(model.name, current_user)
     Reports.names_where(
       templates: templates
     )

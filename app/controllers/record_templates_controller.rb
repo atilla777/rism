@@ -29,6 +29,7 @@ class RecordTemplatesController < ApplicationController
     authorize @record.class
     original_model = @record.record_type.constantize
     original_record = original_model.find(params[:original_record_id])
+    @record.current_user = current_user
     @record.record_content = params[:record_template][:record_content]
     @record.record_tags = original_record.tags.pluck(:id)
 #    @record.record_links = original_record.links.pluck(:id)
@@ -46,6 +47,7 @@ class RecordTemplatesController < ApplicationController
   def update
     @record = record
     authorize @record.class
+    @record.current_user = current_user
     @record.record_content = params[:record_template][:record_content]
     @record.record_tags = params[:record_template][:record_tags]
     @record.update!(record_params)

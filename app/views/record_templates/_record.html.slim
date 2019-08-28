@@ -1,6 +1,8 @@
 = show_for @record do |r|
   = r.show :name
   = r.show :record_type, value: RecordTemplateDecorator.new(@record).show_record_type
+  = r.show(:sharing_option,
+    value: RecordTemplate.human_enum_name(:sharing_option, @record.current_sharing_option))
   = r.show :description
 
 table.table.table-hover.table-bordered.table-striped

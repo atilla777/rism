@@ -9,7 +9,7 @@ h4
   span.text-success
     | Categories:
   span
-    =<> @enrichment.fetch('categories', '').join(', ')
+    =<> @enrichment.fetch('categories', []).join(', ')
 a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_urls'
   h4
     span.text-info
@@ -55,7 +55,7 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_whois'
       = str.match(/^([\w\/-]+\s*)+:/)
     span
       =< str.sub(/^([\w\/-]+\s*)+:/, '')
-    br
+    b[]r
 a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
   h4
     span.text-info

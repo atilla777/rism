@@ -52,9 +52,6 @@ ru:
       link:
         one: 'Связь'
         other: 'Связи'
-      record_template:
-        one: 'Шаблон'
-        other: 'Шаблоны'
       host:
         one: 'Хост/сеть'
         other: 'Хосты/сети'
@@ -203,12 +200,6 @@ ru:
         second_record_type: 'Тип прикрепляемого ресурса'
         second_record_id: 'Номер прикрепляемого ресурса'
         link_kind_id: 'Тип связи'
-        description: 'Описание'
-      record_template:
-        name: 'Имя'
-        record_type: 'Ресурс'
-        record_content: 'Атрибуты'
-        record_tags: 'Номера тегов'
         description: 'Описание'
       host:
         name: 'Имя'

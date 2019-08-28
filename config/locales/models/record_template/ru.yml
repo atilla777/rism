@@ -1,0 +1,18 @@
+ru:
+  activerecord:
+    models:
+      record_template:
+        one: 'Шаблон'
+        other: 'Шаблоны'
+    attributes:
+      record_template:
+        name: 'Имя'
+        record_type: 'Ресурс'
+        record_content: 'Атрибуты'
+        record_tags: 'Номера тегов'
+        sharing_option: 'Доступность'
+        sharing_options:
+          all: 'Общедоступный'
+          organization: 'Для организации пользователя'
+          personal: 'Для пользователя'
+        description: 'Описание'
