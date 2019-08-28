@@ -25,9 +25,13 @@ module OrganizationRelative
     raise ValidateCurrentUserError unless current_user.present?
     return if current_user.admin_editor?
     return if current_user.can_read_model_index?(self.class)
-    return if current_user.allowed_organizations_ids.include?(organization_id)
+    allowed_ids = current_user.allowed_organizations_ids(self.class)
+    return if allowed_ids.include?(organization_id)
     return if current_user == self
     # TODO: add translation
-    errors.add(:organization_id, 'parent id is not allowed')
+    errors.add(
+      :organization_id,
+      I18n.t('messages.organization.organization_not_allowed')
+    )
   end
 end

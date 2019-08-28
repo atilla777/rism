@@ -4,6 +4,12 @@ class Right < ApplicationRecord
   include Right::Ransackers
   include Right::SubjectTypes
 
+  ACTIONS = {
+    manage: 1,
+    edit: 2,
+    read: 3
+  }.freeze
+
   validates :organization_id,
             numericality: { only_integer: true, allow_blank: true }
   validates :role_id, numericality: { only_integer: true }

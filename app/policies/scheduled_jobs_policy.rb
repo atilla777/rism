@@ -39,7 +39,7 @@ class ScheduledJobsPolicy
     end
 
     def allowed_jobs
-      organization_ids = user.allowed_organizations_ids
+      organization_ids = user.allowed_organizations_ids('ScanJob')
       scope.select do |job|
         scan_job = ScanJob.find(job.args[0]['arguments'][0])
         organization_ids.include?(scan_job.organization_id)

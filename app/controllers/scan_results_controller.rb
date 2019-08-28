@@ -88,7 +88,14 @@ class ScanResultsController < ApplicationController
   end
 
   def filter_for_organization
-    model.joins('JOIN hosts ON scan_results.ip <<= hosts.ip')
-         .where('hosts.organization_id = ?', @organization.id)
+    sql = <<~SQL
+      JOIN scan_jobs AS scan_jobs_organizations
+      ON scan_jobs_organizations.id = scan_results.scan_job_id
+    SQL
+    model.joins(sql)
+         .where('scan_jobs_organizations.organization_id = ?', @organization.id)
+# TODO: use (to display result related to organization hosts IP) or delete
+#    model.joins('JOIN hosts ON scan_results.ip <<= hosts.ip')
+#         .where('hosts.organization_id = ?', @organization.id)
   end
 end

@@ -33,18 +33,127 @@ module User::HasRole
     roles.any? { |role| (1..3).cover? role.id }
   end
 
-  # Return ids of organizations taht are allowed to
-  # read by user
-  # (includes implicitly assigned rights for children
-  # organizations)
-  def allowed_organizations_ids
+  # Return ids of organizations that is allowed to
+  # user (by default check that user can read)
+  # It also includes implicitly assigned rights for children
+  # organizations
+  # Action can be:
+  # :manage
+  # :edit
+  # :read
+  def allowed_organizations_ids(subject_type, action = nil)
     roles_ids = roles.ids
-    expl_orgs_ids = Right.where(role_id: roles_ids)
-                         .pluck(:organization_id)
-                         .uniq
-    expl_orgs_ids.each_with_object(expl_orgs_ids.dup) do |id, result|
+    right_scope = Right.where(role_id: roles_ids)
+    right_scope =  right_scope.where(
+      subject_type: cast_class_name(subject_type)
+    )
+    if action
+      right_scope =  right_scope.where(
+        level: Right.action_to_level(action)
+    )
+    end
+    explicit_ids = right_scope.pluck(:organization_id).uniq
+    explicit_ids.each_with_object(explicit_ids.dup) do |id, result|
       result.concat Organization.down_level_organizations(id)
     end.uniq.reject(&:nil?)
+  end
+
+  # check that user can make action
+  # with record or model
+  # (read - index, show, edit - new, create, update, destroy)
+  def can?(action, record_or_model)
+    level = Right.action_to_level(action)
+    case record_or_model
+    when ActiveRecord::Base
+      return can_access_record?(level,
+                                record_or_model.class.model_name.to_s,
+                                record_or_model)
+    when Class  # record - instance of ActiveRecord::Base
+      return can_access_model?(level, record_or_model)
+    when ActiveRecord::Relation
+      return can_access_model?(
+        level,
+        record_or_model.klass
+      )
+    when String
+      return can_access_model?(level, record_or_model)
+    else
+      raise(
+        ArgumentError,
+        'argument should be model or relation or string (model name)'
+      )
+    end
+  end
+
+  # Check that user whithout organization limit in right
+  # (empty rights.organization_id)
+  # can view all records in model
+  # (index all records of model type)
+  def can_read_model_index?(model_or_relation)
+    Right.where(role_id: roles)
+         .where('organization_id IS NULL')
+         .where(subject_type: cast_class_name(model_or_relation))
+         .where('subject_id IS NULL')
+         .present?
+  end
+
+  # Check that user whithout organization limit in right
+  # (empty rights.organization_id)
+  # can edit all records in model
+  def can_edit_model_index?(model_or_relation)
+    Right.where(role_id: roles)
+         .where('organization_id IS NULL')
+         .where(subject_type: cast_class_name(model_or_relation))
+         .where('subject_id IS NULL')
+         .where(level: Right.action_to_level(:edit))
+         .present?
+  end
+
+  private
+
+  # Check that user can view records in model
+  # (index for record with allowed for user with rights.organization_id)
+  # or create new record in model (new, create)
+  def can_access_model?(level, model)
+    Right.where(role_id: roles)
+         .where(subject_type: cast_class_name(model))
+         .where('subject_id IS NULL')
+         .where('rights.level <= ?', level)
+         .present?
+  end
+
+  # Check that user can view record in model (show)
+  # or update it (edit, update, destroy).
+  # It checks rights for parent organizations too.
+  def can_access_record?(level, model, record)
+    Right.where(role_id: roles)
+         .where(
+           'organization_id IN (:ids) OR organization_id IS NULL',
+           ids: record.top_level_organizations
+         )
+         .where(subject_type: model)
+         .where('subject_id = :record_id OR subject_id IS NULL',
+                record_id: record.id)
+         .where('rights.level <= ?', level)
+         .present?
+  end
+
+  def cast_class_name(model_record_relation_or_string)
+    case model_record_relation_or_string
+    when ActiveRecord::Base
+      model_record_relation_or_string.class.model_name.to_s
+    when Class # record - instance of ActiveRecord::Base
+      model_record_relation_or_string.model_name.to_s
+    when ActiveRecord::Relation
+      model_record_relation_or_string.klass.model_name.to_s
+    when String
+      model_record_relation_or_string
+    else
+      raise(
+        ArgumentError,
+        'argument should be model or record or relation or string (model name)'
+      )
+    end
   end
 
   # Return ids of organizations taht are allowed allowed to
@@ -78,91 +187,4 @@ module User::HasRole
   #   SQL
   #   Organization.find_by_sql([query, id]).pluck(:id)
   # end
-
-  # check that user can make action
-  # with record or model
-  # (read - index, show, edit - new, create, update, destroy)
-  def can?(action, record_or_model)
-    level = Right.action_to_level(action)
-    case record_or_model
-    when ActiveRecord::Base
-      return can_access_record?(level,
-                                record_or_model.class.model_name.to_s,
-                                record_or_model)
-    when Class
-      return can_access_model?(level, record_or_model)
-    when ActiveRecord::Relation
-      return can_access_model?(
-        level,
-        record_or_model.klass
-      )
-    when String
-      return can_access_model?(level, record_or_model)
-    else
-      raise(
-        ArgumentError,
-        'argument should be model or relation or string (model name)'
-      )
-    end
-  end
-
-  # check that user whithout organization limit in right
-  # (empty rights.organization_id)
-  # can view all records in model
-  # (index all records of model type)
-  def can_read_model_index?(model_or_relation)
-    model = case model_or_relation
-            when Class
-              model_or_relation
-            when ActiveRecord::Relation
-              model_or_relation.klass
-            else
-              raise ArgumentError, 'argument should be model or relation'
-            end
-    Right.where(role_id: roles)
-         .where('organization_id IS NULL')
-         .where(subject_type: subject_type(model))
-         .where('subject_id IS NULL')
-         .present?
-  end
-
-  private
-
-  # check that user can view records in model
-  # (index for record with allowed for user with rights.organization id)
-  # or create new record in model (new, create)
-  def can_access_model?(level, model)
-    Right.where(role_id: roles)
-         .where('subject_id IS NULL')
-         .where(subject_type: subject_type(model))
-         .where('rights.level <= ?', level)
-         .present?
-  end
-
-  # Check that user can view record in model (show)
-  # or update it (edit, update, destroy).
-  # It checks rights for parent organizations too.
-  def can_access_record?(level, model, record)
-    Right.where(role_id: roles)
-         .where(
-           'organization_id IN (:ids) OR organization_id IS NULL',
-           ids: record.top_level_organizations
-         )
-         .where(subject_type: model)
-         .where('subject_id = :record_id OR subject_id IS NULL',
-                record_id: record.id)
-         .where('rights.level <= ?', level)
-         .present?
-  end
-
-  def subject_type(record_or_model)
-    case record_or_model
-    when ActiveRecord::Base
-      record_or_model.class.model_name.to_s
-    when Class
-      record_or_model.to_s
-    when String
-      record_or_model
-    end
-  end
 end

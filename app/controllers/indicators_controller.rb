@@ -128,16 +128,16 @@ class IndicatorsController < ApplicationController
   end
 
   def records_includes
-    %i[organization creator investigation]
+    %i[creator investigation]
   end
 
   def default_sort
     'created_at desc'
   end
 
-  def filter_for_organization
-    model.where(organization_id: @organization.id)
-  end
+#  def filter_for_organization
+#    model.where(organization_id: @organization.id)
+#  end
   def filter_for_organization
     model.joins('JOIN investigations ON investigations.id = indicators.investigation_id')
          .where('investigations.organization_id = ?', @organization.id)

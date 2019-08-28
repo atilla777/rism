@@ -44,8 +44,12 @@ class IndicatorPolicy < ApplicationPolicy
       elsif user.can_read_model_index?(scope)
         scope.all
       else
-        scope.includes(:investigation)
-             .where(investigation: {organization_id: user.allowed_organizations_ids})
+        scope.joins(:investigation)
+          .merge(
+            Investigation.where(
+              organization_id: user.allowed_organizations_ids('Investigation')
+            )
+          )
       end
     end
   end

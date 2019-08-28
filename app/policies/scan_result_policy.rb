@@ -46,8 +46,10 @@ class ScanResultPolicy < ApplicationPolicy
       elsif user.can_read_model_index?(scope)
         scope.all
       else
-        scope.includes(:scan_job)
-             .where(scan_jobs: {organization_id: user.allowed_organizations_ids})
+        scope.joins(:scan_job)
+          .merge(
+            ScanJob.where(organization_id: user.allowed_organizations_ids('ScanJob'))
+          )
       end
     end
   end

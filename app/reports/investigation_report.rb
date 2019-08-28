@@ -37,6 +37,7 @@ class InvestigationReport < BaseReport
 
     r.style id: 'ParagraphBreak', name: 'ParagraphBreak' do
       font 'Times New Roman'
+      size 12
       top 0
       bottom 0
     end

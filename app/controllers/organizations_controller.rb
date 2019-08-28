@@ -11,7 +11,7 @@ class OrganizationsController < ApplicationController
               Organization
             else
               Organization.where(
-                id: current_user.allowed_organizations_ids
+                id: current_user.allowed_organizations_ids('Organization')
               )
             end
 

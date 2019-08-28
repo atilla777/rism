@@ -31,7 +31,7 @@
           .col-lg-2.text-right
             = f.label :organization_id, class: 'control-label'
           .col-lg-8
-            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#investigation_organization_id',  class: 'form-control', autocomplete: :off, value: (@record.organization&.name || @organization&.name || current_user.organization.name), readonly: @organization&.id.present?
+            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#investigation_organization_id',  class: 'form-control', autocomplete: :off, value: (@record.organization&.name || @organization&.name || current_user.organization.name)
             = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id || current_user.organization.id
 
       .form-group.required

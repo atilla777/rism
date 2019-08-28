@@ -8,7 +8,7 @@ class RoleMembersController < ApplicationController
     user_id = if params[:user_id]
                 params[:user_id]
               else
-                params[:q][:user_id_eq]
+                params[:q].fetch(:user_id_eq)
               end
     @user = User.find(user_id)
     scope = model.where(user_id: @user.id)

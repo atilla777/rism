@@ -9,12 +9,6 @@ module Right::Ransackers
     3 => I18n.t('rights.reader')
   }.freeze
 
-  ACTIONS = {
-    manage: 1,
-    edit: 2,
-    read: 3
-  }.freeze
-
   included do
     ransacker :subject_type do
       request = 'CASE rights.subject_type '
