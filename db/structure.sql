@@ -71,7 +71,8 @@ CREATE TYPE public.indicator_content_format AS ENUM (
     'filename',
     'filesize',
     'process',
-    'account'
+    'account',
+    'registry'
 );
 
 
@@ -3979,6 +3980,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814124932'),
 ('20190814130942'),
 ('20190819144024'),
-('20190828092009');
+('20190828092009'),
+('20190828113245');
 
 

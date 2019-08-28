@@ -72,6 +72,11 @@ module Indicator::Formats
       check_prefix: true
     },
     {
+      format: :registry,
+      pattern: /^\s*registry#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
+      check_prefix: true
+    },
+    {
       format: :other,
       pattern: /^\s*other#{CONTEXTS_REGEXP}:\s*(?<content>.{1,500})$/,
       check_prefix: true
