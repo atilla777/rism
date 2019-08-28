@@ -65,8 +65,8 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
 
 = link_to indicator_path(@indicator, active_tab: :enrichments) do
   span.btn.btn-info
+    = Indicator.model_name.human
 
 =< link_to indicators_path(investigation_id: @indicator.investigation.id) do
   span.btn.btn-default
     = Investigation.model_name.human
-    = Indicator.model_name.human
