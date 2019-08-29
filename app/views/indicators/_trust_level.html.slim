@@ -1,0 +1,8 @@
+. id="#{record.id}_trust_level"
+  = link_to toggle_trust_level_indicator_path(record),
+    method: :patch,
+    remote: true,
+    data: {confirm: t('views.action.confirm')},
+    class: 'btn btn-link' do
+    = tag.span
+      = record.show_trust_level

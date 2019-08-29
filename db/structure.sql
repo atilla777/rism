@@ -1000,7 +1000,8 @@ CREATE TABLE public.organizations (
     updated_at timestamp without time zone NOT NULL,
     parent_id bigint,
     full_name character varying,
-    organization_kind_id bigint
+    organization_kind_id bigint,
+    codename character varying
 );
 
 
@@ -3981,6 +3982,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814130942'),
 ('20190819144024'),
 ('20190828092009'),
-('20190828113245');
+('20190828113245'),
+('20190829121711');
 
 

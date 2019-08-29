@@ -3,12 +3,13 @@ class CreateIndicatorsService
     new(*args, &block).execute
   end
 
-  def initialize(text, investigation_id, current_user, contexts, enrich = false)
+  def initialize(text, investigation_id, current_user, contexts, enrich = false, parent_indicator_id = nil)
     @enrich = enrich
     @text = text
     @investigation_id = investigation_id
     @user_id = current_user
     @contexts = contexts.reject { |i| i.blank? }
+    @parent_indicator_id = parent_indicator_id
   end
 
   def execute
@@ -41,6 +42,9 @@ class CreateIndicatorsService
       purpose: :for_detect,
       enrichment: {}
     )
+    if @parent_indicator_id.present?
+      indicator_params.merge!(parent_id: @parent_indicator_id)
+    end
     indicator = Indicator.new(indicator_params)
     current_user = User.find(@user_id)
     indicator.current_user = current_user

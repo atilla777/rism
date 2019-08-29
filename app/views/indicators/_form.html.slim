@@ -78,7 +78,7 @@
                =< b.check_box(checked: @selected_indicator_contexts_ids.include?(b.value.to_i))
                =< b.text
 
-      - if @record.new_record?
+      - if @record.new_record? || @record.indicators_list.present?
 
         .form-group.required
           .field

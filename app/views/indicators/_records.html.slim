@@ -19,8 +19,10 @@ br
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
   - t.field { |record| link_to truncate(record.show_creator, length: 15), record.creator}
   - t.field { |record| link_to record.investigation.custom_codename, record.investigation }
-  - t.field { |record| link_to record.show_trust_level, record}
-  - t.field { |record| link_to record.show_purpose }
+  - t.field do |record|
+    = render 'trust_level', record: record
+  - t.field do |record|
+    = render 'purpose', record: record
   - t.field { |record| link_to record.show_content_format, record}
   - t.field do |record|
     = link_to record do

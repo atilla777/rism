@@ -1,0 +1,8 @@
+. id="#{record.id}_purpose"
+  = link_to toggle_purpose_indicator_path(record),
+    method: :patch,
+    remote: true,
+    data: {confirm: t('views.action.confirm')},
+    class: 'btn btn-link' do
+    = tag.span
+      = record.show_purpose

@@ -30,6 +30,14 @@ class IndicatorPolicy < ApplicationPolicy
     index?
   end
 
+  def toggle_trust_level?
+    create?
+  end
+
+  def toggle_purpose?
+    create?
+  end
+
   class Scope
     attr_reader :user, :scope
 

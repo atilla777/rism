@@ -1,0 +1,14 @@
+ru:
+  activerecord:
+    models:
+      organization:
+        one: 'Организация'
+        other: 'Организации'
+    attributes:
+      organization:
+        name: 'Имя'
+        codename: 'Кодовое имя'
+        full_name: 'Полное имя'
+        description: 'Описание'
+        parent_id: 'Входит в'
+        organization_kind_id: 'Тип'

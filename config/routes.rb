@@ -100,6 +100,8 @@ Rails.application.routes.draw do
       patch :set_readable
       get :enrich
       get :enrichment
+      patch :toggle_purpose
+      patch :toggle_trust_level
     end
 end
   resources :indicator_contexts

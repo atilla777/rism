@@ -14,6 +14,44 @@ class IndicatorsController < ApplicationController
     @scope = params.dig(:q, :scope_eq) || params.dig(:scope)
   end
 
+  def toggle_purpose
+    indicator = record
+    authorize indicator
+    case indicator.purpose
+    when 'not_set'
+      purpose = 'for_detect'
+    when 'for_detect'
+      purpose = 'for_prevent'
+    else
+      purpose = 'not_set'
+    end
+    indicator.purpose = purpose
+    indicator.current_user = current_user
+    indicator.updated_by_id = current_user.id
+    indicator.save
+    @record = IndicatorDecorator.new(indicator.reload)
+    set_readable_log
+  end
+
+  def toggle_trust_level
+    indicator = record
+    authorize indicator
+    trust_level = case indicator.trust_level
+                  when 'not_set'
+                    'low'
+                  when 'low'
+                    'high'
+                  else
+                    'not_set'
+                  end
+    indicator.trust_level = trust_level
+    indicator.current_user = current_user
+    indicator.updated_by_id = current_user.id
+    indicator.save
+    @record = IndicatorDecorator.new(indicator.reload)
+    set_readable_log
+  end
+
   def enrich
     record = Indicator.find(params[:id])
     authorize record
@@ -66,38 +104,54 @@ class IndicatorsController < ApplicationController
   def create
     @record = model.new(record_params)
     authorize @record.class
-    if params[:indicator][:indicators_list].present?
-      @not_saved_strings = CreateIndicatorsService.call(
-        params[:indicator][:indicators_list],
-        @record.investigation_id,
-        current_user.id,
-        params[:indicator].fetch(:indicator_context_ids, []),
-        @record.enrich
-      )
-      if @not_saved_strings.present?
-        @record.errors.add(:content, :wrong_format_or_dublication)
-        raise ActiveRecord::RecordInvalid.new(@record)
-      end
-    else
+    if @record.content.present? || @record.indicators_list.blank?
       @record.current_user = current_user
       @record.save!
       enrich_indicator(@record) if @record.enrich == '1'
     end
+    if params[:indicator][:indicators_list].present?
+      parent_indicator_id = @record.id if @record.content.present?
+      create_indicators_from_list(parent_indicator_id)
+    end
     add_from_template
-#    redirect_to(
-#      session.delete(:edit_return_to),
-#      success: t('flashes.create', model: model.model_name.human)
-#    )
     redirect_to(
       indicators_path(investigation_id: @record.investigation_id),
       success: t('flashes.create', model: model.model_name.human)
     )
-  rescue ActiveRecord::RecordInvalid
+    if @record.errors.present?
+      unless @record.new_record?
+        SetReadableLogService.call(@record, current_user)
+        @record = @record.dup
+        @record.content = nil
+      end
+      render :new
+    end
+  rescue
     @template_id = params[:template_id]
+    unless @record.new_record?
+      SetReadableLogService.call(@record, current_user)
+      @record = model.new(@record.dup)
+      @record.content = nil
+    end
     render :new
   end
 
   private
+
+  def create_indicators_from_list(parent_indicator_id)
+    @not_saved_strings = CreateIndicatorsService.call(
+      params[:indicator][:indicators_list],
+      @record.investigation_id,
+      current_user.id,
+      params[:indicator].fetch(:indicator_context_ids, []),
+      @record.enrich,
+      parent_indicator_id
+    )
+    if @not_saved_strings.present?
+      @record.errors.add(:content, :wrong_format_or_dublication)
+      raise ActiveRecord::RecordInvalid.new(@record)
+    end
+  end
 
   def enrich_indicator(indicator)
     unless Indicator::Enrichments.format_supported?(indicator.content_format, 'virus_total')
