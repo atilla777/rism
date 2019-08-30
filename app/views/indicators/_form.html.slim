@@ -4,7 +4,6 @@
     = form_for @record, html: {class: 'form-horizontal'} do |f|
 
       = f.hidden_field :investigation_id, value: @investigation&.id || @record.investigation_id
-
       .form-group.required
         .field
           .col-lg-2.text-right
@@ -79,6 +78,8 @@
                =< b.text
 
       - if @record.new_record? || @record.indicators_list.present?
+
+        = hidden_field_tag :indicators_list_parent_id, @parent_id
 
         .form-group.required
           .field

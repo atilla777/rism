@@ -110,28 +110,32 @@ class IndicatorsController < ApplicationController
       enrich_indicator(@record) if @record.enrich == '1'
     end
     if params[:indicator][:indicators_list].present?
-      parent_indicator_id = @record.id if @record.content.present?
-      create_indicators_from_list(parent_indicator_id)
+      parent_indicator_id = if @record.content.present?
+                              @record.id
+                            elsif params.fetch(:indicators_list_parent_id, false)
+                              params[:indicators_list_parent_id]
+                            else
+                              nil
+                            end
+      unless create_indicators_from_list(parent_indicator_id)
+        # TODO: why commented code don`t work?
+        raise StandardError #ActiveRecord::RecordInvalid.new(@record)
+      end
     end
     add_from_template
     redirect_to(
       indicators_path(investigation_id: @record.investigation_id),
       success: t('flashes.create', model: model.model_name.human)
     )
-    if @record.errors.present?
-      unless @record.new_record?
-        SetReadableLogService.call(@record, current_user)
-        @record = @record.dup
-        @record.content = nil
-      end
-      render :new
-    end
-  rescue
+  rescue #ActiveRecord::RecordInvalid # TODO: see comment above
     @template_id = params[:template_id]
     unless @record.new_record?
       SetReadableLogService.call(@record, current_user)
-      @record = model.new(@record.dup)
+      err = @record.errors
+      @parent_id = @record.id
+      @record = @record.dup
       @record.content = nil
+      @record.errors.copy!(err)
     end
     render :new
   end
@@ -149,7 +153,9 @@ class IndicatorsController < ApplicationController
     )
     if @not_saved_strings.present?
       @record.errors.add(:content, :wrong_format_or_dublication)
-      raise ActiveRecord::RecordInvalid.new(@record)
+      false
+    else
+      true
     end
   end
 
