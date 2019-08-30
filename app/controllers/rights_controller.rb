@@ -101,7 +101,7 @@ class RightsController < ApplicationController
   end
 
   def records_includes
-    %i[role organization]
+    %i[role organization subject]
   end
 
   def default_sort
