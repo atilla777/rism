@@ -36,8 +36,8 @@
   = r.show :products, value: r.decorated.show_products
   = r.show :custom_products, value: r.decorated.show_custom_products
   = r.show :vulnerability_bulletins do
-    - @record.vulnerability_bulletins.each do |builtin|
-      = link_to builtin.codename, builtin
+    - @record.vulnerability_bulletins.each do |b|
+      = link_to "#{b.codename} (#{b.vulnerability_bulletin_kind&.name}/#{b.vulnerability_bulletin_status&.name})", b
       br
   = r.show :versions, value: truncate(r.decorated.show_versions_string, length: 2000)
   = r.show :cwe do

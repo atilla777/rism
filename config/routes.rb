@@ -136,6 +136,7 @@ end
     end
   end
   resources :vulnerability_bulletin_members, only: %i[index create destroy]
+  resources :vulnerability_bulletin_statuses
 
   # resources :schedules, only: [:show]
   require 'sidekiq/web'

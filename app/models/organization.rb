@@ -58,6 +58,8 @@ class Organization < ApplicationRecord
 
   has_many :record_templates
 
+  has_many :vulnerability_bulletin_statuses, dependent: :delete_all
+
   before_destroy :protect_default_organization
 
   scope :default_organization, -> { find(1) }
