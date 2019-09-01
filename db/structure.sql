@@ -1743,7 +1743,8 @@ CREATE TABLE public.vulnerabilities (
     vulnerability_kind_id bigint,
     custom_published timestamp without time zone,
     custom_published_time boolean DEFAULT false,
-    custom_codenames text[] DEFAULT '{}'::text[]
+    custom_codenames text[] DEFAULT '{}'::text[],
+    changed_fields text[] DEFAULT '{}'::text[]
 );
 
 
@@ -3351,6 +3352,13 @@ CREATE INDEX index_vul_bul_on_vul_bul_stat_id ON public.vulnerability_bulletins 
 
 
 --
+-- Name: index_vulnerabilities_on_changed_fields; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vulnerabilities_on_changed_fields ON public.vulnerabilities USING gin (changed_fields);
+
+
+--
 -- Name: index_vulnerabilities_on_codename; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4112,6 +4120,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190828113245'),
 ('20190829121711'),
 ('20190831035612'),
-('20190831044448');
+('20190831044448'),
+('20190901043622');
 
 

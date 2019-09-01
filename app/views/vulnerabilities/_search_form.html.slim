@@ -81,6 +81,16 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
               .form-row
                 .field
                   .col-lg-1.text-right
+                    = f.label :changed_fields, class: 'control-label'
+                  .col-lg-2
+                    = f.text_field :changed_fields_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
+                  .col-lg-2
+                    = f.text_field :changed_fields_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
                     = f.label :processed, class: 'control-label'
                   .col-lg-2
                     = f.select :processed_not_eq,
