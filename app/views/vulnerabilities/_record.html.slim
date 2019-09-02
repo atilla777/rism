@@ -1,52 +1,167 @@
-= show_for @record, decorator: VulnerabilityDecorator do | r |
-  = r.show :published, value: show_date_time(@record.published)
-  = r.show :custom_published, value: show_date_time(@record.custom_published)
-  = r.show :modified, value: show_date_time(@record.modified)
-  = r.show :created_by_id
+= show_for @record, decorator: VulnerabilityDecorator do |r|
+  = r.show :published do
+    = show_date_time(@record.published)
+    = render('previous_version',
+      field: :published,
+      record: @record,
+      content: show_date_time(r.previous_record&.published))
+  = r.show :custom_published do
+    = show_date_time(@record.custom_published)
+    = render('previous_version',
+      record: @record,
+      field: :custom_published,
+      content: show_date_time(r.previous_record&.custom_published))
+  = r.show :modified do
+    = show_date_time(@record.modified)
+    = render('previous_version',
+      field: :modified,
+      record: @record,
+      content: show_date_time(r.previous_record&.modified))
+  = r.show :created_by_id do
     - if  @record.creator.present?
       = link_to r.decorated.show_creator, @record.creator
-  = r.show :updated_by_id
+      = render('previous_version',
+        field: :created_by_id,
+        record: @record,
+        content: r.previous_record&.creator&.name)
+  = r.show :updated_by_id do
     - if  @record.updater.present?
       = link_to r.decorated.show_updater, @record.updater
+      = render('previous_version',
+        field: :updated_by_id,
+        record: @record,
+        content: r.previous_record&.updater&.name)
   = r.show :codename do
     - if @record.nvd?
       a href=r.decorated.show_link_nvd_codename
         = @record.codename
     - else
       = @record.codename
-  = r.show(:custom_codenames,
-      value: truncate(r.decorated.show_custom_codenames, length: 2000))
-
-  = r.show :vulnerability_kind_id, value: record.vulnerability_kind&.name
-  = r.show :state, value: r.decorated.show_state
-  = r.show :processed, value: r.decorated.show_processed
-  = r.show :processed_by_id
-    - if  @record.processor.present?
-      = link_to @record.processor.name, @record.processor
-  = r.show :blocked, value: r.decorated.show_blocked
-  = r.show :feed, value: r.decorated.show_feed
-  = r.show :actuality, value: r.decorated.show_actuality
-  = r.show :custom_actuality, value: r.decorated.show_custom_actuality
-  = r.show :relevance, value: r.decorated.show_relevance
-  = r.show :custom_relevance, value: r.decorated.show_custom_relevance
-  = r.show :exploit_maturity, value: r.decorated.show_exploit_maturity
-  = r.show :custom_exploit_maturity, value: r.decorated.show_custom_exploit_maturity
-  = r.show :vendors, value: r.decorated.show_vendors
+    = render('previous_version',
+      record: @record,
+      field: :custom_published,
+      content: r.previous_record&.codename)
+  = r.show :custom_codenames do
+      = r.decorated.show_custom_codenames
+      = render('previous_version',
+        field: :custom_codenames,
+        record: @record,
+        content: (r.previous_decorated.show_custom_codenames if r.previous_decorated.present?))
+  = r.show :vulnerability_kind_id do
+      = record.vulnerability_kind&.name
+      = render('previous_version',
+        field: :vulnerability_kind_id,
+        record: @record,
+        content: (r.previous_decorated.vulnerability_kind&.name if r.previous_decorated.present?))
+  = r.show :state do
+    = r.decorated.show_state
+    = render('previous_version',
+      field: :state,
+      record: @record,
+      content: (r.previous_decorated.show_state if r.previous_decorated.present?))
+  = r.show :processed do
+    = r.decorated.show_processed
+    = render('previous_version',
+      field: :processed,
+      record: @record,
+      content: '')
+  = r.show :processed_by_id do
+    = link_to @record.processor&.name || '', @record.processor
+    = render('previous_version',
+      field: :processed_by_id,
+      record: @record,
+      content: (r.previous_record.processor&.name '' if r.previous_decorated.present?))
+  = r.show :blocked, value: r.decorated.show_blocked do
+    = render('previous_version',
+      field: :blocked,
+      record: @record,
+      content: (r.previous_decorated.show_blocked if r.previous_decorated.present?))
+  = r.show :feed do
+    = r.decorated.show_feed
+    = render('previous_version',
+      field: :feed,
+      record: @record,
+      content: (r.previous_decorated.show_feed if r.previous_decorated.present?))
+  = r.show :actuality do
+    = r.decorated.show_actuality
+    = render('previous_version',
+      field: :actuality,
+      record: @record,
+      content: (r.previous_decorated.show_actuality if r.previous_decorated.present?))
+  = r.show :custom_actuality do
+    = r.decorated.show_custom_actuality
+    = render('previous_version',
+      field: :custom_actuality,
+      record: @record,
+      content: (r.previous_decorated.show_custom_actuality if r.previous_decorated.present?))
+  = r.show :relevance do
+    = r.decorated.show_relevance
+    = render('previous_version',
+      field: :relevance,
+      record: @record,
+      content: (r.previous_decorated.show_relevance if r.previous_decorated.present?))
+  = r.show :custom_relevance do
+    = r.decorated.show_custom_relevance
+    = render('previous_version',
+      field: :custom_relevance,
+      record: @record,
+      content: (r.previous_decorated.show_custom_relevance if r.previous_decorated.present?))
+  = r.show :exploit_maturity do
+    = r.decorated.show_exploit_maturity
+    = render('previous_version',
+      field: :exploit_maturity,
+      record: @record,
+      content: (r.previous_decorated.show_exploit_maturity if r.previous_decorated.present?))
+  = r.show :custom_exploit_maturity do
+    = r.decorated.show_custom_exploit_maturity
+    = render('previous_version',
+      field: :custom_exploit_maturity,
+      record: @record,
+      content: (r.previous_decorated.show_custom_exploit_maturity if r.previous_decorated.present?))
+  = r.show :vendors do
+    = r.decorated.show_vendors
+    = render('previous_version',
+      field: :vendors,
+      record: @record,
+      content: (r.previous_decorated.show_vendors if r.previous_decorated.present?))
   = r.show :custom_vendors do
     = r.decorated.show_custom_vendors
-    =< @record.versions.last&.reify&.custom_vendors
-  = r.show :products, value: r.decorated.show_products
-  = r.show :custom_products, value: r.decorated.show_custom_products
+    = render('previous_version',
+      field: :custom_vendors,
+      record: @record,
+      content: (r.previous_decorated.show_custom_vendors if r.previous_decorated.present?))
+  = r.show :products do
+    = r.decorated.show_products
+    = render('previous_version',
+      field: :products,
+      record: @record,
+      content: (r.previous_decorated.show_products if r.previous_decorated.present?))
+  = r.show :custom_products do
+    = r.decorated.show_custom_products
+    = render('previous_version',
+      field: :custom_products,
+      record: @record,
+      content: (r.previous_decorated.show_custom_products if r.previous_decorated.present?))
   = r.show :vulnerability_bulletins do
     - @record.vulnerability_bulletins.each do |b|
       = link_to "#{b.codename} (#{b.vulnerability_bulletin_kind&.name}/#{b.vulnerability_bulletin_status&.name})", b
       br
   = r.show :versions, value: truncate(r.decorated.show_versions_string, length: 2000)
+    = render('previous_version',
+      field: :versions,
+      record: @record,
+      direction: 'bottom',
+      content: (truncate(r.previous_decorated.show_versions_string, length: 2000) if r.previous_decorated.present?))
   = r.show :cwe do
     - @record.cwe.each do |link|
       a href='https://nvd.nist.gov/vuln/categories'
         = "#{link} "
-  = r.show :cvss, value: r.decorated.show_cvss
+    = render('previous_version',
+      field: :cwe,
+      record: @record,
+      content: (r.previous_decorated.show_cwe if r.previous_decorated.present?))
+  = r.show :cvss do
+    = r.decorated.show_cvss
   = r.show :criticality, value: r.decorated.show_criticality
   = r.show :custom_criticality, value: r.decorated.show_custom_criticality
   = r.show :vector, value: r.decorated.show_cvss_vector
@@ -55,16 +170,49 @@
   = r.show :impact, value: r.decorated.show_impact
   = r.show :references do
     = auto_link(r.decorated.show_references_string(limit: 10))
-  = r.show :custom_references, value: auto_link(record.custom_references)
-  = r.show :description, value: r.decorated.show_description_string
-  = r.show :custom_description
+    = render('previous_version',
+      field: :references,
+      record: @record,
+      content: (r.previous_decorated.show_references_string(limit: 10) if r.previous_decorated.present?))
+  = r.show :custom_references do
+    = auto_link(record.custom_references)
+    = render('previous_version',
+      field: :custom_references,
+      record: @record,
+      content: (r.previous_decorated.custom_references if r.previous_decorated.present?))
+  = r.show :description do
+    = r.decorated.show_description_string
+    = render('previous_version',
+      field: :description,
+      direction: 'bottom',
+      record: @record,
+      content: (r.previous_decorated.show_description_string if r.previous_decorated.present?))
+  = r.show :custom_description do
+    = record.custom_description
+    = render('previous_version',
+      field: :custom_description,
+      direction: 'bottom',
+      record: @record,
+      content: (r.previous_record.custom_description if r.previous_decorated.present?))
   - @record.custom_fields&.each do |name, value|
     - if @record.custom_field_data_type(name) == 'text'
-      = r.show :custom_fields, label: name, value: simple_format(value)
+      = r.show :custom_fields, label: name do
+        = simple_format(value)
+        = render('previous_version',
+          field: :custom_fields,
+          direction: 'bottom',
+          record: @record,
+          content: (r.previous_record.custom_fields if r.previous_decorated.present?))
     - else
-      = r.show :custom_fields, label: name, value: value
+      = r.show :custom_fields, label: name do
+        = value
+        = render('previous_version',
+          field: :custom_fields,
+          record: @record,
+          content: (r.previous_record.custom_fields if r.previous_decorated.present?))
 
 - decorated = VulnerabilityDecorator.new(@record)
+- previous_decorated = VulnerabilityDecorator.new(@record.versions.last.reify)
 
 table.table.table-hover.table-bordered.table-striped
   caption
@@ -86,6 +234,10 @@ table.table.table-hover.table-bordered.table-striped
           = @record.class.human_attribute_name(:updated_at)
       td
         = show_date_time(@record.updated_at)
+        = render('previous_version',
+          field: :updated_at,
+          record: @record,
+          content: (show_date_time(previous_decorated.updated_at) if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
@@ -98,89 +250,152 @@ table.table.table-hover.table-bordered.table-striped
           = @record.class.human_attribute_name(:cvss3)
       td
         = @record.cvss3
+        = render('previous_version',
+          field: :cvss3,
+          record: @record,
+          content: (previous_decorated.cvss3 if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:cvss3_vector)
       td
         = @record.cvss3_vector
+        = render('previous_version',
+          field: :cvss3_vector,
+          record: @record,
+          content: (previous_decorated.cvss3_vector if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:cvss3_exploitability)
       td
         = @record.cvss3_exploitability
+        = render('previous_version',
+          field: :cvss3_exploitability,
+          record: @record,
+          content: (previous_decorated.cvss3_exploitability if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:cvss3_impact)
       td
         = @record.cvss3_impact
+        = render('previous_version',
+          field: :cvss3_impact,
+          record: @record,
+          content: (previous_decorated.cvss3_impact if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:custom_cvss3)
       td
         = @record.custom_cvss3
+        = render('previous_version',
+          field: :custom_cvss3,
+          record: @record,
+          content: (previous_decorated .custom_cvss3 if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:custom_cvss3_vector)
       td
         = @record.custom_cvss3_vector
+        = render('previous_version',
+          field: :custom_cvss3_vector,
+          record: @record,
+          content: (previous_decorated.custom_cvss3_vector if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:custom_cvss3_exploitability)
       td
         = @record.custom_cvss3_exploitability
+        = render('previous_version',
+          field: :custom_cvss3_exploitability,
+          record: @record,
+          content: (previous_decorated.custom_cvss3_exploitability if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:custom_cvss3_impact)
       td
         = @record.custom_cvss3_impact
+        = render('previous_version',
+          field: :custom_cvss3_impact,
+          record: @record,
+          content: (previous_decorated.custom_cvss3_impact if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:cvss2)
       td
         = @record.cvss2
+        = render('previous_version',
+          field: :cvss2,
+          record: @record,
+          content: (previous_decorated.cvss2 if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:cvss2_vector)
       td
         = @record.cvss2_vector
+        = render('previous_version',
+          field: :cvss2_vector,
+          record: @record,
+          content: (previous_decorated.cvss2_vector if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:cvss2_exploitability)
       td
         = @record.cvss2_exploitability
+        = render('previous_version',
+          field: :cvss2_exploitability,
+          record: @record,
+          content: (previous_decorated.cvss2_exploitability if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:cvss2_impact)
       td
         = @record.cvss2_impact
+        = render('previous_version',
+          field: :cvss2_impact,
+          record: @record,
+          content: (previous_decorated.cvss2_impact if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:versions)
       td
         = auto_link(decorated.show_versions_string(separator: "\n"))
+        = render('previous_version',
+          field: :versions,
+          direction: 'bottom',
+          record: @record,
+          content: (previous_decorated.show_versions_string(separator: "\n") if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:cpe)
       td
         = decorated.show_cpe_array
+        = render('previous_version',
+          field: :cpe,
+          direction: 'bottom',
+          record: @record,
+          content: (previous_decorated.show_cpe_array if previous_decorated.present?))
     tr
       td.col-md-2.text-right
         strong.text-info
           = @record.class.human_attribute_name(:references)
       td
         = auto_link(decorated.show_references_string(separator: "\n"))
+        = render('previous_version',
+          field: :references,
+          direction: 'bottom',
+          record: @record,
+          content: (previous_decorated.show_cpe_array if previous_decorated.present?))
 
 = render 'application/record_versions'
