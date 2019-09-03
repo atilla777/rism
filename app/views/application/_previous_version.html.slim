@@ -1,10 +1,10 @@
 - direction = direction
 - if record.field_changed?(field)
-  =< content_tag(:button,
-    class: 'btn btn-link',
+  =< content_tag(:a,
     data: { toggle: 'popover',
       container: 'body',
-      placement: direction || 'right',
+      class: 'text-nowrap',
+      placement: direction || 'bottom',
       content: content}) do
     span.text-warning
       =< fa_icon 'history'

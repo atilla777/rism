@@ -99,14 +99,21 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
                       {include_blank: t('labels.all_label'),
                       selected: params.dig(:q, :processed_not_eq)},
                       class: 'form-control'
+                  .col-lg-3.text-right
+                    = f.label :processed_by_id, class: 'control-label'
+                  .col-lg-2
+                    = f.text_field :processor_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+            .form-group
+              .form-row
+                .field
                   .col-lg-1.text-right
                     = f.label :vulnerability_kind_id, class: 'control-label'
-                  .col-lg-6
+                  .col-lg-3
                      = f.collection_check_boxes :vulnerability_kind_id_in, VulnerabilityKind.all, :id, :name, {}, class: 'big-checkbox' do |b|
                        =< b.check_box
                        span.text-info
                          =< b.text
-
             .form-group
               .form-row
                 .field

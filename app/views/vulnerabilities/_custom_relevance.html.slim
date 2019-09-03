@@ -7,6 +7,6 @@
     method: :patch,
     remote: true,
     data: {confirm: t('views.action.confirm')},
-    class: 'btn btn-link' do
-    = tag.span class: klass
-      = record.show_custom_relevance
+    class: 'btn-link' do
+      = tag.span class: klass
+        = record.show_custom_relevance

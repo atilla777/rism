@@ -55,13 +55,13 @@
               class: 'form-control',
               placeholder: t('activerecord.attributes.vulnerability.ph_custom_codenames'))
 
-      .form-group.recomended
-        .field
-          //
-            .col-lg-2.text-right
-              = f.label :state, class: 'control-label'
-            .col-lg-2
-              = f.select :state, Vulnerability.states.keys.collect { |state| [Vulnerability.human_enum_name(:state, state), state] }, { selected: @record.state || :published }, class: 'form-control'
+      - if current_user.admin_editor?
+        .form-group.recomended
+          .field
+              .col-lg-2.text-right
+                = f.label :state, class: 'control-label'
+              .col-lg-2
+                = f.select :state, Vulnerability.states.keys.collect { |state| [Vulnerability.human_enum_name(:state, state), state] }, { selected: @record.state || :published }, class: 'form-control'
 
       .form-group.recomended
         .field

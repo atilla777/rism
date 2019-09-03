@@ -139,7 +139,7 @@ class InvestigationReport < BaseReport
       #spacing 4
     end
 
-    investigation.top_parents_indicators.each do |top_parent|
+    investigation.top_parents_indicators.order(:content_format).each do |top_parent|
       print_indicator(r, top_parent, self)
       r.hr do
         color '154360'

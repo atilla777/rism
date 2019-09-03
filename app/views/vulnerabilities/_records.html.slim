@@ -50,10 +50,7 @@ br
 
   - t.field { |record| link_to(record.show_vulnerability_kind_name, record.vulnerability_kind) }
   - t.field do |record|
-    - if record.custom_actuality_actual?
-        = link_to record.show_custom_actuality, record, class: 'text-warning'
-    - else
-        = link_to record.show_custom_actuality, record
+    = render 'custom_actuality', record: record
   - t.field do |record|
     = render 'custom_relevance', record: record
   - t.field do |record|
@@ -72,6 +69,6 @@ br
         = record.show_bulletin_counts
   //- t.field { |record| link_to(record.show_bulletin_counts, vulnerability_bulletins_path(q: {vulnerability_bulletin_id_eq: record.vulnerability_bulletins&.first&.id, html_method: :get})) }
   - t.field do |record|
-    - record.vulnerability_bulletins.each do |b|
+    - record.vulnerability_bulletins.includes(:vulnerability_bulletin_kind, :vulnerability_bulletin_status).each do |b|
       = link_to "#{b.codename} (#{b.vulnerability_bulletin_kind&.name}/#{b.vulnerability_bulletin_status&.name})", b
       br
