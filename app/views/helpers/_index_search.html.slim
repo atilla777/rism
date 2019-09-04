@@ -3,7 +3,15 @@
     = f.hidden_field k, value: v
   .form-group.pull-left
     .input-group
-      = f.search_field search_fields, placeholder: options[:placeholder], size: options[:size], class: 'form-control'
+      = f.search_field(search_fields,
+        placeholder: options[:placeholder],
+        size: options[:size],
+        id: 'clearable',
+        class: 'form-control')
+      = tag.span(id: 'remove',
+        onclick: "document.getElementById('clearable').value = ''",
+        class: 'link')
+        = fa_icon 'remove'
       .input-group-btn
         = button_tag class: 'btn btn-default' do
           span.glyphicon.glyphicon-search

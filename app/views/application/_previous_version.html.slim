@@ -3,8 +3,8 @@
   =< content_tag(:a,
     data: { toggle: 'popover',
       container: 'body',
-      class: 'text-nowrap',
+      class: 'link',
       placement: direction || 'bottom',
       content: content}) do
-    span.text-warning
+    span.text-warning.link
       =< fa_icon 'history'

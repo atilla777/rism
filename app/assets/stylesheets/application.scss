@@ -109,3 +109,16 @@ legend {
   border-radius: 0px;
   width: 100%;
 }
+
+span#remove {
+  float: right;
+  margin-right: 6px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}
+
+.link:hover {
+  cursor: pointer;
+}
+
