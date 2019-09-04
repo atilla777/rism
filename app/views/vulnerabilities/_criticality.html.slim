@@ -1,0 +1,6 @@
+- if record.show_cvss_num > 8.9
+  = link_to record.show_full_cvss, record, class: 'text-danger'
+- elsif record.show_cvss_num > 6.9
+  = link_to record.show_full_cvss, record, class: 'text-warning'
+- else
+  = link_to record.show_full_cvss, record

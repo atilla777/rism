@@ -36,18 +36,9 @@ br
   - t.field do |record|
     = render 'processed', record: record
   - t.field do |record|
-    - if record.show_cvss_num > 8.9
-      = link_to record.show_full_cvss, record, class: 'text-danger'
-    - elsif record.show_cvss_num > 6.9
-      = link_to record.show_full_cvss, record, class: 'text-warning'
-    - else
-      = link_to record.show_full_cvss, record
+    = render 'criticality', record: record
   - t.field do |record|
-    - if record.show_cvss_av_network?
-      = link_to record.show_cvss_av, record, class: 'text-warning'
-    - else
-      = link_to record.show_cvss_av, record
-
+    = render 'cvss_av', record: record
   - t.field { |record| link_to(record.show_vulnerability_kind_name, record.vulnerability_kind) }
   - t.field do |record|
     = render 'custom_actuality', record: record

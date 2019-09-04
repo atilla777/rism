@@ -12,7 +12,10 @@
     = f.hidden_field :exploit_maturity_in, multiple: true, value: p
   - params.fetch(:q, {}).fetch(:custom_exploit_maturity_in, []).each do |p|
     = f.hidden_field :custom_exploit_maturity_in, multiple: true, value: p
+  = f.hidden_field :changed_fields_arr_cont
+  = f.hidden_field :changed_fields_arr_over
   = f.hidden_field :processed_not_eq
+  = f.hidden_field :processor_name_cont
   - params.fetch(:q, {}).fetch(:vulnerability_kind_id_in, []).each do |p|
     = f.hidden_field :vulnerability_kind_id_in, multiple: true, value: p
   = f.hidden_field :codename_eq

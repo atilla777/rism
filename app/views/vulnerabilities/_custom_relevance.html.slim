@@ -1,8 +1,8 @@
-. id="#{record.id}_relevance"
-  - if record.custom_relevance == 'relevant'
+. style='display: inline' id="#{record.id}_relevance"
+  - if record.custom_relevance_relevant?
     - klass = 'text-warning'
-  - else
-    - klass = ''
+  - elsif record.custom_relevance_not_relevant?
+    - klass = 'text-success'
   = link_to toggle_custom_relevance_vulnerability_path(record),
     method: :patch,
     remote: true,

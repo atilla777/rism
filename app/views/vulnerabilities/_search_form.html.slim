@@ -82,6 +82,13 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
                 .field
                   .col-lg-1.text-right
                     = f.label :changed_fields, class: 'control-label'
+                      =< content_tag(:a,
+                        data: { toggle: 'popover',
+                          container: 'body',
+                          class: 'text-nowrap',
+                          placement: 'right',
+                          content: Vulnerability.column_names.map { |n| "#{n}: #{Vulnerability.human_attribute_name(n)}"}.join(", ")}) do
+                          = Vulnerability.human_attribute_name(:changed_fields)
                   .col-lg-2
                     = f.text_field :changed_fields_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
                   .col-lg-2

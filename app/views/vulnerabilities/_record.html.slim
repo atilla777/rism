@@ -237,7 +237,7 @@
           strong.text-success
             = @record.class.human_attribute_name(:criticality)
         .col-md-2
-          = decorated.show_criticality
+          = render 'criticality', record: decorated
         .col-md-2.text-right
           strong.text-success
             = @record.class.human_attribute_name(:custom_criticality)
@@ -247,7 +247,7 @@
           strong.text-success
             = @record.class.human_attribute_name(:cvss_av)
         .col-md-2
-         = decorated.show_cvss_av
+         = render 'cvss_av', record: decorated
     .list-group-item
       .row
         .col-md-2.text-right
@@ -624,5 +624,18 @@
             direction: 'bottom',
             record: @record,
             content: (previous_decorated.show_cpe_array if previous_decorated.present?))
+
+.panel.panel-default
+  .panel-heading
+    caption
+      a.link data-toggle='collapse' href='#toggle_raw'
+        strong
+          = @record.class.human_attribute_name(:raw_data)
+        =< fa_icon('hand-pointer-o')
+  .list-group.collapse#toggle_raw
+    .list-group-item
+      .row
+        .col-md-12.text-right
+          = @record.raw_data
 
 = render 'application/record_versions'

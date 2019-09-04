@@ -1,0 +1,5 @@
+- if record.show_cvss_av_network?
+  = link_to record.show_cvss_av, record, class: 'text-warning'
+- else
+  = link_to record.show_cvss_av, record
+

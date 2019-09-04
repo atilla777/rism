@@ -1,4 +1,6 @@
 - if record.custom_actuality_actual?
-    = link_to record.show_custom_actuality, record, class: 'text-warning'
-- else
-    = link_to record.show_custom_actuality, record
+  - klass = 'text-warning'
+- elsif record.custom_actuality_not_actual?
+  - klass ='text-success'
+= tag.span class: klass
+  = record.show_custom_actuality
