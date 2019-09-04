@@ -139,7 +139,7 @@
           strong.text-info
             = @record.class.human_attribute_name(:modified)
         .col-md-3
-          = show_date_time(@record.published) if record.state != 'not_published'
+          = show_date_time(@record.modified) if record.state != 'not_published'
           = render('previous_version',
             field: :modified,
             record: @record,
