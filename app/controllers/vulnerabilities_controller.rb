@@ -76,7 +76,9 @@ class VulnerabilitiesController < ApplicationController
 
   def custom_prepare_ransack_params
     return unless params.dig(:q, :codename_in)
-    params[:q][:codename_in] = params[:q][:codename_in].split("\n").map(&:strip)
+    if  params[:q][:codename_in].is_a?(String)
+      params[:q][:codename_in] = params[:q][:codename_in].split("\n").map(&:strip)
+    end
   end
 
   def records_includes

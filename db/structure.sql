@@ -1500,6 +1500,38 @@ ALTER SEQUENCE public.search_filters_id_seq OWNED BY public.search_filters.id;
 
 
 --
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.sessions (
+    id bigint NOT NULL,
+    session_id character varying NOT NULL,
+    data text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
+
+
+--
 -- Name: tag_kinds; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2197,6 +2229,13 @@ ALTER TABLE ONLY public.search_filters ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: sessions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
+
+
+--
 -- Name: tag_kinds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2583,6 +2622,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.search_filters
     ADD CONSTRAINT search_filters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -3245,6 +3292,20 @@ CREATE INDEX index_search_filters_on_organization_id ON public.search_filters US
 --
 
 CREATE INDEX index_search_filters_on_user_id ON public.search_filters USING btree (user_id);
+
+
+--
+-- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_sessions_on_session_id ON public.sessions USING btree (session_id);
+
+
+--
+-- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_updated_at ON public.sessions USING btree (updated_at);
 
 
 --
@@ -4074,6 +4135,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190829121711'),
 ('20190831035612'),
 ('20190831044448'),
-('20190901043622');
+('20190901043622'),
+('20190904135959');
 
 

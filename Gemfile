@@ -90,6 +90,7 @@ gem 'sidekiq-limit_fetch', '~> 3.4.0'
 #gem 'json-streamer', '~> 2.1.0'
 gem 'oj', '~> 3.7.12'
 gem 'rails_autolink', '~> 1.1.6'
+gem 'activerecord-session_store', '~> 1.1.3'
 
 # Lint with overcommit
 group :development do
