@@ -6,7 +6,7 @@
   = link_to(polymorphic_path(record, action: :set_readable),
     method: :patch,
     remote: true,
-    class: 'btn btn-link',
+    class: 'btn-link',
     data_toggle: 'tooltip',
     title: changed_fields)
       - case record.read_status(current_user)

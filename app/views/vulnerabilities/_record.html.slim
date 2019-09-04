@@ -46,7 +46,7 @@
           strong.text-info
             = @record.class.human_attribute_name(:created_at)
         .col-md-2
-          = show_date_time(@record.published)
+          = show_date_time(@record.created_at)
           = render('previous_version',
             field: :created_at,
             record: @record,
@@ -55,7 +55,7 @@
           strong.text-info
             = @record.class.human_attribute_name(:updated_at)
         .col-md-3
-          = show_date_time(@record.published)
+          = show_date_time(@record.updated_at)
           = render('previous_version',
             field: :updated_at,
             record: @record,
