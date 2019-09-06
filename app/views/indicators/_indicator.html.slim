@@ -1,0 +1,11 @@
+- i = IndicatorDecorator.new(indicator)
+= i.show_content_format
+  = i.content
+  = i.show_trust_level
+  = i.show_purpose
+  - i.children&.each do |child|
+    = render 'indicators/indicator', indicator: child
+    br
+  = i.parent_conjunction
+  = simple_format @record.description
+  = i.show_indicator_contexts

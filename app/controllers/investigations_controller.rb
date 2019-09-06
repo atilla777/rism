@@ -19,6 +19,11 @@ class InvestigationsController < ApplicationController
     end
   end
 
+  def tree_show
+    show
+    render 'indicators/tree'
+  end
+
   def create
     @record = model.new(record_params)
     authorize @record.class

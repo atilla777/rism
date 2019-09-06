@@ -1,0 +1,9 @@
+= caption @record
+= render 'investigations/show_tabs', record: @record, active_tab: :tree, from_external_link: true
+= render 'indicators/new_button', investigation_id: @record.id
+= link_to @record.name, @record
+= link_to @record.custom_codename, @record
+ul
+  = @record.top_parents_indicators.each do |i|
+    li
+      = render 'indicators/indicator', indicator: i

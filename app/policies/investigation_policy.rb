@@ -18,6 +18,10 @@ class InvestigationPolicy < ApplicationPolicy
     create?
   end
 
+  def tree_show?
+    index?
+  end
+
   def enrich?
     create?
   end

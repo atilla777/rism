@@ -90,6 +90,7 @@ Rails.application.routes.draw do
     member do
       patch :set_readable
       get :enrich
+      get :tree_show
     end
   end
   resources :indicators do
