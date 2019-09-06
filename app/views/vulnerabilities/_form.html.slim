@@ -61,7 +61,7 @@
               .col-lg-2.text-right
                 = f.label :state, class: 'control-label'
               .col-lg-2
-                = f.select :state, Vulnerability.states.keys.collect { |state| [Vulnerability.human_enum_name(:state, state), state] }, { selected: @record.state || :published }, class: 'form-control'
+                = f.select :state, Vulnerability.states.keys.collect { |state| [Vulnerability.human_enum_name(:state, state), state] }, { selected: @record.state || :published, include_blank: true }, class: 'form-control'
 
       .form-group.recomended
         .field
