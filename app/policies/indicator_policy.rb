@@ -18,6 +18,21 @@ class IndicatorPolicy < ApplicationPolicy
     ]
   end
 
+  def select?
+    return true if @user.admin_editor?
+    @user.can? :edit, @record
+  end
+
+  def reset?
+    return true if @user.admin_editor?
+    @user.can? :edit, @record
+  end
+
+  def paste?
+    return true if @user.admin_editor?
+    @user.can? :edit, @record
+  end
+
   def set_readable?
     index?
   end
@@ -36,6 +51,10 @@ class IndicatorPolicy < ApplicationPolicy
 
   def toggle_purpose?
     create?
+  end
+
+  def tree_show?
+    index?
   end
 
   class Scope

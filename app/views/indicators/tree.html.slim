@@ -1,9 +1,23 @@
-= caption @record
-= render 'investigations/show_tabs', record: @record, active_tab: :tree, from_external_link: true
-= render 'indicators/new_button', investigation_id: @record.id
-= link_to @record.name, @record
-= link_to @record.custom_codename, @record
-ul
-  = @record.top_parents_indicators.each do |i|
-    li
-      = render 'indicators/indicator', indicator: i
+= caption @investigation
+= render 'investigations/show_tabs', record: @investigation, active_tab: :tree, from_external_link: true
+= render 'indicators/new_button', investigation_id: @investigation.id
+
+= form_tag select_indicators_path do
+  = hidden_field_tag :investigation_id, @investigation.id
+
+  ul.list-unbullet
+    = button_tag type: 'submit', class: 'btn btn-default' do
+      span
+        => fa_icon 'cut'
+      = t('helpers.submit.cut')
+    = link_to paste_indicators_path(investigation_id: @investigation.id), class: 'btn btn-default', method: :put do
+      span class=('text-primary' unless session[:selected_indicators].present?)
+        => fa_icon 'paste'
+        = t('helpers.submit.paste')
+    = link_to reset_indicators_path(investigation_id: @investigation.id), class: 'btn btn-default' do
+      span class=('text-primary' unless session[:selected_indicators].present?)
+        => fa_icon 'undo'
+        = t('helpers.submit.reset')
+
+    - @investigation.top_parents_indicators.order(:content_format).each do |indicator|
+      = render 'indicator', indicator: indicator

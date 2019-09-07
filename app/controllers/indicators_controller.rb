@@ -4,10 +4,34 @@ class IndicatorsController < ApplicationController
   include RecordOfOrganization
   include ReadableRecord
 
-  before_action :set_investigation, only: [:new]
+  before_action :set_investigation, only: [:new, :select, :reset, :paste]
   before_action :set_content_format, only: [:new, :create, :edit, :update]
   before_action :set_indicator_contexts, only: [:new, :create, :edit, :update]
   before_action :set_selected_indicator_contexts, only: [:new, :create, :edit, :update]
+
+  def select
+    authorize model
+    set_selected_indicators
+    redirect_back(fallback_location: root_path)
+  end
+
+  def reset
+    authorize model
+    session[:selected_indicators] = []
+    redirect_back(fallback_location: root_path)
+  end
+
+  def paste
+    if params[:indicator_id].present?
+      indicator = Indicator.find(params[:indicator_id])
+      authorize indicator
+    else
+      authorize model
+      indicator = nil
+    end
+    paste_selected_indicators(indicator)
+    redirect_back(fallback_location: root_path)
+  end
 
   def search
     index
@@ -90,6 +114,13 @@ class IndicatorsController < ApplicationController
                        end
     @records = records(model.where(investigation_id: investigation_id))
     @investigation = Investigation.find(investigation_id)
+  end
+
+  def tree_show
+    authorize model
+    investigation_id = params[:investigation_id]
+    @investigation = Investigation.find(investigation_id)
+    render 'tree'
   end
 
   def new
@@ -231,5 +262,24 @@ class IndicatorsController < ApplicationController
     return unless params[:format_errors] == 'true'
     @record.errors.add(:content, :wrong_format_or_dublication)
     @not_saved_strings = params[:not_saved_strings]
+  end
+
+  def paste_selected_indicators(indicator_to_paste)
+    return if session[:selected_indicators].blank?
+    indicators = Indicator.where(id: session[:selected_indicators].map(&:to_i))
+    indicators.each do |indictor|
+      indictor.update_attributes(
+        parent_id: indicator_to_paste&.id,
+        current_user: current_user
+      )
+    end
+    session[:selected_indicators] = []
+  end
+
+  def set_selected_indicators
+    return unless params[:indicators_ids]
+    session[:selected_indicators] ||= []
+    session[:selected_indicators] += params[:indicators_ids]
+    session[:selected_indicators] = session[:selected_indicators].uniq
   end
 end

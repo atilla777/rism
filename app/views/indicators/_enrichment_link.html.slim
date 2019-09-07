@@ -1,0 +1,10 @@
+=> link_to(indicator_path(record, active_tab: :enrichments),
+  data_toggle: 'tooltip',
+  title: Indicator.human_attribute_name(:enrichment),
+  class: 'btn btn-link btn-xs') do
+  - if record.enrichment_done?
+    span.text-warning
+      = fa_icon 'database'
+  - else
+    span
+      = fa_icon 'database'

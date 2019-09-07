@@ -90,12 +90,15 @@ Rails.application.routes.draw do
     member do
       patch :set_readable
       get :enrich
-      get :tree_show
     end
   end
   resources :indicators do
     collection do
       match 'search' => 'indicators#search', via: [:get, :post], as: :search
+      get :tree_show
+      post :select
+      put :paste
+      get :reset
     end
     member do
       patch :set_readable
