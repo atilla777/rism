@@ -3,7 +3,11 @@ li
   .panel.panel-default
     .panel-heading
       caption
-        => check_box_tag 'indicators_ids[]', i.id, session[:selected_indicators].map(&:to_i).include?(i.id)
+        => check_box_tag 'indicators_ids[]', i.id, session[:selected_indicators]&.map(&:to_i)&.include?(i.id)
+        =< link_to paste_indicators_path(investigation_id: @investigation.id, indicator_id: i.id), class: 'btn btn-link btn-xs', method: :put do
+          span class=('text-primary' unless session[:selected_indicators].present?)
+            => fa_icon 'paste'
+            = t('helpers.submit.paste')
         strong
           span.text-info
             = i.show_content_format
@@ -16,12 +20,11 @@ li
       .list-group-item
         span.text-danger
           = "#{i.content} "
+        = render('new_button_for_parent',
+          parent_id: i.id,
+          investigation_id: @investigation.id)
         = render 'enrichment_link', record: i
         = render 'helpers/index_actions', record: i
-        = link_to paste_indicators_path(investigation_id: @investigation.id, indicator_id: i.id), class: 'btn btn-link btn-xs', method: :put do
-          span class=('text-primary' unless session[:selected_indicators].present?)
-            => fa_icon 'paste'
-            = t('helpers.submit.paste')
 
       - if i.description.present?
         .list-group-item

@@ -9,6 +9,9 @@ class IndicatorsController < ApplicationController
   before_action :set_indicator_contexts, only: [:new, :create, :edit, :update]
   before_action :set_selected_indicator_contexts, only: [:new, :create, :edit, :update]
 
+  before_action :set_edit_previous_page, only: %i[index show search tree_show]
+  before_action :set_show_previous_page, only: %i[index search tree_show]
+
   def select
     authorize model
     set_selected_indicators
@@ -130,6 +133,7 @@ class IndicatorsController < ApplicationController
     preset_record
     @template_id = params[:template_id]
     set_format_errors
+    set_parent_id
   end
 
   def create
@@ -143,19 +147,23 @@ class IndicatorsController < ApplicationController
     if params[:indicator][:indicators_list].present?
       parent_indicator_id = if @record.content.present?
                               @record.id
-                            elsif params.fetch(:indicators_list_parent_id, false)
+                            elsif params[:indicators_list_parent_id].present?
                               params[:indicators_list_parent_id]
+                            elsif params[:indicator][:parent_id].present?
+                              params[:indicator][:parent_id]
                             else
                               nil
                             end
+
       unless create_indicators_from_list(parent_indicator_id)
         # TODO: why commented code don`t work?
         raise StandardError #ActiveRecord::RecordInvalid.new(@record)
       end
     end
     add_from_template
+    #  indicators_path(investigation_id: @record.investigation_id),
     redirect_to(
-      indicators_path(investigation_id: @record.investigation_id),
+      session.delete(:edit_return_to),
       success: t('flashes.create', model: model.model_name.human)
     )
   rescue #ActiveRecord::RecordInvalid # TODO: see comment above
@@ -281,5 +289,16 @@ class IndicatorsController < ApplicationController
     session[:selected_indicators] ||= []
     session[:selected_indicators] += params[:indicators_ids]
     session[:selected_indicators] = session[:selected_indicators].uniq
+  end
+
+  def set_parent_id
+    @record.parent_id = params.fetch(:parent_id, nil)
+  end
+
+  def default_update_redirect_to
+    redirect_to(
+      session.delete(:edit_return_to),
+      success: t('flashes.update', model: model.model_name.human)
+    )
   end
 end

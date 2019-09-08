@@ -1,6 +1,7 @@
 = caption @investigation
 = render 'investigations/show_tabs', record: @investigation, active_tab: :tree, from_external_link: true
 = render 'indicators/new_button', investigation_id: @investigation.id
+= report_button_for @investigation, investigation_id: @investigation.id
 
 = form_tag select_indicators_path do
   = hidden_field_tag :investigation_id, @investigation.id

@@ -41,6 +41,13 @@
   - @record.custom_fields&.each do |name, value|
     = r.show :custom_fields, label: name, value: value
 
+=> link_to tree_show_indicators_path(investigation_id: @record.investigation.id) do
+  span.btn.btn-default
+    = fa_icon 'code-fork'
+    =< fa_icon 'bomb'
+    = Investigation.model_name.human
 => link_to indicators_path(investigation_id: @record.investigation.id) do
   span.btn.btn-default
+    = fa_icon 'list'
+    =< fa_icon 'bomb'
     = Investigation.model_name.human
