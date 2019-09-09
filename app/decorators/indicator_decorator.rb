@@ -74,7 +74,7 @@ class IndicatorDecorator < SimpleDelegator
     end
     enrichment.fetch('virus_total', {})
       .fetch('scans', {})
-      .first do |antivirus, value|
+      .find do |antivirus, value|
         antivirus == 'Kaspersky' && value.fetch('detected', false)
     end&.second&.fetch('result', '')
   end
