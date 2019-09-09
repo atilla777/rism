@@ -3,7 +3,7 @@
     i.text-success
       => fa_icon 'plus-circle'
     span.caret
-  ul.dropdown-menu.dropdown-menu-right
+  ul.dropdown-menu.dropdown-menu-left
     - Indicator.content_formats.each do |content_format, _|
       li
         = link_to(new_indicator_path({content_format: content_format,

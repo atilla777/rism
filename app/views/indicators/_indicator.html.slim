@@ -31,7 +31,8 @@ li
           em
             = simple_format i.description
 
-  - if i.children.present?
+  - children = i.children.includes(:children, :indicator_contexts)
+  - if children.present?
     ul.list-unbullet
-      - i.children.order(:content_format)&.each do |child|
+      - children.order(:content_format)&.each do |child|
         = render 'indicator', indicator: child

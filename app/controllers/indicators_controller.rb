@@ -276,6 +276,7 @@ class IndicatorsController < ApplicationController
     return if session[:selected_indicators].blank?
     indicators = Indicator.where(id: session[:selected_indicators].map(&:to_i))
     indicators.each do |indictor|
+      next if indictor.id == indicator_to_paste&.id
       indictor.update_attributes(
         parent_id: indicator_to_paste&.id,
         current_user: current_user
