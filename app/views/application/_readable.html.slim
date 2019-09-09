@@ -1,6 +1,9 @@
 - if record.respond_to?(:changed_fields)
   - changed_fields = record.changed_fields.map do |f|
-    - record.__getobj__.class.human_attribute_name(f.to_sym)
+    - if record.respond_to?(:__getobj__)
+      - record.__getobj__.class.human_attribute_name(f.to_sym)
+    - else
+      - record.class.human_attribute_name(f.to_sym)
   - changed_fields = changed_fields.join(', ')
 . id="#{record.id}_readable"
   = link_to(polymorphic_path(record, action: :set_readable),
