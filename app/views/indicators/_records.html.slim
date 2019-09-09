@@ -16,6 +16,7 @@ br
   - t.header attribute: :content_format, sort_by: :content_format, sort: :desc
   - t.header attribute: :content, sort_by: :content, sort: :desc
   - t.header attribute: :actions, fit: true, label: ''
+  - t.header attribute: :actions, fit: true, label: ''
   - t.field { |record| render 'readable', record: record }
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
   - t.field { |record| link_to truncate(record.show_creator, length: 15), record.creator}
@@ -40,4 +41,5 @@ br
     =< link_to truncate(record.content, length: 50), record
   - t.field do |record|
     = render 'enrichment_link', record: record
+  - t.field do |record|
     = render 'helpers/index_actions', record: record
