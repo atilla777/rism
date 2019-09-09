@@ -18,12 +18,11 @@ li
         = " #{Indicator.human_attribute_name(:purpose)}: #{i.show_purpose}"
     .list-group
       .list-group-item
-        span.text-danger
-          = "#{i.content} "
+        = "#{i.content} "
+        = render 'enrichment_link', record: i
         = render('new_button_for_parent',
           parent_id: i.id,
           investigation_id: @investigation.id)
-        = render 'enrichment_link', record: i
         = render 'helpers/index_actions', record: i
 
       - if i.description.present?

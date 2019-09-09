@@ -3,8 +3,15 @@
   title: Indicator.human_attribute_name(:enrichment),
   class: 'btn btn-link btn-xs') do
   - if record.enrichment_done?
-    span.text-warning
-      = fa_icon 'database'
+    - if record.danger_detect?
+      span.text-danger
+        = fa_icon 'database'
+      - kasperky_malware = record.show_kaspesky_hash_enrichment
+      - if kasperky_malware
+        =< "(Kaspersky: #{record.show_kaspesky_hash_enrichment})"
+    - else
+      span.text-success
+        = fa_icon 'database'
   - else
     span
       = fa_icon 'database'

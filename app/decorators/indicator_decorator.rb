@@ -50,4 +50,32 @@ class IndicatorDecorator < SimpleDelegator
     return false if enrichment.empty?
     true
   end
+
+  def danger_detect?
+    virus_total_enrichment = enrichment.fetch('virus_total', {})
+    case Indicator::Enrichments.map_hash_format(content_format)
+    when 'hash', 'uri'
+      virus_total_enrichment.fetch('scans', {}).any? do |antivirus, value|
+        value.fetch('detected', false)
+      end
+    when 'network', 'domain'
+      virus_total_enrichment.fetch('detected_urls', {})
+        .any? do |url|
+          url.fetch('positives', 0) > 0
+      end
+    else
+      false
+    end
+  end
+
+  def show_kaspesky_hash_enrichment
+    unless Indicator::Enrichments.map_hash_format(content_format) == 'hash'
+      return nil
+    end
+    enrichment.fetch('virus_total', {})
+      .fetch('scans', {})
+      .first do |antivirus, value|
+        antivirus == 'Kaspersky' && value.fetch('detected', false)
+    end&.second&.fetch('result', '')
+  end
 end
