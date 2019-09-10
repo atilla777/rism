@@ -101,7 +101,7 @@ class RightsController < ApplicationController
   end
 
   def records_includes
-    %i[role organization subject]
+    %i[role organization] # don`t inculde subjects here - not all subject is a ActiveRecord Models (for example - Chart)
   end
 
   def default_sort

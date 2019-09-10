@@ -9,4 +9,4 @@
   - t.field { |r| link_to(r.organization&.name, r.organization || '') }
   - t.field { |r| r.show_level }
   - t.field { |r| r.show_subject_type }
-  - t.field { |r| link_to r.show_subject_id, r.subject }
+  - t.field { |r| link_to r.show_subject_id, r.respond_to?(:subject) ? r.subject : ''  }
