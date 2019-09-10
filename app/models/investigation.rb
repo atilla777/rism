@@ -41,6 +41,10 @@ class Investigation < ApplicationRecord
     DeliveryList.all - delivery_lists
   end
 
+  def delivery_subject_codename
+    custom_codename
+  end
+
   private
 
   def set_name

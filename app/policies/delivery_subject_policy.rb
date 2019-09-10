@@ -8,6 +8,14 @@ class DeliverySubjectPolicy < ApplicationPolicy
       delivery_list_id]
   end
 
+  def toggle_processed?
+    index?
+  end
+
+  def set_readable?
+    index?
+  end
+
   class Scope
     attr_reader :user, :scope
 

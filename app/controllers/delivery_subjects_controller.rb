@@ -2,6 +2,7 @@
 
 class DeliverySubjectsController < ApplicationController
   include RecordOfOrganization
+  include ReadableRecord
 
   before_action :set_deliverable_subject, only: [:list_subjects, :create]
 
@@ -42,9 +43,13 @@ class DeliverySubjectsController < ApplicationController
   end
 
   def toggle_processed
-    record.toggle!(:processed)
-    record.update_attribute(:processed_by_id, current_user.id)
-    @record = VulnerabilityDecorator.new(record)
+    delivery_subject = record
+    authorize delivery_subject.class
+    delivery_subject.toggle(:processed)
+    delivery_subject.processed_by_id = current_user.id
+    delivery_subject.save
+    @record = VulnerabilityDecorator.new(delivery_subject.reload)
+    set_readable_log
   end
 
   private
@@ -86,6 +91,6 @@ class DeliverySubjectsController < ApplicationController
   end
 
   def records_includes
-    [:deliverable]
+    [:deliverable, :processor]
   end
 end

@@ -1,8 +1,10 @@
 = index_for records, decorator: DeliverySubjectDecorator, actions: false do |t|
+  - t.header attribute: :readed, fit: true, label: ''
   - t.header attribute: :created_at, sort: :desc
   - t.header attribute: :processed
   - t.header attribute: :name
   - t.header fit: true
+  - t.field { |record| render 'readable', record: record }
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
   - t.field do |record|
     = render 'processed', record: record
@@ -11,6 +13,8 @@
       span.text-warning
         = record.deliverable.class.model_name.human(count: 1)
       =< record.deliverable.name
+      - if record.deliverable.respond_to?(:delivery_subject_codename)
+        =< "(#{record.deliverable.delivery_subject_codename})"
   - t.field do |record|
     => link_to polymorphic_path(record), class: 'btn btn-link' do
       = fa_icon 'eye', class: 'text-info', data_toggle: 'tooltip', title: t('views.action.show')

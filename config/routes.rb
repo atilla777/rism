@@ -129,6 +129,7 @@ end
     end
     member do
       patch :toggle_processed
+      patch :set_readable
     end
   end
   resources :delivery_recipients, only: [:index, :create, :destroy]

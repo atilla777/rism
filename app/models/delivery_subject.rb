@@ -1,4 +1,6 @@
 class DeliverySubject < ApplicationRecord
+  include Readable
+
   SUBJECT_TYPES = %w[
       Investigation
       VulnerabilityBulletin
