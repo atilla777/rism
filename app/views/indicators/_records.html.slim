@@ -27,17 +27,7 @@ br
     = render 'purpose', record: record
   - t.field { |record| link_to record.show_content_format, record}
   - t.field do |record|
-    = link_to record do
-      - case
-      - when record.show_appearance < 2
-        span.text-info.text-right
-          = "#{record.show_appearance}x"
-      - when record.show_appearance < 5
-        span.text-warning
-          = "#{record.show_appearance}x"
-      - when record.show_appearance > 10
-        span.text-danger
-          = "#{record.show_appearance}x"
+    = render 'appearance', record: record
     =< link_to truncate(record.content, length: 50), record
   - t.field do |record|
     = render 'enrichment_link', record: record

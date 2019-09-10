@@ -18,7 +18,8 @@ li
         = " #{Indicator.human_attribute_name(:purpose)}: #{i.show_purpose}"
     .list-group
       .list-group-item
-        = "#{i.content} "
+        = render 'appearance', record: i
+        =< "#{i.content} "
         = render 'enrichment_link', record: i
         = render('new_button_for_parent',
           parent_id: i.id,

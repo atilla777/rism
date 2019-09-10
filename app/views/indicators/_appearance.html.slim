@@ -1,0 +1,11 @@
+= link_to record do
+  - case
+  - when record.show_appearance < 2
+    span.text-info.text-right
+      = "#{record.show_appearance}x"
+  - when record.show_appearance < 10
+    span.text-warning
+      = "#{record.show_appearance}x"
+  - else
+    span.text-danger
+      = "#{record.show_appearance}x"
