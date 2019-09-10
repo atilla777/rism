@@ -1,5 +1,5 @@
 Chartkick.options = {
-  #library: {defaultFontColor: "#fff"}
-  #height: "400px",
-  #colors: ["#b00", "#666"]
-} 
+  #  height: "400px",
+  #  colors: ["#b00", "#666"],
+  #  legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
+}

@@ -22,4 +22,9 @@ ul.nav.navbar-nav
             .text-info
               = fa_icon 'bomb'
               =< Indicator.model_name.human(count: 2)
+        li
+          = link_to investigations_dashboard_path do
+            .text-info
+              = fa_icon 'line-chart'
+              =< t('navigations.charts')
 

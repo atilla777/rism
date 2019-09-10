@@ -30,4 +30,10 @@ class Charts
   VulnerablePortsByOrganization.register
   ScanByDays.register
   LongestScanJobsChart.register
+  TopIndicators.register
+  IndicatorsByDays.register
+  IndicatorsByUsers.register
+  IndicatorsByFormat.register
+  NetworkIndicators.register
+  EmailIndicators.register
 end

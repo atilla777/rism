@@ -9,4 +9,8 @@ class DashboardsController < ApplicationController
     authorize :dashboards
     @chart = params[:name]
   end
+
+  def investigations_dashboard
+    authorize Investigation
+  end
 end

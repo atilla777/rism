@@ -25,4 +25,8 @@ class InvestigationPolicy < ApplicationPolicy
   def set_readable?
     index?
   end
+
+  def investigations_dashboard?
+    index?
+  end
 end

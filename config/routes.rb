@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   get "/commands/:name", to: 'commands#run', as: :commands
   #mount Blazer::Engine, at: "blazer"
   get "/dashboards/", to: 'dashboards#index', as: :dashboards
+  get "/investigations_dashboard/", to: 'dashboards#investigations_dashboard', as: :investigations_dashboard
   get "/dashboards/:name", to: 'dashboards#show', as: :dashboard
   get "/charts/:name", to: 'charts#show', as: :charts
   resources :hosts do

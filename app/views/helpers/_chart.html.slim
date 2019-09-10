@@ -1,3 +1,5 @@
 h3
   = chart.human_name
-= send(chart.kind, charts_path(name: chart.chart_name))
+.chart
+  = send(chart.kind,
+    charts_path(name: chart.chart_name))
