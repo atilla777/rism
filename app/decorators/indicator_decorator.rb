@@ -52,7 +52,8 @@ class IndicatorDecorator < SimpleDelegator
   end
 
   def danger_detect?
-    virus_total_enrichment = enrichment.fetch('virus_total', {})
+    virus_total_enrichment = enrichment&.fetch('virus_total', {})
+    return false unless virus_total_enrichment
     case Indicator::Enrichments.map_hash_format(content_format)
     when 'hash', 'uri'
       virus_total_enrichment.fetch('scans', {}).any? do |antivirus, value|
