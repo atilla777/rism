@@ -88,6 +88,9 @@ Rails.application.routes.draw do
   resources :feeds
   resources :investigation_kinds
   resources :investigations do
+    collection do
+      match 'search' => 'investigations#search', via: [:get, :post], as: :search
+    end
     member do
       patch :set_readable
       get :enrich

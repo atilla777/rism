@@ -19,6 +19,11 @@ class InvestigationsController < ApplicationController
     end
   end
 
+  def search
+    index
+    @scope = params.dig(:q, :scope_eq) || params.dig(:scope)
+  end
+
   def create
     @record = model.new(record_params)
     authorize @record.class
