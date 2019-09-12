@@ -43,6 +43,7 @@ module Right::SubjectTypes
     'VulnerabilityBulletinKind' => I18n.t('activerecord.models.vulnerability_bulletin_kind.one'),
     'VulnerabilityBulletin' => I18n.t('activerecord.models.vulnerability_bulletin.one'),
     'VulnerabilityBulletinMember' => I18n.t('activerecord.models.vulnerability_bulletin_member.one'),
+    'VulnerabilityBulletinStatus' => I18n.t('activerecord.models.vulnerability_bulletin_status.one'),
     'ReadableLog' => I18n.t('activerecord.models.readable_log.one')
   }.freeze
 end
