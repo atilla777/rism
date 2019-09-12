@@ -46,7 +46,7 @@ class SyncNvdBaseJob < ApplicationJob
               .body
     rescue StandardError
       logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_error.log'))
-      logger.tagged("SYNC_NVD:") do
+      logger.tagged("SYNC_NVD (#{Time.now}):") do
         logger.error("meta file can`t be saved (network error?)")
       end
     end

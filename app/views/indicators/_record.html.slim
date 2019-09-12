@@ -41,6 +41,8 @@
   - @record.custom_fields&.each do |name, value|
     = r.show :custom_fields, label: name, value: value
 
+= render 'application/record_versions'
+
 => link_to tree_show_indicators_path(investigation_id: @record.investigation.id) do
   span.btn.btn-default
     = fa_icon 'code-fork'

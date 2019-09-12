@@ -23,7 +23,7 @@ class SessionsTrimJob < ApplicationJob
 
   def log
     logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_info.log'))
-    logger.tagged("SESSIONS_TRIM:") do
+    logger.tagged("SESSIONS_TRIM (#{Time.now}):") do
       logger.info("Sessions table was trimmed.")
     end
   end
