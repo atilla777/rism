@@ -112,11 +112,6 @@ class SyncNvdBaseJob < ApplicationJob
   def save_to_base
     Oj.load_file(save_path).fetch('CVE_Items', []).each do |cve|
       attributes = NvdBase::Parser.record_attributes(cve)
-#      state = if attributes[:published] == attributes[:modified]
-#                :published
-#              else
-#                :modified
-#              end
       begin
         record = Vulnerability
           .find_or_initialize_by(codename: attributes[:codename])
@@ -125,9 +120,6 @@ class SyncNvdBaseJob < ApplicationJob
             relevance: 'not_set'
           )
         )
-#            state: state,
-#            custom_relevance: 'not_set',
-#            custom_actuality: 'not_set',
       rescue ActiveRecord::RecordInvalid
         logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_erros.log'))
         logger.tagged("SYNC_NVD (#{Time.now}): #{record.codename}") do
