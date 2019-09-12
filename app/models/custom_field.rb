@@ -32,7 +32,8 @@ class CustomField < ApplicationRecord
 #    'InvestigationKind' => I18n.t('activerecord.models.investigation_kind.one'),
     'Investigation' => I18n.t('activerecord.models.investigation.one'),
     'Indicator' => I18n.t('activerecord.models.indicator.one'),
-    'Vulnerability' => I18n.t('activerecord.models.vulnerability.one')
+    'Vulnerability' => I18n.t('activerecord.models.vulnerability.one'),
+    'VulnerabilityBulletin' => I18n.t('activerecord.models.vulnerability_bulletin.one')
   }.freeze
 
   enum data_type: {

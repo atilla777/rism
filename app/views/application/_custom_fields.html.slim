@@ -1,0 +1,6 @@
+- record.custom_fields&.each do |name, value|
+  = r.show :custom_fields, label: name do
+    - if record.custom_field_data_type(name) == 'text'
+      = simple_format(value)
+    - else
+      = value

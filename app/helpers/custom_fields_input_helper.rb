@@ -7,7 +7,7 @@ module CustomFieldsInputHelper
       'helpers/custom_fields_input',
       fields: fields,
       record: record,
-      resource: record.class.model_name.to_s.downcase,
+      resource: record.class.model_name.to_s.underscore,
     )
   end
 end

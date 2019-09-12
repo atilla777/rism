@@ -38,8 +38,7 @@
   = r.show :description do
     = simple_format @record.description
   = r.show :indicator_contexts, value: r.decorated.show_indicator_contexts
-  - @record.custom_fields&.each do |name, value|
-    = r.show :custom_fields, label: name, value: value
+  = render 'custom_fields', r: r, record: record
 
 = render 'application/record_versions'
 
