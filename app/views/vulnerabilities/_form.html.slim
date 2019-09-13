@@ -109,14 +109,14 @@
           .col-lg-2.text-right
             = f.label :vendors, class: 'control-label'
           .col-lg-8
-            = f.text_field :vendors_str, value: decorated.show_vendors,  class: 'form-control', disabled: true, placeholder: t('activerecord.attributes.vulnerability.ph_vendors'), disabled: true
+            = f.text_field :vendors_str, value: decorated.show_vendors,  class: 'form-control', disabled: true, placeholder: t('activerecord.attributes.vulnerability.ph_vendors')
 
       .form-group.recomended.collapse.toggle_products_vendors
         .field
           .col-lg-2.text-right
             = f.label :products, class: 'control-label'
           .col-lg-8
-            = f.text_field :products_str, value: decorated.show_products, class: 'form-control', disabled: true, placeholder: t('activerecord.attributes.vulnerability.ph_products'), disabled: true
+            = f.text_field :products_str, value: decorated.show_products, class: 'form-control', disabled: true, placeholder: t('activerecord.attributes.vulnerability.ph_products')
 
       .form-group.recomended
         .field
@@ -153,7 +153,7 @@
           .col-lg-2.text-right
             = f.label :cvss3_impact, class: 'control-label'
           .col-lg-1
-            = f.text_field :cvss3_impact, class: 'form-control', class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: true
+            = f.text_field :cvss3_impact, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: true
 
       .form-group.recomended.collapse.toggle_cvss
         .field
@@ -175,7 +175,7 @@
           .col-lg-2.text-right
             = f.label :cvss2_impact, class: 'control-label'
           .col-lg-1
-            = f.text_field :cvss2_impact, class: 'form-control', class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: true
+            = f.text_field :cvss2_impact, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss'), disabled: true
 
       .form-group.recomended.collapse.toggle_cvss
         .field
@@ -197,7 +197,7 @@
           .col-lg-2.text-right
             = f.label :custom_cvss3_impact, class: 'control-label'
           .col-lg-1
-            = f.text_field :custom_cvss3_impact, class: 'form-control', class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
+            = f.text_field :custom_cvss3_impact, class: 'form-control', placeholder: t('activerecord.attributes.vulnerability.ph_cvss')
 
       .form-group.recomended
         .field
