@@ -8,16 +8,16 @@ module ShowHelper
   # It assumes that bootstrap and slim used in Rails project.
 
   class RecordWrapper
-    attr_reader :decorated, :previous_record, :previous_decorated, :record
+    attr_reader :decorated#, :previous_record, :previous_decorated, :record
 
     def initialize(record, decorator, context)
       @record = record
       @context = context
       @decorated = decorator.new(record) if decorator
-      if record.respond_to?(:versions)
-        @previous_record = record.versions.last.reify
-        @previous_decorated = decorator.new(@previous_record) if decorator
-      end
+#      if record.respond_to?(:versions)
+#        @previous_record = record.versions.last.reify
+#        @previous_decorated = decorator.new(@previous_record) if decorator
+#      end
     end
 
     # Display record attribute.
