@@ -635,7 +635,7 @@
   .list-group.collapse#toggle_raw
     .list-group-item
       .row
-        .col-md-12.text-right
-          = @record.raw_data
+        .col-md-12
+          = simple_format(JSON.pretty_generate(@record.raw_data))
 
 = render 'application/record_versions'

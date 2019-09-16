@@ -2,19 +2,21 @@ module NvdBase::Parser
   module_function
 
   def record_attributes(cve)
-    products = []
-    vendors_arr = cve.dig('cve', 'affects', 'vendor', 'vendor_data') || []
-    vendors = vendors_arr.each_with_object([]) do |vendor, arr|
-      products_array = vendor.dig('product', 'product_data') || []
-      products_array.each do |product|
-        products << product.fetch('product_name', '')
-      end
-      arr << vendor.fetch('vendor_name', '')
-    end
+#    products = []
+#    vendors_arr = cve.dig('cve', 'affects', 'vendor', 'vendor_data') || []
+#    vendors = vendors_arr.each_with_object([]) do |vendor, arr|
+#      products_array = vendor.dig('product', 'product_data') || []
+#      products_array.each do |product|
+#        products << product.fetch('product_name', '')
+#      end
+#      arr << vendor.fetch('vendor_name', '')
+#    end
+
     descriptions_arr = cve.dig('cve', 'description', 'description_data') || []
     description = descriptions_arr.each_with_object([]) do |description, arr|
       arr << description.fetch('value', '')
     end
+
     cwe_arr = cve.dig('cve', 'problemtype', 'problemtype_data') || []
     cwe = []
     cwe_arr.each do |hash|
@@ -22,11 +24,12 @@ module NvdBase::Parser
         cwe << cwe_hash.fetch('value', '')
       end
     end
+
     {
       codename: cve.dig('cve', 'CVE_data_meta', 'ID'),
       feed: Vulnerability.feeds[:nvd],
-      vendors: vendors,
-      products: products,
+      vendors: vendors(cve),
+      products: products(cve),
       cwe: cwe,
       cvss3: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'baseScore')&.to_d,
       cvss3_vector: cve.dig('impact', 'baseMetricV3', 'cvssV3', 'vectorString') || '',
@@ -44,5 +47,25 @@ module NvdBase::Parser
       blocked: true,
       raw_data: cve
     }
+  end
+
+  def vendors(cve)
+    vendors_products(cve).each_with_object([]) do |(vendor, _product, _version), memo|
+      memo <<  vendor unless memo.include?(vendor)
+    end
+  end
+
+  def products(cve)
+    vendors_products(cve).each_with_object([]) do |(_vendor, product, _version), memo|
+      memo <<  product unless memo.include?(product)
+    end
+  end
+
+  def vendors_products(cve)
+    nodes = cve.dig('configurations', 'nodes')
+    return [] if nodes.blank?
+    nodes.to_s
+         .gsub('\\\\', '')
+         .scan(/cpe:2.3:[a-z{1}]:([^:]+):([^:]+):([^:]+):/)
   end
 end
