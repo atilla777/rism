@@ -22,7 +22,11 @@ class InvestigationPolicy < ApplicationPolicy
     create?
   end
 
-  def set_readable?
+#  def set_readable?
+#    index?
+#  end
+
+  def toggle_readable?
     index?
   end
 

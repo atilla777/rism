@@ -11,7 +11,7 @@ class SetReadableLogService
   def execute
     readable_log = ReadableLog.where(
       user_id: @user.id,
-      readable_type: oroginal_class(@readable).name,
+      readable_type: original_class.name,
       readable_id: @readable.id
     ).first_or_initialize
     readable_log.read_created_at = @readable.created_at
@@ -21,8 +21,8 @@ class SetReadableLogService
 
   private
 
-  def oroginal_class(obj)
-    return obj.__getobj__.class if obj.respond_to?(:__getobj__)
-    obj.class
+  def original_class
+    return @readable.__getobj__.class if @readable.respond_to?(:__getobj__)
+    @readable.class
   end
 end
