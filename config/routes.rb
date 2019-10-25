@@ -92,7 +92,7 @@ Rails.application.routes.draw do
       match 'search' => 'investigations#search', via: [:get, :post], as: :search
     end
     member do
-      patch :set_readable
+      patch :toggle_readable
       get :enrich
     end
   end
@@ -105,7 +105,7 @@ Rails.application.routes.draw do
       get :reset
     end
     member do
-      patch :set_readable
+      patch :toggle_readable
       get :enrich
       get :enrichment
       patch :toggle_purpose
@@ -121,7 +121,7 @@ end
     member do
       patch :toggle_processed
       patch :toggle_custom_relevance
-      patch :set_readable
+      patch :toggle_readable
     end
   end
   resources :custom_fields
@@ -132,7 +132,7 @@ end
     end
     member do
       patch :toggle_processed
-      patch :set_readable
+      patch :toggle_readable
     end
   end
   resources :delivery_recipients, only: [:index, :create, :destroy]
@@ -141,7 +141,7 @@ end
   resources :vulnerability_bulletin_kinds
   resources :vulnerability_bulletins do
     member do
-      patch :set_readable
+      patch :toggle_readable
     end
   end
   resources :vulnerability_bulletin_members, only: %i[index create destroy]

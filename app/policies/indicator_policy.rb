@@ -33,7 +33,11 @@ class IndicatorPolicy < ApplicationPolicy
     @user.can? :edit, @record
   end
 
-  def set_readable?
+#  def set_readable?
+#    index?
+#  end
+
+  def toggle_readable?
     index?
   end
 

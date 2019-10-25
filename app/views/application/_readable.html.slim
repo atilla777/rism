@@ -6,7 +6,7 @@
       - record.class.human_attribute_name(f.to_sym)
   - changed_fields = changed_fields.join(', ')
 . id="#{record.id}_readable"
-  = link_to(polymorphic_path(record, action: :set_readable),
+  = link_to(polymorphic_path(record, action: :toggle_readable),
     method: :patch,
     remote: true,
     class: 'btn-link',
