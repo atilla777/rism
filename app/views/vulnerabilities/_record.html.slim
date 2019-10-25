@@ -618,7 +618,7 @@
           strong.text-info
             = @record.class.human_attribute_name(:references)
         .col-md-10
-          = auto_link(decorated.show_references_string(separator: "\n"))
+          = simple_format(auto_link(decorated.show_references_string(separator: "\n")))
           = render('previous_version',
             field: :references,
             direction: 'bottom',
