@@ -21,6 +21,7 @@ class VulnerabilitiesController < ApplicationController
     authorize vulnerability.class
     vulnerability.toggle(:processed)
     vulnerability.processed_by_id = current_user.id
+    vulnerability.processed_at = DateTime.now
     vulnerability.save
     @record = VulnerabilityDecorator.new(vulnerability.reload)
     set_readable_log

@@ -99,17 +99,28 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
                 .field
                   .col-lg-1.text-right
                     = f.label :processed, class: 'control-label'
-                  .col-lg-2
+                  .col-lg-1
                     = f.select :processed_not_eq,
                       [[t('labels.yes_label'), 0],
                       [t('labels.no_label'), 1]],
                       {include_blank: t('labels.all_label'),
                       selected: params.dig(:q, :processed_not_eq)},
                       class: 'form-control'
-                  .col-lg-3.text-right
+                  .col-lg-1.text-right
                     = f.label :processed_by_id, class: 'control-label'
                   .col-lg-2
                     = f.text_field :processor_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+                  .col-lg-1.text-right
+                    = f.label :processed_at,
+                      class: 'control-label'
+                  .col-lg-2
+                    = f.date_field :processed_at_gteq,
+                      class: 'form-control',
+                      datepicker: true
+                  .col-lg-2
+                    = f.date_field :processed_at_end_of_day_lteq,
+                      class: 'form-control',
+                      datepicker: true
 
             .form-group
               .form-row

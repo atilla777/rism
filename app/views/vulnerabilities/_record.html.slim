@@ -208,20 +208,25 @@
           strong.text-info
             = @record.class.human_attribute_name(:processed)
         .col-md-2
-            = render 'processed', record: decorated
-            = render('previous_version',
-              field: :processed,
-              record: @record,
-              content: '')
+          = render 'processed', record: decorated
+          = render('previous_version',
+            field: :processed,
+            record: @record,
+            content: '')
         .col-md-2.text-right
           strong.text-info
             = @record.class.human_attribute_name(:processed_by_id)
-        .col-md-3
-            = link_to @record.processor&.name || '', @record.processor
-            = render('previous_version',
-              field: :processed_by_id,
-              record: @record,
-              content: (previous_record.processor&.name '' if previous_decorated.present?))
+        .col-md-2
+          = link_to @record.processor&.name || '', @record.processor
+          = render('previous_version',
+            field: :processed_by_id,
+            record: @record,
+            content: (previous_record.processor&.name '' if previous_decorated.present?))
+        .col-md-2.text-right
+          strong.text-info
+            = @record.class.human_attribute_name(:processed_at)
+        .col-md-2
+           = show_date_time(record.processed_at)
 
 .panel.panel-default
   .panel-heading

@@ -1,7 +1,7 @@
 . style='display: inline' id="#{record.id}_processed"
   - title = []
   - if  record.processor.present?
-    - title << record.processor.name
+    - title << "#{record.processor.name} #{show_date_time(record.processed_at)}"
   - title << t('labels.vulnerability.toggle')
   - if record.processed?
     = link_to record.show_processed, toggle_processed_vulnerability_path(record), method: :patch, remote: true, class: 'text-success btn-link', 'data-toggle' => 'tooltip', 'data-placement' => 'top', title: title.join(' - ')

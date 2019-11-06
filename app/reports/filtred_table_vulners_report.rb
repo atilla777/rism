@@ -19,6 +19,7 @@ class FiltredTableVulnersReport < BaseReport
       'Прочие ID',
       'Обработано',
       'Обработал',
+      'Дата обработки',
       'Категория',
       'CWE ID',
       'Источник последнего внесения сведений',
@@ -57,6 +58,7 @@ class FiltredTableVulnersReport < BaseReport
       row << record.show_custom_codenames
       row << record.show_processed
       row << record.processor&.name
+      row << show_date_time(record.processed_at)
       row << record.vulnerability_kind&.name
       row << record.show_cwe
       row << record.show_feed
