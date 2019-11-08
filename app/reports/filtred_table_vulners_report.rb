@@ -68,7 +68,7 @@ class FiltredTableVulnersReport < BaseReport
       row << show_date_time(record.created_at)
       row << record.show_vendors_text
       row << record.show_products_text
-      row << record.show_versions_string(limit: 10, separator: "\n")
+      row << record.show_versions_by_products_text
       row << record.show_criticality
       row << record.show_cvss
       row << record.show_cvss_vector
@@ -79,7 +79,7 @@ class FiltredTableVulnersReport < BaseReport
       row << record.show_description_string
       row << record.custom_description
       row << record.show_link_nvd_codename
-      row << record.show_references_string(limit: 10, separator: "\n")
+      row << record.show_references_string(separator: "\n")
       row << record.custom_references
       row << record.custom_recomendation
       row << record.show_bulletins_string

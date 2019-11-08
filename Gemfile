@@ -91,6 +91,7 @@ gem 'sidekiq-limit_fetch', '~> 3.4.0'
 gem 'oj', '~> 3.7.12'
 gem 'rails_autolink', '~> 1.1.6'
 gem 'activerecord-session_store', '~> 1.1.3'
+gem 'hashie', '~> 4.0.0'
 
 # Lint with overcommit
 group :development do

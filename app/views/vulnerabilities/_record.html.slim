@@ -481,13 +481,15 @@
           strong.text-info
             = @record.class.human_attribute_name(:versions)
         .col-md-9
-          = truncate(decorated.show_versions_string, length: 2000)
+          = render 'versions_by_products',
+            record: @record,
+            decorated: decorated,
+            previous_decorated: previous_decorated
           = render('previous_version',
             field: :versions,
             record: @record,
             direction: 'bottom',
-            content: (truncate(previous_decorated.show_versions_string, length: 2000) if previous_decorated.present?))
-
+            content: (previous_decorated.show_versions_by_products_text if previous_decorated.present?))
 
 .panel.panel-default
   .panel-heading
@@ -503,11 +505,11 @@
           strong.text-info
             = @record.class.human_attribute_name(:references)
         .col-md-10
-          = simple_format(auto_link(decorated.show_references_string(limit: 10, separator: "\n")))
+          = simple_format(auto_link(decorated.show_references_string(separator: "\n")))
           = render('previous_version',
             field: :references,
             record: @record,
-            content: (previous_decorated.show_references_string(limit: 10) if previous_decorated.present?))
+            content: (previous_decorated.show_references_string if previous_decorated.present?))
     .list-group-item
       .row
         .col-md-2.text-right
@@ -597,35 +599,11 @@
       .row
         .col-md-2.text-right
           strong.text-info
-            = @record.class.human_attribute_name(:versions)
-        .col-md-10
-          = auto_link(decorated.show_versions_string(separator: "\n"))
-          = render('previous_version',
-            field: :versions,
-            direction: 'bottom',
-            record: @record,
-            content: (previous_decorated.show_versions_string(separator: "\n") if previous_decorated.present?))
-    .list-group-item
-      .row
-        .col-md-2.text-right
-          strong.text-info
             = @record.class.human_attribute_name(:cpe)
         .col-md-10
-          = decorated.show_cpe_array
+          = simple_format(JSON.pretty_generate(decorated.show_cpe_array))
           = render('previous_version',
             field: :cpe,
-            direction: 'bottom',
-            record: @record,
-            content: (previous_decorated.show_cpe_array if previous_decorated.present?))
-    .list-group-item
-      .row
-        .col-md-2.text-right
-          strong.text-info
-            = @record.class.human_attribute_name(:references)
-        .col-md-10
-          = simple_format(auto_link(decorated.show_references_string(separator: "\n")))
-          = render('previous_version',
-            field: :references,
             direction: 'bottom',
             record: @record,
             content: (previous_decorated.show_cpe_array if previous_decorated.present?))

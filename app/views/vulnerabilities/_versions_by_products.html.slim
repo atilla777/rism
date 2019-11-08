@@ -1,0 +1,12 @@
+- decorated.show_versions_by_products_hash.each do |vendor, product_hash|
+  ul.list-unstyled
+    span.text-warning
+      b
+        = vendor
+    - product_hash.each do |product, versions|
+      li.intended
+        b
+          = product
+        span.text-danger
+          =< versions.select{ |version| version != '*'}.join(', ')
+

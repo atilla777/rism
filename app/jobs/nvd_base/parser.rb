@@ -1,17 +1,24 @@
 module NvdBase::Parser
+  require 'hashie'
+
+  CPE_REGEXP = %r{
+    ^cpe:2.3
+    :[aoh{1}]
+    :(?<vendor>[^:]+)
+    :(?<product>[^:]+)
+    :(?<version>[^:]+)
+    :(?<update>[^:]+)
+    :(?<edition>[^:]+)
+    :(?<language>[^:]+)
+    :(?<sw_edition>[^:]+)
+    :(?<target_sw>[^:]+)
+    :(?<target_hw>[^:]+)
+    :(?<other>[^:]+)
+  }x.freeze
+
   module_function
 
   def record_attributes(cve)
-#    products = []
-#    vendors_arr = cve.dig('cve', 'affects', 'vendor', 'vendor_data') || []
-#    vendors = vendors_arr.each_with_object([]) do |vendor, arr|
-#      products_array = vendor.dig('product', 'product_data') || []
-#      products_array.each do |product|
-#        products << product.fetch('product_name', '')
-#      end
-#      arr << vendor.fetch('vendor_name', '')
-#    end
-
     descriptions_arr = cve.dig('cve', 'description', 'description_data') || []
     description = descriptions_arr.each_with_object([]) do |description, arr|
       arr << description.fetch('value', '')
@@ -50,22 +57,60 @@ module NvdBase::Parser
   end
 
   def vendors(cve)
-    vendors_products(cve).each_with_object([]) do |(vendor, _product, _version), memo|
+    vendors_products(cve).each_with_object([]) do |cve_hash, memo|
+      vendor = cve_hash.fetch('vendor', '')
       memo <<  vendor unless memo.include?(vendor)
     end
   end
 
   def products(cve)
-    vendors_products(cve).each_with_object([]) do |(_vendor, product, _version), memo|
+    vendors_products(cve).each_with_object([]) do |cve_hash, memo|
+      product = cve_hash.fetch('product', '')
       memo <<  product unless memo.include?(product)
+    end
+  end
+
+  def versions_by_products2(cve)
+    vendors_products(cve).each_with_object({}) do |cve, memo|
+      key = "#{cve.fetch('vendor')} #{cve.fetch('product')}"
+      memo[key] ||= []
+      memo[key] << cve.fetch('version')
+      memo[key] << ">= #{cve.fetch('>=')}" if cve.fetch('>=').present?
+      memo[key] << "> #{cve.fetch('>')}" if cve.fetch('>').present?
+      memo[key] << "<= #{cve.fetch('<=')}" if cve.fetch('<=').present?
+      memo[key] << "< #{cve.fetch('<')}" if cve.fetch('<').present?
+    end
+  end
+
+  def versions_by_products(cve)
+    vendors_products(cve).each_with_object({}) do |cve, memo|
+      memo[cve.fetch('vendor')] ||= {}
+      memo[cve.fetch('vendor')][cve.fetch('product')] ||= []
+      vendor_product = memo[cve.fetch('vendor')][cve.fetch('product')]
+      vendor_product << cve.fetch('version')
+      vendor_product << ">= #{cve.fetch('>=')}" if cve.fetch('>=').present?
+      vendor_product << "> #{cve.fetch('>')}" if cve.fetch('>').present?
+      vendor_product << "<= #{cve.fetch('<=')}" if cve.fetch('<=').present?
+      vendor_product << "< #{cve.fetch('<')}" if cve.fetch('<').present?
     end
   end
 
   def vendors_products(cve)
     nodes = cve.dig('configurations', 'nodes')
     return [] if nodes.blank?
-    nodes.to_s
-         .gsub('\\\\', '')
-         .scan(/cpe:2.3:[a-z{1}]:([^:]+):([^:]+):([^:]+):/)
+    nodes.extend(Hashie::Extensions::DeepLocate)
+    nodes_arr = nodes.deep_locate -> (key, value, object) do
+      key == 'vulnerable' && value == true
+    end
+    nodes_arr.each_with_object([]) do |node, memo|
+      cve_str = node.fetch('cpe23Uri', false)
+      next unless cve
+      cve_hash = cve_str.match(CPE_REGEXP).named_captures
+      cve_hash['>='] = node.fetch('versionStartIncluding', '')
+      cve_hash['>'] = node.fetch('versionStartExcluding', '')
+      cve_hash['<='] = node.fetch('versionEndIncluding', '')
+      cve_hash['<'] = node.fetch('versionEndExcluding', '')
+      memo << cve_hash
+    end
   end
 end
