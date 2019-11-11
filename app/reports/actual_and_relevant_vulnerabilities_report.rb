@@ -19,6 +19,7 @@ class ActualAndRelevantVulnerabilitiesReport< BaseReport
       'Прочие ID',
       'Обработано',
       'Обработал',
+      'Дата обработки',
       'Категория',
       'CWE ID',
       'Источник последнего внесения сведений',
@@ -53,6 +54,7 @@ class ActualAndRelevantVulnerabilitiesReport< BaseReport
       row << record.show_custom_codenames
       row << record.show_processed
       row << record.processor&.name
+      row << show_date_time(record.processed_at)
       row << record.vulnerability_kind&.name
       row << record.show_cwe
       row << record.show_feed
@@ -62,7 +64,7 @@ class ActualAndRelevantVulnerabilitiesReport< BaseReport
       row << show_date_time(record.updated_at)
       row << record.show_vendors_text
       row << record.show_products_text
-      row << record.show_versions_string(separator: "\n")
+      row << record.show_versions_by_products_text
       row << record.show_criticality
       row << record.show_cvss
       row << record.show_cvss_vector

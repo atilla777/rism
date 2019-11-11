@@ -481,10 +481,7 @@
           strong.text-info
             = @record.class.human_attribute_name(:versions)
         .col-md-9
-          = render 'versions_by_products',
-            record: @record,
-            decorated: decorated,
-            previous_decorated: previous_decorated
+          = render 'versions_by_products', decorated: decorated
           = render('previous_version',
             field: :versions,
             record: @record,

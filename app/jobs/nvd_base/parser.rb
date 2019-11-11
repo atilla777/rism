@@ -70,28 +70,18 @@ module NvdBase::Parser
     end
   end
 
-  def versions_by_products2(cve)
-    vendors_products(cve).each_with_object({}) do |cve, memo|
-      key = "#{cve.fetch('vendor')} #{cve.fetch('product')}"
-      memo[key] ||= []
-      memo[key] << cve.fetch('version')
-      memo[key] << ">= #{cve.fetch('>=')}" if cve.fetch('>=').present?
-      memo[key] << "> #{cve.fetch('>')}" if cve.fetch('>').present?
-      memo[key] << "<= #{cve.fetch('<=')}" if cve.fetch('<=').present?
-      memo[key] << "< #{cve.fetch('<')}" if cve.fetch('<').present?
-    end
-  end
-
   def versions_by_products(cve)
     vendors_products(cve).each_with_object({}) do |cve, memo|
       memo[cve.fetch('vendor')] ||= {}
       memo[cve.fetch('vendor')][cve.fetch('product')] ||= []
       vendor_product = memo[cve.fetch('vendor')][cve.fetch('product')]
       vendor_product << cve.fetch('version')
-      vendor_product << ">= #{cve.fetch('>=')}" if cve.fetch('>=').present?
-      vendor_product << "> #{cve.fetch('>')}" if cve.fetch('>').present?
-      vendor_product << "<= #{cve.fetch('<=')}" if cve.fetch('<=').present?
-      vendor_product << "< #{cve.fetch('<')}" if cve.fetch('<').present?
+      versions_range = []
+      versions_range << ">= #{cve.fetch('>=')}" if cve.fetch('>=').present?
+      versions_range << "> #{cve.fetch('>')}" if cve.fetch('>').present?
+      versions_range << "<= #{cve.fetch('<=')}" if cve.fetch('<=').present?
+      versions_range << "< #{cve.fetch('<')}" if cve.fetch('<').present?
+      vendor_product << "[#{versions_range.join(' ... ')}]" if versions_range.present?
     end
   end
 

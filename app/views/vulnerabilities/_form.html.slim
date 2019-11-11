@@ -319,13 +319,13 @@
                     strong.text-info
                       = @record.class.human_attribute_name(:versions)
                   td
-                    = VulnerabilityDecorator.new(@record).show_versions_string
+                    = render 'versions_by_products', decorated: VulnerabilityDecorator.new(@record)
                 tr
                   td.col-md-2.text-right
                     strong.text-info
                       = @record.class.human_attribute_name(:cpe)
                   td
-                    = decorated.show_cpe_array
+                    = simple_format(JSON.pretty_generate(decorated.show_cpe_array))
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8
