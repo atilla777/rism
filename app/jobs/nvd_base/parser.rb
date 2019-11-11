@@ -95,7 +95,7 @@ module NvdBase::Parser
     nodes_arr.each_with_object([]) do |node, memo|
       cve_str = node.fetch('cpe23Uri', false)
       next unless cve
-      cve_hash = cve_str.match(CPE_REGEXP).named_captures
+      cve_hash = cve_str.match(CPE_REGEXP)&.named_captures || {}
       cve_hash['>='] = node.fetch('versionStartIncluding', '')
       cve_hash['>'] = node.fetch('versionStartExcluding', '')
       cve_hash['<='] = node.fetch('versionEndIncluding', '')

@@ -8,5 +8,5 @@
         b
           = product
         span.text-danger
-          =< versions.select{ |version| version != '*'}.join(', ')
+          =< versions.select{ |version| version != '*'}.uniq.join(', ')
 
