@@ -86,6 +86,7 @@ module NvdBase::Parser
   end
 
   def vendors_products(cve)
+    return [] if cve == '{}'
     nodes = cve.dig('configurations', 'nodes')
     return [] if nodes.blank?
     nodes.extend(Hashie::Extensions::DeepLocate)

@@ -20,6 +20,7 @@ def refill_from_date(date)
 end
 
 def set_products_info(vulnerability)
+  return if vulnerability.raw_data == '{}'
   return if vulnerability.raw_data.dig('configurations', 'nodes').blank?
   vendors = NvdBase::Parser.vendors(vulnerability.raw_data)
   products = NvdBase::Parser.products(vulnerability.raw_data)
