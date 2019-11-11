@@ -3,7 +3,6 @@
 class SyncNvdBaseJob < ApplicationJob
   require 'zlib'
 
-  #NVD_JSON_VERSION = '1.0'.freeze
   NVD_JSON_VERSION = '1.1'.freeze
   NVD_BASE_PATH = "https://nvd.nist.gov/feeds/json/cve/#{NVD_JSON_VERSION}/".freeze
   NVD_MODIFIED_FILE = 'modified.json.gz'.freeze
