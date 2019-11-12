@@ -49,9 +49,9 @@ module SharedMethods
     custom_prepare_ransack_params
 
     # Remove head and tail whitespaces
-    params[:q].transform_values! do |value|
-      value.strip if value.is_a?(String)
-    end
+#    params[:q].transform_values! do |value|
+#      value.strip if value.is_a?(String)
+#    end
 
     # Delete empty values
     params[:q].delete_if do |k, v|
