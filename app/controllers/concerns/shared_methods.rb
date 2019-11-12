@@ -16,7 +16,7 @@ module SharedMethods
           .permit(policy(model).permitted_attributes)
   end
 
-  # show record previous version instead real record if param
+  # Show record previous version instead real record if param
   # version_id is set
   def record
     if params[:version_id].present?
@@ -26,7 +26,7 @@ module SharedMethods
     end
   end
 
-  # set Pundit scope, ransack query object and return query result
+  # Set Pundit scope, ransack query object and return query result
   def records(scope)
     scope = policy_scope(scope)
     @q = scope.ransack(ransack_params)
@@ -38,15 +38,22 @@ module SharedMethods
 
   def ransack_params
     return prepare_ransack_params if params[:q]
+
+    # Chek case when params is stored as user filter
     return if params[:search_filter_id].blank?
     params[:q] = SearchFilter.find(params[:search_filter_id]).content
   end
 
   def prepare_ransack_params
-#    if ransack_params.is_a?(String)
-#      params[:q].transform_values!(&:strip)
-#    end
+    # Make some custom preparation
     custom_prepare_ransack_params
+
+    # Remove head and tail whitespaces
+    params[:q].transform_values! do |value|
+      value.strip if value.is_a?(String)
+    end
+
+    # Delete empty values
     params[:q].delete_if do |k, v|
       if v.respond_to?(:all)
         v.all?(&:blank?)
@@ -56,6 +63,7 @@ module SharedMethods
     end
   end
 
+  # redefine this method in your controller (if needed)
   def custom_prepare_ransack_params; end
 
   def set_show_previous_page
