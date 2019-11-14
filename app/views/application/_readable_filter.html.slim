@@ -1,0 +1,136 @@
+.form-group
+  .form-row
+    .field
+      .col-lg-1.text-right
+        = label :readable_log,
+          ReadableLog.human_attribute_name(:v_status), class: 'control-label'
+      .col-lg-1
+        = content_tag :radio,
+          data_toggle: 'tooltip',
+          title: ReadableLog.human_attribute_name(:v_new) do
+            label
+              = f.radio_button :new_for, current_user.id, class: 'chb big-radiobutton'
+              span.chb
+                =< fa_icon 'circle-o', class: 'text-danger'
+      .col-lg-1
+        = content_tag :radio,
+          data_toggle: 'tooltip',
+          title: ReadableLog.human_attribute_name(:v_updated) do
+            label
+              = f.radio_button :updated_for, current_user.id, class: 'chb big-radiobutton'
+              span
+                =< fa_icon 'circle', class: 'text-warning'
+      .col-lg-1
+        = content_tag :radio,
+          data_toggle: 'tooltip',
+          title: ReadableLog.human_attribute_name(:v_new_and_updated) do
+            label
+              = f.radio_button :new_and_updated_for, current_user.id, class: 'chb big-radiobutton'
+              span
+                =< fa_icon 'circle-o', class: 'text-danger'
+                =< fa_icon 'circle', class: 'text-warning'
+      .col-lg-1
+        = content_tag :radio,
+          data_toggle: 'tooltip',
+          title: ReadableLog.human_attribute_name(:v_old) do
+            label
+              = f.radio_button :old_for, current_user.id, class: 'chb big-radiobutton'
+              span
+                =< fa_icon 'circle', class: 'text-success'
+      .col-lg-1
+        = content_tag :radio,
+          data_toggle: 'tooltip',
+          title: ReadableLog.human_attribute_name(:v_old_and_updated) do
+            label
+              = f.radio_button :old_and_updated_for, current_user.id, class: 'chb big-radiobutton'
+              span.chb
+                =< fa_icon 'circle', class: 'text-success'
+                =< fa_icon 'circle', class: 'text-warning'
+      .col-lg-1
+        = content_tag :radio,
+          data_toggle: 'tooltip',
+          title: ReadableLog.human_attribute_name(:v_all) do
+            label
+              = radio_button_tag :all, '#', false, class: 'chb big-radiobutton'
+              span.chb
+                =< fa_icon 'circle', class: 'text-success'
+                =< fa_icon 'circle', class: 'text-warning'
+                =< fa_icon 'circle-o', class: 'text-danger'
+//
+  .form-group
+    .field
+      .col-lg-1.text-right
+        = label :readable_log,
+          ReadableLog.model_name.human, class: 'control-label'
+      .col-lg-2
+        = f.select :new_for,
+          [[ReadableLog.human_attribute_name(:read_created_at), current_user.id]],
+          {include_blank: true,
+          selected: params.dig(:q, :new_for)},
+          class: 'form-control'
+      .col-lg-2
+        = f.select :updated_for,
+          [[ReadableLog.human_attribute_name(:read_updated_at), current_user.id]],
+          {include_blank: true,
+          selected: params.dig(:q, :updated_for)},
+          class: 'form-control'
+      .col-lg-2
+        - selection_name = ReadableLog.human_attribute_name(:read_updated_at) + ' + ' + ReadableLog.human_attribute_name(:read_created_at)
+        = f.select :new_and_updated_for,
+          [[selection_name, current_user.id]],
+          {include_blank: true,
+          selected: params.dig(:q, :new_and_updated_for)},
+          class: 'form-control'
+      .col-lg-2
+        - selection_name = ReadableLog.human_attribute_name(:read_updated_at) + ' + '
+        = f.select :old_and_updated_for,
+          [[selection_name, current_user.id]],
+          {include_blank: true,
+          selected: params.dig(:q, :old_and_updated_for)},
+          class: 'form-control'
+      .col-lg-2
+        - selection_name = ReadableLog.human_attribute_name(:read_updated_at) + ' + '
+        = f.select :old_for,
+          [[selection_name, current_user.id]],
+          {include_blank: true,
+          selected: params.dig(:q, :old_for)},
+          class: 'form-control'
+// .col-lg-1.text-right
+    = label :readable_log,
+      ReadableLog.model_name.human, class: 'control-label'
+  = f.grouping_fields do |g|
+    = g.hidden_field :m, value: 'or'
+    //= g.combinator_select
+    .col-lg-2
+      = g.select :new_for,
+        [[ReadableLog.human_attribute_name(:read_created_at), current_user.id]],
+        {include_blank: true,
+        selected: params.dig(:q, :g, '0', :new_for)},
+        class: 'form-control'
+    .col-lg-2
+      = g.select :updated_for,
+        [[ReadableLog.human_attribute_name(:read_updated_at), current_user.id]],
+        {include_blank: true,
+        selected: params.dig(:q, :g, '0', :updated_for)},
+        class: 'form-control'
+
+//.form-group
+  .form-row
+    .field
+      .col-lg-1.text-right
+        = label :readable_log,
+          ReadableLog.model_name.human, class: 'control-label'
+      .col-lg-2
+        = f.check_box :new_for,
+          {class: 'big-checkbox'},
+          current_user.id,
+          false
+        span
+          = ReadableLog.human_attribute_name(:read_created_at)
+      .col-lg-2
+        = f.check_box :updated_for,
+          {class: 'big-checkbox'},
+          current_user.id,
+          false
+        span
+        = ReadableLog.human_attribute_name(:read_updated_at)

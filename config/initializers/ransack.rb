@@ -39,6 +39,8 @@ module Arel
 end
 
 Ransack.configure do |config|
+  config.sanitize_custom_scope_booleans = false
+
   config.add_predicate :contains_array, arel_predicate: :contains
 
   config.add_predicate(

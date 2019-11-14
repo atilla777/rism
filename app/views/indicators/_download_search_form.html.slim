@@ -1,4 +1,5 @@
 = search_form_for @q, url: filtred_reports_path({name: :filtred_table_indicators}), html: { method: :post } do |f|
+  = render 'download_readable_filter', f: f
   = f.hidden_field :s, value: params.fetch(:q, {}).fetch(:s, '')
 
   - params.fetch(:q, {}).fetch(:content_format_in, []).each do |p|

@@ -50,6 +50,21 @@
 
 .big-checkbox {width: 20px; height: 20px;}
 
+/*.big-radiobutton {width: 18px; height: 18px;}*/
+[type=radio] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+[type=radio] + span {
+  cursor: pointer;
+}
+[type=radio]:checked + span {
+  display: inline-block;
+  transform: scale(1.5);
+}
+
 h3.caption {
     display: inline;
 }

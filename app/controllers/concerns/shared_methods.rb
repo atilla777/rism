@@ -30,6 +30,8 @@ module SharedMethods
   def records(scope)
     scope = policy_scope(scope)
     @q = scope.ransack(ransack_params)
+    # Reserved to use grouping search conditions
+    # @q.build_grouping unless @q.groupings.any?
     @q.sorts = default_sort if @q.sorts.empty?
     @q.result
       .includes(records_includes)

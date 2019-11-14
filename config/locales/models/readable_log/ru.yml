@@ -4,3 +4,13 @@ ru:
       readable_log:
         one: 'Журнал просмотра'
         other: 'Журналы просмотров'
+    attributes:
+      readable_log:
+        v_status: 'Статус'
+        v_reset: 'Все'
+        v_old: 'Просмотренные'
+        v_new: 'Новые'
+        v_updated: 'Изменившиеся'
+        v_new_and_updated: 'Новые и изменившиеся'
+        v_old_and_updated: 'Просмотренные и изменившиеся'
+        v_all: 'Все'

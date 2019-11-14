@@ -1,4 +1,5 @@
 = search_form_for @q, url: filtred_reports_path({name: :filtred_table_vulners}), html: { method: :post } do |f|
+  = render 'download_readable_filter', f: f
   = f.hidden_field :s, value: params.fetch(:q, {}).fetch(:s, '')
   - params.fetch(:q, {}).fetch(:actuality_in, []).each do |p|
     = f.hidden_field :actuality_in, multiple: true, value: p
