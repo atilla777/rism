@@ -1,0 +1,12 @@
+- if record.custom_actuality_actual? && record.vulnerability_bulletins.blank?
+  - klass = 'text-warning'
+- elsif record.custom_actuality_actual? && record.vulnerability_bulletins.present?
+  - klass = 'text-success'
+
+- if record.nvd?
+  a href=record.show_link_nvd_codename
+    span class = klass
+      = record.codename
+- else
+  span class = klass
+    = record.codename

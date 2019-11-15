@@ -45,21 +45,9 @@ br
   - t.field do |record|
     = render 'custom_relevance', record: record
   - t.field do |record|
-    - if record.nvd?
-      a href=record.show_link_nvd_codename
-        = record.codename
-    - else
-      = record.codename
+    = render 'codename', record: record
   - t.field { |record| link_to(truncate(record.show_description_string, length: 45), record) }
   - t.field { |record| link_to(truncate(record.show_all_vendors, length: 45), record) }
   - t.field { |record| link_to(truncate(record.show_all_products, length: 45), record) }
-  // - t.field do |record|
-     = search_form_for @q, class: 'form-inline', url: vulnerability_bulletins_path, html: { method: :get } do |f|
-      = f.hidden_field :vulnerability_bulletin_id_cont, value: record.vulnerability_bulletins&.first&.id
-      = button_tag class: 'btn btn-link' do
-        = record.show_bulletin_counts
-  //- t.field { |record| link_to(record.show_bulletin_counts, vulnerability_bulletins_path(q: {vulnerability_bulletin_id_eq: record.vulnerability_bulletins&.first&.id, html_method: :get})) }
   - t.field do |record|
-    - record.vulnerability_bulletins.includes(:vulnerability_bulletin_kind, :vulnerability_bulletin_status).each do |b|
-      = link_to "#{b.codename} (#{b.vulnerability_bulletin_kind&.name}/#{b.vulnerability_bulletin_status&.name})", b
-      br
+    = render 'vulnerability_bulletins', record: record

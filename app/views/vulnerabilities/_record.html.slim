@@ -95,11 +95,7 @@
           strong.text-info
             = @record.class.human_attribute_name(:codename)
         .col-md-2
-          - if @record.nvd?
-            a href=decorated.show_link_nvd_codename
-              = @record.codename
-          - else
-            = @record.codename
+          = render 'codename', record: decorated
           = render('previous_version',
             record: @record,
             field: :codename,
