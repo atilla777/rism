@@ -13,4 +13,8 @@ class DashboardsController < ApplicationController
   def investigations_dashboard
     authorize Investigation
   end
+
+  def vulnerabilities_dashboard
+    authorize Vulnerability
+  end
 end

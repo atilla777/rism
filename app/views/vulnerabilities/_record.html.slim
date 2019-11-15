@@ -155,8 +155,7 @@
           strong.text-info
             = @record.class.human_attribute_name(:vulnerability_bulletins)
         .col-md-3
-          - @record.vulnerability_bulletins.includes(:vulnerability_bulletin_kind, :vulnerability_bulletin_status).each do |b|
-            =< link_to "#{b.codename} (#{b.vulnerability_bulletin_kind&.name}/#{b.vulnerability_bulletin_status&.name})", b
+          = render 'vulnerability_bulletins', record: record
 
     .list-group-item
       .row

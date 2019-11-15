@@ -36,4 +36,10 @@ class Charts
   IndicatorsByFormat.register
   NetworkIndicators.register
   EmailIndicators.register
+  TopVulnerabilitiesProcessors.register
+  VulnerabilitiesByDays.register
+  VulnerabilitiesBulletinsByDays.register
+  ActualAndRelevantVulnerabilitiesByDays.register
+  TopCweByMonth.register
+  TopCveScoreByMonth.register
 end

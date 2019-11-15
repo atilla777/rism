@@ -1,0 +1,15 @@
+.row
+  .col.col-lg-6
+    = chart :vulnerabilities_by_days
+  .col.col-lg-6
+    = chart :vulnerabilities_bulletins_by_days
+.row
+  .col.col-lg-6
+    = chart :actual_and_relevant_vulnerabilities_by_days
+  .col.col-lg-6
+    = chart :top_vulnerabilities_processors
+.row
+  .col.col-lg-6
+    = chart :top_cwe_by_month
+  .col.col-lg-6
+    = chart :top_cve_score_by_month
