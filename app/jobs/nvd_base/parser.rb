@@ -2,18 +2,18 @@ module NvdBase::Parser
   require 'hashie'
 
   CPE_REGEXP = %r{
-    ^cpe:2.3
+    ^cpe:2\.3
     :[aoh{1}]
-    :(?<vendor>[^:]+)
-    :(?<product>[^:]+)
-    :(?<version>[^:]+)
+    :(?<vendor>(\\:|[^:])+)
+    :(?<product>(\\:|[^:])+)
+    :(?<version>(\\:|[^:])+)
     :(?<update>[^:]+)
-    :(?<edition>[^:]+)
-    :(?<language>[^:]+)
-    :(?<sw_edition>[^:]+)
-    :(?<target_sw>[^:]+)
-    :(?<target_hw>[^:]+)
-    :(?<other>[^:]+)
+    :(?<edition>(\\:|[^:])+)
+    :(?<language>(\\:|[^:])+)
+    :(?<sw_edition>(\\:|[^:])+)
+    :(?<target_sw>(\\:|[^:])+)
+    :(?<target_hw>(\\:|[^:])+)
+    :(?<other>(\\:|[^:])+)
   }x.freeze
 
   module_function
@@ -97,6 +97,7 @@ module NvdBase::Parser
       cve_str = node.fetch('cpe23Uri', false)
       next unless cve
       cve_hash = cve_str.match(CPE_REGEXP)&.named_captures || {}
+      cve_hash = cve_hash.map { |k, v| [k, v.gsub('\\:', ':')] }.to_h
       cve_hash['>='] = node.fetch('versionStartIncluding', '')
       cve_hash['>'] = node.fetch('versionStartExcluding', '')
       cve_hash['<='] = node.fetch('versionEndIncluding', '')
