@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
     activity.current_user = current_user
     activity.user = current_user
     activity.browser = request.env['HTTP_USER_AGENT']
-    activity.ip = request.env['REMOTE_ADDR']
+    activity.ip = request.env['HTTP_X_FORWARDED_FOR']
     activity.controller = controller_name
     activity.action = action_name
     activity.comment = ''
