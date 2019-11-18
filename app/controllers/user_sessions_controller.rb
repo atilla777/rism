@@ -26,8 +26,7 @@ class UserSessionsController < ApplicationController
     redirect_to :sign_in
   end
 
-  def no_roles
-  end
+  def no_roles; end
 
   private
 

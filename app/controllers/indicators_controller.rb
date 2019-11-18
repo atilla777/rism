@@ -234,9 +234,6 @@ class IndicatorsController < ApplicationController
     'created_at desc'
   end
 
-#  def filter_for_organization
-#    model.where(organization_id: @organization.id)
-#  end
   def filter_for_organization
     model.joins('JOIN investigations ON investigations.id = indicators.investigation_id')
          .where('investigations.organization_id = ?', @organization.id)

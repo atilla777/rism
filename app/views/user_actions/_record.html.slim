@@ -1,0 +1,17 @@
+= show_for @record, decorator: UserActionDecorator do |r|
+  = r.show :created_at, value: show_date_time(@record.created_at)
+  = r.show :user_id do
+    = link_to r.decorated.show_user_name, @record.user
+  = r.show :organization_id do
+    = link_to r.decorated.show_organization_name, @record.organization
+  = r.show :controller
+  = r.show :action
+  = r.show :event
+  = r.show :comment
+  = r.show :record_model
+  = r.show :record_id
+  = r.show :ip do
+    = r.decorated.show_event
+  = r.show :browser
+  = r.show :params do
+    = simple_format(JSON.pretty_generate(@record.params))

@@ -14,3 +14,6 @@
   - if current_user.admin?
     - tabs.add(:role_members, role_members_path(user_id: record.id), true) do
       = t('navigations.roles')
+  - if current_user.admin?
+    - tabs.add(:user_actions, user_actions_path(user_id: record.id), true) do
+      =< UserAction.model_name.human(count: 2)

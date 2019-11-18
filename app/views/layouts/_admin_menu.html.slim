@@ -14,7 +14,17 @@ li
       = fa_icon 'history'
       =< t('labels.version.versions')
 li
+  = link_to user_actions_path do
+    .span.text-info
+      = fa_icon 'bars'
+      =< UserAction.model_name.human(count: 2)
+li
   = link_to 'sidekiq' do
     .span.text-info
       = fa_icon 'gear'
       =< t('labels.version.sidekiq')
+li
+  = link_to user_actions_dashboard_path do
+    .text-info
+      = fa_icon 'line-chart'
+      =< t('navigations.charts')

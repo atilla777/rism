@@ -1634,6 +1634,45 @@ ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
 
 
 --
+-- Name: user_actions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_actions (
+    id bigint NOT NULL,
+    user_id bigint,
+    controller character varying,
+    action character varying,
+    params jsonb,
+    ip cidr,
+    browser character varying,
+    event smallint,
+    record_model character varying,
+    record_id integer,
+    comment text,
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: user_actions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_actions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_actions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.user_actions_id_seq OWNED BY public.user_actions.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2259,6 +2298,13 @@ ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id
 
 
 --
+-- Name: user_actions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_actions ALTER COLUMN id SET DEFAULT nextval('public.user_actions_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2656,6 +2702,14 @@ ALTER TABLE ONLY public.tag_members
 
 ALTER TABLE ONLY public.tags
     ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_actions user_actions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_actions
+    ADD CONSTRAINT user_actions_pkey PRIMARY KEY (id);
 
 
 --
@@ -3353,6 +3407,13 @@ CREATE INDEX index_tags_on_tag_kind_id ON public.tags USING btree (tag_kind_id);
 
 
 --
+-- Name: index_user_actions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_actions_on_user_id ON public.user_actions USING btree (user_id);
+
+
+--
 -- Name: index_users_on_department_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3625,6 +3686,14 @@ ALTER TABLE ONLY public.scan_job_logs
 
 ALTER TABLE ONLY public.agreements
     ADD CONSTRAINT fk_rails_024a724903 FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
+
+
+--
+-- Name: user_actions fk_rails_03991e1c48; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_actions
+    ADD CONSTRAINT fk_rails_03991e1c48 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -4155,6 +4224,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190901043622'),
 ('20190904135959'),
 ('20190912112513'),
-('20191106112505');
+('20191106112505'),
+('20191118062554');
 
 

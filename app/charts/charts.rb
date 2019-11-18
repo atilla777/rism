@@ -42,4 +42,8 @@ class Charts
   ActualAndRelevantVulnerabilitiesByDays.register
   TopCweByMonth.register
   TopCveScoreByMonth.register
+  ActionsByDays.register
+  TopUsersFromUserActionsByMonth.register
+  FailedLoginsByDays.register
+  TopOrganizationsFromUserActionsByMonth.register
 end

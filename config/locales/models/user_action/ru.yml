@@ -1,0 +1,20 @@
+ru:
+  activerecord:
+    models:
+      user_action:
+        one: 'Запись действия пользователя'
+        other: 'Журнал действий пользователя'
+    attributes:
+      user_action:
+        created_at: 'Дата и время'
+        user_id: 'Пользователь'
+        organization_id: 'Организация'
+        controller: 'Модуль (controller)'
+        action: 'Действие (action)'
+        event: 'Код события'
+        record_model: 'Модель записи'
+        record_id: 'ID записи'
+        ip: 'IP-адрес'
+        browser: 'Браузер'
+        params: 'Параметры (params)'
+        comment: 'Комментарий'

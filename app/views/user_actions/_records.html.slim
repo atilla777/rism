@@ -1,0 +1,26 @@
+= index_search :user_name_or_organization_name_or_controller_or_action_or_event_str_or_record_model_or_record_id_str_or_browser_or_ip_str_cont, user_id_eq: @user&.id
+= index_for @records, actions: false, decorator: UserActionDecorator do |t|
+  - t.header attribute: :created_at, sort: :desc
+  - t.header attribute: :user_id, sort_by: :user_name, sort: :desc
+  - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - t.header attribute: :controller, sort: :desc
+  - t.header attribute: :action, sort: :desc
+  - t.header attribute: :event, sort: :desc
+  - t.header attribute: :record_model, sort: :desc
+  - t.header attribute: :record_id, sort: :desc
+  - t.header attribute: :ip, sort: :desc
+  - t.header attribute: :browser, sort: :desc
+  - t.field { |record| link_to(show_date_time(record.created_at), record) }
+  - t.field { |record| link_to(record.show_user_name, record.user) }
+  - t.field { |record| link_to record.show_organization_name, record.organization }
+  - t.field { |record| link_to record.controller, record }
+  - t.field { |record| link_to record.action, record }
+  - t.field { |record| link_to record.show_event, record }
+  - t.field do |record|
+    - if record.record_id
+      = link_to record.show_record_model, polymorphic_path([record.record_model.underscore.to_sym], id: record.record_id)
+  - t.field do |record|
+    - if record.record_id
+      = link_to record.show_record_id, polymorphic_path([record.record_model.underscore.to_sym], id: record.record_id)
+  - t.field { |record| link_to record.ip, record }
+  - t.field { |record| link_to truncate(record.browser, length: 20), record }

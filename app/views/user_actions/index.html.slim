@@ -1,0 +1,7 @@
+- if @user
+  = caption @user
+  = render 'users/show_tabs', record: @user, active_tab: :user_actions, from_external_link: true
+- else
+  = caption @records
+= render 'records', records: @records
+= render 'index_paginate', records: @records

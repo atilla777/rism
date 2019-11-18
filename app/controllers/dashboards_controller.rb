@@ -17,4 +17,8 @@ class DashboardsController < ApplicationController
   def vulnerabilities_dashboard
     authorize Vulnerability
   end
+
+  def user_actions_dashboard
+    authorize UserAction
+  end
 end

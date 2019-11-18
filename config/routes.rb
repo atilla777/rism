@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   get "/dashboards/", to: 'dashboards#index', as: :dashboards
   get "/investigations_dashboard/", to: 'dashboards#investigations_dashboard', as: :investigations_dashboard
   get "/vulnerabilities_dashboard/", to: 'dashboards#vulnerabilities_dashboard', as: :vulnerabilities_dashboard
+  get "/user_actions_dashboard/", to: 'dashboards#user_actions_dashboard', as: :user_actions_dashboard
   get "/dashboards/:name", to: 'dashboards#show', as: :dashboard
   get "/charts/:name", to: 'charts#show', as: :charts
   resources :hosts do
@@ -147,6 +148,8 @@ end
   end
   resources :vulnerability_bulletin_members, only: %i[index create destroy]
   resources :vulnerability_bulletin_statuses
+
+  resources :user_actions, only: [:index, :show]
 
   # resources :schedules, only: [:show]
   require 'sidekiq/web'

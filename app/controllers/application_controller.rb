@@ -17,23 +17,10 @@ class ApplicationController < ActionController::Base
   before_action :authenticate?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-#  protected
 
-#  def handle_unverified_request
-#    # raise an exception
-#    #fail ActionController::InvalidAuthenticityToken
-#    # or destroy session, redirect
-#    if current_user_session
-#      current_user_session.destroy
-#    end
-#    redirect_to root_url
-#  end
+  after_action :log_user_action
 
   private
-
-#  def ssl_configured?
-#    !Rails.env.development?
-#  end
 
   def authenticate?
     return if current_user
@@ -64,6 +51,44 @@ class ApplicationController < ActionController::Base
       else
         redirect_to :no_roles
       end
+    end
+  end
+
+  def log_user_action
+    activity = UserAction.new
+    activity.created_at = DateTime.now
+    activity.current_user = current_user
+    activity.user = current_user
+    activity.browser = request.env['HTTP_USER_AGENT']
+    activity.ip = request.env['REMOTE_ADDR']
+    activity.controller = controller_name
+    activity.action = action_name
+    activity.comment = ''
+    activity.record_model = @record.class.model_name if @record
+    activity.record_id = @record.id if @record
+    if params.dig('user_session', 'password')
+      if @user_session&.errors&.present?
+        activity.comment += @user_session.errors.full_messages.join(', ')
+        activity.event = 101 # login failed
+      else
+        activity.event = 100 # login success
+      end
+      parameters = params
+      activity.params  = parameters
+      activity.params['user_session']['password'] = '*'
+    else
+      if @record&.errors&.present?
+        activity.comment += @record.errors.full_messages.join(', ')
+        activity.event = 201 # record save errors
+      end
+      activity.params = params
+    end
+    activity.skip_current_user_check = true
+    activity.save!
+  rescue ActiveRecord::RecordInvalid
+    logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_error.log'))
+    logger.tagged("USER_ACTION (#{Time.now}):") do
+      logger.error("user action can`t be saved - #{record.errors.full_messages}")
     end
   end
 end
