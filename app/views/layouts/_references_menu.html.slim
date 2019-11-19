@@ -1,87 +1,111 @@
-li
-  = link_to record_templates_path do
-    .span.text-info
-      = fa_icon 'clone'
-      =< RecordTemplate.model_name.human(count: 2)
-li
-  = link_to tag_kinds_path do
-    .span.text-info
+- models = ['RecordTemplate',
+            'TagKind',
+            'Tag',
+            'LinkKind',
+            'OrganizationKind',
+            'AgreementKind',
+            'ScanOption',
+            'Feed',
+            'InvestigationKind',
+            'IndicatorContext',
+            'CustomField',
+            'DeliveryList',
+            'VulnerabilityKind',
+            'VulnerabilityBulletinKind',
+            'VulnerabilityBulletinStatus']
+= menu_li(models: models,
+  html_class: 'dropdown',
+  role: 'presentation') do
+  a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+    .text-info
       = fa_icon 'book'
-      =< fa_icon 'tags'
-      =< TagKind.model_name.human(count: 2)
-li
-  = link_to tags_path do
-    .span.text-info
-      = fa_icon 'tags'
-      =< Tag.model_name.human(count: 2)
-li
-  = link_to link_kinds_path do
-    .span.text-info
-      = fa_icon 'link'
-      =< LinkKind.model_name.human(count: 2)
-li
-  = link_to organization_kinds_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'industry'
-      =< OrganizationKind.model_name.human(count: 2)
-li
-  = link_to agreement_kinds_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'handshake-o'
-      =< AgreementKind.model_name.human(count: 2)
-li
-  = link_to scan_options_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'gears'
-      =< ScanOption.model_name.human(count: 2)
-li
-  = link_to feeds_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'eye'
-      =< Feed.model_name.human(count: 2)
-li
-  = link_to investigation_kinds_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'eye'
-      =< InvestigationKind.model_name.human(count: 2)
-li
-  = link_to indicator_contexts_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'bomb'
-      =< IndicatorContext.model_name.human(count: 2)
-li
-  = link_to custom_fields_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'pencil-square-o'
-      =< CustomField.model_name.human(count: 2)
-li
-  = link_to delivery_lists_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'address-book'
-      =< DeliveryList.model_name.human(count: 2)
-li
-  = link_to vulnerability_kinds_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'bug'
-      =< VulnerabilityKind.model_name.human(count: 2)
-li
-  = link_to vulnerability_bulletin_kinds_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'bug'
-      =< VulnerabilityBulletinKind.model_name.human(count: 2)
-li
-  = link_to vulnerability_bulletin_statuses_path do
-    .span.text-info
-      = fa_icon 'book'
-      =< fa_icon 'bug'
-      =< VulnerabilityBulletinStatus.model_name.human(count: 2)
+      =< t('navigations.references')
+      span class='caret'
+  ul class="dropdown-menu"
+    = menu_li(models: 'RecordTemplate') do
+      = link_to record_templates_path do
+        .span.text-info
+          = fa_icon 'clone'
+          =< RecordTemplate.model_name.human(count: 2)
+    = menu_li(models: 'TagKind') do
+      = link_to tag_kinds_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'tags'
+          =< TagKind.model_name.human(count: 2)
+    = menu_li(models: 'Tag') do
+      = link_to tags_path do
+        .span.text-info
+          = fa_icon 'tags'
+          =< Tag.model_name.human(count: 2)
+    = menu_li(models: 'LinkKind') do
+      = link_to link_kinds_path do
+        .span.text-info
+          = fa_icon 'link'
+          =< LinkKind.model_name.human(count: 2)
+    = menu_li(models: 'OrganizationKind') do
+      = link_to organization_kinds_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'industry'
+          =< OrganizationKind.model_name.human(count: 2)
+    = menu_li(models: 'AgreementKind') do
+      = link_to agreement_kinds_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'handshake-o'
+          =< AgreementKind.model_name.human(count: 2)
+    = menu_li(models: 'ScanOption') do
+      = link_to scan_options_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'gears'
+          =< ScanOption.model_name.human(count: 2)
+    = menu_li(models: 'Feed') do
+      = link_to feeds_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'eye'
+          =< Feed.model_name.human(count: 2)
+    = menu_li(models: 'InvestigationKind') do
+      = link_to investigation_kinds_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'eye'
+          =< InvestigationKind.model_name.human(count: 2)
+    = menu_li(models: 'IndicatorContext') do
+      = link_to indicator_contexts_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'bomb'
+          =< IndicatorContext.model_name.human(count: 2)
+    = menu_li(models: 'CustomField') do
+      = link_to custom_fields_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'pencil-square-o'
+          =< CustomField.model_name.human(count: 2)
+    = menu_li(models: 'DeliveryList') do
+      = link_to delivery_lists_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'address-book'
+          =< DeliveryList.model_name.human(count: 2)
+    = menu_li(models: 'VulnerabilityKind') do
+      = link_to vulnerability_kinds_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'bug'
+          =< VulnerabilityKind.model_name.human(count: 2)
+    = menu_li(models: 'VulnerabilityBulletinKind') do
+      = link_to vulnerability_bulletin_kinds_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'bug'
+          =< VulnerabilityBulletinKind.model_name.human(count: 2)
+    = menu_li(models: 'VulnerabilityBulletinStatus') do
+      = link_to vulnerability_bulletin_statuses_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'bug'
+          =< VulnerabilityBulletinStatus.model_name.human(count: 2)

@@ -1,30 +1,39 @@
-li
-  = link_to roles_path do
-    .span.text-info
-      = fa_icon 'group'
-      =< Role.model_name.human(count: 2)
-li
-  = link_to rights_path do
-    .span.text-info
-      = fa_icon 'lock'
-      =< Right.model_name.human(count: 2)
-li
-  = link_to versions_path do
-    .span.text-info
-      = fa_icon 'history'
-      =< t('labels.version.versions')
-li
-  = link_to user_actions_path do
-    .span.text-info
-      = fa_icon 'bars'
-      =< UserAction.model_name.human(count: 2)
-li
-  = link_to 'sidekiq' do
-    .span.text-info
-      = fa_icon 'gear'
-      =< t('labels.version.sidekiq')
-li
-  = link_to user_actions_dashboard_path do
-    .text-info
-      = fa_icon 'line-chart'
-      =< t('navigations.charts')
+- if current_user.admin?
+  = menu_li(models: ['Role', 'Right', 'UserAction', 'Version'],
+    html_class: 'dropdown',
+    role: 'presentation') do
+    a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+      = fa_icon 'cog'
+      =< t('navigations.config')
+      span class='caret'
+    ul class="dropdown-menu"
+      = menu_li(models: 'Role') do
+        = link_to roles_path do
+          .span.text-info
+            = fa_icon 'group'
+            =< Role.model_name.human(count: 2)
+      = menu_li(models: 'Right') do
+        = link_to rights_path do
+          .span.text-info
+            = fa_icon 'lock'
+            =< Right.model_name.human(count: 2)
+      = menu_li(models: 'Version') do
+        = link_to versions_path do
+          .span.text-info
+            = fa_icon 'history'
+            =< t('labels.version.versions')
+      = menu_li(models: 'UserAction') do
+        = link_to user_actions_path do
+          .span.text-info
+            = fa_icon 'bars'
+            =< UserAction.model_name.human(count: 2)
+      li
+        = link_to 'sidekiq' do
+          .span.text-info
+            = fa_icon 'gear'
+            =< t('labels.version.sidekiq')
+      = menu_li(models: 'Dashboards', action: 'user_actions_dashboard') do
+        = link_to user_actions_dashboard_path do
+          .text-info
+            = fa_icon 'line-chart'
+            =< t('navigations.charts')

@@ -12,7 +12,12 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :danger, :success
 
-  helper_method :current_user_session, :current_user
+  helper_method(
+    :current_user_session,
+    :current_user,
+    :current_user_models,
+    :current_user_admin_editor_reader?
+  )
 
   before_action :authenticate?
 
@@ -39,6 +44,15 @@ class ApplicationController < ActionController::Base
   def current_user
     return @current_user if defined?(@current_user)
     @current_user = current_user_session&.user
+  end
+
+  def current_user_models
+    return @current_user_models if defined?(@current_user_models)
+    @current_user_models = current_user.allowed_models
+  end
+
+  def current_user_admin_editor_reader?
+    current_user.admin_editor_reader?
   end
 
   def user_not_authorized

@@ -1,23 +1,25 @@
 ul.nav.navbar-nav
-  li role="presentation" class="dropdown"
+  = menu_li(models: ['Vulnerability', 'VulnerabilityBulletin'],
+    html_class: 'dropdown',
+    role: 'presentation') do
     a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
       .text-info
         = fa_icon 'bug'
         =< Vulnerability.model_name.human(count: 2)
         span class='caret'
       ul class="dropdown-menu"
-        li
+        = menu_li(models: 'Vulnerability') do
           = link_to vulnerabilities_path do
             .text-info
               = fa_icon 'bug'
               =< Vulnerability.model_name.human(count: 2)
-        li
+        = menu_li(models: 'VulnerabilityBulletin') do
           = link_to vulnerability_bulletins_path do
             .text-info
               = fa_icon 'bug'
               =< fa_icon 'newspaper-o'
               =< VulnerabilityBulletin.model_name.human(count: 2)
-        li
+        = menu_li(models: 'Dashboards', action: 'vulnerabilities_dashboard') do
           = link_to vulnerabilities_dashboard_path do
             .text-info
               = fa_icon 'line-chart'

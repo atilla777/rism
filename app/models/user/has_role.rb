@@ -58,6 +58,12 @@ module User::HasRole
     end.uniq.reject(&:nil?)
   end
 
+  def allowed_models
+    Right.where(role_id: roles)
+         .pluck(:subject_type)
+         .uniq
+  end
+
   # check that user can make action
   # with record or model
   # (read - index, show, edit - new, create, update, destroy)

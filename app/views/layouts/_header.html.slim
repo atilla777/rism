@@ -5,23 +5,9 @@ nav.navbar.navbar-default
     ul.nav.navbar-nav
       = render 'layouts/main_menu'
     ul.nav.navbar-nav
-      li role="presentation" class="dropdown"
-        a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
-          .text-info
-            = fa_icon 'archive'
-            =< t('navigations.catalog')
-            span class='caret'
-          ul class="dropdown-menu"
-            = render 'layouts/other_menu'
-      ul.nav.navbar-nav
-        li role="presentation" class="dropdown"
-          a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
-            .text-info
-              = fa_icon 'book'
-              =< t('navigations.references')
-              span class='caret'
-          ul class="dropdown-menu"
-            = render 'layouts/references_menu'
+      = render 'layouts/other_menu'
+    ul.nav.navbar-nav
+      = render 'layouts/references_menu'
     = form_tag search_path, method: :get, class: 'navbar-form navbar-right'
       .form-group.input-group
         = text_field_tag :words, '', class: 'form-control', value: params[:words]
@@ -29,20 +15,12 @@ nav.navbar.navbar-default
           = button_tag class: 'btn btn-default' do
             = fa_icon 'search'
     ul.nav.navbar-nav.navbar-right
-      - if current_user.admin?
-        li role="presentation" class="dropdown"
-          a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
-            = fa_icon 'cog'
-            =< t('navigations.config')
-            span class='caret'
-          ul class="dropdown-menu"
-            = render 'layouts/admin_menu'
+      = render 'layouts/admin_menu'
       - if current_user
         li
           span.navbar-text
             = fa_icon 'user'
             =< "#{current_user.name}"
-            //"#{t('user_sessions.sign_in_user')}
         li
           = link_to t('user_sessions.sign_out'), sign_out_path, method: :delete, class: 'navbar-link'
       - else

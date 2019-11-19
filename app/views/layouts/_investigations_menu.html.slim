@@ -1,28 +1,30 @@
 ul.nav.navbar-nav
-  li role="presentation" class="dropdown"
+  = menu_li(models: ['Incidents', 'Investigation', 'Indicators'],
+    html_class: 'dropdown',
+    role: 'presentation') do
     a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
       .text-info
         = fa_icon 'flash'
         =< t('navigations.investigations_incidents')
         span class='caret'
       ul class="dropdown-menu"
-        li
+        = menu_li(models: 'Incident') do
           = link_to incidents_path do
             .text-info
               = fa_icon 'flash'
               =< Incident.model_name.human(count: 2)
-        li
+        = menu_li(models: 'Investigation') do
           = link_to investigations_path do
             .text-info
               = fa_icon 'eye'
               =< fa_icon 'newspaper-o'
               =< Investigation.model_name.human(count: 2)
-        li
+        = menu_li(models: 'Indicator') do
           = link_to indicators_path do
             .text-info
               = fa_icon 'bomb'
               =< Indicator.model_name.human(count: 2)
-        li
+        = menu_li(models: 'Dashboards', action: 'investigations_dashboard') do
           = link_to investigations_dashboard_path do
             .text-info
               = fa_icon 'line-chart'
