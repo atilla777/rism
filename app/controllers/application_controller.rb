@@ -60,11 +60,17 @@ class ApplicationController < ActionController::Base
     activity.current_user = current_user
     activity.user = current_user
     activity.browser = request.env['HTTP_USER_AGENT']
-    activity.ip = request.env['HTTP_X_FORWARDED_FOR']
+    activity.ip = request.env['HTTP_X_FORWARDED_FOR'] || request.env['REMOTE_ADDR']
     activity.controller = controller_name
     activity.action = action_name
     activity.comment = ''
-    activity.record_model = @record.class.model_name if @record
+    if @record
+      activity.record_model = if @record.class.respond_to?(:model_name)
+                                @record.class.model_name
+                              else # if record is delegator instance
+                                @record&.__getobj__&.class&.model_name
+                              end
+    end
     activity.record_id = @record.id if @record
     if params.dig('user_session', 'password')
       if @user_session&.errors&.present?
