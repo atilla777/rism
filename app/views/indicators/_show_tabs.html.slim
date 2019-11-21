@@ -2,7 +2,10 @@
   - tabs.add(:main_info, polymorphic_path(record, active_tab: :main_info)) do
     = fa_icon 'info'
     =< t('navigations.main_info')
-  - tabs.add(:enrichments, polymorphic_path(record, active_tab: :enrichments)) do
+  - tabs.add(:enrichments1, polymorphic_path(record, active_tab: :enrichments1)) do
+    = fa_icon 'database'
+    =< t('navigations.enrichments')
+  - tabs.add(:enrichments, enrichments_path(indicator_id: record.id, active_tab: :enrichments), true) do
     = fa_icon 'database'
     =< t('navigations.enrichments')
   - tabs.add(:links, polymorphic_path(record, active_tab: :links)) do

@@ -113,7 +113,8 @@ Rails.application.routes.draw do
       patch :toggle_purpose
       patch :toggle_trust_level
     end
-end
+  end
+  resources :enrichments, only: [:index, :show, :create, :destroy]
   resources :indicator_contexts
   resources :vulnerabilities do
     get :autocomplete_vulnerability_codename, :on => :collection, as: :autocomplete

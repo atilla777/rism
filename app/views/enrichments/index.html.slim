@@ -1,0 +1,32 @@
+= render 'modal_window'
+= caption @indicator
+= render 'indicators/show_tabs', record: @indicator, active_tab: :enrichments, from_external_link: true
+h3 style='display: inline'
+
+table.table.table-hover.table-bordered.table-striped
+  thead.thead-dark
+    tr
+      th
+        span.text-info
+          = t('navigations.enrichment_service')
+        span.text-warning
+          =< @indicator.content
+        span
+          =< "(#{@decorated_indicator.show_content_format})"
+      th.fit
+        span.text-info
+  tbody
+    - @indicator.enrichment.each do |service, _e|
+      tr
+        td
+          = link_to(enrichment_path(@indicator.id,
+            service_name: service),
+            class: 'btn btn-link modal_link') do
+            = service
+        td.fit
+          = link_to(enrichment_path(@indicator.id),
+            class: 'btn btn-link modal_link') do
+            = fa_icon('eye',
+              class: 'text-info',
+              data_toggle: 'tooltip',
+              title: t('views.action.show'))

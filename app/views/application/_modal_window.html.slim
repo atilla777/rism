@@ -1,0 +1,13 @@
+.modal.fade#modal_window tabindex='-1' role='dialog'
+  .modal-dialog.modal-lg role='document' style='width:95%'
+    .modal-content
+      .modal-header
+        button.close  type='button' data-dismiss="modal" aria-label="Close"
+        .modal-title
+          .pull-right
+            button.btn.btn-default type='button' data-dismiss='modal'
+              = t('views.action.back')
+      .modal-body
+      .modal-footer
+        button.btn.btn-default type='button' data-dismiss='modal'
+          = t('views.action.back')
