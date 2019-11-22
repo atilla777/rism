@@ -108,8 +108,6 @@ Rails.application.routes.draw do
     end
     member do
       patch :toggle_readable
-      get :enrich
-      get :enrichment
       patch :toggle_purpose
       patch :toggle_trust_level
     end

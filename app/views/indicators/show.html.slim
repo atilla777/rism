@@ -7,10 +7,6 @@
   - pane.add :main_info do
     = render 'record', record: @record
     = render 'show_buttons', record: @record
-  - pane.add :enrichments1 do
-    = render 'enrichments', record: @record
-  - pane.add :enrichments do
-    = render 'enrichments', record: @record
   - pane.add :tags do
     #tags
       = render 'tag_members/tags', record: @record

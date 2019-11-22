@@ -1,0 +1,72 @@
+h3
+  span.text-info
+    => fa_icon 'database'
+    | VirusTotal
+  span
+    =< @indicator.content
+hr
+h4
+  span.text-success
+    | Categories:
+  span
+    =<> @enrichment.fetch('categories', []).join(', ')
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_urls'
+  h4
+    span.text-info
+      | URLs:
+.collapse#toggle_urls
+  - @enrichment.fetch('detected_urls', []).each do |r|
+    span.text-success
+      => r.fetch('url','')
+    span.label.label-info
+      => r.fetch('total','')
+    span.label.label-danger
+      =< r.fetch('positives','')
+    span
+      =< r.fetch('scan_date','')
+    br
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_subdomains'
+  h4
+    span.text-info
+      | Subdomains:
+.collapse#toggle_subdomains
+  - @enrichment.fetch('subdomains', []).each do |r|
+    span.text-success
+      = r
+    br
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_resolutions'
+  h4
+    span.text-info
+      | Resolutions:
+.collapse#toggle_resolutions
+  - @enrichment.fetch('resolutions', []).each do |r|
+    span.text-success
+      = r.fetch('ip_address','')
+    span
+      =< r.fetch('last_resolved','')
+    br
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_whois'
+  h4
+    span.text-info
+      | WHOIS:
+.collapse#toggle_whois
+  - @enrichment.fetch('whois', '').split(/\n/).each do |str|
+    span.text-success
+      = str.match(/^([\w\/-]+\s*)+:/)
+    span
+      =< str.sub(/^([\w\/-]+\s*)+:/, '')
+    br
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
+  h4
+    span.text-info
+      | RAW data:
+.collapse#toggle_raw_data
+  = simple_format(JSON.pretty_generate(@enrichment))
+
+= link_to indicator_path(@indicator, active_tab: :enrichments) do
+  span.btn.btn-info
+    = Indicator.model_name.human
+
+=< link_to indicators_path(investigation_id: @indicator.investigation.id) do
+  span.btn.btn-default
+    = Investigation.model_name.human

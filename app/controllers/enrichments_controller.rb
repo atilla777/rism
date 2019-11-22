@@ -1,16 +1,11 @@
 # frozen_string_literal: true
 
 class EnrichmentsController < ApplicationController
-  def create
-    record = Indicator.find(params[:id])
-    authorize record
-    enrich_indicator(record)
-  end
-
   def index
     @indicator = Indicator.find(params[:indicator_id])
     authorize @indicator
     @decorated_indicator = IndicatorDecorator.new(@indicator)
+    @usabale_brokers = BaseBroker.usabale_brokers(@indicator.content_format)
   end
 
   def show
@@ -18,9 +13,21 @@ class EnrichmentsController < ApplicationController
     authorize @indicator
     @decorated_indicator = IndicatorDecorator.new(@indicator)
     format = Indicator::Enrichments.map_hash_format(@indicator.content_format)
-    service_name = Indicator::Enrichments.enrichment_by_name(params[:service_name])
-    @enrichment = @indicator.enrichment.fetch(service_name)
-    render "indicator_enrichments/#{format}_#{service_name}", layout: false
+    broker = Indicator::Enrichments.enrichment_by_name(params[:broker_name])
+    @enrichment = @indicator.enrichment.fetch(broker)
+    render "enrichments/#{broker}/#{format}_#{broker}", layout: false
+  end
+
+  def create
+    @indicator = Indicator.find(params[:indicator_id])
+    authorize @indicator
+    if params[:broker_name]
+      EnrichIndicatorService.call(@indicator, params[:broker_name])
+    else
+      EnrichIndicatorService.call(@indicator)
+    end
+    @decorated_indicator = IndicatorDecorator.new(@indicator)
+    render 'index'
   end
 
   private

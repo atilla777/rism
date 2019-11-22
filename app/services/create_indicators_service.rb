@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateIndicatorsService
   def self.call(*args, &block)
     new(*args, &block).execute
@@ -50,19 +52,8 @@ class CreateIndicatorsService
     indicator.current_user = current_user
     indicator.skip_format_validation = true
     indicator.save
-    enrich(indicator) if @enrich == '1'
+    EnrichIndicatorService.call(indicator) if @enrich == '1'
     SetReadableLogService.call(indicator, current_user)
-  end
-
-  def enrich(indicator)
-    unless Indicator::Enrichments.format_supported?(indicator.content_format, 'virus_total')
-      return
-    end
-    IndicatorEnrichmentJob.perform_later(
-      'free_virus_total_search',
-      indicator.id,
-      'virus_total'
-    )
   end
 
   def indicator_context_ids(codenames)

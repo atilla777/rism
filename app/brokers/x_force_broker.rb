@@ -34,11 +34,6 @@ class XForceBroker < BaseBroker
     results
   end
 
-  # Check tah indicator content (IP, URL, etc) supported by service API
-  def self.format_supported?(format)
-    INDICATORS_KINDS_MAP.fetch(format.to_sym, false)
-  end
-
   private
 
   def uri(service)

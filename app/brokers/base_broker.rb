@@ -2,6 +2,51 @@
 
 # Base Broker class for Internet services API
 class BaseBroker
+  BROCKERS = {
+    virus_total: 'VirusTotalBroker',
+    x_force: 'XForceBroker'
+  }.freeze
+
+  QUEUE = 'brokers'.freeze
+
+  attr_reader :name, :queue
+
+  def self.inherited(subclass)
+    # Check that indicator content (IP, URL, etc) supported by service API
+    # like this:
+    # def self.format_supported?
+    #   ...
+    subclass.define_singleton_method (:format_supported?) do |format|
+      subclass::INDICATORS_KINDS_MAP.fetch(format.to_sym, false)
+    end
+    # Queue in sidekiq
+    # Redefine if you need custom queue
+    # (for example, for limeted free service)
+    subclass.define_singleton_method(:queue) do
+      QUEUE
+    end
+  end
+
+  def self.broker_name
+    BROCKERS.detect do |_broker_name, broker_class|
+      broker_class == self.name
+    end.first.to_s
+  end
+
+  def self.brokers
+    BROCKERS.values.map(&:constantize)
+  end
+
+  def self.usabale_brokers(content_format)
+    brokers.select do |broker|
+      broker.format_supported?(content_format)
+    end
+  end
+
+  def self.broker_by_name(name)
+    BROCKERS[name.to_sym]
+  end
+
   # Trick to make new object and run this one in one command (call)
   def self.call(*args, &block)
     new(*args, &block).execute

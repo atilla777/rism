@@ -1,0 +1,55 @@
+h3
+  span.text-info
+    => fa_icon 'database'
+    | VirusTotal
+  span
+    =< @indicator.content
+hr
+h4
+  span.text-success
+    | Total:
+  span.tex-info
+    =<> @enrichment.fetch('total', '')
+  span.text-success
+    | Positives:
+  - if @enrichment.fetch('positives', 0).to_i > 0
+    span.text-danger
+      =<> @enrichment.fetch('positives', '')
+  - else
+    span
+      =<> @enrichment.fetch('positives', '')
+  span.text-success
+    | Scan date:
+  span.tex-info
+    =<> @enrichment.fetch('scan_date', '')
+
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_scans'
+  h4
+    span.text-info
+      | Scans:
+.collapse#toggle_scans
+  - @enrichment.fetch('scans', []).each do |antivirus, value|
+    span.text-success
+      => antivirus
+      - if value.fetch('detected', false)
+        span.label.label-danger
+          =<> value.fetch('result', '')
+      - else
+        span.label.label-info
+          =< value.fetch('result', '')
+      br
+
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
+  h4
+    span.text-info
+      | RAW data:
+.collapse#toggle_raw_data
+  = simple_format(JSON.pretty_generate(@enrichment))
+
+= link_to indicator_path(@indicator, active_tab: :enrichments) do
+  span.btn.btn-info
+    = Indicator.model_name.human
+
+=< link_to indicators_path(investigation_id: @indicator.investigation.id) do
+  span.btn.btn-default
+    = Investigation.model_name.human

@@ -1,0 +1,7 @@
+- usabale_brokers.each do |broker|
+  = link_to(enrichments_path(indicator_id: indicator, broker_name: broker.broker_name),
+    data: {confirm: t('views.action.confirm')},
+    method: :post,
+    class: 'btn btn-link') do
+      span.btn.btn-success
+        = broker

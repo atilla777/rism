@@ -3,12 +3,14 @@
 = render 'indicators/show_tabs', record: @indicator, active_tab: :enrichments, from_external_link: true
 h3 style='display: inline'
 
+= render 'enrichments_buttons', indicator: @indicator, usabale_brokers: @usabale_brokers
+
 table.table.table-hover.table-bordered.table-striped
   thead.thead-dark
     tr
       th
         span.text-info
-          = t('navigations.enrichment_service')
+          = t('navigations.enrichment_broker')
         span.text-warning
           =< @indicator.content
         span
@@ -16,13 +18,13 @@ table.table.table-hover.table-bordered.table-striped
       th.fit
         span.text-info
   tbody
-    - @indicator.enrichment.each do |service, _e|
+    - @indicator.enrichment.each do |broker, _e|
       tr
         td
           = link_to(enrichment_path(@indicator.id,
-            service_name: service),
+            broker_name: broker),
             class: 'btn btn-link modal_link') do
-            = service
+            = broker
         td.fit
           = link_to(enrichment_path(@indicator.id),
             class: 'btn btn-link modal_link') do

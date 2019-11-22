@@ -79,21 +79,6 @@ class IndicatorsController < ApplicationController
     set_readable_log
   end
 
-  def enrich
-    record = Indicator.find(params[:id])
-    authorize record
-    enrich_indicator(record)
-  end
-
-  def enrichment
-    @indicator = Indicator.find(params[:id])
-    authorize @indicator
-    format = Indicator::Enrichments.map_hash_format(@indicator.content_format)
-    service_name = Indicator::Enrichments.enrichment_by_name(params[:service_name])
-    @enrichment = @indicator.enrichment.fetch(service_name)
-    render "indicator_enrichments/#{format}_#{service_name}"
-  end
-
   def index
     @associations = [:investigation]
     authorize model
@@ -142,7 +127,7 @@ class IndicatorsController < ApplicationController
     if @record.content.present? || @record.indicators_list.blank?
       @record.current_user = current_user
       @record.save!
-      enrich_indicator(@record) if @record.enrich == '1'
+      EnrichIndicatorService.call(@record) if @record.enrich == '1'
     end
     if params[:indicator][:indicators_list].present?
       parent_indicator_id = if @record.content.present?
@@ -196,17 +181,6 @@ class IndicatorsController < ApplicationController
     else
       true
     end
-  end
-
-  def enrich_indicator(indicator)
-    unless Indicator::Enrichments.format_supported?(indicator.content_format, 'virus_total')
-      return
-    end
-    IndicatorEnrichmentJob.perform_later(
-      'free_virus_total_search',
-      indicator.id,
-      'virus_total'
-    )
   end
 
   def set_return_to
