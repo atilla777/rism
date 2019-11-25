@@ -167,8 +167,6 @@ ru:
     worker: 'Работник'
     workers: 'Работники'
     catalog: 'Прочее'
-    enrichments: 'Обогащения'
-    enrichment_broker: 'Сервис обогащения'
     reports:
       download: 'Скачать справку (бюллетень, отчет)'
       download_filtred: 'Скачать результаты поиска по полям'

@@ -1,13 +1,12 @@
-# frozen_string_literal: true
+# frozen_string_literai: true
 
 class IndicatorEnrichmentJob < ApplicationJob
   def perform(broker, indicator_id)
-   @broker = broker
    @indicator = Indicator.find(indicator_id)
-   enrichment_brocker = BaseBroker.broker_by_name(
-     @broker
+   @broker = BaseBroker.broker_by_name(
+     broker
    ).constantize
-   @result = enrichment_brocker.call(
+   @result = @broker.call(
      @indicator.content,
      @indicator.content_format
    )
@@ -17,9 +16,13 @@ class IndicatorEnrichmentJob < ApplicationJob
   private
 
   def save_result
-    @indicator.skip_current_user_check = true
-    @indicator.enrichment[@broker] = @result
-    @indicator.save!
+    @enrichment = Enrichment.new(
+      content: @result,
+      broker: @broker.broker_name,
+      enrichmentable: @indicator,
+      created_at: DateTime.now
+    )
+    @enrichment.save!
   rescue ActiveRecord::RecordInvalid
     logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_error.log'))
     logger.tagged("INDICATOR_ENRICHMENT (#{Time.now}): ") do
@@ -31,11 +34,11 @@ class IndicatorEnrichmentJob < ApplicationJob
           be
           saved
           -
-          #{@indicator.errors.full_messages},
+          #{@enrichment.errors.full_messages},
           indicator
           ID
           -
-          #{@indicator.id}).join
+          #{@indicator.id}).join(' ')
       )
     end
   end

@@ -9,13 +9,13 @@ h4
   span.text-success
     | Categories:
   span
-    =<> @enrichment.fetch('categories', []).join(', ')
+    =<> @enrichment.content.fetch('categories', []).join(', ')
 a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_urls'
   h4
     span.text-info
       | URLs:
 .collapse#toggle_urls
-  - @enrichment.fetch('detected_urls', []).each do |r|
+  - @enrichment.content.fetch('detected_urls', []).each do |r|
     span.text-success
       => r.fetch('url','')
     span.label.label-info
@@ -30,7 +30,7 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_subdomains'
     span.text-info
       | Subdomains:
 .collapse#toggle_subdomains
-  - @enrichment.fetch('subdomains', []).each do |r|
+  - @enrichment.content.fetch('subdomains', []).each do |r|
     span.text-success
       = r
     br
@@ -39,7 +39,7 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_resolutions'
     span.text-info
       | Resolutions:
 .collapse#toggle_resolutions
-  - @enrichment.fetch('resolutions', []).each do |r|
+  - @enrichment.content.fetch('resolutions', []).each do |r|
     span.text-success
       = r.fetch('ip_address','')
     span
@@ -50,7 +50,7 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_whois'
     span.text-info
       | WHOIS:
 .collapse#toggle_whois
-  - @enrichment.fetch('whois', '').split(/\n/).each do |str|
+  - @enrichment.content.fetch('whois', '').split(/\n/).each do |str|
     span.text-success
       = str.match(/^([\w\/-]+\s*)+:/)
     span
@@ -61,12 +61,4 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
     span.text-info
       | RAW data:
 .collapse#toggle_raw_data
-  = simple_format(JSON.pretty_generate(@enrichment))
-
-= link_to indicator_path(@indicator, active_tab: :enrichments) do
-  span.btn.btn-info
-    = Indicator.model_name.human
-
-=< link_to indicators_path(investigation_id: @indicator.investigation.id) do
-  span.btn.btn-default
-    = Investigation.model_name.human
+  = simple_format(JSON.pretty_generate(@enrichment.content))

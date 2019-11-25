@@ -1,0 +1,17 @@
+ru:
+  activerecord:
+    models:
+      enrichment:
+        one: 'Обогащение'
+        other: 'Обогащения'
+    attributes:
+      enrichment:
+        content: 'Содержимое'
+        broker: 'Сервис'
+        enrichmentable_type: 'Тип обогащаемой записи'
+        enrichmentable_id: 'ID обогащаемой записи'
+        created_at: 'Время создания'
+        brokers:
+          virus_total: 'VirusTotal'
+          x_force: 'IBM X-Force Exchange'
+        v_danger: 'Угрозы'

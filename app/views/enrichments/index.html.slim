@@ -1,34 +1,49 @@
 = render 'modal_window'
-= caption @indicator
-= render 'indicators/show_tabs', record: @indicator, active_tab: :enrichments, from_external_link: true
-h3 style='display: inline'
+= caption @enrichmentable
+= render("#{@enrichmentable.class.table_name}/show_tabs",
+  record: @enrichmentable,
+  active_tab: :enrichments,
+  from_external_link: true)
 
-= render 'enrichments_buttons', indicator: @indicator, usabale_brokers: @usabale_brokers
+= render('enrichments_buttons',
+  enrichmentable: @enrichmentable,
+  useable_brokers: @useable_brokers)
 
 table.table.table-hover.table-bordered.table-striped
   thead.thead-dark
     tr
+      th.fit
+        span.text-info
+          = Enrichment.human_attribute_name(:created_at)
+      th.fit
+        span.text-info
+          = Enrichment.human_attribute_name(:v_danger)
       th
         span.text-info
-          = t('navigations.enrichment_broker')
-        span.text-warning
-          =< @indicator.content
-        span
-          =< "(#{@decorated_indicator.show_content_format})"
+          = Enrichment.human_attribute_name(:broker)
       th.fit
         span.text-info
   tbody
-    - @indicator.enrichment.each do |broker, _e|
+    - @enrichments.each do |enrichment|
       tr
-        td
-          = link_to(enrichment_path(@indicator.id,
-            broker_name: broker),
-            class: 'btn btn-link modal_link') do
-            = broker
         td.fit
-          = link_to(enrichment_path(@indicator.id),
+          = link_to(enrichment,
+            class: 'btn btn-link modal_link') do
+            = show_date_time(enrichment.created_at)
+        td.fit
+          = link_to(enrichment,
+            class: 'btn btn-link modal_link') do
+            = render 'danger', enrichment: enrichment
+        td
+          = link_to(enrichment,
+            class: 'btn btn-link modal_link') do
+            = enrichment.show_broker
+        td.fit
+          = link_to(enrichment,
             class: 'btn btn-link modal_link') do
             = fa_icon('eye',
               class: 'text-info',
               data_toggle: 'tooltip',
               title: t('views.action.show'))
+          =< link_to enrichment, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link btn-xs' do
+            = fa_icon 'remove', class: 'text-danger', data_toggle: 'tooltip', title: t('views.action.delete')

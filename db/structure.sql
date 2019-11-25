@@ -552,6 +552,39 @@ ALTER SEQUENCE public.departments_id_seq OWNED BY public.departments.id;
 
 
 --
+-- Name: enrichments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.enrichments (
+    id bigint NOT NULL,
+    content jsonb DEFAULT '{}'::jsonb NOT NULL,
+    enrichmentable_type character varying,
+    enrichmentable_id bigint,
+    broker smallint,
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: enrichments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.enrichments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: enrichments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.enrichments_id_seq OWNED BY public.enrichments.id;
+
+
+--
 -- Name: feeds; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2088,6 +2121,13 @@ ALTER TABLE ONLY public.departments ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: enrichments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.enrichments ALTER COLUMN id SET DEFAULT nextval('public.enrichments_id_seq'::regclass);
+
+
+--
 -- Name: feeds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2454,6 +2494,14 @@ ALTER TABLE ONLY public.delivery_subjects
 
 ALTER TABLE ONLY public.departments
     ADD CONSTRAINT departments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: enrichments enrichments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.enrichments
+    ADD CONSTRAINT enrichments_pkey PRIMARY KEY (id);
 
 
 --
@@ -2949,6 +2997,13 @@ CREATE INDEX index_departments_on_organization_id ON public.departments USING bt
 --
 
 CREATE INDEX index_departments_on_parent_id ON public.departments USING btree (parent_id);
+
+
+--
+-- Name: index_enrichments_on_enrichmentable_type_and_enrichmentable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_enrichments_on_enrichmentable_type_and_enrichmentable_id ON public.enrichments USING btree (enrichmentable_type, enrichmentable_id);
 
 
 --
@@ -4225,6 +4280,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190904135959'),
 ('20190912112513'),
 ('20191106112505'),
-('20191118062554');
+('20191118062554'),
+('20191125065845');
 
 

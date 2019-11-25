@@ -9,26 +9,26 @@ h4
   span.text-success
     | Total:
   span.tex-info
-    =<> @enrichment.fetch('total', '')
+    =<> @enrichment.content.fetch('total', '')
   span.text-success
     | Positives:
-  - if @enrichment.fetch('positives', 0).to_i > 0
+  - if @enrichment.content.fetch('positives', 0).to_i > 0
     span.text-danger
-      =<> @enrichment.fetch('positives', '')
+      =<> @enrichment.content.fetch('positives', '')
   - else
     span
-      =<> @enrichment.fetch('positives', '')
+      =<> @enrichment.content.fetch('positives', '')
   span.text-success
     | Scan date:
   span.tex-info
-    =<> @enrichment.fetch('scan_date', '')
+    =<> @enrichment.content.fetch('scan_date', '')
 
 a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_scans'
   h4
     span.text-info
       | Scans:
 .collapse#toggle_scans
-  - @enrichment.fetch('scans', []).each do |antivirus, value|
+  - @enrichment.content.fetch('scans', []).each do |antivirus, value|
     span.text-success
       => antivirus
       - if value.fetch('detected', false)
@@ -44,12 +44,4 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
     span.text-info
       | RAW data:
 .collapse#toggle_raw_data
-  = simple_format(JSON.pretty_generate(@enrichment))
-
-= link_to indicator_path(@indicator, active_tab: :enrichments) do
-  span.btn.btn-info
-    = Indicator.model_name.human
-
-=< link_to indicators_path(investigation_id: @indicator.investigation.id) do
-  span.btn.btn-default
-    = Investigation.model_name.human
+  = simple_format(JSON.pretty_generate(@enrichment.content))

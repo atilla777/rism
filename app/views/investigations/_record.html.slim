@@ -20,14 +20,12 @@
   = r.show :description
     = simple_format @record.description
 
-//  = render 'tree_show'
-
 = link_to(enrich_investigation_path(record, service_name: :virus_total),
   data: {confirm: t('views.action.confirm')},
   method: :get,
   remote: true,
   class: 'btn btn-link') do
     span.btn.btn-success
-      | VirusTotal
+      = Enrichment.model_name.human
 
 = render 'application/record_versions'

@@ -9,25 +9,25 @@ h4
   span.text-success
     | ASN:
   span
-    =<> @enrichment.fetch('asn', '')
+    =<> @enrichment.content.fetch('asn', '')
   span.text-success
     | AS owner:
   span
-    =<> @enrichment.fetch('as_owner', '')
+    =<> @enrichment.content.fetch('as_owner', '')
   span.text-success
     | Country:
   span
-    =<> @enrichment.fetch('country', '')
+    =<> @enrichment.content.fetch('country', '')
   span.text-success
     | Network:
   span
-    =<> @enrichment.fetch('network', '')
+    =<> @enrichment.content.fetch('network', '')
 a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_whois'
   h4
     span.text-info
       | WHOIS:
 .collapse#toggle_whois
-  - @enrichment.fetch('whois', '').split(/\n/).each do |str|
+  - @enrichment.content.fetch('whois', '').split(/\n/).each do |str|
     span.text-success
       = str.match(/^([\w\/-]+\s*)+:/)
     span
@@ -38,7 +38,7 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_resolutions'
     span.text-info
       | Resolutions :
 .collapse#toggle_resolutions
-  - @enrichment.fetch('resolutions', []).each do |r|
+  - @enrichment.content.fetch('resolutions', []).each do |r|
     span.text-success
       = r.fetch('hostname','')
     span
@@ -49,7 +49,7 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_urls'
     span.text-info
       | URLs:
 .collapse#toggle_urls
-  - @enrichment.fetch('detected_urls', []).each do |r|
+  - @enrichment.content.fetch('detected_urls', []).each do |r|
     span.text-success
       => r.fetch('url','')
     span.label.label-info
@@ -64,7 +64,4 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
     span.text-info
       | RAW data:
 .collapse#toggle_raw_data
-  = simple_format(JSON.pretty_generate(@enrichment))
-= link_to indicator_path(@indicator, active_tab: :enrichments) do
-  span.btn.btn-info
-    = Indicator.model_name.human
+  = simple_format(JSON.pretty_generate(@enrichment.content))

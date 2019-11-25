@@ -8,14 +8,7 @@ class InvestigationsController < ApplicationController
     investigation = Investigation.find(params[:id])
     authorize record
     investigation.indicators.each do |indicator|
-      unless Indicator::Enrichments.format_supported?(indicator.content_format, 'virus_total')
-        next
-      end
-      IndicatorEnrichmentJob.perform_later(
-        'free_virus_total_search',
-        indicator.id,
-        'virus_total'
-      )
+      EnrichIndicatorService.call(indicator)
     end
   end
 

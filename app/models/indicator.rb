@@ -10,6 +10,7 @@ class Indicator < ApplicationRecord
   include Readable
   include StripTextFields
   include Papertrailable
+  include Enrichmentable
 
   has_paper_trail skip: [:processed, :processed_by_id]
 

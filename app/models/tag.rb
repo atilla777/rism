@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Tag < ApplicationRecord
   validates :name, length: { minimum: 1, maximum: 150 }
   validates :rank, numericality: { only_integer: true }

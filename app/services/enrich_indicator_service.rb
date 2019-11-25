@@ -8,7 +8,7 @@ class EnrichIndicatorService
 
   def initialize(indicator, broker_name = nil)
     @indicator = indicator
-    @usabale_brokers = BaseBroker.usabale_brokers(indicator.content_format)
+    @useable_brokers = BaseBroker.useable_brokers(indicator.content_format)
     @broker_name = broker_name
   end
 
@@ -32,7 +32,7 @@ class EnrichIndicatorService
   end
 
   def several_brokers
-    @usabale_brokers.each do |broker|
+    @useable_brokers.each do |broker|
       IndicatorEnrichmentJob.set(queue: broker.queue)
                             .perform_later(
                               broker.broker_name,

@@ -1,7 +1,10 @@
-- usabale_brokers.each do |broker|
-  = link_to(enrichments_path(indicator_id: indicator, broker_name: broker.broker_name),
+- useable_brokers.each do |broker|
+  = link_to(enrichments_path(enrichmentable_type: enrichmentable,
+    enrichmentable_id: enrichmentable.id,
+    broker_name: broker.broker_name),
     data: {confirm: t('views.action.confirm')},
     method: :post,
+    remote: true,
     class: 'btn btn-link') do
       span.btn.btn-success
-        = broker
+        = Enrichment.human_enum_name(:broker, broker.broker_name)

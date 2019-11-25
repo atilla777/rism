@@ -1,0 +1,13 @@
+- if enrichmentable.enrichments.present?
+  - if enrichmentable.enrichment_danger_detect?
+    span.text-danger
+      = fa_icon 'database'
+      - kasperky_malware = enrichmentable.show_kaspesky_hash_enrichment
+      - if kasperky_malware
+        =< "(#{enrichmentable.show_kaspesky_hash_enrichment})"
+  - else
+    span.text-success
+      = fa_icon 'database'
+- else
+  span
+    = fa_icon 'database'

@@ -1,17 +1,5 @@
-=> link_to(indicator_path(record, active_tab: :enrichments),
+=> link_to(enrichments_path(indicator_id: record.id, active_tab: :enrichments),
   data_toggle: 'tooltip',
-  title: Indicator.human_attribute_name(:enrichment),
+  title: Enrichment.model_name.human(count: 2),
   class: 'btn btn-link btn-xs') do
-  - if record.enrichment_done?
-    - if record.danger_detect?
-      span.text-danger
-        = fa_icon 'database'
-        - kasperky_malware = record.show_kaspesky_hash_enrichment
-        - if kasperky_malware
-          =< "(#{record.show_kaspesky_hash_enrichment})"
-    - else
-      span.text-success
-        = fa_icon 'database'
-  - else
-    span
-      = fa_icon 'database'
+  = render 'enrichments/enrichment_danger', enrichmentable: record

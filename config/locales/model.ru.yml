@@ -61,9 +61,6 @@ ru:
       scan_job:
         one: 'Работа по сканированию'
         other: 'Работы по cканированию'
-      scan_result:
-        one: 'Результат сканирования'
-        other: 'Результаты сканирований'
       host_service:
         one: 'Сетевой сервис'
         other: 'Сетевые сервисы'
@@ -227,38 +224,6 @@ ru:
         ports: 'Порты'
         add_organization_hosts: 'Добавить все хосты организации'
         description: 'Описание'
-      scan_result:
-        organization_id: 'Организация влад.'
-        scan_job_id: 'Работа'
-        scan_job_scan_engine: 'Движок'
-        scan_engine: 'Движок'
-        source_ip: 'Адрес сканера'
-        state: 'Состояние'
-        states:
-          closed: 'Закрыт'
-          closed_filtered: 'Закрыт|Фильтруется'
-          filtered: 'Фильтруется'
-          unfiltered: 'Не фильтруется'
-          open_filtered: 'Открыт Фильтруется'
-          open: 'Открыт'
-        legality: 'Легальность (была)'
-        legalities:
-          illegal: 'Нелегален'
-          unknown: 'Неизвестно'
-          legal: 'Легален'
-          no_sense: 'Не важно'
-        ip: 'IP'
-        port: 'Порт'
-        protocol: 'Протокол'
-        job_start: 'Начало работы'
-        start: 'Начало сканирования'
-        finished: 'Окончание сканирования'
-        service: 'Сервис'
-        product: 'Программа'
-        product_version: 'Версия'
-        product_extrainfo: 'Дополнительно'
-        vulners: 'Уязвимости'
-        jid: 'ID фоновой работы'
       host_service:
         name: 'Название'
         organization_id: 'Организация'

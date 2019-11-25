@@ -37,7 +37,7 @@ class BaseBroker
     BROCKERS.values.map(&:constantize)
   end
 
-  def self.usabale_brokers(content_format)
+  def self.useable_brokers(content_format)
     brokers.select do |broker|
       broker.format_supported?(content_format)
     end

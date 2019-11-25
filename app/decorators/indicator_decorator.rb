@@ -46,21 +46,16 @@ class IndicatorDecorator < SimpleDelegator
     updater&.name || ''
   end
 
-  def enrichment_done?
-    return false if enrichment.empty?
-    true
-  end
-
-  def danger_detect?
-    return false if enrichment == '{}'
-    virus_total_enrichment = enrichment.fetch('virus_total', {})
+  def enrichment_danger_detect?
+    enrichment = enrichments.where(broker: :virus_total).last
+    return false unless enrichment.present?
     case Indicator::Enrichments.map_hash_format(content_format)
     when 'hash', 'uri'
-      virus_total_enrichment.fetch('scans', {}).any? do |antivirus, value|
+      enrichment.content.fetch('scans', {}).any? do |antivirus, value|
         value.fetch('detected', false)
       end
     when 'network', 'domain'
-      virus_total_enrichment.fetch('detected_urls', {})
+      enrichment.content.fetch('detected_urls', {})
         .any? do |url|
           url.fetch('positives', 0) > 0
       end
@@ -70,11 +65,12 @@ class IndicatorDecorator < SimpleDelegator
   end
 
   def show_kaspesky_hash_enrichment
+    enrichment = enrichments.where(broker: :virus_total).last
+    return nil unless enrichment.present?
     unless Indicator::Enrichments.map_hash_format(content_format) == 'hash'
       return nil
     end
-    enrichment.fetch('virus_total', {})
-      .fetch('scans', {})
+    enrichment.content.fetch('scans', {})
       .find do |antivirus, value|
         antivirus == 'Kaspersky' && value.fetch('detected', false)
     end&.second&.fetch('result', '')
