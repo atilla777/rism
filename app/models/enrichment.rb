@@ -20,4 +20,8 @@ class Enrichment < ApplicationRecord
   validates :enrichmentable_type, inclusion: { in: enrichmentable_types }
 
   belongs_to :enrichmentable, polymorphic: true
+
+  def parser
+    "#{broker}_parser".camelcase.constantize
+  end
 end

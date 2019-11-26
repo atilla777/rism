@@ -15,7 +15,7 @@ class VirusTotalBroker < BaseBroker
     network: ['ip-address', 'ip']
   }.freeze
 
-  QUEUE = 'brokers'.freeze
+  QUEUE = 'free_virus_total_broker'.freeze
 
   def set_custom_options(indicator_content, indicator_kind)
      @api_key = ENV['VIRUS_TOTAL_PRIVATE_KEY'] || ENV['VIRUS_TOTAL_PUBLIC_KEY']

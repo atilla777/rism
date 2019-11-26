@@ -816,7 +816,6 @@ CREATE TABLE public.indicators (
     purpose public.indicator_purpose DEFAULT 'not_set'::public.indicator_purpose,
     description text,
     custom_fields jsonb,
-    enrichment jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_by_id bigint,
     updated_by_id bigint,
     created_at timestamp without time zone NOT NULL,
@@ -3091,13 +3090,6 @@ CREATE INDEX index_indicators_on_custom_fields ON public.indicators USING gin (c
 
 
 --
--- Name: index_indicators_on_enrichment; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_indicators_on_enrichment ON public.indicators USING gin (enrichment);
-
-
---
 -- Name: index_indicators_on_investigation_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4281,6 +4273,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190912112513'),
 ('20191106112505'),
 ('20191118062554'),
-('20191125065845');
+('20191125065845'),
+('20191126092016');
 
 

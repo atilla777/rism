@@ -1,0 +1,51 @@
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_resolve'
+  h4
+    span.text-info
+      | Resolve:
+.collapse#toggle_resolve
+  - (content.dig('resolve') || {}).each do |key, value|
+    - if key == 'Passive'
+      span.text-success
+        =< key
+      ul.list-unbullet
+        - value.fetch('records', {}).each do |e|
+          span.text-warning
+            | value:
+          span
+            =<> e.fetch('value', '')
+          span.text-warning
+            | type:
+          span
+            =<> e.fetch('type', '')
+          span.text-warning
+            | first:
+          span
+            =<> e.fetch('first', '')
+          span.text-warning
+            | last:
+          span
+            =< e.fetch('last', '')
+          br
+    - elsif value.is_a?(Array)
+      span.text-success
+        =< key
+      ul.list-unbullet
+        - value.each do |e|
+          li
+            - if e.is_a?(Hash)
+              - e.each do |k, v|
+                span.text-warning
+                  =< k
+                span
+                  =< v
+            - elsif e.is_a?(Array)
+              - e.each do |v|
+                = v
+            - else
+              = e
+    - elsif key == 'total_rows'
+       span.text-success
+         = key
+       span
+         =< value
+       br

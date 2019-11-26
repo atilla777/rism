@@ -1,0 +1,24 @@
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_whois'
+  h4
+    span.text-info
+      | WHOIS:
+.collapse#toggle_whois
+  - content.fetch('whois', {}).each do |key, value|
+    - if value.is_a?(String)
+      span.text-success
+        = key
+      span
+        =< value
+      br
+    - elsif value.is_a?(Array)
+      span.text-success
+        = key
+      ul.list-unbullet
+        - value.each do |i|
+          - i.each do |k, v|
+            li
+              span.text-success
+                = k
+              span
+                =< v
+              br

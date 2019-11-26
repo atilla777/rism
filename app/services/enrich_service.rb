@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-class EnrichIndicatorService
+class EnrichService
 
   def self.call(*args, &block)
     new(*args, &block).execute
   end
 
-  def initialize(indicator, broker_name = nil)
-    @indicator = indicator
-    @useable_brokers = BaseBroker.useable_brokers(indicator.content_format)
+  def initialize(enrichmentable, broker_name = nil)
+    @enrichmentable = enrichmentable
     @broker_name = broker_name
   end
 
@@ -24,19 +23,22 @@ class EnrichIndicatorService
 
   def one_broker
     broker = BaseBroker.broker_by_name(@broker_name).constantize
-    IndicatorEnrichmentJob.set(queue: broker.queue)
+    EnrichmentJob.set(queue: broker.queue)
                           .perform_later(
                             broker.broker_name,
-                            @indicator.id
+                            @enrichmentable.class.name,
+                            @enrichmentable.id
                           )
   end
 
   def several_brokers
-    @useable_brokers.each do |broker|
-      IndicatorEnrichmentJob.set(queue: broker.queue)
+    useable_brokers = BaseBroker.useable_brokers(@enrichmentable.content_format)
+    useable_brokers.each do |broker|
+      EnrichmentJob.set(queue: broker.queue)
                             .perform_later(
                               broker.broker_name,
-                              @indicator.id
+                              @enrichmentable.class.name,
+                              @enrichmentable.id
                             )
     end
   end

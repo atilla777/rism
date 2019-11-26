@@ -6,6 +6,10 @@ class IndicatorDecorator < SimpleDelegator
     end
   end
 
+  def original_class
+    __getobj__
+  end
+
   def show_content_format
     Indicator.human_enum_name(:content_format, content_format)
   end

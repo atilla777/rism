@@ -4,14 +4,6 @@ class InvestigationsController < ApplicationController
   include RecordOfOrganization
   include ReadableRecord
 
-  def enrich
-    investigation = Investigation.find(params[:id])
-    authorize record
-    investigation.indicators.each do |indicator|
-      EnrichIndicatorService.call(indicator)
-    end
-  end
-
   def search
     index
     @scope = params.dig(:q, :scope_eq) || params.dig(:scope)

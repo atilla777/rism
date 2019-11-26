@@ -20,5 +20,7 @@
         => fa_icon 'undo'
         = t('helpers.submit.reset')
 
-    - @investigation.top_parents_indicators.includes(:children, :indicator_contexts).order(:content_format).each do |indicator|
+    - @investigation.top_parents_indicators.includes(:children,
+      :indicator_contexts,
+      :enrichments).order(:content_format).each do |indicator|
       = render 'indicator', indicator: indicator

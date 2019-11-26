@@ -1,0 +1,28 @@
+= render 'enrichments/x_force/head_x_force', enrichmentable: @enrichmentable
+h4
+  span.text-success
+    | URL score:
+  - score = @enrichment.content.dig('url', 'result', 'score') || 0
+  - if score < 3
+    span
+      =<> score
+  - elsif score < 5
+    span.text-warning
+      =<> score
+  - else
+    span.text-danger
+      =<> score
+  span.text-success
+    | URL malware count:
+  span
+    - count = @enrichment.content.dig('url/malware', 'count')
+    - if count > 0
+      span.text-danger
+        =< count
+    - else
+      =< count
+= render 'enrichments/x_force/whois_x_force', content: @enrichment.content
+= render 'enrichments/x_force/url_x_force', content: @enrichment.content
+= render 'enrichments/x_force/resolve_x_force', content: @enrichment.content
+= render 'enrichments/x_force/url_malware_x_force', content: @enrichment.content
+= render 'raw', content: @enrichment.content

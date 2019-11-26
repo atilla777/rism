@@ -1,5 +1,15 @@
+- if useable_brokers.present?
+  = link_to(enrichments_path(enrichmentable_type: enrichmentable.model_name,
+    enrichmentable_id: enrichmentable.id),
+    data: {confirm: t('views.action.confirm')},
+    method: :post,
+    remote: true,
+    class: 'btn btn-link') do
+      span.btn.btn-success
+        = t('views.action.enrich_all')
+
 - useable_brokers.each do |broker|
-  = link_to(enrichments_path(enrichmentable_type: enrichmentable,
+  = link_to(enrichments_path(enrichmentable_type: enrichmentable.class,
     enrichmentable_id: enrichmentable.id,
     broker_name: broker.broker_name),
     data: {confirm: t('views.action.confirm')},

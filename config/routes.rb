@@ -95,7 +95,6 @@ Rails.application.routes.draw do
     end
     member do
       patch :toggle_readable
-      get :enrich
     end
   end
   resources :indicators do

@@ -1,13 +1,3 @@
-h3
-  span.text-success
-    => fa_icon 'database'
-    | IBM X-Force Exchange
-  span.text-warning
-    =< @enrichmentable.content
-hr
-a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
-  h4
-    span.text-info
-      | RAW data:
-.collapse#toggle_raw_data
-  = simple_format(JSON.pretty_generate(@enrichment.content))
+= render 'enrichments/x_force/head_x_force', enrichmentable: @enrichmentable
+= render 'enrichments/x_force/whois_x_force', content: @enrichment.content
+= render 'raw', content: @enrichment.content

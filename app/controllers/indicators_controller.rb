@@ -100,7 +100,9 @@ class IndicatorsController < ApplicationController
                        else
                          params[:q][:investigation_id_eq]
                        end
-    @records = records(model.where(investigation_id: investigation_id))
+    @records = records(
+      model.where(investigation_id: investigation_id)
+    )
     @investigation = Investigation.find(investigation_id)
   end
 
@@ -127,7 +129,7 @@ class IndicatorsController < ApplicationController
     if @record.content.present? || @record.indicators_list.blank?
       @record.current_user = current_user
       @record.save!
-      EnrichIndicatorService.call(@record) if @record.enrich == '1'
+      EnrichService.call(@record) if @record.enrich == '1'
     end
     if params[:indicator][:indicators_list].present?
       parent_indicator_id = if @record.content.present?
@@ -272,5 +274,9 @@ class IndicatorsController < ApplicationController
       session.delete(:edit_return_to),
       success: t('flashes.update', model: model.model_name.human)
     )
+  end
+
+  def records_includes
+    %i[enrichments creator investigation]
   end
 end

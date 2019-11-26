@@ -1,5 +1,7 @@
-=> link_to(enrichments_path(indicator_id: record.id, active_tab: :enrichments),
+=> link_to(enrichments_path(enrichmentable_type: record.original_class.class,
+  enrichmentable_id: record.id,
+  active_tab: :enrichments),
   data_toggle: 'tooltip',
   title: Enrichment.model_name.human(count: 2),
   class: 'btn btn-link btn-xs') do
-  = render 'enrichments/enrichment_danger', enrichmentable: record
+  = render 'enrichments/enrichment_danger', enrichmentable: record.original_class

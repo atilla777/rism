@@ -41,8 +41,7 @@ class CreateIndicatorsService
       investigation_id: @investigation_id,
       current_user: @user_id,
       trust_level: :not_set,
-      purpose: :for_detect,
-      enrichment: {}
+      purpose: :for_detect
     )
     if @parent_indicator_id.present?
       indicator_params.merge!(parent_id: @parent_indicator_id)
@@ -52,7 +51,7 @@ class CreateIndicatorsService
     indicator.current_user = current_user
     indicator.skip_format_validation = true
     indicator.save
-    EnrichIndicatorService.call(indicator) if @enrich == '1'
+    EnrichService.call(indicator) if @enrich == '1'
     SetReadableLogService.call(indicator, current_user)
   end
 

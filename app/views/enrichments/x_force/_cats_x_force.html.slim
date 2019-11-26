@@ -1,0 +1,9 @@
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_cats'
+  h4
+    span.text-info
+      | URL categories:
+.collapse#toggle_cats
+  - (content.dig('url', 'result', 'cats') || {}).each do |k, v|
+    span.text-success
+      = k if v
+    br
