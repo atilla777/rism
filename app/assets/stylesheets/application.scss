@@ -149,3 +149,7 @@ li.intended {
  background-color: #FFFFFF;
  padding: 20px;
 }
+
+.clear > * {
+  background-color: unset;
+}

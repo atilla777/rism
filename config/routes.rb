@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
+
   root to: 'organizations#index'
 
   resources :user_sessions, only: [:create, :destroy]

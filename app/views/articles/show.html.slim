@@ -3,7 +3,8 @@
 = tabs_panes params[:active_tab], :content do |pane|
   - pane.add :content do
     .col-lg-offset-2.col-lg-8.bg-white.text-black
-      = @record.content.to_s.html_safe
+      .clear
+        = @record.content.to_s.html_safe
   - pane.add :main_info do
     = render 'record', record: @record
     = render 'show_buttons', record: @record
