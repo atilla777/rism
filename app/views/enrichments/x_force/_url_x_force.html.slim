@@ -1,1 +1,24 @@
-= render 'enrichments/x_force/cats_x_force', content: content
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_cats'
+  h4
+    span.text-info
+      | URL categories:
+.collapse#toggle_cats
+  ul.list-unbullet
+    - (content.dig('url', 'result', 'cats') || {}).each do |k, v|
+      li
+        span
+          = k if v
+
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_apps'
+  h4
+    span.text-info
+      | URL applications:
+.collapse#toggle_apps
+  span.text-success
+    | score:
+  span
+    =< content.dig('url', 'result', 'application', 'score') || 0
+  ul.list-unbullet
+    - (content.dig('url', 'result', 'application', 'urls') || []).each do |e|
+      li
+        = e

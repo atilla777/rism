@@ -1,3 +1,34 @@
 = render 'enrichments/x_force/head_x_force', enrichmentable: @enrichmentable
+
+h4
+  span.text-success
+    | IP score:
+  - score = @enrichment.content.dig('ipr', 'score') || ''
+  - if score < 1
+    span
+      =<> score
+  - else
+    span.text-warning
+      =<> score
+
 = render 'enrichments/x_force/whois_x_force', content: @enrichment.content
+= render 'enrichments/x_force/resolve_x_force', content: @enrichment.content
+
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_ipr'
+  h4
+    span.text-info
+      | IPR:
+.collapse#toggle_ipr
+  = render('enrichments/x_force/ipr_x_force',
+    ipr: (@enrichment.content.dig('ipr') || {}))
+a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_ipr_history'
+  h4
+    span.text-info
+      | IPR history:
+.collapse#toggle_ipr_history
+  ul.list-unbullet
+    - (@enrichment.content.dig('ipr', 'history') || []).each do |ipr|
+      li
+        = render('enrichments/x_force/ipr_x_force',
+        ipr: ipr)
 = render 'raw', content: @enrichment.content

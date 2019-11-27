@@ -593,7 +593,9 @@
           strong.text-info
             = @record.class.human_attribute_name(:cpe)
         .col-md-10
-          = simple_format(JSON.pretty_generate(decorated.show_cpe_array))
+          .raw-cpe
+          javascript:
+            $('.raw-cpe').jsonView('#{raw escape_javascript(decorated.show_cpe_array.to_json)}');
           = render('previous_version',
             field: :cpe,
             direction: 'bottom',
@@ -611,6 +613,8 @@
     .list-group-item
       .row
         .col-md-12
-          = simple_format(JSON.pretty_generate(@record.raw_data))
+          .raw-data
+          javascript:
+            $('.raw-data').jsonView('#{raw escape_javascript(@record.raw_data.to_json)}');
 
 = render 'application/record_versions'

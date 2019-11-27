@@ -1,7 +1,6 @@
 = render 'enrichments/x_force/head_x_force', enrichmentable: @enrichmentable
-= render 'enrichments/x_force/url_head_x_force', content: @enrichment.content
-= render 'enrichments/x_force/whois_x_force', content: @enrichment.content
-= render 'enrichments/x_force/url_x_force', content: @enrichment.content
+= render 'enrichments/x_force/url_head_x_force',content: @enrichment.content
 = render 'enrichments/x_force/resolve_x_force', content: @enrichment.content
+= render 'enrichments/x_force/url_x_force', content: @enrichment.content
 = render 'enrichments/x_force/url_malware_x_force', content: @enrichment.content
 = render 'raw', content: @enrichment.content

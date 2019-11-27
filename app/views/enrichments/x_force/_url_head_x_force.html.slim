@@ -1,0 +1,22 @@
+h4
+  span.text-success
+    | URL score:
+  - score = content.dig('url', 'result', 'score') || 0
+  - if score < 3
+    span
+      =<> score
+  - elsif score < 5
+    span.text-warning
+      =<> score
+  - else
+    span.text-danger
+      =<> score
+  span.text-success
+    | URL malware count:
+  span
+    - count = content.dig('url/malware', 'count') || 0
+    - if count > 0
+      span.text-danger
+        =< count
+    - else
+      =< count

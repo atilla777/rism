@@ -23,7 +23,7 @@ class BaseBroker
     # Redefine if you need custom queue
     # (for example, for limeted free service)
     subclass.define_singleton_method(:queue) do
-      QUEUE
+      subclass::QUEUE
     end
   end
 

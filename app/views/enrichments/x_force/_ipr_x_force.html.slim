@@ -1,0 +1,23 @@
+span.text-success
+  | country:
+span
+  =<> ipr.dig('geo', 'country')
+span.text-success
+  | countrycode:
+span
+  =<> ipr.dig('geo', 'countrycode')
+span.text-success
+  | score:
+span
+  =<> ipr.dig('score')
+- if ipr.dig('created')
+  span.text-success
+    | created:
+  span
+    =<> ipr.dig('created')
+- if ipr.dig('reasonDescription')
+  span.text-success
+    | Reason description:
+  span
+    =< ipr.dig('reasonDescription')
+

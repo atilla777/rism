@@ -23,23 +23,23 @@ class EnrichService
 
   def one_broker
     broker = BaseBroker.broker_by_name(@broker_name).constantize
-    EnrichmentJob.set(queue: broker.queue)
-                          .perform_later(
-                            broker.broker_name,
-                            @enrichmentable.class.name,
-                            @enrichmentable.id
-                          )
+    EnrichmentJob.perform_later(
+      broker.queue,
+      broker.broker_name,
+      @enrichmentable.class.name,
+      @enrichmentable.id
+    )
   end
 
   def several_brokers
     useable_brokers = BaseBroker.useable_brokers(@enrichmentable.content_format)
     useable_brokers.each do |broker|
-      EnrichmentJob.set(queue: broker.queue)
-                            .perform_later(
-                              broker.broker_name,
-                              @enrichmentable.class.name,
-                              @enrichmentable.id
-                            )
+      EnrichmentJob.perform_later(
+        broker.queue,
+        broker.broker_name,
+        @enrichmentable.class.name,
+        @enrichmentable.id
+      )
     end
   end
 end

@@ -1,7 +1,12 @@
-- if enrichment.broker == 'virus_total'
-  - if VirusTotalParser.danger?(enrichment.content)
-    span.text-danger
-      = fa_icon 'database'
-      - kasperky_malware = VirusTotalParser.kaspesky_danger_verdict(enrichment.content)
-      - if kasperky_malware
-        =< "(#{kasperky_malware})"
+- if enrichment.danger?
+  span.text-danger
+    = fa_icon 'database'
+  - if enrichment.broker == 'virus_total'
+    - if VirusTotalParser.danger?(enrichment.content)
+      span.text-danger
+        - kasperky_malware = VirusTotalParser.kaspesky_danger_verdict(enrichment.content)
+        - if kasperky_malware
+          =< "(#{kasperky_malware})"
+- else
+  span.text-success
+    = fa_icon 'database'

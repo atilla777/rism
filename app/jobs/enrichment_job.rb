@@ -1,7 +1,11 @@
 # frozen_string_literai: true
 
 class EnrichmentJob < ApplicationJob
-  def perform(broker, enrichmentable_type, enrichmentable_id)
+  queue_as do
+    self.arguments.first.to_sym
+  end
+
+  def perform(_queue, broker, enrichmentable_type, enrichmentable_id)
    model = enrichmentable_type.constantize
    @enrichmentable = model.find(enrichmentable_id)
    @broker = BaseBroker.broker_by_name(

@@ -24,4 +24,8 @@ class Enrichment < ApplicationRecord
   def parser
     "#{broker}_parser".camelcase.constantize
   end
+
+  def danger?
+    parser.danger?(content)
+  end
 end

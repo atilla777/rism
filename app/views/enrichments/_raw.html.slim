@@ -3,4 +3,7 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
     span.text-info
       | RAW data:
 .collapse#toggle_raw_data
-  = simple_format(JSON.pretty_generate(@enrichment.content))
+  .raw
+  javascript:
+    $('.raw').jsonView('#{raw escape_javascript(@enrichment.content.to_json)}');
+

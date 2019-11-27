@@ -1,0 +1,33 @@
+= render 'enrichments/x_force/head_x_force', enrichmentable: @enrichmentable
+h4
+  span.text-success
+    | Risk:
+  - if @enrichment.content.dig('malware', 'malware', 'risk') == 'high'
+    span.text-danger
+      =< @enrichment.content.dig('malware', 'malware', 'risk')
+  - else
+    span
+      =< @enrichment.content.dig('malware', 'malware', 'risk') || ''
+a.link data-toggle='collapse' data-turbolinks='false' href='#malware'
+  h4
+    span.text-info
+      | Malware:
+.collapse#malware
+  ul.list-unbullet
+    - malware = (@enrichment.content.dig('malware', 'malware', 'origins', 'external') || {})
+    - malware.each do |k, v|
+      - if k == 'family'
+        li
+          span.text-success
+            =< "#{k}:"
+          span
+            =<> v.join(', ')
+      - else
+        li
+          span.text-success
+            =< "#{k}:"
+          span
+            =<> v
+
+= render 'raw', content: @enrichment.content
+

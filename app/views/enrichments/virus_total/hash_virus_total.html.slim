@@ -38,9 +38,4 @@ a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_scans'
       span.label.label-info
         =< value.fetch('result', '') || 'clear'
     br
-a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
-  h4
-    span.text-info
-      | RAW data:
-.collapse#toggle_raw_data
-  = simple_format(JSON.pretty_generate(@enrichment.content))
+= render 'raw', content: @enrichment.content

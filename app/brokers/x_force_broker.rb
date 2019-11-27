@@ -13,7 +13,7 @@ class XForceBroker < BaseBroker
     sha256: ['malware'],
     uri: ['resolve', 'url', 'url/malware'],
     domain: ['resolve', 'whois', 'url', 'url/malware'],
-    network: ['resolve', 'whois', 'ipr', 'ipr/history', 'ipr/malware']
+    network: ['resolve', 'whois', 'ipr', 'ipr/malware']
   }.freeze
 
   def set_custom_options(indicator_content, indicator_kind)
