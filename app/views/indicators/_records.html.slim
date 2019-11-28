@@ -30,6 +30,6 @@ br
     = render 'appearance', record: record
     =< link_to truncate(record.content, length: 50), record
   - t.field do |record|
-    = render 'enrichment_link', record: record
+    = render 'enrichments/enrichments_link', record: record
   - t.field do |record|
     = render 'helpers/index_actions', record: record

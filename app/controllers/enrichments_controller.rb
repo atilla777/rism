@@ -47,12 +47,20 @@ class EnrichmentsController < ApplicationController
     @enrichment = Enrichment.find(params[:id])
     @enrichmentable = @enrichment.enrichmentable
     authorize @enrichmentable
-    @enrichment.destroy
     @enrichments = EnrichmentDecorator.wrap(
       @enrichmentable.enrichments.order(created_at: :desc)
     )
     set_useable_btokers
-    render 'index'
+    message = if @enrichment.destroy
+                { success: t('flashes.destroy', model: Enrichment.model_name.human) }
+              # TODO: show translated (human) record name in error
+              else
+                { danger: @enrichment.errors.full_messages.join(', ') }
+              end
+
+    redirect_back(
+      { fallback_location: enrichments_path}.merge message
+    )
   end
 
   def set_useable_btokers

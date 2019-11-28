@@ -26,6 +26,10 @@ class Enrichment < ApplicationRecord
   end
 
   def danger?
-    parser.danger?(content)
+    parser.call(:danger?, content)
+  end
+
+  def danger_verdict
+    parser.call(:danger_verdict, content)
   end
 end

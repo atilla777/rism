@@ -3,6 +3,7 @@
 */
 // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "jquery.json-view";
+@import "railscasts";
 @import "font-awesome";
 @import "bootstrap-sprockets";
 @import "bootswatch/slate/variables";
@@ -151,5 +152,5 @@ li.intended {
 }
 
 .clear > * {
-  background-color: unset;
+  all: unset;
 }

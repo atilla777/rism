@@ -11,16 +11,18 @@ module Enrichmentable
   # content_format
   # Also should be peresent method #original_class in model or model decorator
 
-  def enrichment_danger_detect?
-    enrichments.detect do |enrichment|
-      enrichment.parser.danger?(enrichment.content)
+  def danger_in_enrichments?
+    return :none if enrichments.blank?
+    result = enrichments.detect do |enrichment|
+      enrichment.parser.call(:danger?, enrichment.content)
     end
+    result ? :yes : :no
   end
 
-  def show_kaspesky_hash_enrichment
+  def danger_verdict
     enrichments.each do |enrichment|
       parser = enrichment.parser
-      verdict = parser.kaspesky_danger_verdict(enrichment.content)
+      verdict = parser.call(:danger_verdict, enrichment.content)
       return verdict if verdict.present?
     end
     nil

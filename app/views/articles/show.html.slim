@@ -2,7 +2,7 @@
 = render 'show_tabs', record: @record, active_tab: params[:active_tab], from_external_link: false
 = tabs_panes params[:active_tab], :content do |pane|
   - pane.add :content do
-    .col-lg-offset-2.col-lg-8.bg-white.text-black
+    .col-lg-offset-2.col-lg-8
       .clear
         = @record.content.to_s.html_safe
   - pane.add :main_info do
@@ -16,3 +16,7 @@
       = render 'links/links', record: @record
   - pane.add :files do
     = render 'application/record_attachments', record: @record
+javascript:
+  document.querySelectorAll('pre code').forEach((block) => {
+    hljs.highlightBlock(block);
+  });

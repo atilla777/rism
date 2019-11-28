@@ -10,6 +10,9 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require ckeditor/init
+//= require ckeditor/config
+//= require ckeditor/plugins/codesnippet/plugin
 //= require jquery
 //= require rails-ujs
 //= require turbolinks
@@ -20,6 +23,5 @@
 //= require data-confirm-modal
 //= require Chart.bundle
 //= require chartkick
-//= require ckeditor/init
 //= require search
 //= require_tree .
