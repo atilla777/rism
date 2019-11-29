@@ -29,7 +29,7 @@ set :pty,  false
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 set(
   :linked_dirs,
-  fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/nmap', 'tmp/vulners', 'vendor/bundle', 'public/system', 'public/uploads' 'uploads')
+  fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/nmap', 'tmp/vulners', 'vendor/bundle', 'public/system', 'public/uploads', 'uploads')
 )
 set(
   :linked_files,
@@ -44,7 +44,6 @@ set(
 
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
-
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
