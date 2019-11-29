@@ -3,7 +3,7 @@
 h4
   span.text-success
     | IP score:
-  - score = @enrichment.content.dig('ipr', 'score') || ''
+  - score = @enrichment.content.dig('ipr', 'score') || 0
   - if score < 1
     span
       =<> score

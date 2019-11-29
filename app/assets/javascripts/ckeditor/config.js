@@ -52,6 +52,7 @@ CKEDITOR.editorConfig = function( config )
   // Toolbar groups configuration.
   config.toolbarGroups = [
     { name: 'styles' },
+    { name: 'colors' },
     { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
     { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
     { name: 'links' },
@@ -60,8 +61,7 @@ CKEDITOR.editorConfig = function( config )
     { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
     { name: 'others' },
     { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
-    { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-    { name: 'colors' },
+    { name: 'clipboard',   groups: [ 'undo' ] },
 ];
   config.extraPlugins = 'codesnippet';
   config.codeSnippet_theme = 'railscasts';
