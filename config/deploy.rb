@@ -29,7 +29,7 @@ set :pty,  false
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 set(
   :linked_dirs,
-  fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/nmap', 'tmp/vulners', 'vendor/bundle', 'public/system', 'uploads')
+  fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/nmap', 'tmp/vulners', 'vendor/bundle', 'public/system', 'public/uploads' 'uploads')
 )
 set(
   :linked_files,
