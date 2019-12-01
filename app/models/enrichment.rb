@@ -14,6 +14,7 @@ class Enrichment < ApplicationRecord
   enum broker: %i[
     virus_total
     x_force
+    shodan
   ]
 
   validates :content, presence: true

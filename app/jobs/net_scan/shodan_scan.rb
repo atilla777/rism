@@ -4,15 +4,11 @@ class NetScan::ShodanScan
   require 'httparty'
   require 'ipaddr'
 
-  URL = 'https://api.shodan.io/'
-  HOST_NOT_FOUND_ERROR='No information available for that IP.'
-
   def initialize(job, jid)
     @job = job
     @jid = jid
     @job_start = DateTime.now
     @hosts = hosts_to_array(@job.targets)
-    @key = ENV['SHODAN_KEY']
   end
 
   def run
@@ -37,8 +33,7 @@ class NetScan::ShodanScan
 
   def fetch_result_from_shodan
     @hosts.each_with_object([]) do |host, memo|
-      result = get(host)
-      sleep(2) if ENV['FREE_SHODAN'] == 'true'
+      result = ShodanBroker.call(host, :network)
       if host_info_not_found?(result)
         memo << {no_host_info: host}
       elsif result['error'].blank?
@@ -48,40 +43,8 @@ class NetScan::ShodanScan
   end
 
   def host_info_not_found?(response)
-    return true if response.fetch('error', '') == HOST_NOT_FOUND_ERROR
+    return true if response.fetch('error', '') == ShodanBroker::HOST_NOT_FOUND_ERROR
     false
-  end
-
-  def shodan_unexpected_error?(response)
-    parsed_response = response.parsed_response
-    return false if response.code == 200
-    if parsed_response.is_a?(Hash)
-      return false if parsed_response['error'] == HOST_NOT_FOUND_ERROR
-    end
-    true
-  end
-
-  def get(ip)
-    response = HTTParty.get(
-      "#{URL}shodan/host/#{ip}?key=#{@key}",
-      options
-    )
-    raise 'Shodan response error' if shodan_unexpected_error?(response)
-    response.parsed_response
-  rescue StandardError => error
-    log_error("scan result can`t be fetched - #{error}", 'shodan scan')
-    {'error' => error}
-  end
-
-  def options
-    return {} if ENV['PROXY_SERVER'].blank?
-    {
-      verify: false,
-      http_proxyaddr: ENV['PROXY_SERVER'],
-      http_proxyport: ENV['PROXY_PORT'],
-      http_proxyuser: ENV['PROXY_USER'],
-      http_proxypass: ENV['PROXY_PASSWORD']
-    }
   end
 
   def log_error(error, tag)
