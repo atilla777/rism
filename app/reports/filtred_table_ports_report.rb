@@ -217,8 +217,15 @@ class FiltredTablePortsReport < BaseReport
 
   def ransack_filter_and_sort(scope, options)
     q = scope.ransack(options[:q])
+    q.sorts = options[:q].fetch('s', default_sort)
     q.result
       .includes(:organization)
-      .limit(500)
+      .limit(2000)
+    else
+      scope.all.limit(2000).sort(default_sort)
+  end
+
+  def default_sort
+    'created_at desc'
   end
 end
