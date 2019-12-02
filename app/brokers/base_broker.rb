@@ -4,7 +4,8 @@
 class BaseBroker
   BROCKERS = {
     virus_total: 'VirusTotalBroker',
-    x_force: 'XForceBroker'
+    x_force: 'XForceBroker',
+    shodan: 'ShodanBroker'
   }.freeze
 
   QUEUE = 'brokers'.freeze

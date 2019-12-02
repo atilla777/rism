@@ -14,4 +14,5 @@ ru:
         brokers:
           virus_total: 'VirusTotal'
           x_force: 'IBM X-Force Exchange'
+          shodan: 'Shodan'
         v_danger: 'Угрозы'
