@@ -221,8 +221,6 @@ class FiltredTablePortsReport < BaseReport
     q.result
       .includes(:organization)
       .limit(2000)
-    else
-      scope.all.limit(2000).sort(default_sort)
   end
 
   def default_sort

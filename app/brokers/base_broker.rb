@@ -71,7 +71,7 @@ class BaseBroker
   # through #http_request and #check_and_return_http_response
   # Redefine this if you need
   def execute
-    response = http_request(uri(service))
+    response = http_request(uri)
     check_and_return_http_response(response)
   end
 
