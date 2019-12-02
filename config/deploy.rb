@@ -33,7 +33,7 @@ set(
 )
 set(
   :linked_files,
-  fetch(:linked_files, []).push('.env.production', 'puma.service', 'sidekiq.service')
+  fetch(:linked_files, []).push('.env.production', 'puma.service', 'sidekiq.service', 'config/sidekiq.yml')
 )
 
 # to use with proxy with spoofed certificate
