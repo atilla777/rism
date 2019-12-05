@@ -450,10 +450,11 @@ ALTER SEQUENCE public.delivery_lists_id_seq OWNED BY public.delivery_lists.id;
 
 CREATE TABLE public.delivery_recipients (
     id bigint NOT NULL,
-    organization_id bigint,
     delivery_list_id bigint,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    recipientable_type character varying,
+    recipientable_id bigint
 );
 
 
@@ -2936,13 +2937,6 @@ CREATE INDEX index_delivery_recipients_on_delivery_list_id ON public.delivery_re
 
 
 --
--- Name: index_delivery_recipients_on_organization_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_delivery_recipients_on_organization_id ON public.delivery_recipients USING btree (organization_id);
-
-
---
 -- Name: index_delivery_subjects_on_created_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2975,6 +2969,13 @@ CREATE INDEX index_delivery_subjects_on_processed_by_id ON public.delivery_subje
 --
 
 CREATE INDEX index_delivery_subjects_on_updated_by_id ON public.delivery_subjects USING btree (updated_by_id);
+
+
+--
+-- Name: index_delvery_recipients_on_r_type_and_r_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_delvery_recipients_on_r_type_and_r_id ON public.delivery_recipients USING btree (recipientable_type, recipientable_id);
 
 
 --
@@ -4088,14 +4089,6 @@ ALTER TABLE ONLY public.links
 
 
 --
--- Name: delivery_recipients fk_rails_c476e23626; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.delivery_recipients
-    ADD CONSTRAINT fk_rails_c476e23626 FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
-
-
---
 -- Name: vulnerability_bulletin_statuses fk_rails_c6ede578f1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4274,6 +4267,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191106112505'),
 ('20191118062554'),
 ('20191125065845'),
-('20191126092016');
+('20191126092016'),
+('20191205081705');
 
 

@@ -6,6 +6,7 @@ class Organization < ApplicationRecord
   include Tagable
   include Attachable
   include Rightable
+  include Recipientable
 
   attr_accessor :current_user
 

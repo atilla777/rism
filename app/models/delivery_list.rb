@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeliveryList < ApplicationRecord
   include OrganizationMember
   include Linkable
@@ -15,5 +17,16 @@ class DeliveryList < ApplicationRecord
   has_many :delivery_lists, through: :delivery_subjects
 
   has_many :delivery_recipients, dependent: :delete_all
-  has_many :organizations, through: :delivery_recipients
+  has_many(
+    :users,
+    through: :delivery_recipients,
+    source: :recipientable,
+    source_type: 'User'
+  )
+  has_many(
+    :organizations,
+    through: :delivery_recipients,
+    source: :recipientable,
+    source_type: 'Organization'
+  )
 end

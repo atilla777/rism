@@ -8,23 +8,33 @@ class DeliveryRecipientsController < ApplicationController
 
   def index
     if active_tab_allowed_organizations?
-      @records = organizations
+      @records = recipientables('Organization')
       render 'organizations_index'
+    elsif active_tab_allowed_users?
+      @records = recipientables('User')
+      render 'users_index'
     else
-      @records = delivery_recipients
+      @records = delivery_recipients.includes(:recipientable)
     end
   end
 
   def create
     authorize DeliveryRecipient
-    organization = Organization.find(params[:organization_id])
-    authorize organization
+    recipientable = params[:recipientable_type].constantize
+      .find(params[:recipientable_id])
+    authorize recipientable
     authorize @delivery_list
     DeliveryRecipient.create(
       delivery_list_id: @delivery_list.id,
-      organization_id: organization.id,
+      recipientable: recipientable,
     )
-    @records = organizations
+    @records = recipientables(params[:recipientable_type])
+    @partial = case params[:recipientable_type]
+               when 'Organization'
+                 'allowed_organizations'
+               when 'User'
+                 'allowed_users'
+               end
   end
 
   def destroy
@@ -55,11 +65,23 @@ class DeliveryRecipientsController < ApplicationController
     return true if params.dig(:q, :active_tab_eq) == 'allowed_organizations'
   end
 
-  def organizations
-    assigned_organizations_ids = @delivery_list.organizations
-      .pluck(:organization_id)
-    scope = policy_scope(Organization)
-    scope = scope.where.not(id: assigned_organizations_ids)
+  def active_tab_allowed_users?
+    return true if params[:active_tab] == 'allowed_users'
+    return true if params.dig(:q, :active_tab_eq) == 'allowed_users'
+  end
+
+  def recipientables(model)
+    case model
+    when 'Organization'
+      assigned_ids = @delivery_list.organizations.pluck(:id)
+      puts 1111
+      puts @delivery_list.organizations
+    when 'User'
+      assigned_ids = @delivery_list.users.pluck(:id)
+    end
+    scope = policy_scope(model.constantize)
+    puts assigned_ids
+    scope = scope.where.not(id: assigned_ids)
     @q = scope.ransack(params[:q])
     @q.sorts = default_sort if @q.sorts.empty?
     @q.result
@@ -78,9 +100,5 @@ class DeliveryRecipientsController < ApplicationController
 
   def set_name_cont
     @name = params.dig('q', 'name_cont')
-  end
-
-  def records_includes
-    [:organization]
   end
 end

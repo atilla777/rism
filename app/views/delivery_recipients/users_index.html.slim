@@ -1,0 +1,11 @@
+= caption @delivery_list
+= render('delivery_lists/show_tabs',
+  record: @delivery_list,
+  active_tab: :allowed_users,
+  from_external_link: true)
+= index_search(:name_cont,
+  url: delivery_recipients_path,
+  active_tab_eq: :allowed_users,
+  delivery_list_id_eq: @delivery_list.id)
+= render 'allowed_users', records: @records
+= render 'index_paginate', records: @records

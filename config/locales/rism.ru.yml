@@ -155,7 +155,8 @@ ru:
       assigned_delivery_lists: 'Назначенные списки доставки'
     delivery_recipients:
       allowed_organizations: 'Доступные для назначения организации'
-      assigned_organizations: 'Назначенные организации'
+      allowed_users: 'Доступные для назначения пользователи'
+      assigned: 'Назначенные получатели'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'

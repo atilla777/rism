@@ -6,6 +6,8 @@ ru:
         other: 'Члены списка доставки'
     attributes:
       delivery_recipient:
-        organization_id: 'Организация'
+        recipientable: 'Получатель'
+        recipientable_id: 'ID получателя'
+        recipientable_type: 'Модель получателя'
         processed: 'Обработано'
         processed_by_id: 'Обработал'

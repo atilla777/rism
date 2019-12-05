@@ -86,7 +86,8 @@ class DeliverySubjectsController < ApplicationController
     model.joins(:delivery_list)
          .merge(
            DeliveryList.joins(:organizations)
-                       .where('delivery_recipients.organization_id =?', organization.id)
+             .where('delivery_recipients.recipientable_type = ?', 'Organization')
+             .where('delivery_recipients.recipientable_id = ?', organization.id)
          )
   end
 

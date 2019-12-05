@@ -8,6 +8,7 @@ class User < ApplicationRecord
   include Tagable
   include Attachable
   include Rightable
+  include Recipientable
 
   has_paper_trail(
     ignore: %i[password

@@ -52,7 +52,7 @@ class ScanJob < ApplicationRecord
   private
 
   def link_organization_hosts
-    return unless add_organization_hosts
+    return if add_organization_hosts != '1'
     organization.hosts.each do |host|
       scan_jobs_host = ScanJobsHost.new(
         host_id: host.id,
