@@ -83,12 +83,12 @@ class DeliverySubjectsController < ApplicationController
   end
 
   def filter_for_organization
-    model.joins(:delivery_list)
-         .merge(
-           DeliveryList.joins(:organizations)
+    model
+           .joins(:delivery_recipients)
              .where('delivery_recipients.recipientable_type = ?', 'Organization')
              .where('delivery_recipients.recipientable_id = ?', organization.id)
-         )
+
+
   end
 
   def records_includes

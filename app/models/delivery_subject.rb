@@ -24,6 +24,7 @@ class DeliverySubject < ApplicationRecord
 
   belongs_to :deliverable, polymorphic: true
   belongs_to :delivery_list
+  has_many :delivery_recipients, through: :delivery_list
 
   belongs_to :processor, foreign_key: :processed_by_id, class_name: 'User', optional: true
 end
