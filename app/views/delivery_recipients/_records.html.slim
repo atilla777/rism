@@ -12,6 +12,6 @@
         'data-placement' => 'top',
         title: t('views.action.delete'),
         data: {confirm: t('views.action.confirm')}) do
-        =< record.recipientable.name
+        =< record.recipientable&.name
         span.text-danger
           =< fa_icon 'arrow-right'
