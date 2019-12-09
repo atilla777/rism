@@ -12,7 +12,7 @@ class YandexTranslateBroker < BaseBroker
     text_to_translate: :_text
   }.freeze
 
-  def set_custom_options(text, content_kind)
+  def set_custom_options(text, content_kind='')
      @api_key = ENV['YANDEX_TRANSLATE_KEY']
      @text = text
   end

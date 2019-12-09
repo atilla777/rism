@@ -150,6 +150,8 @@ Rails.application.routes.draw do
 
   resources :user_actions, only: [:index, :show]
 
+  post '/translatet', to: 'translate#show', as: :translate
+
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

@@ -221,7 +221,15 @@
           .col-lg-2.text-right
             = f.label :custom_description, class: 'control-label'
           .col-lg-8
-            = f.text_area :custom_description, rows: 6, class: 'form-control'
+            = f.text_area(:custom_description,
+              rows: 6,
+              class: 'form-control',
+              id: 'translated')
+            = link_to(t('labels.translate'),
+              translate_path(text: @record.description&.first),
+              method: :post,
+              remote: true,
+              class: 'btn btn-link')
 
       .form-group
         .field
