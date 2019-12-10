@@ -1,3 +1,11 @@
 = caption @record
 = render "#{@record.class.to_s.underscore.pluralize}/show_tabs", record: @record, active_tab: :delivery_subjects, from_external_link: true
 = render 'list_subjects_records', records: @records, record: @record
+= link_to(notify_delivery_subjects_path(delivery_subject_type: @record.model_name,
+  delivery_subject_id: @record.id),
+  data: {confirm: t('views.action.confirm')},
+  method: :get,
+  remote: true,
+  class: 'btn btn-link') do
+    span.btn.btn-success
+      = t('views.action.notify')

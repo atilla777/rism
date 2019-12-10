@@ -1,11 +1,11 @@
 ---
-:concurrency: 27
+:concurrency: 29
 staging:
-  :concurrency: 27
+  :concurrency: 29
 production:
-  :concurrency: 27
+  :concurrency: 29
 :queues:
-  - default
+  - mailers
   - now_scan_1
   - now_scan_2
   - scheduled_scan_1
@@ -15,12 +15,12 @@ production:
   - brokers
   - sync_nvd_base
 :limits:
-  default: 1
+  mailers: 2
   now_scan_1: 2
   now_scan_2: 2
   scheduled_scan_1: 4
   scheduled_scan_2: 14
   free_shodan_scan: 1
   free_virus_total_broker: 1
-  brokers: 1
+  brokers: 2
   sync_nvd_base: 1

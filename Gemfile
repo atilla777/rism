@@ -111,6 +111,7 @@ group :development do
   #gem 'capistrano-nginx', require: false
   gem 'capistrano-rails-collection', "~> 0.1", require: false
   gem 'capistrano-sidekiq', require: false
+  gem "letter_opener", "~> 1.7", require: false
 end
 
 group :test do

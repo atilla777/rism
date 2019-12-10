@@ -45,6 +45,13 @@ class Investigation < ApplicationRecord
     custom_codename
   end
 
+  def report
+    report = Reports.report_by_name(:investigation_report)
+    file = report.new(User.find(1), :docx, {investigation_id: id})
+      .rendered_file
+    {file: file, name: "#{report.human_name}.docx"}
+  end
+
   private
 
   def set_name

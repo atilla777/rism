@@ -43,6 +43,7 @@ ru:
     description_info: 'Описания и ссылки'
     custom_fields_info: 'Пользовательские поля'
     translate: 'Перевести'
+    notify_subject: 'Уведомление от RISM'
     advance_search: 'Продвинутый поиск'
     yes_label: 'Да'
     no_label: 'Нет'
@@ -244,6 +245,7 @@ ru:
       legalize: 'Легализовать'
       delegalize: 'Делегализовать'
       change_password: 'Сменить пароль'
+      notify: 'Уведомить'
   messages:
     yes: 'да'
     no: 'нет'

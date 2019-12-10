@@ -6,7 +6,13 @@ class DeliverySubjectsController < ApplicationController
 
   before_action :set_deliverable_subject, only: [:list_subjects, :create]
 
-  def list_subjects
+  def list_subjects; end
+
+  def notify
+    DeliverySubjectMailer.with(
+      delivery_subject_type: params[:delivery_subject_type],
+      delivery_subject_id: params[:delivery_subject_id],
+    ).notify.deliver_later
   end
 
   def show
