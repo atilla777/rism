@@ -520,11 +520,17 @@
             = @record.class.human_attribute_name(:description)
         .col-md-10
           = decorated.show_description_string
+          = link_to(t('labels.translate'),
+            translate_path(text: @record.description&.first),
+            method: :post,
+            remote: true,
+            class: 'btn btn-link')
           = render('previous_version',
             field: :description,
             direction: 'bottom',
             record: @record,
             content: (previous_decorated.show_description_string if previous_decorated.present?))
+          #translated
     .list-group-item
       .row
         .col-md-2.text-right
