@@ -1,0 +1,11 @@
+
+table.table.table-hover.table-bordered.table-striped
+  tbody
+    - @notifications.each do |notification|
+      tr
+        td.fit
+          = link_to notification.recipient.name, notification.recipient
+        td.fit
+          = link_to notification.recipient.organization.name
+        td.fit
+          = show_date_time(notification.created_at)

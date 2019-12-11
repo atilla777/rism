@@ -7,6 +7,14 @@ module Deliverable
     has_many :delivery_subjects, as: :deliverable, dependent: :delete_all
     has_many :delivery_lists, through: :delivery_subjects
     has_many :delivery_recipients, through: :delivery_lists
+    has_many :notifications_logs, as: :deliverable, dependent: :delete_all
+
+  has_many(
+    :recipients,
+    through: :delivery_recipients,
+    source: :recipientable,
+    source_type: 'User'
+  )
   end
 
   def report

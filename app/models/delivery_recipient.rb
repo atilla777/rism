@@ -26,4 +26,5 @@ class DeliveryRecipient < ApplicationRecord
   belongs_to :recipientable, polymorphic: true
   #belongs_to :organization, source_type: 'Organization'
   belongs_to :delivery_list
+  belongs_to :user, foreign_key: :created_by_id, class_name: 'User', optional: true
 end

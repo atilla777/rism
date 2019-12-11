@@ -13,7 +13,9 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(user_session_params)
     if @user_session.save
       flash[:success] = t('user_sessions.welcome')
-      redirect_to root_path
+      redirect_to(
+        session.delete(:go_to) || root_path
+      )
     else
       flash[:danger] = t('user_sessions.sign_in_error')
       render :new, layout: false

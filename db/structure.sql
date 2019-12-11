@@ -990,6 +990,39 @@ ALTER SEQUENCE public.links_id_seq OWNED BY public.links.id;
 
 
 --
+-- Name: notifications_logs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.notifications_logs (
+    id bigint NOT NULL,
+    user_id bigint,
+    deliverable_type character varying,
+    deliverable_id bigint,
+    recipient_id bigint,
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: notifications_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.notifications_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notifications_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.notifications_logs_id_seq OWNED BY public.notifications_logs.id;
+
+
+--
 -- Name: organization_kinds; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2205,6 +2238,13 @@ ALTER TABLE ONLY public.links ALTER COLUMN id SET DEFAULT nextval('public.links_
 
 
 --
+-- Name: notifications_logs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notifications_logs ALTER COLUMN id SET DEFAULT nextval('public.notifications_logs_id_seq'::regclass);
+
+
+--
 -- Name: organization_kinds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2590,6 +2630,14 @@ ALTER TABLE ONLY public.link_kinds
 
 ALTER TABLE ONLY public.links
     ADD CONSTRAINT links_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notifications_logs notifications_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notifications_logs
+    ADD CONSTRAINT notifications_logs_pkey PRIMARY KEY (id);
 
 
 --
@@ -3172,6 +3220,27 @@ CREATE INDEX index_links_on_link_kind_id ON public.links USING btree (link_kind_
 --
 
 CREATE INDEX index_links_on_second_record_type_and_second_record_id ON public.links USING btree (second_record_type, second_record_id);
+
+
+--
+-- Name: index_notifications_logs_on_deliverable_type_and_deliverable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notifications_logs_on_deliverable_type_and_deliverable_id ON public.notifications_logs USING btree (deliverable_type, deliverable_id);
+
+
+--
+-- Name: index_notifications_logs_on_recipient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notifications_logs_on_recipient_id ON public.notifications_logs USING btree (recipient_id);
+
+
+--
+-- Name: index_notifications_logs_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notifications_logs_on_user_id ON public.notifications_logs USING btree (user_id);
 
 
 --
@@ -3993,6 +4062,14 @@ ALTER TABLE ONLY public.delivery_recipients
 
 
 --
+-- Name: notifications_logs fk_rails_86ff37d580; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notifications_logs
+    ADD CONSTRAINT fk_rails_86ff37d580 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: search_filters fk_rails_8b18112236; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4268,6 +4345,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191118062554'),
 ('20191125065845'),
 ('20191126092016'),
-('20191205081705');
+('20191205081705'),
+('20191211090648');
 
 

@@ -20,6 +20,10 @@ class DeliverySubjectPolicy < ApplicationPolicy
     index?
   end
 
+  def notify?
+    create?
+  end
+
   class Scope
     attr_reader :user, :scope
 

@@ -81,6 +81,12 @@ class User < ApplicationRecord
 
   has_many :record_templates
 
+  has_many :notifications_logs, dependent: :delete_all
+  has_many :notifications,
+           class_name: 'NotificationsLog',
+           foreign_key: :recipient_id,
+           dependent: :delete_all
+
   def search_filters_for(model)
     SearchFilter.where(
       user_id: self.id,

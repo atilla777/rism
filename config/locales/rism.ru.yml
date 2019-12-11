@@ -246,6 +246,7 @@ ru:
       delegalize: 'Делегализовать'
       change_password: 'Сменить пароль'
       notify: 'Уведомить'
+      notifications_logs: 'Список отправленных уведомлений'
   messages:
     yes: 'да'
     no: 'нет'

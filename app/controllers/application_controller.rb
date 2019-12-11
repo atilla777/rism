@@ -32,6 +32,7 @@ class ApplicationController < ActionController::Base
     if request.xhr?
       return render json: {success: false, errors: ['Sign in is required.']}
     else
+      session[:go_to] = request.original_url
       redirect_to :sign_in unless current_user
     end
   end

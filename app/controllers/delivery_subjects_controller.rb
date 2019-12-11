@@ -9,9 +9,11 @@ class DeliverySubjectsController < ApplicationController
   def list_subjects; end
 
   def notify
+    authorize DeliverySubject
     DeliverySubjectMailer.with(
       delivery_subject_type: params[:delivery_subject_type],
       delivery_subject_id: params[:delivery_subject_id],
+      current_user: current_user
     ).notify.deliver_later
   end
 

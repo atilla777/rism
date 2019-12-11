@@ -153,6 +153,8 @@ Rails.application.routes.draw do
 
   post '/translatet', to: 'translate#show', as: :translate
 
+  resources :notifications_logs, only: [:index]
+
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
 

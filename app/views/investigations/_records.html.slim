@@ -19,9 +19,16 @@ br
   - t.header attribute: :investigation_kind_id, sort_by: :investigation_kind_id, sort: :desc
   - t.header fit: true
   - t.field { |record| render 'readable', record: record }
-  - t.field { |record| link_to(show_date_time(record.created_at), record) }
+  - t.field do |record|
+    = link_to( show_date_time(record.created_at), record)
   - t.field { |record| link_to truncate(record.name, length: 25), record }
-  - t.field { |record| link_to record.custom_codename, record }
+  - t.field do |record|
+    = link_to record do
+      - if record.notifications_logs.present?
+        span.text-info
+          = record.custom_codename
+      - else
+        = record.custom_codename
   - t.field { |record| link_to truncate(record.show_feed_codename, length: 25), record }
   - t.field { |record| link_to truncate(record.organization.name, length: 20), record.organization }
   - t.field { |record| link_to truncate(record.show_creator, length: 15), record.creator }
