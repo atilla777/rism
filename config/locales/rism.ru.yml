@@ -37,6 +37,7 @@ ru:
     extra_info: 'Дополнительная информация'
     state_info: 'Информация о состоянии и изменениях'
     changed_fields_info: 'Изменившиеся поля'
+    comment: 'Комментарий'
     calculated_cvss_info: 'Обобщенные и вычисленные метрики и векторы CVSS'
     cvss_info: 'Метрики и векторы CVSS'
     products_info: 'Информация о продуктах'

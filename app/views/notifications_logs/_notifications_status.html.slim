@@ -1,0 +1,15 @@
+= render 'modal_window'
+- if record.notifications_logs.present?
+  - if record.respond_to?(:original_class)
+    - original_class = record.original_class
+  - else
+    - original_class = record.class
+  = link_to(notifications_logs_path(deliverable_type: original_class.name,
+    deliverable_id: record.id),
+    data_toggle: 'tooltip',
+    title: t('views.action.notifications_logs'),
+    class: 'btn-link modal_link') do
+      span.text-success
+        =< fa_icon :envelope
+- else
+  = fa_icon :envelope

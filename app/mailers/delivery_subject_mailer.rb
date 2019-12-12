@@ -3,9 +3,10 @@ class DeliverySubjectMailer < ApplicationMailer
 
   def notify
     @current_user = params[:current_user]
-    @deliverable = params[:delivery_subject_type]
+    @comments = params[:comments]
+    @deliverable = params[:deliverable_type]
       .constantize
-      .find(params[:delivery_subject_id])
+      .find(params[:deliverable_id])
     recipients = @deliverable.recipients
     send_notify(recipients.pluck(:email))
     notifications_logs(recipients)
@@ -24,13 +25,18 @@ class DeliverySubjectMailer < ApplicationMailer
 
   def notifications_logs(recipients)
     recipients.each do |user|
-      NotificationsLog.create(
+      NotificationsLog.create!(
         created_at: Time.now,
         user: @current_user,
         recipient: user,
         deliverable_type: @deliverable.class.name,
         deliverable_id: @deliverable.id
       )
+    end
+  rescue ActiveRecord::RecordInvalid => error
+    logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_error.log"))
+    logger.tagged("NOTIFICATIONS_LOG (#{Time.now})") do
+      logger.error(error)
     end
   end
 end

@@ -2,10 +2,13 @@ table.table.table-hover.table-bordered.table-striped#delivery_subjects
   thead
     tr
       th
-        strong
-          =< "#{t('labels.delivery_subject.assigned_delivery_lists')}:"
+        strong.text-info
+          = "#{t('labels.delivery_subject.assigned_delivery_lists')}:"
+        span.pull-right#notifications
+          =< render 'notifications_logs/notifications_status', record: @record
+
       th
-        strong
+        strong.text-info
           =< "#{t('labels.delivery_subject.allowed_delivery_lists')}:"
   tbody
     tr

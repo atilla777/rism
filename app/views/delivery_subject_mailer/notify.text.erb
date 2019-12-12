@@ -1,11 +1,12 @@
-Уведомление о появлении новой информации в RISM
+Уведомление об изменениях в RISM
 ------------------------------------------------
 
-Объект: <%= @deliverable.class.model_name.human %> <%= @deliverable.name %>
-Объект создан: <%= show_date_time(@deliverable.created_at) %>
-Объект изменен: <%= show_date_time(@deliverable.updated_at) %>
-Ссылка на объект: <%= polymorphic_url(@deliverable) %>
+<%= @deliverable.class.model_name.human %> <%= @deliverable.name %>
+Ссылка: <%= polymorphic_url(@deliverable) %>
+Дата создания: <%= show_date_time(@deliverable.created_at) %>
+Дата последнего изменения: <%= show_date_time(@deliverable.updated_at) %>
 
+<%= @comments %>
 
 ------------------------------------------------
 Сообщение сформировано автоматически программой RISM.

@@ -4,15 +4,16 @@ class DeliverySubjectsController < ApplicationController
   include RecordOfOrganization
   include ReadableRecord
 
-  before_action :set_deliverable_subject, only: [:list_subjects, :create]
+  before_action :set_deliverable_subject, only: [:list_subjects, :create, :notify]
 
   def list_subjects; end
 
   def notify
     authorize DeliverySubject
     DeliverySubjectMailer.with(
-      delivery_subject_type: params[:delivery_subject_type],
-      delivery_subject_id: params[:delivery_subject_id],
+      deliverable_type: params[:deliverable_type],
+      deliverable_id: params[:deliverable_id],
+      comments: params[:comments].first,
       current_user: current_user
     ).notify.deliver_later
   end

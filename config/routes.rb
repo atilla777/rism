@@ -130,7 +130,7 @@ Rails.application.routes.draw do
   resources :delivery_subjects do
     collection do
       get 'list_subjects'
-      match 'notify' => 'delivery_subjects#notify', via: [:get], as: :notify
+      post 'notify' => 'delivery_subjects#notify', via: [:get], as: :notify
     end
     member do
       patch :toggle_processed

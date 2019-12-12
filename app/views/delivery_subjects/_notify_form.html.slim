@@ -1,0 +1,20 @@
+= form_tag(notify_delivery_subjects_path,
+  remote: :true,
+  method: :post) do
+
+  = hidden_field_tag :deliverable_type, record.model_name
+  = hidden_field_tag :deliverable_id, record.id
+
+  a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_comment'
+   h4
+     span.text-info
+       =< " #{t('labels.comment')}"
+       =< fa_icon('hand-pointer-o')
+
+
+  .collapse#toggle_comment
+     = text_area :comments, '', class: 'form-control'
+
+  =< submit_tag(t('views.action.notify'),
+     class: 'btn btn-success',
+     data: {confirm: t('views.action.confirm')})
