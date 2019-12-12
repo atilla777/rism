@@ -4,7 +4,7 @@ class DeliverySubjectsController < ApplicationController
   include RecordOfOrganization
   include ReadableRecord
 
-  before_action :set_deliverable_subject, only: [:list_subjects, :create, :notify]
+  before_action :set_deliverable_subject, only: [:list_subjects, :create]
 
   def list_subjects; end
 
@@ -16,6 +16,7 @@ class DeliverySubjectsController < ApplicationController
       comments: params[:comments].first,
       current_user: current_user
     ).notify.deliver_later
+    @message = 'Ok'
   end
 
   def show

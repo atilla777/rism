@@ -4,9 +4,8 @@ table.table.table-hover.table-bordered.table-striped#delivery_subjects
       th
         strong.text-info
           = "#{t('labels.delivery_subject.assigned_delivery_lists')}:"
-        span.pull-right#notifications
+        span#notify
           =< render 'notifications_logs/notifications_status', record: @record
-
       th
         strong.text-info
           =< "#{t('labels.delivery_subject.allowed_delivery_lists')}:"

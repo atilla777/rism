@@ -8,8 +8,10 @@ class DeliverySubjectMailer < ApplicationMailer
       .constantize
       .find(params[:deliverable_id])
     recipients = @deliverable.recipients
-    send_notify(recipients.pluck(:email))
-    notifications_logs(recipients)
+    if recipients.present?
+      send_notify(recipients.pluck(:email))
+      notifications_logs(recipients)
+    end
   end
 
   private

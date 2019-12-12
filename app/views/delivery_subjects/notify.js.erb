@@ -1,2 +1,5 @@
-$('#notification').html("<%= j render('notifications_logs/notifications_status', record: @record) %>")
+$('#notify_done').html("<%= j render('message', message: @message) %>");
+$('#notify_done').fadeOut(1000)
+$('#notify_done').fadeIn(1000)
+$('#notify_done').fadeOut(1000)
 $('#toggle_comment').collapse('hide')

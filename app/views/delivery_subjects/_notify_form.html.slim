@@ -15,6 +15,8 @@
   .collapse#toggle_comment
      = text_area :comments, '', class: 'form-control'
 
+  #notify_done
   =< submit_tag(t('views.action.notify'),
      class: 'btn btn-success',
      data: {confirm: t('views.action.confirm')})
+
