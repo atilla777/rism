@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Schedule < ApplicationRecord
   include OrganizationAssociated
   include Schedule::Ransackers

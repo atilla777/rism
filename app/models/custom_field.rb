@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CustomField < ApplicationRecord
   FIELD_MODELS = {
 #    'Organization' => I18n.t('activerecord.models.organization.one'),

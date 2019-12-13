@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ScanJobLog < ApplicationRecord
   include ScanJobLog::Ransackers
 
