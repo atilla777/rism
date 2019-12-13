@@ -6,10 +6,9 @@
   = hidden_field_tag :deliverable_id, record.id
 
   a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_comment'
-   h4
-     span.text-info
-       =< " #{t('labels.comment')}"
-       =< fa_icon('hand-pointer-o')
+   span.text-info
+     =< " #{t('labels.comment')}"
+     =< fa_icon('hand-pointer-o')
 
 
   .collapse#toggle_comment

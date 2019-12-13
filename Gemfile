@@ -112,6 +112,8 @@ group :development do
   gem 'capistrano-rails-collection', "~> 0.1", require: false
   gem 'capistrano-sidekiq', require: false
   gem "letter_opener", "~> 1.7", require: false
+  gem 'rails-erd', "~> 1.6", require: false
+  gem 'railroady', "~> 1.5", require: false
 end
 
 group :test do
