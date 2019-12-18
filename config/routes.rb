@@ -125,6 +125,7 @@ Rails.application.routes.draw do
       patch :toggle_readable
     end
   end
+  resources :import_vulners, only: [:new, :create]
   resources :custom_fields
   resources :delivery_lists
   resources :delivery_subjects do

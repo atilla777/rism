@@ -153,6 +153,10 @@ ru:
       high: 'Высокая'
       critical: 'Критическая'
       toggle: 'Переключить'
+    import_vulners_file_formats:
+      bdu_csv: 'БДУ ФСТЭК России (csv из excel)'
+    import_vulners_file_format: 'Формат файла'
+    import_vulners_file: 'Файл'
     delivery_subject:
       allowed_delivery_lists: 'Доступные для назначения списки доставки'
       assigned_delivery_lists: 'Назначенные списки доставки'
@@ -187,6 +191,7 @@ ru:
     scheduled_jobs: 'Фоновые работы в очередях'
     queue_jobs: 'Работы в очереди'
     queue_job_start: 'Время постановки в очередь'
+    import_vulners: 'Импортировать уязвимости'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'

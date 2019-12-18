@@ -94,15 +94,13 @@ class ApplicationController < ActionController::Base
       else
         activity.event = 100 # login success
       end
-      parameters = params
-      activity.params  = parameters
       activity.params['user_session']['password'] = '*'
     else
       if @record&.errors&.present?
         activity.comment += @record.errors.full_messages.join(', ')
         activity.event = 201 # record save errors
       end
-      activity.params = params
+      activity.params = params.except('file')
     end
     activity.skip_current_user_check = true
     activity.save!

@@ -3,7 +3,7 @@
 module MenuLiHelper
   def menu_li(models:, controllers: nil, action: nil, role: nil, html_class: nil, &block)
     return '' unless current_user_admin_editor_reader? ||
-      models_ovelap_user_models?(models)
+      models_overlap_user_models?(models)
 
     result_class = []
     result_class << html_class
@@ -35,7 +35,7 @@ module MenuLiHelper
     )
   end
 
-  def models_ovelap_user_models?(models)
+  def models_overlap_user_models?(models)
     Array(models).any? do |model|
       current_user_models.include?(model)
     end
