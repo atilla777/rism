@@ -146,6 +146,14 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
                     = f.text_field :codename_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
                   .col-lg-2
                     = f.text_field :codename_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+                  .col-lg-1.text-right
+                    = f.label :custom_codenames, class: 'control-label'
+                  .col-lg-2
+                    = f.text_field :custom_codenames_str_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                  .col-lg-2
+                    = f.text_field :custom_codenames_str_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+            .form-group
+              .form-row
                 .field
                   .col-lg-1.text-right
                     = f.label :state, class: 'control-label'

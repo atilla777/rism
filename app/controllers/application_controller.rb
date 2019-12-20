@@ -94,6 +94,8 @@ class ApplicationController < ActionController::Base
       else
         activity.event = 100 # login success
       end
+      parameters = params
+      activity.params  = parameters
       activity.params['user_session']['password'] = '*'
     else
       if @record&.errors&.present?

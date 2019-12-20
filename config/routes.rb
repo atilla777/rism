@@ -118,6 +118,8 @@ Rails.application.routes.draw do
     get :autocomplete_vulnerability_codename, :on => :collection, as: :autocomplete
     collection do
       match 'search' => 'vulnerabilities#search', via: [:get, :post], as: :search
+      get :new_import
+      post :create_import
     end
     member do
       patch :toggle_processed
@@ -125,7 +127,6 @@ Rails.application.routes.draw do
       patch :toggle_readable
     end
   end
-  resources :import_vulners, only: [:new, :create]
   resources :custom_fields
   resources :delivery_lists
   resources :delivery_subjects do

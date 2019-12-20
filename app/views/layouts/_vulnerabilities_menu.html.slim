@@ -20,7 +20,7 @@ ul.nav.navbar-nav
               =< fa_icon 'newspaper-o'
               =< VulnerabilityBulletin.model_name.human(count: 2)
         = menu_li(models: 'Vulnerability', action: '_none') do
-          = link_to new_import_vulner_path do
+          = link_to new_import_vulnerabilities_path do
             .text-info
               = fa_icon 'bug'
               =< t('navigations.import_vulners')

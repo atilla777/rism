@@ -1,10 +1,7 @@
 = caption t('navigations.import_vulners')
 .well
-  .row
-    .text-danger
-      = @errors
-    = form_tag import_vulners_path, multipart: true do
-
+  = form_tag create_import_vulnerabilities_path, multipart: true do
+    .row
       .form-group.required
         .field
           .col-lg-2.text-right
@@ -18,16 +15,33 @@
             .control-label
               strong
                 = t('labels.import_vulners_file')
+
           .col-lg-2
             label.form-control.btn.btn-info.btn-file
               = t('labels.attachment.select_file')
               = file_field_tag :file, class: 'form-control'
 
-      br
-      br
-      br
-
+    br
+    .row
       .actions.form-group
         .col-lg-offset-2.col-lg-8
           => submit_tag t('helpers.submit.save'), class: 'btn btn-success'
           = render 'form_back_button'
+  br
+  .row
+    .col-lg-offset-2.col-lg-8
+      - if @messages.fetch(:errors, []).present?
+        strong.text-warning
+          = "#{t('labels.imported')}:"
+        br
+        .text-danger
+          = @messages.fetch(:errors, [])&.each do |error|
+            = error
+            br
+      - if @messages.fetch(:created_cve_list, nil).present?
+        strong.text-warning
+          = "#{t('labels.imported')} (#{@messages.fetch(:created_cve_list, {}).size}/#{@messages.fetch(:rows_processed, 0)}):"
+        br
+        - @messages.fetch(:created_cve_list, {}).each do |name, id|
+            = link_to name, vulnerability_path(id)
+            br

@@ -44,6 +44,19 @@ class VulnerabilitiesController < ApplicationController
     set_readable_log
   end
 
+  def new_import
+    authorize Vulnerability
+    @messages = {}
+  end
+
+  def create_import
+    authorize Vulnerability
+    @file = params[:file]
+    @format = params[:file_format]
+    @messages = ImportVulnersCommand.call(@file, @format)
+    render :new_import
+  end
+
   private
 
   def model
