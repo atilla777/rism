@@ -1,4 +1,12 @@
 class ImportVulnersCommand::BduCsv
+  CVSS3_REGEXP = %r{
+    CVSS\s+3.0\s+составляет\s+(10|[1-9]{1}.\d{1}|[1-9]{1})\)
+  }x.freeze
+
+  CVSS2_REGEXP = %r{
+    CVSS\s+2.0\s+составляет\s+(10|[1-9]{1}.\d{1}|[1-9]{1})\)
+  }x.freeze
+
   def initialize(file)
     @file = file
     @errors = []
@@ -54,8 +62,8 @@ class ImportVulnersCommand::BduCsv
       attributes[:custom_published] = Date.strptime(row[9], '%d.%m.%Y')
     end
     attributes[:exploit_maturity] = exploit_maturity(row[15])
-    attributes[:cvss3] = 0
-    attributes[:cvss2] = 0
+    attributes[:cvss3] = cvss3(row[12])
+    attributes[:cvss2] = cvss2(row[12])
     attributes
   end
 
@@ -72,6 +80,16 @@ class ImportVulnersCommand::BduCsv
     when ''
       'unproven'
     end
+  end
+
+  def cvss3(row_12)
+    return nil unless row_12.present?
+    row_12[CVSS3_REGEXP, 1]
+  end
+
+  def cvss2(row_12)
+    return nil unless row_12.present?
+    row_12[CVSS2_REGEXP, 1]
   end
 
   def create_if_not_exist(attributes)

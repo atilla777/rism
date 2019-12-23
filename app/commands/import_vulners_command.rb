@@ -11,29 +11,7 @@ class ImportVulnersCommand
 
   def self.call(file, file_format)
     self.send(file_format.to_sym, file)
-#    {
-#      errors: @errors,
-#      created_cve_list: @created_cve_list,
-#      rows_processed: @rows_processed
-#    }
-#    new.execute(*args, &block)
-#    {
-#      errors: result[:errors],
-#      created_cve_list: result[:created_cve_list],
-#      rows_processed: result[:rows_processed]
-#    }
   end
-
-#  def initialize(file, file_format)
-#    @file = file
-#    @file_format = file_format
-#    @errors = []
-#    @created_cve_list = {}
-#    @rows_processed = 0
-#  end
-
-#  def execute
-#  end
 
   private
 
