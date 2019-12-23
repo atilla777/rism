@@ -128,7 +128,8 @@ CREATE TYPE public.vuln_exploit_maturity AS ENUM (
 
 CREATE TYPE public.vuln_feed AS ENUM (
     'custom',
-    'nvd'
+    'nvd',
+    'bdu'
 );
 
 
@@ -4346,6 +4347,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191125065845'),
 ('20191126092016'),
 ('20191205081705'),
-('20191211090648');
+('20191211090648'),
+('20191223073226');
 
 

@@ -5,7 +5,7 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
         execute <<-SQL
           CREATE TYPE indicator_purpose
           AS ENUM (
-            #{Indicator.purposes.values.map {|i| "'#{i}'"}.join(', ')}
+            'not_set', 'for_detect', 'for_prevent'
           )
         SQL
       end
@@ -20,7 +20,7 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
         execute <<-SQL
           CREATE TYPE indicator_trust_level
           AS ENUM (
-            #{Indicator.trust_levels.values.map {|i| "'#{i}'"}.join(', ')}
+            'not_set', 'low', 'high'
           )
         SQL
       end
@@ -35,7 +35,7 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
         execute <<-SQL
           CREATE TYPE indicator_content_format
           AS ENUM (
-            #{Indicator.content_formats.values.map {|i| "'#{i}'"}.join(', ')}
+            'filename', 'filesize', 'process', 'account', 'email_theme', 'email_content', 'uri', 'domain', 'email_author', 'registry', 'other', 'network_service', 'network', 'network_port', 'email_adress', 'md5', 'sha256', 'sha512'
           );
         SQL
       end

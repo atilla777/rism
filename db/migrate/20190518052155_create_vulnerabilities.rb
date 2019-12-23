@@ -5,7 +5,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
         execute <<-SQL
           CREATE TYPE vuln_feed
           AS ENUM (
-            #{Vulnerability.feeds.values.map {|i| "'#{i}'"}.join(', ')}
+            'custom', 'nvd'
           )
         SQL
       end
@@ -20,7 +20,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
         execute <<-SQL
           CREATE TYPE vuln_actuality
           AS ENUM (
-            #{Vulnerability.actualities.values.map {|i| "'#{i}'"}.join(', ')}
+          'not_set', 'actual', 'not_actual'
           )
         SQL
       end
@@ -35,7 +35,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
         execute <<-SQL
           CREATE TYPE vuln_relevance
           AS ENUM (
-            #{Vulnerability.relevances.values.map {|i| "'#{i}'"}.join(', ')}
+            'not_set', 'relevant', 'not_relevant'
           )
         SQL
       end
@@ -50,7 +50,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
         execute <<-SQL
           CREATE TYPE vuln_state
           AS ENUM (
-            #{Vulnerability.states.values.map {|i| "'#{i}'"}.join(', ')}
+            'modified', 'published'
           )
         SQL
       end
@@ -65,7 +65,7 @@ class CreateVulnerabilities < ActiveRecord::Migration[5.1]
         execute <<-SQL
           CREATE TYPE vuln_exploit_maturity
           AS ENUM (
-            #{Vulnerability.exploit_maturities.values.map {|i| "'#{i}'"}.join(', ')}
+            'not_defined', 'high', 'functional', 'poc', 'unproven'
           )
         SQL
       end
