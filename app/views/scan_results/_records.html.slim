@@ -1,4 +1,11 @@
-= command_button_for records, organization_id: @organization.id
+- q_params = params.permit(q: {}).to_h[:q]&.reject do |_k, v|
+  - if v.respond_to?(:all?)
+    - v.all?(&:blank?)
+  - else
+    - v.blank?
+= command_button_for(records,
+  organization_id: @organization.id,
+  q: q_params)
 = report_button_for records, organization_id: @organization.id
 = render 'search_form' if ['index', 'search'].include?(params[:action])
 = render 'download_search_form' if ['index', 'search'].include?(params[:action])

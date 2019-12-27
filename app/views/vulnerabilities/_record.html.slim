@@ -1,5 +1,5 @@
 - decorated = VulnerabilityDecorator.new(@record)
-- previous_record = record.versions.last.reify
+- previous_record = record&.versions&.last&.reify
 - previous_decorated = VulnerabilityDecorator.new(previous_record)
 .panel.panel-default
   .panel-heading

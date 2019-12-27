@@ -1,6 +1,11 @@
 = index_search :vulnerability_kind_name_or_codename_or_published_str_or_modified_str_or_vendors_str_or_products_str_or_description_str_or_custom_description_or_state_str_or_cvss_vector_or_actuality_str_or_relevance_str_cont
 = report_button_for records
-= command_button_for records
+- q_params = params.permit(q: {}).to_h[:q]&.reject do |_k, v|
+  - if v.respond_to?(:all?)
+    - v.all?(&:blank?)
+  - else
+    - v.blank?
+= command_button_for(records, q: q_params)
 = render 'search_form'
 = render 'download_search_form' if ['index', 'search'].include?(params[:action])
 br

@@ -51,6 +51,7 @@ ru:
     all_label: 'Все'
     user_has_no_roles: 'Пользователю не назначены роли - обратитесь к администратору.'
     imported: 'Импортированы'
+    updated: 'Обновлены'
     errors: 'Ошибки'
     user:
       active: 'Да'

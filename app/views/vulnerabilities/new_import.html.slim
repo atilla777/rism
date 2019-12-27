@@ -31,17 +31,36 @@
   .row
     .col-lg-offset-2.col-lg-8
       - if @messages.fetch(:errors, []).present?
-        strong.text-warning
-          = "#{t('labels.imported')}:"
-        br
-        .text-danger
-          = @messages.fetch(:errors, [])&.each do |error|
-            = error
-            br
-      - if @messages.fetch(:created_cve_list, nil).present?
-        strong.text-warning
-          = "#{t('labels.imported')} (#{@messages.fetch(:created_cve_list, {}).size}/#{@messages.fetch(:rows_processed, 0)}):"
-        br
-        - @messages.fetch(:created_cve_list, {}).each do |name, id|
-            = link_to name, vulnerability_path(id)
-            br
+        a.link data-toggle='collapse' href='#toggle_errors'
+          strong.text-warning
+            = "#{t('labels.errors')}:"
+        .collapse#toggle_errors
+          ol
+            - @messages.fetch(:errors, [])&.each do |record_with_errors|
+              li
+                .text-danger
+                  = record_with_erors.codename
+                - record_with_errors.errors.each do |k, v|
+                  .text-warning
+                    =< k
+                  =< v
+      br
+      - if @messages.fetch(:created_vulns, nil).present?
+        a.link data-toggle='collapse' href='#toggle_created'
+          strong.text-warning
+            = "#{t('labels.imported')} (#{@messages.fetch(:created_vulns, {}).size}/#{@messages.fetch(:rows_processed, 0)}):"
+        .collapse#toggle_created
+          ol
+            - @messages.fetch(:created_vulns, {}).each do |name, id|
+              li
+                = link_to name, vulnerability_path(id)
+      br
+      - if @messages.fetch(:updated_vulns, nil).present?
+        a.link data-toggle='collapse' href='#toggle_updated'
+          strong.text-warning
+            = "#{t('labels.updated')} (#{@messages.fetch(:updated_vulns, {}).size}/#{@messages.fetch(:rows_processed, 0)}):"
+        .collapse#toggle_updated
+          ol
+            - @messages.fetch(:updated_vulns, {}).each do |name, id|
+              li
+                = link_to name, vulnerability_path(id)

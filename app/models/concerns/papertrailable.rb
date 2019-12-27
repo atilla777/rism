@@ -4,6 +4,7 @@ module Papertrailable
   extend ActiveSupport::Concern
 
   included do
+    attr_accessor :skip_versioning
   end
 
   def previous_version(field)

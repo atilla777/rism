@@ -33,6 +33,8 @@ GEM
       activemodel (= 5.1.7)
       activesupport (= 5.1.7)
       arel (~> 8.0)
+    activerecord-import (1.0.4)
+      activerecord (>= 3.2)
     activerecord-session_store (1.1.3)
       actionpack (>= 4.0)
       activerecord (>= 4.0)
@@ -452,6 +454,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-import (~> 1.0)
   activerecord-session_store (~> 1.1.3)
   authlogic (~> 3.6)
   bootstrap-sass (~> 3.4)

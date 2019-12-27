@@ -36,4 +36,6 @@ class Commands
   ResetNvdBaseCommand.register
   ResetNvdBaseLastYearCommand.register
   SyncNvdBaseCommand.register
+  DeleteFilteredVulnerabilitiesCommand.register
+  DeleteFilteredScanResultsCommand.register
 end
