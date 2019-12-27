@@ -15,9 +15,8 @@ class DeleteFilteredVulnerabilityCommand < BaseCommand
   private
 
   def clear_base
-    scope = Vulnerability.includes(:vulnerability_bulletins)
     if options[:q].present?
-      q = scope.ransack(options[:q])
+      q = Vulnerability.ransack(options[:q])
       q.sorts = options[:q].fetch('s', default_sort)
       q.result
     else
