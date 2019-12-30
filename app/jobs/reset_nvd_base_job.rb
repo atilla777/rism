@@ -5,7 +5,7 @@ class ResetNvdBaseJob < ApplicationJob
 
   NVD_JSON_VERSION = '1.0'.freeze
   NVD_BASE_PATH = "https://nvd.nist.gov/feeds/json/cve/#{NVD_JSON_VERSION}/".freeze
-  MASS_SAVE_LIMIT = 20
+  MASS_SAVE_LIMIT = 10
 
   Sidekiq.default_worker_options = { 'retry' => 2 }
 
@@ -91,8 +91,9 @@ class ResetNvdBaseJob < ApplicationJob
       end
     end
   end
- 
-# TODO: use or delete (should be faster, but it is slowly)
+
+# ++
+# TODO: use or delete (should be faster, but it is slowly :()
 #  def save_to_base(year)
 #    @queue = []
 #    Oj.load_file(save_path(year))
@@ -133,6 +134,7 @@ class ResetNvdBaseJob < ApplicationJob
 #      end
 #    end
 #  end
+# ++
 
   def delete_gz_file(year)
     File.delete(gz_save_path(year))
