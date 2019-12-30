@@ -7,11 +7,13 @@ class LinkScanJobHostsCommand < BaseCommand
   set_required_params %i[]
 
   def run
+    return unless @current_user.admin?
     scope = ScanJob
     if options[:organization_id].present?
       scope = scope.where(organization_id: options[:organization_id])
     end
-    scope = Pundit.policy_scope(current_user, scope)
+    # TODO: use or delete (case when not only admins allowed to run commands)
+    # scope = Pundit.policy_scope(current_user, scope)
     scope.all.each do |scan_job|
       move_target(scan_job)
     end
@@ -27,9 +29,7 @@ class LinkScanJobHostsCommand < BaseCommand
                     .map(&:strip)
                     .reject { |host_ip| link_host?(scan_job, host_ip) }
                     .join(', ')
-    #if scan_job.hosts_changed?
     scan_job.save
-    #end
   end
 
   # make link with ip and return operation status (true | false)

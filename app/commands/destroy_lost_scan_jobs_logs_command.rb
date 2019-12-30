@@ -8,6 +8,7 @@ class DestroyLostScanJobsLogsCommand < BaseCommand
   set_required_params %i[]
 
   def run
+    return unless @current_user.admin?
     lost_worker_logs.each(&:destroy)
   end
 
@@ -25,6 +26,9 @@ class DestroyLostScanJobsLogsCommand < BaseCommand
     if options[:job].present?
       scope = scope.where(scan_job_id: options[:job])
     end
-    Pundit.policy_scope(current_user, scope).all
+    scope.all
+
+    # TODO: use or delete (case when not only admins allowed to run commands)
+    #Pundit.policy_scope(current_user, scope).all
   end
 end

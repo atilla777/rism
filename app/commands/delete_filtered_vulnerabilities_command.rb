@@ -9,17 +9,14 @@ class DeleteFilteredVulnerabilitiesCommand < BaseCommand
 
   def run
     return unless @current_user.admin?
-    clear_base
+    delete_filtered_vulnerabilities
   end
 
   private
 
-  def clear_base
-    if options[:q].present?
-      q = Vulnerability.ransack(options[:q])
-      q.result.delete_all
-#    else
-#      Vulnerability.delete_all
-    end
+  def delete_filtered_vulnerabilities
+    return unless options[:q].present?
+    q = Vulnerability.ransack(options[:q])
+    q.result.delete_all
   end
 end

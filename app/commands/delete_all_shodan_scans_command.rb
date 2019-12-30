@@ -8,12 +8,16 @@ class DeleteAllShodanScansCommand < BaseCommand
   set_required_params %i[]
 
   def run
+    return unless @current_user.admin?
     scope = ScanResult
     if options[:organization_id].present?
       scope = scope.where(organization_id: options[:organization_id])
     end
     scope = scope.joins(:scan_job).where(scan_jobs: {scan_engine: 'shodan'})
 
-    Pundit.policy_scope(current_user, scope).destroy_all
+    scope.delete_all
+
+    # TODO: use or delete (case when not only admins allowed to run commands)
+    # Pundit.policy_scope(current_user, scope).destroy_all
   end
 end

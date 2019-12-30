@@ -8,6 +8,7 @@ class RunAllScans < BaseCommand
   set_required_params %i[]
 
   def run
+    return unless @current_user.admin?
     scope = ScanJob.all
     if options[:organization_id].present?
       scope = scope.where(organization_id: options[:organization_id])

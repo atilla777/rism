@@ -9,17 +9,14 @@ class DeleteFilteredScanResultsCommand < BaseCommand
 
   def run
     return unless @current_user.admin?
-    clear_base
+    delete_filtered_scan_results
   end
 
   private
 
-  def clear_base
-    if options[:q].present?
-      q = ScanResult.ransack(options[:q])
-      q.result.delete_all
-#    else
-#      ScanResult.delete_all
-    end
+  def delete_filtered_scan_results
+    return unless options[:q].present?
+    q = ScanResult.ransack(options[:q])
+    q.result.delete_all
   end
 end

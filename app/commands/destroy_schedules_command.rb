@@ -8,6 +8,7 @@ class DestroySchedulesCommand < BaseCommand
   set_required_params %i[]
 
   def run
+    return unless @current_user.admin?
     Schedule.destroy_all
   end
 end

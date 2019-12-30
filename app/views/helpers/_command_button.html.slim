@@ -1,14 +1,15 @@
-.pull-right
-  .btn-group
-    button.btn.btn-default.dropdown-toggle data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'
-      i.text-info
-        = fa_icon 'gear'
-      =<> t('navigations.commands.run')
-      span.caret
-    ul.dropdown-menu.dropdown-menu-right
-      - commands.each do |command|
-        li
-          = link_to commands_path({name: command.command_name}.merge(options)), data: {turbolinks: false, confirm: t('views.action.confirm')} do
-            span.text-info
-              = fa_icon 'gear'
-            =< command.human_name
+- if current_user.admin?
+  .pull-right
+    .btn-group
+      button.btn.btn-default.dropdown-toggle data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'
+        i.text-info
+          = fa_icon 'gear'
+        =<> t('navigations.commands.run')
+        span.caret
+      ul.dropdown-menu.dropdown-menu-right
+        - commands.each do |command|
+          li
+            = link_to commands_path({name: command.command_name}.merge(options)), data: {turbolinks: false, confirm: t('views.action.confirm')} do
+              span.text-info
+                = fa_icon 'gear'
+              =< command.human_name

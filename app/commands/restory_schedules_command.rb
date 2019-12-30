@@ -8,6 +8,7 @@ class RestorySchedulesCommand < BaseCommand
   set_required_params %i[]
 
   def run
+    return unless @current_user.admin?
     Schedule.all.each do |schedule|
       schedule.destroy_sidekiq_cron_schedule
       cron_job_name = "#{schedule.job_type}_#{schedule.job_id}"

@@ -8,6 +8,8 @@ class DestroyScanJobsLogsCommand < BaseCommand
   set_required_params %i[]
 
   def run
+   # TODO: its can be moved to policy layer (check run? on model from command_model)
+   return unless @current_user.admin?
    allowed_logs.delete_all
   end
 
@@ -18,6 +20,10 @@ class DestroyScanJobsLogsCommand < BaseCommand
     if options[:job].present?
       scope = scope.where(scan_job_id: options[:job])
     end
-    Pundit.policy_scope(current_user, scope)
+
+    scope.all
+
+    # TODO: use or delete (case when not only admins allowed to run commands - see run TODO comment)
+    # Pundit.policy_scope(current_user, scope)
   end
 end
