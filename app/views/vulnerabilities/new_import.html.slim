@@ -55,7 +55,7 @@
               li
                 = link_to name, vulnerability_path(id)
       br
-      - if @messages.fetch(:updated_vulns, nil).present?
+      //- if @messages.fetch(:updated_vulns, nil).present?
         a.link data-toggle='collapse' href='#toggle_updated'
           strong.text-warning
             = "#{t('labels.updated')} (#{@messages.fetch(:updated_vulns, {}).size}/#{@messages.fetch(:rows_processed, 0)}):"
