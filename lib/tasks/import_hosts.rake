@@ -1,8 +1,24 @@
 # frozen_string_literal: true
 
+# Imported file format:
+# host organization name; host ip; host name; host description
+
 namespace :rism do
   desc 'Import hosts from CSV file - organization, ip, description1, descriptionN'
-  task :import_hosts , [:hosts_file, :parent, :organization_kind] => [:environment] do |_task, args|
+  task(
+    :import_hosts,
+    [:hosts_file, :parent, :organization_kind] => [:environment]
+  ) do |_task, args|
+    CSV.foreach(
+      args[:hosts_file],
+      encoding:'windows-1251:utf-8',
+      col_sep: ';',
+      headers: %i[organization_name ip name description]
+    ) do |row|
+
+    end
+
+
     File.open(args[:hosts_file], 'r') do |file|
       current_user = User.where(id: 1).first
       parent = Organization.find_or_create_by(name: args[:parent]) do |o|

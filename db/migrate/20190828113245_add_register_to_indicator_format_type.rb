@@ -7,6 +7,7 @@ class AddRegisterToIndicatorFormatType < ActiveRecord::Migration[5.1]
         execute <<-SQL
           ALTER TYPE indicator_content_format
           ADD VALUE 'registry'
+          AFTER 'email_author';
         SQL
       end
 

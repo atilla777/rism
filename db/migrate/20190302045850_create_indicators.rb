@@ -35,7 +35,7 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
         execute <<-SQL
           CREATE TYPE indicator_content_format
           AS ENUM (
-            'filename', 'filesize', 'process', 'account', 'email_theme', 'email_content', 'uri', 'domain', 'email_author', 'registry', 'other', 'network_service', 'network', 'network_port', 'email_adress', 'md5', 'sha256', 'sha512'
+            'filename', 'filesize', 'process', 'account', 'email_theme', 'email_content', 'uri', 'domain', 'email_author', 'other', 'network_service', 'network', 'network_port', 'email_adress', 'md5', 'sha256', 'sha512'
           );
         SQL
       end
@@ -65,7 +65,6 @@ class CreateIndicators < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-    add_index :indicators, :enrichment, using: :gin
     add_index :indicators, :custom_fields, using: :gin
     add_index :indicators, 'content gin_trgm_ops', using: :gin
   end

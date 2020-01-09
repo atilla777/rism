@@ -27,6 +27,7 @@ class HostsReport < BaseReport
     header = [[
       'Организация',
       'IP-адрес/подсеть',
+      'Название',
       'Описание'
     ]]
 
@@ -35,6 +36,7 @@ class HostsReport < BaseReport
       record = HostDecorator.new(record)
       row << "#{record.organization.name}"
       row << "#{record.show_ip}"
+      row << "#{record.name}"
       row << "#{record.description}"
       memo << row
     end
@@ -51,6 +53,7 @@ class HostsReport < BaseReport
     header = [
       'Организация',
       'IP-адрес/подсеть',
+      'Название',
       'Описание'
     ]
     r. << header
@@ -60,6 +63,7 @@ class HostsReport < BaseReport
       record = HostDecorator.new(record)
       row << "#{record.organization.name}"
       row << "#{record.show_ip}"
+      row << "#{record.name}"
       row << "#{record.description}"
       r << row
     end
