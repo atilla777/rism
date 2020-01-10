@@ -39,18 +39,19 @@ namespace :rism do
 
       host = Host.where(ip: attributes[:host_ip]).first
 
-      current_user = User.where(id: 1).first
-      organization = Organization.find_or_create_by!(
-        name: attributes[:organization_name]
-      ) do |org|
-        org.current_user = current_user
-        org.codename = attributes[:organization_name].gsub(
-          /[^[:alpha:]]|ООО|АО|ПАО|#{args[:stop_word]}|\s/,
-          ''
-        ).truncate(15)
-      end
-
       begin
+        organization = Organization.find_or_create_by!(
+          name: attributes[:organization_name]
+        ) do |org|
+          org.current_user = current_user
+          codename = attributes[:organization_name].gsub(
+            /[^[:alpha:]]|ООО|АО|ПАО|#{args[:stop_word]}|\s/,
+            ''
+          ).truncate(15, omission: '')
+          codename += ' CODENAME' if codename.length < 3
+          org.codename = codename
+        end
+
         HostService.create!(
           host_id: host.id,
           organization_id: organization.id,
@@ -64,7 +65,7 @@ namespace :rism do
           description: attributes[:description]
         )
       rescue => e
-        pp "Import error #{line} - #{e}"
+        pp "Import error - #{e}: #{attributes}"
       end
     end
   end

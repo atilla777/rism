@@ -24,7 +24,9 @@ namespace :rism do
     codename = args[:parent].gsub(
         /[^[:alpha:]]|ООО|АО|ПАО|#{args[:stop_word]}|\s/,
         ''
-    ).truncate(15)
+    ).truncate(15, omission: '')
+#{SecureRandom.uuid}
+   codename += " CODENAME" if codename.length < 3
     parent_organization = Organization.find_or_create_by!(
       name: args[:parent].strip
     ) do |org|
@@ -43,16 +45,17 @@ namespace :rism do
     ) do |row|
       attributes = row.to_h
       begin
-        codename = attributes[:organization_name].gsub(
-            /[^[:alpha:]]|ООО|АО|ПАО|#{args[:stop_word]}|\s/,
-            ''
-        ).truncate(15)
         organization = Organization.find_or_create_by!(
           name: attributes[:organization_name]
         ) do |org|
           org.organization_kind_id = organization_kind.id
           org.parent_id = parent_organization.id
           org.current_user = current_user
+          codename = attributes[:organization_name].gsub(
+              /[^[:alpha:]]|ООО|АО|ПАО|#{args[:stop_word]}|\s/,
+              ''
+          ).truncate(15, omission: '')
+          codename += ' CODENAME' if codename.length < 3
           org.codename = codename
         end
         Host.create!(
@@ -63,7 +66,7 @@ namespace :rism do
           current_user: current_user
         )
       rescue => e
-        pp "Import error #{line} - #{e}"
+        pp "Import error - #{e}: #{attributes}"
       end
     end
   end
