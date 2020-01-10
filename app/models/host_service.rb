@@ -23,10 +23,6 @@ class HostService < ApplicationRecord
 
   belongs_to :host
 
-#  belongs_to :scan_result,
-#    -> {},
-#    foreign_key: 'scan'
-
   def self.protocols
     PROTOCOLS
   end

@@ -54,7 +54,6 @@ class Organization < ApplicationRecord
 
   belongs_to :organization_kind, optional: true
 
-  has_many :delivery_recipients, dependent: :delete_all
   has_many :delivery_lists, through: :delivery_recipients
 
   has_many :record_templates
