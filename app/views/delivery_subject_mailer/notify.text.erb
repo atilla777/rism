@@ -1,7 +1,7 @@
 Уведомление об изменениях в RISM
 ------------------------------------------------
 
-<%= @deliverable.class.model_name.human %> <%= @deliverable.name %>
+<%= @deliverable.class.model_name.human %>: <%= @deliverable.name %>
 Ссылка: <%= polymorphic_url(@deliverable) %>
 Дата создания: <%= show_date_time(@deliverable.created_at) %>
 Дата последнего изменения: <%= show_date_time(@deliverable.updated_at) %>
