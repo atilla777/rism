@@ -20,6 +20,7 @@ class DeliverySubjectMailer < ApplicationMailer
     file = @deliverable.report
     attachments[file[:name]] = file[:file] if file
     mail(
+      from: ENV['MAIL_FROM'],
       to: recipients,
       subject: t('labels.notify_subject')
     )
