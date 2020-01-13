@@ -29,11 +29,30 @@ set :pty,  false
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 set(
   :linked_dirs,
-  fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/nmap', 'tmp/vulners', 'vendor/bundle', 'public/system', 'public/uploads', 'uploads')
+  fetch(:linked_dirs, []).push(
+    'log',
+    'tmp/pids',
+    'tmp/cache',
+    'tmp/sockets',
+    'tmp/nmap',
+    'tmp/vulners',
+    'vendor/bundle',
+    'public/system',
+    'public/uploads',
+    'uploads'
+  )
 )
 set(
   :linked_files,
-  fetch(:linked_files, []).push('.env.production', 'puma.service', 'sidekiq.service', 'config/sidekiq.yml')
+  fetch(:linked_files, []).push(
+    '.env.production',
+    'puma.service',
+    'sidekiq.service',
+    'config/sidekiq.yml'
+    'config/sidekiq.yml',
+    'config/environments/production.rb',
+    'config/schedule.yml'
+  )
 )
 
 # to use with proxy with spoofed certificate
