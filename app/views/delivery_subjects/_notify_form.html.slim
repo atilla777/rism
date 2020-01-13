@@ -2,6 +2,7 @@
   remote: :true,
   method: :post) do
 
+  = hidden_field_tag :authenticity_token, value: form_authenticity_token
   = hidden_field_tag :deliverable_type, record.model_name
   = hidden_field_tag :deliverable_id, record.id
 
