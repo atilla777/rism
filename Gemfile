@@ -93,6 +93,7 @@ gem 'rails_autolink', '~> 1.1.6'
 gem 'activerecord-session_store', '~> 1.1.3'
 gem 'hashie', '~> 4.0.0'
 gem 'activerecord-import', '~> 1.0'
+gem 'ruby-ntlm'
 
 
 # Lint with overcommit
