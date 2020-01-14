@@ -1,10 +1,11 @@
 ---
-:concurrency: 29
+:concurrency: 30
 staging:
-  :concurrency: 29
+  :concurrency: 30
 production:
-  :concurrency: 29
+  :concurrency: 30
 :queues:
+  - sessions_trim
   - mailers
   - now_scan_1
   - now_scan_2
@@ -15,6 +16,7 @@ production:
   - brokers
   - sync_nvd_base
 :limits:
+  sessions_trim: 1
   mailers: 2
   now_scan_1: 2
   now_scan_2: 2
