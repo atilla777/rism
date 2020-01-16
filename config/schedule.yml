@@ -1,9 +1,9 @@
 sessions_trim:
-  cron: "0 1 * * *" # clear old (older than 30 days) session data (cookies) from DB
+  cron: "*/3 * * * *" # clear old (older than 30 days) session data (cookies) from DB
   class: 'SessionsTrimJob'
-  queue: 'sessions_trim'
+  queue: 'default'
   args:
-    queue: 'sessions_trim'
+    queue: 'default'
 sync_nvd_base:
   cron: "*/30 * * * *" # execute local NVD base synchronization at every 30 minutes
   class: 'SyncNvdBaseJob'

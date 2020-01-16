@@ -5,7 +5,7 @@ staging:
 production:
   :concurrency: 30
 :queues:
-  - sessions_trim
+  - default
   - mailers
   - now_scan_1
   - now_scan_2
@@ -16,7 +16,7 @@ production:
   - brokers
   - sync_nvd_base
 :limits:
-  sessions_trim: 1
+  default: 1
   mailers: 2
   now_scan_1: 2
   now_scan_2: 2
