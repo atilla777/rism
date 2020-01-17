@@ -1,4 +1,4 @@
-button.btn.btn-default type='button' data-toggle='modal' data-target='#advanced_search_modal'
+button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='#advanced_search_modal'
   =< t('navigations.advanced_search')
 .modal.fade#advanced_search_modal tabindex='-1' role='dialog'
   = search_form_for @q, url: search_scan_results_path, html: { class: 'form-horizontal', method: :post } do |f|

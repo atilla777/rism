@@ -27,12 +27,23 @@
   = f.hidden_field :start_end_of_day_lteq
   = f.hidden_field :finished_gteq
   = f.hidden_field :finished_end_of_day_lteq
-  =< t('navigations.reports.download_filtred')
-  = f.button name: :format, value: :docx, type: 'submit', class: 'btn btn-link' do
+
+  = f.button name: :format,
+    value: :docx,
+    type: 'submit',
+    data_toggle: 'tooltip',
+    title: t('navigations.reports.download_filtred'),
+    class: 'btn btn-default' do
     span.text-info
       => fa_icon 'save'
       | docx
-  = f.button name: :format, value: :csv, type: 'submit', class: 'btn btn-link' do
+
+  = f.button name: :format,
+    value: :csv,
+    type: 'submit',
+    data_toggle: 'tooltip',
+    title: t('navigations.reports.download_filtred'),
+    class: 'btn btn-default' do
     span.text-info
-      => fa_icon 'save'
+      =<> fa_icon 'save'
       | csv

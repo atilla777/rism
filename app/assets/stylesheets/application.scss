@@ -152,5 +152,5 @@ li.intended {
 }
 
 .clear > * {
-  all: unset;
+  all: revert;
 }
