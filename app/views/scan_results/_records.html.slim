@@ -7,12 +7,13 @@
 = command_button_for(records,
   organization_id: @organization.id,
   q: q_params)
-= render 'search_form' if ['index', 'search'].include?(params[:action])
-= render 'download_search_form' if ['index', 'search'].include?(params[:action])
+= render 'search_form' if %w[index search].include?(params[:action])
+= render 'download_search_form' if %w[index search].include?(params[:action])
 br
-= render('search_filters/user_search_filters',
-  search_filters: @search_filters,
-  records: records)
+- if %w[index search].include?(params[:action])
+  = render('search_filters/user_search_filters',
+    search_filters: @search_filters,
+    records: records)
 = index_for records, decorator: ScanResultDecorator, actions: false do |t|
   - t.header attribute: :job_start, sort_by: :start, sort: :desc
   - t.header attribute: :finished, sort_by: :finished, sort: :desc
