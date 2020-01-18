@@ -77,7 +77,6 @@ gem 'caracal', "~> 1.4"
 gem "chartkick", "~> 3.2" # 2.3
 gem 'groupdate', "~> 4.0"
 gem 'hightop', "~> 0.2"
-gem 'ckeditor', '~> 4.3'
 gem 'mini_magick', '~> 4.9' # 4.8
 gem 'pg_search', '~> 2.1'
 gem 'sidekiq', '~> 5.1.3'
@@ -94,6 +93,7 @@ gem 'activerecord-session_store', '~> 1.1.3'
 gem 'hashie', '~> 4.0.0'
 gem 'activerecord-import', '~> 1.0'
 gem 'ruby-ntlm'
+gem 'webpacker', '~> 4.x'
 
 
 # Lint with overcommit

@@ -1,5 +1,11 @@
 {
   "name": "rism",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^16.0.0",
+    "@rails/webpacker": "4.2.2"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.10.1"
+  }
 }
