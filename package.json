@@ -2,8 +2,25 @@
   "name": "rism",
   "private": true,
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^16.0.0",
-    "@rails/webpacker": "4.2.2"
+    "@ckeditor/ckeditor5-adapter-ckfinder": "^16.0.0",
+    "@ckeditor/ckeditor5-autoformat": "^16.0.0",
+    "@ckeditor/ckeditor5-basic-styles": "^16.0.0",
+    "@ckeditor/ckeditor5-block-quote": "^16.0.0",
+    "@ckeditor/ckeditor5-dev-utils": "^12.0.6",
+    "@ckeditor/ckeditor5-dev-webpack-plugin": "^8.0.6",
+    "@ckeditor/ckeditor5-easy-image": "^16.0.0",
+    "@ckeditor/ckeditor5-editor-classic": "^16.0.0",
+    "@ckeditor/ckeditor5-essentials": "^16.0.0",
+    "@ckeditor/ckeditor5-heading": "^16.0.0",
+    "@ckeditor/ckeditor5-link": "^16.0.0",
+    "@ckeditor/ckeditor5-list": "^16.0.0",
+    "@ckeditor/ckeditor5-paragraph": "^16.0.0",
+    "@ckeditor/ckeditor5-theme-lark": "^16.0.0",
+    "@ckeditor/ckeditor5-upload": "^16.0.0",
+    "@rails/webpacker": "4.2.2",
+    "postcss-loader": "3",
+    "raw-loader": "3",
+    "style-loader": "1"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.10.1"
