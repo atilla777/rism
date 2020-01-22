@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  mount Ckeditor::Engine => '/ckeditor'
-
   root to: 'organizations#index'
 
   resources :user_sessions, only: [:create, :destroy]
@@ -156,6 +154,8 @@ Rails.application.routes.draw do
   post '/translatet', to: 'translate#show', as: :translate
 
   resources :notifications_logs, only: [:index]
+
+  post '/uploads', to: 'uploads#create', as: :uploads
 
   # resources :schedules, only: [:show]
   require 'sidekiq/web'

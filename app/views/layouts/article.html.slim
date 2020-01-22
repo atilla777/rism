@@ -1,0 +1,9 @@
+doctype html
+html
+  head
+    title RISM
+    = stylesheet_link_tag  'article', media: 'all', 'data-turbolinks-track' => true
+  body
+    .container-fluid
+      .p style='background-color: white;'
+        = yield

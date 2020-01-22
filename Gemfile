@@ -94,7 +94,7 @@ gem 'activerecord-session_store', '~> 1.1.3'
 gem 'hashie', '~> 4.0.0'
 gem 'activerecord-import', '~> 1.0'
 gem 'ruby-ntlm'
-
+gem 'webpacker', '~> 4.x'
 
 # Lint with overcommit
 group :development do

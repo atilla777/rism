@@ -4,12 +4,18 @@ html
     title RISM
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application'
+    = stylesheet_link_tag    'article', media: 'all', 'data-turbolinks-track' => true
     = csrf_meta_tags
     script type="text/javascript"
       | $(document).on('turbolinks:load', function() {
       = yield :document_ready
       | });
   body
+
+    script type="text/javascript" src="#{asset_path("/js/ckeditor.js", skip_pipeline: true)}"
+    link rel="stylesheet" href="/custom.css" type="text/css"
 
     = render 'layouts/header'
 

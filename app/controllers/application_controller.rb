@@ -102,7 +102,7 @@ class ApplicationController < ActionController::Base
         activity.comment += @record.errors.full_messages.join(', ')
         activity.event = 201 # record save errors
       end
-      activity.params = params.except('file')
+      activity.params = params.except('file', 'upload')
     end
     activity.skip_current_user_check = true
     activity.save!

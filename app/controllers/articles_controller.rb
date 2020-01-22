@@ -3,6 +3,18 @@
 class ArticlesController < ApplicationController
   include RecordOfOrganization
 
+#  def show
+#    @record = record
+#    authorize @record
+#    respond_to do |format|
+#      format.js  { render template: 'application/modal_show.js.erb' }
+#      format.html
+#    end
+#
+#    render layout: 'article'
+#  end
+
+
   def autocomplete_article_name
     authorize model
     scope = if current_user.admin_editor?

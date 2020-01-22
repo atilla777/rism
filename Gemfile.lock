@@ -264,6 +264,8 @@ GEM
       rack (~> 2.0)
     rack-protection (2.0.5)
       rack
+    rack-proxy (0.6.5)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     railroady (1.5.3)
@@ -445,6 +447,10 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webpacker (4.2.2)
+      activesupport (>= 4.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 4.2)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
@@ -531,6 +537,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier (~> 4.1)
   web-console (~> 3.5)
+  webpacker (~> 4.x)
 
 BUNDLED WITH
    1.17.3

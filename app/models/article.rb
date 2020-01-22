@@ -7,6 +7,8 @@ class Article < ApplicationRecord
   include PgSearch
   include Rightable
 
+  before_destroy :delete_images
+
   multisearchable against: [:name, :content]
 
   ransacker :created_at_text do
@@ -25,5 +27,21 @@ class Article < ApplicationRecord
   # in autocomplite (inside controller)
   def show_full_name
     "#{name}, #{user.name}, #{created_at.strftime('%d.%m.%Y')}"
+  end
+
+  def delete_images
+    images.each do |image|
+      file_path = "#{Rails.root}#{image}"
+      File.delete(file_path) if File.exist?(file_path)
+    end
+  end
+
+  private
+
+  def images
+    require 'nokogiri'
+    require 'open-uri'
+    doc = Nokogiri::HTML(content)
+    doc.css("img").map{|links| links['src']}
   end
 end
