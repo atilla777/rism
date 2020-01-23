@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      articles_folder:
+        one: 'Раздел публикаций'
+        other: 'Разделы публикаций'
+    attributes:
+      articles_folder:
+        name: 'Имя'
+        organization_id: 'Организация'
+        parent_id: 'Входит в'
+        rank: 'Очередность отображения'
+        description: 'Описание'

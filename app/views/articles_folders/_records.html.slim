@@ -1,0 +1,6 @@
+= index_search :name_or_organization_name_cont
+= index_for records do |t|
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :organization_id, sort: :desc
+  - t.field { |record| link_to record.name, record, class: 'btn btn-link' }
+  - t.field { |record| link_to(record.organization&.name, record.organization) }

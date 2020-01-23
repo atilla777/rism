@@ -73,28 +73,23 @@ gem 'paper_trail', "~> 8.1"
 gem 'carrierwave', '~> 1.2'
 gem 'dotenv-rails', "~> 2.2"
 gem 'caracal', "~> 1.4"
-#gem 'blazer'
 gem "chartkick", "~> 3.2" # 2.3
 gem 'groupdate', "~> 4.0"
 gem 'hightop', "~> 0.2"
-gem 'ckeditor', '~> 4.3'
 gem 'mini_magick', '~> 4.9' # 4.8
 gem 'pg_search', '~> 2.1'
 gem 'sidekiq', '~> 5.1.3'
 gem 'rufus-scheduler', '3.4.2' # TODO: check that newer versions API (> 3.4.2) was fixed and work
 gem 'sidekiq-cron', '~> 0.6.3 '
 gem 'ruby-nmap', '~> 0.9.3'
-#gem 'shodanz', '~> 1.0.6'
 gem 'httparty', '~> 0.16.2'
 gem 'sidekiq-limit_fetch', '~> 3.4.0'
-#gem 'json-streamer', '~> 2.1.0'
 gem 'oj', '~> 3.7.12'
 gem 'rails_autolink', '~> 1.1.6'
 gem 'activerecord-session_store', '~> 1.1.3'
 gem 'hashie', '~> 4.0.0'
 gem 'activerecord-import', '~> 1.0'
-gem 'ruby-ntlm'
-
+gem 'webpacker', '~> 4.x'
 
 # Lint with overcommit
 group :development do

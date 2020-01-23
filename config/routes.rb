@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  mount Ckeditor::Engine => '/ckeditor'
-
   root to: 'organizations#index'
 
   resources :user_sessions, only: [:create, :destroy]
@@ -42,7 +40,7 @@ Rails.application.routes.draw do
   resources :tags
   resources :tag_members, only: %i[create destroy]
   resources :incidents do
-    get :autocomplete_incident_name, :on => :collection, as: :autocomplete
+    get :autocomplete_inciden_name, :on => :collection, as: :autocomplete
     collection do
       match 'search' => 'incidents#search', via: [:get, :post], as: :search
     end
@@ -63,9 +61,28 @@ Rails.application.routes.draw do
   resources :hosts do
     get :autocomplete_host_name, :on => :collection, as: :autocomplete
   end
+
   resources :articles do
     get :autocomplete_article_name, :on => :collection, as: :autocomplete
   end
+
+  resources :articles_folders
+  post(
+    '/articles_folders_select',
+    to: 'articles_folders#select',
+    as: :articles_folders_select
+  )
+  put(
+    '/articles_folders_paste',
+    to: 'articles_folders#paste',
+    as: :articles_folders_paste
+  )
+  get(
+    '/articles_folders_reset',
+    to: 'articles_folders#reset',
+    as: :articles_folders_reset
+  )
+
   get '/serach/index', to: 'search#index', as: :search
   resources :scan_options
   resources :scan_jobs do
@@ -156,6 +173,8 @@ Rails.application.routes.draw do
   post '/translatet', to: 'translate#show', as: :translate
 
   resources :notifications_logs, only: [:index]
+
+  post '/uploads', to: 'uploads#create', as: :uploads
 
   # resources :schedules, only: [:show]
   require 'sidekiq/web'
