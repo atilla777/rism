@@ -1,4 +1,3 @@
-= stylesheet_link_tag 'article', media: 'all', 'data-turbolinks-track' => true
 = caption @record
 = render 'show_tabs', record: @record, active_tab: params[:active_tab], from_external_link: false
 = tabs_panes params[:active_tab], :content do |pane|

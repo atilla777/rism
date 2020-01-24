@@ -1,3 +1,6 @@
+import './ckeditor/article.css';
+import './ckeditor/ckeditor_custom.css';
+
 document.addEventListener('turbolinks:load', () => {
   ClassicEditor.create(document.querySelector('.ckeditor'), {
     simpleUpload: {

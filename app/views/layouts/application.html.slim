@@ -5,11 +5,11 @@ html
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-    = stylesheet_pack_tag 'application'
+    //= stylesheet_pack_tag 'application'
 
     script type="text/javascript" src="#{asset_path("/ckeditor.js", skip_pipeline: true)}"
     = javascript_pack_tag 'ckeditor', 'data-turbolinks-track': 'reload'
-    link rel="stylesheet" href="/ckeditor_custom.css" type="text/css"
+    //link rel="stylesheet" href="/ckeditor_custom.css" type="text/css"
 
     = csrf_meta_tags
     script type="text/javascript"
