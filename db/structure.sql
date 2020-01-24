@@ -252,8 +252,44 @@ CREATE TABLE public.articles (
     user_id bigint,
     content text,
     created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    articles_folder_id bigint
+);
+
+
+--
+-- Name: articles_folders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.articles_folders (
+    id bigint NOT NULL,
+    name character varying,
+    rank integer,
+    organization_id bigint,
+    parent_id bigint,
+    description text,
+    created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
+
+
+--
+-- Name: articles_folders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.articles_folders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: articles_folders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.articles_folders_id_seq OWNED BY public.articles_folders.id;
 
 
 --
@@ -2099,6 +2135,13 @@ ALTER TABLE ONLY public.articles ALTER COLUMN id SET DEFAULT nextval('public.art
 
 
 --
+-- Name: articles_folders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.articles_folders ALTER COLUMN id SET DEFAULT nextval('public.articles_folders_id_seq'::regclass);
+
+
+--
 -- Name: attachment_links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2463,6 +2506,14 @@ ALTER TABLE ONLY public.agreements
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: articles_folders articles_folders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.articles_folders
+    ADD CONSTRAINT articles_folders_pkey PRIMARY KEY (id);
 
 
 --
@@ -2913,6 +2964,34 @@ CREATE INDEX index_agreements_on_organization_id ON public.agreements USING btre
 --
 
 CREATE INDEX index_agreements_on_prop ON public.agreements USING btree (prop);
+
+
+--
+-- Name: index_articles_folders_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_articles_folders_on_name ON public.articles_folders USING btree (name);
+
+
+--
+-- Name: index_articles_folders_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_articles_folders_on_organization_id ON public.articles_folders USING btree (organization_id);
+
+
+--
+-- Name: index_articles_folders_on_parent_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_articles_folders_on_parent_id ON public.articles_folders USING btree (parent_id);
+
+
+--
+-- Name: index_articles_on_articles_folder_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_articles_on_articles_folder_id ON public.articles USING btree (articles_folder_id);
 
 
 --
@@ -3895,6 +3974,14 @@ ALTER TABLE ONLY public.readable_logs
 
 
 --
+-- Name: articles_folders fk_rails_3792e20256; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.articles_folders
+    ADD CONSTRAINT fk_rails_3792e20256 FOREIGN KEY (parent_id) REFERENCES public.articles_folders(id);
+
+
+--
 -- Name: investigations fk_rails_3a104ea16c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4199,6 +4286,14 @@ ALTER TABLE ONLY public.investigations
 
 
 --
+-- Name: articles_folders fk_rails_d15051faea; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.articles_folders
+    ADD CONSTRAINT fk_rails_d15051faea FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
+
+
+--
 -- Name: users fk_rails_d7b9ff90af; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4228,6 +4323,14 @@ ALTER TABLE ONLY public.delivery_subjects
 
 ALTER TABLE ONLY public.record_templates
     ADD CONSTRAINT fk_rails_e64d64f003 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: articles fk_rails_e8e3fd2578; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.articles
+    ADD CONSTRAINT fk_rails_e8e3fd2578 FOREIGN KEY (articles_folder_id) REFERENCES public.articles_folders(id);
 
 
 --
@@ -4348,6 +4451,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191126092016'),
 ('20191205081705'),
 ('20191211090648'),
-('20191223073226');
+('20191223073226'),
+('20200122093326'),
+('20200122101959');
 
 

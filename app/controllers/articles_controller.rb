@@ -3,6 +3,9 @@
 class ArticlesController < ApplicationController
   include RecordOfOrganization
 
+  before_action :set_id_for_uploader, only: [:edit]
+  after_action :reset_id_for_uploader, only: [:update]
+
   def autocomplete_article_name
     authorize model
     scope = if current_user.admin_editor?
@@ -29,6 +32,38 @@ class ArticlesController < ApplicationController
     render json: result
   end
 
+  def index
+    authorize model
+    @organization = organization
+    @records = records(model)
+  end
+
+#  def new
+#    @record = model.new(template_attributes)
+#    authorize @record.class
+#    @organization = organization
+#    preset_record
+#    @template_id = params[:template_id]
+#  end
+
+  def create
+    @organization = current_user.organization
+    @record = model.new(
+      name: "New article #{SecureRandom.uuid}",
+      articles_folder_id: params[:articles_folder_id],
+      organization_id: @organization.id,
+      current_user: current_user,
+      user: current_user
+    )
+    authorize @record.class
+    @record.save!
+    add_from_template
+  rescue ActiveRecord::RecordInvalid
+    # TODO: Add falsh message
+  ensure
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def model
@@ -41,5 +76,13 @@ class ArticlesController < ApplicationController
 
   def records_includes
     %i[organization user]
+  end
+
+  def set_id_for_uploader
+    session[:editable_article_id] = params[:id]
+  end
+
+  def reset_id_for_uploader
+    session[:editable_article_id] = nil
   end
 end

@@ -3,7 +3,7 @@
 = tabs_panes params[:active_tab], :content do |pane|
   - pane.add :content do
     .col-lg-offset-2.col-lg-8
-      .clear
+      .ck-content.clear
         = @record.content.to_s.html_safe
   - pane.add :main_info do
     = render 'record', record: @record
@@ -20,3 +20,16 @@ javascript:
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightBlock(block);
   });
+
+- if @record.articles_folder&.id
+  =< link_to articles_folders_path(articles_folder_id: @record.articles_folder.id) do
+    span.btn.btn-default
+      = t('views.action.back_to_list', model: ArticlesFolder.model_name.human(count: 2))
+- else
+  =< link_to articles_folders_path do
+    span.btn.btn-default
+      = t('views.action.back_to_list', model: ArticlesFolder.model_name.human(count: 2))
+
+=< link_to articles_path do
+  span.btn.btn-default
+    = t('views.action.back_to_list', model: Article.model_name.human(count: 2))
