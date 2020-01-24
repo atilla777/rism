@@ -48,6 +48,7 @@ set(
     '.env.production',
     'puma.service',
     'sidekiq.service',
+    'config/database.yml',
     'config/sidekiq.yml',
     'config/environments/production.rb',
     'config/schedule.yml'
