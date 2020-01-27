@@ -1,4 +1,6 @@
 :root {
+    /* Overrides the heading. */
+    --ck-color-heading_heading2: #ff00ff;
     /* Overrides the border radius setting in the theme. */
     --ck-border-radius: 4px;
     /* Overrides the default font size in the theme. */
@@ -10,7 +12,7 @@
     --ck-custom-white: hsl(0, 0%, 100%);
     /* -- Overrides generic colors. ------------------------------------------------------------- */
     --ck-color-base-foreground: var(--ck-custom-background);
-   --ck-color-base-background: #272B30;
+    --ck-color-base-background: #272B30;
     --ck-color-focus-border: hsl(208, 90%, 62%);
     --ck-color-text: hsl(0, 0%, 98%);
     --ck-color-shadow-drop: hsla(0, 0%, 0%, 0.2);
@@ -71,4 +73,23 @@
     --ck-color-widget-editable-focus-background: var(--ck-custom-white);
     /* -- Overrides the default colors used by the ckeditor5-link package. ---------------------- */
     --ck-color-link-default: hsl(190, 100%, 75%);
+}
+
+/* Content config */
+.ck-content h2 {
+  color: #e6ecff;
+  font-weight: bold;
+}
+
+.ck-content h3 {
+  color: #ccd8ff;
+  font-weight: bold;
+}
+
+.ck-content h4 {
+  color: #b3c4ff;
+}
+
+.ck-content blockquote {
+  color: #fff0b3;
 }
