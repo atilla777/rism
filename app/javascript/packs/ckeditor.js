@@ -1,6 +1,11 @@
 import './ckeditor/article.css';
 import './ckeditor/ckeditor_custom.css';
 
+function Markdown( editor ) {
+    editor.data.processor = new GFMDataProcessor();
+}
+
+
 document.addEventListener('turbolinks:load', () => {
   ClassicEditor.create(document.querySelector('.ckeditor'), {
     simpleUpload: {
