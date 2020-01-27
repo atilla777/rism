@@ -4,8 +4,7 @@ html
     title RISM
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-    //= stylesheet_pack_tag 'application'
+    //= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
     script type="text/javascript" src="#{asset_path("/ckeditor.js", skip_pipeline: true)}"
     = javascript_pack_tag 'ckeditor', 'data-turbolinks-track': 'reload'
