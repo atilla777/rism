@@ -14,13 +14,14 @@
         .col-lg-1.text-right
           = f.label :organization_id, class: 'control-label'
         .col-lg-2
-          = autocomplete_field_tag(:organization,
+          = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#article_organization_id',  class: 'form-control', autocomplete: :off, value: (@record.organization&.name || @organization&.name)
+          //= autocomplete_field_tag(:organization,
             '',
             autocomplete_organizations_path,
-            id_element: '#incident_organization_id',
+            id_element: '#article_organization_id',
             class: 'form-control',
             value: (@record.organization&.name || @organization&.name || current_user.organization.name))
-          = f.hidden_field(:organization_id,
+          //= f.hidden_field(:organization_id,
             value: @organization&.id || @record.organization_id || current_user.organization.id)
       //.field
         .col-lg-1.text-right

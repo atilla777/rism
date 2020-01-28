@@ -64,7 +64,10 @@
               span.text-warning
                 =< fa_icon 'folder-open'
 
-      - @articles = @articles_folder&.id.present? ? @articles_folder.articles : Article.where(articles_folder_id: nil)
+      - if @articles_folder&.id.present?
+        - @articles = Pundit.policy_scope(current_user, Article).where(articles_folder_id: @articles_folder.id)
+      - else
+        - @articles = Pundit.policy_scope(current_user, Article).where(articles_folder_id: nil)
 
     - @articles.each do |article|
       tr.table-active
