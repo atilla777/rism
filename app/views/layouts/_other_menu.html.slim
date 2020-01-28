@@ -17,14 +17,14 @@
           .span.text-info
             = fa_icon 'group'
             =< Department.model_name.human(count: 2)
-      = menu_li(models: 'Article') do
-        = link_to articles_path do
-          .span.text-info
-            = fa_icon 'newspaper-o'
-            =< Article.model_name.human(count: 2)
       = menu_li(models: 'ArticlesFolder') do
         = link_to articles_folders_path do
           .span.text-info
             = fa_icon 'folder-open'
             =< fa_icon 'newspaper-o'
             =< ArticlesFolder.model_name.human(count: 2)
+      = menu_li(models: 'Article') do
+        = link_to articles_path do
+          .span.text-info
+            = fa_icon 'newspaper-o'
+            =< Article.model_name.human(count: 2)

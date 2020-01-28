@@ -174,8 +174,9 @@ class ArticlesFoldersController < ApplicationController
     'rank asc'
   end
 
-#  def records_includes
-#    return %i[organization] if params[:organization_id].blank?
-#    return %i[organization] unless current_user.admin_editor_reader?
-#  end
+  def records_includes
+    %i[parent]
+    #return %i[organization] if params[:organization_id].blank?
+#    #return %i[organization] unless current_user.admin_editor_reader?
+  end
 end

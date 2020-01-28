@@ -1,5 +1,4 @@
-- editor = current_user.admin_editor? || current_user.can?(:edit, Article)
-
+- editor = false #current_user.admin_editor? || current_user.can?(:edit, Article)
 = form_tag articles_folders_select_path do
   - if editor
     = hidden_field_tag :articles_folder_id, @articles_folder.id
@@ -30,20 +29,23 @@
             = fa_icon 'plus-circle'
           =< t('helpers.submit.create', model: Article.model_name.human)
 
-    = index_new_button(records, articles_folder_id: @articles_folder.id)
+    = index_new_button(@records, articles_folder_id: @articles_folder.id)
 
-  table.table.table-hover.table-bordered.table-striped
-    thead.thead-dark
+  = index_for records, actions: false do |t|
+    - t.header attribute: :name, sort: :desc
+    - t.header attribute: :name, label: '', fit: true
+    - t.top_row do
       tr.table-active
-        td
+        td colspan=2
           h3
             =< link_to articles_folders_path do
               | /
               =<> fa_icon 'home'
             - @articles_folder.top_level_articles_folders&.reverse&.each do |d|
               = link_to articles_folders_path(articles_folder_id: d.parent&.id) do
-                =<> d.parent&.name
-                | /
+                  span.text-warning
+                    =<> d.parent&.name
+                  | /
 
             - if @articles_folder.name
               span.text-warning
@@ -53,9 +55,10 @@
               =< link_to(articles_folders_path(articles_folder_id: @articles_folder.parent&.id), class: 'btn btn-link') do
                 => fa_icon 'arrow-up'
 
-      - if editor
-        tr.table-active
-          td
+    - t.top_row do
+      tr.table-active
+        td colspan=2
+          - if editor
             input type='checkbox' id='selectAllArticles' value='selectAllArticles'
               span.text-success
                 =< fa_icon 'newspaper-o'
@@ -64,40 +67,39 @@
               span.text-warning
                 =< fa_icon 'folder-open'
 
+    - t.top_row do
       - @articles = @articles_folder&.id.present? ? @articles_folder.articles : Article.where(articles_folder_id: nil)
-
-    - @articles.each do |article|
-      tr.table-active
-        td
-          - if editor
+      - @articles.each do |article|
+        tr.table-active
+          td
+            - if editor
               = check_box_tag 'article_ids[]', article.id
-          = link_to polymorphic_path(article), class: 'btn btn-link' do
-            - if session[:selected_articles]&.include? article.id.to_s
-              span.text-danger *
-            - if article.created_at == article.updated_at
-              span.text-danger
-                =< fa_icon 'newspaper-o'
-            - else
-              span.text-success
-                =< fa_icon 'newspaper-o'
-            =< article.name
+            = link_to polymorphic_path(article), class: 'btn btn-link' do
+              - if session[:selected_articles]&.include? article.id.to_s
+                span.text-danger *
+              - if article.created_at == article.updated_at
+                span.text-danger
+                  =< fa_icon 'newspaper-o'
+              - else
+                span.text-success
+                  =< fa_icon 'newspaper-o'
+              =< article.name
 
-          - if editor
-            =< render 'helpers/index_actions', record: article
+          td.fit
+            - if editor
+              = render 'helpers/index_actions', record: article
 
-    - records.each do |record|
-      tr.table-active
-        td
-          - if editor
-            = check_box_tag 'articles_folder_ids[]', record.id
+    - t.field do |record|
+      - if editor
+        = check_box_tag 'articles_folder_ids[]', record.id
+      = link_to(articles_folders_path(articles_folder_id: record.id),
+        class: 'btn btn-link') do
+        - if session[:selected_articles_folders]&.include? record.id.to_s
+          span.text-danger *
+        span.text-warning
+          =< fa_icon 'folder'
+        =< record.name
 
-          = link_to(articles_folders_path(articles_folder_id: record.id),
-            class: 'btn btn-link') do
-            - if session[:selected_articles_folders]&.include? record.id.to_s
-              span.text-danger *
-            span.text-warning
-              =< fa_icon 'folder'
-            =< record.name
-
-          - if editor
-            = render 'helpers/index_actions', record: record
+    - t.field do |record|
+      - if editor
+        = render 'helpers/index_actions', record: record

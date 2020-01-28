@@ -1,35 +1,56 @@
-= caption @record
+h3
+  =< link_to articles_folders_path do
+    | /
+    =<> fa_icon 'home'
+  - @record.articles_folder&.top_level_articles_folders&.reverse&.each do |d|
+    = link_to articles_folders_path(articles_folder_id: d.parent&.id) do
+      =<> d.parent&.name
+      | /
+
+  - if @record.articles_folder&.name
+    =< link_to articles_folders_path(articles_folder_id: @record.articles_folder.id) do
+      span.text-warning
+       =< fa_icon 'folder-open'
+       = @record.articles_folder.name
+
 = render 'show_tabs', record: @record, active_tab: params[:active_tab], from_external_link: false
+
 = tabs_panes params[:active_tab], :content do |pane|
   - pane.add :content do
     .col-lg-offset-2.col-lg-8
       .ck-content.clear
+        h3
+          span.text-success
+            =<> fa_icon 'newspaper-o'
+          = @record.name
         = @record.content.to_s.html_safe
+
+        =< link_to articles_folders_path do
+          span.btn.btn-link.btn-lg
+            = fa_icon 'home'
+
+        - if @record.articles_folder&.id
+          =< link_to articles_folders_path(articles_folder_id: @record.articles_folder.id) do
+            span.btn.btn-link.btn-lg
+             = fa_icon 'folder-open'
+             =< @record.articles_folder.name
+
   - pane.add :main_info do
     = render 'record', record: @record
     = render 'show_buttons', record: @record
+
   - pane.add :tags do
     #tags
       = render 'tag_members/tags', record: @record
+
   - pane.add :links do
     #links
       = render 'links/links', record: @record
+
   - pane.add :files do
     = render 'application/record_attachments', record: @record
+
 javascript:
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightBlock(block);
   });
-
-- if @record.articles_folder&.id
-  =< link_to articles_folders_path(articles_folder_id: @record.articles_folder.id) do
-    span.btn.btn-default
-      = t('views.action.back_to_list', model: ArticlesFolder.model_name.human(count: 2))
-- else
-  =< link_to articles_folders_path do
-    span.btn.btn-default
-      = t('views.action.back_to_list', model: ArticlesFolder.model_name.human(count: 2))
-
-=< link_to articles_path do
-  span.btn.btn-default
-    = t('views.action.back_to_list', model: Article.model_name.human(count: 2))
