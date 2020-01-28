@@ -93,3 +93,7 @@
 .ck-content blockquote {
   color: #fff0b3;
 }
+
+.ck-content strong {
+  color: #d59845;
+}
