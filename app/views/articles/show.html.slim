@@ -30,15 +30,19 @@
           = @record.name
         = @record.content.to_s.html_safe
 
-        =< link_to articles_folders_path do
-          span.btn.btn-link.btn-lg
-            = fa_icon 'home'
+      table.table.table-hover.table-bordered.table-striped
+        thead.thead-dark
+          tr.table-active
+            td
+              =< link_to articles_folders_path do
+                span.btn.btn-link.btn-lg
+                  = fa_icon 'home'
 
-        - if @record.articles_folder&.id
-          =< link_to articles_folders_path(articles_folder_id: @record.articles_folder.id) do
-            span.btn.btn-link.btn-lg
-             = fa_icon 'folder-open'
-             =< @record.articles_folder.name
+              - if @record.articles_folder&.id
+                =< link_to articles_folders_path(articles_folder_id: @record.articles_folder.id) do
+                  span.btn.btn-link.btn-lg
+                   = fa_icon 'folder-open'
+                   =< @record.articles_folder.name
 
   - pane.add :main_info do
     = render 'record', record: @record

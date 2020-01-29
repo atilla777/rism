@@ -47,10 +47,15 @@ class ArticlesController < ApplicationController
 #  end
 
   def create
+    articles_folder = ArticlesFolder.where(id: params[:articles_folder_id]).first
+    if articles_folder.present?
+      authorize(articles_folder, :edit?)
+      #return if Pundit.policy(current_user, articles_folder).edit?
+    end
     @organization = current_user.organization
     @record = model.new(
       name: "New article #{SecureRandom.uuid}",
-      articles_folder_id: params[:articles_folder_id],
+      articles_folder_id: articles_folder&.id,
       organization_id: @organization.id,
       current_user: current_user,
       user: current_user
@@ -58,10 +63,9 @@ class ArticlesController < ApplicationController
     authorize @record.class
     @record.save!
     add_from_template
+    redirect_back(fallback_location: root_path)
   rescue ActiveRecord::RecordInvalid
     # TODO: Add falsh message
-  ensure
-    redirect_back(fallback_location: root_path)
   end
 
   private

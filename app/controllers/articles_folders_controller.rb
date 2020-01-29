@@ -42,9 +42,11 @@ class ArticlesFoldersController < ApplicationController
     @articles = if @articles_folder&.id.present?
                   Pundit.policy_scope(current_user, Article)
                         .where(articles_folder_id: @articles_folder.id)
+                        .order(:name)
                 else
                   Pundit.policy_scope(current_user, Article)
                         .where(articles_folder_id: nil)
+                        .order(:name)
                 end
   end
 
@@ -56,18 +58,25 @@ class ArticlesFoldersController < ApplicationController
   end
 
   def new
-    authorize ArticlesFolder
+    @articles_folder = articles_folder
+    if @articles_folder.id
+      authorize @articles_folder
+    else
+      authorize ArticlesFolder
+    end
     @record = ArticlesFolder.new
     @organization = organization
-    @articles_folder = articles_folder
   end
 
   def create
+    @articles_folder = articles_folder
+    if @articles_folder.id
+      authorize @articles_folder
+    end
     @record = ArticlesFolder.new(record_params)
     authorize @record.class
     @record.current_user = current_user
     @organization = organization
-    @articles_folder = articles_folder
     @record.save!
     redirect_to(
       session.delete(:edit_return_to),
@@ -134,8 +143,10 @@ class ArticlesFoldersController < ApplicationController
 
   def paste_selected_articles
     return if session[:selected_articles].blank?
+    return unless Pundit.policy(current_user, @articles_folder)&.edit?
     articles = Article.where(id: session[:selected_articles].map(&:to_i))
     articles.each do |article|
+      next unless Pundit.policy(current_user, article).edit?
       article.update_attributes(
         articles_folder_id: @articles_folder.id,
         current_user: current_user
@@ -146,11 +157,13 @@ class ArticlesFoldersController < ApplicationController
 
   def paste_selected_articles_folders
     return if session[:selected_articles_folders].blank?
+    return unless Pundit.policy(current_user, @articles_folder)&.edit?
     articles_folders = ArticlesFolder.where(
       id: session[:selected_articles_folders].map(&:to_i)
     )
     articles_folders.each do |articles_folder|
       next if articles_folder.id == @articles_folder.id
+      next unless Pundit.policy(current_user, articles_folder).edit?
       articles_folder.update_attributes(
         parent_id: @articles_folder.id,
         current_user: current_user
