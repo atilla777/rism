@@ -17,8 +17,8 @@
           .col-lg-2.text-right
             = f.label :organization_id, "#{Right.human_attribute_name :organization_id}", class: 'control-label'
           .col-lg-8
-            = autocomplete_field_tag :parent, '', autocomplete_organizations_path, id_element: '#right_organization_id',  class: 'form-control', value: @record.organization&.name
-            = f.hidden_field :organization_id
+            = autocomplete_field_tag :parent, '', autocomplete_organizations_path, id_element: '#right_organization_id',  class: 'form-control', value: (@record.organization&.name || current_user.organization.name), placeholder: t('placeholders.auto')
+            = f.hidden_field :organization_id, value: (@record.organization_id || current_user.organization_id)
 
       .form-group.required
         .field
@@ -39,7 +39,7 @@
           .col-lg-2.text-right
             = f.label :level, class: 'control-label'
           .col-lg-8
-            = f.collection_select :level, @levels, :first, :last, {}, {class: 'form-control'}
+            = f.collection_select :level, @levels.sort_by {|k, v| v }.reverse, :first, :last, {}, {class: 'form-control'}
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8
