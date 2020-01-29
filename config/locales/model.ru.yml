@@ -52,9 +52,6 @@ ru:
       host:
         one: 'Хост/сеть'
         other: 'Хосты/сети'
-      article:
-        one: 'Публикация'
-        other: 'Публикации'
       scan_option:
         one: 'Набор опций сканирования'
         other: 'Наборы опций сканирования'
@@ -194,12 +191,6 @@ ru:
         ip: 'Адрес'
         organization_id: 'Организация'
         description: 'Описание'
-      article:
-        name: 'Название'
-        created_at: 'Дата создания'
-        organization_id: 'Организация'
-        user_id: 'Автор'
-        content: 'Содержимое'
       scan_option:
         name: 'Название'
         description: 'Описание'

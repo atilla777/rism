@@ -38,6 +38,11 @@ class ApplicationPolicy
     index?
   end
 
+  def autocomplete_role_name?
+    return true if @user.admin?
+    false
+  end
+
   def search?
     index?
   end

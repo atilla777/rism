@@ -5,7 +5,6 @@ class ArticlesFoldersController < ApplicationController
 
   def select
     authorize model
-    #@organization = organization
     @articles_folder = articles_folder
     set_selected_articles
     set_selected_articles_folders
@@ -14,7 +13,6 @@ class ArticlesFoldersController < ApplicationController
 
   def reset
     authorize model
-    #@organization = organization
     @articles_folder = articles_folder
     session.delete :selected_articles_folders
     session.delete :selected_articles
@@ -23,7 +21,6 @@ class ArticlesFoldersController < ApplicationController
 
   def paste
     authorize model
-    #@organization = organization
     @articles_folder = articles_folder
     paste_selected_articles
     paste_selected_articles_folders
@@ -32,7 +29,6 @@ class ArticlesFoldersController < ApplicationController
 
   def index
     authorize model
-    #@organization = organization
     @articles_folder = articles_folder
     scope = if @articles_folder.id
               model.where(parent_id: @articles_folder.id)
@@ -42,7 +38,14 @@ class ArticlesFoldersController < ApplicationController
               )
             end
     @records = records(scope)
-    #@organization.id ? render('application/index') : render('index')
+
+    @articles = if @articles_folder&.id.present?
+                  Pundit.policy_scope(current_user, Article)
+                        .where(articles_folder_id: @articles_folder.id)
+                else
+                  Pundit.policy_scope(current_user, Article)
+                        .where(articles_folder_id: nil)
+                end
   end
 
   def show
@@ -87,7 +90,6 @@ class ArticlesFoldersController < ApplicationController
     @record = record
     authorize @record
     @record.current_user = current_user
-    #@organization = organization
     @articles_folder = articles_folder
     @record.update!(record_params)
     redirect_to(
@@ -176,7 +178,5 @@ class ArticlesFoldersController < ApplicationController
 
   def records_includes
     %i[parent]
-    #return %i[organization] if params[:organization_id].blank?
-#    #return %i[organization] unless current_user.admin_editor_reader?
   end
 end

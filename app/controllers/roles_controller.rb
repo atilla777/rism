@@ -3,6 +3,16 @@
 class RolesController < ApplicationController
   include Record
 
+  autocomplete(:role, :name)
+
+  # authorization for autocomplete
+  def active_record_get_autocomplete_items(parameters)
+    authorize model
+    if current_user.admin?
+      super(parameters)
+    end
+  end
+
   def show
     @record = record
     authorize @record.class

@@ -25,7 +25,8 @@ module OrganizationRelative
     raise ValidateCurrentUserError unless current_user.present?
     return if current_user.admin_editor?
     return if current_user.can_read_model_index?(self.class)
-    allowed_ids = current_user.allowed_organizations_ids(self.class)
+    #allowed_ids = current_user.allowed_organizations_ids(self.class)
+    allowed_ids = current_user.allowed_organizations_ids(self.class, :edit)
     return if allowed_ids.include?(organization_id)
     return if current_user == self
     # TODO: add translation

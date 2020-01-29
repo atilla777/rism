@@ -57,17 +57,10 @@
         tr.table-active
           td
             input type='checkbox' id='selectAllArticles' value='selectAllArticles'
-              span.text-success
-                =< fa_icon 'newspaper-o'
+              =< fa_icon 'newspaper-o'
             =<> '/'
             input type='checkbox' id='selectAllArticlesFolders' value='selectAllArticlesFolders'
-              span.text-warning
-                =< fa_icon 'folder-open'
-
-      - if @articles_folder&.id.present?
-        - @articles = Pundit.policy_scope(current_user, Article).where(articles_folder_id: @articles_folder.id)
-      - else
-        - @articles = Pundit.policy_scope(current_user, Article).where(articles_folder_id: nil)
+              =< fa_icon 'folder-open'
 
     - @articles.each do |article|
       tr.table-active
@@ -77,13 +70,17 @@
           = link_to polymorphic_path(article), class: 'btn btn-link' do
             - if session[:selected_articles]&.include? article.id.to_s
               span.text-danger *
-            - if article.created_at == article.updated_at
-              span.text-danger
-                =< fa_icon 'newspaper-o'
-            - else
+            - if article.published?
               span.text-success
                 =< fa_icon 'newspaper-o'
-            =< article.name
+            - else
+              span.text-danger
+                =< fa_icon 'newspaper-o'
+            - if article.created_at == article.updated_at
+              span.text-danger
+                =< article.name
+            - else
+              =< article.name
 
           - if editor
             =< render 'helpers/index_actions', record: article

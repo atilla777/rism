@@ -8,32 +8,22 @@
       .field
         .col-lg-2.text-right
           = f.label :name, class: 'control-label'
-        .col-lg-5
+        .col-lg-4
           = f.text_field :name, class: 'form-control'
       .field
         .col-lg-1.text-right
           = f.label :organization_id, class: 'control-label'
         .col-lg-2
-          = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#article_organization_id',  class: 'form-control', autocomplete: :off, value: (@record.organization&.name || @organization&.name)
-          //= autocomplete_field_tag(:organization,
-            '',
-            autocomplete_organizations_path,
-            id_element: '#article_organization_id',
-            class: 'form-control',
-            value: (@record.organization&.name || @organization&.name || current_user.organization.name))
-          //= f.hidden_field(:organization_id,
-            value: @organization&.id || @record.organization_id || current_user.organization.id)
-      //.field
-        .col-lg-1.text-right
-          = f.label :user_id, class: 'control-label'
+          = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#article_organization_id', class: 'form-control', autocomplete: :off, value: @record.organization&.name
+          = f.hidden_field :organization_id, value: @record.organization_id
+
+      .form-group
         .col-lg-2
-          = autocomplete_field_tag(:user,
-            '',
-            autocomplete_users_path,
-            id_element: '#incident_user_id',
-            class: 'form-control',
-            value: (@record.user&.name || current_user&.name), readonly: @department&.id.present?, placeholder: t('placeholders.auto'))
-          = f.hidden_field :user_id, value: current_user&.id || @record.user_id
+          .checkbox
+             label
+               = f.check_box :published, class: 'big-checkbox'
+               strong
+                = t('activerecord.attributes.article.published')
 
     .form-group.required
       .field

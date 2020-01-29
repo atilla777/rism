@@ -1,0 +1,14 @@
+ru:
+  activerecord:
+    models:
+      article:
+        one: 'Публикация'
+        other: 'Публикации'
+    attributes:
+      article:
+        name: 'Название'
+        created_at: 'Дата создания'
+        organization_id: 'Организация'
+        user_id: 'Автор'
+        content: 'Содержимое'
+        published: 'Опубликовано'

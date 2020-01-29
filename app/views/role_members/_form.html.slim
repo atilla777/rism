@@ -8,7 +8,8 @@
           .col-lg-2.text-right
             = f.label :role_id, class: 'control-label'
           .col-lg-8
-            = f.collection_select :role_id, @roles, :id, :name, {}, {class: 'form-control'}
+            = autocomplete_field_tag :role, '', autocomplete_roles_path, id_element: '#role_member_role_id',  class: 'form-control', autocomplete: :off, value: @record.role&.name
+            = f.hidden_field :role_id, value: @record.role_id
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8

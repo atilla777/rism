@@ -17,10 +17,15 @@ Rails.application.routes.draw do
       patch 'update_password'
     end
   end
+
   post '/departments/select', to: 'departments#select', as: :departments_select
   put '/departments/paste', to: 'departments#paste', as: :departments_paste
   get '/departments/reset', to: 'departments#reset', as: :departments_reset
-  resources :roles
+
+  resources :roles do
+    get :autocomplete_role_name, :on => :collection, as: :autocomplete
+  end
+
   resources :role_members
   resources :rights
   resources :departments do

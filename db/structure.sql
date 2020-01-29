@@ -253,7 +253,8 @@ CREATE TABLE public.articles (
     content text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    articles_folder_id bigint
+    articles_folder_id bigint,
+    published boolean
 );
 
 
@@ -4453,6 +4454,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191211090648'),
 ('20191223073226'),
 ('20200122093326'),
-('20200122101959');
+('20200122101959'),
+('20200129062359');
 
 
