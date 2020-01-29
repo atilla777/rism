@@ -6,6 +6,7 @@ ru:
     last_weeks: 'за N недель'
     last_months: 'за N месяцев'
     last_years: 'за N лет'
+    knowledge_base_search: 'Поиск по базе знаний'
     user:
       name: 'Фамилия Имя Отчество'
       department: 'можно указать имя подразделения (если поле сверху пустое)'
@@ -111,7 +112,7 @@ ru:
     reports: 'Справки'
     info: 'Дополнительная информация...'
     kbase: 'База знаний/новости'
-    search: 'Поиск'
+    search: 'Результаты поиска'
     host_service:
       vulnerable: 'Уязвим'
     current_legality: 'Легальность'
@@ -170,6 +171,7 @@ ru:
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
+    knowledge_base: 'База знаний'
     references: 'Справочники'
     main_info: 'Основная информация'
     roles: 'Роли'

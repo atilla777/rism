@@ -14,7 +14,7 @@
         .col-lg-1.text-right
           = f.label :organization_id, class: 'control-label'
         .col-lg-2
-          = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#article_organization_id', class: 'form-control', autocomplete: :off, value: @record.organization&.name
+          = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#article_organization_id', class: 'form-control', autocomplete: :off, value: @record.organization&.name, placeholder: t('placeholders.auto')
           = f.hidden_field :organization_id, value: @record.organization_id
 
       .form-group

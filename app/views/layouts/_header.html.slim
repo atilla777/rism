@@ -10,7 +10,7 @@ nav.navbar.navbar-default
       = render 'layouts/references_menu'
     = form_tag search_path, method: :get, class: 'navbar-form navbar-right'
       .form-group.input-group
-        = text_field_tag :words, '', class: 'form-control', value: params[:words]
+        = text_field_tag :words, '', class: 'form-control', value: params[:words], placeholder: t('placeholders.knowledge_base_search')
         .input-group-btn
           = button_tag class: 'btn btn-default' do
             = fa_icon 'search'
