@@ -143,7 +143,7 @@ class ArticlesFoldersController < ApplicationController
 
   def paste_selected_articles
     return if session[:selected_articles].blank?
-    return unless Pundit.policy(current_user, @articles_folder)&.edit?
+    return unless Pundit.policy(current_user, @articles_folder)&.edit? || current_user.admin_editor?
     articles = Article.where(id: session[:selected_articles].map(&:to_i))
     articles.each do |article|
       next unless Pundit.policy(current_user, article).edit?
@@ -157,7 +157,7 @@ class ArticlesFoldersController < ApplicationController
 
   def paste_selected_articles_folders
     return if session[:selected_articles_folders].blank?
-    return unless Pundit.policy(current_user, @articles_folder)&.edit?
+    return unless Pundit.policy(current_user, @articles_folder)&.edit? || current_user.admin_editor?
     articles_folders = ArticlesFolder.where(
       id: session[:selected_articles_folders].map(&:to_i)
     )
@@ -186,7 +186,7 @@ class ArticlesFoldersController < ApplicationController
   end
 
   def default_sort
-    'rank asc'
+    ['rank asc', 'name']
   end
 
   def records_includes
