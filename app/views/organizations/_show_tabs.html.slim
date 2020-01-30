@@ -12,30 +12,45 @@
     = fa_icon 'folder'
     =< Attachment.model_name.human(count: 2)
   - tabs.add(:organizations, organizations_path(organization_id: record.id), true) do
-    = Organization.model_name.human(count: 2)
+    = fa_icon 'industry'
+    =< Organization.model_name.human(count: 2)
   - tabs.add(:departments, departments_path(organization_id: record.id), true) do
-    = t('navigations.departments')
+    = fa_icon 'user'
+    =< t('navigations.departments')
   - tabs.add(:incidents, incidents_path(organization_id: record.id), true) do
-    = Incident.model_name.human(count: 2)
+    = fa_icon 'flash'
+    =< Incident.model_name.human(count: 2)
   - tabs.add(:hosts, hosts_path(organization_id: record.id), true) do
-    = Host.model_name.human(count: 2)
+    = fa_icon 'sitemap'
+    =< Host.model_name.human(count: 2)
   - tabs.add(:host_services, host_services_path(organization_id: record.id), true) do
-    = HostService.model_name.human(count: 2)
+    = fa_icon 'sun-o'
+    =< HostService.model_name.human(count: 2)
   - tabs.add(:scan_jobs, scan_jobs_path(organization_id: record.id), true) do
-    = ScanJob.model_name.human(count: 2)
+    = fa_icon 'gears'
+    =< ScanJob.model_name.human(count: 2)
   - tabs.add(:scan_results, scan_results_path(organization_id: record.id), true) do
-    = ScanResult.model_name.human(count: 2)
+    = fa_icon 'eye'
+    =< ScanResult.model_name.human(count: 2)
   - tabs.add(:open_ports, open_ports_scan_results_path(organization_id: record.id), true) do
+    = fa_icon 'circle'
     =< t'navigations.open_ports'
   - tabs.add(:new_ports, new_ports_scan_results_path(organization_id: record.id), true) do
+    = fa_icon 'asterisk'
     =< t'navigations.new_ports'
   - tabs.add(:agreements, agreements_path(organization_id: record.id), true) do
-    = Agreement.model_name.human(count: 2)
+    = fa_icon 'handshake-o'
+    =< Agreement.model_name.human(count: 2)
   - tabs.add(:investigations, investigations_path(organization_id: record.id), true) do
-    = Investigation.model_name.human(count: 2)
+    = fa_icon 'search'
+    =< Investigation.model_name.human(count: 2)
   - tabs.add(:vulnerability_bulletins, vulnerability_bulletins_path(organization_id: record.id), true) do
-    = VulnerabilityBulletin.model_name.human(count: 2)
+    = fa_icon 'bug'
+    =< fa_icon 'newspaper-o'
+    =< VulnerabilityBulletin.model_name.human(count: 2)
   - tabs.add(:delivery_lists, delivery_lists_path(organization_id: record.id), true) do
-    = DeliveryList.model_name.human(count: 2)
+    =< fa_icon 'address-book'
+    =< DeliveryList.model_name.human(count: 2)
   - tabs.add(:deliveries, delivery_subjects_path(organization_id: record.id), true) do
-    = DeliverySubject.model_name.human(count: 2)
+    = fa_icon :envelope
+    =< DeliverySubject.model_name.human(count: 2)

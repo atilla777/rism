@@ -41,7 +41,7 @@ ul.nav.navbar-nav
         = menu_li(models: 'ScanResult', action: 'index') do
           = link_to scan_results_path do
             .span.text-info
-              = fa_icon 'search'
+              = fa_icon 'eye'
               =< ScanResult.model_name.human(count: 2)
         = menu_li(models: 'ScanResult', action: 'open_ports') do
           = link_to open_ports_scan_results_path do
