@@ -10,7 +10,9 @@ class OrganizationPolicy < ApplicationPolicy
       elsif user.can_read_model_index?(scope)
         scope.all
       else
-        scope.where(id: user.allowed_organizations_ids)
+        scope.where(
+          id: user.allowed_organizations_ids(scope)
+        )
       end
     end
   end

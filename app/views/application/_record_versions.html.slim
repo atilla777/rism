@@ -1,4 +1,4 @@
-- if @record.respond_to?(:paper_trail) && @record.versions.present?
+- if @record.respond_to?(:paper_trail) && @record.versions.present? && (current_user.admin_editor? || current_user.can?(:read, 'Versions'))
   table.table.table-hover.table-bordered.table-striped
     tbody
       tr
@@ -17,7 +17,7 @@
               |,
               =< link_to t('helpers.submit.revert'), revert_version_path(@record.version), method: :post, data: {confirm: t('views.action.confirm')}
           ul#toggle_versions.list-unstyled class="collapse#{' in' unless @record.paper_trail.live?}"
-            - @record.versions.each do | v |
+            - @record.versions.each do |v|
                 li.text-warning
                   = link_to polymorphic_path(@record, version_id: v.next) do
                     span class="#{'text-warning' unless v == @record.versions.last }"

@@ -30,7 +30,7 @@ class AgreementPolicy < ApplicationPolicy
       elsif user.can_read_model_index?(scope)
         scope.all
       else
-        ids = user.allowed_organizations_ids
+        ids = user.allowed_organizations_ids(scope)
         scope.where(organization_id: ids)
              .or(scope.where(contractor_id: ids))
       end

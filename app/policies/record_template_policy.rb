@@ -26,12 +26,13 @@ class RecordTemplatePolicy < ApplicationPolicy
       elsif user.can_read_model_index?(scope)
         scope.all
       else
+        # TODO: check code bellow
         sql = <<~SQL
           user_id = ? OR
           organization_id = ? OR
           (user_id IS NULL AND organization_id IS NULL)
         SQL
-        scope.where(sql, model, current_user.id, current_user.organization_id)
+        scope.where(sql, user.id, user.organization_id)
       end
     end
   end

@@ -2,21 +2,21 @@
   - tabs.add(:main_info, polymorphic_path(record, active_tab: :main_info)) do
     = fa_icon 'info'
     =< t('navigations.main_info')
-  - tabs.add(:hosts, scan_jobs_hosts_path(job_id: record.id), true) do
+  - tabs.add(:hosts, scan_jobs_hosts_path(job_id: record.id), 'ScanJobsHost', true) do
     = fa_icon 'sitemap'
     =< Host.model_name.human(count: 2)
-  - tabs.add(:schedule, schedule_path(job_id: record.id, job_type: 'ScanJob'), true) do
+  - tabs.add(:schedule, schedule_path(job_id: record.id, job_type: 'ScanJob'), 'Schedule', true) do
     = fa_icon 'clock-o'
     =< Schedule.model_name.human(count: 1)
-  - tabs.add(:logs, scan_job_logs_path(job_id: record.id), true) do
+  - tabs.add(:logs, scan_job_logs_path(job_id: record.id), 'ScanJobLog', true) do
     = fa_icon 'history'
     =< ScanJobLog.model_name.human(count: 2)
-  - tabs.add(:links, polymorphic_path(record, active_tab: :links)) do
+  - tabs.add(:links, polymorphic_path(record, active_tab: :links), 'Link') do
     = fa_icon 'link'
     =< Link.model_name.human(count: 2)
-  - tabs.add(:tags, polymorphic_path(record, active_tab: :tags)) do
+  - tabs.add(:tags, polymorphic_path(record, active_tab: :tags), 'Tag') do
     = fa_icon 'tags'
     =< Tag.model_name.human(count: 2)
-  - tabs.add(:files, polymorphic_path(record, active_tab: :files)) do
+  - tabs.add(:files, polymorphic_path(record, active_tab: :files), 'Attachment') do
     = fa_icon 'folder'
     =< Attachment.model_name.human(count: 2)

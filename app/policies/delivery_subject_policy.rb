@@ -38,8 +38,10 @@ class DeliverySubjectPolicy < ApplicationPolicy
       elsif user.can_read_model_index?(scope)
         scope.all
       else
-        scope.includes(:delivery_lists)
-             .where(delivery_lists: {organization_id: user.allowed_organizations_ids})
+      # TODO: think about it
+#        scope.includes(:delivery_list)
+#             .where(delivery_lists: {organization_id: user.allowed_organizations_ids(scope)})
+        scope.all
       end
     end
   end

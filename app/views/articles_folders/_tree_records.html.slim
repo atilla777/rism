@@ -1,6 +1,6 @@
 = render 'application/flash'
 
-- editor = current_user.admin_editor? || current_user.can?(:edit, Article)
+- editor = current_user.admin_editor? || current_user.can?(:edit, 'Article')
 
 = form_tag articles_folders_select_path do
   - if editor

@@ -25,5 +25,7 @@ class DeliveryRecipient < ApplicationRecord
 
   belongs_to :recipientable, polymorphic: true
   belongs_to :delivery_list
+  has_many :delivery_subjects, through: :delivery_list
+
   belongs_to :user, foreign_key: :created_by_id, class_name: 'User', optional: true
 end

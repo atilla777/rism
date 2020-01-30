@@ -2,22 +2,22 @@
   - tabs.add(:main_info, polymorphic_path(record, active_tab: :main_info)) do
     = fa_icon 'info'
     =< t('navigations.main_info')
-  - tabs.add(:delivery_recipients, delivery_recipients_path(delivery_list_id: record.id, active_tab: :delivery_list_members), true) do
+  - tabs.add(:delivery_recipients, delivery_recipients_path(delivery_list_id: record.id, active_tab: :delivery_list_members), 'DeliveryRecipient', true) do
     = fa_icon 'industry'
     =< fa_icon 'users'
     =< t('labels.delivery_recipients.assigned')
-  - tabs.add(:allowed_organizations, delivery_recipients_path(delivery_list_id: record.id, active_tab: :allowed_organizations), true) do
+  - tabs.add(:allowed_organizations, delivery_recipients_path(delivery_list_id: record.id, active_tab: :allowed_organizations), 'DeliveryRecipient', true) do
     = fa_icon 'industry'
     =< t('labels.delivery_recipients.allowed_organizations')
-  - tabs.add(:allowed_users, delivery_recipients_path(delivery_list_id: record.id, active_tab: :allowed_users), true) do
+  - tabs.add(:allowed_users, delivery_recipients_path(delivery_list_id: record.id, active_tab: :allowed_users), 'DeliveryRecipient', true) do
     = fa_icon 'users'
     =< t('labels.delivery_recipients.allowed_users')
-  - tabs.add(:links, polymorphic_path(record, active_tab: :links)) do
+  - tabs.add(:links, polymorphic_path(record, active_tab: :links), 'Link') do
     = fa_icon 'link'
     =< Link.model_name.human(count: 2)
-  - tabs.add(:tags, polymorphic_path(record, active_tab: :tags)) do
+  - tabs.add(:tags, polymorphic_path(record, active_tab: :tags), 'Tag') do
     = fa_icon 'tags'
     =< Tag.model_name.human(count: 2)
-  - tabs.add(:files, polymorphic_path(record, active_tab: :files)) do
+  - tabs.add(:files, polymorphic_path(record, active_tab: :files), 'Attachment') do
     = fa_icon 'folder'
     =< Attachment.model_name.human(count: 2)

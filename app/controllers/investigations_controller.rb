@@ -54,7 +54,7 @@ class InvestigationsController < ApplicationController
   end
 
   def records_includes
-    %i[organization creator feed investigation_kind]
+    %i[organization creator feed investigation_kind notifications_logs]
   end
 
   def default_sort

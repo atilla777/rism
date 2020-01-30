@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 module TabsHelper
-  Struct.new('Tabs', :tabs) do
-    def add(name, link, external_link = false, &label)
+  Struct.new('Tabs', :tabs, :admin_editor, :models) do
+    def add(name, link, model = '', external_link = false, &label)
+      if model.present?
+        return unless admin_editor || models.include?(model)
+      end
       tabs << {
         name: name,
         link: link,
-        label: label,
+        label:  label,
         external_link: external_link
       }
     end
@@ -30,7 +33,11 @@ module TabsHelper
                   else
                     {default_tab => ' active'}
                   end
-    tabs = Struct::Tabs.new([])
+    tabs = Struct::Tabs.new(
+      [],
+      current_user_admin_editor_reader?,
+      current_user_models
+    )
     yield(tabs)
     render(
      'helpers/tabs',

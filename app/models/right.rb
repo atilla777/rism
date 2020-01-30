@@ -46,7 +46,7 @@ class Right < ApplicationRecord
 
   # Role is an access subject
   belongs_to :role
-  # Subject is an access object (yes, it was mistakly called such)
+  # Subject is an access object (yes, it was mistakly called such maner)
   #belongs_to :subject, polymorphic: true, optional: true
 
   def self.subject_types

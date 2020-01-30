@@ -1,56 +1,57 @@
 =  tabs active_tab, :main_info, from_external_link do |tabs|
-  - tabs.add(:main_info, polymorphic_path(record, active_tab: :main_info)) do
+  - tabs.add(:main_info,
+    polymorphic_path(record, active_tab: :main_info)) do
     = fa_icon 'info'
     =< t('navigations.main_info')
-  - tabs.add(:links, polymorphic_path(record, active_tab: :links)) do
+  - tabs.add(:links, polymorphic_path(record, active_tab: :links), 'Link') do
     = fa_icon 'link'
     =< Link.model_name.human(count: 2)
-  - tabs.add(:tags, polymorphic_path(record, active_tab: :tags)) do
+  - tabs.add(:tags, polymorphic_path(record, active_tab: :tags), 'Tag') do
     = fa_icon 'tags'
     =< Tag.model_name.human(count: 2)
-  - tabs.add(:files, polymorphic_path(record, active_tab: :files)) do
+  - tabs.add(:files, polymorphic_path(record, active_tab: :files), 'Attachment') do
     = fa_icon 'folder'
     =< Attachment.model_name.human(count: 2)
-  - tabs.add(:organizations, organizations_path(organization_id: record.id), true) do
+  - tabs.add(:organizations, organizations_path(organization_id: record.id), 'Organization', true) do
     = fa_icon 'industry'
     =< Organization.model_name.human(count: 2)
-  - tabs.add(:departments, departments_path(organization_id: record.id), true) do
+  - tabs.add(:departments, departments_path(organization_id: record.id), 'Department', true) do
     = fa_icon 'user'
     =< t('navigations.departments')
-  - tabs.add(:incidents, incidents_path(organization_id: record.id), true) do
+  - tabs.add(:incidents, incidents_path(organization_id: record.id), 'Incident', true) do
     = fa_icon 'flash'
     =< Incident.model_name.human(count: 2)
-  - tabs.add(:hosts, hosts_path(organization_id: record.id), true) do
+  - tabs.add(:hosts, hosts_path(organization_id: record.id), 'Host', true) do
     = fa_icon 'sitemap'
     =< Host.model_name.human(count: 2)
-  - tabs.add(:host_services, host_services_path(organization_id: record.id), true) do
+  - tabs.add(:host_services, host_services_path(organization_id: record.id), 'HostService', true) do
     = fa_icon 'sun-o'
     =< HostService.model_name.human(count: 2)
-  - tabs.add(:scan_jobs, scan_jobs_path(organization_id: record.id), true) do
+  - tabs.add(:scan_jobs, scan_jobs_path(organization_id: record.id), 'ScanJob', true) do
     = fa_icon 'gears'
     =< ScanJob.model_name.human(count: 2)
-  - tabs.add(:scan_results, scan_results_path(organization_id: record.id), true) do
+  - tabs.add(:scan_results, scan_results_path(organization_id: record.id), 'ScanResult', true) do
     = fa_icon 'eye'
     =< ScanResult.model_name.human(count: 2)
-  - tabs.add(:open_ports, open_ports_scan_results_path(organization_id: record.id), true) do
+  - tabs.add(:open_ports, open_ports_scan_results_path(organization_id: record.id), 'ScanResult', true) do
     = fa_icon 'circle'
     =< t'navigations.open_ports'
-  - tabs.add(:new_ports, new_ports_scan_results_path(organization_id: record.id), true) do
+  - tabs.add(:new_ports, new_ports_scan_results_path(organization_id: record.id), 'ScanResult', true) do
     = fa_icon 'asterisk'
     =< t'navigations.new_ports'
-  - tabs.add(:agreements, agreements_path(organization_id: record.id), true) do
+  - tabs.add(:agreements, agreements_path(organization_id: record.id), 'Agreement', true) do
     = fa_icon 'handshake-o'
     =< Agreement.model_name.human(count: 2)
-  - tabs.add(:investigations, investigations_path(organization_id: record.id), true) do
+  - tabs.add(:investigations, investigations_path(organization_id: record.id), 'Investigation', true) do
     = fa_icon 'search'
     =< Investigation.model_name.human(count: 2)
-  - tabs.add(:vulnerability_bulletins, vulnerability_bulletins_path(organization_id: record.id), true) do
+  - tabs.add(:vulnerability_bulletins, vulnerability_bulletins_path(organization_id: record.id), 'VulnerabilityBulletin', true) do
     = fa_icon 'bug'
     =< fa_icon 'newspaper-o'
     =< VulnerabilityBulletin.model_name.human(count: 2)
-  - tabs.add(:delivery_lists, delivery_lists_path(organization_id: record.id), true) do
+  - tabs.add(:delivery_lists, delivery_lists_path(organization_id: record.id), 'DeliveryList', true) do
     =< fa_icon 'address-book'
     =< DeliveryList.model_name.human(count: 2)
-  - tabs.add(:deliveries, delivery_subjects_path(organization_id: record.id), true) do
+  - tabs.add(:deliveries, delivery_subjects_path(organization_id: record.id), 'DeliverySubject', true) do
     = fa_icon :envelope
     =< DeliverySubject.model_name.human(count: 2)

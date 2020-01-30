@@ -18,7 +18,7 @@ class ScanJobLogPolicy < ApplicationPolicy
         scope.all
       else
         scope.includes(:scan_job)
-             .where(scan_jobs: {organization_id: user.allowed_organizations_ids})
+             .where(scan_jobs: {organization_id: user.allowed_organizations_ids(scope)})
       end
     end
   end
