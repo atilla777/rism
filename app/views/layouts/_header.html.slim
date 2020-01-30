@@ -20,7 +20,7 @@ nav.navbar.navbar-default
         li
           span.navbar-text
             = fa_icon 'user'
-            =< "#{current_user.name}"
+            =< "#{current_user.name.truncate(20)}"
         li
           = link_to t('user_sessions.sign_out'), sign_out_path, method: :delete, class: 'navbar-link'
       - else
