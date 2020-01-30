@@ -1,4 +1,4 @@
-= index_search :name_or_organization_name_or_email_or_phone_cont
+= index_search :name_or_organization_name_or_email_or_phone_cont, role_id_eq: @role&.id
 = report_button_for @records
 = index_for records do |t|
   - t.header attribute: :name, sort: :desc

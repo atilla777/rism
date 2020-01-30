@@ -3,3 +3,5 @@
     = t('navigations.main_info')
   - tabs.add(:rights, rights_path(role_id: record.id), true) do
     = t('navigations.rights')
+  - tabs.add(:users, users_path(role_id: record.id), true) do
+    = User.model_name.human(count: 2)

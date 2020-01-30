@@ -19,10 +19,14 @@ class UsersController < ApplicationController
 
   def index
     authorize model
+    @role = role
     if params[:department_id].present?
       @department = Department.find(params[:department_id])
       scope = @department.users
       template = 'department_users'
+    elsif @role.present?
+      scope = @role.users
+      template = 'role_index'
     else
       scope = User
       template = 'index'
@@ -150,6 +154,19 @@ class UsersController < ApplicationController
                       @record.department
                     end
     Department.where(id: department_id).first || OpenStruct.new(id: nil)
+  end
+
+  def role
+    role_id = if params[:role_id]
+                params[:role_id]
+              elsif params.dig(:q, :role_id_eq)
+                params[:q][:role_id_eq]
+#              elsif params.dig(model.name.underscore.to_sym, :role_id)
+#                params[model.name.underscore.to_sym][:role_id]
+              end
+    return nil unless role_id
+#    Role.where(id: role_id).first #|| @record&.role || OpenStruct.new(id: nil)
+    Role.find(role_id)#|| @record&.role || OpenStruct.new(id: nil)
   end
 
   def model

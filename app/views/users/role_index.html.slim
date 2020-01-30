@@ -1,0 +1,4 @@
+= caption @role
+= render 'roles/show_tabs', record: @role, active_tab: :users, from_external_link: true
+= render 'records', records: @records
+= render 'index_paginate', records: @records
