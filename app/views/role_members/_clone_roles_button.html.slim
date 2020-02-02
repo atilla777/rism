@@ -1,0 +1,14 @@
+- show = current_user.admin_editor?
+- if show
+  .pull-right
+    .btn-group
+      = link_to(clone_roles_path(user_id: user.id),
+        action: :clone,
+        method: :patch,
+        remote: true,
+        class: 'btn btn-default',
+        data: {confirm: t('views.action.confirm')},
+        data_toggle: 'tooltip',
+        title: t('views.action.clone_roles_tooltip')) do
+          = fa_icon 'copy', class: 'text-danger'
+          =< t('views.action.clone_roles')

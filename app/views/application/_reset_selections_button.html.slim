@@ -1,0 +1,11 @@
+- show = current_user.admin_editor? || current_user.can?(:edit, User)
+- if show
+  .pull-left
+    .btn-group
+      = link_to(reset_selections_path(selected_record_type: model,
+        action: :destroy),
+        method: :delete,
+        remote: true,
+        class: 'btn btn-default')do
+          = fa_icon 'square-o'
+          =< t('views.action.reset_selections')

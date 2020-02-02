@@ -36,6 +36,15 @@ class RoleMembersController < ApplicationController
     render :new
   end
 
+  def clone
+    authorize model
+    clonned_user = User.find(params[:user_id])
+    session.fetch(:selected, {}).fetch('User', []).each do |user_id|
+      user = User.find(user_id)
+      user.roles = clonned_user.roles
+    end
+  end
+
   def destroy
     @record = model.find(params[:id])
     authorize @record

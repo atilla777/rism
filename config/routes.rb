@@ -27,6 +27,12 @@ Rails.application.routes.draw do
   end
 
   resources :role_members
+  patch(
+    '/role_members',
+    to: 'role_members#clone',
+    as: :clone_roles
+  )
+
   resources :rights
   resources :departments do
     get :autocomplete_department_id, :on => :collection, as: :autocomplete
@@ -181,7 +187,17 @@ Rails.application.routes.draw do
 
   post '/uploads', to: 'uploads#create', as: :uploads
 
-  # resources :schedules, only: [:show]
+  patch(
+    '/selectors',
+    to: 'selectors#update',
+    as: :toggle_selection
+  )
+  delete(
+    '/reset_selections',
+    to: 'selectors#destroy',
+    as: :reset_selections
+  )
+
   require 'sidekiq/web'
 
   mount Sidekiq::Web => '/sidekiq', constraints: AdminSidekiqWebConstraint.new

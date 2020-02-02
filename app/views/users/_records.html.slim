@@ -1,12 +1,20 @@
+- show_selections = current_user.admin_editor? || current_user.can?(:edit, User)
 = index_search :name_or_organization_name_or_email_or_phone_cont, role_id_eq: @role&.id
+= render 'application/reset_selections_button', model: 'User'
 = report_button_for @records
 = index_for records do |t|
+  - if show_selections
+    - t.header attribute: :selection, fit: true, label: ''
   - t.header attribute: :name, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
   - t.header attribute: :job, sort: :desc
   - t.header attribute: :email, sort: :desc
   - t.header attribute: :phone, sort: :desc
-  - t.field  { |record| link_to(record.name, record) }
+  - if show_selections
+    - t.field  do |record|
+      = render 'selectors/selection', id: record.id, model: 'User'
+  - t.field  do |record|
+    =< link_to(record.name, record)
   - t.field { |record| link_to(record.organization.name, record.organization) }
   - t.field { |record| UserDecorator.new(record).full_job }
   - t.field { |record| record.email }

@@ -54,6 +54,7 @@ ru:
     imported: 'Импортированы'
     updated: 'Обновлены'
     errors: 'Ошибки'
+    toggle_selection: 'Выбрать/отменить выбор'
     user:
       active: 'Да'
       not_active: 'Нет'
@@ -258,6 +259,9 @@ ru:
       change_password: 'Сменить пароль'
       notify: 'Уведомить'
       notifications_logs: 'Список отправленных уведомлений'
+      reset_selections: 'Сбросить выделение'
+      clone_roles: 'Клонировать роли'
+      clone_roles_tooltip: 'Заменить роли для выделенных пользователей ролями текущего пользователя'
   messages:
     yes: 'да'
     no: 'нет'

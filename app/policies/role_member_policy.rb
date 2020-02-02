@@ -38,6 +38,10 @@ class RoleMemberPolicy < ApplicationPolicy
     false
   end
 
+  def clone?
+    update?
+  end
+
   def scope
     Pundit.policy_scope!(user, record.class)
   end
