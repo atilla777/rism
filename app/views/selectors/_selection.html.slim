@@ -7,7 +7,7 @@ span id="#{id}_selection"
     class: 'btn-link',
     data_toggle: 'tooltip',
     title: t('labels.toggle_selection')) do
-    - if session.fetch(:selected, {}).fetch(model, []).include?(id)
+    - if session.fetch(:selected, {}).fetch(model, []).include?(id.to_s)
       = fa_icon 'check-square-o', class: 'selection text-success'
     - else
       = fa_icon 'selection square-o'
