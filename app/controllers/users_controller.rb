@@ -164,7 +164,7 @@ class UsersController < ApplicationController
 #              elsif params.dig(model.name.underscore.to_sym, :role_id)
 #                params[model.name.underscore.to_sym][:role_id]
               end
-    return nil unless role_id
+    return nil unless role_id.present?
 #    Role.where(id: role_id).first #|| @record&.role || OpenStruct.new(id: nil)
     Role.find(role_id)#|| @record&.role || OpenStruct.new(id: nil)
   end
