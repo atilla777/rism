@@ -34,7 +34,7 @@ class Article < ApplicationRecord
   def delete_uploaded_images
     return unless File.directory?(images_dir)
     dir = images_dir # absolete path to images dir
-    url = images_url # path to images strted with /uploads (linke in content URL)
+    url = images_url # path to images strted with /uploads (like in content URL)
     # Select files that not in the content
     Dir.children(dir).select do |file|
       not images.include?("/#{url}/#{file}")
@@ -73,7 +73,17 @@ class Article < ApplicationRecord
   def images
     require 'nokogiri'
     require 'open-uri'
+
     doc = Nokogiri::HTML(content)
-    doc.css("img").map{|links| links['src']}
+    current_images = doc.css('img').map{|links| links['src']}
+
+    doc = Nokogiri::HTML(content_was)
+    previous_images = doc.css('img').map{|links| links['src']}
+    current_images.concat previous_images
+
+    versions.each_with_object(current_images) do |version, memo|
+      doc = Nokogiri::HTML(version.reify&.content)
+      memo.concat doc.css('img').map{|links| links['src']}
+    end.uniq
   end
 end
