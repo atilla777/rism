@@ -14,3 +14,6 @@
   - tabs.add(:files, polymorphic_path(record, active_tab: :files), 'Attachment') do
     = fa_icon 'folder'
     =< Attachment.model_name.human(count: 2)
+  - tabs.add(:delivery_subjects, list_subjects_delivery_subjects_path(deliverable_id: record.id, deliverable_type: record.class.model_name, active_tab: :delivery_subjects), 'DeliveryList', true) do
+    = fa_icon 'address-book'
+    =< DeliveryList.model_name.human(count: 2)

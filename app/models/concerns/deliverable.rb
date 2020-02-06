@@ -17,6 +17,10 @@ module Deliverable
   )
   end
 
+  def allowed_delivery_lists
+    DeliveryList.all - delivery_lists
+  end
+
   def report
     nil
   end

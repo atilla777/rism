@@ -6,6 +6,7 @@ class Article < ApplicationRecord
   include Attachable
   include PgSearch
   include Rightable
+  include Deliverable
 
   after_update :delete_uploaded_images
   before_destroy :delete_all_uploaded_images
@@ -47,6 +48,10 @@ class Article < ApplicationRecord
   # Delete folder with article images
   def delete_all_uploaded_images
     FileUtils.rm_rf(images_dir) if File.directory?(images_dir)
+  end
+
+  def delivery_subject_codename
+    name
   end
 
   private

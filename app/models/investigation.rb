@@ -36,11 +36,6 @@ class Investigation < ApplicationRecord
     indicators.where(parent_id: nil)
   end
 
-
-  def allowed_delivery_lists
-    DeliveryList.all - delivery_lists
-  end
-
   def delivery_subject_codename
     custom_codename
   end

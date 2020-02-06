@@ -6,6 +6,7 @@ class DeliverySubject < ApplicationRecord
   SUBJECT_TYPES = %w[
       Investigation
       VulnerabilityBulletin
+      Article
     ].freeze
 
   attr_accessor :current_user
