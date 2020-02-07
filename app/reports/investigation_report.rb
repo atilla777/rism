@@ -229,5 +229,6 @@ class InvestigationReport < BaseReport
 
   def get_records(options, _organization)
     @investigation = Investigation.find(options[:investigation_id])
+    @investigation.indicators
   end
 end
