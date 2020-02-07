@@ -27,7 +27,7 @@ class IndicatorDecorator < SimpleDelegator
   def show_indicator_contexts
     indicator_contexts.map do |context|
       context.name
-    end.join(', ')
+    end.sort.join(', ')
   end
 
   def show_purpose
