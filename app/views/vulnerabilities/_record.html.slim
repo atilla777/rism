@@ -81,6 +81,18 @@
             record: @record,
             content: previous_record&.updater&.name)
 
+    .list-group-item
+      .row
+        .col-md-2.text-right
+          strong.text-info
+            = @record.class.human_attribute_name(:custom_published)
+        .col-md-2
+          = show_date_time(@record.custom_published)
+          = render('previous_version',
+            field: :custom_published,
+            record: @record,
+            content: show_date_time(@record.previous_version :custom_published))
+
 .panel.panel-default
   .panel-heading
     caption

@@ -14,7 +14,7 @@ br
   records: records)
 = index_for records, decorator: VulnerabilityDecorator do |t|
   - t.header attribute: :readed, fit: true, label: ''
-  - t.header attribute: :modified, sort: :desc, label: @records.klass.human_attribute_name(:edited_at)
+  - t.header attribute: :modified, sort: :desc
   - t.header attribute: :published, sort: :desc
   - t.header attribute: :state, sort: :desc
   - t.header attribute: :processed, sort: :desc
