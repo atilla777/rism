@@ -1,4 +1,4 @@
-- show = current_user.admin_editor? || current_user.can?(:edit, User)
+- show = current_user.admin_editor? || current_user.can?(:edit, 'User')
 - if show
   .pull-left
     .btn-group

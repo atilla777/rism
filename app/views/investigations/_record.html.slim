@@ -28,15 +28,16 @@
     span.btn.btn-success
       = Enrichment.model_name.human
 
-- enrichmentables = record.indicators
-- if enrichmentables.present?
-  = link_to(enrichments_path(enrichmentable_type: enrichmentables.first.model_name,
-    enrichmentable_ids: enrichmentables.pluck(:id)),
-    data: {confirm: t('views.action.confirm')},
-    method: :post,
-    remote: true,
-    class: 'btn btn-link') do
-      span.btn.btn-success
-        = t('views.action.enrich_all')
+- if current_user.admin_editor? || current_user.can?(:edit, 'Enrichment')
+  - enrichmentables = record.indicators
+  - if enrichmentables.present?
+    = link_to(enrichments_path(enrichmentable_type: enrichmentables.first.model_name,
+      enrichmentable_ids: enrichmentables.pluck(:id)),
+      data: {confirm: t('views.action.confirm')},
+      method: :post,
+      remote: true,
+      class: 'btn btn-link') do
+        span.btn.btn-success
+          = t('views.action.enrich_all')
 
 = render 'application/record_versions'

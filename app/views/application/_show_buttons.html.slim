@@ -1,17 +1,16 @@
-= link_to edit_polymorphic_path(record) do
-  span.btn.btn-warning
-    = t('views.action.edit')
-//= link_to session[:show_return_to] do
-  span.btn.btn-info
-    = t('views.action.back_to', model: session[:show_return_to_model])
+- if current_user.admin_editor? || current_user.can?(:edit, @record.class)
+  = link_to edit_polymorphic_path(record) do
+    span.btn.btn-warning
+      = t('views.action.edit')
 =< link_to :back do
   span.btn.btn-info
     = t('views.action.back')
 
-- if  RecordTemplate.record_types.keys.include? @record.class.name
-  = link_to new_record_template_path(original_record_type: @record.class.name, original_record_id: @record.id), class: 'pull-right' do
-    span.btn.btn-primary
-      = t('views.action.make_template')
+- if current_user.admin_editor? || current_user.can?(:edit, 'RecordTemplate')
+  - if  RecordTemplate.record_types.keys.include? @record.class.name
+    = link_to new_record_template_path(original_record_type: @record.class.name, original_record_id: @record.id), class: 'pull-right' do
+      span.btn.btn-primary
+        = t('views.action.make_template')
 br
 br
 =< link_to polymorphic_path(record.class) do

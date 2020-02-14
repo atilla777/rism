@@ -18,5 +18,6 @@
   - t.field do |record|
     => link_to polymorphic_path(record), class: 'btn btn-link' do
       = fa_icon 'eye', class: 'text-info', data_toggle: 'tooltip', title: t('views.action.show')
-    => link_to edit_polymorphic_path(record), class: 'btn btn-link' do
-      = fa_icon 'pencil', class: 'text-warning', data_toggle: 'tooltip', title: t('views.action.edit')
+    - if current_user.admin_editor? || current_user.can?(:edit, 'DeliverySubject')
+      => link_to edit_polymorphic_path(record), class: 'btn btn-link' do
+        = fa_icon 'pencil', class: 'text-warning', data_toggle: 'tooltip', title: t('views.action.edit')

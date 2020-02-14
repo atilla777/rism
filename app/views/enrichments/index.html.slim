@@ -5,9 +5,11 @@
   active_tab: :enrichments,
   from_external_link: true)
 
-= render('enrichments_buttons',
-  enrichmentable: @enrichmentable,
-  useable_brokers: @useable_brokers)
+
+- if current_user.admin_editor? || current_user.can?(:edit, 'Enrichment')
+  = render('enrichments_buttons',
+    enrichmentable: @enrichmentable,
+    useable_brokers: @useable_brokers)
 
 table.table.table-hover.table-bordered.table-striped
   thead.thead-dark
@@ -45,5 +47,7 @@ table.table.table-hover.table-bordered.table-striped
               class: 'text-info',
               data_toggle: 'tooltip',
               title: t('views.action.show'))
-          =< link_to enrichment, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link btn-xs' do
-            = fa_icon 'remove', class: 'text-danger', data_toggle: 'tooltip', title: t('views.action.delete')
+
+          - if current_user.admin_editor? || current_user.can?(:edit, 'Enrichment')
+            =< link_to enrichment, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link btn-xs' do
+              = fa_icon 'remove', class: 'text-danger', data_toggle: 'tooltip', title: t('views.action.delete')

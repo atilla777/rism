@@ -1,7 +1,8 @@
-.pull-right
-  .btn-group
-    = link_to new_polymorphic_path(model, options), class: 'btn btn-default' do
-      i.text-success
-        = fa_icon 'plus-circle'
-      =< label
-    = template_button model, current_user, options
+- if current_user.admin_editor? || current_user.can?(:edit, model)
+  .pull-right
+    .btn-group
+      = link_to new_polymorphic_path(model, options), class: 'btn btn-default' do
+        i.text-success
+          = fa_icon 'plus-circle'
+        =< label
+      = template_button model, current_user, options

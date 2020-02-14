@@ -74,14 +74,12 @@
           =< fa_icon 'folder'
         =< record.name
     - t.field do |record|
-      = link_to polymorphic_path(record, organization_id: @organization.id), class: 'btn btn-link' do
+      = link_to polymorphic_path(record, organization_id: @organization.id), class: 'btn btn-link btn-xs' do
         span.text-info
-          = fa_icon 'info'
-        =< t('views.action.show')
-      = link_to edit_polymorphic_path(record), class: 'btn btn-link' do
-        i.glyphicon.glyphicon-pencil.text-warning
-        =< t('views.action.edit')
-      = link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link' do
-        i.glyphicon.glyphicon-remove.text-danger
-        =< t('views.action.delete')
+          = fa_icon 'eye', class: 'text-info', data_toggle: 'tooltip', title: t('views.action.show')
 
+      - if current_user.admin_editor? || current_user.can?(:edit, 'Enrichment')
+        = link_to edit_polymorphic_path(record), class: 'btn btn-link btn-xs' do
+          = fa_icon 'pencil', class: 'text-warning', data_toggle: 'tooltip', title: t('views.action.edit')
+        = link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link btn-xs' do
+          = fa_icon 'remove', class: 'text-danger', data_toggle: 'tooltip', title: t('views.action.delete')
