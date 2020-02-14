@@ -8,18 +8,19 @@
   = hidden_field_tag :investigation_id, @investigation.id
 
   ul.list-unbullet
-    = button_tag type: 'submit', class: 'btn btn-default' do
-      span
-        => fa_icon 'cut'
-      = t('helpers.submit.cut')
-    = link_to paste_indicators_path(investigation_id: @investigation.id), class: 'btn btn-default', method: :put do
-      span class=('text-primary' unless session[:selected_indicators].present?)
-        => fa_icon 'paste'
-        = t('helpers.submit.paste')
-    = link_to reset_indicators_path(investigation_id: @investigation.id), class: 'btn btn-default' do
-      span class=('text-primary' unless session[:selected_indicators].present?)
-        => fa_icon 'undo'
-        = t('helpers.submit.reset')
+    - if current_user.admin_editor? || current_user.can?(:edit, 'Indicator')
+      = button_tag type: 'submit', class: 'btn btn-default' do
+        span
+          => fa_icon 'cut'
+        = t('helpers.submit.cut')
+      = link_to paste_indicators_path(investigation_id: @investigation.id), class: 'btn btn-default', method: :put do
+        span class=('text-primary' unless session[:selected_indicators].present?)
+          => fa_icon 'paste'
+          = t('helpers.submit.paste')
+      = link_to reset_indicators_path(investigation_id: @investigation.id), class: 'btn btn-default' do
+        span class=('text-primary' unless session[:selected_indicators].present?)
+          => fa_icon 'undo'
+          = t('helpers.submit.reset')
 
     - @investigation.top_parents_indicators.includes(:children,
       :indicator_contexts,
