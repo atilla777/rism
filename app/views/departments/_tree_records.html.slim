@@ -1,23 +1,25 @@
 = form_tag departments_select_path do
   = hidden_field_tag :organization_id, @organization.id
   = hidden_field_tag :departmentt_id, @department.id
-  = button_tag type: 'submit', class: 'btn btn-default' do
-    span
-      => fa_icon 'cut'
-    = t('helpers.submit.cut')
 
-  = link_to(departments_paste_path(organization_id: @organization.id,
-    department_id: @department.id),
-    class: 'btn btn-default',
-    method: :put) do
-    span class=('text-primary' unless session[:selected_departments].present? || session[:selected_users].present?)
-      => fa_icon 'paste'
-      = t('helpers.submit.paste')
+  - if current_user.admin_editor? || current_user.can?(:edit, 'User')
+    = button_tag type: 'submit', class: 'btn btn-default' do
+      span
+        => fa_icon 'cut'
+      = t('helpers.submit.cut')
 
-  = link_to departments_reset_path(organization_id: @organization.id, department_id: @department.id), class: 'btn btn-default' do
-    span class=('text-primary' unless session[:selected_departments].present? || session[:selected_users].present?)
-      => fa_icon 'undo'
-      = t('helpers.submit.reset')
+    = link_to(departments_paste_path(organization_id: @organization.id,
+      department_id: @department.id),
+      class: 'btn btn-default',
+      method: :put) do
+      span class=('text-primary' unless session[:selected_departments].present? || session[:selected_users].present?)
+        => fa_icon 'paste'
+        = t('helpers.submit.paste')
+
+    = link_to departments_reset_path(organization_id: @organization.id, department_id: @department.id), class: 'btn btn-default' do
+      span class=('text-primary' unless session[:selected_departments].present? || session[:selected_users].present?)
+        => fa_icon 'undo'
+        = t('helpers.submit.reset')
 
   = index_new_button User, organization_id: @organization.id, department_id: @department.id
 
@@ -44,19 +46,21 @@
     - t.top_row do
       tr.table-active
         td colspan=2
-          input type='checkbox' id='selectAllUsers' value='selectAllUsers'
-            span.text-success
-              =< fa_icon 'user'
-          =<> '/'
-          input type='checkbox' id='selectAllDepartments' value='selectAllDepartments'
-            span.text-warning
-              =< fa_icon 'folder-open'
+          - if current_user.admin_editor? || current_user.can?(:edit, 'User')
+            input type='checkbox' id='selectAllUsers' value='selectAllUsers'
+              span.text-success
+                =< fa_icon 'user'
+            =<> '/'
+            input type='checkbox' id='selectAllDepartments' value='selectAllDepartments'
+              span.text-warning
+                =< fa_icon 'folder-open'
     - t.top_row do
       - @users = @department&.id.present? ? @department.users : @organization.users.where(department_id: nil)
       - @users.each do | user |
         tr.table-active
           td
-            = check_box_tag 'user_ids[]', user.id
+            - if current_user.admin_editor? || current_user.can?(:edit, 'User')
+              = check_box_tag 'user_ids[]', user.id
             = link_to polymorphic_path(user), class: 'btn btn-link' do
               - if session[:selected_users]&.include? user.id.to_s
                 span.text-danger *
@@ -66,7 +70,8 @@
           td.fit
             = render 'helpers/index_actions', record: user
     - t.field do |record|
-      = check_box_tag 'department_ids[]', record.id
+      - if current_user.admin_editor? || current_user.can?(:edit, 'User')
+        = check_box_tag 'department_ids[]', record.id
       = link_to departments_path(department_id: record.id, organization_id: @organization.id), class: 'btn btn-link' do
         - if session[:selected_departments]&.include? record.id.to_s
           span.text-danger *
