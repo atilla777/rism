@@ -54,11 +54,13 @@ class DeliverySubjectsController < ApplicationController
 
   def toggle_processed
     delivery_subject = record
-    authorize delivery_subject.class
+    delivery_class = delivery_subject.class
+    authorize delivery_class
+    delivery_class_decorator = "#{delivery_class}Decorator".constantize
     delivery_subject.toggle(:processed)
     delivery_subject.processed_by_id = current_user.id
     delivery_subject.save
-    @record = VulnerabilityDecorator.new(delivery_subject.reload)
+    @record = delivery_class_decorator.new(delivery_subject.reload)
     set_readable_log
   end
 

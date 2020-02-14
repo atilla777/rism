@@ -1,12 +1,12 @@
 = index_for records, decorator: DeliverySubjectDecorator, actions: false do |t|
   - t.header attribute: :readed, fit: true, label: ''
   - t.header attribute: :created_at, sort: :desc
-  - t.header attribute: :processed
+  //- t.header attribute: :processed
   - t.header attribute: :name
   - t.header fit: true
   - t.field { |record| render 'readable', record: record }
   - t.field { |record| link_to(show_date_time(record.created_at), record) }
-  - t.field do |record|
+  //- t.field do |record|
     = render 'processed', record: record
   - t.field do |record|
     = link_to record.deliverable do
