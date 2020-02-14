@@ -3,6 +3,8 @@
 module User::DeviseConfig
   extend ActiveSupport::Concern
 
+  PASSWD_REGEXP =/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/
+
   included do
     acts_as_authentic do |c|
       condition_for_password = proc do
@@ -36,7 +38,7 @@ module User::DeviseConfig
 
   def password_complexity
     return if password.blank? ||
-      self.password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+      self.password =~ /(?=.*?[A-ZА-Я])(?=.*?[a-zа-я])(?=.*?[0-9])(?=.*?#{PASSWD_REGEXP})/
     errors.add :password, I18n.t('messages.user.password_complexity_error')
   end
 
