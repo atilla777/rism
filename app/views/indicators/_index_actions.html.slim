@@ -1,0 +1,7 @@
+=> link_to polymorphic_path(record), class: 'btn btn-link btn-xs' do
+  = fa_icon 'eye', class: 'text-info', data_toggle: 'tooltip', title: t('views.action.show')
+- if current_user.admin_editor? || current_user.can?(:edit, 'Indicator')
+  => link_to edit_polymorphic_path(record), class: 'btn btn-link btn-xs' do
+    = fa_icon 'pencil', class: 'text-warning', data_toggle: 'tooltip', title: t('views.action.edit')
+  = link_to record, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link btn-xs' do
+    = fa_icon 'remove', class: 'text-danger', data_toggle: 'tooltip', title: t('views.action.delete')

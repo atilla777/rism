@@ -24,7 +24,7 @@ li
         = render('new_button_for_parent',
           parent_id: i.id,
           investigation_id: @investigation.id)
-        = render 'helpers/index_actions', record: i
+        = render 'index_actions', record: i
 
       - if i.description.present?
         .list-group-item
