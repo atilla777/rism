@@ -31,6 +31,18 @@ class OrganizationsController < ApplicationController
 
   private
 
+  # get organization to wich record belongs
+  def organization
+    id = if params[:organization_id]
+           params[:organization_id]
+         elsif params.dig(:q, :parent_id_eq)
+           params[:q][:parent_id_eq]
+         elsif params.dig(model.name.underscore.to_sym, :organization_id)
+           params[model.name.underscore.to_sym][:organization_id]
+         end
+    Organization.where(id: id).first || @record&.organization || OpenStruct.new(id: nil)
+  end
+
   def model
     Organization
   end
