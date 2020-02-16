@@ -5,7 +5,6 @@ class CreateProcessingLogs < ActiveRecord::Migration[5.1]
       t.references :delivery_subject, foreign_key: true
       t.references :organization, foreign_key: true
       t.references :processed_by, index: true, foreign_key: {to_table: :users}
-      t.string :processor_comment
 
       t.timestamps
     end

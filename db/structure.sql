@@ -1167,7 +1167,6 @@ CREATE TABLE public.processing_logs (
     delivery_subject_id bigint,
     organization_id bigint,
     processed_by_id bigint,
-    processor_comment character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
