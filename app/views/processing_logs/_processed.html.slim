@@ -1,0 +1,25 @@
+- processing_log = ProcessingLog.where(delivery_subject_id: record.id, organization_id: params[:organization_id]).first
+. style='display: inline' id="#{record.id}_processed"
+  - title = []
+  - if processing_log&.processor&.present?
+    - title << processing_log.processor.name
+  - title << t('labels.vulnerability.toggle')
+  - if processing_log&.processed?
+    = link_to(toggle_processed_processing_logs_path(delivery_subject_id: record.id, organization_id: params[:organization_id]),
+      method: :patch,
+      remote: true,
+      class: 'text-success btn-link',
+      'data-toggle' => 'tooltip',
+      'data-placement' => 'top',
+      title: title.join(' - ')) do
+      = t('labels.yes_label')
+
+  - else
+    = link_to(toggle_processed_processing_logs_path(delivery_subject_id: record.id, organization_id: params[:organization_id]),
+      method: :patch,
+      remote: true,
+      class: 'text-warning btn-link',
+      'data-toggle' => 'tooltip',
+      'data-placement' => 'top',
+      title: title.join(' - ')) do
+      = t('labels.no_label')

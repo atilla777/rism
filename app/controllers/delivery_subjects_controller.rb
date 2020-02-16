@@ -19,15 +19,6 @@ class DeliverySubjectsController < ApplicationController
     @message = 'Ok'
   end
 
-  def show
-    @record = record
-    authorize @record.class
-    respond_to do |format|
-      format.js  { render template: 'application/modal_show.js.erb' }
-      format.html { render 'show_without_tabs' }
-    end
-  end
-
   # TODO: rename @record to @delivarable
   def create
     delivery_list = DeliveryList.find(params[:delivery_list_id])
@@ -50,18 +41,6 @@ class DeliverySubjectsController < ApplicationController
     authorize @record
     delivery_subject.destroy
     render 'renew_list_subjects'
-  end
-
-  def toggle_processed
-    delivery_subject = record
-    delivery_class = delivery_subject.class
-    authorize delivery_class
-    delivery_class_decorator = "#{delivery_class}Decorator".constantize
-    delivery_subject.toggle(:processed)
-    delivery_subject.processed_by_id = current_user.id
-    delivery_subject.save
-    @record = delivery_class_decorator.new(delivery_subject.reload)
-    set_readable_log
   end
 
   private
@@ -101,6 +80,6 @@ class DeliverySubjectsController < ApplicationController
   end
 
   def records_includes
-    [:deliverable, :processor]
+    [:deliverable]
   end
 end

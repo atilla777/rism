@@ -1,6 +1,0 @@
-= show_for @record, decorator: DeliverySubjectDecorator do | r |
-  = r.show :processed, value: r.decorated.show_processed
-  = r.show :processed_by_id
-    - if  @record.processor.present?
-      = link_to @record.processor.name, @record.processor
-  = r.show :recipient_comment

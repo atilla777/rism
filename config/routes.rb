@@ -157,13 +157,12 @@ Rails.application.routes.draw do
   end
   resources :custom_fields
   resources :delivery_lists
-  resources :delivery_subjects do
+  resources :delivery_subjects, only: [:index, :create, :destroy] do
     collection do
       get 'list_subjects'
       post 'notify' => 'delivery_subjects#notify', via: [:get], as: :notify
     end
     member do
-      patch :toggle_processed
       patch :toggle_readable
     end
   end
@@ -196,6 +195,12 @@ Rails.application.routes.draw do
     '/reset_selections',
     to: 'selectors#destroy',
     as: :reset_selections
+  )
+
+  patch(
+    '/toggle_processed_processing_logs',
+    to: 'processing_logs#toggle_processed',
+    as: :toggle_processed_processing_logs
   )
 
   require 'sidekiq/web'

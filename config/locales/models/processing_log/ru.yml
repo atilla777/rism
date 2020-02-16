@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      processing_log:
+        one: 'Журанл обработки'
+        other: 'Журналы обработки'
+    attributes:
+      article:
+        deliverable_id: 'Сообщение'
+        processed_by_id: 'Обработал'
+        organization_id: 'Организация'
+        created_at: 'Дата создания'
+        updated_at: 'Дата обновления'

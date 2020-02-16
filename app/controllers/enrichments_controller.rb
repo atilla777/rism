@@ -6,7 +6,10 @@ class EnrichmentsController < ApplicationController
       .find(params[:enrichmentable_id])
     authorize @enrichmentable
     @enrichments = EnrichmentDecorator.wrap(
-      @enrichmentable.enrichments.order(created_at: :desc)
+      # TODO: exclude where not when fix x_force via proxe auth
+      @enrichmentable.enrichments
+        .where.not(broker: :x_force)
+        .order(created_at: :desc)
     )
     set_useable_btokers
   end
