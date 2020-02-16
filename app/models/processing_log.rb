@@ -1,5 +1,10 @@
 class ProcessingLog < ApplicationRecord
-  validates :delivery_subject_id,
+  PROCESSABLE_TYPES = %w[
+    DeliverySubject
+    ].freeze
+
+  validates :processable_type, inclusion: { in: PROCESSABLE_TYPES}
+  validates :processable_id,
             numericality: { only_integer: true }
   validates :organization_id,
             numericality: { only_integer: true }
@@ -7,14 +12,13 @@ class ProcessingLog < ApplicationRecord
             numericality: { only_integer: true }
 
   validates(
-    :delivery_subject_id,
-    uniqueness: { scope: [:organization_id]}
+    :processable_type,
+    uniqueness: { scope: [:processable_id, :organization_id]}
   )
-
-  belongs_to :delivery_subject
 
   belongs_to :organization
 
   belongs_to :processor, foreign_key: :processed_by_id, class_name: 'User', optional: true
 
+  belongs_to :processable, polymorphic: true
 end

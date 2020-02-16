@@ -4,14 +4,14 @@ class ProcessingLogsController < ApplicationController
   include ReadableRecord
 
   before_action(
-    :set_delivery_subject,
+    :set_processable,
     only: [:toggle_processed]
   )
 
   def toggle_processed
     authorize @record
     processing_log = ProcessingLog.where(
-      delivery_subject_id: @record.id,
+      processable: @record,
       organization_id: organization.id
     ).first_or_initialize
     processing_log.processor = current_user
@@ -26,7 +26,10 @@ class ProcessingLogsController < ApplicationController
     Organization.find(params[:organization_id])
   end
 
-  def set_delivery_subject
-    @record = DeliverySubject.find(params[:delivery_subject_id])
+  def set_processable
+    processasble_model = params[:processable_type].constantize
+    @record = processasble_model.find(
+      params[:processasble_id]
+    )
   end
 end

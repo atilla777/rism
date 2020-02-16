@@ -2,7 +2,7 @@ class ProcessinglogPolicy < ApplicationPolicy
   include RecordPolicy
 
   def permitted_attributes
-    %i[delivery_subject_id organization_id]
+    %i[processable_type processable_id organization_id]
   end
 
 #  def toggle_processed?

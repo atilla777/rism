@@ -1164,7 +1164,8 @@ ALTER SEQUENCE public.pg_search_documents_id_seq OWNED BY public.pg_search_docum
 CREATE TABLE public.processing_logs (
     id bigint NOT NULL,
     processed boolean,
-    delivery_subject_id bigint,
+    processable_type character varying,
+    processable_id bigint,
     organization_id bigint,
     processed_by_id bigint,
     created_at timestamp without time zone NOT NULL,
@@ -3405,17 +3406,17 @@ CREATE INDEX index_pg_search_documents_on_searchable_type_and_searchable_id ON p
 
 
 --
--- Name: index_processing_logs_on_delivery_subject_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_processing_logs_on_delivery_subject_id ON public.processing_logs USING btree (delivery_subject_id);
-
-
---
 -- Name: index_processing_logs_on_organization_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_processing_logs_on_organization_id ON public.processing_logs USING btree (organization_id);
+
+
+--
+-- Name: index_processing_logs_on_processable_type_and_processable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_processing_logs_on_processable_type_and_processable_id ON public.processing_logs USING btree (processable_type, processable_id);
 
 
 --
@@ -4471,14 +4472,6 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.host_services
     ADD CONSTRAINT fk_rails_f3f5e734a9 FOREIGN KEY (host_id) REFERENCES public.hosts(id);
-
-
---
--- Name: fk_rails_fbb2e173f1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.processing_logs
-    ADD CONSTRAINT fk_rails_fbb2e173f1 FOREIGN KEY (delivery_subject_id) REFERENCES public.delivery_subjects(id);
 
 
 --
