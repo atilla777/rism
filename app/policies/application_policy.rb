@@ -6,6 +6,10 @@ class ApplicationPolicy
     @record = record
   end
 
+  def toggle_processed?
+    index?
+  end
+
   def autocomplete_organization_name?
     index?
   end

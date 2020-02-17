@@ -9,7 +9,8 @@ class ProcessingLogsController < ApplicationController
   )
 
   def toggle_processed
-    authorize @record
+    authorize @record.deliverable
+    authorize ProcessingLog
     processing_log = ProcessingLog.where(
       processable: @record,
       organization_id: organization.id

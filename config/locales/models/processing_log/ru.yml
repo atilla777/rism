@@ -2,7 +2,7 @@ ru:
   activerecord:
     models:
       processing_log:
-        one: 'Журанл обработки'
+        one: 'Журнал обработки'
         other: 'Журналы обработки'
     attributes:
       article:
