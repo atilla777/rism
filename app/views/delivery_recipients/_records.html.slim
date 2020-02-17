@@ -13,5 +13,6 @@
         title: t('views.action.delete'),
         data: {confirm: t('views.action.confirm')}) do
         =< record.recipientable&.name
+        =< "(#{record.recipientable&.class&.model_name&.human})"
         span.text-danger
           =< fa_icon 'arrow-right'

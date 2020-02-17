@@ -43,6 +43,7 @@ class RoleMembersController < ApplicationController
       user = User.find(user_id)
       user.roles = clonned_user.roles
     end
+    session[:selected].delete('User')
   end
 
   def destroy

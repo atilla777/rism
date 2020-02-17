@@ -3,7 +3,7 @@
 class RolesController < ApplicationController
   include Record
 
-  autocomplete(:role, :name)
+  autocomplete(:role, :name, full: true)
 
   # authorization for autocomplete
   def active_record_get_autocomplete_items(parameters)
