@@ -1,4 +1,5 @@
 = index_search :user_name_or_organization_name_or_controller_or_action_or_event_str_or_record_model_or_record_id_str_or_browser_or_ip_str_cont, user_id_eq: @user&.id
+= report_button_for @records
 = index_for @records, actions: false, decorator: UserActionDecorator do |t|
   - t.header attribute: :created_at, sort: :desc
   - t.header attribute: :user_id, sort_by: :user_name, sort: :desc

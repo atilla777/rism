@@ -24,7 +24,7 @@ class Reports
   end
 
   OrganizationIncidentsReport.register
-  OrganizationsReport.register
+#  OrganizationsReport.register
   TablePortsReport.register
   NmapTablePortsReport.register
   ShodanTablePortsReport.register
@@ -44,4 +44,5 @@ class Reports
 #  UriForBlockReport.register
   FiltredTableVulnersReport.register
   FiltredTableIndicatorsReport.register
+  UsersActivityReport.register
 end
