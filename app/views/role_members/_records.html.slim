@@ -1,3 +1,16 @@
+= render 'clone_roles_button', user: @user
+.pull-right
+  = render 'application/reset_selections_button', model: 'User'
+.pull-right
+  = link_to(selectors_path(selected_record_type: 'User'),
+    remote: true,
+    data: {toggle: "modal", target: "#modal"},
+    class: 'btn btn-default') do
+    = fa_icon('info',
+      class: 'text-info',
+      data_toggle: 'tooltip',
+      title: t('views.action.info'))
+    =< t('views.action.show_selected')
 = index_for records, { actions: false} do |t|
   - t.header attribute: :role_id, sort_by: :role_name, sort: :desc
   - t.header label: ''

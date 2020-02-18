@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 class SelectorsController < ApplicationController
-#  def index
-#    @model = model
-#    if @model.present?
-#      authorize @model.constantize
-#      @ids = session[:selected][@model]
-#    else
-#      return render render_error
-#    end
-#  end
+  def index
+    selected_type = model
+    authorize selected_type.constantize
+    ids = session.fetch(:selected, {}).fetch(selected_type, [])
+    @records = selected_type.constantize.where(id: ids)
+    render template: 'application/modal_index.js.erb'
+  end
 
   def update
     @model = model

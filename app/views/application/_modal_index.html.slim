@@ -1,0 +1,10 @@
+.modal.fade#modal_index role="modal"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        = caption @records
+      .modal-body
+        = render 'records', record: @records
+      .modal-footer
+        button.btn.btn-default type='button' data-dismiss='modal'
+          = t('views.action.back')

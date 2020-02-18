@@ -186,6 +186,8 @@ Rails.application.routes.draw do
 
   post '/uploads', to: 'uploads#create', as: :uploads
 
+  resources :selectors, only: [:index]
+
   patch(
     '/selectors',
     to: 'selectors#update',
