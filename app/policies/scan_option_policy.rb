@@ -12,8 +12,8 @@ class ScanOptionPolicy < ApplicationPolicy
        top_ports
        aggressive_timing
        insane_timing
-       disable_dns,
-       ports,
+       disable_dns
+       ports
        queue_number]
   end
 
