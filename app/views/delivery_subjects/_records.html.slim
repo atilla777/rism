@@ -4,7 +4,7 @@
   - t.header attribute: :processed
   - t.header attribute: :name
   - t.field { |record| render 'readable', record: record }
-  - t.field { |record| link_to(show_date_time(record.created_at), record) }
+  - t.field { |record| link_to(show_date_time(record.created_at), record.deliverable) }
   - t.field do |record|
     = render 'processing_logs/processed', record: record
   - t.field do |record|
