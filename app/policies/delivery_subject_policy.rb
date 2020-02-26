@@ -35,13 +35,11 @@ class DeliverySubjectPolicy < ApplicationPolicy
     def resolve
       if user.admin_editor_reader?
         scope.all
-      elsif user.can_read_model_index?(scope)
-        scope.all
+      elsif user.can_read_model_index?(scope) # can user read delivery_subject model?
+        allowed_models = user.allowed_models
+        scope.where(deliverable_type: allowed_models) # can user read models that was delivered?
       else
-      # TODO: think about it
-#        scope.includes(:delivery_list)
-#             .where(delivery_lists: {organization_id: user.allowed_organizations_ids(scope)})
-        scope.all
+        scope.none
       end
     end
   end
