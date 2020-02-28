@@ -22,3 +22,8 @@
           .span.text-info
             =< fa_icon 'newspaper-o'
             =< Article.model_name.human(count: 2)
+      = menu_li(models: 'CustomReportsFolder') do
+        = link_to custom_reports_folders_path do
+          .span.text-info
+            =< fa_icon 'newspaper-o'
+            =< CustomReportsFolder.model_name.human(count: 2)

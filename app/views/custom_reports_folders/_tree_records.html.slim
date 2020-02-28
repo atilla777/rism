@@ -1,0 +1,55 @@
+= render 'application/flash'
+
+- editor = current_user.admin_editor? || current_user.can?(:edit, folder.model_name.to_s)
+
+.pull-right
+  .btn-group
+    = link_to(custom_reports_path(folder_id: folder.id),
+      method: :post,
+      class: 'btn btn-default') do
+      i.text-success
+        = fa_icon 'plus-circle'
+      =< t('helpers.submit.create', model: CustomReport.model_name.human)
+
+= index_new_button(folders, folder_id: folder.id)
+
+table.table.table-hover.table-bordered.table-striped
+  thead.thead-dark
+    tr.table-active
+      td
+        h3
+          =< link_to custom_reports_folders_path do
+            | /
+            =<> fa_icon 'home'
+          - folder.top_level_folders&.reverse&.each do |f|
+            = link_to custom_reports_folders_path(folder_id: f.parent&.id) do
+              =<> f.parent&.name
+              | /
+
+          - if folder.name
+            span.text-warning
+              =< fa_icon 'folder-open'
+              =< folder.name
+
+            =< link_to(custom_reports_folders_path(folder_id: folder.parent&.id),
+              class: 'btn btn-link') do
+              => fa_icon 'arrow-up'
+
+  - records.each do |record|
+    tr.table-active
+      td
+        = link_to polymorphic_path(record), class: 'btn btn-link' do
+          = article.name
+
+        - if editor
+          =< render 'helpers/index_actions', record: record
+
+  - folders.each do |f|
+    tr.table-active
+      td
+        = link_to(custom_reports_folders_path(folder_id: f.id),
+          class: 'btn btn-link') do
+          =< f.name
+
+        - if editor
+          = render 'helpers/index_actions', record: f

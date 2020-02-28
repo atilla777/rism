@@ -4,7 +4,8 @@ class CreateArticlesFolders < ActiveRecord::Migration[5.1]
       t.string :name
       t.integer :rank
       t.references :organization, foreign_key: true
-      t.references :parent, table: :departments, index: true
+      #t.references :parent, table: :departments, index: true
+      t.references :parent, table: :article_folders, index: true
       t.text :description
 
       t.timestamps

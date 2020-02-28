@@ -205,6 +205,9 @@ Rails.application.routes.draw do
     as: :toggle_processed_processing_logs
   )
 
+  resources :custom_reports
+  resources :custom_reports_folders
+
   require 'sidekiq/web'
 
   mount Sidekiq::Web => '/sidekiq', constraints: AdminSidekiqWebConstraint.new

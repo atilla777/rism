@@ -50,6 +50,16 @@ CREATE TYPE public.custom_field_data_type AS ENUM (
 
 
 --
+-- Name: custom_report_format; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.custom_report_format AS ENUM (
+    'csv',
+    'json'
+);
+
+
+--
 -- Name: indicator_content_format; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -447,6 +457,79 @@ CREATE SEQUENCE public.custom_fields_id_seq
 --
 
 ALTER SEQUENCE public.custom_fields_id_seq OWNED BY public.custom_fields.id;
+
+
+--
+-- Name: custom_reports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.custom_reports (
+    id bigint NOT NULL,
+    custom_reports_folder_id bigint,
+    organization_id bigint,
+    user_id bigint,
+    name character varying,
+    description text,
+    statement text,
+    variables jsonb,
+    result_format public.custom_report_format,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: custom_reports_folders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.custom_reports_folders (
+    id bigint NOT NULL,
+    name character varying,
+    rank integer,
+    description text,
+    organization_id bigint,
+    parent_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: custom_reports_folders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.custom_reports_folders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: custom_reports_folders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.custom_reports_folders_id_seq OWNED BY public.custom_reports_folders.id;
+
+
+--
+-- Name: custom_reports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.custom_reports_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: custom_reports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.custom_reports_id_seq OWNED BY public.custom_reports.id;
 
 
 --
@@ -2203,6 +2286,20 @@ ALTER TABLE ONLY public.custom_fields ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: custom_reports id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports ALTER COLUMN id SET DEFAULT nextval('public.custom_reports_id_seq'::regclass);
+
+
+--
+-- Name: custom_reports_folders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports_folders ALTER COLUMN id SET DEFAULT nextval('public.custom_reports_folders_id_seq'::regclass);
+
+
+--
 -- Name: delivery_lists id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2594,6 +2691,22 @@ ALTER TABLE ONLY public.ckeditor_assets
 
 ALTER TABLE ONLY public.custom_fields
     ADD CONSTRAINT custom_fields_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: custom_reports_folders custom_reports_folders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports_folders
+    ADD CONSTRAINT custom_reports_folders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: custom_reports custom_reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports
+    ADD CONSTRAINT custom_reports_pkey PRIMARY KEY (id);
 
 
 --
@@ -3096,6 +3209,55 @@ CREATE INDEX index_attachments_on_organization_id ON public.attachments USING bt
 --
 
 CREATE INDEX index_ckeditor_assets_on_type ON public.ckeditor_assets USING btree (type);
+
+
+--
+-- Name: index_custom_reports_folders_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_reports_folders_on_name ON public.custom_reports_folders USING btree (name);
+
+
+--
+-- Name: index_custom_reports_folders_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_reports_folders_on_organization_id ON public.custom_reports_folders USING btree (organization_id);
+
+
+--
+-- Name: index_custom_reports_folders_on_parent_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_reports_folders_on_parent_id ON public.custom_reports_folders USING btree (parent_id);
+
+
+--
+-- Name: index_custom_reports_on_custom_reports_folder_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_reports_on_custom_reports_folder_id ON public.custom_reports USING btree (custom_reports_folder_id);
+
+
+--
+-- Name: index_custom_reports_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_reports_on_name ON public.custom_reports USING btree (name);
+
+
+--
+-- Name: index_custom_reports_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_reports_on_organization_id ON public.custom_reports USING btree (organization_id);
+
+
+--
+-- Name: index_custom_reports_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_reports_on_user_id ON public.custom_reports USING btree (user_id);
 
 
 --
@@ -4028,6 +4190,14 @@ ALTER TABLE ONLY public.vulnerability_bulletins
 
 
 --
+-- Name: custom_reports fk_rails_2d1b2950ab; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports
+    ADD CONSTRAINT fk_rails_2d1b2950ab FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: readable_logs fk_rails_3732af80d4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4220,6 +4390,14 @@ ALTER TABLE ONLY public.notifications_logs
 
 
 --
+-- Name: custom_reports_folders fk_rails_8abf06e30f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports_folders
+    ADD CONSTRAINT fk_rails_8abf06e30f FOREIGN KEY (parent_id) REFERENCES public.custom_reports_folders(id);
+
+
+--
 -- Name: search_filters fk_rails_8b18112236; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4305,6 +4483,14 @@ ALTER TABLE ONLY public.attachments
 
 ALTER TABLE ONLY public.tags
     ADD CONSTRAINT fk_rails_b463051f3b FOREIGN KEY (tag_kind_id) REFERENCES public.tag_kinds(id);
+
+
+--
+-- Name: custom_reports fk_rails_b616f2a992; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports
+    ADD CONSTRAINT fk_rails_b616f2a992 FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
 
 
 --
@@ -4409,6 +4595,22 @@ ALTER TABLE ONLY public.hosts
 
 ALTER TABLE ONLY public.processing_logs
     ADD CONSTRAINT fk_rails_ecede7c3fc FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
+
+
+--
+-- Name: custom_reports fk_rails_f2134e2a69; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports
+    ADD CONSTRAINT fk_rails_f2134e2a69 FOREIGN KEY (custom_reports_folder_id) REFERENCES public.custom_reports_folders(id);
+
+
+--
+-- Name: custom_reports_folders fk_rails_f25f909f84; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports_folders
+    ADD CONSTRAINT fk_rails_f25f909f84 FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
 
 
 --
@@ -4526,6 +4728,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200122101959'),
 ('20200129062359'),
 ('20200216024320'),
-('20200216024627');
+('20200216024627'),
+('20200227114354'),
+('20200227133341');
 
 

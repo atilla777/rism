@@ -1,5 +1,4 @@
 class Article < ApplicationRecord
-
   include OrganizationMember
   include Linkable
   include Tagable
