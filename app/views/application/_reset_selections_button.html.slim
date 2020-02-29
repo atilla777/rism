@@ -1,4 +1,4 @@
-#selected
+. id = "selected_#{model}"
   - show = current_user.admin_editor? || current_user.can?(:edit, 'User')
   - if show
     .pull-left
@@ -13,3 +13,4 @@
             - else
               = fa_icon 'square-o'
             =< t('views.action.reset_selections')
+            =< model.constantize.model_name.human(count: 2)

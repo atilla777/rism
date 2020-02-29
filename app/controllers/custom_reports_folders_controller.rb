@@ -2,6 +2,7 @@
 
 class CustomReportsFoldersController < ApplicationController
   include RecordOfOrganization
+  include FolderRecord
 
   def index
     authorize model
@@ -17,11 +18,11 @@ class CustomReportsFoldersController < ApplicationController
 
     @records = if @folder&.id.present?
                   Pundit.policy_scope(current_user, CustomReport)
-                        .where(custom_reports_folder_id: @folder.id)
+                        .where(folder_id: @folder.id)
                         .order(:name)
                 else
                   Pundit.policy_scope(current_user, CustomReport)
-                        .where(custom_reports_folder_id: nil)
+                        .where(folder_id: nil)
                         .order(:name)
                 end
   end
@@ -106,14 +107,22 @@ class CustomReportsFoldersController < ApplicationController
   def folder
     id = if params[:folder_id]
            params[:folder_id]
-         elsif params.dig(:folder, :parent_id)
-           params[:folder][:parent_id]
+         elsif params.dig(:custom_reports_folder, :parent_id)
+           params[:custom_reports_folder][:parent_id]
          end
     model.where(id: id).first || OpenStruct.new(id: nil)
   end
 
   def model
     CustomReportsFolder
+  end
+
+  def records_model
+    CustomReport
+  end
+
+  def set_folder_model
+    @folder_model = model
   end
 
   def default_sort

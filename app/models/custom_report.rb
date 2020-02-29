@@ -5,17 +5,18 @@ class CustomReport < ApplicationRecord
   include Attachable
   include Rightable
 
-  enum report_format: {
-    csv: 'not_set',
-    json: 'for_detect'
-  }, _prefix: true
+  RESULT_FORMATS = {
+    csv: 'csv',
+    json: 'json'
+  }.freeze
+
+  enum result_format: RESULT_FORMATS, _prefix: true
 
   validates :name, length: { minimum: 3, maximum: 300 }
-  validates :user_id, numericality: { only_integer: true }
   validates :organization_id, numericality: { only_integer: true }
-  validates :custom_reports_folder_id, numericality: { only_integer: true }
+  validates :folder_id, numericality: { only_integer: true, allow_blank: true }
+  validates :result_format, inclusion: { in: CustomReport.result_formats.values }
 
-  belongs_to :custom_reports_folder, optional: true
+  belongs_to :custom_reports_folder, foreign_key: :folder_id, optional: true
   belongs_to :organization
-  belongs_to :user
 end

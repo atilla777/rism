@@ -1,0 +1,10 @@
+- show = current_user.admin_editor? || current_user.can?(:edit, 'User')
+- if show
+  .pull-left
+    .btn-group
+      = link_to(polymorphic_path(model,
+        folder_id: folder.id,
+        action: :paste),
+        method: :post,
+        class: 'btn btn-default') do
+          = t('helpers.submit.paste')

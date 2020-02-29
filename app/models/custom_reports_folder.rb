@@ -17,9 +17,13 @@ class CustomReportsFolder < ApplicationRecord
            foreign_key: :parent_id,
            dependent: :destroy
 
-  belongs_to :parent, class_name: 'CustomReportsFolder', optional: true
+  belongs_to :parent,
+             class_name: 'CustomReportsFolder',
+             optional: true
 
   has_many :custom_reports, dependent: :destroy
+
+  scope :parentino, -> { find(id: parent_id) }
 
   def top_level_folders
     query = <<~SQL
@@ -36,6 +40,6 @@ class CustomReportsFolder < ApplicationRecord
       SELECT * from parents
     SQL
 
-    ArticlesFolder.find_by_sql([query, id])
+    CustomReportsFolder.find_by_sql([query, id])
   end
 end

@@ -18,9 +18,8 @@ class CreateCustomReports < ActiveRecord::Migration[5.1]
     end
 
     create_table :custom_reports do |t|
-      t.references :custom_reports_folder, foreign_key: true
+      t.references :folder, foreign_key: {to_table: :custom_reports_folders}
       t.references :organization, foreign_key: true
-      t.references :user, foreign_key: true
       t.string :name
       t.text :description
       t.text :statement

@@ -1,0 +1,15 @@
+ru:
+  activerecord:
+    models:
+      custom_report:
+        one: 'Отчет'
+        other: 'Отчеты'
+    attributes:
+      custom_report:
+        name: 'Название'
+        created_at: 'Дата создания'
+        organization_id: 'Организация'
+        folder_id: 'Раздел'
+        statement: 'SQL код'
+        result_format: 'Формат результата'
+        description: 'Описание'

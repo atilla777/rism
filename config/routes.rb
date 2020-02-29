@@ -206,7 +206,11 @@ Rails.application.routes.draw do
   )
 
   resources :custom_reports
-  resources :custom_reports_folders
+  resources :custom_reports_folders do
+    collection do
+      post :paste
+    end
+  end
 
   require 'sidekiq/web'
 

@@ -3,7 +3,7 @@
   .row
     = form_for @record, html: {class: 'form-horizontal'} do |f|
 
-      = f.hidden_field :parent_id, value: @record&.parent_id || @folder.id
+      = f.hidden_field :folder_id, value: @record&.folder_id || @folder.id
 
       .form-group.required
         .field
@@ -13,7 +13,7 @@
             = autocomplete_field_tag(:organization,
               '',
               autocomplete_organizations_path,
-              id_element: '#custom_reports_folder_organization_id',
+              id_element: '#custom_report_organization_id',
               class: 'form-control',
               autocomplete: :off,
               value: (@record.organization&.name || current_user.organization.name),
@@ -27,12 +27,15 @@
           .col-lg-8
             = f.text_field :name, class: 'form-control'
 
-      .form-group
+      .form-group.required
         .field
           .col-lg-2.text-right
-            = f.label :rank, class: 'control-label'
+            = f.label :report_format, class: 'control-label'
           .col-lg-8
-            = f.number_field :rank, class: 'form-control'
+            = f.select(:result_format,
+              CustomReport.result_formats.keys.collect { |format| [CustomReport.human_enum_name(:result_format, format), format] },
+              { selected: @record.result_format || :csv },
+              class: 'form-control')
 
       .form-group
         .field

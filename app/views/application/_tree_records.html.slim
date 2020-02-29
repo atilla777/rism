@@ -2,15 +2,11 @@
 
 - editor = current_user.admin_editor? || current_user.can?(:edit, folder.model_name.to_s)
 
-.pull-right
-  .btn-group
-    = link_to(custom_reports_path(folder_id: folder.id),
-      method: :post,
-      class: 'btn btn-default') do
-      i.text-success
-        = fa_icon 'plus-circle'
-      =< t('helpers.submit.create', model: CustomReport.model_name.human)
+= render 'application/reset_selections_button', model: folder_model.model_name.to_s
+= render 'application/reset_selections_button', model: records.klass.model_name.to_s
+= render 'application/paste_selections_button', folder: folder, model: folder_model
 
+= index_new_button(records, folder_id: folder.id)
 = index_new_button(folders, folder_id: folder.id)
 
 table.table.table-hover.table-bordered.table-striped
@@ -18,11 +14,11 @@ table.table.table-hover.table-bordered.table-striped
     tr.table-active
       td
         h3
-          =< link_to custom_reports_folders_path do
+          =< link_to polymorphic_path(folder_model) do
             | /
             =<> fa_icon 'home'
           - folder.top_level_folders&.reverse&.each do |f|
-            = link_to custom_reports_folders_path(folder_id: f.parent&.id) do
+            = link_to polymorphic_path(folder_model, folder_id: f.parent&.id) do
               =<> f.parent&.name
               | /
 
@@ -31,15 +27,19 @@ table.table.table-hover.table-bordered.table-striped
               =< fa_icon 'folder-open'
               =< folder.name
 
-            =< link_to(custom_reports_folders_path(folder_id: folder.parent&.id),
+            =< link_to(polymorphic_path(folder_model,
+              folder_id: folder.parent&.id),
               class: 'btn btn-link') do
               => fa_icon 'arrow-up'
 
   - records.each do |record|
     tr.table-active
       td
+        - if editor
+          = render 'selectors/selection', id: record.id, model: records.klass.model_name
+
         = link_to polymorphic_path(record), class: 'btn btn-link' do
-          = article.name
+          = record.name
 
         - if editor
           =< render 'helpers/index_actions', record: record
@@ -47,8 +47,14 @@ table.table.table-hover.table-bordered.table-striped
   - folders.each do |f|
     tr.table-active
       td
-        = link_to(custom_reports_folders_path(folder_id: f.id),
+        - if editor
+          = render 'selectors/selection', id: f.id, model: folder_model
+
+        = link_to(polymorphic_path(folder_model,
+          folder_id: f.id),
           class: 'btn btn-link') do
+          span.text-warning
+            =< fa_icon 'folder'
           =< f.name
 
         - if editor

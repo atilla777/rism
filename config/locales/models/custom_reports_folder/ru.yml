@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      custom_reports_folder:
+        one: 'Раздел отчетов'
+        other: 'Разделы отчетов'
+    attributes:
+      custom_reports_folder:
+        name: 'Имя'
+        organization_id: 'Организация'
+        parent_id: 'Входит в'
+        rank: 'Очередность отображения'
+        description: 'Описание'

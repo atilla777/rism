@@ -1,2 +1,6 @@
-= render 'tree_records', records: @records, folders: @folders, folder: @folder
+= render('application/tree_records',
+  records: @records,
+  folders: @folders,
+  folder: @folder,
+  folder_model: @folder_model)
 = render 'index_paginate', records: @folders

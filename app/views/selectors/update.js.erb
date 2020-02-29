@@ -1,2 +1,2 @@
 $('#<%= "#{@id}_selection" %>').html("<%= j render('selection', model: @model, id: @id) %>")
-$('#selected').html("<%= j render('application/reset_selections_button', model: @model) %>")
+$('#<%= "selected_#{@model}" %>').html("<%= j render('application/reset_selections_button', model: @model) %>")

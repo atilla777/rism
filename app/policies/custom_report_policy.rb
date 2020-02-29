@@ -2,9 +2,11 @@ class CustomReportPolicy < ApplicationPolicy
   def permitted_attributes
       %i[name
          organization_id
-         user_id
+         folder_id
          content
-         ]
+         description
+         result_format
+      ]
   end
 
   class Scope
