@@ -1,0 +1,5 @@
+= index_for records, actions: false do |t|
+  - t.header attribute: :created_at, sort: :desc
+  - t.header attribute: :result_path, sort: :desc
+  - t.field { |record| link_to(show_date(record.created_at), record) }
+  - t.field { |record| link_to(record.result_path, record) }

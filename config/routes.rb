@@ -212,6 +212,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :custom_reports_results, only: [:index, :show, :create, :destroy]
+
   require 'sidekiq/web'
 
   mount Sidekiq::Web => '/sidekiq', constraints: AdminSidekiqWebConstraint.new

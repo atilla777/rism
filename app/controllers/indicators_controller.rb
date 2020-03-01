@@ -202,9 +202,10 @@ class IndicatorsController < ApplicationController
     Indicator
   end
 
-  def records_includes
-    %i[creator investigation]
-  end
+# TODO: delete (it dublicate code bellow)
+#  def records_includes
+#    %i[creator investigation]
+#  end
 
   def default_sort
     'created_at desc'

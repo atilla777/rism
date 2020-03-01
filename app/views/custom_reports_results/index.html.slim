@@ -1,0 +1,14 @@
+= caption @custom_report
+= render 'custom_reports/show_tabs', record: @custom_report, active_tab: :custom_reports_results, from_external_link: true
+- if current_user.admin_editor? || current_user.can?(:edit, 'Indicator')
+  .pull-right
+    .btn-group
+      = link_to(custom_reports_results_path(custom_report_id: @custom_report.id),
+        method: :post,
+        class: 'btn btn-default') do
+        i.text-success
+          = fa_icon 'plus-circle'
+        =< t('helpers.submit.create', model: CustomReportsResult.model_name.human)
+
+= render 'records', records: @records
+= render 'index_paginate', records: @records

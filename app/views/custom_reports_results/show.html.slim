@@ -1,0 +1,9 @@
+= caption @record
+= render('show_tabs',
+  record: @record,
+  active_tab: params[:active_tab],
+  from_external_link: false)
+= tabs_panes params[:active_tab], :main_info do |pane|
+  - pane.add :main_info do
+    = render 'record', record: @record
+    = render 'show_buttons_lite', record: @record

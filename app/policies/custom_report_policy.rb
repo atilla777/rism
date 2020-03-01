@@ -5,6 +5,7 @@ class CustomReportPolicy < ApplicationPolicy
          folder_id
          content
          description
+         statement
          result_format
       ]
   end

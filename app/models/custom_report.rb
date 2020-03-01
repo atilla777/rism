@@ -16,6 +16,7 @@ class CustomReport < ApplicationRecord
   validates :organization_id, numericality: { only_integer: true }
   validates :folder_id, numericality: { only_integer: true, allow_blank: true }
   validates :result_format, inclusion: { in: CustomReport.result_formats.values }
+  validates :statement, presence: true
 
   belongs_to :custom_reports_folder, foreign_key: :folder_id, optional: true
   belongs_to :organization

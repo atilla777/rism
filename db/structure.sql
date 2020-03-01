@@ -531,6 +531,38 @@ ALTER SEQUENCE public.custom_reports_id_seq OWNED BY public.custom_reports.id;
 
 
 --
+-- Name: custom_reports_results; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.custom_reports_results (
+    id bigint NOT NULL,
+    custom_report_id bigint,
+    result_path character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: custom_reports_results_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.custom_reports_results_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: custom_reports_results_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.custom_reports_results_id_seq OWNED BY public.custom_reports_results.id;
+
+
+--
 -- Name: delivery_lists; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2301,6 +2333,13 @@ ALTER TABLE ONLY public.custom_reports_folders ALTER COLUMN id SET DEFAULT nextv
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY public.custom_reports_results ALTER COLUMN id SET DEFAULT nextval('public.custom_reports_results_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY public.delivery_lists ALTER COLUMN id SET DEFAULT nextval('public.delivery_lists_id_seq'::regclass);
 
 
@@ -2705,6 +2744,14 @@ ALTER TABLE ONLY public.custom_reports_folders
 
 ALTER TABLE ONLY public.custom_reports
     ADD CONSTRAINT custom_reports_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: custom_reports_results_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports_results
+    ADD CONSTRAINT custom_reports_results_pkey PRIMARY KEY (id);
 
 
 --
@@ -3249,6 +3296,13 @@ CREATE INDEX index_custom_reports_on_name ON public.custom_reports USING btree (
 --
 
 CREATE INDEX index_custom_reports_on_organization_id ON public.custom_reports USING btree (organization_id);
+
+
+--
+-- Name: index_custom_reports_results_on_custom_report_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_reports_results_on_custom_report_id ON public.custom_reports_results USING btree (custom_report_id);
 
 
 --
@@ -4325,6 +4379,14 @@ ALTER TABLE ONLY public.vulnerabilities
 
 
 --
+-- Name: fk_rails_627b1b4845; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.custom_reports_results
+    ADD CONSTRAINT fk_rails_627b1b4845 FOREIGN KEY (custom_report_id) REFERENCES public.custom_reports(id);
+
+
+--
 -- Name: fk_rails_6551137b98; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4761,6 +4823,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200216024320'),
 ('20200216024627'),
 ('20200227114354'),
-('20200227133341');
+('20200227133341'),
+('20200301031546');
 
 

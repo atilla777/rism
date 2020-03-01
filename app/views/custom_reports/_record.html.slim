@@ -8,3 +8,8 @@
   = r.show :description
 
 = render 'application/record_versions'
+
+=> link_to custom_reports_folders_path(folder_id: @record.folder_id) do
+  span.btn.btn-default
+    => fa_icon 'code-fork'
+    = CustomReportsFolder.model_name.human

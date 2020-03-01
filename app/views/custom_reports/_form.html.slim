@@ -44,6 +44,13 @@
           .col-lg-8
             = f.text_area :description, rows: 8, class: 'form-control'
 
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :statement, class: 'control-label'
+          .col-lg-8
+            = f.text_area :statement, rows: 12, class: 'form-control'
+
       .actions.form-group
         .col-lg-offset-2.col-lg-8
           => f.submit t('helpers.submit.save'), class: 'btn btn-success'

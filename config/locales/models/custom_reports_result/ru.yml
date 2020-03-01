@@ -1,0 +1,10 @@
+ru:
+  activerecord:
+    models:
+      custom_reports_result:
+        one: 'Результат отчета'
+        other: 'Результаты отчета'
+    attributes:
+      custom_reports_result:
+        created_at: 'Дата создания'
+        result_path: 'Содержимое отчета'
