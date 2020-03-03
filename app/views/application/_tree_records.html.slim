@@ -39,7 +39,8 @@ table.table.table-hover.table-bordered.table-striped
           = render 'selectors/selection', id: record.id, model: records.klass.model_name
 
         = link_to polymorphic_path(record), class: 'btn btn-link' do
-          = record.name
+          = fa_icon 'file'
+          =< record.name
 
         - if editor
           =< render 'helpers/index_actions', record: record

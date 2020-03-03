@@ -1,0 +1,17 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      = f.hidden_field :custom_report_id, value: @record&.custom_report_id
+
+      //.form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :name, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'

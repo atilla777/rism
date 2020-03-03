@@ -11,6 +11,14 @@ class CustomReportsResultsController < ApplicationController
     @records = records(filter_for_organization)
   end
 
+  def new
+    @record = model.new
+    authorize @record.class
+    @record.custom_report_id = params[:custom_report_id]
+    @variables = variables
+    render template: 'application/modal_form.js.erb'
+  end
+
   def create
     @record = model.new
     authorize @record.class
@@ -29,11 +37,12 @@ class CustomReportsResultsController < ApplicationController
       success: t('flashes.create', model: model.model_name.human)
     )
   rescue ActiveRecord::RecordInvalid
-    redirect_to(
-      session.delete(:edit_return_to),
-      organization_id: @organization.id,
-      danger: t('flashes.not_create', model: model.model_name.human)
-    )
+    render :new
+#    redirect_to(
+#      session.delete(:edit_return_to),
+#      organization_id: @organization.id,
+#      danger: t('flashes.not_create', model: model.model_name.human)
+#    )
   end
 
   private
@@ -41,6 +50,10 @@ class CustomReportsResultsController < ApplicationController
   def set_custom_report
     if params[:custom_report_id].present?
       @custom_report = CustomReport.find(params[:custom_report_id])
+    elsif params.dig(:custom_reports_result, :custom_report_id)
+      @custom_report = CustomReport.find(
+        params[:custom_reports_result][:custom_report_id]
+      )
     else
       @custom_report = record.custom_report
     end
