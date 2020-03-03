@@ -15,12 +15,11 @@ class CustomReportsResultsController < ApplicationController
     @record = model.new
     authorize @record.class
     @record.custom_report_id = params[:custom_report_id]
-    @variables = variables
     render template: 'application/modal_form.js.erb'
   end
 
   def create
-    @record = model.new
+    @record = model.new(record_params)
     authorize @record.class
     authorize @custom_report
     @organization = organization
@@ -77,5 +76,14 @@ class CustomReportsResultsController < ApplicationController
 
   def records_includes
     %i[custom_report organization]
+  end
+
+  def record_params
+    params.require(model.name.underscore.to_sym)
+          .permit(
+            policy(model).permitted_attributes(
+              CustomReportJob::Query.new(@custom_report.statement).variables_arr
+            )
+          )
   end
 end

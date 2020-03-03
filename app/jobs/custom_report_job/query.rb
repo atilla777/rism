@@ -1,8 +1,9 @@
 class CustomReportJob::Query
-  def initialize(statement, values = [])
+  def initialize(statement, variables_from_custom_report_result = {})
     @statement = statement
     @variables_arr = variables_arr
-    @values = values
+    @variables_hash = variables_hash
+    @variables_from_custom_report_result = variables_from_custom_report_result
   end
 
   def run
@@ -18,19 +19,6 @@ class CustomReportJob::Query
     end
   end
 
-  # private
-
-  # Transform SQL statement from :key1, key2, ... to $1, $2, ...
-  def transformed_statement
-    hash_with_brackets = variables_hash.transform_keys do |key|
-      "{#{key}}"
-    end
-    @statement.gsub(
-      /\{(\w+)\}/,
-      hash_with_brackets
-    )
-  end
-
   # Variables names as array from statement
   def variables_arr
     @statement
@@ -39,7 +27,21 @@ class CustomReportJob::Query
       .uniq
   end
 
-  # Variables names as hash from statement maped to $1, $N variables style
+  private
+
+  # Transform SQL statement from :key1, key2, ... to $1, $2, ...
+  def transformed_statement
+    hash_with_brackets = @variables_hash.transform_keys do |key|
+      "{#{key}}"
+    end
+    # Replace {name1}, {nameN} to $1, $N
+    @statement.gsub(
+      /\{(\w+)\}/,
+      hash_with_brackets
+    )
+  end
+
+  # Variables names as hash from statement maped to $1, $N variables names
   def variables_hash
     result = {}
       @variables_arr.each_with_index do |var, index|
@@ -48,10 +50,11 @@ class CustomReportJob::Query
     result
   end
 
-  # Array values for replace $1, $N variables names
+  # Transform hash {variable_name => value} to [$1, $N] array
+  # (result is array values for replace $1, $N variables names)
   def bindings
-    @values.each_with_object([]) do |var, memo|
-      memo << [nil, var]
-    end
+   @variables_from_custom_report_result.sort_by do |k, v|
+     @variables_hash[k]
+    end.map { |key, value| [nil, value] }
   end
 end

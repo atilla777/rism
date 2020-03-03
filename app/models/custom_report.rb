@@ -20,4 +20,8 @@ class CustomReport < ApplicationRecord
 
   belongs_to :custom_reports_folder, foreign_key: :folder_id, optional: true
   belongs_to :organization
+
+  def variables_arr
+    CustomReportJob::Query.new(custom_report.statement).variables_arr
+  end
 end

@@ -1,9 +1,10 @@
 class CustomReportsResultPolicy < ApplicationPolicy
 
-  def permitted_attributes
-    %i[
-      custom_report_id
-      result_path
+  def permitted_attributes(variables_arr)
+    [
+      :custom_report_id,
+      :result_path,
+      {variables: variables_arr}
     ]
   end
 

@@ -5,12 +5,24 @@
 
       = f.hidden_field :custom_report_id, value: @record&.custom_report_id
 
-      //.form-group.required
-        .field
-          .col-lg-2.text-right
-            = f.label :name, class: 'control-label'
-          .col-lg-8
-            = f.text_field :name, class: 'form-control'
+      - CustomReportJob::Query.new(@record.custom_report.statement).variables_arr.each do |v|
+        .form-group
+          .field
+            .col-lg-2.text-right
+              = label_tag("custom_reports_result[variables][#{v}]",
+                v,
+                class: 'control-label')
+            .col-lg-8
+              = text_field_tag("custom_reports_result[variables][#{v}]",
+                nil,
+                class: 'form-control')
+
+        //.form-group.required
+          .field
+            .col-lg-2.text-right
+              = f.label :name, class: 'control-label'
+            .col-lg-8
+              = f.text_field :name, class: 'form-control'
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8

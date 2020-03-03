@@ -8,13 +8,19 @@ class CustomReportJob < ApplicationJob
   def perform(_queue, custom_reports_result_id )
    @custom_reports_result = CustomReportsResult.find(custom_reports_result_id)
    custom_report = @custom_reports_result.custom_report
-   save_result CustomReport::Query.new(custom_report.statement).run
+   save_result CustomReportJob::Query.new(
+     custom_report.statement,
+     @custom_reports_result.variables
+   ).run
   end
 
   private
 
   def save_result(result)
-    @custom_reports_result.result_path = result
+    @custom_reports_result.result_path = CustomReportJob::ReportFile.new(
+      result,
+      @custom_reports_result
+    ).save
     @custom_reports_result.skip_current_user_check = true
     @custom_reports_result.save!
   rescue ActiveRecord::RecordInvalid

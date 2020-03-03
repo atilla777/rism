@@ -1,3 +1,6 @@
 = show_for @record do |r|
   = r.show :created_at, value: show_date(@record.created_at)
-  = r.show :result_path
+  = r.show :result_path do
+    a href="#{@record.result_path}"
+      = @record.result_path
+  = r.show :variables
