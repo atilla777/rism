@@ -11,10 +11,11 @@ class CustomReportJob::ReportFile
   def save
     FileUtils.mkdir_p(@store_dir) unless File.directory?(@store_dir)
     save_csv
+    file_path
 #    File.open(@file_path, 'wb') do |file|
 #      file.write(@result.read)
 #    end
-    file_url
+#    file_url
   end
 
   def save_csv

@@ -7,4 +7,5 @@ ru:
     attributes:
       custom_reports_result:
         created_at: 'Дата создания'
-        result_path: 'Содержимое отчета'
+        result_path: 'Файл отчета'
+        variables: 'Параметры отчета'

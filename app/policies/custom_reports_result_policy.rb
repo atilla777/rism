@@ -12,6 +12,10 @@ class CustomReportsResultPolicy < ApplicationPolicy
     edit?
   end
 
+  def download?
+    index?
+  end
+
   class Scope
     attr_reader :user, :scope
 

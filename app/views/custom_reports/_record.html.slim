@@ -5,6 +5,7 @@
     @record.organization))
   = r.show :folder_id, value: @record.custom_reports_folder&.name
   = r.show :statement
+  = r.show :variables
   = r.show :description
 
 = render 'application/record_versions'

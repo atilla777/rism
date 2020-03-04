@@ -5,6 +5,15 @@ class CustomReportsResultsController < ApplicationController
 
   before_action :set_custom_report
 
+  def download
+    authorize record
+    send_file(
+      record.result_path,
+      disposition: 'attachment',
+      x_sendfile: true
+    )
+  end
+
   def index
     authorize model
     @organization = organization

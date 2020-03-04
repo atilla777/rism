@@ -212,7 +212,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :custom_reports_results, only: [:index, :show, :new, :create, :destroy]
+  resources :custom_reports_results, only: [:index, :show, :new, :create, :destroy, :download] do
+    member do
+      get 'download'
+    end
+  end
 
   require 'sidekiq/web'
 
