@@ -76,6 +76,12 @@ Rails.application.routes.draw do
   resources :articles do
     get :autocomplete_article_name, :on => :collection, as: :autocomplete
   end
+  get(
+    'articles/:id/images/:image_file_name',
+    to: 'articles#download_image',
+    as: :article_download_image,
+    constraints: { image_file_name: /[^\/]*/ }
+  )
 
   resources :articles_folders
   post(

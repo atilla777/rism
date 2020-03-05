@@ -32,10 +32,15 @@ class ArticlesController < ApplicationController
     render json: result
   end
 
-  def download
+  def download_image
+    record = Article.find(params[:id])
     authorize record
     send_file(
-      record.result_path,
+      CkeditorUploader.file_path(
+        'article',
+        record.id,
+        params[:image_file_name]
+      ),
       disposition: 'attachment',
       x_sendfile: true
     )

@@ -6,6 +6,15 @@ class CkeditorUploader
     new(*args, &block).upload
   end
 
+  def self.file_path(record_type, record_id, filename)
+    Rails.root.join(
+      'file_storage',
+      record_type,
+      record_id.to_s,
+      filename
+    )
+  end
+
   def initialize(uploaded_io, record_model, record_id)
     @uploaded_io = uploaded_io
     @record_class = record_model
@@ -46,13 +55,21 @@ class CkeditorUploader
 
   def store_dir
     Rails.root.join(
-      'public',
-      'uploads',
-      'ckeditor',
+      'file_storage',
       @record_class,
       @record_id.to_s
     )
   end
+
+#  def store_dir
+#    Rails.root.join(
+#      'public',
+#      'uploads',
+#      'ckeditor',
+#      @record_class,
+#      @record_id.to_s
+#    )
+#  end
 
   def new_filename
     "#{SecureRandom.uuid}.#{@file_ext}"
@@ -62,14 +79,25 @@ class CkeditorUploader
     "#{@store_dir}/#{@new_filename}"
   end
 
+#  def file_url
+#      [
+#        ActionController::Base.relative_url_root,
+#        'uploads',
+#        'ckeditor',
+#        @record_class,
+#        @record_id,
+#        @new_filename
+#      ].join('/')
+#  end
+
   def file_url
-      [
-        ActionController::Base.relative_url_root,
-        'uploads',
-        'ckeditor',
-        @record_class,
-        @record_id,
-        @new_filename
-      ].join('/')
+    [
+      ActionController::Base.relative_url_root,
+      'articles',
+      @record_id,
+      'images',
+      @new_filename
+    ].join('/')
+    #link_to article_download_image_path(@record_id, @new_filename)
   end
 end

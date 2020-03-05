@@ -7,6 +7,10 @@ class ArticlePolicy < ApplicationPolicy
          published]
   end
 
+  def download_image?
+    index?
+  end
+
   class Scope
     attr_reader :user, :scope
 
