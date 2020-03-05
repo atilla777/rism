@@ -1,6 +1,11 @@
 = index_for records, actions: false do |t|
   - t.header attribute: :created_at, sort: :desc
   - t.header attribute: :result_path, sort: :desc
-  - t.field { |record| link_to(show_date(record.created_at), record) }
+  - t.header attribute: :variables
+  - t.field { |record| link_to(show_date_time(record.created_at), record) }
   - t.field do |record|
-    => link_to record.custom_report.name, download_custom_reports_result_path(record)
+    = link_to download_custom_reports_result_path(record) do
+      = fa_icon 'save', class: 'text-info'
+      =< record.custom_report.name
+  -t.field do |record|
+    = record.variables

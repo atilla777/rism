@@ -31,8 +31,7 @@ class CustomReportJob::ReportFile
 
   def store_dir
     Rails.root.join(
-      'public',
-      'uploads',
+      'file_storage',
       'custom_reports',
       @custom_reports_result.id.to_s
     )
@@ -46,13 +45,13 @@ class CustomReportJob::ReportFile
     "#{@store_dir}/#{@new_filename}"
   end
 
-  def file_url
-      [
-        ActionController::Base.relative_url_root,
-        'uploads',
-        'custom_reports',
-        @custom_reports_result.id.to_s,
-        @new_filename
-      ].join('/')
-  end
+#  def file_url
+#      [
+#        ActionController::Base.relative_url_root,
+#        'uploads',
+#        'custom_reports',
+#        @custom_reports_result.id.to_s,
+#        @new_filename
+#      ].join('/')
+#  end
 end

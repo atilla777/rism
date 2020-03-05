@@ -20,6 +20,7 @@ class CustomReport < ApplicationRecord
 
   belongs_to :custom_reports_folder, foreign_key: :folder_id, optional: true
   belongs_to :organization
+  has_many :custom_reports_results, dependent: :destroy
 
   def variables_arr
     CustomReportJob::Query.new(custom_report.statement).variables_arr

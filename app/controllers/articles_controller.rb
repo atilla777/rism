@@ -32,6 +32,15 @@ class ArticlesController < ApplicationController
     render json: result
   end
 
+  def download
+    authorize record
+    send_file(
+      record.result_path,
+      disposition: 'attachment',
+      x_sendfile: true
+    )
+  end
+
   def index
     authorize model
     @organization = organization

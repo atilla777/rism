@@ -1,5 +1,7 @@
 = show_for @record do |r|
-  = r.show :created_at, value: show_date(@record.created_at)
+  = r.show :created_at, value: show_date_time(@record.created_at)
   = r.show :result_path do
-    => link_to @record.custom_report.name, download_custom_reports_result_path(@record)
+    = link_to download_custom_reports_result_path(@record) do
+      = fa_icon 'save', class: 'text-info'
+      =< @record.custom_report.name
   = r.show :variables
