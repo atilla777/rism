@@ -56,22 +56,24 @@ class Article < ApplicationRecord
   private
 
   def images_url
-    [
-      'uploads',
-      'ckeditor',
-      'article',
-      id.to_s
-    ].join('/')
+  CkeditorUploader.file_dir(id)
+#    [
+#      'uploads',
+#      'ckeditor',
+#      'article',
+#      id.to_s
+#    ].join('/')
   end
 
   def images_dir
-    Rails.root.join(
-      'public',
-      'uploads',
-      'ckeditor',
-      'article',
-      id.to_s
-    )
+  CkeditorUploader.file_dir('article', id)
+#    Rails.root.join(
+#      'public',
+#      'uploads',
+#      'ckeditor',
+#      'article',
+#      id.to_s
+#    )
   end
 
   def images

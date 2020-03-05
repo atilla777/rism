@@ -15,6 +15,23 @@ class CkeditorUploader
     )
   end
 
+  def self.file_dir(record_type, record_id)
+    Rails.root.join(
+      'file_storage',
+      record_type,
+      record_id.to_s
+    )
+  end
+
+  def self.file_url(record_id)
+    [
+      ActionController::Base.relative_url_root,
+      'articles',
+      record_id,
+      'images'
+    ].join('/')
+  end
+
   def initialize(uploaded_io, record_model, record_id)
     @uploaded_io = uploaded_io
     @record_class = record_model
