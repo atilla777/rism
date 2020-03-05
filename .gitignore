@@ -25,6 +25,7 @@
 *.swo
 .DS_Store
 .env
+/file_storage
 /public/uploads
 /public/assets
 /public/packs
