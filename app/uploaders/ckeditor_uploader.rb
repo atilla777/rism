@@ -23,7 +23,7 @@ class CkeditorUploader
     )
   end
 
-  def self.file_url(record_id)
+  def self.file_base_url(record_id)
     [
       ActionController::Base.relative_url_root,
       'articles',

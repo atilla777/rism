@@ -7,7 +7,7 @@ class Article < ApplicationRecord
   include Rightable
   include Deliverable
 
-  after_update :delete_uploaded_images
+  after_update :delete_old_uploaded_images
   before_destroy :delete_all_uploaded_images
 
   multisearchable against: [:name, :content]
@@ -31,14 +31,14 @@ class Article < ApplicationRecord
   end
 
   # Delete images that is not in article content
-  def delete_uploaded_images
-    return unless File.directory?(images_dir)
-    dir = images_dir # absolete path to images dir
-    url = images_url # path to images strted with /uploads (like in content URL)
-    # Select files that not in the content
-    Dir.children(dir).select do |file|
-      not images.include?("/#{url}/#{file}")
-    end.each do |file| # delete files that not in content
+  def delete_old_uploaded_images
+    dir = CkeditorUploader.file_dir('article', id) # absolete path to images dir
+    return unless File.directory?(dir)
+    base_url = CkeditorUploader.file_base_url(id) # base url path (whithout filename)
+    old_files = Dir.children(dir).select do |file| # select files that not in the article content
+      not images.include?("#{base_url}/#{file}")
+    end
+    old_files.each do |file| # delete files that not in article content
       file_path = "#{dir}/#{file}"
       File.delete(file_path) if File.exist?(file_path)
     end
@@ -55,18 +55,18 @@ class Article < ApplicationRecord
 
   private
 
-  def images_url
-  CkeditorUploader.file_dir(id)
+#  def images_url
+#  CkeditorUploader.file_base_url(id)
 #    [
 #      'uploads',
 #      'ckeditor',
 #      'article',
 #      id.to_s
 #    ].join('/')
-  end
+#  end
 
-  def images_dir
-  CkeditorUploader.file_dir('article', id)
+#  def images_dir
+#  CkeditorUploader.file_dir('article', id)
 #    Rails.root.join(
 #      'public',
 #      'uploads',
@@ -74,7 +74,7 @@ class Article < ApplicationRecord
 #      'article',
 #      id.to_s
 #    )
-  end
+#  end
 
   def images
     require 'nokogiri'
