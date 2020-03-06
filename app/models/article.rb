@@ -46,6 +46,7 @@ class Article < ApplicationRecord
 
   # Delete folder with article images
   def delete_all_uploaded_images
+    images_dir = CkeditorUploader.file_dir('article', id)
     FileUtils.rm_rf(images_dir) if File.directory?(images_dir)
   end
 
