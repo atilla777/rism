@@ -9,8 +9,8 @@ namespace :rism do
   desc 'Change images urls.'
   task change_images_urls: [:environment] do |_task, args|
     require 'nokogiri'
-    require 'open-uri'
-    content = Article.all.each do |article|
+    #require 'open-uri'
+    Article.all.each do |article|
       old_base_url =  [
         'uploads',
         'ckeditor',
@@ -30,7 +30,7 @@ namespace :rism do
          new_base_url
         )
       end
-      doc.write_to(article.content)
+      article.content = doc.to_html
     end
   end
 end
