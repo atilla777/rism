@@ -11,8 +11,6 @@ namespace :rism do
     require 'nokogiri'
     #require 'open-uri'
     Article.all.each do |article|
-      puts 22222
-      puts article.content
       old_base_url =  [
         'uploads',
         'ckeditor',
@@ -29,9 +27,7 @@ namespace :rism do
       doc = Nokogiri::HTML(article.content)
 
       doc.css('img').map do |links|
-        puts 111111111
-        puts links['src']
-        links['src'].sub!(
+        links['src'] = links['src'].sub(
          old_base_url,
          new_base_url
         )
