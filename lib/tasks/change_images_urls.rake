@@ -11,44 +11,36 @@ namespace :rism do
     require 'nokogiri'
     #require 'open-uri'
     Article.all.each do |article|
+      puts 22222
+      puts article.content
       old_base_url =  [
         'uploads',
         'ckeditor',
         'article',
         article.id.to_s
       ].join('/')
+
       new_base_url = [
       'articles',
       article.id.to_s,
       'images',
-      @new_filename
     ].join('/')
+
       doc = Nokogiri::HTML(article.content)
+
       doc.css('img').map do |links|
-        links['src'] = links['src'].sub!(
+        puts 111111111
+        puts links['src']
+        links['src'].sub!(
          old_base_url,
          new_base_url
         )
+        puts links['src']
       end
+
       article.content = doc.to_html
+      article.skip_current_user_check = true
+      article.save!
     end
-  end
-end
-
-def recalculate_for_year(year)
-  vulnerabilities = Vulnerability.where("codename LIKE 'CVE-#{year}%'")
-  vulnerabilities.each do |vulnerability|
-    set_actuality(vulnerability)
-  end
-end
-
-def set_actuality(vulnerability)
-  actuality = Custom::VulnerabilityCustomization.cast_actuality(vulnerability)
-  vulnerability.actuality = actuality
-  vulnerability.custom_actuality = actuality
-  begin
-    vulnerability.save!
-  rescue => e
-    pp "Import error #{line} - #{e}"
   end
 end
