@@ -1,0 +1,6 @@
+- if record.result_path.present?
+  = link_to download_custom_reports_result_path(record) do
+    = fa_icon 'save', class: 'text-info'
+    =< record.custom_report.name
+- else
+  = fa_icon 'hourglass'

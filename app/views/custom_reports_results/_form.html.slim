@@ -5,6 +5,15 @@
 
       = f.hidden_field :custom_report_id, value: @record&.custom_report_id
 
+      .form-group
+        .field
+          .col-lg-2.text-right
+            span.control-label
+              = CustomReport.model_name.human
+          .col-lg-8
+            span.form-control
+              = @record&.custom_report.name
+
       - CustomReportJob::Query.new(@record.custom_report.statement).variables_arr.each do |v|
         .form-group.required
           .field
@@ -19,4 +28,4 @@
 
       .actions.form-group
         .col-lg-offset-2.col-lg-8
-          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          => f.submit t('views.action.run_custom_reports_result'), class: 'btn btn-success'

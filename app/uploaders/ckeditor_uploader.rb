@@ -49,6 +49,7 @@ class CkeditorUploader
 
   def upload
     return nil if extension_not_allowed?
+    # TODO: add limit for file size
     FileUtils.mkdir_p(store_dir) unless File.directory?(store_dir)
     save_file
     @file_url
@@ -78,16 +79,6 @@ class CkeditorUploader
     )
   end
 
-#  def store_dir
-#    Rails.root.join(
-#      'public',
-#      'uploads',
-#      'ckeditor',
-#      @record_class,
-#      @record_id.to_s
-#    )
-#  end
-
   def new_filename
     "#{SecureRandom.uuid}.#{@file_ext}"
   end
@@ -95,17 +86,6 @@ class CkeditorUploader
   def file_path
     "#{@store_dir}/#{@new_filename}"
   end
-
-#  def file_url
-#      [
-#        ActionController::Base.relative_url_root,
-#        'uploads',
-#        'ckeditor',
-#        @record_class,
-#        @record_id,
-#        @new_filename
-#      ].join('/')
-#  end
 
   def file_url
     [
@@ -115,6 +95,5 @@ class CkeditorUploader
       'files',
       @new_filename
     ].join('/')
-    #link_to article_download_image_path(@record_id, @new_filename)
   end
 end

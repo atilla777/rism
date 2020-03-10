@@ -56,27 +56,6 @@ class Article < ApplicationRecord
 
   private
 
-#  def images_url
-#  CkeditorUploader.file_base_url(id)
-#    [
-#      'uploads',
-#      'ckeditor',
-#      'article',
-#      id.to_s
-#    ].join('/')
-#  end
-
-#  def images_dir
-#  CkeditorUploader.file_dir('article', id)
-#    Rails.root.join(
-#      'public',
-#      'uploads',
-#      'ckeditor',
-#      'article',
-#      id.to_s
-#    )
-#  end
-
   def images
     require 'nokogiri'
     require 'open-uri'
