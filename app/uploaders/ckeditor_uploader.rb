@@ -23,12 +23,12 @@ class CkeditorUploader
     )
   end
 
-  def self.file_base_url(record_id)
+  def self.file_base_url(resource, record_id)
     [
       ActionController::Base.relative_url_root,
-      'articles',
+      resource,
       record_id,
-      'images'
+      'files'
     ].join('/')
   end
 
@@ -110,9 +110,9 @@ class CkeditorUploader
   def file_url
     [
       ActionController::Base.relative_url_root,
-      'articles',
+      @record_class.pluralize,
       @record_id,
-      'images',
+      'files',
       @new_filename
     ].join('/')
     #link_to article_download_image_path(@record_id, @new_filename)

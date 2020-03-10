@@ -38,8 +38,7 @@ set(
     'tmp/vulners',
     'vendor/bundle',
     'public/system',
-    'public/uploads',
-    'uploads'
+    'file_storage'
   )
 )
 set(
