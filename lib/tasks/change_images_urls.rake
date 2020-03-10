@@ -21,7 +21,7 @@ namespace :rism do
       new_base_url = [
       'articles',
       article.id.to_s,
-      'images',
+      'files',
     ].join('/')
 
       doc = Nokogiri::HTML(article.content)

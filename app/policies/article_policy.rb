@@ -7,7 +7,7 @@ class ArticlePolicy < ApplicationPolicy
          published]
   end
 
-  def download_image?
+  def download_file?
     index?
   end
 

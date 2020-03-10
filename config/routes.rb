@@ -77,10 +77,10 @@ Rails.application.routes.draw do
     get :autocomplete_article_name, :on => :collection, as: :autocomplete
   end
   get(
-    'articles/:id/images/:file_name',
+    'articles/:id/files/:file_name',
     to: 'articles#download_file',
-    as: :article_download_image,
-    constraints: { image_file_name: /[^\/]*/ }
+    as: :article_download_file,
+    constraints: { file_name: /[^\/]*/ }
   )
 
   resources :articles_folders

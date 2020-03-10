@@ -34,7 +34,7 @@ class Article < ApplicationRecord
   def delete_old_uploaded_images
     dir = CkeditorUploader.file_dir('article', id) # absolete path to images dir
     return unless File.directory?(dir)
-    base_url = CkeditorUploader.file_base_url(id) # base url path (whithout filename)
+    base_url = CkeditorUploader.file_base_url('articles', id) # base url path (whithout filename)
     old_files = Dir.children(dir).select do |file| # select files that not in the article content
       not images.include?("#{base_url}/#{file}")
     end
