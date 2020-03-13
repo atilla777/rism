@@ -12,5 +12,7 @@ ru:
         folder_id: 'Раздел'
         statement: 'SQL код'
         result_format: 'Формат результата'
-        variables: 'Параметры по умолчанию отчета'
+        result_formats:
+          csv: 'CSV'
+          json: 'JSON'
         description: 'Описание'

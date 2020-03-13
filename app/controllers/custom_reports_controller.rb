@@ -25,6 +25,6 @@ class CustomReportsController < ApplicationController
   end
 
   def records_includes
-    %i[organization user]
+    %i[organization]
   end
 end

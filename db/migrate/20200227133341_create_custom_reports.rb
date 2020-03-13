@@ -23,7 +23,6 @@ class CreateCustomReports < ActiveRecord::Migration[5.1]
       t.string :name
       t.text :description
       t.text :statement
-      t.jsonb :variables
       t.column :result_format, 'custom_report_format'
 
       t.timestamps

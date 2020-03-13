@@ -6,7 +6,6 @@
   = r.show :folder_id, value: @record.custom_reports_folder&.name
   - if current_user.admin_editor? || current_user.can?(:edit, @records.klass)
     = r.show :statement
-  = r.show :variables
   = r.show :description
 
 = render 'application/record_versions'

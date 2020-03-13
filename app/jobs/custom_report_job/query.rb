@@ -7,16 +7,25 @@ class CustomReportJob::Query
   end
 
   def run
-    if @variables_arr.empty? # Sql query without variables (for example - without {name})
-      ActiveRecord::Base.connection.exec_query(@statement)
-    else
-      ActiveRecord::Base.connection
-        .exec_query(
-          transformed_statement,
-          'SQL',
-          bindings
-        )
+    ActiveRecord::Base.transaction do
+      @result = if @variables_arr.empty? # Sql query without variables (for example - without {name})
+        ActiveRecord::Base.connection.exec_query(@statement)
+      else
+        ActiveRecord::Base.connection
+          .exec_query(
+            transformed_statement,
+            'SQL',
+            bindings
+          )
+      end
+      raise ActiveRecord::Rollback
     end
+    @result
+  end
+
+  # SQL stament wraped in transaction (for read only SQL)
+  def sql
+
   end
 
   # Variables names as array from statement
