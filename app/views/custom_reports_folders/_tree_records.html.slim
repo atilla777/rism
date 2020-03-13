@@ -1,0 +1,64 @@
+= render 'application/flash'
+
+- editor = current_user.admin_editor? || current_user.can?(:edit, folder.model_name.to_s)
+
+= render 'application/reset_selections_button', model: folder_model.model_name.to_s
+= render 'application/reset_selections_button', model: records.klass.model_name.to_s
+= render 'application/paste_selections_button', folder: folder, model: folder_model
+
+= index_new_button(records, folder_id: folder.id)
+= index_new_button(folders, folder_id: folder.id)
+
+table.table.table-hover.table-bordered.table-striped
+  thead.thead-dark
+    tr.table-active
+      td
+        h3
+          =< link_to polymorphic_path(folder_model) do
+            | /
+            =<> fa_icon 'home'
+          - folder.top_level_folders&.reverse&.each do |f|
+            = link_to polymorphic_path(folder_model, folder_id: f.parent&.id) do
+              =<> f.parent&.name
+              | /
+
+          - if folder.name
+            span.text-warning
+              =< fa_icon 'folder-open'
+              =< folder.name
+
+            =< link_to(polymorphic_path(folder_model,
+              folder_id: folder.parent&.id),
+              class: 'btn btn-link') do
+              => fa_icon 'arrow-up'
+
+  - records.each do |record|
+    tr.table-active
+      td
+        - if editor
+          = render 'selectors/selection', id: record.id, model: records.klass.model_name
+
+        = link_to polymorphic_path(record), class: 'btn btn-link' do
+          = fa_icon 'file'
+          =< record.name
+
+        = render 'custom_reports_results/result_path', record: record.custom_reports_results.last
+
+        - if editor
+          =< render 'helpers/index_actions', record: record
+
+  - folders.each do |f|
+    tr.table-active
+      td
+        - if editor
+          = render 'selectors/selection', id: f.id, model: folder_model
+
+        = link_to(polymorphic_path(folder_model,
+          folder_id: f.id),
+          class: 'btn btn-link') do
+          span.text-warning
+            =< fa_icon 'folder'
+          =< f.name
+
+        - if editor
+          = render 'helpers/index_actions', record: f
