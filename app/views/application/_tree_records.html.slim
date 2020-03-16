@@ -38,12 +38,7 @@ table.table.table-hover.table-bordered.table-striped
         - if editor
           = render 'selectors/selection', id: record.id, model: records.klass.model_name
 
-        = link_to polymorphic_path(record), class: 'btn btn-link' do
-          = fa_icon 'file'
-          =< record.name
-
-        - if editor
-          =< render 'helpers/index_actions', record: record
+        = render 'tree_record', record: record, editor: editor
 
   - folders.each do |f|
     tr.table-active

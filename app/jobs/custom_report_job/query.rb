@@ -7,7 +7,7 @@ class CustomReportJob::Query
   end
 
   def run
-    ActiveRecord::Base.transaction do
+    run_in_trasaction do
       @result = if @variables_arr.empty? # Sql query without variables (for example - without {name})
         ActiveRecord::Base.connection.exec_query(@statement)
       else
@@ -18,14 +18,11 @@ class CustomReportJob::Query
             bindings
           )
       end
-      raise ActiveRecord::Rollback
     end
     @result
-  end
-
-  # SQL stament wraped in transaction (for read only SQL)
-  def sql
-
+  rescue ActiveRecord::ActiveRecordError => error
+    @result = error
+    @result
   end
 
   # Variables names as array from statement
@@ -37,6 +34,13 @@ class CustomReportJob::Query
   end
 
   private
+
+  def run_in_trasaction
+    ActiveRecord::Base.transaction do
+      yield
+      raise ActiveRecord::Rollback
+    end
+  end
 
   # Transform SQL statement from :key1, key2, ... to $1, $2, ...
   def transformed_statement

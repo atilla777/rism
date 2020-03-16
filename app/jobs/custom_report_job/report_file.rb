@@ -3,20 +3,23 @@ class CustomReportJob::ReportFile
     @result = result
     @custom_reports_result = custom_reports_result
     @store_dir = store_dir
-    @file_ext = 'csv'
+    @file_ext = custom_reports_result.custom_report.result_format # 'csv'
     @new_filename = new_filename
     @file_path = file_path
   end
 
   def save
     FileUtils.mkdir_p(@store_dir) unless File.directory?(@store_dir)
-    save_csv
-    file_path
-#    File.open(@file_path, 'wb') do |file|
-#      file.write(@result.read)
-#    end
-#    file_url
+    return save_error if @result.is_a?(ActiveRecord::ActiveRecordError)
+    case @file_ext
+    when 'csv'
+      save_csv
+    when 'json'
+      save_json
+    end
   end
+
+  private
 
   def save_csv
     CSV.open(@file_path, "wb", col_sep: ';') do |csv|
@@ -25,9 +28,22 @@ class CustomReportJob::ReportFile
         csv << row
       end
     end
+    file_path
   end
 
-  private
+  def save_json
+    File.open(@file_path, "wb") do |file|
+      file.write(@result.to_hash.to_json)
+    end
+    file_path
+  end
+
+  def save_error
+    File.open(@file_path, "wb") do |file|
+      file.write(@result)
+    end
+    file_path
+  end
 
   def store_dir
     Rails.root.join(
@@ -44,14 +60,4 @@ class CustomReportJob::ReportFile
   def file_path
     "#{@store_dir}/#{@new_filename}"
   end
-
-#  def file_url
-#      [
-#        ActionController::Base.relative_url_root,
-#        'uploads',
-#        'custom_reports',
-#        @custom_reports_result.id.to_s,
-#        @new_filename
-#      ].join('/')
-#  end
 end

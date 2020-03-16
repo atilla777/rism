@@ -12,7 +12,7 @@
           = fa_icon 'plus-circle'
         =< t('helpers.submit.create', model: CustomReportsResult.model_name.human)
 
-javascript:
+//javascript:
   $(document).on('turbolinks:load', function() {
     setInterval(function() {
       jQuery.ajax({
@@ -20,7 +20,7 @@ javascript:
         type: "GET",
         dataType: "script"
       });
-    }, 30000); // In every 30 seconds
+    }, 10000); // In every 10 seconds
   });
 
 = render 'records', records: @records

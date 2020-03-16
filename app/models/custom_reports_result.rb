@@ -9,6 +9,10 @@ class CustomReportsResult < ApplicationRecord
   belongs_to :custom_report
   has_one :organization, through: :custom_report
 
+  def result_file
+    result_path.sub("#{record_storage_dir.to_s}/", '')
+  end
+
   private
 
   # Delete folder with article images
