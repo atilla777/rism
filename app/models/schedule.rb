@@ -68,9 +68,12 @@ class Schedule < ApplicationRecord
       name: cron_job_name,
       cron: show_crontab_line,
       class: job.worker,
-      queue: job.job_queue('scheduled_scan'),
-      args: [job.id, job.job_queue('scheduled_scan')]
+      queue: job.job_queue,
+      args: [job.id, job.job_queue]
     )
+#      queue: job.job_queue('scheduled_scan'),
+#      args: [job.id, job.job_queue('scheduled_scan')]
+#     )
   end
 
   def array_to_crontab_symbol(arr)

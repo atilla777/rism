@@ -2,11 +2,18 @@
 
 class CustomReportJob < ApplicationJob
   queue_as do
-    self.arguments.first.to_sym
+    #self.arguments.first.to_sym
+    self.arguments.second.to_sym
   end
 
-  def perform(_queue, custom_reports_result_id )
-   @custom_reports_result = CustomReportsResult.find(custom_reports_result_id)
+  def perform(custom_report_id, _queue, custom_reports_result_id)
+    @custom_reports_result = if custom_reports_result_id
+      CustomReportsResult.find(custom_reports_result_id)
+    else
+      CustomReportsResult.new(
+        custom_report_id: custom_report_id
+      )
+    end
    custom_report = @custom_reports_result.custom_report
    save_result CustomReportJob::Query.new(
      custom_report.statement,

@@ -36,8 +36,9 @@ class CustomReportsResultsController < ApplicationController
     @record.custom_report = @custom_report
     @record.save!
     CustomReportJob.perform_later(
-      'custom_report',
-      @record.id
+      nil, # Custom report ID - it will be not nil when run from schedule
+      'custom_report', # Queue
+      @record.id # Custom report result ID - it will be nil when run from schedule
     )
     redirect_to(
       session.delete(:edit_return_to),

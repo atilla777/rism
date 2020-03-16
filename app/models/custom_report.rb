@@ -28,6 +28,14 @@ class CustomReport < ApplicationRecord
     CustomReportJob::Query.new(custom_report.statement).variables_arr
   end
 
+  def worker
+    'CustomReportJob'
+  end
+
+  def job_queue
+    'custom_report'
+  end
+
   private
 
   def statement_danger_commands
