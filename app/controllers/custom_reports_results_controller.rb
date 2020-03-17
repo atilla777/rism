@@ -16,7 +16,6 @@ class CustomReportsResultsController < ApplicationController
 
   def index
     authorize model
-    @organization = organization
     @records = records(filter_for_organization)
   end
 
@@ -31,7 +30,6 @@ class CustomReportsResultsController < ApplicationController
     @record = model.new(record_params)
     authorize @record.class
     authorize @custom_report
-    @organization = organization
     @record.current_user = current_user
     @record.custom_report = @custom_report
     @record.save!
@@ -42,16 +40,10 @@ class CustomReportsResultsController < ApplicationController
     )
     redirect_to(
       session.delete(:edit_return_to),
-      organization_id: @organization.id,
       success: t('flashes.create', model: model.model_name.human)
     )
   rescue ActiveRecord::RecordInvalid
     render :new
-#    redirect_to(
-#      session.delete(:edit_return_to),
-#      organization_id: @organization.id,
-#      danger: t('flashes.not_create', model: model.model_name.human)
-#    )
   end
 
   private
@@ -76,16 +68,9 @@ class CustomReportsResultsController < ApplicationController
     'created_at desc'
   end
 
-#  def filter_for_organization
-#    model.joins('JOIN custom_reports ON custom_reports.id = custom_reports_results.custom_report_id')
-#         .where('custom_reports.organization_id = ?', @organization.id)
-#  end
   def filter_for_organization
-    model
-  end
-
-  def records_includes
-    %i[custom_report organization]
+    model.joins('JOIN custom_reports ON custom_reports.id = custom_reports_results.custom_report_id')
+         .where('custom_reports.id = ?', @custom_report.id)
   end
 
   def record_params
