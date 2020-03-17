@@ -3,7 +3,7 @@
   =< record.name
   =< "(#{record.result_format})"
 
-= render 'custom_reports_results/result_path', record: record.custom_reports_results.last
+= render 'custom_reports_results/result_path', record: record.last_result
 
 - if editor
   =< link_to edit_polymorphic_path(record), class: 'btn btn-link btn-xs' do

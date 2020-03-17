@@ -224,6 +224,12 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api do
+    resources :custom_reports, only: [:show]
+  end
+
+  #get "/api/custom_reports/:id", to: "custom_reports#show", as: :api_custom_report
+
   require 'sidekiq/web'
 
   mount Sidekiq::Web => '/sidekiq', constraints: AdminSidekiqWebConstraint.new

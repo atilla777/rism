@@ -36,6 +36,10 @@ class CustomReport < ApplicationRecord
     'custom_report'
   end
 
+  def last_result
+    custom_reports_results.last
+  end
+
   private
 
   def statement_danger_commands
