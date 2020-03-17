@@ -5,17 +5,21 @@ class SchedulesController < ApplicationController
 
   def show
     @job = params[:job_type].constantize.find(params[:job_id])
-    #@organization = @job.organization
     @record = model.where(job_id: params[:job_id])
                    .where(job_type: params[:job_type])
                    .first_or_initialize
 
     authorize @record
+    @partial = case params[:job_type]
+               when 'ScanJob'
+                 'scan_jobs/show_tabs'
+               when 'CustomReport'
+                 'custom_reports/show_tabs'
+               end
   end
 
   def update
     @job = params[:job_type].constantize.find(params[:job_id])
-    #@organization = @job.organization
     @record = model.where(job_id: params[:job_id])
                    .where(job_type: params[:job_type])
                    .first_or_initialize
@@ -94,16 +98,7 @@ class SchedulesController < ApplicationController
     Schedule
   end
 
-#  def filter_for_organization
-#    model.joins(:job)
-#         .where(job: {organization_id: @organization.id})
-#  end
-
   def default_sort
     'created_at desc'
   end
-
-#  def records_includes
-#    %i[organization job]
-#  end
 end

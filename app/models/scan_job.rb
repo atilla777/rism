@@ -37,12 +37,11 @@ class ScanJob < ApplicationRecord
   end
 
   #def job_queue(queue)
-  def job_queue
+  def job_queue(queue = 'scheduled_scan')
     if scan_engine == 'shodan' && ENV['FREE_SHODAN'] == 'true'
       'free_shodan_scan'
     else
-      "scheduled_scan_#{scan_option.queue_number}"
-      #"#{queue}_#{scan_option.queue_number}"
+      "#{queue}_#{scan_option.queue_number}"
     end
   end
 

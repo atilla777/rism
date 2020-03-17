@@ -1,3 +1,3 @@
 = caption @job
-= render 'scan_jobs/show_tabs', record: @job, active_tab: :schedule, from_external_link: true
+= render @partial, record: @job, active_tab: :schedule, from_external_link: true
 = render 'record', record: @record

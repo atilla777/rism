@@ -6,12 +6,13 @@ class CustomReportJob < ApplicationJob
     self.arguments.second.to_sym
   end
 
-  def perform(custom_report_id, _queue, custom_reports_result_id)
+  def perform(custom_report_id, _queue, custom_reports_result_id = nil)
     @custom_reports_result = if custom_reports_result_id
       CustomReportsResult.find(custom_reports_result_id)
     else
-      CustomReportsResult.new(
-        custom_report_id: custom_report_id
+      CustomReportsResult.create(
+        custom_report_id: custom_report_id,
+        skip_current_user_check: true
       )
     end
    custom_report = @custom_reports_result.custom_report

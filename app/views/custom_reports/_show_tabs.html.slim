@@ -3,6 +3,9 @@
     = t('navigations.main_info')
   - tabs.add(:custom_reports_results, custom_reports_results_path(custom_report_id: record.id), 'CustomReportsResult', true) do
     = CustomReportsResult.model_name.human(count: 2)
+  - tabs.add(:schedule, schedule_path(job_id: record.id, job_type: 'CustomReport'), 'Schedule', true) do
+    = fa_icon 'clock-o'
+    =< Schedule.model_name.human(count: 1)
   - tabs.add(:links, polymorphic_path(record, active_tab: :links), 'Link') do
     = fa_icon 'link'
     =< Link.model_name.human(count: 2)
