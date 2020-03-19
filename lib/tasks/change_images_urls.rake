@@ -11,6 +11,12 @@ namespace :rism do
     require 'nokogiri'
     #require 'open-uri'
     Article.all.each do |article|
+      # Log old content to console
+      csv_str = CSV.generate do |csv|
+        csv << [article.id, article.content]
+      end
+      puts csv_str
+
       old_base_url =  [
         'uploads',
         'ckeditor',
@@ -31,7 +37,6 @@ namespace :rism do
          old_base_url,
          new_base_url
         )
-        puts links['src']
       end
 
       article.content = doc.to_html
