@@ -10,7 +10,7 @@ class CustomReportsResult < ApplicationRecord
   has_one :organization, through: :custom_report
 
   def result_file
-    result_path.sub("#{record_storage_dir.to_s}/", '')
+    result_path.split('/').last
   end
 
   private
