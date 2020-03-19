@@ -9,7 +9,8 @@ class CustomReportsResultsController < ApplicationController
     authorize record
     send_file(
       record.result_path,
-      disposition: 'attachment',
+      filename: record.result_file,
+      disposition: 'inline',
       x_sendfile: true
     )
   end
