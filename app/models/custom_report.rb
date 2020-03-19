@@ -43,7 +43,7 @@ class CustomReport < ApplicationRecord
   private
 
   def statement_danger_commands
-    return unless statement.match? /drop|delete|update|create|alter|grant|load|insert|lock|reindex|set|truncate/i
+    return unless statement.match? /\b(drop|delete|update|create|alter|grant|load|insert|lock|reindex|set|truncate)\b/i
     errors.add(:statement, 'Danger SQL commands can`t be used!')
   end
 end
