@@ -20,6 +20,8 @@ ru:
           open_filtered: 'Открыт Фильтруется'
           open: 'Открыт'
         legality: 'Легальность (была)'
+        host_service_legality: 'Легальность'
+        host_service_description: 'Описание сервиса'
         legalities:
           illegal: 'Нелегален'
           unknown: 'Неизвестно'

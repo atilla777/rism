@@ -105,12 +105,33 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
             .form-group
               .field
                  .col-lg-3.text-right
+                   = f.label :host_service_legality, class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes :host_service_legality_in, ScanResult.human_attribute_legalities, :first, :last, {}, class: 'big-checkbox' do |b|
+                     =< b.check_box
+                     =< color_icon(ScanResult.legality_to_color b.value)
+                     =< b.label
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
                    = f.label :legality, class: 'control-label'
                  .col-lg-8
                    = f.collection_check_boxes :legality_in, ScanResult.human_attribute_legalities, :first, :last, {}, class: 'big-checkbox' do |b|
                      =< b.check_box
                      =< color_icon(ScanResult.legality_to_color b.value)
                      =< b.label
+
+            .form-group
+              .field
+                .col-lg-3.text-right
+                  = f.label :host_service_description, class: 'control-label'
+                .col-lg-3
+                  = f.text_field :host_service_description_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+                .col-lg-2.text-right
+                  = f.label :host_service_description, class: 'control-label'
+                .col-lg-3
+                  = f.text_field :host_service_description_not_cont, class: 'form-control', placeholder: t('views.shared.placeholders.not_cont_filter')
 
             .form-group
               .field
