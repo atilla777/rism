@@ -5,7 +5,7 @@ class DeleteFilteredVulnerabilitiesCommand < BaseCommand
   set_command_name :delete_filtered_vulnerabilities
   set_human_name 'Удалить отфильтрованные записи'
   set_command_model 'Vulnerability'
-  set_required_params %i[]
+  set_required_params %i[q]
 
   def run
     return unless @current_user.admin?

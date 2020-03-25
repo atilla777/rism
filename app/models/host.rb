@@ -13,6 +13,7 @@ class Host < ApplicationRecord
   validates :name, length: { in: 3..200, allow_blank: true }
   validates :name, uniqueness: { scope: :organization_id, allow_blank: true }
   validates :ip, uniqueness: true
+  validates :ip, presence: true
 
   has_many :host_services, dependent: :destroy
 

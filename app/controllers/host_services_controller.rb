@@ -40,49 +40,13 @@ class HostServicesController < ApplicationController
   end
 
   def records(scope)
-    scope = scope
-      .select('host_services.*')
-      .select('scan_results.state')
-      .select('scan_results.id AS scan_result_id')
-      .joins(join_host)
-      .joins(join_scan_result)
+    scope = HostService.records_scope
     scope = policy_scope(scope)
     @q = scope.ransack(params[:q])
     @q.sorts = default_sort if @q.sorts.empty?
     @q.result
       .includes(records_includes)
       .page(params[:page])
-  end
-
-  def join_host
-    <<~SQL
-      LEFT JOIN hosts
-        ON host_services.host_id = hosts.id
-    SQL
-  end
-
-  def join_scan_result
-    <<~SQL
-      LEFT JOIN scan_results
-      ON scan_results.ip = hosts.ip
-      AND scan_results.port = host_services.port
-      AND scan_results.protocol = host_services.protocol
-      AND scan_results.id IN
-      (SELECT
-       scan_results.id
-       FROM scan_results
-        INNER JOIN (
-          SELECT
-            scan_results.ip,
-            MAX(scan_results.job_start)
-            AS max_time
-          FROM scan_results
-          GROUP BY scan_results.ip
-        )m
-        ON scan_results.ip = m.ip
-        AND scan_results.job_start = m.max_time
-      )
-    SQL
   end
 
   def default_sort

@@ -1,5 +1,13 @@
-= index_search :state_str_or_vulnerable_str_or_name_or_legality_str_or_port_str_or_organization_name_or_ip_str_or_protocol_cont, organization_id_eq: @organization&.id
+= index_search :state_str_or_vulnerable_str_or_name_or_legality_str_or_port_str_or_organization_name_or_ip_str_or_protocol_or_description_cont, organization_id_eq: @organization&.id
 = report_button_for @records, organization_id: @organization.id
+- q_params = params.permit(q: {}).to_h[:q]&.reject do |_k, v|
+  - if v.respond_to?(:all?)
+    - v.all?(&:blank?)
+  - else
+    - v.blank?
+= command_button_for(records,
+  organization_id: @organization.id,
+  q: q_params)
 = index_for records, decorator: HostServiceDecorator do |t|
   - t.header attribute: :ip_str, sort_by: :ip_str, sort: :desc
   - t.header attribute: :port, sort: :desc

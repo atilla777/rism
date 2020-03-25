@@ -1,22 +1,23 @@
 # frozen_string_literal: true
 
-class DeleteFilteredScanResultsCommand < BaseCommand
+class DeleteFilteredHostServicesCommand < BaseCommand
 
-  set_command_name :delete_filtered_scan_results
+  set_command_name :delete_filtered_host_services
   set_human_name 'Удалить отфильтрованные записи'
-  set_command_model 'ScanResult'
+  set_command_model 'HostService'
   set_required_params %i[q]
 
   def run
     return unless @current_user.admin?
-    delete_filtered_scan_results
+    delete_filtered
   end
 
   private
 
-  def delete_filtered_scan_results
+  def delete_filtered
     return unless options[:q].present?
-    q = ScanResult.ransack(options[:q])
+    scope = HostService.records_scope
+    q = scope.ransack(options[:q])
     q.result.delete_all
   end
 end

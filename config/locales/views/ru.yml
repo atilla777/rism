@@ -7,6 +7,7 @@ ru:
         eq_filter: 'равно'
         eq_list_filter: 'равно значениям из списка (одно значение на строке)'
         cont_filter: 'содержит'
+        not_cont_filter: 'не содержит'
     vulnerabilities:
       placeholders:
         description_cont: 'строка (содержится)'

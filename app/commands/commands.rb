@@ -38,4 +38,5 @@ class Commands
   SyncNvdBaseCommand.register
   DeleteFilteredVulnerabilitiesCommand.register
   DeleteFilteredScanResultsCommand.register
+  DeleteFilteredHostServicesCommand.register
 end

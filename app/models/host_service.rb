@@ -46,4 +46,43 @@ class HostService < ApplicationRecord
   def show_full_name
     "#{name} #{port} #{protocol}"
   end
+
+  def self.records_scope
+      HostService.select('host_services.*')
+                 .select('scan_results.state')
+                 .select('scan_results.id AS scan_result_id')
+                 .joins(HostService.join_host)
+                 .joins(HostService.join_scan_result)
+  end
+
+  def self.join_host
+    <<~SQL
+      LEFT JOIN hosts
+        ON host_services.host_id = hosts.id
+    SQL
+  end
+
+  def self.join_scan_result
+    <<~SQL
+      LEFT JOIN scan_results
+      ON scan_results.ip = hosts.ip
+      AND scan_results.port = host_services.port
+      AND scan_results.protocol = host_services.protocol
+      AND scan_results.id IN
+      (SELECT
+       scan_results.id
+       FROM scan_results
+        INNER JOIN (
+          SELECT
+            scan_results.ip,
+            MAX(scan_results.job_start)
+            AS max_time
+          FROM scan_results
+          GROUP BY scan_results.ip
+        )m
+        ON scan_results.ip = m.ip
+        AND scan_results.job_start = m.max_time
+      )
+    SQL
+  end
 end

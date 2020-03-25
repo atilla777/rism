@@ -10,4 +10,8 @@ class HostServicePolicy < ApplicationPolicy
          vulnerable
          vuln_description]
   end
+
+  def run?
+    create?
+  end
 end

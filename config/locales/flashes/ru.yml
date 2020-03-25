@@ -1,0 +1,11 @@
+ru:
+  flashes:
+    create: Запись %{model} успешно создана.
+    update: Запись %{model} успешно отредактирована.
+    password_update: Пароль успешно изменён.
+    password_not_update: Пароль не был изменен.
+    destroy: Запись %{model} успешно удалена.
+    revert: Запись %{model} успешно откатилась на предыдущую версию.
+    command: Команда %{command} успешно выполнена.
+    command_failed: Команда %{command} не выполнена.
+    now_scan: Сканирование %{net_scan_job_id} запущено, результат появится через некоторое время
