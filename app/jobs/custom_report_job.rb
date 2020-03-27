@@ -2,7 +2,6 @@
 
 class CustomReportJob < ApplicationJob
   queue_as do
-    #self.arguments.first.to_sym
     self.arguments.second.to_sym
   end
 

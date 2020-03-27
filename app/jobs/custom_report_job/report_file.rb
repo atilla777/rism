@@ -5,6 +5,8 @@ class CustomReportJob::ReportFile
     @store_dir = store_dir
     @file_ext = custom_reports_result.custom_report.result_format # 'csv'
     @new_filename = new_filename
+    puts 11111
+    puts @new_filename
     @file_path = file_path
   end
 
@@ -17,7 +19,6 @@ class CustomReportJob::ReportFile
     when 'json'
       save_json
     end
-    @new_filename
   end
 
   private
@@ -29,18 +30,21 @@ class CustomReportJob::ReportFile
         csv << row
       end
     end
+    @new_filename
   end
 
   def save_json
     File.open(@file_path, "wb") do |file|
       file.write(@result.to_hash.to_json)
     end
+    @new_filename
   end
 
   def save_error
     File.open(@file_path, "wb") do |file|
       file.write(@result)
     end
+    @new_filename
   end
 
   def store_dir

@@ -8,8 +8,8 @@ class CustomReportsResultsController < ApplicationController
   def download
     authorize record
     send_file(
-      record.result_file_path,
-      filename: record.result_path,
+      record.result_file_path, # Path to file on disk
+      filename: record.result_path, # Filename
       disposition: 'inline',
       x_sendfile: true
     )
