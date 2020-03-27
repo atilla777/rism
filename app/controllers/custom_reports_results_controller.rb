@@ -9,7 +9,7 @@ class CustomReportsResultsController < ApplicationController
     authorize record
     send_file(
       record.result_path,
-      filename: record.result_file.encode('Windows-1251', invalid: :replace, undef: :replace),
+      filename: record.result_file,
       disposition: 'inline',
       x_sendfile: true
     )
@@ -45,6 +45,23 @@ class CustomReportsResultsController < ApplicationController
     )
   rescue ActiveRecord::RecordInvalid
     render :new
+  end
+
+  def destroy
+    @record = record
+    authorize @record
+    @organization = organization
+    message = if @record.destroy
+                {success: t('flashes.destroy', model: model.model_name.human)}
+              # TODO show translated (human) record name in error
+              else
+                {danger: @record.errors.full_messages.join(', ')}
+              end
+
+    redirect_to(
+      custom_reports_results_path(custom_report_id: @record.custom_report_id),
+      success: t('flashes.destroy', model: model.model_name.human)
+    )
   end
 
   private

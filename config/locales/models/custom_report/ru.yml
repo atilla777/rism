@@ -2,8 +2,8 @@ ru:
   activerecord:
     models:
       custom_report:
-        one: 'Отчет'
-        other: 'Отчеты'
+        one: 'SQL отчет'
+        other: 'SQL отчеты'
     attributes:
       custom_report:
         name: 'Название'

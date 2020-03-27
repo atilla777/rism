@@ -2,8 +2,8 @@ ru:
   activerecord:
     models:
       custom_reports_folder:
-        one: 'Раздел отчетов'
-        other: 'Разделы отчетов'
+        one: 'Папка SQL отчетов'
+        other: 'Папки SQL отчетов'
     attributes:
       custom_reports_folder:
         name: 'Имя'

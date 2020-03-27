@@ -22,7 +22,7 @@ class CustomReportJob::ReportFile
   private
 
   def save_csv
-    CSV.open(@file_path, "wb", col_sep: ';') do |csv|
+    CSV.open(@file_path, "wb", col_sep: ';', encoding: 'UTF8:Windows-1251') do |csv|
       csv << @result.columns
       @result.rows.each do |row|
         csv << row
