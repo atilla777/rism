@@ -5,8 +5,6 @@ class CustomReportJob::ReportFile
     @store_dir = store_dir
     @file_ext = custom_reports_result.custom_report.result_format # 'csv'
     @new_filename = new_filename
-    puts 11111
-    puts @new_filename
     @file_path = file_path
   end
 
