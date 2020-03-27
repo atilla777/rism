@@ -9,7 +9,7 @@ class CustomReportsResultsController < ApplicationController
     authorize record
     send_file(
       record.result_path,
-      filename: record.result_file,
+      filename: record.result_file.encode('Windows-1251', invalid: :replace, undef: :replace),
       disposition: 'inline',
       x_sendfile: true
     )
