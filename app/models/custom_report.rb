@@ -12,6 +12,8 @@ class CustomReport < ApplicationRecord
 
   enum result_format: RESULT_FORMATS, _prefix: true
 
+  after_destroy :delete_result_folder
+
   validates :name, length: { minimum: 3, maximum: 300 }
   validates :name, uniqueness: { scope: :folder_id }
   validates :organization_id, numericality: { only_integer: true }
@@ -40,7 +42,20 @@ class CustomReport < ApplicationRecord
     custom_reports_results.last
   end
 
+  def result_storage_dir
+    Rails.root.join(
+      'file_storage',
+      'custom_reports',
+      id.to_s
+    )
+  end
+
   private
+
+  def delete_result_folder
+    dir = result_storage_dir
+    FileUtils.rm_rf(dir) if File.directory?(dir)
+  end
 
   def statement_danger_commands
     return unless statement.match? /\b(drop|delete|update|create|alter|grant|load|insert|lock|reindex|set|truncate)\b/i

@@ -2,8 +2,8 @@ class CustomReportJob::ReportFile
   def initialize(result, custom_reports_result)
     @result = result
     @custom_reports_result = custom_reports_result
-    @store_dir = store_dir
-    @file_ext = custom_reports_result.custom_report.result_format # 'csv'
+    @store_dir = @custom_reports_result.record_storage_dir
+    @file_ext = custom_reports_result.custom_report.result_format
     @new_filename = new_filename
     @file_path = file_path
   end
@@ -43,14 +43,6 @@ class CustomReportJob::ReportFile
       file.write(@result)
     end
     @new_filename
-  end
-
-  def store_dir
-    Rails.root.join(
-      'file_storage',
-      'custom_reports',
-      @custom_reports_result.id.to_s
-    )
   end
 
   def new_filename

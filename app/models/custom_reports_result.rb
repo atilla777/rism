@@ -2,7 +2,7 @@ class CustomReportsResult < ApplicationRecord
   include OrganizationAssociated
   include Rightable
 
-  before_destroy :delete_result_files
+  before_destroy :delete_result_file
 
   validates :custom_report_id, numericality: { only_integer: true, allow_blank: true }
 
@@ -13,18 +13,15 @@ class CustomReportsResult < ApplicationRecord
     "#{record_storage_dir}/#{result_path}"
   end
 
+  def record_storage_dir
+    custom_report.result_storage_dir
+  end
+
   private
 
   # Delete folder with article images
-  def delete_result_files
-    FileUtils.rm_rf(record_storage_dir) if File.directory?(record_storage_dir)
-  end
-
-  def record_storage_dir
-    Rails.root.join(
-      'file_storage',
-      'custom_reports',
-      id.to_s
-    )
+  def delete_result_file
+      file_path = result_file_path
+      File.delete(file_path) if File.exist?(file_path)
   end
 end
