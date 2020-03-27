@@ -17,32 +17,30 @@ class CustomReportJob::ReportFile
     when 'json'
       save_json
     end
+    @new_filename
   end
 
   private
 
   def save_csv
-    CSV.open(@file_path, "wb", col_sep: ';', encoding: 'UTF8:Windows-1251') do |csv|
+    CSV.open(@file_path, "wb", col_sep: ';', encoding: 'Windows-1251') do |csv|
       csv << @result.columns
       @result.rows.each do |row|
         csv << row
       end
     end
-    file_path
   end
 
   def save_json
     File.open(@file_path, "wb") do |file|
       file.write(@result.to_hash.to_json)
     end
-    file_path
   end
 
   def save_error
     File.open(@file_path, "wb") do |file|
       file.write(@result)
     end
-    file_path
   end
 
   def store_dir

@@ -2,6 +2,6 @@
 - elsif record.result_path.present?
   =< link_to download_custom_reports_result_path(record) do
     = fa_icon 'save', class: 'text-info'
-    =< record.result_file
+    =< record.result_path
 - else
   = fa_icon 'hourglass'
