@@ -21,7 +21,10 @@ class CustomReportsFolder < ApplicationRecord
              class_name: 'CustomReportsFolder',
              optional: true
 
-  has_many :custom_reports, dependent: :destroy
+  has_many :custom_reports,
+           class_name: 'CustomReport',
+           foreign_key: :folder_id,
+           dependent: :destroy
 
   scope :parentino, -> { find(id: parent_id) }
 
