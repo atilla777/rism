@@ -21,8 +21,8 @@ class Api::CustomReportsController < ApplicationController
   def show
     last_result = set_last_result
     send_file(
-      last_result.result_path,
-      filename: last_result.result_file,
+      last_result.result_file_path,
+      filename: last_result.result_path,
       disposition: 'attachment',
       x_sendfile: true
     )
