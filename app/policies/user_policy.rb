@@ -14,6 +14,7 @@ class UserPolicy < ApplicationPolicy
          department_id
          department_name
          rank
+         api_user
          description]
     else
       result = %i[name
@@ -40,5 +41,9 @@ class UserPolicy < ApplicationPolicy
 
   def update_password?
     change_password?
+  end
+
+  def generate_api_token?
+    change_password? && record.api_user? && record.api_user?
   end
 end

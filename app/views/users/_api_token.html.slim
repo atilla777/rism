@@ -1,0 +1,7 @@
+= record.api_token
+=< link_to(generate_api_token_user_path(id: record.id),
+  method: :patch,
+  remote: true,
+  data: {confirm: t('views.action.confirm')},
+  class: 'btn btn-link btn-success btn-sm') do
+  = fa_icon 'refresh'

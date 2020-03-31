@@ -22,6 +22,7 @@ class User < ApplicationRecord
                persistence_token
                crypted_password
                perishable_token
+               api_token
                password_salt]
   )
 
@@ -103,6 +104,13 @@ class User < ApplicationRecord
 
   def show_full_name
     name
+  end
+
+  def self.api_user(token)
+    user = find_by(api_token: token)
+    return false unless user
+    return user if user.api_user?
+    false
   end
 
   private

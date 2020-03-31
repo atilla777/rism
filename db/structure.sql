@@ -5,6 +5,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -1954,7 +1955,9 @@ CREATE TABLE public.users (
     updated_at timestamp without time zone NOT NULL,
     department_id bigint,
     rank integer,
-    department_name character varying
+    department_name character varying,
+    api_token character varying,
+    api_user boolean
 );
 
 
@@ -3881,6 +3884,13 @@ CREATE INDEX index_user_actions_on_user_id ON public.user_actions USING btree (u
 
 
 --
+-- Name: index_users_on_api_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_api_token ON public.users USING btree (api_token);
+
+
+--
 -- Name: index_users_on_department_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4777,6 +4787,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200216024627'),
 ('20200227114354'),
 ('20200227133341'),
-('20200301031546');
+('20200301031546'),
+('20200331073332');
 
 

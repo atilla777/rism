@@ -17,6 +17,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def generate_api_token
+    @record = User.find(params[:id])
+    authorize @record
+    begin
+      @record.api_token = SecureRandom.hex
+    end while User.exists?(api_token: @record.api_token)
+    @record.current_user = current_user
+    @record.save
+  end
+
   def index
     authorize model
     @role = role

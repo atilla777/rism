@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     member do
       get 'change_password'
       patch 'update_password'
+      patch 'generate_api_token'
     end
   end
 
@@ -225,7 +226,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :custom_reports, only: [:show]
+    resources :custom_reports_api, only: [:show]
   end
 
   #get "/api/custom_reports/:id", to: "custom_reports#show", as: :api_custom_report

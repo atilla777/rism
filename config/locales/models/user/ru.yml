@@ -1,0 +1,25 @@
+ru:
+  activerecord:
+    models:
+      user:
+        one: 'Пользователь/Контакт'
+        other: 'Пользователи/Контакты'
+    attributes:
+      user:
+        name: 'Имя'
+        email: 'Почта'
+        phone: 'Телефон'
+        mobile_phone: 'Мобильный телефон'
+        organization: 'Организация'
+        job: 'Должность'
+        department_id: 'Подразделение'
+        department_name: 'Подразделение'
+        description: 'Описание'
+        organization_id: 'Организация'
+        active: 'Разрешено входить в систему'
+        api_user: 'Разрешено использовать API'
+        api_token: 'Токен доступа к API'
+        password: 'Пароль (мин. 8 символов и удовлетворяющий условию сложности)'
+        password_confirmation: 'Подтверждение пароля'
+        rank: 'Ранг должности'
+        password_confirmation: 'Подтверждение пароля'

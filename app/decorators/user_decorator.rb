@@ -13,6 +13,10 @@ class UserDecorator < SimpleDelegator
     active ? I18n.t('labels.user.active') : I18n.t('labels.user.not_active')
   end
 
+  def show_api_user
+    api_user ? I18n.t('labels.yes_label'): I18n.t('labels.no_label')
+  end
+
   def contact
     result = []
     result << name if name.present?

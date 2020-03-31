@@ -78,14 +78,21 @@
             = f.label :description, class: 'control-label'
           .col-lg-8
             = f.text_area :description, rows: 5, class: 'form-control'
+
       - if current_user.admin_editor? || current_user.can?(:manage, User)
         .form-group
-          .col-lg-offset-2.col-lg-8
+          .col-lg-offset-2.col-lg-2
             .checkbox
                label
                  = f.check_box :active, class: 'big-checkbox'
                  strong
                    | #{t('activerecord.attributes.user.active')}
+          .col-lg-offset-2.col-lg-2
+            .checkbox
+               label
+                 = f.check_box :api_user, class: 'big-checkbox'
+                 strong
+                   | #{t('activerecord.attributes.user.api_user')}
 
         - if current_user.admin?
           .form-group
