@@ -7,32 +7,45 @@ class Api::CustomReportsApiController < ApplicationController
 
   skip_before_action :set_paper_trail_whodunnit
   skip_before_action :authenticate?
-  #skip_after_action :log_user_action
   skip_after_action :verify_authorized
 
+  class ReportFileNotFoundError < StandardError
+    def message
+      'Custom report file not found. Did report was generated?'
+    end
+  end
+
   # Download custom report file throught API.
-  # Examles of usage (3 is a custom report ID, afbadb4ff8485c0adcba486b4ca90cc4 is a token example):
-  # download as file -
+  # Examples of usage (3 is a custom report ID, afbadb4ff8485c0adcba486b4ca90cc4 is a token example):
+  # 1) download as file:
   # curl -O -J -H 'Authorization: Token token="afbadb4ff8485c0adcba486b4ca90cc4"' http://localhost:3000/api/custom_reports_api/3
-  # show downloaded content in console -
+  # 2) show downloaded content in console:
   # curl -H 'Authorization: Token token="afbadb4ff8485c0adcba486b4ca90cc4"' http://localhost:3000/api/custom_reports_api/3
-  # transfer downloaded content to another app through pipe -
+  # 3) transfer downloaded content to another app through pipe:
   # curl -H 'Authorization: Token token="afbadb4ff8485c0adcba486b4ca90cc4"' http://localhost:3000/api/custom_reports_api/3 | grep some_text
   def show
-    # TODO: add error output
     @record = set_last_result
+    check_report_existence
     send_file(
       @record.result_file_path,
       filename: @record.result_path,
       disposition: 'attachment',
       x_sendfile: true
     )
+  rescue ActiveRecord::RecordNotFound => error
+    render_error(error: error, status: :not_found, status_code: 404)
+  rescue ReportFileNotFoundError => error
+    render_error(error: error.message, status: :internal_server_error, status_code: 500)
+  rescue StandardError => error
+    render_error(error: error, status: :internal_server_error, status_code: 500)
   end
 
   private
 
   def authenticate
-    authenticate_token || render_unauthorized
+    return if authenticate_token
+    self.headers["WWW-Authenticate"] = %(Token realm=Application")
+    render_error(error: 'Bad credentials', status: :unauthorized, status_code: 401)
   end
 
   def authenticate_token
@@ -41,13 +54,20 @@ class Api::CustomReportsApiController < ApplicationController
     end
   end
 
-  def render_unauthorized(realm = "Application")
-    self.headers["WWW-Authenticate"] = %(Token realm="#{realm}")
-    render json: 'Bad credentials', status: :unauthorized
-  end
-
   def set_last_result
     custom_report = CustomReport.find(params[:id])
     custom_report.last_result
+  end
+
+  def check_report_existence
+    return if File.exist?(@record.result_file_path)
+    raise ReportFileNotFoundError
+  end
+
+  def render_error(error:, status:, status_code:)
+    render(
+      json: {errors: [error], status: status_code},
+      status: status
+    )
   end
 end

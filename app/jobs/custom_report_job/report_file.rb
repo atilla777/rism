@@ -33,14 +33,19 @@ class CustomReportJob::ReportFile
 
   def save_json
     File.open(@file_path, "wb") do |file|
-      file.write(@result.to_hash.to_json)
+      file.write({data: @result.to_hash, status: 200}.to_json)
     end
     @new_filename
   end
 
   def save_error
     File.open(@file_path, "wb") do |file|
-      file.write(@result)
+      case @file_ext
+      when 'csv'
+        file.write("!!!Error!!!: #{@result}")
+      when 'json'
+        file.write({errors: [@result], status: 200}.to_json)
+      end
     end
     @new_filename
   end
