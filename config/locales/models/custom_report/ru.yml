@@ -15,4 +15,5 @@ ru:
         result_formats:
           csv: 'CSV'
           json: 'JSON'
+        add_csv_header: 'Добавлять в CSV файл заголовки столбцов'
         description: 'Описание'

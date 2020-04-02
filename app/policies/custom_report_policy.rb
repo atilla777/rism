@@ -6,6 +6,7 @@ class CustomReportPolicy < ApplicationPolicy
          content
          description
          statement
+         add_csv_header
          result_format
       ]
   end

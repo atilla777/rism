@@ -3,7 +3,8 @@ class CustomReportJob::ReportFile
     @result = result
     @custom_reports_result = custom_reports_result
     @store_dir = @custom_reports_result.record_storage_dir
-    @file_ext = custom_reports_result.custom_report.result_format
+    @custom_report = @custom_reports_result.custom_report
+    @file_ext = @custom_report.result_format
     @new_filename = new_filename
     @file_path = file_path
   end
@@ -23,7 +24,7 @@ class CustomReportJob::ReportFile
 
   def save_csv
     CSV.open(@file_path, "wb", col_sep: ';', encoding: 'Windows-1251') do |csv|
-      csv << @result.columns
+      csv << @result.columns if @custom_report.add_csv_header?
       @result.rows.each do |row|
         csv << row
       end
