@@ -21,7 +21,8 @@ class CustomReportsResult < ApplicationRecord
 
   # Delete folder with article images
   def delete_result_file
-      file_path = result_file_path
-      File.delete(file_path) if File.exist?(file_path)
+    return unless result_path.present?
+    file_path = result_file_path
+    File.delete(file_path) if File.exist?(file_path)
   end
 end
