@@ -235,4 +235,7 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => '/sidekiq', constraints: AdminSidekiqWebConstraint.new
   require 'sidekiq/cron/web'
+
+  # TODO: use or delete (it for routing error handling when api client used)
+  # match '*path', to: "api/v1/routing_error#show", format: true, constraints: {format: :json}, defaults: {format: 'html'}, via: [:get, :post]
 end

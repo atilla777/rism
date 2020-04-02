@@ -20,11 +20,12 @@ module Api
       # Download custom report file throught API.
       # Examples of usage (3 is a custom report ID, afbadb4ff8485c0adcba486b4ca90cc4 is a token example):
       # 1) download as file:
-      # curl -O -J -H 'Authorization: Token token="afbadb4ff8485c0adcba486b4ca90cc4"' http://localhost:3000/api/v1/custom_reports_api/3
+      # curl -O -J -H 'Authorization: Token token=afbadb4ff8485c0adcba486b4ca90cc4' http://localhost:3000/api/v1/custom_reports_api/3
       # 2) show downloaded content in console:
-      # curl -H 'Authorization: Token token="afbadb4ff8485c0adcba486b4ca90cc4"' http://localhost:3000/api/v1/custom_reports_api/3
+      # curl -H 'Authorization: Token token=afbadb4ff8485c0adcba486b4ca90cc4' http://localhost:3000/api/v1/custom_reports_api/3
       # 3) transfer downloaded content to another app through pipe:
       # curl -H 'Authorization: Token token="afbadb4ff8485c0adcba486b4ca90cc4"' http://localhost:3000/api/v1/custom_reports_api/3 | grep some_text
+      # If you request data in json format add -H 'Content-Type: application/json' to curl command.
       def show
         @custom_report = custom_report
         raise ReportFileNotFoundError unless authorize @custom_report
