@@ -226,10 +226,10 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :custom_reports_api, only: [:show]
+    namespace :v1 do
+      resources :custom_reports_api, only: [:show]
+    end
   end
-
-  #get "/api/custom_reports/:id", to: "custom_reports#show", as: :api_custom_report
 
   require 'sidekiq/web'
 
