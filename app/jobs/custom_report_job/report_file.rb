@@ -34,7 +34,11 @@ class CustomReportJob::ReportFile
 
   def save_json
     File.open(@file_path, "wb") do |file|
-      file.write({data: @result.to_hash, status: 200}.to_json)
+      file.write(
+        {data: @result.to_hash,
+         created_at: @custom_reports_result.created_at,
+         status: 200}.to_json
+      )
     end
     @new_filename
   end

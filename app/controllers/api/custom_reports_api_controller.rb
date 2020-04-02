@@ -24,6 +24,8 @@ class Api::CustomReportsApiController < ApplicationController
   # 3) transfer downloaded content to another app through pipe:
   # curl -H 'Authorization: Token token="afbadb4ff8485c0adcba486b4ca90cc4"' http://localhost:3000/api/custom_reports_api/3 | grep some_text
   def show
+    @custom_report = custom_report
+    raise ReportFileNotFoundError unless authorize @custom_report
     @record = last_result
     check_report_existence
     send_file(
@@ -32,6 +34,10 @@ class Api::CustomReportsApiController < ApplicationController
       disposition: 'attachment',
       x_sendfile: true
     )
+  rescue Pundit::NotAuthorizedError
+    render_error(error: 'You are not allowed to read this report.', status: :unauthorized, status_code: 401)
+  rescue ReportNotAllowedForUser => error
+    render_error(error: error.message, status: :unauthorized, status_code: 401)
   rescue ActiveRecord::RecordNotFound => error
     render_error(error: error, status: :not_found, status_code: 404)
   rescue ReportFileNotFoundError => error
@@ -54,9 +60,12 @@ class Api::CustomReportsApiController < ApplicationController
     end
   end
 
+  def custom_report
+    CustomReport.find(params[:id])
+  end
+
   def last_result
-    custom_report = CustomReport.find(params[:id])
-    custom_report.last_result
+    @custom_report.last_result
   end
 
   def check_report_existence
