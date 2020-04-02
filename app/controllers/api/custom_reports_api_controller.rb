@@ -24,7 +24,7 @@ class Api::CustomReportsApiController < ApplicationController
   # 3) transfer downloaded content to another app through pipe:
   # curl -H 'Authorization: Token token="afbadb4ff8485c0adcba486b4ca90cc4"' http://localhost:3000/api/custom_reports_api/3 | grep some_text
   def show
-    @record = set_last_result
+    @record = last_result
     check_report_existence
     send_file(
       @record.result_file_path,
@@ -54,12 +54,13 @@ class Api::CustomReportsApiController < ApplicationController
     end
   end
 
-  def set_last_result
+  def last_result
     custom_report = CustomReport.find(params[:id])
     custom_report.last_result
   end
 
   def check_report_existence
+    raise ReportFileNotFoundError unless @record
     return if File.exist?(@record.result_file_path)
     raise ReportFileNotFoundError
   end
