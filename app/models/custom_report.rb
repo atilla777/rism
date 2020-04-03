@@ -15,7 +15,7 @@ class CustomReport < ApplicationRecord
   after_destroy :delete_result_folder
 
   validates :name, length: { minimum: 3, maximum: 300 }
-  validates :name, uniqueness: { scope: :folder_id }
+  validates :name, uniqueness: { scope: [:folder_id, :result_format] }
   validates :organization_id, numericality: { only_integer: true }
   validates :folder_id, numericality: { only_integer: true, allow_blank: true }
   validates :result_format, inclusion: { in: CustomReport.result_formats.values }

@@ -1,5 +1,6 @@
 = show_for @record do | r |
   = r.show :name
+  = r.show :id
   = r.show(:organization_id,
     value: link_to(@record.organization.name,
     @record.organization))

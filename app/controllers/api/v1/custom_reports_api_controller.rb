@@ -20,7 +20,7 @@ module Api
       # Download custom report file throught API.
       # Examples of usage (3 is a custom report ID, afbadb4ff8485c0adcba486b4ca90cc4 is a token example):
       # 1) download as file:
-      # curl -O -J -H 'Authorization: Token token=afbadb4ff8485c0adcba486b4ca90cc4' http://localhost:3000/api/v1/custom_reports_api/3
+      # curl -OJ -H 'Authorization: Token token=afbadb4ff8485c0adcba486b4ca90cc4' http://localhost:3000/api/v1/custom_reports_api/3
       # 2) show downloaded content in console:
       # curl -H 'Authorization: Token token=afbadb4ff8485c0adcba486b4ca90cc4' http://localhost:3000/api/v1/custom_reports_api/3
       # 3) transfer downloaded content to another app through pipe:
@@ -39,8 +39,6 @@ module Api
         )
       rescue Pundit::NotAuthorizedError
         render_error(error: 'You are not allowed to read this report.', status: :unauthorized, status_code: 401)
-      rescue ReportNotAllowedForUser => error
-        render_error(error: error.message, status: :unauthorized, status_code: 401)
       rescue ActiveRecord::RecordNotFound => error
         render_error(error: error, status: :not_found, status_code: 404)
       rescue ReportFileNotFoundError => error

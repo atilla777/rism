@@ -19,9 +19,33 @@ class CustomReportJob < ApplicationJob
      custom_report.statement,
      @custom_reports_result.variables
    ).run
+  rescue ActiveRecord::RecordNotFound => error
+    log_error(custom_report_id, error)
+  rescue StandardError => error
+    log_error(custom_report_id, error)
   end
 
   private
+
+  def log_error(custom_report_id, error)
+    logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_error.log'))
+    logger.tagged("CUSTOM_REPORT (#{Time.now}): ") do
+      logger.error(
+        %W(
+          custom
+          report
+          result
+          can`t
+          be
+          create
+          -
+          #{error},
+          custom report ID
+          -
+          #{custom_report_id}).join(' ')
+      )
+    end
+  end
 
   def save_result(result)
     @custom_reports_result.result_path = CustomReportJob::ReportFile.new(
