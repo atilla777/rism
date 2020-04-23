@@ -48,6 +48,7 @@ module Right::SubjectTypes
     'RecordTemplate' => I18n.t('activerecord.models.record_template.one'),
     'Versions' => I18n.t('labels.version.versions'),
     'Reports' => I18n.t('labels.reports'),
+    'CustomReportsFolder' => I18n.t('activerecord.models.custom_reports_folder.one'),
     'CustomReport' => I18n.t('activerecord.models.custom_report.one'),
     'CustomReportsResult' => I18n.t('activerecord.models.custom_reports_result.one'),
     'Charts' => I18n.t('navigations.charts'),
