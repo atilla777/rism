@@ -30,7 +30,7 @@
       .form-group.required
         .field
           .col-lg-2.text-right
-            = f.label :report_format, class: 'control-label'
+            = f.label :result_format, class: 'control-label'
           .col-lg-8
             = f.select(:result_format,
               CustomReport.result_formats.keys.collect { |format| [CustomReport.human_enum_name(:result_format, format), format] },

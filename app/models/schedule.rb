@@ -15,23 +15,14 @@ class Schedule < ApplicationRecord
   validate :check_month_days
 
   belongs_to :job, polymorphic: true
-  belongs_to :scan_job, class_name: 'ScanJob', foreign_key: :job_id
+  belongs_to :scan_job, class_name: 'ScanJob', foreign_key: :job_id, optional: true
+  belongs_to :custom_report, class_name: 'CustomReport', foreign_key: :job_id, optional: true
 
   delegate :organization, to: :job, allow_nil: true, prefix: true
-
-  #belongs_to :scan_job, foreign_type: 'ScanJob'
-
-  #belongs_to :scan_job, polymorphic: true
-  #has_one :self_ref, class_name: self, foreign_key: :id
-  #has_one :scan_job, through: :self_ref, source: :job, source_type: ScanJob
-
-  #has_one :organization, through: :scan_job
 
   after_save :update_sidekiq_cron_schedule
 
   after_destroy :destroy_sidekiq_cron_schedule
-
-  #delegate :organization, to: :job
 
   def organization_id
     job.organization_id
@@ -71,9 +62,6 @@ class Schedule < ApplicationRecord
       queue: job.job_queue,
       args: [job.id, job.job_queue]
     )
-#      queue: job.job_queue('scheduled_scan'),
-#      args: [job.id, job.job_queue('scheduled_scan')]
-#     )
   end
 
   def array_to_crontab_symbol(arr)

@@ -34,7 +34,7 @@ class SchedulesController < ApplicationController
     update_months if params[:month]
     update_crontab_line if params[:crontab_line]
     # TODO: add errors show for handling in Schedule.save and Sidekiq::Cron.save
-    @record.save
+    @record.save!
   rescue ActiveRecord::RecordInvalid
     logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_erros.log"))
     logger.tagged("SCHEDULE: #{@record&.job&.name}") do

@@ -27,6 +27,8 @@ class CustomReport < ApplicationRecord
   belongs_to :organization
   has_many :custom_reports_results, dependent: :destroy
 
+  has_one :schedule, as: :job, dependent: :destroy
+
   def variables_arr
     CustomReportJob::Query.new(custom_report.statement).variables_arr
   end
