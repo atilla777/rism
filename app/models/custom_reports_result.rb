@@ -17,6 +17,10 @@ class CustomReportsResult < ApplicationRecord
     custom_report.result_storage_dir
   end
 
+  def organization_id
+    organization.id
+  end
+
   private
 
   # Delete folder with article images

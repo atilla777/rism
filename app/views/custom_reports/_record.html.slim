@@ -1,11 +1,11 @@
-= show_for @record do | r |
+= show_for @record do |r|
   = r.show :name
   = r.show :id
   = r.show(:organization_id,
     value: link_to(@record.organization.name,
     @record.organization))
   = r.show :folder_id, value: @record.custom_reports_folder&.name
-  - if current_user.admin_editor? || current_user.can?(:edit, @records.klass)
+  - if current_user.admin_editor? || current_user.can?(:edit, @record.class)
     = r.show :statement
   = r.show :result_format
   = r.show :description

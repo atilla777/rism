@@ -31,6 +31,7 @@ module Api
         raise ReportFileNotFoundError unless authorize @custom_report
         @record = last_result
         check_report_existence
+        raise ReportFileNotFoundError unless authorize @record
         send_file(
           @record.result_file_path,
           filename: @record.result_path,
