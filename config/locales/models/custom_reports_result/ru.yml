@@ -2,8 +2,8 @@ ru:
   activerecord:
     models:
       custom_reports_result:
-        one: 'Результат отчета'
-        other: 'Результаты отчета'
+        one: 'Результат SQL отчета'
+        other: 'Результаты SQL отчета'
     attributes:
       custom_reports_result:
         created_at: 'Дата создания'
