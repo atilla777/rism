@@ -3,7 +3,7 @@
 module User::DeviseConfig
   extend ActiveSupport::Concern
 
-  PASSWD_REGEXP =/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/
+  PASSWD_REGEXP =/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/\\]/
 
   included do
     acts_as_authentic do |c|
