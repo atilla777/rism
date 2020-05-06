@@ -14,15 +14,15 @@ class CustomReportJob < ApplicationJob
         skip_current_user_check: true
       )
     end
-   custom_report = @custom_reports_result.custom_report
+   @custom_report = @custom_reports_result.custom_report
    save_result CustomReportJob::Query.new(
-     custom_report.statement,
+     @custom_report.statement,
      @custom_reports_result.variables
    ).run
   rescue ActiveRecord::RecordNotFound => error
-    log_error(custom_report_id, error)
+    log_error(@custom_report.id, error)
   rescue StandardError => error
-    log_error(custom_report_id, error)
+    log_error(@custom_report.id, error)
   end
 
   private
