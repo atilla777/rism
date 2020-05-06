@@ -26,7 +26,9 @@ class CustomReportJob::ReportFile
     CSV.open(@file_path, "wb", col_sep: ';', encoding: 'Windows-1251') do |csv|
       csv << @result.columns if @custom_report.add_csv_header?
       @result.rows.each do |row|
-        csv << row
+        csv << row.map do |field|
+          field.encode('Windows-1251', invalid: :replace, undef: :replace, replace: " ")
+        end
       end
     end
     @new_filename
