@@ -474,7 +474,8 @@ CREATE TABLE public.custom_reports (
     result_format public.custom_report_format,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    add_csv_header boolean
+    add_csv_header boolean,
+    utf_encoding boolean
 );
 
 
@@ -4790,6 +4791,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200227133341'),
 ('20200301031546'),
 ('20200331073332'),
-('20200402065224');
+('20200402065224'),
+('20200506123638');
 
 

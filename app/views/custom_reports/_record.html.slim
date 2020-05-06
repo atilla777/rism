@@ -8,6 +8,8 @@
   - if current_user.admin_editor? || current_user.can?(:edit, @record.class)
     = r.show :statement
   = r.show :result_format
+  = r.show :add_csv_header
+  = r.show :encoding
   = r.show :description
 
 = render 'application/record_versions'

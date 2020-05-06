@@ -29,6 +29,11 @@ class CustomReport < ApplicationRecord
 
   has_one :schedule, as: :job, dependent: :destroy
 
+  def encoding
+    return 'UTF-8' if utf_encoding?
+    'Windows-1251'
+  end
+
   def variables_arr
     CustomReportJob::Query.new(custom_report.statement).variables_arr
   end

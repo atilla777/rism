@@ -16,4 +16,6 @@ ru:
           csv: 'CSV'
           json: 'JSON'
         add_csv_header: 'Добавлять в CSV файл заголовки столбцов'
+        utf_encoding: 'Сохранять отчет в UTF-8 вместо Windows-1251'
+        encoding: 'Кодировка'
         description: 'Описание'

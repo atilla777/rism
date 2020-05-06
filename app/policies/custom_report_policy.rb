@@ -7,6 +7,7 @@ class CustomReportPolicy < ApplicationPolicy
          description
          statement
          add_csv_header
+         utf_encoding
          result_format
       ]
   end

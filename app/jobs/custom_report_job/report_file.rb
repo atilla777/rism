@@ -23,15 +23,29 @@ class CustomReportJob::ReportFile
   private
 
   def save_csv
-    CSV.open(@file_path, "wb", col_sep: ';', encoding: 'Windows-1251') do |csv|
+    CSV.open(@file_path, "wb", col_sep: ';', encoding: @custom_report.encoding) do |csv|
       csv << @result.columns if @custom_report.add_csv_header?
-      @result.rows.each do |row|
-        csv << row.map do |field|
-          field.encode('Windows-1251', invalid: :replace, undef: :replace, replace: " ")
+      if @custom_report.utf_encoding?
+        @result.rows.each { |row| csv << row }
+      else
+        @result.rows.each do |row|
+          csv << row.map do |field|
+            to_windows1251(field)
+          end
         end
       end
     end
     @new_filename
+  end
+
+  def to_windows1251(field)
+    return field unless field.is_a?(String)
+    field.to_s.encode(
+      @custom_report.encoding,
+      invalid: :replace,
+      undef: :replace,
+      replace: " "
+    )
   end
 
   def save_json

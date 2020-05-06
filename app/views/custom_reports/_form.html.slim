@@ -46,6 +46,14 @@
                  | #{t('activerecord.attributes.custom_report.add_csv_header')}
 
       .form-group
+        .col-lg-offset-2.col-lg-8
+          .checkbox
+             label
+               = f.check_box :utf_encoding, class: 'big-checkbox'
+               strong
+                 | #{t('activerecord.attributes.custom_report.utf_encoding')}
+
+      .form-group
         .field
           .col-lg-2.text-right
             = f.label :description, class: 'control-label'
