@@ -1,6 +1,6 @@
 ru:
   activerecord:
     models:
-      notifications_logs:
-        one: 'Журнал оповещения'
-        other: 'Журналы оповещений'
+      notifications_log:
+        one: 'Протокол оповещения'
+        other: 'Протоколы оповещения'
