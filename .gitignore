@@ -21,8 +21,7 @@
 .byebug_history
 
 *~
-*.swp
-*.swo
+*.sw*
 .DS_Store
 .env
 /file_storage
