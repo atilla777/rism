@@ -1,23 +1,33 @@
 # frozen_string_literal: true
 
-class SessionsTrimJob < ApplicationJob
+# Trim database (delete old records, like action logs etc.)
+class DatabaseTrimJob < ApplicationJob
+
+  SESSION_CUTOFF_DAYS = 5
+  USER_ACTION_CUTOFF_MONTH = 6
 
   queue_as do
     self.arguments&.first || :default
   end
 
   def perform(_)
-    trim
+    trim_sessions
+    trim_user_actions
     log
   end
 
   private
 
-  def trim
-    #cutoff_period = (ENV['SESSION_DAYS_TRIM_THRESHOLD'] || 30).to_i.days.ago
-    cutoff_period = (5).to_i.days.ago
+  def trim_sessions
+    cutoff_period = SESSION_CUTOFF_DAYS.days.ago
     ActiveRecord::SessionStore::Session.
       where("updated_at < ?", cutoff_period).
+      delete_all
+  end
+
+  def trim_user_actions
+    cutoff_period = USER_ACTION_CUTOFF_MONTH.month.ago
+    UserAction.where("created_at < ?", cutoff_period).
       delete_all
   end
 

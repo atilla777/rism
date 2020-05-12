@@ -1,6 +1,6 @@
-sessions_trim:
-  cron: "0 1 * * *" # clear old (older than 30 days) session data (cookies) from DB
-  class: 'SessionsTrimJob'
+database_trim:
+  cron: "0 1 * * *" # clear old data (cookies, users actions logs etc.) from DB
+  class: 'DatabaseTrimJob'
   queue: 'default'
   args:
     queue: 'default'
