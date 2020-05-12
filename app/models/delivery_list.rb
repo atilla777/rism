@@ -14,7 +14,6 @@ class DeliveryList < ApplicationRecord
   validates :organization_id, numericality: { only_integer: true }
 
   has_many :delivery_subjects, dependent: :delete_all
-  #has_many :delivery_lists, through: :delivery_subjects
   has_many :delivery_recipients, dependent: :delete_all
   has_many(
     :users,

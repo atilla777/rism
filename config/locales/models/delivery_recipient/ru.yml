@@ -2,8 +2,8 @@ ru:
   activerecord:
     models:
       delivery_recipient:
-        one: 'Член списка доставки'
-        other: 'Члены списка доставки'
+        one: 'Получатель в списке доставки (кому доставляется сообщение)'
+        other: 'Получатели в списке доставки (кому доставляется сообщение)'
     attributes:
       delivery_recipient:
         recipientable: 'Получатель'

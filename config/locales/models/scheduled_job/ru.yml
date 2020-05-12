@@ -1,0 +1,6 @@
+ru:
+  activerecord:
+    models:
+      scheduled_jobs:
+        one: 'Запланированная работа'
+        other: 'Запланированные работы'
