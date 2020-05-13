@@ -5,6 +5,8 @@ class Enrichment < ApplicationRecord
     Indicator
   ].freeze
 
+  INFO_BROKERS = %w[shodan]
+
   self.record_timestamps = false
 
   def self.enrichmentable_types
@@ -28,6 +30,11 @@ class Enrichment < ApplicationRecord
 
   def danger?
     parser.call(:danger?, content)
+  end
+
+  def info?
+    return true if INFO_BROKERS.include?(broker)
+    false
   end
 
   def danger_verdict

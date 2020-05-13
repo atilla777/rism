@@ -1,1 +1,120 @@
+h3
+  span.text-info
+    => fa_icon 'database'
+    | Shodan
+  span
+    =< @enrichmentable.content
+hr
+
+h4
+  - if @enrichment.content.fetch('org')
+    span.text-success
+      | Org:
+    span
+    =<> @enrichment.content.fetch('org', '')
+  - if @enrichment.content.fetch('isp')
+    span.text-success
+      | ISP:
+    span
+      =<> @enrichment.content.fetch('isp', '')
+  - if @enrichment.content.fetch('asn')
+    span.text-success
+      | ASN:
+    span
+      =<> @enrichment.content.fetch('asn', '')
+  - if @enrichment.content.fetch('os')
+    span.text-success
+      | OS:
+    span
+      =<> @enrichment.content.fetch('os', '')
+  - if @enrichment.content.fetch('country_code', '')
+    span.text-success
+      | Country:
+    span
+      =<> @enrichment.content.fetch('country_code', '')
+  - if @enrichment.content.fetch('country_name', '')
+    span.text-success
+      | Country:
+    span
+      =<> @enrichment.content.fetch('country_name', '')
+  - if @enrichment.content.fetch('city', '')
+    span.text-success
+      | City:
+    span
+      =<> @enrichment.content.fetch('city', '')
+  - if @enrichment.content.fetch('last_update')
+    span.text-success
+      | Last update:
+    span
+      =<> @enrichment.content.fetch('last_update', '')
+
+- unless @enrichment.content.fetch('data', []).empty?
+  a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_data'
+    h4
+      span.text-info
+        | Network services:
+  .collapse.in#toggle_data
+    ol
+      - @enrichment.content.fetch('data', []).each do |hash|
+        li
+          - if hash.fetch('port')
+            span.text-success
+              | Port:
+            span
+              =< hash.fetch('port', '')
+            br
+          - if hash.fetch('transport')
+            span.text-success
+              | Protocol:
+            span
+              =< hash.fetch('transport', '')
+            br
+          - if hash.dig('http', 'host')
+            span.text-success
+              | HTTP host:
+            span
+              =< hash.dig('http', 'host')
+            br
+          - if hash.dig('http', 'title')
+            span.text-success
+              | HTTP title:
+            span
+              =< hash.dig('http', 'title')
+            br
+          - if hash.dig('http', 'server')
+            span.text-success
+              | HTTP server:
+            span
+              =< hash.dig('http', 'server')
+            br
+          - if hash.fetch('timestamp')
+            span.text-success
+              | Timestamp:
+            span
+              =< hash.fetch('timestamp', '')
+            br
+          br
+
+- unless @enrichment.content.fetch('hostnames', []).empty?
+  a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_hosts'
+    h4
+      span.text-info
+        | Hosts:
+  .collapse#toggle_hosts
+    - @enrichment.content.fetch('hostnames', []).each do |host|
+      span.text-success
+        = host
+      br
+
+- unless @enrichment.content.fetch('domains', []).empty?
+  a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_domains'
+    h4
+      span.text-info
+        | Domains:
+  .collapse#toggle_domains
+    - @enrichment.content.fetch('domains', []).each do |domain|
+      span.text-success
+        = domain
+      br
+
 = render 'raw', content: @enrichment.content

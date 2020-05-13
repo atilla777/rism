@@ -5,6 +5,9 @@
     - verdict = enrichment.danger_verdict
     - if verdict
       =< "(#{verdict})"
+- elsif enrichment.info?
+  span.text-info
+    = fa_icon 'database'
 - else
   span.text-success
     = fa_icon 'database'
