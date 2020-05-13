@@ -36,10 +36,12 @@ table.table.table-hover.table-bordered.table-striped
           = link_to(enrichment,
             class: 'btn btn-link modal_link') do
             = render 'enrichment_danger', enrichment: enrichment
-        td
-          = link_to(enrichment,
+          = link_to(enrichment_path(enrichment, raw: true),
             class: 'btn btn-link modal_link') do
-            = enrichment.show_broker
+            | + RAW
+        td
+          = link_to(enrichment.show_broker, enrichment.show_link_to_service,
+            class: 'btn btn-link')
         td.fit
           = link_to(enrichment,
             class: 'btn btn-link modal_link') do
@@ -47,6 +49,9 @@ table.table.table-hover.table-bordered.table-striped
               class: 'text-info',
               data_toggle: 'tooltip',
               title: t('views.action.show'))
+          = link_to(enrichment_path(enrichment, raw: true),
+            class: 'btn btn-link modal_link') do
+            | + RAW
 
           - if current_user.admin_editor? || current_user.can?(:edit, 'Enrichment')
             =< link_to enrichment, data: {confirm: t('views.action.confirm')}, method: :delete, class: 'btn btn-link btn-xs' do

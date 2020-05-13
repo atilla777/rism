@@ -1,9 +1,10 @@
-a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
-  h4
-    span.text-info
-      | RAW data:
-.collapse#toggle_raw_data
-  .raw
-  javascript:
-    $('.raw').jsonView('#{raw escape_javascript(@enrichment.content.to_json)}');
+- if params[:raw]
+  a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_raw_data'
+    h4
+      span.text-info
+        | RAW data:
+  .collapse#toggle_raw_data
+    .raw
+    javascript:
+      $('.raw').jsonView('#{raw escape_javascript(@enrichment.content.to_json)}');
 

@@ -55,7 +55,7 @@ h4
         | Network services:
   .collapse.in#toggle_data
     ol
-      - @enrichment.content.fetch('data', []).each do |hash|
+      - @enrichment.content.fetch('data', []).sort_by { |hash| hash.fetch('port', 0)}.each do |hash|
         li
           - if hash.fetch('port')
             span.text-success
