@@ -3,6 +3,7 @@
 class VulnerabilitiesController < ApplicationController
   include Record
   include ReadableRecord
+  include PublicableRecord
 
   before_action :set_time, only: [:create, :update]
 

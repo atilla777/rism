@@ -34,6 +34,7 @@ module Right::SubjectTypes
     'DeliveryList' => I18n.t('activerecord.models.delivery_list.one'),
     'DeliverySubject' => I18n.t('activerecord.models.delivery_subject.one'),
     'DeliveryRecipient' => I18n.t('activerecord.models.delivery_recipient.one'),
+    'Subscription' => I18n.t('activerecord.models.subscription.one'),
     'ProcessingLog' => I18n.t('activerecord.models.processing_log.one'),
     'NotificationsLog' => I18n.t('activerecord.models.notifications_log.one'),
     'SearchFilter' => I18n.t('activerecord.models.search_filter.one'),

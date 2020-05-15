@@ -6,6 +6,7 @@ class Article < ApplicationRecord
   include PgSearch
   include Rightable
   include Deliverable
+  include Publicable
 
   after_update :delete_old_uploaded_images
   before_destroy :delete_all_uploaded_images

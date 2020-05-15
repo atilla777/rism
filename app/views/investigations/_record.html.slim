@@ -1,4 +1,5 @@
 = report_button_for @record, investigation_id: @record.id
+= render 'publication', record: @record, publication: @record.publication
 = show_for @record, decorator: InvestigationDecorator do |r|
   = r.show :created_at, value: show_date_time(@record.created_at)
   = r.show :name

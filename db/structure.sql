@@ -1311,6 +1311,37 @@ ALTER SEQUENCE public.processing_logs_id_seq OWNED BY public.processing_logs.id;
 
 
 --
+-- Name: publications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.publications (
+    id bigint NOT NULL,
+    publicable_type character varying,
+    publicable_id bigint,
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: publications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.publications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: publications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.publications_id_seq OWNED BY public.publications.id;
+
+
+--
 -- Name: readable_logs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1782,6 +1813,37 @@ CREATE SEQUENCE public.sessions_id_seq
 --
 
 ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
+
+
+--
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.subscriptions (
+    id bigint NOT NULL,
+    user_id bigint,
+    publicable_type character varying,
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.subscriptions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.subscriptions_id_seq OWNED BY public.subscriptions.id;
 
 
 --
@@ -2490,6 +2552,13 @@ ALTER TABLE ONLY public.processing_logs ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: publications id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.publications ALTER COLUMN id SET DEFAULT nextval('public.publications_id_seq'::regclass);
+
+
+--
 -- Name: readable_logs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2578,6 +2647,13 @@ ALTER TABLE ONLY public.search_filters ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
+
+
+--
+-- Name: subscriptions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscriptions ALTER COLUMN id SET DEFAULT nextval('public.subscriptions_id_seq'::regclass);
 
 
 --
@@ -2929,6 +3005,14 @@ ALTER TABLE ONLY public.processing_logs
 
 
 --
+-- Name: publications publications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.publications
+    ADD CONSTRAINT publications_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: readable_logs readable_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3038,6 +3122,14 @@ ALTER TABLE ONLY public.search_filters
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subscriptions subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscriptions
+    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (id);
 
 
 --
@@ -3641,6 +3733,13 @@ CREATE INDEX index_processing_logs_on_processed_by_id ON public.processing_logs 
 
 
 --
+-- Name: index_publications_on_publicable_type_and_publicable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_publications_on_publicable_type_and_publicable_id ON public.publications USING btree (publicable_type, publicable_id);
+
+
+--
 -- Name: index_readable_logs_on_readable_type_and_readable_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3834,6 +3933,13 @@ CREATE UNIQUE INDEX index_sessions_on_session_id ON public.sessions USING btree 
 --
 
 CREATE INDEX index_sessions_on_updated_at ON public.sessions USING btree (updated_at);
+
+
+--
+-- Name: index_subscriptions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_subscriptions_on_user_id ON public.subscriptions USING btree (user_id);
 
 
 --
@@ -4472,6 +4578,14 @@ ALTER TABLE ONLY public.departments
 
 
 --
+-- Name: subscriptions fk_rails_933bdff476; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscriptions
+    ADD CONSTRAINT fk_rails_933bdff476 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: departments fk_rails_94440b0e8f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4792,6 +4906,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200301031546'),
 ('20200331073332'),
 ('20200402065224'),
-('20200506123638');
+('20200506123638'),
+('20200514091343'),
+('20200514135141');
 
 

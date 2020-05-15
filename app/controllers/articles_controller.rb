@@ -2,6 +2,8 @@
 
 class ArticlesController < ApplicationController
   include RecordOfOrganization
+  include SubscribaleRecord
+  include PublicableRecord
 
   before_action :set_id_for_uploader, only: [:edit]
   after_action :reset_id_for_uploader, only: [:update]
@@ -93,7 +95,7 @@ class ArticlesController < ApplicationController
   end
 
   def records_includes
-    %i[organization user]
+    %i[organization user publication]
   end
 
   def set_id_for_uploader

@@ -1,0 +1,18 @@
+.publication
+  - if publication.present?
+    = link_to('#',
+      class: 'btn',
+      data_toggle: 'tooltip',
+      title: 'published') do
+      span.text-success
+        =<> fa_icon 'envelope'
+  - else
+    - if current_user.admin_editor? || current_user.can?(:edit, Publication)
+      = link_to(polymorphic_path(record, action: :publicate),
+        data: {confirm: t('views.action.confirm')},
+        method: :patch,
+        remote: true,
+        class: 'btn',
+        data_toggle: 'tooltip',
+        title: 'publicate') do
+        =<> fa_icon 'envelope-o'

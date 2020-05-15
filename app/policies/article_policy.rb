@@ -11,6 +11,10 @@ class ArticlePolicy < ApplicationPolicy
     index?
   end
 
+  def publicate?
+    create?
+  end
+
   class Scope
     attr_reader :user, :scope
 

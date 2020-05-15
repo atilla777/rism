@@ -90,6 +90,8 @@ class User < ApplicationRecord
 
   has_many :user_actions, dependent: :delete_all
 
+  has_many :subscriptions, dependent: :delete_all
+
   def search_filters_for(model)
     SearchFilter.where(
       user_id: self.id,

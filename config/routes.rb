@@ -76,6 +76,9 @@ Rails.application.routes.draw do
 
   resources :articles do
     get :autocomplete_article_name, :on => :collection, as: :autocomplete
+    member do
+      patch :publicate
+    end
   end
   get(
     'articles/:id/files/:file_name',
@@ -128,9 +131,11 @@ Rails.application.routes.draw do
   resources :investigations do
     collection do
       match 'search' => 'investigations#search', via: [:get, :post], as: :search
+      patch :toggle_subscription
     end
     member do
       patch :toggle_readable
+      patch :publicate
     end
   end
   resources :indicators do
@@ -178,8 +183,12 @@ Rails.application.routes.draw do
   resources :vulnerability_kinds
   resources :vulnerability_bulletin_kinds
   resources :vulnerability_bulletins do
+    collection do
+      patch :toggle_subscription
+    end
     member do
       patch :toggle_readable
+      patch :publicate
     end
   end
   resources :vulnerability_bulletin_members, only: %i[index create destroy]

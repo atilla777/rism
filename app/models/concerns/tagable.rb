@@ -9,3 +9,4 @@ module Tagable
     has_many :tag_kinds, through: :tags
   end
 end
+

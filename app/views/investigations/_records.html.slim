@@ -1,5 +1,6 @@
 = index_search :custom_codename_or_feed_codename_or_created_at_reverse_str_or_name_or_organization_name_or_creator_name_or_feed_name_or_investigation_kind_name_cont, organization_id_eq: @organization&.id
 = render 'search_form'
+= render 'subscription', model: Investigation, subscription: @subscription
 br
 br
 = render('search_filters/user_search_filters',
@@ -21,10 +22,10 @@ br
   - t.field { |record| render 'readable', record: record }
   - t.field do |record|
     = link_to( show_date_time(record.created_at), record)
+    =  render 'publication_status', publication: record.publication
   - t.field { |record| link_to truncate(record.name, length: 25), record }
   - t.field do |record|
     = record.custom_codename
-    span.pull-right
       =< render 'notifications_logs/notifications_status', record: record
   - t.field { |record| link_to truncate(record.show_feed_codename, length: 25), record }
   - t.field { |record| link_to truncate(record.organization.name, length: 20), record.organization }

@@ -1,6 +1,7 @@
 = render 'modal_window'
 = caption @record
 = render "#{@record.class.to_s.underscore.pluralize}/show_tabs", record: @record, active_tab: :delivery_subjects, from_external_link: true
+= render 'publication', record: @record, publication: @record.publication
 = render 'list_subjects_records', records: @records, record: @record
 
-= render 'notify_form', record: @record
+//= render 'notify_form', record: @record

@@ -3,6 +3,8 @@
 class InvestigationsController < ApplicationController
   include RecordOfOrganization
   include ReadableRecord
+  include SubscribaleRecord
+  include PublicableRecord
 
   def search
     index
@@ -54,7 +56,7 @@ class InvestigationsController < ApplicationController
   end
 
   def records_includes
-    %i[organization creator feed investigation_kind notifications_logs]
+    %i[organization creator feed investigation_kind notifications_logs publication]
   end
 
   def default_sort

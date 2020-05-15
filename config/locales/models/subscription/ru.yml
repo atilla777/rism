@@ -1,0 +1,6 @@
+ru:
+  activerecord:
+    models:
+      subscription:
+        one: 'Подписка пользователя на ресурс'
+        other: 'Подписки пользователя на ресурсы'

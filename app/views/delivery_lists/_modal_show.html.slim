@@ -1,0 +1,18 @@
+.modal.fade#modal_show tabindex='-1' role='dialog'
+  .modal-dialog.modal-lg role='document' style='width:80%'
+    .modal-content
+      .modal-header
+        button.close  type='button' data-dismiss="modal" aria-label="Close"
+        .modal-title
+          .pull-right
+            button.btn.btn-default type='button' data-dismiss='modal'
+              = t('views.action.back')
+      .modal-body
+        ol
+          - @record.delivery_recipients.each do |recipient|
+            li
+              =< recipient.recipientable&.name
+              =< "(#{recipient.recipientable&.class&.model_name&.human})"
+      .modal-footer
+        button.btn.btn-default type='button' data-dismiss='modal'
+          = t('views.action.back')

@@ -30,6 +30,14 @@ class InvestigationPolicy < ApplicationPolicy
     index?
   end
 
+  def publicate?
+    create?
+  end
+
+  def toggle_subscription?
+    index?
+  end
+
   def investigations_dashboard?
     index?
   end

@@ -1,4 +1,5 @@
 = caption @organization
 = render 'organizations/show_tabs', record: @organization, active_tab: :deliveries, from_external_link: true
+= render 'publication', record: @record, publication: @record.publication
 = render 'records', records: @records
 = render 'index_paginate', records: @records
