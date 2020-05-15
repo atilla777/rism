@@ -1,0 +1,6 @@
+ru:
+  activerecord:
+    models:
+      publication:
+        one: 'Публикация ресурса'
+        other: 'Публикации ресурсов'
