@@ -7,13 +7,22 @@ class PublicationMailer < ApplicationMailer
       .constantize
       .find(params[:publicable_id])
     subscriptors = @publicable.subscriptors
-    if subscriptors.present?
-      send_notify(subscriptors.pluck(:email))
+    emails = only_allowed_for_record_subscriptors_mails(subscriptors)
+    if emails.present?
+      send_notify(emails)
       notifications_logs(subscriptors)
     end
   end
 
   private
+
+  def only_allowed_for_record_subscriptors_mails(subscriptors)
+    subscriptors.each_with_object([]) do |subscriptor, memo|
+      if subscriptor.admin_editor_reader? || subscriptor.can?(:read, @publicable)
+        memo << subscriptor.email
+      end
+    end
+  end
 
   def send_notify(subscriptors)
     file = @publicable.report

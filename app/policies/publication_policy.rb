@@ -6,6 +6,6 @@ class PublicationPolicy < ApplicationPolicy
   end
 
   def publicate?
-    index?
+    create?
   end
 end

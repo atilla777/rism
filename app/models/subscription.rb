@@ -2,6 +2,7 @@ class Subscription < ApplicationRecord
   PUBLICABLE_TYPES = %w[
     Investigation
     VulnerabilityBulletin
+    Article
   ].freeze
 
   def self.publicable_types

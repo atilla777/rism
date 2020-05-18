@@ -7,7 +7,7 @@
       span.text-success
         =<> fa_icon 'envelope'
   - else
-    - if current_user.admin_editor? || current_user.can?(:edit, Publication)
+    - if current_user.admin_editor? || (current_user.can?(:edit, Publication) && current_user.can?(:edit, record))
       = link_to(polymorphic_path(record, action: :publicate),
         data: {confirm: t('views.action.confirm')},
         method: :patch,

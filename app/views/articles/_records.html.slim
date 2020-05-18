@@ -1,5 +1,5 @@
 = index_search :created_at_text_or_name_or_organization_name_or_user_name_cont, organization_id_eq: @organization&.id
-= render 'subscription', model: Investigation, subscription: @subscription
+= render 'subscription', model: Article, subscription: @subscription
 = report_button_for @records, organization_id: @organization.id
 = index_for records do |t|
   - t.header attribute: :created_at, sort: :desc

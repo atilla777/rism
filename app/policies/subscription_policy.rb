@@ -6,6 +6,6 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def toggle_subscription?
-    index?
+    create?
   end
 end

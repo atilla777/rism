@@ -76,6 +76,9 @@ Rails.application.routes.draw do
 
   resources :articles do
     get :autocomplete_article_name, :on => :collection, as: :autocomplete
+    collection do
+      patch :toggle_subscription
+    end
     member do
       patch :publicate
     end

@@ -8,13 +8,22 @@ class DeliverySubjectMailer < ApplicationMailer
       .constantize
       .find(params[:deliverable_id])
     recipients = @deliverable.recipients
-    if recipients.present?
-      send_notify(recipients.pluck(:email))
+    emails = only_allowed_for_record_subscriptors_mails(recipients)
+    if emails.present?
+      send_notify(emails)
       notifications_logs(recipients)
     end
   end
 
   private
+
+  def only_allowed_for_record_subscriptors_mails(subscriptors)
+    subscriptors.each_with_object([]) do |subscriptor, memo|
+      if subscriptor.admin_editor_reader? || subscriptor.can?(:read, @publicable)
+        memo << subscriptor.email
+      end
+    end
+  end
 
   def send_notify(recipients)
     file = @deliverable.report
