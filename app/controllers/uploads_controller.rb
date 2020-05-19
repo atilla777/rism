@@ -1,7 +1,7 @@
 class UploadsController < ApplicationController
-  # Download article images from CKEditor
+  # Upload article images from CKEditor
   def create
-    uploaded_url = CkeditorUploader.upload(
+    uploaded_url = FileUploader.upload(
       params[:upload],
       'article',
       session[:editable_article_id]

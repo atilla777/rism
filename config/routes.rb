@@ -41,8 +41,9 @@ Rails.application.routes.draw do
   resources :agreements do
     get :autocomplete_agreement_prop, :on => :collection, as: :autocomplete
   end
-  resources :attachments
-  resources :attachment_links
+  #resources :attachments
+  #resources :attachment_links
+  resources :attached_files, only: [:create, :show, :destroy]
   resources :versions, only: [:index]
   resources :agreement_kinds
   resources :organization_kinds

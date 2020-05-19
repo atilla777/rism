@@ -38,7 +38,7 @@ class ArticlesController < ApplicationController
     record = Article.find(params[:id])
     authorize record
     send_file(
-      CkeditorUploader.file_path(
+      FileUploader.file_path(
         'article',
         record.id,
         params[:file_name]
@@ -54,19 +54,10 @@ class ArticlesController < ApplicationController
     @records = records(model)
   end
 
-#  def new
-#    @record = model.new(template_attributes)
-#    authorize @record.class
-#    @organization = organization
-#    preset_record
-#    @template_id = params[:template_id]
-#  end
-
   def create
     articles_folder = ArticlesFolder.where(id: params[:articles_folder_id]).first
     if articles_folder.present?
       authorize(articles_folder, :edit?)
-      #return if Pundit.policy(current_user, articles_folder).edit?
     end
     @organization = current_user.organization
     @record = model.new(

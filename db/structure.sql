@@ -324,6 +324,39 @@ ALTER SEQUENCE public.articles_id_seq OWNED BY public.articles.id;
 
 
 --
+-- Name: attached_files; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.attached_files (
+    id bigint NOT NULL,
+    name character varying,
+    new_name character varying,
+    filable_type character varying,
+    filable_id bigint,
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: attached_files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.attached_files_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: attached_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.attached_files_id_seq OWNED BY public.attached_files.id;
+
+
+--
 -- Name: attachment_links; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2356,6 +2389,13 @@ ALTER TABLE ONLY public.articles_folders ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
+-- Name: attached_files id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.attached_files ALTER COLUMN id SET DEFAULT nextval('public.attached_files_id_seq'::regclass);
+
+
+--
 -- Name: attachment_links id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2778,6 +2818,14 @@ ALTER TABLE ONLY public.articles_folders
 
 ALTER TABLE ONLY public.articles
     ADD CONSTRAINT articles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: attached_files attached_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.attached_files
+    ADD CONSTRAINT attached_files_pkey PRIMARY KEY (id);
 
 
 --
@@ -3317,6 +3365,13 @@ CREATE INDEX index_articles_on_organization_id ON public.articles USING btree (o
 --
 
 CREATE INDEX index_articles_on_user_id ON public.articles USING btree (user_id);
+
+
+--
+-- Name: index_attached_files_on_filable_type_and_filable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_attached_files_on_filable_type_and_filable_id ON public.attached_files USING btree (filable_type, filable_id);
 
 
 --
@@ -4908,6 +4963,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200402065224'),
 ('20200506123638'),
 ('20200514091343'),
-('20200514135141');
+('20200514135141'),
+('20200519095614');
 
 

@@ -33,9 +33,9 @@ class Article < ApplicationRecord
 
   # Delete images that is not in article content
   def delete_old_uploaded_images
-    dir = CkeditorUploader.file_dir('article', id) # absolete path to images dir
+    dir = FileUploader.file_dir('article', id) # absolete path to images dir
     return unless File.directory?(dir)
-    base_url = CkeditorUploader.file_base_url('articles', id) # base url path (whithout filename)
+    base_url = FileUploader.file_base_url('articles', id) # base url path (whithout filename)
     old_files = Dir.children(dir).select do |file| # select files that not in the article content
       not images.include?("#{base_url}/#{file}")
     end
@@ -47,7 +47,7 @@ class Article < ApplicationRecord
 
   # Delete folder with article images
   def delete_all_uploaded_images
-    images_dir = CkeditorUploader.file_dir('article', id)
+    images_dir = FileUploader.file_dir('article', id)
     FileUtils.rm_rf(images_dir) if File.directory?(images_dir)
   end
 

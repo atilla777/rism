@@ -1,7 +1,12 @@
 # frozen_string_literal: true
-# require 'mime/types'
 
-class CkeditorUploader
+class FileUploader
+  # Base file storage dir is RAILS ROOT/file_storge
+
+  MAX_FILE_SIZE = 5000000 # Max uploaded file SIZE in bytes (current value is 5 Mb)
+  ALLOWED_IMAGE_EXTENSIONS = %w[jpg jpeg gif png tif].freeze
+  ALLOWED_DOCUMENT_EXTENSIONS = %w[doc docs xls xlsx ppt pptx vsd vsdx csv json ppt pdf odt txt rtf].freeze
+
   def self.upload(*args, &block)
     new(*args, &block).upload
   end
@@ -32,9 +37,14 @@ class CkeditorUploader
     ].join('/')
   end
 
+  def self.delete_filable_dir(filable_type, filable_id)
+    dir = FileUploader.file_dir(filable_type, filable_id) # absolete path to images dir
+    FileUtils.rm_rf(dir) if File.directory?(dir)
+  end
+
   def initialize(uploaded_io, record_model, record_id)
     @uploaded_io = uploaded_io
-    @record_class = record_model
+    @record_class = record_model.downcase
     @record_id = record_id
     @store_dir = store_dir
     @file_ext = extname
@@ -49,10 +59,11 @@ class CkeditorUploader
 
   def upload
     return nil if extension_not_allowed?
+    return nil if size_not_allowed?
     # TODO: add limit for file size
-    FileUtils.mkdir_p(store_dir) unless File.directory?(store_dir)
+    FileUtils.mkdir_p(@store_dir) unless File.directory?(@store_dir)
     save_file
-    @file_url
+    {url: @file_url, new_name: @new_filename}
   end
 
   private
@@ -64,11 +75,16 @@ class CkeditorUploader
   end
 
   def extension_not_allowed?
-    if %w(jpg jpeg gif png tif).include? @file_ext
-      false
+    case @record_class
+    when 'article'
+      ALLOWED_IMAGE_EXTENSIONS.exclude? @file_ext
     else
-      true
+      (ALLOWED_DOCUMENT_EXTENSIONS + ALLOWED_IMAGE_EXTENSIONS).exclude? @file_ext
     end
+  end
+
+  def size_not_allowed?
+    @uploaded_io.size > MAX_FILE_SIZE
   end
 
   def store_dir
