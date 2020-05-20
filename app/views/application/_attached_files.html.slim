@@ -4,21 +4,22 @@
       tr
         td.col-md-2.text-right
         td colspan=2 collapse=2
-          - attachment = AttachedFile.new
-          = form_for attachment, remote: true, html: {class: 'attach_file form-inline'} do |f|
-            .form-group
-              .field
-                label.form-control.btn.btn-success.btn-file
-                  = fa_icon 'plus'
-                  =< t('labels.attachment.select_file')
-                  =< f.file_field :attachment, onchange: 'Rails.fire(this.form, "submit")'
-                = f.hidden_field :filable_id, value: record.id
-                = f.hidden_field :filable_type, value: record.class.name
+          - if current_user.admin_editor? || (current_user.can?(:edit, AttachedFile) && current_user.can?(:edit, record))
+            - attachment = AttachedFile.new
+            = form_for attachment, remote: true, html: {class: 'attach_file form-inline'} do |f|
+              .form-group
+                .field
+                  label.form-control.btn.btn-success.btn-file
+                    = fa_icon 'plus'
+                    =< t('labels.attachment.select_file')
+                    =< f.file_field :attachment, onchange: 'Rails.fire(this.form, "submit")'
+                  = f.hidden_field :filable_id, value: record.id
+                  = f.hidden_field :filable_type, value: record.class.name
     tbody
       - record.attached_files.order(:created_at).each_with_index do |attachment, index|
         tr
           td.col-md-2.text-right
-            strong.text-info
+            strong
               =< index + 1
           td
             = link_to attachment, data: {turbolinks: false} do
@@ -26,7 +27,8 @@
               span.text-info
                 =< attachment.name
               =< show_date_time(attachment.created_at)
-            =< link_to attachment, remote: true, data: {confirm: t('views.action.confirm')}, method: :delete do
-              span.text-danger
-                = fa_icon 'remove'
+            - if current_user.admin_editor? || (current_user.can?(:edit, AttachedFile) && current_user.can?(:edit, record))
+              =< link_to attachment, remote: true, data: {confirm: t('views.action.confirm')}, method: :delete do
+                span.text-danger
+                  = fa_icon 'remove'
 

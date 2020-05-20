@@ -8,7 +8,7 @@
   - tabs.add(:tags, polymorphic_path(record, active_tab: :tags), 'Tag') do
     = fa_icon 'tags'
     =< Tag.model_name.human(count: 2)
-  - tabs.add(:files, polymorphic_path(record, active_tab: :files), 'Attachment') do
+  - tabs.add(:files, polymorphic_path(record, active_tab: :files), 'AttachedFile') do
     = fa_icon 'folder'
     =< AttachedFile.model_name.human(count: 2)
   - if current_user.admin?

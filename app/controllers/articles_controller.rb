@@ -43,13 +43,15 @@ class ArticlesController < ApplicationController
   def create
     articles_folder = ArticlesFolder.where(id: params[:articles_folder_id]).first
     if articles_folder.present?
-      authorize(articles_folder, :edit?)
+      authorize(articles_folder, :show?)
+      organization = articles_folder.organization
+    else
+      organization = current_user.organization
     end
-    @organization = current_user.organization
     @record = model.new(
       name: "New article #{SecureRandom.uuid}",
       articles_folder_id: articles_folder&.id,
-      organization_id: @organization.id,
+      organization_id: organization.id,
       current_user: current_user,
       user: current_user
     )
