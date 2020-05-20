@@ -3,7 +3,7 @@
     = link_to('#',
       class: 'btn',
       data_toggle: 'tooltip',
-      title: 'published') do
+      title: t('labels.published')) do
       span.text-success
         =<> fa_icon 'envelope'
   - else
@@ -14,5 +14,5 @@
         remote: true,
         class: 'btn',
         data_toggle: 'tooltip',
-        title: 'publicate') do
+        title: t('labels.publish')) do
         =<> fa_icon 'envelope-o'

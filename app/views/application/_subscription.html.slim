@@ -1,15 +1,22 @@
 - if current_user.admin_editor? || current_user.can?(:edit, Subscription)
   span.pull-right
     .subscription
-      = link_to(polymorphic_path(model, action: :toggle_subscription),
-        data: {confirm: t('views.action.confirm')},
-        method: :patch,
-        remote: true,
-        class: 'btn',
-        data_toggle: 'tooltip',
-        title: 'subscribe/unsubscribe') do
         - if subscription == true
-          span.text-success
-            =<> fa_icon 'bell'
+          = link_to(polymorphic_path(model, action: :toggle_subscription),
+            data: {confirm: t('views.action.confirm')},
+            method: :patch,
+            remote: true,
+            class: 'btn',
+            data_toggle: 'tooltip',
+            title: t('labels.unsubscribe')) do
+            span.text-success
+              =<> fa_icon 'bell'
         - else
-          =<> fa_icon 'bell-o'
+          = link_to(polymorphic_path(model, action: :toggle_subscription),
+            data: {confirm: t('views.action.confirm')},
+            method: :patch,
+            remote: true,
+            class: 'btn',
+            data_toggle: 'tooltip',
+            title: t('labels.subscribe')) do
+            =<> fa_icon 'bell-o'

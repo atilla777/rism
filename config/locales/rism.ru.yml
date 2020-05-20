@@ -55,6 +55,10 @@ ru:
     updated: 'Обновлены'
     errors: 'Ошибки'
     toggle_selection: 'Выбрать/отменить выбор'
+    published: 'Опубликовано'
+    publish: 'Опубликовать'
+    subscribe: 'Подписаться'
+    unsubscribe: 'Отписаться'
     user:
       active: 'Да'
       not_active: 'Нет'

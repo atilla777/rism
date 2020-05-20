@@ -39,7 +39,7 @@ module Right::SubjectTypes
     'ProcessingLog' => I18n.t('activerecord.models.processing_log.one'),
     'NotificationsLog' => I18n.t('activerecord.models.notifications_log.one'),
     'SearchFilter' => I18n.t('activerecord.models.search_filter.one'),
-    'AttachedFile' => I18n.t('activerecord.models.attachedFile.one'),
+    'AttachedFile' => I18n.t('activerecord.models.attached_file.one'),
     'Tag' => I18n.t('activerecord.models.tag.one'),
     'TagKind' => I18n.t('activerecord.models.tag_kind.one'),
     'TagMember' => I18n.t('activerecord.models.tag_member.one'),
