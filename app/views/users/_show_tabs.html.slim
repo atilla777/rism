@@ -10,7 +10,7 @@
     =< Tag.model_name.human(count: 2)
   - tabs.add(:files, polymorphic_path(record, active_tab: :files), 'Attachment') do
     = fa_icon 'folder'
-    =< Attachment.model_name.human(count: 2)
+    =< AttachedFile.model_name.human(count: 2)
   - if current_user.admin?
     - tabs.add(:role_members, role_members_path(user_id: record.id), 'RoleMember', true) do
       = t('navigations.roles')

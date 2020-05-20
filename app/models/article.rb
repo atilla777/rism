@@ -40,6 +40,11 @@ class Article < ApplicationRecord
       not images.include?("#{base_url}/#{file}")
     end
     old_files.each do |file| # delete files that not in article content
+      attached_file_existence = AttachedFile.exists?(
+        filable_type: 'Article',
+        filable_id: id,
+        new_name: file)
+      next if attached_file_existence  # File is not image in article
       file_path = "#{dir}/#{file}"
       File.delete(file_path) if File.exist?(file_path)
     end

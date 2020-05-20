@@ -41,9 +41,17 @@ Rails.application.routes.draw do
   resources :agreements do
     get :autocomplete_agreement_prop, :on => :collection, as: :autocomplete
   end
-  #resources :attachments
-  #resources :attachment_links
-  resources :attached_files, only: [:create, :show, :destroy]
+
+  post '/uploads', to: 'attached_files#create', as: :uploads # For upload images via CKEditor
+  resources :attached_files, only: [:create, :show, :destroy] # For attach/download/delete files in record by user
+  # Show image in article
+  get(
+    'articles/:id/files/:file_name',
+    to: 'attached_files#download_image',
+    as: :article_download_file,
+    constraints: { file_name: /[^\/]*/ }
+  )
+
   resources :versions, only: [:index]
   resources :agreement_kinds
   resources :organization_kinds
@@ -84,12 +92,6 @@ Rails.application.routes.draw do
       patch :publicate
     end
   end
-  get(
-    'articles/:id/files/:file_name',
-    to: 'articles#download_file',
-    as: :article_download_file,
-    constraints: { file_name: /[^\/]*/ }
-  )
 
   resources :articles_folders
   post(
@@ -203,8 +205,6 @@ Rails.application.routes.draw do
   post '/translatet', to: 'translate#show', as: :translate
 
   resources :notifications_logs, only: [:index]
-
-  post '/uploads', to: 'uploads#create', as: :uploads
 
   resources :selectors, only: [:index]
 

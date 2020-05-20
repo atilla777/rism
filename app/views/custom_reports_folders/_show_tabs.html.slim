@@ -9,6 +9,4 @@
     =< Tag.model_name.human(count: 2)
   - tabs.add(:files, polymorphic_path(record, active_tab: :files), 'Attachment') do
     = fa_icon 'folder'
-    =< Attachment.model_name.human(count: 2)
-  //- tabs.add(:articles, articles_path(artciles_folder_id: record.id), 'Article', true) do
-    = Article.model_name.human(count: 2)
+    =< AttachedFile.model_name.human(count: 2)

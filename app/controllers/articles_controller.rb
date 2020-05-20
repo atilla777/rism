@@ -34,20 +34,6 @@ class ArticlesController < ApplicationController
     render json: result
   end
 
-  def download_file
-    record = Article.find(params[:id])
-    authorize record
-    send_file(
-      FileUploader.file_path(
-        'article',
-        record.id,
-        params[:file_name]
-      ),
-      disposition: 'attachment',
-      x_sendfile: true
-    )
-  end
-
   def index
     authorize model
     @organization = organization

@@ -11,7 +11,7 @@
     =< Tag.model_name.human(count: 2)
   - tabs.add(:files, polymorphic_path(record, active_tab: :files), 'Attachment') do
     = fa_icon 'folder'
-    =< Attachment.model_name.human(count: 2)
+    =< AttachedFile.model_name.human(count: 2)
   - tabs.add(:organizations, organizations_path(organization_id: record.id), 'Organization', true) do
     = fa_icon 'industry'
     =< Organization.model_name.human(count: 2)

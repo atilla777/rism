@@ -7,8 +7,8 @@ class ArticlePolicy < ApplicationPolicy
          published]
   end
 
-  def download_file?
-    index?
+  def download_image?
+    show?
   end
 
   def publicate?

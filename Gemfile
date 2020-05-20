@@ -70,13 +70,11 @@ gem 'slim-rails', "~> 3.1"
 gem 'jquery-ui-rails', "~> 6.0"
 gem 'rails-jquery-autocomplete', "~> 1.0"
 gem 'paper_trail', "~> 8.1"
-gem 'carrierwave', '~> 1.2'
 gem 'dotenv-rails', "~> 2.2"
 gem 'caracal', "~> 1.4"
 gem "chartkick", "~> 3.2" # 2.3
 gem 'groupdate', "~> 4.0"
 gem 'hightop', "~> 0.2"
-gem 'mini_magick', '~> 4.9' # 4.8
 gem 'pg_search', '~> 2.1'
 gem 'sidekiq', '~> 5.1.3'
 gem 'rufus-scheduler', '3.4.2' # TODO: check that newer versions API (> 3.4.2) was fixed and work

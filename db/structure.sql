@@ -357,109 +357,6 @@ ALTER SEQUENCE public.attached_files_id_seq OWNED BY public.attached_files.id;
 
 
 --
--- Name: attachment_links; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.attachment_links (
-    id bigint NOT NULL,
-    record_type character varying,
-    record_id bigint,
-    attachment_id bigint,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: attachment_links_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.attachment_links_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: attachment_links_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.attachment_links_id_seq OWNED BY public.attachment_links.id;
-
-
---
--- Name: attachments; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.attachments (
-    id bigint NOT NULL,
-    organization_id bigint,
-    name character varying,
-    document character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: attachments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.attachments_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: attachments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.attachments_id_seq OWNED BY public.attachments.id;
-
-
---
--- Name: ckeditor_assets; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.ckeditor_assets (
-    id integer NOT NULL,
-    data_file_name character varying NOT NULL,
-    data_content_type character varying,
-    data_file_size integer,
-    type character varying(30),
-    width integer,
-    height integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: ckeditor_assets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.ckeditor_assets_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: ckeditor_assets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.ckeditor_assets_id_seq OWNED BY public.ckeditor_assets.id;
-
-
---
 -- Name: custom_fields; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2396,27 +2293,6 @@ ALTER TABLE ONLY public.attached_files ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- Name: attachment_links id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.attachment_links ALTER COLUMN id SET DEFAULT nextval('public.attachment_links_id_seq'::regclass);
-
-
---
--- Name: attachments id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.attachments ALTER COLUMN id SET DEFAULT nextval('public.attachments_id_seq'::regclass);
-
-
---
--- Name: ckeditor_assets id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.ckeditor_assets ALTER COLUMN id SET DEFAULT nextval('public.ckeditor_assets_id_seq'::regclass);
-
-
---
 -- Name: custom_fields id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2826,30 +2702,6 @@ ALTER TABLE ONLY public.articles
 
 ALTER TABLE ONLY public.attached_files
     ADD CONSTRAINT attached_files_pkey PRIMARY KEY (id);
-
-
---
--- Name: attachment_links attachment_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.attachment_links
-    ADD CONSTRAINT attachment_links_pkey PRIMARY KEY (id);
-
-
---
--- Name: attachments attachments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.attachments
-    ADD CONSTRAINT attachments_pkey PRIMARY KEY (id);
-
-
---
--- Name: ckeditor_assets ckeditor_assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.ckeditor_assets
-    ADD CONSTRAINT ckeditor_assets_pkey PRIMARY KEY (id);
 
 
 --
@@ -3372,41 +3224,6 @@ CREATE INDEX index_articles_on_user_id ON public.articles USING btree (user_id);
 --
 
 CREATE INDEX index_attached_files_on_filable_type_and_filable_id ON public.attached_files USING btree (filable_type, filable_id);
-
-
---
--- Name: index_attachment_links_on_attachment_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_attachment_links_on_attachment_id ON public.attachment_links USING btree (attachment_id);
-
-
---
--- Name: index_attachment_links_on_record_type_and_record_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_attachment_links_on_record_type_and_record_id ON public.attachment_links USING btree (record_type, record_id);
-
-
---
--- Name: index_attachments_on_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_attachments_on_name ON public.attachments USING btree (name);
-
-
---
--- Name: index_attachments_on_organization_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_attachments_on_organization_id ON public.attachments USING btree (organization_id);
-
-
---
--- Name: index_ckeditor_assets_on_type; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_ckeditor_assets_on_type ON public.ckeditor_assets USING btree (type);
 
 
 --
@@ -4697,14 +4514,6 @@ ALTER TABLE ONLY public.agreements
 
 
 --
--- Name: attachments fk_rails_b10ecc2b5d; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.attachments
-    ADD CONSTRAINT fk_rails_b10ecc2b5d FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
-
-
---
 -- Name: tags fk_rails_b463051f3b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4964,6 +4773,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200506123638'),
 ('20200514091343'),
 ('20200514135141'),
-('20200519095614');
+('20200519095614'),
+('20200520063353'),
+('20200520100915');
 
 

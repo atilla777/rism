@@ -42,7 +42,7 @@ class FileUploader
     FileUtils.rm_rf(dir) if File.directory?(dir)
   end
 
-  def initialize(uploaded_io, record_model, record_id)
+  def initialize(uploaded_io, record_model, record_id, is_article = false)
     @uploaded_io = uploaded_io
     @record_class = record_model.downcase
     @record_id = record_id
@@ -51,6 +51,7 @@ class FileUploader
     @new_filename = new_filename
     @file_path = file_path
     @file_url = file_url
+    @is_article = is_article
   end
 
   def extname
@@ -60,7 +61,6 @@ class FileUploader
   def upload
     return nil if extension_not_allowed?
     return nil if size_not_allowed?
-    # TODO: add limit for file size
     FileUtils.mkdir_p(@store_dir) unless File.directory?(@store_dir)
     save_file
     {url: @file_url, new_name: @new_filename}
@@ -75,8 +75,7 @@ class FileUploader
   end
 
   def extension_not_allowed?
-    case @record_class
-    when 'article'
+    if @is_article
       ALLOWED_IMAGE_EXTENSIONS.exclude? @file_ext
     else
       (ALLOWED_DOCUMENT_EXTENSIONS + ALLOWED_IMAGE_EXTENSIONS).exclude? @file_ext
@@ -104,6 +103,7 @@ class FileUploader
   end
 
   def file_url
+    return nil unless @record_class == 'article'
     [
       ActionController::Base.relative_url_root,
       @record_class.pluralize,
