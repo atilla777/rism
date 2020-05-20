@@ -5,7 +5,7 @@ class FileUploader
 
   MAX_FILE_SIZE = 5000000 # Max uploaded file SIZE in bytes (current value is 5 Mb)
   ALLOWED_IMAGE_EXTENSIONS = %w[jpg jpeg gif png tif].freeze
-  ALLOWED_DOCUMENT_EXTENSIONS = %w[doc docs xls xlsx ppt pptx vsd vsdx csv json ppt pdf odt txt rtf rar zip 7z tar gz].freeze
+  ALLOWED_DOCUMENT_EXTENSIONS = %w[doc docx xls xlsx ppt pptx vsd vsdx csv json ppt pdf odt txt rtf rar zip 7z tar gz].freeze
 
   def self.upload(*args, &block)
     new(*args, &block).upload
