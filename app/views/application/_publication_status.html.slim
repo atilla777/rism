@@ -1,6 +1,5 @@
-- if current_user.admin_editor? || current_user.can?(:edit, Publication)
-  - if publication.present?
-    span.text-success
-      =< fa_icon 'envelope'
-  - else
-      =< fa_icon 'envelope-o'
+- if publication.present?
+  span.text-success
+    =< fa_icon 'envelope'
+- else
+    =< fa_icon 'envelope-o'
