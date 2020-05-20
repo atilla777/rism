@@ -72,7 +72,7 @@ gem 'rails-jquery-autocomplete', "~> 1.0"
 gem 'paper_trail', "~> 8.1"
 gem 'dotenv-rails', "~> 2.2"
 gem 'caracal', "~> 1.4"
-gem "chartkick", "~> 3.2" # 2.3
+gem "chartkick", "~> 3.3" # 2.3
 gem 'groupdate', "~> 4.0"
 gem 'hightop', "~> 0.2"
 gem 'pg_search', '~> 2.1'
