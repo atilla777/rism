@@ -1,13 +1,11 @@
 Уведомление об изменениях в RISM
 ------------------------------------------------
-Опубликован новый ресурс в списке доставки которого вы находитесь -
-<%= @deliverable.class.model_name.human %>: <%= @deliverable.name %>
-Ссылка: <%= polymorphic_url(@deliverable) %>
-Дата создания: <%= show_date_time(@deliverable.created_at) %>
-Дата последнего изменения: <%= show_date_time(@deliverable.updated_at) %>
-
-<%= @comments %>
+В модуле "<%= @publicable.class.model_name.human %>" опубликована новая запись - <%= @publicable.name %>.
+Ссылка: <%= polymorphic_url(@publicable) %>
+Дата создания записи: <%= show_date_time(@publicable.created_at) %>
+Дата последнего изменения записи: <%= show_date_time(@publicable.updated_at) %>
 
 ------------------------------------------------
 Сообщение сформировано автоматически программой RISM.
+Оповещение выполнено так как опубликовавший запись оператор включил ваш адрес в гуппу рассылки.
 Пожалуйста, не отвечайте на это письмо.
