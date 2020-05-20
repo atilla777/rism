@@ -55,8 +55,14 @@ class FileUploader
   end
 
   def extname
-    MIME::Types[@uploaded_io.content_type].first.extensions.first
+    File.extname(@uploaded_io.original_filename).gsub('.', '')
   end
+
+#  def extname
+#    mime_type = @uploaded_io.content_type
+#    mime_type.gsub!(/x-|-compressed/, '') # Nginx change mime archives types to x- preffix and -compressed suffix
+#    MIME::Types[mime_type].first.extensions.first
+#  end
 
   def upload
     return nil if extension_not_allowed?
