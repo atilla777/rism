@@ -5,6 +5,7 @@
             'OrganizationKind',
             'AgreementKind',
             'ScanOption',
+            'HostServiceStatus',
             'Feed',
             'InvestigationKind',
             'IndicatorContext',
@@ -61,6 +62,12 @@
           = fa_icon 'book'
           =< fa_icon 'gears'
           =< ScanOption.model_name.human(count: 2)
+    = menu_li(models: 'HostServiceStatus') do
+      = link_to host_service_statuses_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'gears'
+          =< HostServiceStatus.model_name.human(count: 2)
     = menu_li(models: 'Feed') do
       = link_to feeds_path do
         .span.text-info

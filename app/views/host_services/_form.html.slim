@@ -29,6 +29,20 @@
       .form-group.required
         .field
           .col-lg-2.text-right
+            = f.label(:host_service_status_id,
+              include_blank: false,
+              class: 'control-label')
+          .col-lg-8
+            = f.collection_select(:host_service_status_id,
+              HostServiceStatus.all,
+              :id,
+              :name,
+              {},
+              {class: 'form-control'})
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
             = f.label :legality, class: 'control-label'
           .col-lg-8
             = f.select :legality, ScanResult.legalities.keys.collect { |legality| [ScanResult.human_enum_name(:legalities, legality), legality] }, {}, class: 'form-control'

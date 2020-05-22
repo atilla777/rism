@@ -1,0 +1,6 @@
+= index_search :name_cont
+= index_for records do |t|
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :rank, sort: :desc
+  - t.field { |record| link_to(record.name, record) }
+  - t.field { |record| link_to(record.rank || '', record) }

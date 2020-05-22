@@ -18,6 +18,7 @@ module Right::SubjectTypes
     'Enrichment' => I18n.t('activerecord.models.enrichment.one'),
     'Host' => I18n.t('activerecord.models.host.one'),
     'HostService' => I18n.t('activerecord.models.host_service.one'),
+    'HostServiceStatus' => I18n.t('activerecord.models.host_service_status.one'),
     'ScanOption' => I18n.t('activerecord.models.scan_option.one'),
     'ScanJob' => I18n.t('activerecord.models.scan_job.one'),
     'ScanJobLog' => I18n.t('activerecord.models.scan_job_log.one'),

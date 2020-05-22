@@ -19,6 +19,8 @@
   = f.hidden_field :product_extrainfo_cont
   - params.fetch(:q, {}).fetch(:host_service_legality_in, []).each do |p|
       = f.hidden_field :host_service_legality_in, multiple: true, value: p
+  - params.fetch(:q, {}).fetch(:host_service_status_id_in, []).each do |p|
+      = f.hidden_field :host_service_status_id_in, multiple: true, value: p
   - params.fetch(:q, {}).fetch(:legality_in, []).each do |p|
       = f.hidden_field :legality_in, multiple: true, value: p
   = f.hidden_field :vulners_bool_present

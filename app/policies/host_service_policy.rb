@@ -3,6 +3,7 @@ class HostServicePolicy < ApplicationPolicy
       %i[name
          port
          protocol
+         host_service_status_id
          legality
          organization_id
          host_id

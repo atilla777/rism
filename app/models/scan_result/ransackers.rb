@@ -63,6 +63,22 @@ module ScanResult::Ransackers
       Arel.sql(field_transformation)
     end
 
+    ransacker :host_service_status_id do
+      field_transformation = <<~SQL
+      (
+          select host_services.host_service_status_id
+          from host_services
+          join hosts
+          on hosts.id = host_services.host_id
+          where hosts.ip = scan_results.ip
+          and host_services.port = scan_results.port
+          and host_services.protocol = scan_results.protocol
+          limit 1
+      )
+      SQL
+      Arel.sql(field_transformation)
+    end
+
     ransacker :host_service_description do
       field_transformation = <<~SQL
       (

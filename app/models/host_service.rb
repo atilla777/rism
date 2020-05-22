@@ -13,6 +13,8 @@ class HostService < ApplicationRecord
 
   has_paper_trail
 
+  before_save :set_status_changet_at
+
   validates :host_id, numericality: { only_integer: true }
   validates :name, length: { in: 3..200, allow_blank: true }
   validates :port,
@@ -22,6 +24,7 @@ class HostService < ApplicationRecord
   validates :protocol, presence: true
 
   belongs_to :host
+  belongs_to :host_service_status, optional: true
 
   def self.protocols
     PROTOCOLS
@@ -84,5 +87,12 @@ class HostService < ApplicationRecord
         AND scan_results.job_start = m.max_time
       )
     SQL
+  end
+
+  private
+
+  def set_status_changet_at
+    return unless self.host_service_status_id_changed?
+    self.host_service_status_changed_at = Time.now
   end
 end

@@ -55,9 +55,6 @@ ru:
       scan_job:
         one: 'Работа по сканированию'
         other: 'Работы по cканированию'
-      host_service:
-        one: 'Сетевой сервис'
-        other: 'Сетевые сервисы'
       schedule:
         one: 'Расписание работы'
         other: 'Расписания работ'
@@ -196,31 +193,6 @@ ru:
         ports: 'Порты'
         add_organization_hosts: 'Добавить все хосты организации'
         description: 'Описание'
-      host_service:
-        name: 'Название'
-        organization_id: 'Организация'
-        host_id: 'Хост'
-        ip_str: 'Хост'
-        vulnerable: 'Уязвим'
-        vuln_description: 'Описание уязвимости'
-        legality: 'Легальность'
-        legalities:
-          illegal: 'Нелегален'
-          unknown: 'Неизвестно'
-          legal: 'Легален'
-          no_sense: 'Не важно'
-        port: 'Порт'
-        protocol: 'Протокол'
-        description: 'Описание'
-        state_str: 'Текущее состояние'
-        states:
-          0: 'Закрыт'
-          1: 'Закрыт|Фильтруется'
-          2: 'Фильтруется'
-          3: 'Не фильтруется'
-          4: 'Открыт Фильтруется'
-          5: 'Открыт'
-        unknown_state: 'Неизвестно'
       schedule:
         job: 'Работа'
         minutes: 'Минуты'

@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      host_service_status:
+        one: 'Статус сетевого сервиса'
+        other: 'Статусы сетевых сервисов'
+    attributes:
+      host_service_status:
+        name: 'Название'
+        rank: 'Ранг'
+        description: 'Описание'
+        created_at: 'Дата создания'
+        updated_at: 'Дата изменения'

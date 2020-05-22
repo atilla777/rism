@@ -36,7 +36,9 @@ class FiltredTablePortsReport < BaseReport
       'Протокол',
       'Состояние',
       'Уязвимости',
-      'Легальность',
+      'Легальность сервиса',
+      'Статус обработки сервиса',
+      'Дата изменения статуса обработки',
       'Сервис',
       'ПО сервиса',
       'Дополнительно'
@@ -55,6 +57,9 @@ class FiltredTablePortsReport < BaseReport
       row << "#{record.show_state}"
       row << "#{record.show_vulners_names}"
       row << "#{record.show_current_legality}"
+      host_service = record.host_service
+      row << "#{host_service&.host_service_status&.name}"
+      row << "#{show_date_time(host_service&.host_service_status_changed_at)}"
       row << "#{record.service}"
       row << "#{record.product_version}"
       row << "#{record.product_extrainfo}"
@@ -124,7 +129,9 @@ class FiltredTablePortsReport < BaseReport
       'Протокол',
       'Состояние',
       'Уязвимости',
-      'Легальность',
+      'Легальность сервиса',
+      'Статус обработки сервиса',
+      'Дата изменения статуса обработки',
       'Сервис',
       'ПО сервиса',
       'Дополнительно'
@@ -144,6 +151,9 @@ class FiltredTablePortsReport < BaseReport
       row << "#{record.show_state}"
       row << "#{record.show_vulners_names}"
       row << "#{record.show_current_legality}"
+      host_service = record.host_service
+      row << "#{host_service&.host_service_status&.name}"
+      row << "#{show_date_time(host_service&.host_service_status_changed_at)}"
       row << "#{record.service}"
       row << "#{record.product_version}"
       row << "#{record.product_extrainfo}"

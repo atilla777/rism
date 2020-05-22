@@ -120,6 +120,20 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
             .form-group
               .field
                  .col-lg-3.text-right
+                   = f.label :host_service_status, class: 'control-label'
+                 .col-lg-8
+                   = f.collection_check_boxes(:host_service_status_id_in,
+                     HostServiceStatus.all,
+                     :id,
+                     :name,
+                     {checked: params.fetch(:q, {})['host_service_status_id_in']},
+                     class: 'big-checkbox') do |b|
+                     =< b.check_box
+                     =< b.label
+
+            .form-group
+              .field
+                 .col-lg-3.text-right
                    = f.label :legality, class: 'control-label'
                  .col-lg-8
                    = f.collection_check_boxes :legality_in, ScanResult.human_attribute_legalities, :first, :last, {}, class: 'big-checkbox' do |b|

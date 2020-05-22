@@ -4,6 +4,10 @@
   = r.show :port
   = r.show :protocol
   = r.show :name
+  = r.show :host_service_status_id do
+    = @record.host_service_status.name
+  = r.show :host_service_status_changed_at
+    = show_date_time(@record.host_service_status_changed_at)
   = r.show :legality do
     span style="color:#{@record.legality_color}"
       => fa_icon 'star'

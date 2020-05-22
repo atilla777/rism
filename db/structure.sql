@@ -700,6 +700,39 @@ ALTER SEQUENCE public.feeds_id_seq OWNED BY public.feeds.id;
 
 
 --
+-- Name: host_service_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.host_service_statuses (
+    id bigint NOT NULL,
+    name character varying,
+    rank smallint,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: host_service_statuses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.host_service_statuses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: host_service_statuses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.host_service_statuses_id_seq OWNED BY public.host_service_statuses.id;
+
+
+--
 -- Name: host_services; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -715,7 +748,9 @@ CREATE TABLE public.host_services (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     vulnerable boolean,
-    vuln_description text
+    vuln_description text,
+    host_service_status_id bigint,
+    host_service_status_changed_at timestamp without time zone
 );
 
 
@@ -2363,6 +2398,13 @@ ALTER TABLE ONLY public.feeds ALTER COLUMN id SET DEFAULT nextval('public.feeds_
 
 
 --
+-- Name: host_service_statuses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.host_service_statuses ALTER COLUMN id SET DEFAULT nextval('public.host_service_statuses_id_seq'::regclass);
+
+
+--
 -- Name: host_services id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2782,6 +2824,14 @@ ALTER TABLE ONLY public.enrichments
 
 ALTER TABLE ONLY public.feeds
     ADD CONSTRAINT feeds_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: host_service_statuses host_service_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.host_service_statuses
+    ADD CONSTRAINT host_service_statuses_pkey PRIMARY KEY (id);
 
 
 --
@@ -3357,6 +3407,13 @@ CREATE INDEX index_enrichments_on_enrichmentable_type_and_enrichmentable_id ON p
 --
 
 CREATE INDEX index_host_services_on_host_id ON public.host_services USING btree (host_id);
+
+
+--
+-- Name: index_host_services_on_host_service_status_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_host_services_on_host_service_status_id ON public.host_services USING btree (host_service_status_id);
 
 
 --
@@ -4498,6 +4555,14 @@ ALTER TABLE ONLY public.vulnerability_bulletins
 
 
 --
+-- Name: host_services fk_rails_ad13b6d403; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.host_services
+    ADD CONSTRAINT fk_rails_ad13b6d403 FOREIGN KEY (host_service_status_id) REFERENCES public.host_service_statuses(id);
+
+
+--
 -- Name: indicator_context_members fk_rails_b0bedef6aa; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4775,6 +4840,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200514135141'),
 ('20200519095614'),
 ('20200520063353'),
-('20200520100915');
+('20200520100915'),
+('20200522063839'),
+('20200522064856');
 
 

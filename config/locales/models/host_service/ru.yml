@@ -1,0 +1,34 @@
+ru:
+  activerecord:
+    models:
+      host_service:
+        one: 'Сетевой сервис'
+        other: 'Сетевые сервисы'
+    attributes:
+      host_service:
+        name: 'Название'
+        organization_id: 'Организация'
+        host_id: 'Хост'
+        ip_str: 'Хост'
+        vulnerable: 'Уязвим'
+        vuln_description: 'Описание уязвимости'
+        legality: 'Легальность'
+        legalities:
+          illegal: 'Нелегален'
+          unknown: 'Неизвестно'
+          legal: 'Легален'
+          no_sense: 'Не важно'
+        port: 'Порт'
+        protocol: 'Протокол'
+        description: 'Описание'
+        state_str: 'Текущее состояние'
+        states:
+          0: 'Закрыт'
+          1: 'Закрыт|Фильтруется'
+          2: 'Фильтруется'
+          3: 'Не фильтруется'
+          4: 'Открыт Фильтруется'
+          5: 'Открыт'
+        unknown_state: 'Неизвестно'
+        host_service_status_id: 'Состояние обработки'
+        host_service_status_changed_at: 'Дата изменения состояния обработки'

@@ -23,13 +23,32 @@ class ScanResult < ApplicationRecord
 
   belongs_to :scan_job
 
+#  has_one :host_service, -> {
+#    HostService.where(
+#      port: port,
+#      protocol: protocol
+#    ).joins(host: {ip: ip})
+#  }
+
   # TODO: Its seems wrnog, delete if not used
   #belongs_to :host_service, foreign_key: :ip, optional: true
 
   has_one :organization, through: :scan_job
 
+  # TODO: check that it not needed than delete (it shouldn`t work - first.where)
+#  def host_service2
+#    HostService.first.where(ip: ip, port: port, protocol: protocol)
+#  end
+
   def host_service
-    HostService.first.where(ip: ip, port: port, protocol: protocol)
+    join_sql = <<~SQL
+      RIGHT JOIN hosts
+        ON host_services.host_id = hosts.id
+    SQL
+    HostService.where(
+      port: port,
+      protocol: protocol
+    ).joins(join_sql).where(hosts: {ip: ip}).first
   end
 
   def organization_id

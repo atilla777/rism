@@ -124,6 +124,7 @@ Rails.application.routes.draw do
       match 'search' => 'scan_results#search', via: [:post, :get], as: :search
     end
   end
+  resources :host_service_statuses
   resources :host_services
   get '/schedule/', to: 'schedules#show', as: :schedule
   get '/schedules/', to: 'schedules#index', as: :schedules
