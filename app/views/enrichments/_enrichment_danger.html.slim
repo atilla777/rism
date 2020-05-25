@@ -9,6 +9,9 @@
       span.text-danger
         = fa_icon 'database'
         =< "(#{verdict})"
+  - else
+    span.text-danger
+      = fa_icon 'database'
 
 - elsif enrichment.info?
   span.text-info
