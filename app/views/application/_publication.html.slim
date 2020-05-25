@@ -1,12 +1,23 @@
 .publication
   - if publication.present?
-    = link_to('#',
-      data: {turbolinks: false},
-      class: 'btn',
-      data_toggle: 'tooltip',
-      title: t('labels.published')) do
-      span.text-success
-        =<> fa_icon 'envelope'
+    - if current_user.admin?
+      = link_to(polymorphic_path(record, action: :publicate),
+        data: {confirm: t('views.action.confirm'), turbolinks: false},
+        method: :patch,
+        remote: true,
+        class: 'btn',
+        data_toggle: 'tooltip',
+        title: t('labels.publish')) do
+        span.text-success
+          =<> fa_icon 'envelope'
+    - else
+      = link_to('#',
+        data: {turbolinks: false},
+        class: 'btn',
+        data_toggle: 'tooltip',
+        title: t('labels.published')) do
+        span.text-success
+          =<> fa_icon 'envelope'
   - else
     - if current_user.admin_editor? || (current_user.can?(:edit, Publication) && current_user.can?(:edit, record))
       = link_to(polymorphic_path(record, action: :publicate),
