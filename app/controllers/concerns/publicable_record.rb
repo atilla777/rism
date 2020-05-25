@@ -30,14 +30,14 @@ module PublicableRecord
     PublicationMailer.with(
       publicable_type: model.to_s,
       publicable_id: @record.id,
-      user: current_user
+      current_user: current_user
     ).notify.deliver_later
   end
 
   def notify_delivery_list_members
     DeliverySubjectMailer.with(
-      deliverable_type: model.to_s,
-      deliverable_id: @record.id,
+      publicable_type: model.to_s,
+      publicable_id: @record.id,
       current_user: current_user
     ).notify.deliver_later
   end

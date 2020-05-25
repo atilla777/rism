@@ -2,7 +2,7 @@ class PublicationMailer < ApplicationMailer
   add_template_helper(DateTimeHelper)
 
   def notify
-    @current_user = params[:user]
+    @current_user = params[:current_user]
     @publicable = params[:publicable_type]
       .constantize
       .find(params[:publicable_id])

@@ -5,7 +5,9 @@
   active_tab: :enrichments,
   from_external_link: true)
 
-
+span.text-info
+  = @enrichmentable.content
+br
 - if current_user.admin_editor? || current_user.can?(:edit, 'Enrichment')
   = render('enrichments_buttons',
     enrichmentable: @enrichmentable,
@@ -40,7 +42,9 @@ table.table.table-hover.table-bordered.table-striped
             class: 'btn btn-link modal_link') do
             | + RAW
         td
-          = link_to(enrichment.show_broker, enrichment.show_link_to_service,
+          = link_to(enrichment.show_broker,
+            enrichment.show_link_to_service,
+            target: :_blank,
             class: 'btn btn-link')
         td.fit
           = link_to(enrichment,

@@ -1,10 +1,18 @@
 - case enrichmentable.danger_in_enrichments?
 - when :yes
-  span.text-danger
-    = fa_icon 'database'
-    - verdict = enrichmentable.danger_verdict
-    - if verdict.present?
-      =< "(#{verdict})"
+  - verdict = enrichmentable.danger_verdict
+  - if verdict.present?
+    - if verdict.include? 'DangerousObject'
+      span.text-warning
+        = fa_icon 'database'
+        =< "(#{verdict})"
+    - else
+      span.text-danger
+        = fa_icon 'database'
+        =< "(#{verdict})"
+  - else
+    span.text-danger
+      = fa_icon 'database'
 - when :no
     span.text-success
       = fa_icon 'database'
