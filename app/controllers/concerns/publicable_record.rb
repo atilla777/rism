@@ -23,6 +23,8 @@ module PublicableRecord
       publication.save
       notify_self_subscriptors
       notify_delivery_list_members
+    else
+      notify_delivery_list_members if current_user.admin?
     end
   end
 

@@ -1,10 +1,15 @@
 - if enrichment.danger?
-  span.text-danger
-    = fa_icon 'database'
-  span.text-danger
-    - verdict = enrichment.danger_verdict
-    - if verdict
-      =< "(#{verdict})"
+  - verdict = enrichment.danger_verdict
+  - if verdict.present?
+    - if verdict.include? 'DangerousObject'
+      span.text-warning
+        = fa_icon 'database'
+        =< "(#{verdict})"
+    - else
+      span.text-danger
+        = fa_icon 'database'
+        =< "(#{verdict})"
+
 - elsif enrichment.info?
   span.text-info
     = fa_icon 'database'
