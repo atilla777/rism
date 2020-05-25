@@ -8,16 +8,16 @@ class DeliverySubjectsController < ApplicationController
 
   def list_subjects; end
 
-  def notify
-    authorize DeliverySubject
-    DeliverySubjectMailer.with(
-      deliverable_type: params[:deliverable_type],
-      deliverable_id: params[:deliverable_id],
-      comments: params[:comments].first,
-      current_user: current_user
-    ).notify.deliver_later
-    @message = 'Ok'
-  end
+#  def notify
+#    authorize DeliverySubject
+#    DeliverySubjectMailer.with(
+#      deliverable_type: params[:deliverable_type],
+#      deliverable_id: params[:deliverable_id],
+#      comments: params[:comments].first,
+#      current_user: current_user
+#    ).notify.deliver_later
+#    @message = 'Ok'
+#  end
 
   # TODO: rename @record to @delivarable
   def create

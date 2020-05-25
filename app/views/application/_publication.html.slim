@@ -1,6 +1,7 @@
 .publication
   - if publication.present?
     = link_to('#',
+      data: {turbolinks: false},
       class: 'btn',
       data_toggle: 'tooltip',
       title: t('labels.published')) do
@@ -9,7 +10,7 @@
   - else
     - if current_user.admin_editor? || (current_user.can?(:edit, Publication) && current_user.can?(:edit, record))
       = link_to(polymorphic_path(record, action: :publicate),
-        data: {confirm: t('views.action.confirm')},
+        data: {confirm: t('views.action.confirm'), turbolinks: false},
         method: :patch,
         remote: true,
         class: 'btn',

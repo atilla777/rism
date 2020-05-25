@@ -4,10 +4,10 @@ class DeliverySubjectMailer < ApplicationMailer
   def notify
     @current_user = params[:current_user]
     @comments = params[:comments]
-    @deliverable = params[:deliverable_type]
+    @publicable = params[:publicable_type]
       .constantize
-      .find(params[:deliverable_id])
-    recipients = @deliverable.recipients
+      .find(params[:publicable_id])
+    recipients = @publicable.recipients
     emails = only_allowed_for_record_subscriptors_mails(recipients)
     if emails.present?
       send_notify(emails)
@@ -26,7 +26,7 @@ class DeliverySubjectMailer < ApplicationMailer
   end
 
   def send_notify(recipients)
-    file = @deliverable.report
+    file = @publicable.report
     attachments[file[:name]] = file[:file] if file
     mail(
       from: ENV['MAIL_FROM'],
@@ -41,8 +41,8 @@ class DeliverySubjectMailer < ApplicationMailer
         created_at: Time.now,
         user: @current_user,
         recipient: user,
-        deliverable_type: @deliverable.class.name,
-        deliverable_id: @deliverable.id
+        deliverable_type: @publicable.class.name,
+        deliverable_id: @publicable.id
       )
     end
   rescue ActiveRecord::RecordInvalid => error
