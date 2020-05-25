@@ -3,7 +3,7 @@
     .subscription
         - if subscription == true
           = link_to(polymorphic_path(model, action: :toggle_subscription),
-            data: {confirm: t('views.action.confirm')},
+            data: {confirm: t('views.action.confirm'), turbolinks: false},
             method: :patch,
             remote: true,
             class: 'btn',
@@ -13,7 +13,7 @@
               =<> fa_icon 'bell'
         - else
           = link_to(polymorphic_path(model, action: :toggle_subscription),
-            data: {confirm: t('views.action.confirm')},
+            data: {confirm: t('views.action.confirm'), turbolinks: false},
             method: :patch,
             remote: true,
             class: 'btn',
