@@ -32,3 +32,5 @@ ru:
         unknown_state: 'Неизвестно'
         host_service_status_id: 'Состояние обработки'
         host_service_status_changed_at: 'Дата изменения состояния обработки'
+        host_service_status_prop: 'Реквизиты состояния обработки'
+        host_service_status_prop_short: 'Рекв. обр.'

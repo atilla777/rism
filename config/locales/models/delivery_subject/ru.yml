@@ -2,8 +2,8 @@ ru:
   activerecord:
     models:
       delivery_subject:
-        one: 'Сообщение из списка доставки (доставляемый объект)'
-        other: 'Сообщения из списка доставки (доставляемые объекты)'
+        one: 'Сообщение'
+        other: 'Сообщения'
     attributes:
       delivery_subject:
         name: 'Имя'

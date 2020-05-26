@@ -15,10 +15,10 @@ class Agreement < ApplicationRecord
 
   validate :organization_not_contrcator
   validates :beginning, presence: true
-  validates :prop, length: { minimum: 1, maximum: 100 }
-  validates :beginning, uniqueness: { scope: [:prop, :organization_id] }
-  validates :agreement_kind_id, numericality: { only_integer: true, allow_blank: true }
-  validates :contractor_id, numericality: { only_integer: true }
+  validates :prop, length: {minimum: 1, maximum: 100}
+  validates :beginning, uniqueness: {scope: [:prop, :organization_id]}
+  validates :agreement_kind_id, numericality: {only_integer: true, allow_blank: true}
+  validates :contractor_id, numericality: {only_integer: true}
 
   belongs_to :contractor, class_name: 'Organization'
   belongs_to :agreement_kind, optional: true

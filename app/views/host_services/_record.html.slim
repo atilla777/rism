@@ -8,6 +8,7 @@
     = @record.host_service_status.name
   = r.show :host_service_status_changed_at
     = show_date_time(@record.host_service_status_changed_at)
+  = r.show :host_service_status_prop
   = r.show :legality do
     span style="color:#{@record.legality_color}"
       => fa_icon 'star'

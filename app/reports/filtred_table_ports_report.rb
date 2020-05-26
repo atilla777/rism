@@ -39,6 +39,7 @@ class FiltredTablePortsReport < BaseReport
       'Легальность сервиса',
       'Статус обработки сервиса',
       'Дата изменения статуса обработки',
+      'Реквизиты состояния обработки',
       'Сервис',
       'ПО сервиса',
       'Дополнительно'
@@ -60,6 +61,7 @@ class FiltredTablePortsReport < BaseReport
       host_service = record.host_service
       row << "#{host_service&.host_service_status&.name}"
       row << "#{show_date_time(host_service&.host_service_status_changed_at)}"
+      row << "#{host_service&.host_service_status_prop}"
       row << "#{record.service}"
       row << "#{record.product_version}"
       row << "#{record.product_extrainfo}"
@@ -132,6 +134,7 @@ class FiltredTablePortsReport < BaseReport
       'Легальность сервиса',
       'Статус обработки сервиса',
       'Дата изменения статуса обработки',
+      'Реквизиты состояния обработки',
       'Сервис',
       'ПО сервиса',
       'Дополнительно'
@@ -154,6 +157,7 @@ class FiltredTablePortsReport < BaseReport
       host_service = record.host_service
       row << "#{host_service&.host_service_status&.name}"
       row << "#{show_date_time(host_service&.host_service_status_changed_at)}"
+      row << "#{host_service&.host_service_status_prop}"
       row << "#{record.service}"
       row << "#{record.product_version}"
       row << "#{record.product_extrainfo}"

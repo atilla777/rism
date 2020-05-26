@@ -750,7 +750,8 @@ CREATE TABLE public.host_services (
     vulnerable boolean,
     vuln_description text,
     host_service_status_id bigint,
-    host_service_status_changed_at timestamp without time zone
+    host_service_status_changed_at timestamp without time zone,
+    host_service_status_prop character varying
 );
 
 
@@ -3417,6 +3418,13 @@ CREATE INDEX index_host_services_on_host_service_status_id ON public.host_servic
 
 
 --
+-- Name: index_host_services_on_host_service_status_prop; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_host_services_on_host_service_status_prop ON public.host_services USING btree (host_service_status_prop);
+
+
+--
 -- Name: index_host_services_on_organization_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4842,6 +4850,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200520063353'),
 ('20200520100915'),
 ('20200522063839'),
-('20200522064856');
+('20200522064856'),
+('20200526072228');
 
 

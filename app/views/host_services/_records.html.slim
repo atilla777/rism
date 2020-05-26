@@ -1,4 +1,4 @@
-= index_search :state_str_or_vulnerable_str_or_name_or_host_service_status_name_or_legality_str_or_port_str_or_organization_name_or_ip_str_or_protocol_or_description_cont, organization_id_eq: @organization&.id
+= index_search :state_str_or_vulnerable_str_or_name_or_host_service_status_name_or_host_service_status_prop_or_legality_str_or_port_str_or_organization_name_or_ip_str_or_protocol_or_description_cont, organization_id_eq: @organization&.id
 = report_button_for @records, organization_id: @organization.id
 - q_params = params.permit(q: {}).to_h[:q]&.reject do |_k, v|
   - if v.respond_to?(:all?)
@@ -16,6 +16,7 @@
   - t.header attribute: :state_str, sort: :desc
   - t.header attribute: :host_service_status_id, sort: :desc
   - t.header attribute: :host_service_status_changed_at, sort: :desc
+  - t.header attribute: :host_service_status_prop, sort: :desc
   - t.header attribute: :vulnerable, sort: :desc
   - t.header attribute: :legality, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
@@ -36,6 +37,8 @@
     = record.host_service_status&.name
   - t.field do |record|
     = show_date_time(record.host_service_status_changed_at)
+  - t.field do |record|
+    = record.host_service_status_prop
   - t.field do |record|
     - if record.vulnerable == true
       span.text-danger

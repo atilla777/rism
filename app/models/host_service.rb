@@ -22,6 +22,7 @@ class HostService < ApplicationRecord
             allow_blank: true
   validates :port, inclusion: { in: 0..65535 }
   validates :protocol, presence: true
+  validates :host_service_status_prop, length: {minimum: 3, maximum: 100, allow_blank: true}
 
   belongs_to :host
   belongs_to :host_service_status, optional: true

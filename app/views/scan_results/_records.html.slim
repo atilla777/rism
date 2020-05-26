@@ -64,7 +64,8 @@ br
       = link_to record.show_vulners.truncate(20), record
   - t.field do |record|
     = port_current_legality(record)
-    =< "(#{record.host_service&.host_service_status&.name})" if record.host_service&.host_service_status
+    - if record.host_service&.host_service_status
+      =< "(#{[record.host_service&.host_service_status&.name, record.host_service&.host_service_status_prop].reject(&:empty?).join('/')})"
   - t.field do |record|
     = port_legality(record)
   - t.field do |record|
