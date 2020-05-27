@@ -65,7 +65,7 @@ br
   - t.field do |record|
     = port_current_legality(record)
     - if record.host_service&.host_service_status
-      =< "(#{[record.host_service&.host_service_status&.name, record.host_service&.host_service_status_prop].reject(&:empty?).join('/')})"
+      =< "(#{[record.host_service&.host_service_status&.name, record.host_service&.host_service_status_prop].reject(&:blank?).join('/')})"
   - t.field do |record|
     = port_legality(record)
   - t.field do |record|
