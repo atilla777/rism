@@ -1,0 +1,17 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_tag clone_investigation_path(@record), html: {class: 'form-horizontal'} do |f|
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = label_tag :organization_id, t('activerecord.models.organization.one'), class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#organization_id',  class: 'form-control', autocomplete: :off, value: Organization.find(1).name
+            = hidden_field_tag :organization_id, 1
+      br
+      br
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => submit_tag t('helpers.submit.save'), class: 'btn btn-success'

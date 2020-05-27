@@ -22,3 +22,7 @@
   - tabs.add(:files, polymorphic_path(record, active_tab: :files), 'AttachedFile') do
     = fa_icon 'folder'
     =< AttachedFile.model_name.human(count: 2)
+  - if current_user.admin_editor? || current_user.can?(:edit, Investigation)
+    - tabs.add(:clone, polymorphic_path(record, active_tab: :clone), 'Investigation') do
+      = fa_icon 'clone'
+      =< t('navigations.clone')

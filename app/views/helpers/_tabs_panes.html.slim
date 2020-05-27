@@ -1,5 +1,4 @@
 .tab-content
   - panes.each do |pane|
     . role='tabpanel' id=pane[:name] class="tab-pane#{active_pane.fetch(pane[:name],'')}"
-
       = capture { pane[:content].call }

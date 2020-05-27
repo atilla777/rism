@@ -193,6 +193,7 @@ ru:
     advanced_search: 'Поиск по полям'
     actual_and_relevant_vulnerabilities: 'Актуальные и релевантные уязвимости'
     investigations_incidents: 'Инциденты/исследования'
+    clone: 'Клонирование'
     scans: 'Сканирования'
     open_ports: 'Открытые порты'
     new_ports: 'Новые порты (незарегистрированные как сервис)'

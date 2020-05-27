@@ -143,6 +143,7 @@ Rails.application.routes.draw do
     member do
       patch :toggle_readable
       patch :publicate
+      post :clone
     end
   end
   resources :indicators do

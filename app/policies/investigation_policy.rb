@@ -22,6 +22,10 @@ class InvestigationPolicy < ApplicationPolicy
     create?
   end
 
+  def clone?
+    index?
+  end
+
   def toggle_readable?
     index?
   end

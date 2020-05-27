@@ -11,6 +11,18 @@ class InvestigationsController < ApplicationController
     @scope = params.dig(:q, :scope_eq) || params.dig(:scope)
   end
 
+  def clone
+    record = Investigation.find(params[:id])
+    authorize record
+    authorize(Investigation, :create?)
+    @new_record = CloneInvestigationService.call(
+      record,
+      params[:organization_id],
+      current_user,
+    )
+    redirect_to @new_record
+  end
+
   def create
     @record = model.new(record_params)
     authorize @record.class

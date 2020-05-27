@@ -21,6 +21,7 @@ class Enrichment < ApplicationRecord
 
   validates :content, presence: true
   validates :enrichmentable_type, inclusion: { in: enrichmentable_types }
+  validates :enrichmentable_id, numericality: { only_integer: true }
 
   belongs_to :enrichmentable, polymorphic: true
 
