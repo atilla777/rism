@@ -19,6 +19,13 @@
           .col-lg-8
             = f.text_field :ip, value: HostDecorator.new(@record).show_ip, class: 'form-control', placeholder: t('placeholders.hosts.ip')
 
+      .form-group
+        .col-lg-offset-2.col-lg-8
+          .checkbox
+             label
+               = f.check_box :to_hosts, class: 'big-checkbox'
+               strong
+                 | #{t('activerecord.attributes.host.to_hosts')}
 
       .form-group.required
         .field

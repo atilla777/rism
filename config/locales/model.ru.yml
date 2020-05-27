@@ -46,9 +46,6 @@ ru:
       link:
         one: 'Связь'
         other: 'Связи'
-      host:
-        one: 'Хост/сеть'
-        other: 'Хосты/сети'
       scan_option:
         one: 'Набор опций сканирования'
         other: 'Наборы опций сканирования'
@@ -163,11 +160,6 @@ ru:
         second_record_type: 'Тип прикрепляемого ресурса'
         second_record_id: 'Номер прикрепляемого ресурса'
         link_kind_id: 'Тип связи'
-        description: 'Описание'
-      host:
-        name: 'Имя'
-        ip: 'Адрес'
-        organization_id: 'Организация'
         description: 'Описание'
       scan_option:
         name: 'Название'

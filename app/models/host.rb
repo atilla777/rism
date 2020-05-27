@@ -10,6 +10,8 @@ class Host < ApplicationRecord
 
   has_paper_trail
 
+  attr_accessor :to_hosts
+
   validates :name, length: { in: 3..200, allow_blank: true }
   validates :name, uniqueness: { scope: :organization_id, allow_blank: true }
   validates :ip, uniqueness: true

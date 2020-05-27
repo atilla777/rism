@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      host:
+        one: 'Хост/сеть'
+        other: 'Хосты/сети'
+    attributes:
+      host:
+        name: 'Имя'
+        ip: 'Адрес'
+        to_hosts: 'Сохранить как отдельные хосты указанной подсети'
+        organization_id: 'Организация'
+        description: 'Описание'

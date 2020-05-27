@@ -30,6 +30,35 @@ class HostsController < ApplicationController
     render json: result
   end
 
+  def create
+    @record = model.new(record_params)
+    authorize @record.class
+    @organization = organization
+    if @record.to_hosts == '1'
+      result = SaveNetworkAsHostsService.call(
+        @record.ip,
+        @record.name,
+        @record.description,
+        @organization.id,
+        current_user
+      )
+      @record.errors.add(:base, 'Error - try save without checkbox')
+      raise ActiveRecord::RecordInvalid unless result
+    else
+      @record.current_user = current_user
+      @record.save!
+      add_from_template
+    end
+    redirect_to(
+      session.delete(:edit_return_to),
+      organization_id: @organization.id,
+      success: t('flashes.create', model: model.model_name.human)
+    )
+  rescue ActiveRecord::RecordInvalid
+    @template_id = params[:template_id]
+    render :new
+  end
+
   private
 
   def model
