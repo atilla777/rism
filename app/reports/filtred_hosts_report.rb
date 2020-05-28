@@ -22,7 +22,7 @@ class FiltredHostsReport < BaseReport
       'Время создания',
       'Время обновления',
     ]
-    custom_fields = CustomField.where(field_model: 'Indicator')
+    custom_fields = CustomField.where(field_model: 'Host')
     custom_fields_names = custom_fields.each_with_object([]) { |v, o| o << v.name }
     r. << (header + custom_fields_names)
 
@@ -52,6 +52,14 @@ class FiltredHostsReport < BaseReport
     scope = Host.includes(
       :organization
     )
+
+    scope = Host
+#    if organization.present?
+#      scope = scope.where(organization_id: organization.id)
+#    end
+    scope = Pundit.policy_scope(current_user, scope)
+                  .includes(:organization)
+
     if options[:q].present?
       q = scope.ransack(options[:q])
       q.sorts = options[:q].fetch('s', default_sort) #  default_sort if q.sorts.empty?
