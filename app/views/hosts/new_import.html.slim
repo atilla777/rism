@@ -1,20 +1,21 @@
-= caption t('navigations.import_vulners')
+= caption t('navigations.import_hosts')
 .well
-  = form_tag create_import_vulnerabilities_path, multipart: true do
+  = form_tag create_import_hosts_path, multipart: true do
     .row
       .form-group.required
         .field
           .col-lg-2.text-right
             .control-label
               strong
-                = t('labels.import_vulners_file_format')
+                = t('labels.host.import_hosts_organization')
           .col-lg-2
-            = select_tag(:file_format, options_for_select(ImportVulnersCommand.file_formats.map { |f| [t("labels.import_vulners_file_formats.#{f}"), f] }), { class: 'form-control' })
+            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#organization_id',  class: 'form-control', autocomplete: :off, value: (@organization&.name || current_user.organization.name)
+            = hidden_field_tag :organization_id, (@organization&.id || current_user.organization.id)
 
           .col-lg-2.text-right
             .control-label
               strong
-                = t('labels.import_vulners_file')
+                = t('labels.file')
 
           .col-lg-2
             label.form-control.btn.btn-info.btn-file
@@ -27,6 +28,7 @@
         .col-lg-offset-2.col-lg-8
           => submit_tag t('helpers.submit.save'), class: 'btn btn-success'
           = render 'form_back_button'
+
   br
   .row
     .col-lg-offset-2.col-lg-8
@@ -39,19 +41,30 @@
             - @messages.fetch(:errors, [])&.each do |record_with_errors|
               li
                 .text-danger
-                  = record_with_errors.codename
+                  = record_with_errors.ip
                 - record_with_errors.errors.each do |k, v|
                   .text-warning
                     =< k
                   =< v
+
       br
-      - if @messages.fetch(:created_vulns, nil).present?
+      - if @messages.fetch(:not_processed_ips, nil).present?
+        a.link data-toggle='collapse' href='#toggle_not_processed'
+          strong.text-warning
+            = t('labels.not_processed')
+        .collapse#toggle_not_processed
+          ol
+            - @messages.fetch(:not_processed_ips, []).each do |ip|
+              li
+                = ip
+      br
+      - if @messages.fetch(:created_records, nil).present?
         a.link data-toggle='collapse' href='#toggle_created'
           strong.text-warning
-            = "#{t('labels.imported')} (#{@messages.fetch(:created_vulns, {}).size}/#{@messages.fetch(:rows_processed, 0)}):"
+            = "#{t('labels.imported')} (#{@messages.fetch(:created_records, {}).size}/#{@messages.fetch(:rows_processed, 0)}):"
         .collapse#toggle_created
           ol
-            - @messages.fetch(:created_vulns, {}).each do |name, id|
+            - @messages.fetch(:created_records, {}).each do |ip, id|
               li
-                = link_to name, vulnerability_path(id)
+                = link_to IPAddr.new(ip).to_cidr_s, host_path(id)
       br

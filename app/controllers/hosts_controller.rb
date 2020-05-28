@@ -59,6 +59,19 @@ class HostsController < ApplicationController
     render :new
   end
 
+  def new_import
+    authorize Host
+    @messages = {}
+  end
+
+  def create_import
+    authorize Host
+    file = params[:file]
+    @organization = Organization.find( params[:organization_id])
+    @messages = ImportHostsService.call(file, @organization.id, current_user)
+    render :new_import
+  end
+
   private
 
   def model

@@ -13,6 +13,12 @@ ul.nav.navbar-nav
             .text-info
               = fa_icon 'sitemap'
               =< Host.model_name.human(count: 2)
+        - if current_user.admin_editor?
+          = menu_li(models: 'Host', action: '_none') do
+            = link_to new_import_hosts_path do
+              .text-info
+                = fa_icon 'sitemap'
+                =< t('navigations.import_hosts')
         = menu_li(models: 'HostService') do
           = link_to host_services_path do
             .text-info

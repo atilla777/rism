@@ -52,6 +52,7 @@ ru:
     all_label: 'Все'
     user_has_no_roles: 'Пользователю не назначены роли - обратитесь к администратору.'
     imported: 'Импортированы'
+    not_processed: 'Не импортированы (ошибки и дубликаты)'
     updated: 'Обновлены'
     errors: 'Ошибки'
     toggle_selection: 'Выбрать/отменить выбор'
@@ -59,6 +60,8 @@ ru:
     publish: 'Опубликовать'
     subscribe: 'Подписаться'
     unsubscribe: 'Отписаться'
+    host:
+      import_hosts_organization: 'Организация в которую будут импортированы хосты'
     user:
       active: 'Да'
       not_active: 'Нет'
@@ -165,7 +168,7 @@ ru:
     import_vulners_file_formats:
       bdu_csv: 'БДУ ФСТЭК России (csv из excel)'
     import_vulners_file_format: 'Формат файла'
-    import_vulners_file: 'Файл'
+    file: 'Файл'
     delivery_subject:
       allowed_delivery_lists: 'Доступные для назначения списки доставки'
       assigned_delivery_lists: 'Назначенные списки доставки'
@@ -203,6 +206,7 @@ ru:
     queue_jobs: 'Работы в очереди'
     queue_job_start: 'Время постановки в очередь'
     import_vulners: 'Импортировать уязвимости'
+    import_hosts: 'Импортировать хосты'
   roles:
     admin: 'Администратор'
     manager: 'Менеджер'

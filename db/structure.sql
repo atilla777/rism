@@ -3442,7 +3442,7 @@ CREATE INDEX index_host_services_on_port ON public.host_services USING btree (po
 -- Name: index_hosts_on_ip; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_hosts_on_ip ON public.hosts USING btree (ip);
+CREATE UNIQUE INDEX index_hosts_on_ip ON public.hosts USING btree (ip);
 
 
 --
@@ -4851,6 +4851,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200520100915'),
 ('20200522063839'),
 ('20200522064856'),
-('20200526072228');
+('20200526072228'),
+('20200528111802');
 
 

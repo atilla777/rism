@@ -11,7 +11,7 @@ module MassSave
         records,
         validate: true,
         batch_size: options[:mass_save_limit] || self.mass_save_limit,
-        on_duplicate_key_ignore: true,
+        on_duplicate_key_ignore: options[:on_duplicate_key_ignore] || true,
         returning: options[:returned_field]
       )
     end

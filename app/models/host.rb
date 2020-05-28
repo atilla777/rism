@@ -7,6 +7,7 @@ class Host < ApplicationRecord
   include Attachable
   include Host::Ransackers
   include Rightable
+  include MassSave
 
   has_paper_trail
 

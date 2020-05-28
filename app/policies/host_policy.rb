@@ -6,4 +6,12 @@ class HostPolicy < ApplicationPolicy
          organization_id
          description]
   end
+
+  def new_import?
+    create?
+  end
+
+  def create_import?
+    create?
+  end
 end
