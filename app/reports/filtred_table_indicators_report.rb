@@ -71,14 +71,14 @@ class FiltredTableIndicatorsReport < BaseReport
   private
 
   def get_records(options, organization)
-    scope = Indicator.includes(
-      :organization,
-      :creator,
-      :updater,
-      :investigation,
-      :investigation_kind,
-      :indicator_contexts
-    )
+    scope = Pundit.policy_scope(current_user, Indicator)
+      .includes(
+        :organization,
+        :creator,
+        :updater,
+        :investigation_kind,
+        :indicator_contexts
+      )
     if options[:q].present?
       q = scope.ransack(options[:q])
       q.sorts = options[:q].fetch('s', default_sort) #  default_sort if q.sorts.empty?

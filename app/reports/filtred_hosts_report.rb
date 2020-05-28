@@ -53,11 +53,7 @@ class FiltredHostsReport < BaseReport
       :organization
     )
 
-    scope = Host
-#    if organization.present?
-#      scope = scope.where(organization_id: organization.id)
-#    end
-    scope = Pundit.policy_scope(current_user, scope)
+    scope = Pundit.policy_scope(current_user, Host)
                   .includes(:organization)
 
     if options[:q].present?
