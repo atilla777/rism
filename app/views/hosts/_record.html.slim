@@ -4,5 +4,9 @@
   = r.show :organization_id do
     = link_to @record.organization&.name, @record.organization
   = r.show :description
+  = r.show :created_at do
+    =< show_date_time(@record.created_at)
+  = r.show :updated_at do
+    =< show_date_time(@record.updated_at)
 
 = render 'application/record_versions'

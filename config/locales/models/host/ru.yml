@@ -11,3 +11,5 @@ ru:
         to_hosts: 'Сохранить как отдельные хосты указанной подсети'
         organization_id: 'Организация'
         description: 'Описание'
+        created_at: 'Создано'
+        updated_at: 'Обновлено'

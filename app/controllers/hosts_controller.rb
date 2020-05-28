@@ -2,6 +2,7 @@
 
 class HostsController < ApplicationController
   include RecordOfOrganization
+  include ReadableRecord
 
   def autocomplete_host_name
     authorize model

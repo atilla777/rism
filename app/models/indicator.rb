@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Indicator < ApplicationRecord
   include OrganizationAssociated
   include Linkable

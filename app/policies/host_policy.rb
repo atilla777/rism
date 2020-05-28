@@ -14,4 +14,8 @@ class HostPolicy < ApplicationPolicy
   def create_import?
     create?
   end
+
+  def toggle_readable?
+    index?
+  end
 end

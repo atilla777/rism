@@ -81,6 +81,9 @@ Rails.application.routes.draw do
   get "/charts/:name", to: 'charts#show', as: :charts
   resources :hosts do
     get :autocomplete_host_name, :on => :collection, as: :autocomplete
+    member do
+      patch :toggle_readable
+    end
     collection do
       get :new_import
       post :create_import

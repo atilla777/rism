@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReadableLog < ApplicationRecord
   validates :user_id, numericality: { only_integer: true }
   validates :readable_id, numericality: { only_integer: true }

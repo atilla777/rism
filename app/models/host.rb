@@ -8,6 +8,7 @@ class Host < ApplicationRecord
   include Host::Ransackers
   include Rightable
   include MassSave
+  include Readable
 
   has_paper_trail
 
