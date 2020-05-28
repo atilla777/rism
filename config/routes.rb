@@ -85,6 +85,7 @@ Rails.application.routes.draw do
       patch :toggle_readable
     end
     collection do
+      match 'search' => 'hosts#search', via: [:get, :post], as: :search
       get :new_import
       post :create_import
     end

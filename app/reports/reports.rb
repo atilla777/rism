@@ -45,4 +45,5 @@ class Reports
   FiltredTableVulnersReport.register
   FiltredTableIndicatorsReport.register
   UsersActivityReport.register
+  FiltredHostsReport.register
 end

@@ -1,0 +1,38 @@
+= search_form_for @q, url: filtred_reports_path({name: :filtred_hosts}), html: { method: :post } do |f|
+  = render 'download_readable_filter', f: f
+  = f.hidden_field :s, value: params.fetch(:q, {}).fetch(:s, '')
+
+  = f.hidden_field :ip_str_eq
+  = f.hidden_field :ip_str_cont
+
+  = f.hidden_field :name_eq
+  = f.hidden_field :name_cont
+
+  = f.hidden_field :organization_name_eq
+  = f.hidden_field :organization_name_cont
+
+  = f.hidden_field :description_cont
+
+  = f.hidden_field :created_at_last_days
+  = f.hidden_field :created_at_last_weeks
+  = f.hidden_field :created_at_last_months
+  = f.hidden_field :created_at_last_years
+  = f.hidden_field :updated_at_last_days
+  = f.hidden_field :updated_at_last_weeks
+  = f.hidden_field :updated_at_last_months
+  = f.hidden_field :updated_at_last_years
+
+  = f.hidden_field :created_at_gteq
+  = f.hidden_field :created_at_end_of_day_lteq
+  = f.hidden_field :updated_at_gteq
+  = f.hidden_field :updated_at_end_of_day_lteq
+
+  = f.button name: :format,
+    value: :csv,
+    type: 'submit',
+    data_toggle: 'tooltip',
+    title: t('navigations.reports.download_filtred'),
+    class: 'btn btn-default' do
+    span.text-info
+      =<> fa_icon 'save'
+      | csv

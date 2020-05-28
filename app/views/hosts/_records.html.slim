@@ -1,5 +1,7 @@
 = index_search :name_or_ip_str_or_organization_name_cont, organization_id_eq: @organization&.id
 = report_button_for records, organization_id: @organization.id
+= render 'search_form'
+= render 'download_search_form' if ['index', 'search'].include?(params[:action])
 = index_for records do |t|
   - t.header attribute: :readed, fit: true, label: ''
   - t.header attribute: :ip, sort: :desc
