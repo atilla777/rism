@@ -12,4 +12,12 @@ class HostDecorator < SimpleDelegator
     return '' unless ip.present?
     ip.to_cidr_s
   end
+
+  def show_creator
+    creator&.name || ''
+  end
+
+  def show_updater
+    updater&.name || ''
+  end
 end

@@ -18,4 +18,8 @@ class HostPolicy < ApplicationPolicy
   def toggle_readable?
     index?
   end
+
+  def run?
+    create?
+  end
 end

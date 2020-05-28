@@ -9,6 +9,7 @@ class Host < ApplicationRecord
   include Rightable
   include MassSave
   include Readable
+  include Monitorable
 
   has_paper_trail
 

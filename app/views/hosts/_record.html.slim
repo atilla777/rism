@@ -1,6 +1,6 @@
-= show_for @record do |r|
+= show_for @record, decorator: HostDecorator do |r|
   = r.show :name
-  = r.show :ip, value: HostDecorator.new(record).show_ip
+  = r.show :ip, value: r.decorated.show_ip
   = r.show :organization_id do
     = link_to @record.organization&.name, @record.organization
   = r.show :description
@@ -8,5 +8,10 @@
     =< show_date_time(@record.created_at)
   = r.show :updated_at do
     =< show_date_time(@record.updated_at)
+  = r.show :created_by_id
+    = link_to r.decorated.show_creator, @record.creator
+  = r.show :updated_by_id
+    - if @record.updater.present?
+      = link_to r.decorated.show_updater, @record.updater
 
 = render 'application/record_versions'

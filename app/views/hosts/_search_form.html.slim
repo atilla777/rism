@@ -59,6 +59,27 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
               .form-row
                 .field
                   .col-lg-1.text-right
+                    = f.label :created_by_id, class: 'control-label'
+                  .col-lg-5
+                    = f.text_field :creator_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                  .col-lg-5
+                    = f.text_field :creator_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :updated_by_id, class: 'control-label'
+                  .col-lg-5
+                    = f.text_field :updater_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                  .col-lg-5
+                    = f.text_field :updater_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
                     = f.label :created_at, class: 'control-label'
                   .col-lg-1
                     = f.number_field :created_at_last_days,
@@ -127,24 +148,3 @@ button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='
           button.btn.btn-default type='button' data-dismiss='modal'
             = t('views.action.back')
           =< f.submit t('views.action.find'), class: 'btn btn-success'
-
-//            .form-group
-              .form-row
-                .field
-                  .col-lg-1.text-right
-                    = f.label :created_by_id, class: 'control-label'
-                  .col-lg-5
-                    = f.text_field :creator_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
-                  .col-lg-5
-                    = f.text_field :creator_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
-
-//            .form-group
-              .form-row
-                .field
-                  .col-lg-1.text-right
-                    = f.label :updated_by_id, class: 'control-label'
-                  .col-lg-5
-                    = f.text_field :updater_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
-                  .col-lg-5
-                    = f.text_field :updater_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
-

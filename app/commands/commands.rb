@@ -39,4 +39,5 @@ class Commands
   DeleteFilteredVulnerabilitiesCommand.register
   DeleteFilteredScanResultsCommand.register
   DeleteFilteredHostServicesCommand.register
+  DeleteFilteredHostsCommand.register
 end

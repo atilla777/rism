@@ -785,7 +785,9 @@ CREATE TABLE public.hosts (
     ip cidr,
     description text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    created_by_id bigint,
+    updated_by_id bigint
 );
 
 
@@ -3439,6 +3441,13 @@ CREATE INDEX index_host_services_on_port ON public.host_services USING btree (po
 
 
 --
+-- Name: index_hosts_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_hosts_on_created_by_id ON public.hosts USING btree (created_by_id);
+
+
+--
 -- Name: index_hosts_on_ip; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3450,6 +3459,13 @@ CREATE UNIQUE INDEX index_hosts_on_ip ON public.hosts USING btree (ip);
 --
 
 CREATE INDEX index_hosts_on_organization_id ON public.hosts USING btree (organization_id);
+
+
+--
+-- Name: index_hosts_on_updated_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_hosts_on_updated_by_id ON public.hosts USING btree (updated_by_id);
 
 
 --
@@ -4852,6 +4868,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200522063839'),
 ('20200522064856'),
 ('20200526072228'),
-('20200528111802');
+('20200528111802'),
+('20200528132834');
 
 
