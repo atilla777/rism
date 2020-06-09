@@ -92,10 +92,11 @@ class Indicator < ApplicationRecord
 
   # TODO: translate error message
   def check_content_format
+    # TODO: is this operators unusable?
     content_format_description = CONTENT_FORMATS.find do |i|
       i[:format] == content_format.to_sym
     end
-    content_with_prefix= if content_format_description.fetch(:check_prefix, false)
+    content_with_prefix = if content_format_description.fetch(:check_prefix, false)
       "#{content_format}:#{content}"
     else
       content
