@@ -43,6 +43,7 @@ class InvestigationReport < BaseReport
     end
 
     r.style id: 'TextMainHeader', name: 'TextMainHeader' do
+      font 'Times New Roman'
       type 'character'
       size 28
       bold true
@@ -50,6 +51,7 @@ class InvestigationReport < BaseReport
     end
 
     r.style id: 'TextHeader', name: 'TextHeader' do
+      font 'Times New Roman'
       type 'character'
       size 24
       bold true
@@ -57,11 +59,13 @@ class InvestigationReport < BaseReport
     end
 
     r.style id: 'TextContent', name: 'TextContent' do
+      font 'Times New Roman'
       type 'character'
       size 24
     end
 
     r.style id: 'TextContentDanger', name: 'TextContentDanger' do
+      font 'Times New Roman'
       type 'character'
       size 24
       color 'B03A2E'
@@ -119,7 +123,7 @@ class InvestigationReport < BaseReport
     r.p style: 'ParagraphBreak'
 
     r.p style: 'ParagraphContent' do
-      description = investigation.description.split("\n")
+      description = investigation.description.split("\n")&.map { |i| i.remove("\r") }
       description.each do |d|
        text d, style: 'TextContent'
        br if d != description.last
