@@ -3,7 +3,8 @@
   = r.show :ip, value: r.decorated.show_ip
   = r.show :organization_id do
     = link_to @record.organization&.name, @record.organization
-  = r.show :description
+  = r.show :description do
+    = simple_format @record.description
   = r.show :created_at do
     =< show_date_time(@record.created_at)
   = r.show :updated_at do

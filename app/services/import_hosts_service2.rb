@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
   CSV_HEADERS = %i[
-    ip
     organization
+    ip
+    mask
+    ports
+    provider
     description
+    location
   ]
 
-class ImportHostsService
+class ImportHostsService2
   def self.call(*args, &block)
     new(*args, &block).execute
   end
@@ -77,7 +81,7 @@ class ImportHostsService
     attributes = {}
     attributes[:name] = row[:ip]
     attributes[:ip] = row[:ip]
-    attributes[:description] = row[:description]
+    attributes[:description] = description(row)
     attributes[:current_user] = @current_user
     if row[:organization].present?
       attributes[:organization_id] = Organization.where(name: row[:organization]).first.id
@@ -85,5 +89,22 @@ class ImportHostsService
       attributes[:organization_id] = @organization_id
     end
     attributes
+  end
+
+  def description(row)
+    result = []
+    result << "Назначение: #{row[:description]}" if row[:description].present?
+    result << "Маска: #{row[:mask]}" if row[:mask].present?
+    result << "Порты: #{row[:ports]}" if row[:ports].present?
+    result << "Провайдер: #{row[:provider]}" if row[:provider].present?
+    result << "Локация: #{row[:location]}" if row[:location].present?
+    result.join("\n")
+#    <<~TEXT
+#      Назначение: #{row[:description]}
+#      Маска: #{row[:mask]}
+#      Порты: #{row[:ports]}
+#      Провайдер: #{row[:provider]}
+#      Локация: #{row[:location]}
+#    TEXT
   end
 end
