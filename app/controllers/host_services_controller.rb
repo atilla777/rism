@@ -41,6 +41,9 @@ class HostServicesController < ApplicationController
 
   def records(scope)
     scope = HostService.records_scope
+    if @organization.id.present?
+      scope = scope.where(organization_id: @organization.id)
+    end
     scope = policy_scope(scope)
     @q = scope.ransack(params[:q])
     @q.sorts = default_sort if @q.sorts.empty?
@@ -54,7 +57,7 @@ class HostServicesController < ApplicationController
   end
 
   def records_includes
-    %i[organization host]
+    %i[organization host host_service_status]
   end
 
   def preset_record
