@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module User::DeviseConfig
+module User::AuthlogicConfig
   extend ActiveSupport::Concern
 
   PASSWD_REGEXP =/[-!\@$%^&*()_+|~=`{}\[\]:";'<>?,.\/\\]/

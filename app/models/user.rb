@@ -3,7 +3,7 @@
 class User < ApplicationRecord
   include OrganizationMember
   include User::HasRole
-  include User::DeviseConfig
+  include AuthlogicConfig
   include Linkable
   include Tagable
   include Attachable
