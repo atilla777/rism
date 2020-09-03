@@ -32,9 +32,12 @@ module Api
         @record = last_result
         check_report_existence
         raise ReportFileNotFoundError unless authorize @record
+        format = "text/#{@record.custom_report.result_format}"
+        encoding = @record.custom_report.utf_encoding ? 'utf-8' : 'windows-1251'
         send_file(
           @record.result_file_path,
           filename: @record.result_path,
+          type: "text/#{format}; charset=#{encoding}",
           disposition: 'attachment',
           x_sendfile: true
         )
