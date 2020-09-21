@@ -1,0 +1,17 @@
+ru:
+  activerecord:
+    models:
+      agent:
+        one: 'Агент'
+        other: 'Агенты'
+    attributes:
+      agent:
+        name: 'Название'
+        address: 'IP адресс'
+        hostname: 'Имя хоста'
+        port: 'Номер порта'
+        secret: 'Секретный ключ'
+        name: 'Название'
+        created_at: 'Дата создания'
+        organization_id: 'Организация'
+        description: 'Описание'

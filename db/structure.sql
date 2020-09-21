@@ -171,6 +171,43 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: agents; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.agents (
+    id bigint NOT NULL,
+    organization_id bigint,
+    name character varying,
+    address cidr,
+    hostname character varying,
+    port character varying,
+    secret character varying,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: agents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.agents_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: agents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.agents_id_seq OWNED BY public.agents.id;
+
+
+--
 -- Name: agreement_kinds; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1529,7 +1566,8 @@ CREATE TABLE public.scan_jobs (
     ports character varying,
     description text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    agent_id bigint
 );
 
 
@@ -2296,6 +2334,13 @@ ALTER SEQUENCE public.vulnerability_kinds_id_seq OWNED BY public.vulnerability_k
 
 
 --
+-- Name: agents id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agents ALTER COLUMN id SET DEFAULT nextval('public.agents_id_seq'::regclass);
+
+
+--
 -- Name: agreement_kinds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2699,6 +2744,14 @@ ALTER TABLE ONLY public.vulnerability_bulletins ALTER COLUMN id SET DEFAULT next
 --
 
 ALTER TABLE ONLY public.vulnerability_kinds ALTER COLUMN id SET DEFAULT nextval('public.vulnerability_kinds_id_seq'::regclass);
+
+
+--
+-- Name: agents agents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agents
+    ADD CONSTRAINT agents_pkey PRIMARY KEY (id);
 
 
 --
@@ -3179,6 +3232,13 @@ ALTER TABLE ONLY public.vulnerability_bulletins
 
 ALTER TABLE ONLY public.vulnerability_kinds
     ADD CONSTRAINT vulnerability_kinds_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_agents_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_agents_on_organization_id ON public.agents USING btree (organization_id);
 
 
 --
@@ -3795,6 +3855,13 @@ CREATE INDEX index_scan_jobs_hosts_on_host_id ON public.scan_jobs_hosts USING bt
 --
 
 CREATE INDEX index_scan_jobs_hosts_on_scan_job_id ON public.scan_jobs_hosts USING btree (scan_job_id);
+
+
+--
+-- Name: index_scan_jobs_on_agent_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_scan_jobs_on_agent_id ON public.scan_jobs USING btree (agent_id);
 
 
 --
@@ -4499,6 +4566,14 @@ ALTER TABLE ONLY public.delivery_recipients
 
 
 --
+-- Name: scan_jobs fk_rails_8409e65387; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.scan_jobs
+    ADD CONSTRAINT fk_rails_8409e65387 FOREIGN KEY (agent_id) REFERENCES public.agents(id);
+
+
+--
 -- Name: notifications_logs fk_rails_86ff37d580; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4584,6 +4659,14 @@ ALTER TABLE ONLY public.vulnerability_bulletins
 
 ALTER TABLE ONLY public.host_services
     ADD CONSTRAINT fk_rails_ad13b6d403 FOREIGN KEY (host_service_status_id) REFERENCES public.host_service_statuses(id);
+
+
+--
+-- Name: agents fk_rails_b081040964; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agents
+    ADD CONSTRAINT fk_rails_b081040964 FOREIGN KEY (organization_id) REFERENCES public.organizations(id);
 
 
 --
@@ -4869,6 +4952,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200522064856'),
 ('20200526072228'),
 ('20200528111802'),
-('20200528132834');
+('20200528132834'),
+('20200921061604'),
+('20200921101622');
 
 

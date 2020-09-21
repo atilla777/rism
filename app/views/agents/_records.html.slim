@@ -1,0 +1,12 @@
+= index_search :name_or_hostname_or_organization_name_cont, organization_id_eq: @organization&.id
+= index_for records do |t|
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - t.header attribute: :hostname, sort: :desc
+  - t.header attribute: :address, sort: :desc
+  - t.header attribute: :port, sort: :desc
+  - t.field { |record| link_to(record.name, record) }
+  - t.field { |record| link_to record.organization.name, record.organization }
+  - t.field { |record| link_to record.hostname, record}
+  - t.field { |record| link_to record.address, record}
+  - t.field { |record| link_to record.port, record}

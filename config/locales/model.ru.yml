@@ -49,9 +49,6 @@ ru:
       scan_option:
         one: 'Набор опций сканирования'
         other: 'Наборы опций сканирования'
-      scan_job:
-        one: 'Работа по сканированию'
-        other: 'Работы по cканированию'
       schedule:
         one: 'Расписание работы'
         other: 'Расписания работ'
@@ -176,15 +173,6 @@ ru:
         insane_timing: 'Безумный тайминг (-T5)'
         disable_dns: 'Не разрешать имя хоста (-n)'
         queue_number: 'Приоритет очереди'
-      scan_job:
-        name: 'Название'
-        organization_id: 'Организация'
-        scan_engine: 'Движок сканирования'
-        scan_option_id: 'Набор опций сканирования nmap'
-        hosts: 'Хосты'
-        ports: 'Порты'
-        add_organization_hosts: 'Добавить все хосты организации'
-        description: 'Описание'
       schedule:
         job: 'Работа'
         minutes: 'Минуты'

@@ -1,0 +1,61 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      = hidden_field_tag :template_id, @template_id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :organization_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag :organization, '', autocomplete_organizations_path, id_element: '#agent_organization_id',  class: 'form-control', autocomplete: :off, value: (@record.organization&.name || @organization&.name), readonly: @organization&.id.present?
+            = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :name, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :address, class: 'control-label'
+          .col-lg-8
+            = f.text_field :address, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :hostname, class: 'control-label'
+          .col-lg-8
+            = f.text_field :hostname, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :port, class: 'control-label'
+          .col-lg-8
+            = f.number_field :port, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :secret, class: 'control-label'
+          .col-lg-8
+            = f.password_field :secret, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, rows: 8, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = render 'form_back_button'

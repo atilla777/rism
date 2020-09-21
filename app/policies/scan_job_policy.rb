@@ -4,6 +4,7 @@ class ScanJobPolicy < ApplicationPolicy
        organization_id
        scan_engine
        scan_option_id
+       agent_id
        hosts
        ports
        description

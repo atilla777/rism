@@ -13,7 +13,8 @@
             'DeliveryList',
             'VulnerabilityKind',
             'VulnerabilityBulletinKind',
-            'VulnerabilityBulletinStatus']
+            'VulnerabilityBulletinStatus',
+            'Agent']
 = menu_li(models: models,
   html_class: 'dropdown',
   role: 'presentation') do
@@ -116,3 +117,9 @@
           = fa_icon 'book'
           =< fa_icon 'bug'
           =< VulnerabilityBulletinStatus.model_name.human(count: 2)
+    = menu_li(models: 'Agent') do
+      = link_to agents_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'child'
+          =< Agent.model_name.human(count: 2)

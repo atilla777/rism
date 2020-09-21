@@ -254,6 +254,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :agents
+
   require 'sidekiq/web'
 
   mount Sidekiq::Web => '/sidekiq', constraints: AdminSidekiqWebConstraint.new

@@ -16,6 +16,7 @@ class ScanJob < ApplicationRecord
   validates :name, length: { minimum: 3, maximum: 100 }
   validates :name, uniqueness: { scope: :organization_id }
   validates :scan_option_id, numericality: { only_integer: true }
+  validates :agent_id, numericality: { only_integer: true, allow_blank: true }
 
   belongs_to :scan_option
 
@@ -27,6 +28,8 @@ class ScanJob < ApplicationRecord
   has_many :linked_hosts, through: :scan_jobs_hosts, source: :host
 
   has_many :scan_job_logs, dependent: :delete_all
+
+  belongs_to :agent, optional: true
 
   def self.scan_engines
     SCAN_ENGINES

@@ -1,0 +1,17 @@
+ru:
+  activerecord:
+    models:
+      scan_job:
+        one: 'Работа по сканированию'
+        other: 'Работы по cканированию'
+    attributes:
+      scan_job:
+        name: 'Название'
+        organization_id: 'Организация'
+        scan_engine: 'Движок сканирования'
+        scan_option_id: 'Набор опций сканирования nmap'
+        agent_id: 'Агент'
+        hosts: 'Хосты'
+        ports: 'Порты'
+        add_organization_hosts: 'Добавить все хосты организации'
+        description: 'Описание'

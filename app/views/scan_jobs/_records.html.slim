@@ -1,4 +1,4 @@
-= index_search :name_or_organization_name_or_scan_engine_or_scan_option_name_cont, organization_id_eq: @organization&.id
+= index_search :name_or_organization_name_or_scan_engine_or_scan_option_name_or_agent_name_cont, organization_id_eq: @organization&.id
 = command_button_for records, organization_id: @organization.id
 = report_button_for @records, organization_id: @organization.id
 = index_for records, decorator: ScanJobDecorator, actions: false do |t|
@@ -6,12 +6,16 @@
   - t.header attribute: :scan_engine, sort_by: :scan_engine, sort: :desc
   - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
   - t.header attribute: :scan_option_id, sort_by: :scan_option_name, sort: :desc
+  - t.header attribute: :agent_id, sort_by: :agent_name, sort: :desc
   - t.header attribute: :scan_job_logs, label: t('labels.scan_jobs.working_planned_count')
   - t.header fit: true
   - t.field { |record| link_to record.name, record }
   - t.field { |record| link_to record.scan_engine, record }
   - t.field { |record| link_to record.organization.name, record.organization }
   - t.field { |record| link_to record.scan_option.name, record.scan_option}
+  - t.field do |record|
+    - if @record&.agent.present?
+      = link_to record&.agent&.name, record&.agent
   - t.field do |record|
     => link_to record.show_working_count, scan_job_logs_path(job_id: record.id)
     = record.show_separator

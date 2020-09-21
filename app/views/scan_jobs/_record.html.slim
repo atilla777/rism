@@ -10,6 +10,9 @@
   = r.show :scan_engine
   = r.show :scan_option_id do
     =link_to @record.scan_option.name, @record.scan_option
+  = r.show :agent_id do
+    - if @record&.agent.present?
+      =link_to @record&.agent&.name, @record&.agent
   = r.show :hosts
   = r.show :ports
   = r.show :description
