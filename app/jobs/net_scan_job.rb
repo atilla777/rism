@@ -1,5 +1,5 @@
 class NetScanJob < ApplicationJob
-  Sidekiq.default_worker_options = { 'retry' => 2 }
+  Sidekiq.default_worker_options = {'retry' => 2}
 
   queue_as do
     arg = self.arguments.second
@@ -12,7 +12,7 @@ class NetScanJob < ApplicationJob
 
   def perform(*args)
     job = ScanJob.find(args[0])
-    log_scan_job(:start, job.id, jid, args[1])
+    ScanJobLog.log(:start, job.id, jid, args[1])
     if job.agent.present?
       NetScan::AgentScan.new(job, jid).run
     else

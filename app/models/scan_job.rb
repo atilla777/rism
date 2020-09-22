@@ -39,7 +39,6 @@ class ScanJob < ApplicationRecord
     'NetScanJob'
   end
 
-  #def job_queue(queue)
   def job_queue(queue = 'scheduled_scan')
     if scan_engine == 'shodan' && ENV['FREE_SHODAN'] == 'true'
       'free_shodan_scan'
@@ -51,6 +50,32 @@ class ScanJob < ApplicationRecord
   def targets
     hosts_from_scan_job = hosts.split(',').map(&:strip)
     hosts_from_scan_job | linked_hosts.pluck(:ip).map(&:to_s)
+  end
+
+  def nmap_options_string
+    opt_map = {
+      syn_scan: '-sS',
+      skip_discovery: '-Pn',
+      udp_scan: "-sU",
+      service_scan: "-sV",
+      os_fingerprint: "-O",
+      aggressive_timing: "-T4",
+      insane_timing: "-T5",
+      disable_dns: "-n"
+    }
+    opt = scan_option.options.each_with_object(["#{hosts}"]) do |(opt_key, opt_value), memo|
+      if opt_key == "top_ports"
+        memo << "--top-ports #{opt_value}"
+      elsif opt_key == "ports" && opt_value.present? && ports.empty?
+        memo << "-p #{opt_value}"
+      elsif opt_map[opt_key.to_sym].present?
+        memo << opt_map[opt_key.to_sym]
+      end
+    end
+    if ports.present?
+      opt << "-p #{ports}"
+    end
+    opt.join(" ")
   end
 
   private

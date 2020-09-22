@@ -22,10 +22,11 @@
 
       .form-group.required
         .field
-          .col-lg-2.text-right
-            = f.label :address, class: 'control-label'
-          .col-lg-8
-            = f.text_field :address, class: 'form-control'
+            .col-lg-2.text-right
+              = f.label :protocol, class: 'control-label'
+            .col-lg-2
+              = f.select(:protocol,
+                Agent.protocols.keys.collect { |p| [Agent.human_enum_name(:protocol, p), p] }, { selected: @record.protocol || :https }, class: 'form-control')
 
       .form-group.required
         .field
@@ -33,6 +34,13 @@
             = f.label :hostname, class: 'control-label'
           .col-lg-8
             = f.text_field :hostname, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :address, class: 'control-label'
+          .col-lg-8
+            = f.text_field :address, class: 'form-control'
 
       .form-group.required
         .field

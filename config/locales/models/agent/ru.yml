@@ -9,6 +9,10 @@ ru:
         name: 'Название'
         address: 'IP адресс'
         hostname: 'Имя хоста'
+        protocol: 'Протокол'
+        protocols:
+          http: 'http'
+          https: 'https'
         port: 'Номер порта'
         secret: 'Секретный ключ'
         name: 'Название'

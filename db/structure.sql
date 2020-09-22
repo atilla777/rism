@@ -110,6 +110,16 @@ CREATE TYPE public.indicator_trust_level AS ENUM (
 
 
 --
+-- Name: net_protocol; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.net_protocol AS ENUM (
+    'http',
+    'https'
+);
+
+
+--
 -- Name: vuln_actuality; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -180,6 +190,7 @@ CREATE TABLE public.agents (
     name character varying,
     address cidr,
     hostname character varying,
+    protocol public.net_protocol,
     port character varying,
     secret character varying,
     description text,

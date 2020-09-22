@@ -17,10 +17,25 @@ class NetScan::AgentScan
   end
 
   def run
-    response = http_request(uri)
-    #ScanJobLog.delete_log(:finish, job.id, jid, args[1] )
-    check_and_return_http_response(response)
-    # TODO log httparty error, delete log if error
+    response = HTTParty.post(uri, httparty_options)
+    result = JSON.parse(response.body)
+    m = message(result)
+    if response.code != 200 || result['message'] != 'accepted'
+      raise StandardError.new "Aget don`t accept job: #{response.code} - #{m}"
+    end
+  rescue StandardError => error
+     log_error("Agent error: #{error}")
+     # TODO delete job from log
+  end
+
+  def message(result)
+    if result['message'].present?
+      result['message']
+    elsif result['error'].present?
+      result['error']
+    else
+      nil
+    end
   end
 
   private
@@ -34,7 +49,11 @@ class NetScan::AgentScan
 
   # Cast request URI
   def uri
-    host = @agent.hostname || @agent.address
+    host = if @agent.hostname.present?
+              @agent.hostname
+           else
+              @agent.address
+           end
     port = @agent.port
     protocol = @agent.protocol || 'http'
     path = 'scans'
@@ -43,7 +62,7 @@ class NetScan::AgentScan
 
   def http_request(uri)
     HTTParty.post(uri, httparty_options)
-  rescue e
+  rescue StandardError => error
     log_error("API can`t be used - #{error}")
     {httparty_error: error}
   end
@@ -54,41 +73,13 @@ class NetScan::AgentScan
       .merge(data)
   end
 
-  def auth_options
-    {headers: {uthorization: "Bearer #{@agent.secret}"}}
+  def headers
+    {headers: {authorization: "Bearer #{@agent.secret}"}}
   end
 
+  # Data sended in post form
   def data
-    {query: {id: @jid, options: nmap_options}}
-  end
-
-  def nmap_options
-    opt_map = {
-      syn_scan: '-sS',
-      skip_discovery: '-Pn',
-      udp_scan: "-sU",
-      service_scan: "-sS",
-      os_fingerprint: "-O",
-      aggressive_timing: "-T4",
-      insane_timing: "-T5",
-      disable_dns: "-n"
-    }
-    #TODO
-#{"syn_scan"=>"1", "skip_discovery"=>"1", "udp_scan"=>"1", "service_scan"=>"0", "os_fingerprint"=>"0", "top_ports"=>"100", "aggressive_timing"=>"1", "insane_timing"=>"0", "disable_dns"=>"1", "ports"=>""}
-    opt = @job.options.each_with_object(["#{job.hosts}"]) do |opt_key, opt_value, memo|
-      if opt_key == "top_ports"
-        memo << "#{--top-ports} #{opt_value}"
-      elsif opt_key == "ports" && @job.ports.empty?
-        memo << "#{-p} #{opt_value}"
-      elsif opt_map[opt_key.to_sym].present?
-        memo << opt_map[opt_key.to_sym]
-      end
-
-    end
-    if @job.ports.present?
-      opt << "-p #{@job.ports}"
-    end
-    opt.join(" ")
+    {query: {id: @jid, options: @job.nmap_options_string}}
   end
 
   def proxy_options
@@ -103,11 +94,6 @@ class NetScan::AgentScan
     else
       {}
     end
-  end
-
-  def check_and_return_http_response(response)
-    return {http_error: response.code} if response.code != 200
-    JSON.parse(response.body)
   end
 
   # Log httparty errors in file

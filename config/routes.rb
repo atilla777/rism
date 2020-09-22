@@ -251,6 +251,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :custom_reports_api, only: [:show]
+      resources :ra_api, only: [:create]
     end
   end
 

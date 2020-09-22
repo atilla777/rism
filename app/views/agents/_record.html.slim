@@ -1,10 +1,12 @@
 = show_for @record do |r|
   = r.show :name
-  = r.show :address
   = r.show :hostname
+  = r.show :address
+  = r.show :protocol do
+    = Agent.human_enum_name(:protocol, @record.protocol)
   = r.show :port
   = r.show :organization_id do
-    = link_to @record.organization&.name, record.organization
+    = link_to @record.organization&.name, @record.organization
   = r.show :description
 
 = render 'application/record_versions'
