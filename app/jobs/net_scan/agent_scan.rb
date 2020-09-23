@@ -24,8 +24,9 @@ class NetScan::AgentScan
       raise StandardError.new "Aget don`t accept job: #{response.code} - #{m}"
     end
   rescue StandardError => error
-     log_error("Agent error: #{error}")
      # TODO delete job from log
+     log_error("Agent error: #{error}")
+     raise
   end
 
   def message(result)

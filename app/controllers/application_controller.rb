@@ -104,6 +104,9 @@ class ApplicationController < ActionController::Base
       end
       activity.params = params.except('file', 'upload', 'attached_file')
     end
+    if controller_name == 'ra_api'
+      activity.params = nil
+    end
     activity.skip_current_user_check = true
     activity.save!
   rescue ActiveRecord::RecordInvalid

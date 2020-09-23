@@ -68,7 +68,7 @@ class ScanJob < ApplicationRecord
         memo << "--top-ports #{opt_value}"
       elsif opt_key == "ports" && opt_value.present? && ports.empty?
         memo << "-p #{opt_value}"
-      elsif opt_map[opt_key.to_sym].present?
+      elsif opt_value == '1' && opt_map[opt_key.to_sym]
         memo << opt_map[opt_key.to_sym]
       end
     end
