@@ -1,4 +1,13 @@
 class ScanJobLogPolicy < ApplicationPolicy
+  def permitted_attributes
+      %i[jid
+         scan_job_id
+         agent_id
+         queue
+         start
+         finish]
+  end
+
   def run?
     create?
   end

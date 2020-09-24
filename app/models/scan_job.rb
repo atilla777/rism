@@ -63,19 +63,30 @@ class ScanJob < ApplicationRecord
       insane_timing: "-T5",
       disable_dns: "-n"
     }
-    opt = scan_option.options.each_with_object(["#{hosts}"]) do |(opt_key, opt_value), memo|
+    h = targets.join(" ")
+    opt = scan_option.options.each_with_object(["#{h}"]) do |(opt_key, opt_value), memo|
       if opt_key == "top_ports"
         memo << "--top-ports #{opt_value}"
       elsif opt_key == "ports" && opt_value.present? && ports.empty?
-        memo << "-p #{opt_value}"
+        memo << "-p #{ScanJob.normalize_ports(port_value).join(',')}"
       elsif opt_value == '1' && opt_map[opt_key.to_sym]
         memo << opt_map[opt_key.to_sym]
       end
     end
     if ports.present?
-      opt << "-p #{ports}"
+      opt << "-p #{ScanJob.normalize_ports(ports).join(',')}"
     end
     opt.join(" ")
+  end
+
+  def self.normalize_ports(ports)
+    ports.split(',').map do |port|
+      if port.include?('-')
+        Range.new(*port.split('-').map(&:to_i))
+      else
+        port.to_i
+      end
+    end
   end
 
   private

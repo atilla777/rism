@@ -21,4 +21,5 @@ class Agent < ApplicationRecord
   validates :secret, presence: true
 
   has_many :scan_jobs
+  has_many :scan_job_logs
 end

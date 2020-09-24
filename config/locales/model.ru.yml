@@ -52,9 +52,6 @@ ru:
       schedule:
         one: 'Расписание работы'
         other: 'Расписания работ'
-      scan_job_log:
-        one: 'История работы по сканированию'
-        other: 'История работ по сканированию'
       scan_jobs_host:
         one: 'Сканируемый хост/сеть'
         other: 'Сканируемые хосты/сети'
@@ -181,12 +178,6 @@ ru:
         months: 'Месяцы'
         month_days: 'Дни месяца'
         crontab_line: 'Расписание в формате crontab'
-      scan_job_log:
-        scan_job_id: 'Работа по сканированию'
-        jid: 'ID фонового процесса'
-        start: 'Начало'
-        finish: 'Окончание'
-        queue: 'Очередь фонового порцесса'
       feed:
         name: 'Имя'
         description: 'Описание'

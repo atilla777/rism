@@ -29,7 +29,8 @@ class ScanResultPolicy < ApplicationPolicy
       product
       product_version
       product_extrainfo
-      vulns]
+      vulns
+      jid]
   end
 
   class Scope

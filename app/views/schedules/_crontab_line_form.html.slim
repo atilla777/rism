@@ -12,3 +12,4 @@
       = label_tag :crontab_line, Schedule.human_attribute_name(:crontab_line), class: 'control-label'
       =< text_field_tag :crontab_line, @record.crontab_line, class: 'form-control', style: 'width:60%; display:inline', placeholder: t('placeholders.schedules.crontab_line')
       =< submit_tag t('helpers.submit.save'), class: 'btn btn-success'
+  br

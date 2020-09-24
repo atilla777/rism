@@ -70,6 +70,9 @@ class ApplicationController < ActionController::Base
   end
 
   def log_user_action
+    #  Comment string below if you want log RA (rism agent) actions
+    return if controller_name == 'ra_api'
+
     activity = UserAction.new
     activity.created_at = DateTime.now
     activity.current_user = current_user

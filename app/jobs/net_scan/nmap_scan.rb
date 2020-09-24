@@ -37,9 +37,9 @@ class NetScan::NmapScan
   def scan_options
     result = @job.scan_option.options.select { |_key, value| value.to_i.nonzero? }
     ports = if @job.ports.present?
-              normalize_ports(@job.ports)
+              ScanJob.normalize_ports(@job.ports)
             elsif result[:ports].present?
-              normalize_ports(result[:ports])
+              ScanJob.normalize_ports(result[:ports])
             end
     top_ports = result[:top_ports] if result[:top_ports].present?
     result.update(result) do |key, value|
@@ -53,16 +53,6 @@ class NetScan::NmapScan
       result[:top_ports] = top_ports.to_i
     end
     result
-  end
-
-  def normalize_ports(ports)
-    ports.split(',').map do |port|
-      if port.include?('-')
-        Range.new(*port.split('-').map(&:to_i))
-      else
-        port.to_i
-      end
-    end
   end
 
   # parse result_file_name and save to database

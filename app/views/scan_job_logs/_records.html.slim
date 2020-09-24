@@ -6,6 +6,7 @@
   - t.header attribute: :finish, sort: :desc, sort_by: :finish, sort_array: [:finish, 'start desc']
   - t.header attribute: :distance, label: t('labels.scan_job_logs.distance'), sort: :desc, sort_by: :distance
   - t.header attribute: :scan_job_name, label: ScanJobLog.human_attribute_name(:scan_job_id), sort: :desc
+  - t.header attribute: :agent_name, label: ScanJobLog.human_attribute_name(:agent_id), sort: :desc
   - t.header attribute: :queue, sort: :desc
   - t.header attribute: :jid, sort: :desc
   - t.field do |record|
@@ -41,5 +42,8 @@
   - t.field { |record| link_to(show_date_time(record.finish), record.scan_job )}
   - t.field { |record| link_to(record.show_distance, record.scan_job )}
   - t.field { |record| link_to(record.scan_job.name, record.scan_job) }
+  - t.field do |record|
+    - if record.agent.present?
+      = link_to record.agent.name, record.agent
   - t.field { |record| link_to(record.queue, record.scan_job) }
   - t.field { |record| link_to(record.jid, search_scan_results_path(:'q[scan_job_name_cont]' => record.scan_job.name, :'q[jid_eq]' => record.jid), method: :post) }

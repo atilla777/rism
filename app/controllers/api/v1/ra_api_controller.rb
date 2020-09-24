@@ -13,27 +13,35 @@ module Api
       skip_before_action :authenticate?
       skip_after_action :verify_authorized
 
+      class RaDataError < StandardError; end
+
       def create
-        jid = params['jid']
+        @jid = params['jid']
         @result = params
         unless @result['hosts'].present?
-          puts @result['hosts']
-          raise StandardError.new('Ra return wrong data.')
+          raise RaDataError.new('Ra return data without hosts.')
         end
-        @job_log = ScanJobLog.where(jid: jid).first
+        @job_log = ScanJobLog.where(jid: @jid).first
+        unless @job_log.present?
+          raise RaDataError.new('Job log record not found.')
+        end
         @job = @job_log.scan_job
+        unless @job.present?
+          raise RaDataError.new('Job record not found.')
+        end
         @job_start = @job_log.start
         @admin = User.find(1)
         save_result
-        if true
-          render json: {message: 'accepted'}.to_json
-        else
-          render_error(error: 'API server error.', status: :internal_server_error, status_code: 500)
+        unless ScanJobLog.log(:finish, @job.id, @jid) 
+          raise RaDataError.new('Scan job log can`t be saved.')
         end
-#      rescue Pundit::NotAuthorizedError
-#        render_error(error: 'You are not allowed to use this API.', status: :unauthorized, status_code: 401)
-#      rescue StandardError => error
-#        render_error(error: error, status: :internal_server_error, status_code: 500)
+        render json: {message: 'accepted'}.to_json
+       rescue RaDataError => e
+         render_error(error: e.message, status: :not_acceptable, status_code: 406)
+       rescue Pundit::NotAuthorizedError
+         render_error(error: 'You are not allowed to use this API.', status: :unauthorized, status_code: 401)
+       rescue StandardError => error
+         render_error(error: error, status: :internal_server_error, status_code: 500)
       end
 
       private
@@ -88,7 +96,6 @@ module Api
           product: port.dig('service', 'product'),
           product_version: port.dig('service', 'version'),
           product_extrainfo: port.dig('service', 'extrainfo'),
-          #vulners: NetScan::FormatVulners.new(service, :shodan).format,
           jid: @jid
         }
       end

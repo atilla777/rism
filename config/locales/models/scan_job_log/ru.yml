@@ -1,0 +1,14 @@
+ru:
+  activerecord:
+    models:
+      scan_job_log:
+        one: 'История работы по сканированию'
+        other: 'История работ по сканированию'
+    attributes:
+      scan_job_log:
+        scan_job_id: 'Работа по сканированию'
+        agent_id: 'Агент'
+        jid: 'ID фонового процесса'
+        start: 'Начало'
+        finish: 'Окончание'
+        queue: 'Очередь фонового порцесса'

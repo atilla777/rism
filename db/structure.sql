@@ -1540,7 +1540,8 @@ CREATE TABLE public.scan_job_logs (
     start timestamp without time zone,
     finish timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    agent_id bigint
 );
 
 
@@ -3848,6 +3849,13 @@ CREATE UNIQUE INDEX index_roles_on_name ON public.roles USING btree (name);
 
 
 --
+-- Name: index_scan_job_logs_on_agent_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_scan_job_logs_on_agent_id ON public.scan_job_logs USING btree (agent_id);
+
+
+--
 -- Name: index_scan_job_logs_on_scan_job_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4489,6 +4497,14 @@ ALTER TABLE ONLY public.scan_jobs
 
 
 --
+-- Name: scan_job_logs fk_rails_5a33b40f4d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.scan_job_logs
+    ADD CONSTRAINT fk_rails_5a33b40f4d FOREIGN KEY (agent_id) REFERENCES public.agents(id);
+
+
+--
 -- Name: incidents fk_rails_5b1d913b7c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4965,6 +4981,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200528111802'),
 ('20200528132834'),
 ('20200921061604'),
-('20200921101622');
+('20200921101622'),
+('20200924092210');
 
 
