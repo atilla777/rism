@@ -17,6 +17,7 @@ module Api
 
       def create
         @jid = params['jid']
+        @externalip = params['externalip']
         @result = params
         unless @result['hosts'].present?
           raise RaDataError.new('Ra return data without hosts.')
@@ -96,7 +97,8 @@ module Api
           product: port.dig('service', 'product'),
           product_version: port.dig('service', 'version'),
           product_extrainfo: port.dig('service', 'extrainfo'),
-          jid: @jid
+          jid: @jid,
+          source_ip: @externalip
         }
       end
 
@@ -116,7 +118,8 @@ module Api
           product_version: '',
           product_extrainfo: '',
           vulners: [],
-          jid: @jid
+          jid: @jid,
+          source_ip: @externalip
         }
       end
 

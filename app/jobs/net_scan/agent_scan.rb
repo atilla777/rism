@@ -9,8 +9,8 @@ class NetScan::AgentScan
     @jid = jid
     @agent = job.agent
     @job_start = DateTime.now
-    @verify_tls = if ENV['HTTPARTY_VERIFY_TLS']
-      ActiveModel::Type::Boolean.new.cast(ENV['HTTPARTY_VERIFY_TLS'])
+    @verify_tls = if ENV['HTTPARTY_VERIFY_RA_TLS']
+      ActiveModel::Type::Boolean.new.cast(ENV['HTTPARTY_VERIFY_RA_TLS'])
     else
       true
     end
@@ -72,6 +72,7 @@ class NetScan::AgentScan
     {}.merge(headers)
       .merge(proxy_options)
       .merge(data)
+      .merge(verify: @verify_tls)
   end
 
   def headers
@@ -86,11 +87,10 @@ class NetScan::AgentScan
   def proxy_options
     if ENV['RA_PROXY_SERVER']
       {
-        verify: @verify_tls,
-        http_proxyaddr: ENV['PROXY_SERVER'],
-        http_proxyport: ENV['PROXY_PORT'],
-        http_proxyuser: ENV['PROXY_USER'],
-        http_proxypass: ENV['PROXY_PASSWORD']
+        http_proxyaddr: ENV['RA_PROXY_SERVER'],
+        http_proxyport: ENV['RA_PROXY_PORT'],
+        http_proxyuser: ENV['RA_PROXY_USER'],
+        http_proxypass: ENV['RA_PROXY_PASSWORD']
       }
     else
       {}

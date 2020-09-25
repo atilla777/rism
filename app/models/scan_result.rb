@@ -12,7 +12,8 @@ class ScanResult < ApplicationRecord
   enum state: %i[closed closed_filtered filtered unfiltered open_filtered open]
   serialize :vulns, Hash
 
-  before_save :set_source_ip, :set_engine
+  before_save :set_source_ip
+  before_save :set_engine
 
   validates :scan_job_id, numericality: { only_integer: true }
   validates :start, presence: true
@@ -76,6 +77,7 @@ class ScanResult < ApplicationRecord
   private
 
   def set_source_ip
+    return if source_ip.present?
     external_ip = ExternalIP.new.run
     if external_ip.present?
       self.source_ip = external_ip
