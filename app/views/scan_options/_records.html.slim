@@ -5,5 +5,5 @@
   - t.header attribute: :queue_number
   - t.field { |record| link_to(record.name, record) }
   - t.field do |record|
-    = record.options
+    = record.nmap_options_string
   - t.field { |record| link_to(record.queue_number, record) }

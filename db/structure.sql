@@ -65,25 +65,25 @@ CREATE TYPE public.custom_report_format AS ENUM (
 --
 
 CREATE TYPE public.indicator_content_format AS ENUM (
+    'filename',
+    'filesize',
+    'process',
+    'account',
+    'email_theme',
+    'email_content',
+    'uri',
+    'domain',
+    'email_author',
+    'registry',
     'other',
     'network_service',
     'network',
     'network_port',
     'email_adress',
-    'email_author',
-    'email_theme',
-    'email_content',
-    'uri',
-    'domain',
     'md5',
     'sha1',
     'sha256',
-    'sha512',
-    'filename',
-    'filesize',
-    'process',
-    'account',
-    'registry'
+    'sha512'
 );
 
 
