@@ -16,6 +16,8 @@ module Api
       class RaDataError < StandardError; end
 
       def create
+        raise Pundit::NotAuthorizedError unless authorize :ra_agent_api
+        authorize :ra_agent_api
         @jid = params['jid']
         @externalip = params['externalip']
         @result = params

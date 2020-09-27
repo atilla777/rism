@@ -2,15 +2,14 @@
 
 class NetScan::AgentScan
   require 'httparty'
-  #require 'ipaddr'
 
   def initialize(job, jid)
     @job = job
     @jid = jid
     @agent = job.agent
     @job_start = DateTime.now
-    @verify_tls = if ENV['HTTPARTY_VERIFY_RA_TLS']
-      ActiveModel::Type::Boolean.new.cast(ENV['HTTPARTY_VERIFY_RA_TLS'])
+    @verify_tls = if ENV['RA_HTTPARTY_VERIFY_TLS']
+      ActiveModel::Type::Boolean.new.cast(ENV['RA_HTTPARTY_VERIFY_TLS'])
     else
       true
     end
@@ -24,7 +23,6 @@ class NetScan::AgentScan
       raise StandardError.new "Aget don`t accept job: #{response.code} - #{m}"
     end
   rescue StandardError => error
-     # TODO delete job from log
      log_error("Agent error: #{error}")
      raise
   end

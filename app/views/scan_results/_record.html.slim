@@ -1,6 +1,7 @@
 = show_for @record do |r|
   = r.show :scan_job_id do
-    = "#{@record.scan_job.name} (#{@record.scan_job.scan_engine})"
+    = link_to @record.scan_job do
+      = "#{@record.scan_job&.name} (#{@record.scan_job&.scan_engine})"
   = r.show :jid do
     = link_to(@record.jid, search_scan_results_path(:'q[scan_job_name_cont]' => @record.scan_job.name, :'q[jid_eq]' => @record.jid), method: :post)
   = r.show :finished do
@@ -13,8 +14,6 @@
   = r.show :scan_engine
   = r.show :organization_id do
     = link_to @record.organization&.name, @record.organization
-  = r.show :scan_job_id do
-    = link_to @record.scan_job&.name, @record.scan_job
   = r.show :ip
   = r.show :protocol
   = r.show :port
