@@ -9,13 +9,21 @@ At now project is not finished yet (but already can be used - if your know what 
 What already released:
 * Organizations management
 
-* Contacts management
+* Contacts (user) management
 
 * Incident accounting
 
+* Accounting (added manualy in incident response worflow) and  enrichment IoC (automaticaly)
+
 * Port scanning
 
+* Vulnerabilities accounting (they just downloaded from NVD site, and enriched by some custom attributes)
+
 * Agreements accounting
+
+* Knowledge database module
+
+* Inform user via email about new IoC, vulnerabilities and articles in knowladge base
 
 * and something else ...
 Some screenshots:
@@ -28,13 +36,12 @@ Some screenshots:
 
 What planned:
 
-* Information resources accounting
+* Information resources accounting (CMDB)
 
 * Incident workflow
 
 * Task management
 
-* CMDB
 
 * Audits accounting
 
