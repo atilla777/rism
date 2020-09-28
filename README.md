@@ -15,7 +15,7 @@ What already released:
 
 * Accounting (added manualy in incident response worflow) and  enrichment IoC (automaticaly)
 
-* Port scanning
+* Port scanning (form RISM server or via remote agent - RA)
 
 * Vulnerabilities accounting (they just downloaded from NVD site, and enriched by some custom attributes)
 
