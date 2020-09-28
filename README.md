@@ -31,6 +31,7 @@ What already released:
 Some screenshots:
 ![](rism1.png)
 ![](rism9.png)
+![](rism10.png)
 ![](rism2.png)
 ![](rism3.png)
 ![](rism4.png)
