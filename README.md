@@ -29,13 +29,13 @@ What already released:
 
 * and something else ...
 Some screenshots:
-![](rism1.png)
+![](rism7.png)
 ![](rism9.png)
 ![](rism10.png)
 ![](rism2.png)
 ![](rism3.png)
 ![](rism4.png)
-![](rism7.png)
+![](rism1.png)
 ![](rism8.png)
 
 What planned:
