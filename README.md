@@ -25,6 +25,8 @@ What already released:
 
 * Inform user via email about new IoC, vulnerabilities and articles in knowladge base
 
+* REST API that can be used to transfer data (IoC) to you other security tools
+
 * and something else ...
 Some screenshots:
 ![](rism1.png)
