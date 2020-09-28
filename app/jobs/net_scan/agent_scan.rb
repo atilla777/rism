@@ -74,8 +74,7 @@ class NetScan::AgentScan
   end
 
   def headers
-    #{headers: {authorization: "Bearer #{@agent.secret}"}}
-    {headers: {authorization: "Bearer #{ENV['RA_SECRET']}"}}
+    {headers: {authorization: "Bearer #{@agent.secret}"}}
   end
 
   # Data sended in post form
