@@ -30,6 +30,7 @@ What already released:
 * and something else ...
 Some screenshots:
 ![](rism1.png)
+![](rism9.png)
 ![](rism2.png)
 ![](rism3.png)
 ![](rism4.png)
