@@ -14,7 +14,7 @@
   - t.field { |record| link_to record.organization.name, record.organization }
   - t.field { |record| link_to record.scan_option.name, record.scan_option}
   - t.field do |record|
-    - if @record&.agent.present?
+    - if record&.agent.present?
       = link_to record&.agent&.name, record&.agent
   - t.field do |record|
     => link_to record.show_working_count, scan_job_logs_path(job_id: record.id)
