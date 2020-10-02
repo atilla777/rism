@@ -7,7 +7,7 @@ class ScanOption < ApplicationRecord
 
   has_many :scan_jobs, dependent: :restrict_with_error
 
-  serialize :options, Hash#, HashSerializer
+  serialize :options, Hash
   store_accessor :options,
                  :syn_scan,
                  :skip_discovery,
@@ -23,16 +23,27 @@ class ScanOption < ApplicationRecord
   def self.queue_numbers
     QUEUE_NUMBERS
   end
-# Used in ScanOptions to serilize options
-# (it makes allow acces to serialized field by symbol,
-# not only string key)
-#class HashSerializer
-#  def self.dump(hash)
-#    hash.to_json
-#  end
-#
-#  def self.load(hash)
-#    (hash || {}).with_indifferent_access
-#  end
-#end
+
+  def nmap_options_string
+    opt_map = {
+      syn_scan: '-sS',
+      skip_discovery: '-Pn',
+      udp_scan: "-sU",
+      service_scan: "-sV",
+      os_fingerprint: "-O",
+      aggressive_timing: "-T4",
+      insane_timing: "-T5",
+      disable_dns: "-n"
+    }
+    opt = options.each_with_object([]) do |(opt_key, opt_value), memo|
+      if opt_key == "top_ports"
+        memo << "--top-ports #{opt_value}"
+      elsif opt_key == "ports" && opt_value.present?
+        memo << "-p #{ScanJob.normalize_ports(port_value).join(',')}"
+      elsif opt_value == '1' && opt_map[opt_key.to_sym]
+        memo << opt_map[opt_key.to_sym]
+      end
+    end
+    opt.join(" ")
+  end
 end

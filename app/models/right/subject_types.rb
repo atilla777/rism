@@ -26,6 +26,8 @@ module Right::SubjectTypes
     'ScanResult' => I18n.t('activerecord.models.scan_result.one'),
     'Schedule' => I18n.t('activerecord.models.schedule.one'),
     'ScheduledJobs' => I18n.t('activerecord.models.scheduled_jobs.one'),
+    'Agent' => I18n.t('activerecord.models.agent.one'),
+    'RaAgentApi' => I18n.t('labels.ra_agent_api'),
     'Vulnerability' => I18n.t('activerecord.models.vulnerability.one'),
     'VulnerabilityKind' => I18n.t('activerecord.models.vulnerability_kind.one'),
     'VulnerabilityBulletin' => I18n.t('activerecord.models.vulnerability_bulletin.one'),

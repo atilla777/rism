@@ -178,6 +178,7 @@ ru:
       allowed_organizations: 'Доступные для назначения организации'
       allowed_users: 'Доступные для назначения пользователи'
       assigned: 'Назначенные получатели'
+    ra_agent_api: 'API для RA агента'
   navigations:
     config: 'Настройки'
     contacts: 'Контакты'
