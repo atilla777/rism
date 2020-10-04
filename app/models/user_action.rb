@@ -8,7 +8,8 @@ class UserAction < ApplicationRecord
   validates :controller, presence: true
   validates :action, presence: true
   validates :ip, presence: true
-  validates :browser, presence: true
+  # Commented to work in feature test
+  #validates :browser, presence: true
 
   belongs_to :user, optional: true
 

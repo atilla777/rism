@@ -1,10 +1,14 @@
 FactoryBot.define do
   factory :agent do
-    name "MyString"
+    sequence(:name) { |n| "Agent#{n}" }
     address ""
-    hostname "MyString"
-    port "MyString"
-    secret "MyString"
+    sequence(:hostname) do |n|
+      "host#{n}"
+    end
+    port 1323
+    protocol :http
+    secret "secret"
     description "MyText"
+    organization
   end
 end

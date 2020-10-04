@@ -83,7 +83,7 @@ RSpec.shared_examples 'organization record' do |model|
     end
   end
 
-  describe 'not global role memeber' do
+  describe 'not global role member' do
     setup :activate_authlogic
 
     let(:all_records) do

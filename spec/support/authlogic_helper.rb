@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module Authlogic
-  module
-    TestHelper
+  module TestHelper
     def create_user_session(user)
       UserSession.create!(user)
     end
@@ -10,7 +9,7 @@ module Authlogic
     def login(user)
       visit sign_in_path
       fill_in 'user_session_email', with: user.email
-      fill_in 'user_session_password', with: 'password'
+      fill_in 'user_session_password', with: 'Pa$$w0rd'
       find('input[name="commit"]').click
     end
 

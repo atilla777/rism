@@ -17,8 +17,8 @@ class Agent < ApplicationRecord
   validates :hostname, presence: true, unless: :address
   validates :address, presence: true, unless: :hostname
   validates :protocol, inclusion: {in: Agent.protocols.values}
-  validates :port, uniqueness: true
-  validates :secret, presence: true
+  validates :port, presence: true
+  #validates :secret, presence: true
 
   has_many :scan_jobs
   has_many :scan_job_logs
