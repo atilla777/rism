@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class IndicatorContext < ApplicationRecord
-  has_many :indicator_context_members, dependent: :delete_all
-  has_many :indicators, through: :indicator_context_members
-
   validates :name, length: { minimum: 3, maximum: 200 }
   validates :name, uniqueness: true
 
@@ -11,6 +8,9 @@ class IndicatorContext < ApplicationRecord
   validates :codename, uniqueness: true
 
   before_save :set_indicators_formats
+
+  has_many :indicator_context_members, dependent: :delete_all
+  has_many :indicators, through: :indicator_context_members
 
   private
 
