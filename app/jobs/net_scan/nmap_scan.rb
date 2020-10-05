@@ -4,15 +4,6 @@ class NetScan::NmapScan
   require 'nmap/program'
   require 'nmap/xml'
 
-  PORT_STATES_MAP = {
-    :'closed' => 'closed',
-    :'closed|filtered' => 'closed_filtered',
-    :'filtered' => 'filtered',
-    :'unfiltered' => 'unfiltered',
-    :'open|filtered' => 'open_filtered',
-    :'open' => 'open'
-  }.freeze
-
   def initialize(job, jid)
     @job = job
     @jid = jid
@@ -110,7 +101,7 @@ class NetScan::NmapScan
       ip: host.ip,
       port: port.number,
       protocol: port.protocol,
-      state: port_state(port.state),
+      state: ScanResult.nmap_to_rism_port_state(port.state),
       legality: legality,
       service: port.service,
       product: port&.service&.product,
@@ -139,10 +130,6 @@ class NetScan::NmapScan
       vulners: [],
       jid: @jid
     }
-  end
-
-  def port_state(nmap_port_state)
-    PORT_STATES_MAP[nmap_port_state]
   end
 
   def set_result_path

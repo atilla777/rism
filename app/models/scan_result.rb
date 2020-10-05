@@ -7,6 +7,15 @@ class ScanResult < ApplicationRecord
   include ScanResult::Ransackers
   include Legalitiable
 
+  PORT_STATES_MAP = {
+    'closed': 'closed',
+    'closed|filtered': 'closed_filtered',
+    'filtered': 'filtered',
+    'unfiltered': 'unfiltered',
+    'open|filtered': 'open_filtered',
+    'open': 'open'
+  }.freeze
+
   COLORS = ['#228B22', '#DAA520', '#DC143C'].freeze
 
   enum state: %i[closed closed_filtered filtered unfiltered open_filtered open]
@@ -40,6 +49,10 @@ class ScanResult < ApplicationRecord
 #  def host_service2
 #    HostService.first.where(ip: ip, port: port, protocol: protocol)
 #  end
+
+  def self.nmap_to_rism_port_state(state)
+    PORT_STATES_MAP[state.to_sym]
+  end
 
   def host_service
     join_sql = <<~SQL

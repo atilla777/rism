@@ -94,7 +94,7 @@ module Api
           ip: host_ip(host),
           port: port['id'],
           protocol: port['protocol'],
-          state: port.dig('state', 'state'),
+          state: ScanResult.nmap_to_rism_port_state(port.dig('state', 'state')),
           service: port.dig('service', 'name'),
           product: port.dig('service', 'product'),
           product_version: port.dig('service', 'version'),
