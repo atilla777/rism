@@ -7,6 +7,10 @@
   - t.header attribute: :port, sort: :desc
   - t.field { |record| link_to(record.name, record) }
   - t.field { |record| link_to record.organization.name, record.organization }
-  - t.field { |record| link_to record.hostname, record}
-  - t.field { |record| link_to record.address, record}
+  - t.field do |record|
+    - if record.hostname&.present?
+      = link_to record.hostname, record
+  - t.field do |record|
+    - if record.address&.present?
+      = link_to record.address, record
   - t.field { |record| link_to record.port, record}

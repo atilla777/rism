@@ -12,8 +12,8 @@ organization.save(validate: false)
 
 admin = User.new(name: I18n.t('roles.admin'),
             email: 'admin@rism.io',
-            password: 'password',
-            password_confirmation: 'password',
+            password: 'Pa$$w0rd',
+            password_confirmation: 'Pa$$w0rd',
             organization_id: organization.id,
             active: true)
 admin.save(validate: false)
