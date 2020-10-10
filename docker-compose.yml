@@ -1,0 +1,76 @@
+version: '3.4'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+      - redis
+    ports:
+      - "3000:3000"
+        volumes:
+          - file_storage:/app/file_storage
+          #- .:/app
+          # - gem_cache:/usr/local/bundle/gems
+          # - node_modules:/app/node_modules
+    environment:
+      RAILS_ENV: production
+      DATABASE_USER: rism
+      DATABASE_PASSWORD: password
+      #DATABASE_URL: db
+    #restart: always
+
+  database:
+    POSTGRES_USER: rism
+    POSTGRES_PASSWORD: password
+    image: postgres:10.14-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    #restart: always
+
+  redis:
+    image: redis:6.0.8-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/var/lib/redis/data
+    #restart: always
+
+  sidekiq:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - app
+      - database
+      - redis
+      #volumes:
+      #      - .:/app
+      #      - gem_cache:/usr/local/bundle/gems
+      #      - node_modules:/app/node_modules
+      #env_file: .env
+    environment:
+      RAILS_ENV: production
+    entrypoint: ./entrypoints/sidekiq-entrypoint.sh
+    #restart: always
+
+    #  nginx:
+    #    build:
+    #      context: .
+    #      dockerfile: ./Dockerfile.nginx
+    #    depends_on:
+    #      - drkiq
+    #    ports:
+    #      - '443:443'
+         #restart: always
+
+volumes:
+  #gem_cache:
+  db_data:
+  redis_data:
+  file_storage:
+  #node_modules: 
