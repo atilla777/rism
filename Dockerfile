@@ -1,8 +1,7 @@
 FROM ruby:2.6.3-alpine3.10
-#ENV PORT 3000
-ENV RACK_ENV=production RAILS_ENV=production
+#ENV RACK_ENV=production RAILS_ENV=production
 ENV RAILS_LOG_TO_STDOUT=true
-#HEALTHCHECK CMD curl --fail http://localhost:3000/ || exit 1
+ENV BUNDLER_VERSION=1.17.3
 
 ENV USER=rails
 ENV UID=10001
@@ -34,7 +33,8 @@ RUN apk add --no-cache \
   yarn
 # rails runtime
 RUN apk add --no-cache \
-  tzdata
+  tzdata \
+  ca-certificates
 #capybara-webkit
 #libqt4-webkit
 #libqt4-dev
@@ -43,7 +43,7 @@ RUN apk add --no-cache \
 RUN apk add --no-cache \
   nmap \
   nmap-scripts \
-  nmap-nselibs \
+  nmap-nselibs
 #RUN apk add --no-cache \
 #  build-base \
 #  curl \
@@ -75,12 +75,15 @@ RUN gem install bundler && \
     rm -rf /usr/lib/lib/ruby/gems/*/cache/*
 
 WORKDIR /app
-RUN mkdir /app/file_storage
-
-ADD Gemfile* /app/
-RUN bundle install
-#RUN yarn install --check-files
-COPY . /app
+#RUN gem install bundler -v 2.1.4
+RUN gem install bundler -v 1.17.3
+ADD Gemfile* ./
+RUN bundle install --jobs 8 --retry 3
+COPY package.json yarn.lock ./
+RUN yarn install --check-files
+# Remove packages that not needed for rails runtime
+RUN apk del build-dependencies
+COPY --chown=10001:10001 . ./
 
 RUN rails assets:precompile
 
@@ -88,5 +91,5 @@ EXPOSE 3000
 
 #ENTRYPOINT ["entrypoint.sh"]
 # Start the main process.
-#ENTRYPOINT ["rails", "server", "-e", "production", "-b", "0.0.0.0"]
-ENTRYPOINT ["rails-entrypoint.sh"]
+CMD ["rails", "server", "-b", "0.0.0.0"]
+#ENTRYPOINT ["rails-entrypoint.sh"]
