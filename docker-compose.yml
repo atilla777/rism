@@ -4,7 +4,6 @@
 # docker-compose run --rm app bundle exec rake db:create
 # After that for start RISM every time just do:
 # docker-compose up
-
 version: '3.4'
 
 services:
@@ -54,9 +53,8 @@ services:
       - SCAN_RESULT_CUTOFF_MONTH=3
       # - WEB_CONCURRENCY=1
       - RAILS_MAX_THREADS=5
-      #-RAILS_SERVE_STATIC_FILES=true
+      - RAILS_SERVE_STATIC_FILES=true
     #restart: always
-    #entrypoint: bundle exec rails db:setup && bundle exec rails s -b 0.0.0.0
 
   database:
     image: postgres:10.14-alpine
@@ -68,7 +66,6 @@ services:
       - POSTGRES_PASSWORD=password
     ports:
       - '5432:5432'
-
     #restart: always
 
   redis:
@@ -100,14 +97,12 @@ services:
     #restart: always
 
     #  nginx:
-    #    build:
-    #      context: .
-    #      dockerfile: ./Dockerfile.nginx
+    #    image: nginx:1.18.0-alpine
     #    depends_on:
-    #      - drkiq
+    #      - app
     #    ports:
     #      - '443:443'
-         #restart: always
+    #restart: always
 
 volumes:
   db_data:
