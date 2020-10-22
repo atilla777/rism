@@ -8,12 +8,12 @@
   - t.header attribute: :month_days
   - t.header attribute: :months
   - t.header attribute: :job, label:  t('labels.schedules.current_schedule')
-  - t.field { |record| link_to record.id, schedule_path(job_type: 'ScanJob', job_id: record.job.id) }
+  - t.field { |record| link_to record.id, schedule_path(job_type: 'ScanJob', job_id: record&.job&.id) }
   - t.field { |record| link_to record.job.name, record.job }
   - t.field { |record| link_to record.job_organization.name, record.job_organization }
-  - t.field { |record| link_to record.show_week_days, schedule_path(job_type: 'ScanJob', job_id: record.job.id) }
-  - t.field { |record| link_to record.show_month_days, schedule_path(job_type: 'ScanJob', job_id: record.job.id) }
-  - t.field { |record| link_to record.show_months, schedule_path(job_type: 'ScanJob', job_id: record.job.id) }
+  - t.field { |record| link_to record.show_week_days, schedule_path(job_type: 'ScanJob', job_id: record&.job&.id) }
+  - t.field { |record| link_to record.show_month_days, schedule_path(job_type: 'ScanJob', job_id: record&.job&.id) }
+  - t.field { |record| link_to record.show_months, schedule_path(job_type: 'ScanJob', job_id: record&.job&.id) }
   - t.field do |record|
     = link_to schedule_path(job_type: 'ScanJob', job_id: record.job.id)
       - if record.show_crontab_line.present?
