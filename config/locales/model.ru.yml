@@ -172,6 +172,7 @@ ru:
         queue_number: 'Приоритет очереди'
       schedule:
         job: 'Работа'
+        job_organization: 'Организация работы'
         minutes: 'Минуты'
         hours: 'Часы'
         week_days: 'Дни недели'

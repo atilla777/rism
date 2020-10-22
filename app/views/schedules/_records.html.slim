@@ -3,7 +3,7 @@
 = index_for records, decorator: ScheduleDecorator, actions: false do |t|
   - t.header attribute: :id, sort_by: :id, sort: :desc
   - t.header attribute: :job_of_ScanJob_name, label: ScanJob.model_name.human
-  - t.header attribute: :job
+  - t.header attribute: :job_organization
   - t.header attribute: :week_days
   - t.header attribute: :month_days
   - t.header attribute: :months
