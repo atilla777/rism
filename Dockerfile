@@ -40,24 +40,28 @@ RUN apk add --no-cache \
   nmap-scripts \
   nmap-nselibs \
   sudo
-RUN echo '10001:10001 ALL=(ALL) NOPASSWD:/usr/bin/nmap' > /etc/sudoers
+RUN echo 'User_Alias RAILS = #10001' >> /etc/sudoers && \
+    echo 'RAILS ALL=(ALL) NOPASSWD:/usr/bin/nmap' >> /etc/sudoers
 RUN mkdir /app \
-  /app/file_storage
+  /app/file_storage \
+  /app/log
 RUN chown -R 10001:10001 /app
 USER 10001:10001
+ENV HOME="/app"
+WORKDIR /app
 RUN gem install bundler && \
     bundle config build.nokogiri --use-system-libraries && \
     rm -rf /usr/lib/lib/ruby/gems/*/cache/*
-WORKDIR /app
 RUN gem install bundler -v 1.17.3
 COPY Gemfile Gemfile.lock ./
-#RUN bundle install --jobs 8 --retry 3 --without development test
-RUN bundle install --jobs 8 --retry 3
+RUN bundle install --jobs 8 --retry 3 --without development test
+#RUN bundle install --binstubs --jobs 8 --retry 3
+ENV PATH="/app/bin:${PATH}"
 COPY package.json yarn.lock ./
 RUN yarn install --check-files
 # Remove packages that not needed for rails runtime
 # RUN apk del build-dependencies
 COPY --chown=10001:10001 . ./
-RUN rails assets:precompile
+RUN RAILS_ENV=production rails assets:precompile
 EXPOSE 3000
 CMD ["rails", "server", "-b", "0.0.0.0"]

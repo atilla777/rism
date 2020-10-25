@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 module Rism
   class Application < Rails::Application
-  require 'letter_opener' if Rails.env.development?
+    require 'letter_opener' if Rails.env.development?
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
