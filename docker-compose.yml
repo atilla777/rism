@@ -17,6 +17,8 @@ services:
     volumes:
       - rism_file_storage:/app/file_storage
       - rism_log:/app/log
+      - rism_www_config/nginx.docker.conf:/etc/nginx/nginx.conf
+      - rism_www:/app
     env_file:
       - .env.production.docker
     healthcheck:
@@ -69,15 +71,23 @@ services:
     #restart: always
 
     #  nginx:
-    #    image: nginx:1.18.0-alpine
+    #    image: nginx:1.19.3-alpine
     #    depends_on:
     #      - app
+    #    volumes:
+    #      - rism_www_config/nginx.docker.conf:/etc/nginx/nginx.conf
+    #      - rism_www:/app
     #    ports:
     #      - '443:443'
-    #restart: always
+    #    env_file:
+    #      - .env.production.docker
+    #    command: nginx start
+    #    #restart: always
 
 volumes:
   rism_db_data:
   rism_redis_data:
   rism_file_storage:
   rism_log:
+    #  rism_www:
+    #  rism_www_config:
