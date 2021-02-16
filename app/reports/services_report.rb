@@ -33,7 +33,9 @@ class ServicesReport < BaseReport
       'Легальность',
       'Уязвимость',
       'Описание уязвимости',
-      'Описание'
+      'Описание',
+      'Дата изменения статуса обработки',
+      'Реквизиты состояния обработки'
     ]]
 
     table = @records.each_with_object(header) do |record, memo|
@@ -47,6 +49,8 @@ class ServicesReport < BaseReport
       row << "#{HostServiceDecorator.new(record).show_vulnerable}"
       row << "#{record.vuln_description}"
       row << "#{record.description}"
+      row << "#{record.host_service_status_changed_at}"
+      row << "#{record.host_service_status_prop}"
       memo << row
     end
     r.p
@@ -68,7 +72,9 @@ class ServicesReport < BaseReport
       'Легальность',
       'Уязвимость',
       'Описание уязвимости',
-      'Описание'
+      'Описание',
+      'Дата изменения статуса обработки',
+      'Реквизиты состояния обработки'
     ]
     r << header
 
@@ -83,6 +89,8 @@ class ServicesReport < BaseReport
       row << "#{HostServiceDecorator.new(record).show_vulnerable}"
       row << "#{record.vuln_description}"
       row << "#{record.description}"
+      row << "#{record.host_service_status_changed_at}"
+      row << "#{record.host_service_status_prop}"
       r << row
     end
   end
