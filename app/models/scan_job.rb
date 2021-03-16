@@ -65,10 +65,11 @@ class ScanJob < ApplicationRecord
     }
     h = targets.join(" ")
     opt = scan_option.options.each_with_object(["#{h}"]) do |(opt_key, opt_value), memo|
-      if opt_key == "top_ports"
+      if opt_key == "top_ports" && opt_value.present? && top_ports.empty?
         memo << "--top-ports #{opt_value}"
       elsif opt_key == "ports" && opt_value.present? && ports.empty?
-        memo << "-p #{ScanJob.normalize_ports(opt_value).join(',')}"
+        memo << "-p #{opt_value}"
+        #memo << "-p #{ScanJob.normalize_ports(opt_value).join(',')}"
       elsif opt_value == '1' && opt_map[opt_key.to_sym]
         memo << opt_map[opt_key.to_sym]
       end
