@@ -48,11 +48,7 @@ class NetScan::AgentScan
 
   # Cast request URI
   def uri
-    host = if @agent.hostname.present?
-              @agent.hostname
-           else
-              @agent.address
-           end
+    host = @agent.hostname || @agent.address
     port = @agent.port
     protocol = @agent.protocol || 'http'
     path = 'scans'
@@ -77,7 +73,7 @@ class NetScan::AgentScan
     {headers: {authorization: "Bearer #{@agent.secret}"}}
   end
 
-  # Data sended in post form
+  # Data sent in post form
   def data
     {query: {id: @jid, options: @job.nmap_options_string}}
   end
@@ -97,7 +93,7 @@ class NetScan::AgentScan
 
   # Log httparty errors in file
   def log_error(error)
-    logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_error.log"))
+    logger = ActiveSupport::TaggedLogging.new(Logger.new('log/rism_error.log'))
     logger.tagged("AGENT_SCAN (#{Time.now})") do
       logger.error(error)
     end

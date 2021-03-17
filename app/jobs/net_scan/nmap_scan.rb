@@ -16,8 +16,8 @@ class NetScan::NmapScan
 
   def run
     # scan and save result to XML file
-    unless  Nmap::Program.sudo_scan(@scan_options)
-      log_error("nmap programm finished with status 1", 'nmap scan')
+    unless Nmap::Program.sudo_scan(@scan_options)
+      log_error('nmap program finished with status 1', 'nmap scan')
     end
     # save result from XML to database
     parse_and_save_result
@@ -28,9 +28,9 @@ class NetScan::NmapScan
   def scan_options
     result = @job.scan_option.options.select { |_key, value| value.to_i.nonzero? }
     ports = if @job.ports.present?
-              ScanJob.normalize_ports(@job.ports)
+              ScanJob.normalize_ports_as_array(@job.ports)
             elsif result[:ports].present?
-              ScanJob.normalize_ports(result[:ports])
+              ScanJob.normalize_ports_as_array(result[:ports])
             end
     top_ports = result[:top_ports] if result[:top_ports].present?
     result.update(result) do |key, value|
@@ -40,9 +40,7 @@ class NetScan::NmapScan
     result[:targets] = @job.targets
     result[:verbose] = true
     result[:ports] = ports if ports.present?
-    if top_ports.present? && ports.blank?
-      result[:top_ports] = top_ports.to_i
-    end
+    result[:top_ports] = top_ports.to_i if top_ports.present? && ports.blank?
     result
   end
 

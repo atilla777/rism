@@ -52,34 +52,23 @@ class ScanJob < ApplicationRecord
     hosts_from_scan_job | linked_hosts.pluck(:ip).map(&:to_s)
   end
 
+  # For send nmap options to nmap as string
   def nmap_options_string
-    opt_map = {
-      syn_scan: '-sS',
-      skip_discovery: '-Pn',
-      udp_scan: "-sU",
-      service_scan: "-sV",
-      os_fingerprint: "-O",
-      aggressive_timing: "-T4",
-      insane_timing: "-T5",
-      disable_dns: "-n"
-    }
-    h = targets.join(" ")
-    opt = scan_option.options.each_with_object(["#{h}"]) do |(opt_key, opt_value), memo|
-      if opt_key == "top_ports"
+    h = targets.join(' ')
+    opt = scan_option.options.each_with_object([h.to_s]) do |(opt_key, opt_value), memo|
+      if opt_key == 'top_ports' && opt_value.present?
         memo << "--top-ports #{opt_value}"
-      elsif opt_key == "ports" && opt_value.present? && ports.empty?
-        memo << "-p #{ScanJob.normalize_ports(port_value).join(',')}"
-      elsif opt_value == '1' && opt_map[opt_key.to_sym]
-        memo << opt_map[opt_key.to_sym]
+      elsif opt_key == 'ports' && opt_value.present? && ports.empty?
+        memo << "-p #{ScanJob.normalize_ports_as_string(opt_value)}"
+      elsif opt_value == '1' && ScanOption::NMAP_OPT_MAP[opt_key.to_sym]
+        memo << ScanOption::NMAP_OPT_MAP[opt_key.to_sym]
       end
     end
-    if ports.present?
-      opt << "-p #{ScanJob.normalize_ports(ports).join(',')}"
-    end
-    opt.join(" ")
+    opt << "-p #{ScanJob.normalize_ports_as_string(ports)}" if ports.present?
+    opt.join(' ')
   end
 
-  def self.normalize_ports(ports)
+  def self.normalize_ports_as_array(ports)
     ports.split(',').map do |port|
       if port.include?('-')
         Range.new(*port.split('-').map(&:to_i))
@@ -87,6 +76,10 @@ class ScanJob < ApplicationRecord
         port.to_i
       end
     end
+  end
+
+  def self.normalize_ports_as_string(ports)
+    ports.delete(' ')
   end
 
   private
