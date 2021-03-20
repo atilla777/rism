@@ -162,7 +162,7 @@ module User::HasRole
     end
   end
 
-  # Return ids of organizations taht are allowed allowed to
+  # Return ids of organizations that are allowed allowed to
   # read by user
   # (includes implicitly assigned rights for children
   # organizations)

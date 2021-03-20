@@ -23,8 +23,8 @@ class NetScan::AgentScan
       raise StandardError.new "Aget don`t accept job: #{response.code} - #{m}"
     end
   rescue StandardError => error
-     log_error("Agent error: #{error}")
-     raise
+    log_error("Send data to agent error: #{error}")
+    raise
   end
 
   def message(result)
@@ -38,14 +38,6 @@ class NetScan::AgentScan
   end
 
   private
-
-  def log_error(error, tag)
-    logger = ActiveSupport::TaggedLogging.new(Logger.new("log/rism_error.log"))
-    logger.tagged("SCAN_JOB_ON_AGENT (#{Time.now}): #{tag}") do
-      logger.error(error)
-    end
-  end
-
   # Cast request URI
   def uri
     host = @agent.hostname || @agent.address
@@ -53,13 +45,6 @@ class NetScan::AgentScan
     protocol = @agent.protocol || 'http'
     path = 'scans'
     "#{protocol}://#{host}:#{port}/#{path}"
-  end
-
-  def http_request(uri)
-    HTTParty.post(uri, httparty_options)
-  rescue StandardError => error
-    log_error("API can`t be used - #{error}")
-    {httparty_error: error}
   end
 
   def httparty_options
