@@ -40,7 +40,7 @@ class NetScan::AgentScan
   private
   # Cast request URI
   def uri
-    host = @agent.hostname || @agent.address
+    host = @agent.hostname.presence || @agent.address
     port = @agent.port
     protocol = @agent.protocol || 'http'
     path = 'scans'
