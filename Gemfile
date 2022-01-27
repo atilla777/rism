@@ -76,7 +76,7 @@ gem "chartkick", "~> 3.2" # 2.3
 gem 'groupdate', "~> 4.0"
 gem 'hightop', "~> 0.2"
 gem 'pg_search', '~> 2.1'
-gem 'sidekiq', '~> 5.1.3'
+gem 'sidekiq', '~> 6.4.0'
 gem 'rufus-scheduler', '3.4.2' # TODO: check that newer versions API (> 3.4.2) was fixed and work
 gem 'sidekiq-cron', '~> 0.6.3 '
 gem 'ruby-nmap', '~> 0.9.3'
