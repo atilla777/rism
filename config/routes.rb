@@ -252,6 +252,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :custom_reports_api, only: [:show]
       resources :ra_api, only: [:create]
+      get :tornados, to: 'tornados#show', as: :tornados
     end
   end
 

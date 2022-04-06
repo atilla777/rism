@@ -10,3 +10,9 @@ sync_nvd_base:
   queue: 'sync_nvd_base'
   args:
     queue: 'sync_nvd_base'
+tornados:
+  cron: "0 1 * * *" # create tor exit nodes csv file
+  class: 'TornadosJob'
+  queue: 'default'
+  args:
+    queue: 'default'

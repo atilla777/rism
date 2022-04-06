@@ -56,6 +56,7 @@ module Right::SubjectTypes
     'CustomReportsResult' => I18n.t('activerecord.models.custom_reports_result.one'),
     'Charts' => I18n.t('navigations.charts'),
     'Dashboards' => I18n.t('navigations.dashboards'),
-    'ReadableLog' => I18n.t('activerecord.models.readable_log.one')
+    'ReadableLog' => I18n.t('activerecord.models.readable_log.one'),
+    'TornadosApi' => I18n.t('labels.tornados_api'),
   }.freeze
 end
