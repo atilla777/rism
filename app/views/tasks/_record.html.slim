@@ -1,0 +1,96 @@
+= show_for @record, decorator: TaskDecorator do |r|
+  = r.show :main_info do
+    b.info
+      = @record.class.human_attribute_name(:id) + ':'
+    =< @record.id
+    b.info
+      =< @record.class.human_attribute_name(:task_status_id) + ':'
+    =< link_to @record.task_status.name, @record.task_status
+    =< show_date(@record.start)
+    b.info
+      =< @record.class.human_attribute_name(:task_priority_id) + ':'
+    =< link_to @record.task_priority.name, @record.task_priority
+    b.info
+      =< @record.class.human_attribute_name(:user_id) + ':'
+    =< link_to @record.user.name, record.user
+  = r.show :task_tags, value: r.decorated.show_task_tags
+  = r.show :parent_id do
+    = link_to r.decorated.show_parent_with_status_and_id, record.parent
+  = r.show :children do
+    ol
+      - TaskDecorator.wrap(@record.children).each do |c|
+        li
+          =< link_to c.show_name_with_status_and_id, c
+  = r.show :planned_end, value: show_date(@record.planned_end)
+  = r.show :real_end, value: show_date(@record.real_end)
+  = r.show :description
+  = r.show :current_description do
+    = simple_format @record.current_description
+
+.panel.panel-default
+  .panel-heading
+    caption
+      a.link data-toggle='collapse' href='#toggle_additional_info'
+        strong
+          = t('labels.task.additional_info')
+        =< fa_icon('hand-pointer-o')
+
+  .list-group.collapse#toggle_additional_info
+    .list-group-item
+      .row
+        .col-md-2.text-right
+          strong.text-info
+            = @record.class.human_attribute_name(:organization_id)
+        .col-md-10
+          = link_to @record.organization.name, @record.organization
+
+    .list-group-item
+      .row
+        .col-md-2.text-right
+          strong.text-info
+            = @record.class.human_attribute_name(:created_by_id)
+        .col-md-10
+          = link_to @record.creator.name, @record.creator
+
+    .list-group-item
+      .row
+        .col-md-2.text-right
+          strong.text-info
+            = @record.class.human_attribute_name(:created_at)
+        .col-md-10
+          = show_date(@record.created_at)
+
+    .list-group-item
+      .row
+        .col-md-2.text-right
+          strong.text-info
+            = @record.class.human_attribute_name(:updated_by_id)
+        .col-md-10
+          = link_to @record.updater.name, @record.updater if @record.updater
+
+    .list-group-item
+      .row
+        .col-md-2.text-right
+          strong.text-info
+            = @record.class.human_attribute_name(:updated_at)
+        .col-md-10
+          = show_date(@record.updated_at)
+
+.panel.panel-default
+  .panel-heading
+    caption
+      a.link data-toggle='collapse' href='#user_description'
+        strong
+          = t('labels.task.user_description')
+        =< fa_icon('hand-pointer-o')
+
+  .list-group.collapse#user_description
+    .list-group-item
+      .row
+        .col-md-2
+        .col-md-10
+          = @record.user_description
+          
+= render partial: 'comments/index', locals: {record: @record}
+
+= render 'application/record_versions'

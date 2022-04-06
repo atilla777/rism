@@ -1,0 +1,286 @@
+button.btn.btn-default.pull-left type='button' data-toggle='modal' data-target='#advanced_search_modal'
+  =< t('navigations.advanced_search')
+.modal.fade#advanced_search_modal tabindex='-1' role='dialog'
+  = search_form_for @q, url: search_tasks_path, html: { class: 'form-horizontal', method: :post } do |f|
+    .modal-dialog.modal-lg role='document' style='width:95%'
+      .modal-content
+        .modal-header
+          button.close  type='button' data-dismiss="modal" aria-label="Close"
+          .modal-title
+            h4.text-info
+              = t('navigations.advanced_search')
+        .modal-body
+          .row
+
+            = render 'readable_filter', f: f
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :task_tags, class: 'control-label'
+                  .col-lg-2
+                    = f.text_field :task_tags_arr_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_list_filter')
+                  .col-lg-2
+                    = f.text_field :task_tags_arr_over, class: 'form-control', placeholder: t('views.shared.placeholders.over_list_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :name, class: 'control-label'
+                  .col-lg-5
+
+                    = f.text_field :name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                  .col-lg-5
+                    = f.text_field :name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :id, class: 'control-label'
+                  .col-lg-5
+
+                    = f.text_field :id_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                  .col-lg-5
+                    = f.text_field :id_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+            .form-group
+              .field
+                 .col-lg-1.text-right
+                   = f.label :organization_id, Organization.model_name.human(count: 1), class: 'control-label'
+                 .col-lg-5
+                   = f.text_field :organization_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                 .col-lg-5
+                   = f.text_field :organization_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :created_by_id, class: 'control-label'
+                  .col-lg-5
+                    = f.text_field :creator_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                  .col-lg-5
+                    = f.text_field :creator_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :updated_by_id, class: 'control-label'
+                  .col-lg-5
+                    = f.text_field :updater_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                  .col-lg-5
+                    = f.text_field :updater_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :user_id, class: 'control-label'
+                  .col-lg-5
+                    = f.text_field :user_name_eq, class: 'form-control', placeholder: t('views.shared.placeholders.eq_filter')
+                  .col-lg-5
+                    = f.text_field :user_name_cont, class: 'form-control', placeholder: t('views.shared.placeholders.cont_filter')
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label  :task_status_id, class: 'control-label'
+                  .col-lg-10
+                    = f.collection_check_boxes :task_status_id_in, TaskStatus.all, :id, :name, {}, class: 'big-checkbox' do |b|
+                      =< b.check_box
+                      span.text-info
+                        =< b.label
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label  :task_priority_id, class: 'control-label'
+                  .col-lg-10
+                    = f.collection_check_boxes :task_priority_id_in, TaskPriority.all, :id, :name, {}, class: 'big-checkbox' do |b|
+                      =< b.check_box
+                      span.text-info
+                        =< b.label
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :created_at, class: 'control-label'
+                  .col-lg-1
+                    = f.number_field :created_at_last_days,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_days')
+                  .col-lg-1
+                    = f.number_field :created_at_last_weeks,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_weeks')
+                  .col-lg-1
+                    = f.number_field :created_at_last_months,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_months')
+                  .col-lg-1
+                    = f.number_field :created_at_last_years,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_years')
+
+                .field
+                  .col-lg-1.text-right
+                    = f.label :created_at, class: 'control-label'
+                  .col-lg-2
+                    = f.date_field :created_at_gteq,
+                      class: 'form-control',
+                      datepicker: true
+                  .col-lg-2
+                    = f.date_field :created_at_end_of_day_lteq,
+                      class: 'form-control',
+                      datepicker: true
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label :updated_at, class: 'control-label'
+                  .col-lg-1
+                    = f.number_field :updated_at_last_days,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_days')
+                  .col-lg-1
+                    = f.number_field :updated_at_last_weeks,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_weeks')
+                  .col-lg-1
+                    = f.number_field :updated_at_last_months,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_months')
+                  .col-lg-1
+                    = f.number_field :updated_at_last_years,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_years')
+
+                .field
+                  .col-lg-1.text-right
+                    = f.label :updated_at,
+                      class: 'control-label'
+                  .col-lg-2
+                    = f.date_field :updated_at_gteq,
+                      class: 'form-control',
+                      datepicker: true
+                  .col-lg-2
+                    = f.date_field :updated_at_end_of_day_lteq,
+                      class: 'form-control',
+                      datepicker: true
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label Task.human_attribute_name(:start), class: 'control-label'
+                  .col-lg-1
+                    = f.number_field :start_last_days,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_days')
+                  .col-lg-1
+                    = f.number_field :start_last_weeks,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_weeks')
+                  .col-lg-1
+                    = f.number_field :start_last_months,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_months')
+                  .col-lg-1
+                    = f.number_field :start_last_years,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_years')
+
+                .field
+                  .col-lg-1.text-right
+                    = f.label Task.human_attribute_name(:start), class: 'control-label'
+                  .col-lg-2
+                    = f.date_field :start_gteq,
+                      class: 'form-control',
+                      datepicker: true
+                  .col-lg-2
+                    = f.date_field :start_end_of_day_lteq,
+                      class: 'form-control',
+                      datepicker: true
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label Task.human_attribute_name(:planned_end), class: 'control-label'
+                  .col-lg-1
+                    = f.number_field :planned_end_last_days,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_days')
+                  .col-lg-1
+                    = f.number_field :planned_end_last_weeks,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_weeks')
+                  .col-lg-1
+                    = f.number_field :planned_end_last_months,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_months')
+                  .col-lg-1
+                    = f.number_field :planned_end_last_years,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_years')
+
+                .field
+                  .col-lg-1.text-right
+                    = f.label Task.human_attribute_name(:planned_end),
+                      class: 'control-label'
+                  .col-lg-2
+                    = f.date_field :planned_end_gteq,
+                      class: 'form-control',
+                      datepicker: true
+                  .col-lg-2
+                    = f.date_field :planned_end_end_of_day_lteq,
+                      class: 'form-control',
+                      datepicker: true
+
+            .form-group
+              .form-row
+                .field
+                  .col-lg-1.text-right
+                    = f.label Task.human_attribute_name(:real_end), class: 'control-label'
+                  .col-lg-1
+                    = f.number_field :real_end_last_days,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_days')
+                  .col-lg-1
+                    = f.number_field :real_end_last_weeks,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_weeks')
+                  .col-lg-1
+                    = f.number_field :real_end_last_months,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_months')
+                  .col-lg-1
+                    = f.number_field :real_end_last_years,
+                      class: 'form-control',
+                      placeholder: t('placeholders.last_years')
+
+                .field
+                  .col-lg-1.text-right
+                    = f.label Task.human_attribute_name(:real_end),
+                      class: 'control-label'
+                  .col-lg-2
+                    = f.date_field :real_end_gteq,
+                      class: 'form-control',
+                      datepicker: true
+                  .col-lg-2
+                    = f.date_field :real_end_end_of_day_lteq,
+                      class: 'form-control',
+                      datepicker: true
+
+        .modal-footer
+          button.btn.btn-default type='button' data-dismiss='modal'
+            = t('views.action.back')
+          =< f.submit t('views.action.find'), class: 'btn btn-success'

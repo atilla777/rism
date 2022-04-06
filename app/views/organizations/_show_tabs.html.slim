@@ -49,6 +49,9 @@
     = fa_icon 'bug'
     =< fa_icon 'newspaper-o'
     =< VulnerabilityBulletin.model_name.human(count: 2)
+  - tabs.add(:tasks, tasks_path(organization_id: record.id), 'Task', true) do
+    = fa_icon 'check'
+    =< Task.model_name.human(count: 2)
   - tabs.add(:delivery_lists, delivery_lists_path(organization_id: record.id), 'DeliveryList', true) do
     =< fa_icon 'address-book'
     =< DeliveryList.model_name.human(count: 2)

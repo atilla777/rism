@@ -1,0 +1,10 @@
+ru:
+  activerecord:
+    models:
+      task_priority:
+        one: 'Приоритет задачи'
+        other: 'Приоритеты задач'
+    attributes:
+      task_priority:
+        name: 'Название'
+        rank: 'Ранг'

@@ -1,0 +1,30 @@
+.panel.panel-default
+  .panel-heading
+    caption
+      a.link data-toggle='collapse' href='#collapsable_comments'
+        strong
+          = Comment.model_name.human(count: 2)
+        =< fa_icon('hand-pointer-o')
+
+  .list-group.collapse#collapsable_comments
+    .list-group-item
+      .row
+        .col-md-2
+        .col-md-10
+          = @record.user_description
+
+          #comments
+            = render partial: "comments/comments", locals: {record: record}
+
+
+          .panel.panel-default
+            .panel-heading
+              caption
+                a.link data-toggle='collapse' href='#main_form'
+                  strong
+                    = t('labels.comments.comment')
+                  =< fa_icon('comment-o')
+
+            .list-group.collapse#main_form
+              .list-group-item
+                = render partial: "comments/form", locals: {record: record, parent_id: nil}

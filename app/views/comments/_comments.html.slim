@@ -1,0 +1,4 @@
+ul
+  - CommentDecorator.wrap(record.comments.where(parent_id: nil).includes(:user, :parent, :commentable)).each_with_index do |comment, i|
+    li
+      = render partial: "comments/comment", locals: {comment: comment, index: i}

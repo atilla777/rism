@@ -1,0 +1,11 @@
+ru:
+  activerecord:
+    models:
+      comment:
+        one: 'Комментарий'
+        other: 'Комментарии'
+    attributes:
+      comment:
+        user_id: 'Пользователь'
+        parent_id: 'Родительский комментарий'
+        created_at: 'Дата создания'

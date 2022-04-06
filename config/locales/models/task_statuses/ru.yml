@@ -1,0 +1,10 @@
+ru:
+  activerecord:
+    models:
+      task_status:
+        one: 'Статус задачи'
+        other: 'Статусы задач'
+    attributes:
+      task_status:
+        name: 'Название'
+        rank: 'Ранг'

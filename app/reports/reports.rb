@@ -47,4 +47,5 @@ class Reports
   UsersActivityReport.register
   FiltredHostsReport.register
   VulnerabilityBulletinReport.register
+  FiltredTableTasksReport.register
 end

@@ -1,0 +1,17 @@
+= index_for records do |t|
+  - t.header attribute: :readed, fit: true, label: ''
+  - t.header attribute: :id, sort: :desc
+  - t.header attribute: :start, sort: :desc
+  - t.header attribute: :name, sort: :desc
+  - t.header attribute: :task_status_id, sort_by: :task_status_rank, sort: :desc
+  - t.header attribute: :task_priority_id, sort_by: :task_priority_rank, sort: :desc
+  - t.header attribute: :organization_id, sort_by: :organization_name, sort: :desc
+  - t.header attribute: :user_id, sort_by: :user_name, sort: :desc
+  - t.field { |record| render 'readable', record: record }
+  - t.field { |record| link_to record.id, record }
+  - t.field { |record| link_to(show_date(record.start), record) }
+  - t.field { |record| link_to record.name, record }
+  - t.field { |record| link_to record.task_status.name, record.task_status }
+  - t.field { |record| link_to record.task_priority.name, record.task_priority }
+  - t.field { |record| link_to record.organization.name, record.organization }
+  - t.field { |record| link_to record.user.name, record.user}

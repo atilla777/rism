@@ -1,0 +1,28 @@
+ru:
+  activerecord:
+    models:
+      task:
+        one: 'Задача'
+        other: 'Задачи'
+    attributes:
+      task:
+        main_info: "Основаная информация"
+        task_tags: 'Теги'
+        id: 'Номер'
+        name: 'Название'
+        parent_id: 'Родительская задача'
+        children: 'Дочерние задачи'
+        organization_id: 'Организация'
+        user_id: 'Исполнитель'
+        task_status_id: 'Статус'
+        task_priority_id: 'Приоритет'
+        start: 'Начало'
+        planned_end: 'Плановое окончание'
+        real_end: 'Окончание'
+        description: 'Описание'
+        current_description: 'Текущее состояние'
+        user_description: 'Заметки исполнителя'
+        created_at: 'Время создания'
+        updated_at: 'Время редактирования'
+        created_by_id: 'Cоздал'
+        updated_by_id: 'Отредактировал'

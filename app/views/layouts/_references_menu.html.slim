@@ -14,7 +14,8 @@
             'VulnerabilityKind',
             'VulnerabilityBulletinKind',
             'VulnerabilityBulletinStatus',
-            'Agent']
+            'Agent',
+            'TaskPriority']
 = menu_li(models: models,
   html_class: 'dropdown',
   role: 'presentation') do
@@ -123,3 +124,15 @@
           = fa_icon 'book'
           =< fa_icon 'child'
           =< Agent.model_name.human(count: 2)
+    = menu_li(models: 'TaskPriority') do
+      = link_to task_priorities_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'check'
+          =< TaskPriority.model_name.human(count: 2)
+    = menu_li(models: 'TaskStatus') do
+      = link_to task_statuses_path do
+        .span.text-info
+          = fa_icon 'book'
+          =< fa_icon 'check'
+          =< TaskStatus.model_name.human(count: 2)

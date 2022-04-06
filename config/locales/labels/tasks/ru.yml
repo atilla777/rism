@@ -1,0 +1,5 @@
+ru:
+  labels:
+    task:
+      additional_info: 'Дополнительная информация'
+      user_description: 'Заметки исполнителя'

@@ -257,8 +257,21 @@ Rails.application.routes.draw do
 
   resources :agents
 
-  require 'sidekiq/web'
+  resources :task_priorities
+  resources :task_statuses
+  resources :tasks do
+    get :autocomplete_task_name, :on => :collection, as: :autocomplete
+    member do
+      patch :toggle_readable
+    end
+    collection do
+      match 'search' => 'tasks#search', via: [:get, :post], as: :search
+    end
+  end
 
+  resources :comments, only: [:index, :create, :update, :destroy]
+
+  require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq', constraints: AdminSidekiqWebConstraint.new
   require 'sidekiq/cron/web'
 

@@ -1,0 +1,123 @@
+.well
+  = render 'form_errors', record: @record
+  .row
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+
+      = hidden_field_tag :template_id, @template_id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :name, class: 'control-label'
+          .col-lg-8
+            = f.text_field :name, class: 'form-control'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :organization_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag(:organization,
+              '', autocomplete_organizations_path,
+              id_element: '#task_organization_id',
+              class: 'form-control',
+              autocomplete: :off,
+              value: (@organization&.name || @record.organization&.name || current_user.organization.name))
+            = f.hidden_field :organization_id, value: @organization&.id || @record.organization_id || current_user.organization.id
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :parent_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag(:parent,
+             '', autocomplete_tasks_path,
+             id_element: '#task_parent_id',
+             class: 'form-control',
+             autocomplete: :off,
+             value: @record.parent&.name,
+             readonly: @parent&.id.present?)
+            = f.hidden_field :parent_id, value: @record.parent_id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :user_id, class: 'control-label'
+          .col-lg-8
+            = autocomplete_field_tag :user, '', autocomplete_users_path, id_element: '#incident_user_id',  class: 'form-control', value: (@record.user&.name || current_user&.name), readonly: @department&.id.present?, placeholder: t('placeholders.auto')
+            = f.hidden_field :user_id, value: current_user&.id || @record.user_id
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :task_priority_id, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :task_priority_id, TaskPriority.all, :id, :name, {}, { class: 'form-control' }
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :task_status_id, class: 'control-label'
+          .col-lg-8
+            = f.collection_select :task_status_id, TaskStatus.all, :id, :name, {}, { class: 'form-control' }
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :start, class: 'control-label'
+          .col-lg-3
+            = f.date_select :start, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
+            = link_to '#', data: {set_date: 'start', turbolinks: false} do
+              = fa_icon 'calendar'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :planned_end, class: 'control-label'
+          .col-lg-3
+            = f.date_select :planned_end, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
+            = link_to '#', data: {set_date: 'planned_end', turbolinks: false} do
+              = fa_icon 'calendar'
+
+      .form-group.required
+        .field
+          .col-lg-2.text-right
+            = f.label :real_end, class: 'control-label'
+          .col-lg-3
+            = f.date_select :real_end, { prompt: true, use_two_digit_numbers: true, end_year: end_year, start_year: start_year, ignore_time: true }, { class: 'form-control', style: 'width:30%; display:inline' }
+            = link_to '#', data: {set_date: 'real_end', turbolinks: false} do
+              = fa_icon 'calendar'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :description, rows: 8, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :current_description, class: 'control-label'
+          .col-lg-8
+            = f.text_area :current_description, rows: 8, class: 'form-control'
+
+      .form-group
+        .field
+          .col-lg-2.text-right
+            = f.label :user_description, class: 'control-label' do
+              a.link data-toggle='collapse' data-turbolinks='false' href='#toggle_user_description'
+                = t('labels.task.user_description')
+
+      .collapse#toggle_user_description
+        .form-group
+          .field
+            .col-lg-2.text-right
+              = f.label :user_description, class: 'control-label'
+            .col-lg-8
+              = f.text_area :user_description, rows: 8, class: 'form-control'
+
+      .actions.form-group
+        .col-lg-offset-2.col-lg-8
+          => f.submit t('helpers.submit.save'), class: 'btn btn-success'
+          = render 'form_back_button'

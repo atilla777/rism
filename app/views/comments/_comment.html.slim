@@ -1,0 +1,33 @@
+span.text-info
+  => fa_icon('user-o')
+  => comment.show_header
+
+  a.link data-toggle='collapse' href="#replay_form#{index}"
+    strong
+      = t('labels.comments.replay')
+      =< fa_icon('comment-o')
+
+  a.link data-toggle='collapse' href="#edit_form#{index}"
+    strong.text-warning
+      =< t('views.action.edit')
+      =< fa_icon('pencil-square-o')
+
+  =< link_to comment, method: :delete, remote: true, data: {confirm: t('views.action.confirm')} do
+    span.text-danger
+      = t('views.action.delete')
+      =< fa_icon 'remove'
+
+= simple_format comment.content
+
+.list-group.collapse id="edit_form#{index}"
+  .list-group-item
+    = render partial: "comments/form", locals: {comment: comment, record: comment.commentable, parent_id: nil}
+
+ul
+  - CommentDecorator.wrap(comment.children.includes(:user, :parent, :commentable)).each_with_index do |child, i|
+      li
+        = render partial: "comments/comment", locals: {comment: child, index: "#{index}_#{i}"}
+
+  .list-group.collapse id="replay_form#{index}"
+    .list-group-item
+      = render partial: "comments/form", locals: {record: comment.commentable, parent_id: comment.id}

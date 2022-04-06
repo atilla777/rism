@@ -1,0 +1,6 @@
+= caption @organization
+= render 'organizations/show_tabs', record: @organization, active_tab: :tasks, from_external_link: true
+= index_search :id_str_or_name_or_organization_name_or_user_name_cont, organization_id_eq: @organization&.id
+= index_new_button @records, organization_id: @organization.id
+= render 'records', records: @records
+= render 'index_paginate', records: @records

@@ -1,4 +1,4 @@
-= menu_li(models: ['Agreement', 'Department', 'Article'],
+= menu_li(models: ['Agreement', 'Department', 'Article', 'Task'],
   html_class: 'dropdown',
   role: 'presentation') do
   a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
@@ -27,3 +27,8 @@
           .span.text-info
             =< fa_icon 'newspaper-o'
             =< CustomReportsFolder.model_name.human(count: 2)
+      = menu_li(models: 'Task') do
+        = link_to tasks_path do
+          .span.text-info
+            =< fa_icon 'check'
+            =< Task.model_name.human(count: 2)

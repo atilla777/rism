@@ -1,0 +1,6 @@
+ru:
+  labels:
+    comments:
+      submit: 'Добавить комментарий'
+      replay: 'Ответить'
+      comment: 'Оставить комментарий'

@@ -1,0 +1,21 @@
+- submit_label = t('labels.comments.submit')
+- if defined?(comment) && comment.present?
+  - comment = comment
+  - submit_label = t('views.action.save')
+- else  
+  - comment = Comment.new
+
+= form_for comment, remote: :true, html: {class: 'form-horizontal'} do |f|
+  = f.hidden_field :commentable_id, value: record.id
+  = f.hidden_field :commentable_type, value: record.class
+  - if parent_id
+    = f.hidden_field :parent_id, value: parent_id || comment.parent_id
+
+  .form-group
+    .field
+      .col-lg-8
+        = f.text_area :content, rows: 4, class: 'form-control'
+
+  = submit_tag submit_label, class: 'btn btn-success'
+  br
+  br

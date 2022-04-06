@@ -56,6 +56,8 @@ module Right::SubjectTypes
     'CustomReportsResult' => I18n.t('activerecord.models.custom_reports_result.one'),
     'Charts' => I18n.t('navigations.charts'),
     'Dashboards' => I18n.t('navigations.dashboards'),
-    'ReadableLog' => I18n.t('activerecord.models.readable_log.one')
+    'ReadableLog' => I18n.t('activerecord.models.readable_log.one'),
+    'Task' => I18n.t('activerecord.models.task.one'),
+    'Comment' => I18n.t('activerecord.models.comment.one')
   }.freeze
 end

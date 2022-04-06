@@ -47,6 +47,10 @@ class ApplicationPolicy
     false
   end
 
+  def autocomplete_task_name?
+    index?
+  end
+
   def search?
     index?
   end
