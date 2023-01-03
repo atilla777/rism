@@ -80,7 +80,7 @@ gem 'sidekiq', '~> 5.1.3'
 gem 'rufus-scheduler', '3.4.2' # TODO: check that newer versions API (> 3.4.2) was fixed and work
 gem 'sidekiq-cron', '~> 0.6.3 '
 gem 'ruby-nmap', '~> 0.9.3'
-gem 'httparty', '~> 0.16.2'
+gem 'httparty', '~> 0.21.0'
 gem 'sidekiq-limit_fetch', '~> 3.4.0'
 gem 'oj', '~> 3.7.12'
 gem 'rails_autolink', '~> 1.1.6'
