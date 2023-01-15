@@ -21,6 +21,8 @@
         => fa_icon 'flash'
     = HostServiceDecorator.new(record).show_vulnerable
   = r.show :vuln_description
-  = r.show :description
+    = form_for @record, html: {class: 'form-horizontal'} do |f|
+      = f.text_area :description, rows: 8, class: 'form-control'
+      => f.submit t('helpers.submit.save'), class: 'btn btn-success'
 
 = render 'application/record_versions'
