@@ -63,7 +63,7 @@ gem 'bootstrap-sass', '~> 3.4'
 gem 'bootswatch-rails', "~> 3.3"
 gem 'font-awesome-rails', "~> 4.7"
 gem 'jquery-rails', "~> 4.3"
-gem 'kaminari', "~> 1.1"
+gem 'kaminari', "~> 1.2"
 gem 'pundit', "~> 1.1"
 gem 'ransack', "~> 1.8"
 gem 'slim-rails', "~> 3.1"
